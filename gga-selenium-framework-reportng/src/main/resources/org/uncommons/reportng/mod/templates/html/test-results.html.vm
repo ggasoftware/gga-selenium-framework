@@ -1,0 +1,131 @@
+## This macro formats the results (whether passed, skipped or failed) of the test
+## methods in a single class for inclusion in the HTML report.  It assumes that the
+## the results for the class are in a variable called $classResults.  $id is a page
+## scope variable that is used to assign unique identifiers to divs.
+
+<tr>
+  <td class="result">
+    ## Display the dependencies for skipped test methods.
+    #if ($testResult.status == 3) ## 3 means skipped.
+      #if( $utils.hasDependentGroups($testResult) )
+        <i>$messages.getString("dependsOnGroups"): </i>
+        <span class="dependency">$utils.getDependentGroups($testResult)</span>
+        <br />
+      #elseif ($utils.hasDependentMethods($testResult))
+        <i>$messages.getString("dependsOnMethods"): </i>
+        <span class="dependency">$utils.getDependentMethods($testResult)</span>
+      #elseif ($dependency)
+        <span><a href="${dependency}">Test Skipped</a></span>
+      #else
+        <span>Test Skipped</span>
+      #end
+    #end
+
+    #if ($utils.hasArguments($testResult))
+      <i>$messages.getString("methodArguments"): </i><span class="arguments">$utils.getArguments($testResult)</span><br />
+    #end
+
+    ## Show logger output for the test.
+    #set ($output = $utils.getRefactoredTestOutput($testResult))
+    #set ($step0LevelId = 0)
+    #set ($step1LevelId = 0)
+    #set ($step2LevelId = 0)
+    #if ($output.size() > 0)
+    <div class="testOutput">
+      #foreach( $line in $output )
+        #set ($timeStamp = 0)
+        #set ($expandable = $utils.expandable($line))
+        #if ($expandable)
+            #if ($line.length() > 0)
+            #set ($line = $line.substring(1))
+            #end
+        #end
+        #set ($info = $utils.getLogLevel($line))
+        #set ($log_level = $info.get(0))
+        #set ($log_text = $info.get(1))
+        #set ($log_status = $utils.getLogStatus($log_text))
+        #if ($log_status != 9)
+            #if ($log_text.length() > 0)
+            #set ($log_text = $log_text.substring(1))
+            #end
+        #end
+        #set ($step_id = "")
+        #set ($step_class = "")
+        #if ($log_level == "0")
+            #set ($step0LevelId = $step0LevelId + 1)
+            #set ($step_id = "${step2LevelId}__${step1LevelId}__${step0LevelId}")
+            #set ($step_class = "levelLog0")
+        #elseif ($log_level == "1")
+            #set ($step1LevelId = $step1LevelId + 1)
+            #set ($step_id = "${step2LevelId}__${step1LevelId}")
+            #set ($step_class = "levelLog1")
+        #elseif ($log_level == "2")
+            #set ($step2LevelId = $step2LevelId + 1)
+            #set ($step_id = "${step2LevelId}")
+            #set ($step_class = "levelLog2")
+        #end
+        #set ($timeStampInfo = $utils.getTimeStamp($log_text))
+        #set ($timeStamp = $timeStampInfo.get(0))
+        #set ($log_text = $timeStampInfo.get(1))
+        #if ($log_status == 0)
+            #set ($step_class = $step_class + ' levelStatus0')
+        #elseif ($log_status == 1)
+            #set ($step_class = $step_class + ' levelStatus1')
+        #elseif ($log_status == 2)
+            #set ($step_class = $step_class + ' levelStatus2')
+        #end
+        #set ($screenshot = $utils.isScreenshot($log_text))
+        #set ($onClick = " ")
+        #if ($step_class != "levelLog0" and $expandable)
+            #set ($onClick = "toggleElement_my('${step_id}', 'inline'); toggle_my('${step_id}')")
+        #end
+        <div id="step-${step_id}" class="${step_class}" onclick="${onClick}">
+        #if ($timeStamp != 0)
+            <span class="timeStamp">$timeStamp</span>
+        #end
+        #if ($step_class != "levelLog0" and $expandable and !$screenshot)
+            <span id="toggle-${step_id}" class="toggle">&#x25b6;</span>
+        #end
+
+        #if ($screenshot)
+            #set ($screenshot_info = $utils.getScreenshotInfo($log_text))
+            #set ($screenshot_path = $screenshot_info.get(0))
+            #set ($screenshot_text = $screenshot_info.get(1))
+            #set ($screenshot_title = $utils.removeDoubleQuotes($screenshot_text))
+            #if ($step_class != "levelLog0" and $expandable)
+                 <span id="toggle-${step_id}" class="toggleWhite">&#x25b6;</span>
+            #end
+            <a rel="screenshots" href="${screenshot_path}" title="${screenshot_title}" class="screenshotTitle"><span class="screenshot">Screenshot -</span>$screenshot_text</a><br/>
+        #else
+            $log_text
+        #end
+        </div>
+      #end
+    </div>
+    #end
+
+    #if ($testResult.throwable && ( $testResult.status == 2 || $meta.shouldShowExpectedExceptions()))
+    <a href="javascript:toggleElement('exception-$id', 'block')" title="$messages.getString("clickToExpandCollapse")">
+        <b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b>
+    </a>
+    <br />
+    <div class="stackTrace" id="exception-$id">
+      #foreach ($element in $testResult.throwable.stackTrace)
+        $utils.escapeHTMLString( $element.toString() )<br />
+      #end
+      #set ($causes = $utils.getCauses($testResult.throwable))
+      #foreach ($throwable in $causes)
+
+        <b>$messages.getString("causedBy"): </b> <a href="javascript:toggleElement('exception-$id', 'block')" title="Click to expand/collapse">$utils.escapeHTMLString( $throwable.toString() )</a><br />
+        <div class="stackTrace" id="exception-$id">
+          #foreach ($element in $throwable.stackTrace)
+            $utils.escapeHTMLString($element.toString())<br />
+          #end
+        </div>
+      #end
+    </div>
+    #end
+    #set ($id = $id + 1)
+  </td>
+</tr>
+

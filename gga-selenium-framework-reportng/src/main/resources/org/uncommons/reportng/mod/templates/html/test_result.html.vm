@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="Windows-1251" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$messages.locale.language" lang="$messages.locale.language">
+<head>
+  <title>$meta.reportTitle - $result.getName() - $status</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=Windows-1251" />
+  <meta name="description" content="TestNG unit test results." />
+  <script  type="text/javascript" src="jquery-1.4.3.min.js"></script>
+  <link href="reportng.css" rel="stylesheet" type="text/css" />
+  #if ($meta.stylesheetPath)
+  <link href="custom.css" rel="stylesheet" type="text/css" />
+  #end
+  <link rel="stylesheet" href="jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="jquery.fancybox-1.3.4.pack.js"></script>
+  <script type="text/javascript" src="reportng.js"></script>
+
+
+</head>
+    <body onload="checkCookie()">
+<h1>$result.getName()</h1>
+<p>
+    #if($duration)
+    #set ($durationInfo = $utils.formatDuration($duration))
+    #else
+    #set ($durationInfo = 'undefined')
+    #end
+  $messages.getString("testDuration"): ${durationInfo}s
+
+</p>
+<p>
+  $messages.getString("testStart"): ${start}  | Time stamp: <img src="timeStampOff.png" onclick="toggleTimeStamp()" title="Time stamp switch" id="timeStampSwitch" alt="switch"></img> | Show passed: <img src="showPassedOn.png" onclick="toggleShowPassed()" title="Show passed switch" id="showPassedSwitch" alt="switch"></img>
+</p>
+
+#set ($testResultName = $result.name)
+#set ($id = 0)
+#if ($testResultStatus == 1)
+    <table class="resultsTable">
+      <tr class="header failedConfig big">
+        <td colspan="3" style="padding-top:5px">$testResultName</td>
+      </tr>
+      #set ($testResult = $result)
+      #parse("org/uncommons/reportng/mod/templates/html/test-results.html.vm")
+    </table>
+#end
+#if ($testResultStatus == 2)
+    <table class="resultsTable">
+      <tr class="header failed big">
+        <td colspan="3" style="padding-top:5px">$testResultName</td>
+      </tr>
+      #set ($testResult = $result)
+      #parse("org/uncommons/reportng/mod/templates/html/test-results.html.vm")
+    </table>
+#end
+#if ($testResultStatus == 3)
+    <table class="resultsTable">
+      <tr class="header skipped big">
+        <td colspan="3" style="padding-top:5px">$testResultName</td>
+      </tr>
+      #set ($testResult = $result)
+      #parse("org/uncommons/reportng/mod/templates/html/test-results.html.vm")
+    </table>
+#end
+#if ($testResultStatus == 4)
+  <table class="resultsTable">
+      <tr class="header passed big">
+        <td colspan="3" style="padding-top:5px">$testResultName</td>
+      </tr>
+      #set ($testResult = $result)
+      #parse("org/uncommons/reportng/mod/templates/html/test-results.html.vm")
+  </table>
+#end
+
+
+
+</body>
+</html>
