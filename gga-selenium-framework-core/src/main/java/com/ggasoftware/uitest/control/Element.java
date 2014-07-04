@@ -16,6 +16,7 @@ package com.ggasoftware.uitest.control;
 import com.ggasoftware.uitest.utils.PropertyReader;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.TestBaseWebDriver;
+import com.thoughtworks.selenium.condition.Not;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -879,11 +880,12 @@ public class Element<ParentPanel> {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(bylocator, text));
             isPresent = wait.until(
                     new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
-                            return isExists(timeoutSec) && getWebElement(timeoutSec).getText().equals(text);
+                            return getText().equals(text);
                         }
                     }
             );
@@ -918,14 +920,7 @@ public class Element<ParentPanel> {
         final WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
-            isPresent = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            return isExists(timeoutSec) && getWebElement(timeoutSec).getText().contains(text);
-                        }
-                    }
-            );
+            isPresent = wait.until(ExpectedConditions.textToBePresentInElementLocated(bylocator, text));
         } catch (TimeoutException e) {
             ReporterNGExt.logTechnical(String.format("waitForTextContains: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
@@ -958,14 +953,7 @@ public class Element<ParentPanel> {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
-            isChanged = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            return isExists(timeoutSec) && !getWebElement(timeoutSec).getText().equals(text);
-                        }
-                    }
-            );
+            isChanged = wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(bylocator, text)));
         } catch (TimeoutException e) {
             ReporterNGExt.logTechnical(String.format("waitForTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
 
@@ -975,13 +963,44 @@ public class Element<ParentPanel> {
         return parent;
     }
 
+    /**
+     * Wait until element has a 'value' attribute
+     *
+     * @param value 'Value' Attribute of Element
+     * @return Parent instance
+     */
+    public ParentPanel waitForValue(final String value) {
+        return waitForText(value, TIMEOUT);
+    }
+    /**
+     * Wait until element has a 'value' attribute
+     *
+     * @param value 'Value' Attribute of Element
+     * @param timeoutSec seconds to wait until element has a 'value' attribute
+     * @return Parent instance
+     */
+    public ParentPanel waitForValue(final String value, final int timeoutSec) {
+        boolean isPresent;
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForValueAttribute[%s]: %s", value, locator));
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
+                .ignoring(StaleElementReferenceException.class);
+        try {
+            isPresent = wait.until(ExpectedConditions.textToBePresentInElementValue(bylocator, value));
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForValueAttribute: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            isPresent = false;
+        }
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForValueAttribute - '%s' should has a value attribute '%s'", name, value), TestBaseWebDriver.takePassedScreenshot);
+        return parent;
+    }
 
     /**
-     * Wait until element is changed attribute value
+     * Wait until element is changed the attribute
      *
      * @param attribute  for watching
      * @param value      of attribute before change
-     * @param timeoutSec seconds to wait until element is changed attribute value
+     * @param timeoutSec seconds to wait until element is changed attribute
      * @return Parent instance
      */
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
@@ -995,7 +1014,7 @@ public class Element<ParentPanel> {
                     new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
-                            return isExists(timeoutSec) && !getAttribute(attribute).equals(value);
+                            return !getAttribute(attribute).equals(value);
                         }
                     }
             );
@@ -1042,6 +1061,7 @@ public class Element<ParentPanel> {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
+            wait.until(ExpectedConditions.elementToBeClickable(bylocator));
             isClicked = wait.until(
                     new ExpectedCondition<Boolean>() {
                         @Override

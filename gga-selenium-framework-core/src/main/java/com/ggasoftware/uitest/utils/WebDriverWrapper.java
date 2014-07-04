@@ -641,14 +641,7 @@ public final class WebDriverWrapper {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try{
-            isChanged = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            return !driver.getTitle().equals(title);
-                        }
-                    }
-            );
+            isChanged = wait.until(ExpectedConditions.not(ExpectedConditions.titleIs(title)));
         }catch (TimeoutException e){
             ReporterNGExt.logTechnical(String.format("waitForTitleChanged: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
