@@ -18,6 +18,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 /**
  * Utility for use simple asserts.
@@ -34,7 +35,8 @@ public class TestBaseWebDriver extends TestBase{
     public static String gridHub = "http://localhost:4444/wd/hub";
     public static String screenshotDirectory = "target/surefire-reports/html/screenshots";
     public static boolean simpleClassName = true;
-    public static boolean takeScreenshotDefault = false;
+    public static boolean takePassedScreenshot = false;
+    public static boolean logFindElementLocator = true;
 
     /**
      * Set Browser for WebDriver.
@@ -69,7 +71,7 @@ public class TestBaseWebDriver extends TestBase{
      * @param takeScreenshot - true for taking screenshorts at passed assection.
      */
     public static void takePassedScreenshot(boolean takeScreenshot) {
-        takeScreenshotDefault = takeScreenshot;
+        takePassedScreenshot = takeScreenshot;
     }
 
     /**
@@ -79,6 +81,15 @@ public class TestBaseWebDriver extends TestBase{
      */
     public static void useSimpleClassName(boolean simple) {
         simpleClassName = simple;
+    }
+
+    /**
+     * Logging locator of element at findElement method.
+     *
+     * @param loggingLocator - true for logging locator.
+     */
+    public static void logFindElementLocator(boolean loggingLocator) {
+        logFindElementLocator = loggingLocator;
     }
 
      /**
@@ -157,7 +168,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertEquals(Object value, Object expectedValue, String message) {
-        ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takePassedScreenshot);
     }
     /**
      * assertEquals by ReporterNGExt
@@ -180,7 +191,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertNotEquals(Object value, Object notExpectedValue, String message) {
-        ReporterNGExt.logAssertNotEquals(ReporterNGExt.BUSINESS_LEVEL, value, notExpectedValue, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertNotEquals(ReporterNGExt.BUSINESS_LEVEL, value, notExpectedValue, message, takePassedScreenshot);
     }
     /**
      * assertNotEquals by ReporterNGExt
@@ -195,6 +206,28 @@ public class TestBaseWebDriver extends TestBase{
     }
 
     /**
+     * assertArrayListEquals by ReporterNGExt
+     *
+     * @param value - actual Array List of String
+     * @param expectedValue - expected Array List of String
+     * @param message - log message text
+     */
+    public void assertArrayListEquals(ArrayList<String> value, ArrayList<String> expectedValue, String message) {
+        ReporterNGExt.logAssertArrayListEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takePassedScreenshot);
+    }
+    /**
+     * assertArrayListEquals by ReporterNGExt
+     *
+     * @param value - actual Array List of String
+     * @param expectedValue - expected Array List of String
+     * @param message - log message text
+     * @param takeScreenshot - Set True to take screenshot if assert passed
+     */
+    public void assertArrayListEquals(ArrayList<String> value, ArrayList<String> expectedValue, String message, boolean takeScreenshot) {
+        ReporterNGExt.logAssertArrayListEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takeScreenshot);
+    }
+
+    /**
      * assertEquals by ReporterNGExt
      *
      * @param value - actual text array
@@ -203,7 +236,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertEquals(String[] value, String[] expectedValue, String message) {
-        ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takePassedScreenshot);
     }
     /**
      * assertEquals by ReporterNGExt
@@ -225,7 +258,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertTrue(boolean what, String message) {
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, what, message, takePassedScreenshot);
     }
     /**
      * assertTrue by ReporterNGExt
@@ -246,7 +279,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertFalse(boolean what, String message) {
-        ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, what, message, takePassedScreenshot);
     }
     /**
      * assertFalse by ReporterNGExt
@@ -268,7 +301,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertContains(String toSearchIn, String whatToSearch, String message) {
-        ReporterNGExt.logAssertContains(ReporterNGExt.BUSINESS_LEVEL, toSearchIn, whatToSearch, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertContains(ReporterNGExt.BUSINESS_LEVEL, toSearchIn, whatToSearch, message, takePassedScreenshot);
     }
     /**
      * logAssertContains by ReporterNGExt
@@ -290,7 +323,7 @@ public class TestBaseWebDriver extends TestBase{
      * @param message - log message text
      */
     public void assertNotContains(String toSearchIn, String whatToSearch, String message) {
-        ReporterNGExt.logAssertNotContains(ReporterNGExt.BUSINESS_LEVEL, toSearchIn, whatToSearch, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertNotContains(ReporterNGExt.BUSINESS_LEVEL, toSearchIn, whatToSearch, message, takePassedScreenshot);
     }
     /**
      * assertNotContains by ReporterNGExt
@@ -312,7 +345,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertNull(Object what, String message) {
-        ReporterNGExt.logAssertNull(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertNull(ReporterNGExt.BUSINESS_LEVEL, what, message, takePassedScreenshot);
     }
     /**
      * assertNull by ReporterNGExt
@@ -333,7 +366,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertNotNull(Object what, String message) {
-        ReporterNGExt.logAssertNotNull(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertNotNull(ReporterNGExt.BUSINESS_LEVEL, what, message, takePassedScreenshot);
     }
     /**
      * assertNotNull by ReporterNGExt
@@ -354,7 +387,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertEmpty(String what, String message) {
-        ReporterNGExt.logAssertEmpty(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertEmpty(ReporterNGExt.BUSINESS_LEVEL, what, message, takePassedScreenshot);
     }
     /**
      * assertEmpty by ReporterNGExt
@@ -376,7 +409,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertNotIntersect(String[] firstArray, String[] secondArray, String message) {
-        ReporterNGExt.logAssertNotIntersect(ReporterNGExt.BUSINESS_LEVEL, firstArray, secondArray, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertNotIntersect(ReporterNGExt.BUSINESS_LEVEL, firstArray, secondArray, message, takePassedScreenshot);
     }
     /**
      * assertNotIntersect by ReporterNGExt
@@ -399,7 +432,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     @Override
     public void assertMatch(String value, String regExp, String message) {
-        ReporterNGExt.logAssertMatch(ReporterNGExt.BUSINESS_LEVEL, value, regExp, message, takeScreenshotDefault);
+        ReporterNGExt.logAssertMatch(ReporterNGExt.BUSINESS_LEVEL, value, regExp, message, takePassedScreenshot);
     }
     /**
      * assertMatch by ReporterNGExt

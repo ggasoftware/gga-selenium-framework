@@ -302,10 +302,11 @@ public final class WebDriverWrapper {
      * Execute JavaScript code.
      *
      * @param script - target for execution
+     * @return Execution results
      */
-    public static void executeScript(String script) {
-        ReporterNGExt.logTechnical(String.format("Execute Script -%s", script));
-        ((JavascriptExecutor) driver).executeScript(script);
+    public static Object executeScript(String script) {
+        ReporterNGExt.logTechnical(String.format("Execute Script - %s", script));
+        return ((JavascriptExecutor) driver).executeScript(script);
     }
 
     /**
@@ -314,7 +315,7 @@ public final class WebDriverWrapper {
      * @param frame - target frame
      */
     public static void switchToFrame(String frame) {
-        ReporterNGExt.logTechnical(String.format("Switch To Frame -%s", frame));
+        ReporterNGExt.logTechnical(String.format("Switch To Frame - %s", frame));
         driver.switchTo().frame(frame);
     }
 
@@ -324,7 +325,7 @@ public final class WebDriverWrapper {
      * @param window - target window
      */
     public static void switchToWindow(String window) {
-        ReporterNGExt.logTechnical(String.format("Switch To Window -%s", window));
+        ReporterNGExt.logTechnical(String.format("Switch To Window - %s", window));
         driver.switchTo().window(window);
     }
 
@@ -437,7 +438,7 @@ public final class WebDriverWrapper {
      * @return True if window is switched, otherwise False
      */
     public static boolean switchToWindowUsingTitle(String title) {
-        ReporterNGExt.logTechnical(String.format("Switch To Window Using Title -%s", title));
+        ReporterNGExt.logTechnical(String.format("Switch To Window Using Title '%s'", title));
         Set<String> availableWindows = driver.getWindowHandles();
         if (!availableWindows.isEmpty() && availableWindows.contains(title)) {
             driver.switchTo().window(title);
@@ -563,7 +564,7 @@ public final class WebDriverWrapper {
         }catch (TimeoutException ignored){
             ReporterNGExt.logTechnical(String.format("waitForTitle: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
         }
-        ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitle", TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitle", TestBaseWebDriver.takePassedScreenshot);
     }
     /**
      * Wait until windows title contains text.
@@ -589,7 +590,7 @@ public final class WebDriverWrapper {
         }catch (TimeoutException ignored){
             ReporterNGExt.logTechnical(String.format("waitForTitleContains: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
         }
-        ReporterNGExt.logAssertContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleContains", TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleContains", TestBaseWebDriver.takePassedScreenshot);
     }
     /**
      * Wait until windows title not contains text.
@@ -615,7 +616,7 @@ public final class WebDriverWrapper {
         }catch (TimeoutException ignored){
             ReporterNGExt.logTechnical(String.format("waitForTitleNotContains: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
         }
-        ReporterNGExt.logAssertNotContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleNotContains", TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertNotContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleNotContains", TestBaseWebDriver.takePassedScreenshot);
     }
 
     /**
@@ -652,7 +653,7 @@ public final class WebDriverWrapper {
             ReporterNGExt.logTechnical(String.format("waitForTitleChanged: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTitleChanged: title %s should be changed", title), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTitleChanged: title '%s' should be changed", title), TestBaseWebDriver.takePassedScreenshot);
     }
 
     /**
@@ -683,7 +684,7 @@ public final class WebDriverWrapper {
             isPresent = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextToBePresent: element with text %s should be exists", text), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextToBePresent: element with text '%s' should be exists", text), TestBaseWebDriver.takePassedScreenshot);
     }
     /**
      * Wait until any element with text not presents at web page.
@@ -713,7 +714,7 @@ public final class WebDriverWrapper {
             isNotPresent = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForTextToNotBePresent: element with text %s should not be exists", text), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForTextToNotBePresent: element with text '%s' should not be exists", text), TestBaseWebDriver.takePassedScreenshot);
     }
     /**
      * Wait until link presents at web page.
@@ -744,7 +745,7 @@ public final class WebDriverWrapper {
             isPresent = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForLinkToBePresent: link with text %s should be exists", linkText), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForLinkToBePresent: link with text '%s' should be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
     }
     /**
      * Wait until link not presents at web page.
@@ -774,7 +775,7 @@ public final class WebDriverWrapper {
             isNotPresent = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForLinkToNotBePresent: link with text %s should not be exists", linkText), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForLinkToNotBePresent: link with text '%s' should not be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
     }
     /**
      * Wait until native window is not exists.
@@ -809,7 +810,7 @@ public final class WebDriverWrapper {
             ReporterNGExt.logTechnical(String.format("waitForNativeWindow: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForNativeWindow: native window %s should be exists", title), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForNativeWindow: native window '%s' should be exists", title), TestBaseWebDriver.takePassedScreenshot);
     }
 
 

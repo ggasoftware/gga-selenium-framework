@@ -14,6 +14,7 @@
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.ReporterNGExt;
+import org.openqa.selenium.WebElement;
 
 /**
  * Checkbox control implementation
@@ -51,8 +52,9 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel check() {
         ReporterNGExt.logAction(this, getParentClassName(), "Check");
-        if (!getWebElement().isSelected()) {
-            getWebElement().click();
+        WebElement webEl = getWebElement();
+        if (!webEl.isSelected()) {
+            webEl.click();
         }
         return super.parent;
     }
@@ -64,8 +66,9 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel uncheck() {
         ReporterNGExt.logAction(this, getParentClassName(), "Uncheck");
-        if (getWebElement().isSelected()) {
-            getWebElement().click();
+        WebElement webEl = getWebElement();
+        if (webEl.isSelected()) {
+            webEl.click();
         }
         return super.parent;
     }

@@ -211,7 +211,7 @@ public class Element<ParentPanel> {
      */
     protected String getParentClassName() {
         if (parent == null) {
-            return "";
+            return name;
         }
         if (TestBaseWebDriver.simpleClassName) {
             return parent.getClass().getSimpleName();
@@ -227,7 +227,9 @@ public class Element<ParentPanel> {
      * @return WebElement
      */
     public WebElement getWebElement() {
-        //ReporterNGExt.logTechnical(String.format("Get element %s", locator));
+        if (TestBaseWebDriver.logFindElementLocator) {
+            ReporterNGExt.logTechnical(String.format("Get Web Element '%s'", locator));
+        }
         return getDriver().findElement(bylocator);
     }
 
@@ -416,7 +418,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotDisplayed(Element expectedElement, int tryCount) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectNotDisplayed:  expectedElement.locator: %s expectedElement.name: %s", expectedElement.locator, expectedElement.name));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectNotDisplayed: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while (!(expectedElement.isDisplayed())) {
             if (isDisplayed()) {
@@ -439,7 +441,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotExist(Element expectedElement, int tryCount) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectNotExist:  expectedElement.locator: %s expectedElement.name: %s", expectedElement.locator, expectedElement.name));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectNotExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while (!(expectedElement.isExists())) {
             getWebElement().click();
@@ -458,7 +460,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectIsDisplayed(Element expectedElement, int tryCount) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectExist:  expectedElement.locator: %s expectedElement.name: %s", expectedElement.locator, expectedElement.name));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while ((expectedElement.isDisplayed())) {
             getWebElement().click();
@@ -515,6 +517,9 @@ public class Element<ParentPanel> {
      * @return true if we can find Element on the web page, otherwise false
      */
     public boolean isExists() {
+        if (TestBaseWebDriver.logFindElementLocator) {
+            ReporterNGExt.logTechnical(String.format("Find Elements '%s'", locator));
+        }
         return !getDriver().findElements(bylocator).isEmpty();
     }
 
@@ -730,7 +735,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel dragAndDropBy(int xOffset, int yOffset) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Drag and drop element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("Drag and drop element: horizontal move offset - %dpx; vertical move offset - %dpx", xOffset, yOffset));
 
         Actions builder = new Actions(getDriver());
 
@@ -770,7 +775,7 @@ public class Element<ParentPanel> {
             isExists = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists, String.format("waitForExists - %s should exist", name), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists, String.format("waitForExists - '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -804,7 +809,7 @@ public class Element<ParentPanel> {
             isDisplayed = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed, String.format("waitForDisplayed - %s should be displayed", name), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed, String.format("waitForDisplayed - '%s' should be displayed", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -847,7 +852,7 @@ public class Element<ParentPanel> {
             isVanished = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished, String.format("waitForElementToVanish - %s should be vanished", name), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished, String.format("waitForElementToVanish - '%s' should be vanished", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -886,7 +891,7 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForText: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForText - %s should has a text %s", name, text), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForText - '%s' should has a text '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -925,7 +930,7 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForTextContains: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-         ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextContains - %s should has a text contains %s", name, text), TestBaseWebDriver.takeScreenshotDefault);
+         ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextContains - '%s' should has a text contains '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -966,7 +971,7 @@ public class Element<ParentPanel> {
 
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTextChanged - %s should be changed", name), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTextChanged - '%s' should be changed", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -998,7 +1003,7 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForAttributeChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForAttributeChanged - %s should be changed", name), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForAttributeChanged - '%s' should be changed", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -1054,7 +1059,7 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForClickable: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isClicked = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked, String.format("waitForClickableAndClick: %s was clickable and click at it", name), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked, String.format("waitForClickableAndClick: '%s' was clickable and click at it", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -1091,7 +1096,7 @@ public class Element<ParentPanel> {
             isTrue = true;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForExpectedCondition %s", condition), TestBaseWebDriver.takeScreenshotDefault);
+        ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 

@@ -37,7 +37,7 @@ public class WebDriverInvokedMethodListener extends InvokedMethodListener {
                 ScreenShotMaker.hasTake(hasOldValue);
             }
             else {
-                if (TestBaseWebDriver.takeScreenshotDefault) {
+                if (TestBaseWebDriver.takePassedScreenshot) {
                     ReporterNGExt.logBusinessScreenshot("Test Passed");
                 }
             }

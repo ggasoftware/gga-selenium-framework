@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fw.version>1.0-SNAPSHOT</fw.version>
-        <cucumber-jvm.version>1.1.6</cucumber-jvm.version>
+        <cucumber-jvm.version>1.1.7</cucumber-jvm.version>
         <testng_xml>testng.xml</testng_xml>
         <gems-directory>${project.build.directory}/gems</gems-directory>
     </properties>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>2.41.0</version>
+            <version>2.42.2</version>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
@@ -34,7 +34,6 @@
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-testng</artifactId>
             <version>${cucumber-jvm.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.ggasoftware.uitest</groupId>

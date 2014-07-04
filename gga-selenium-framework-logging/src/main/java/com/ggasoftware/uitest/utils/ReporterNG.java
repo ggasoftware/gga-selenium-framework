@@ -43,7 +43,7 @@ public class ReporterNG {
      * @param message the message to add
      */
     public static void logBusiness(String message) {
-        Reporter.log(BUSINESS_LEVEL + " " + DateUtil.now(SDFP) + "~ " + message);
+        Reporter.log(String.format("%s %s~ %s", BUSINESS_LEVEL, DateUtil.now(SDFP), message));
         LOG.info(message);
     }
 
@@ -52,7 +52,7 @@ public class ReporterNG {
      * @param message the message to add
      */
     public static void logTechnical(String message) {
-        Reporter.log(TECHNICAL_LEVEL + " " + message);
+        Reporter.log(String.format("%s %s", TECHNICAL_LEVEL, message));
         LOG.info(message);
     }
 
@@ -61,7 +61,7 @@ public class ReporterNG {
      * @param message the message to add
      */
     public static void logComponent(String message) {
-        Reporter.log(COMPONENT_LEVEL + " " + message);
+        Reporter.log(String.format("%s %s", COMPONENT_LEVEL, message));
         LOG.info(message);
     }
 
@@ -70,7 +70,7 @@ public class ReporterNG {
      * @param message the message to add
      */
     public static void logWarning(String message) {
-        Reporter.log(ReporterNG.BUSINESS_LEVEL + " " + message);
+        Reporter.log(String.format("%s %s", ReporterNG.BUSINESS_LEVEL, message));
         LOG.warn(message);
     }
 
@@ -80,8 +80,8 @@ public class ReporterNG {
      * @param message the message to add
      */
     public static void logFailed(char logLevel, String message) {
-        Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + ".");
-        LOG.warn(message + ": " + FAILED);
+        Reporter.log(String.format("%s%s%s~ %s: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
+        LOG.warn(String.format("%s: %s", message, FAILED));
         TestBase.setFailed(message);
     }
 
@@ -96,13 +96,13 @@ public class ReporterNG {
      */
     public static String logAssertMatch(char logLevel, String value, String regExp, String message) {
         if (!value.matches(regExp)) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> Expected: \"" + regExp + "\".<br> Actual: \"" + value + "\"");
-            LOG.warn(message + ": " + FAILED + "." + "<br> Expected: \"" + regExp + "\".<br> Actual: \"" + value + "\"");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: %s.<br> Actual: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, regExp, value));
+            LOG.warn(String.format("%s: %s.<br> Expected: %s.<br> Actual: %s", message, FAILED, regExp, value));
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + "." + "<br> Expected: \"" + regExp + "\"");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED, regExp));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -123,12 +123,12 @@ public class ReporterNG {
         Collections.addAll(firstArrayList, firstArray);
         if (firstArrayList.removeAll(secondArrayList)) {
             Collections.addAll(firstArrayList, firstArray);
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> First: " + firstArrayList.toString() + "<br> Second: " + secondArrayList.toString());
-            LOG.warn(message + ": " + FAILED + "." + "<br> First: " + firstArrayList.toString() + "<br> Second: " + secondArrayList.toString());
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> First: %s<br> Second: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, firstArrayList.toString(), secondArrayList.toString()));
+            LOG.warn(String.format("%s: %s.<br> First: %s<br> Second: %s", message, FAILED, firstArrayList.toString(), secondArrayList.toString()));
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + ".");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -145,17 +145,17 @@ public class ReporterNG {
     public static String logAssertEquals(char logLevel, Object value, Object expectedValue, String message) {
         if (value == null || !value.equals(expectedValue)) {
             if (value == null) {
-                Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> Actual: \"NULL\"");
-                LOG.warn(message + ": " + FAILED + "." + "<br> Actual: \"NULL\"");
+                Reporter.log(String.format("%s%s%s~ %s: %s.<br> Actual: NULL", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
+                LOG.warn(String.format("%s: %s.<br> Actual: NULL", message, FAILED));
             } else {
-                Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> Expected: \"" + expectedValue.toString() + "\". <br> Actual: \"" + value.toString() + "\"");
-                LOG.warn(message + ": " + FAILED + "." + "<br> Expected: \"" + expectedValue.toString() + "\". <br> Actual: \"" + value.toString() + "\"");
+                Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: %s. <br> Actual: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, expectedValue.toString(), value.toString()));
+                LOG.warn(String.format("%s: %s.<br> Expected: %s. <br> Actual: %s", message, FAILED, expectedValue.toString(), value.toString()));
             }
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + "." + "<br> Expected: \"" + expectedValue.toString() + "\"");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED, expectedValue.toString()));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -172,17 +172,62 @@ public class ReporterNG {
     public static String logAssertNotEquals(char logLevel, Object value, Object notExpectedValue, String message) {
         if (value == null || value.equals(notExpectedValue)) {
             if (value == null) {
-                Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> Actual: \"NULL\"");
-                LOG.warn(message + ": " + FAILED + "." + "<br> Actual: \"NULL\"");
+                Reporter.log(String.format("%s%s%s~ %s: %s.<br> Actual: NULL", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
+                LOG.warn(String.format("%s: %s.<br> Actual: NULL", message, FAILED));
             } else {
-                Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> Not expected: \"" + notExpectedValue.toString() + "\"");
-                LOG.warn(message + ": " + FAILED + "." + "<br> Not expected: \"" + notExpectedValue.toString() + "\"");
+                Reporter.log(String.format("%s%s%s~ %s: %s.<br> Not expected: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, notExpectedValue.toString()));
+                LOG.warn(String.format("%s: %s.<br> Not expected: %s", message, FAILED, notExpectedValue.toString()));
             }
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + "." + "<br> Not Expected: \"" + notExpectedValue.toString() + "\".<br> Actual: \"" + value.toString());
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Not Expected: %s.<br> Actual: \"%s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED, notExpectedValue.toString(), value.toString()));
+            LOG.info(String.format("%s: %s", message, PASSED));
+            return PASSED;
+        }
+    }
+
+    /**
+     * Compares two Array List of Strings. In case of inequality marks test as FAILED. Execution continuous.
+     * Depending on logLevel param adds message to business, component or technical level
+     *
+     * @param logLevel      ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL
+     * @param value - actual array list of string
+     * @param expectedValue - expected array list of string
+     * @param message       the message to add in case of inequality
+     */
+    public static String logAssertArrayListEquals(char logLevel, ArrayList<String> value, ArrayList<String> expectedValue, String message) {
+        if (value == null || !value.equals(expectedValue)) {
+            if (value == null) {
+                Reporter.log(String.format("%s%s%s~ %s: %s.<br> Actual: NULL", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
+                LOG.warn(String.format("%s: %s.<br> Actual: NULL", message, FAILED));
+            } else {
+                Reporter.log(String.format("%s%s%s~ %s: %s:", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
+                LOG.warn(String.format("%s: %s:", message, FAILED));
+                int iMax = Math.max(value.size(), expectedValue.size());
+                for(int i=0; i<iMax; i++){
+                    String actual = "";
+                    String expected = "";
+                    if (value.size()>i){
+                        actual = value.get(i);
+                    }
+                    if (expectedValue.size()>i){
+                        expected = expectedValue.get(i);
+                    }
+                    if (actual.equals(expected)) {
+                        Reporter.log(String.format("%s %s~ (%d) Expected: '%s'. Actual: '%s'.", ReporterNG.TECHNICAL_LEVEL, DateUtil.now(SDFP), i+1, expected, actual));
+                        LOG.info(String.format("Expected: %s. Actual: %s", expected, actual));
+                    }else{
+                        Reporter.log(String.format("%s%s%s~ (%d) Expected: '%s'. Actual: '%s'.", ReporterNG.TECHNICAL_LEVEL, String.valueOf(FAIL), DateUtil.now(SDFP), i+1, expected, actual));
+                        LOG.warn(String.format("Expected: %s. Actual: %s", expected, actual));
+                    }
+                }
+            }
+            TestBase.setFailed(message);
+            return FAILED;
+        } else {
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED, expectedValue.toString()));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -202,20 +247,20 @@ public class ReporterNG {
             misMatch = true;
         } else {
             for (int j = 0; j < value.length; j++) {
-                if (!value[j].equalsIgnoreCase(expectedValue[j])) {
+                if (!value[j].equals(expectedValue[j])) {
                     misMatch = true;
                     break;
                 }
             }
         }
         if (misMatch) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> Expected: " + stringArrayToString(expectedValue) + ".<br> Actual: " + stringArrayToString(value) + "");
-            LOG.warn(message + ": " + FAILED + "." + "<br> Expected: " + stringArrayToString(expectedValue) + ".<br> Actual: " + stringArrayToString(value) + "");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: %s.<br> Actual: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, stringArrayToString(expectedValue), stringArrayToString(value)));
+            LOG.warn(String.format("%s: %s.<br> Expected: %s.<br> Actual: %s", message, FAILED, stringArrayToString(expectedValue), stringArrayToString(value)));
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + "." + "<br> Expected: " + stringArrayToString(expectedValue) + "");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED, stringArrayToString(expectedValue)));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -242,13 +287,13 @@ public class ReporterNG {
      */
     public static String logAssertTrue(char logLevel, boolean what, String message) {
         if (!what) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + ".<br> Expected: true. Actual: false");
-            LOG.warn(message + ": " + FAILED + ".<br> Expected: true. Actual: false");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: true. Actual: false", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
+            LOG.warn(String.format("%s: %s.<br> Expected: true. Actual: false", message, FAILED));
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + ".");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -264,13 +309,13 @@ public class ReporterNG {
     public static String logAssertFalse(char logLevel, boolean what, String message) {
         String status;
         if (what) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + ".<br> Expected. false. Actual: true");
-            LOG.warn(message + ": " + FAILED + ".<br> Expected. false. Actual: true");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected. false. Actual: true", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
+            LOG.warn(String.format("%s: %s.<br> Expected. false. Actual: true", message, FAILED));
             status = FAILED;
             TestBase.setFailed(message);
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + ".");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED));
+            LOG.info(String.format("%s: %s", message, PASSED));
             status = PASSED;
         }
         return status;
@@ -286,13 +331,13 @@ public class ReporterNG {
      */
     public static String logAssertEmpty(char logLevel, String what, String message) {
         if (!what.isEmpty()) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + ".<br> Expected: Empty.<br> Actual: \"" + what + "\"");
-            LOG.warn(message + ": " + FAILED + ".<br> Expected: Empty.<br> Actual: \"" + what + "\"");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: Empty.<br> Actual: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, what));
+            LOG.warn(String.format("%s: %s.<br> Expected: Empty.<br> Actual: %s", message, FAILED, what));
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + ".<br> Expected: Empty.");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Expected: Empty.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -308,13 +353,13 @@ public class ReporterNG {
      */
     public static String logAssertContains(char logLevel, String toSearchIn, String whatToSearch, String message) {
         if (!toSearchIn.contains(whatToSearch)) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br>\"" + toSearchIn + "\"<br> doesn't contain: \"" + whatToSearch + "\"");
-            LOG.warn(message + ": " + FAILED + "." + "<br>\"" + toSearchIn + "\"<br> doesn't contain: \"" + whatToSearch + "\"");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br>%s<br> doesn't contain: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, toSearchIn, whatToSearch));
+            LOG.warn(String.format("%s: %s.<br>%s<br> doesn't contain: %s", message, FAILED, toSearchIn, whatToSearch));
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + "." + "<br>\"" + whatToSearch + "\"<br> contains in:  \"" + toSearchIn + "\"");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br>%s<br> contains in: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED, whatToSearch, toSearchIn));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -330,13 +375,13 @@ public class ReporterNG {
      */
     public static String logAssertNotContains(char logLevel, String toSearchIn, String whatToSearch, String message) {
         if (toSearchIn.contains(whatToSearch)) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br>\"" + toSearchIn + "\"<br> contains in: \"" + whatToSearch + "\"");
-            LOG.warn(message + ": " + FAILED + "." + "<br>\"" + toSearchIn + "\"<br> contains in: \"" + whatToSearch + "\"");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br>%s<br> contains in: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, toSearchIn, whatToSearch));
+            LOG.warn(String.format("%s: %s.<br>%s<br> contains in: %s", message, FAILED, toSearchIn, whatToSearch));
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + "." + "<br>\"" + whatToSearch + "\"<br> doesn't contain:  \"" + toSearchIn + "\"");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br>%s<br> doesn't contain: %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED, whatToSearch, toSearchIn));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -351,13 +396,13 @@ public class ReporterNG {
      */
     public static String logAssertNull(char logLevel, Object what, String message) {
         if (what != null) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> Must be NULL<br> but: \"" + what.toString() + "\"");
-            LOG.warn(message + ": " + FAILED + "." + "<br> Must be NULL<br> but: \"" + what.toString() + "\"");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Must be NULL<br> but: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED, what.toString()));
+            LOG.warn(String.format("%s: %s.<br> Must be NULL<br> but: %s", message, FAILED, what.toString()));
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + ". Value is null");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s. Value is null", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -372,13 +417,13 @@ public class ReporterNG {
      */
     public static String logAssertNotNull(char logLevel, Object what, String message) {
         if (what == null) {
-            Reporter.log(logLevel + String.valueOf(FAIL) + DateUtil.now(SDFP) + "~ " + message + ": " + FAILED + "." + "<br> Must not be NULL");
-            LOG.warn(message + ": " + FAILED + "." + "<br> Must not be NULL");
+            Reporter.log(String.format("%s%s%s~ %s: %s.<br> Must not be NULL", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
+            LOG.warn(String.format("%s: %s.<br> Must not be NULL", message, FAILED));
             TestBase.setFailed(message);
             return FAILED;
         } else {
-            Reporter.log(logLevel + String.valueOf(PASS) + DateUtil.now(SDFP) + "~ " + message + ": " + PASSED + ". Value is \"" + what.toString() + "\"");
-            LOG.info(message + ": " + PASSED);
+            Reporter.log(String.format("%s%s%s~ %s: %s. Value is %s.", logLevel, String.valueOf(PASS), DateUtil.now(SDFP), message, PASSED, what.toString()));
+            LOG.info(String.format("%s: %s", message, PASSED));
             return PASSED;
         }
     }
@@ -392,8 +437,8 @@ public class ReporterNG {
      * @param value - object to get value
      */
     public static void logGetter(char logLevel, String elementName, String parameterName, Object value) {
-        Reporter.log(logLevel + " " + "Get " + parameterName + " value at " + elementName + ", value = " + value);
-        LOG.info("Get " + parameterName + " value at " + elementName + ", value = " + value);
+        Reporter.log(String.format("%s Get %s value at %s, value = %s.", logLevel, parameterName, elementName, value));
+        LOG.info(String.format("Get %s value at %s, value = %s", parameterName, elementName, value));
     }
 
     /**
@@ -405,8 +450,8 @@ public class ReporterNG {
      * @param value - object to set value
      */
     public static void logSetter(char logLevel, String elementName, String parameterName, Object value) {
-        Reporter.log(logLevel + " " + "Setting " + parameterName + " at " + elementName + " = " + value);
-        LOG.info("Setting " + parameterName + " at " + elementName + " = " + value);
+        Reporter.log(String.format("%s Setting %s at %s = %s.", logLevel, parameterName, elementName, value));
+        LOG.info(String.format("Setting %s at %s = %s", parameterName, elementName, value));
     }
 
     /**
@@ -417,12 +462,12 @@ public class ReporterNG {
      * @param actionName - action name
      */
     public static void logAction(char logLevel, String elementName, String actionName) {
-        Reporter.log(logLevel + " " + "Perform " + actionName + " at " + elementName);
-        LOG.info("Perform " + actionName + " at " + elementName);
+        Reporter.log(String.format("%s Perform %s at %s.", logLevel, actionName, elementName));
+        LOG.info(String.format("Perform %s at %s", actionName, elementName));
     }
 
     private static void logBusiness(String message, char status) {
-        Reporter.log(BUSINESS_LEVEL + String.valueOf(status) + message);
+        Reporter.log(String.format("%s%s%s", BUSINESS_LEVEL, String.valueOf(status), message));
         if (FAIL == status) {
             LOG.warn(message);
         } else {
@@ -431,7 +476,7 @@ public class ReporterNG {
     }
 
     private static void logComponent(String message, char status) {
-        Reporter.log(COMPONENT_LEVEL + status + message);
+        Reporter.log(String.format("%d%s", COMPONENT_LEVEL + status, message));
         if (FAIL == status) {
             LOG.warn(message);
         } else {

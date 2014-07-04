@@ -9,7 +9,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Properties;
 
 /**
  * Test class
@@ -18,17 +20,25 @@ import java.net.MalformedURLException;
  */
 public class TestExample extends TestBaseWebDriver {
 
-    public static final String browser = "chrome";
-    public static final String website = "https://www.google.com";
-    public static final String chromedriver = "c:\\Selenium\\Drivers\\chromedriver.exe";
-    public static final String iedriver = "c:\\Selenium\\Drivers\\IEDriverServer.exe";
-
+    public static Properties testproperties;
+    public static String browser;
+    public static String website;
 
     @BeforeTest
     public void setUp() throws MalformedURLException {
 
-        System.setProperty("webdriver.chrome.driver", chromedriver);
-        System.setProperty("webdriver.ie.driver", iedriver);
+        testproperties = new Properties();
+        try {
+            testproperties.load(ClassLoader.getSystemResourceAsStream("test.properties"));
+        } catch (IOException ignored) {
+        }
+
+        System.setProperty("webdriver.chrome.driver", testproperties.getProperty("chromedriver"));
+        System.setProperty("webdriver.ie.driver", testproperties.getProperty("iedriver"));
+
+        website = System.getProperty("website", testproperties.getProperty("website"));
+        browser = System.getProperty("browser", testproperties.getProperty("browser"));
+
         setBrowserType(browser);
         takePassedScreenshot(true);
         initWebDriver();

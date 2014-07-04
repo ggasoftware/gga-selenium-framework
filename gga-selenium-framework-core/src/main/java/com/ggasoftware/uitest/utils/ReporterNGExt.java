@@ -19,6 +19,7 @@ import org.apache.commons.lang.ClassUtils;
 import org.testng.Reporter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * Utility for level log format.
@@ -143,6 +144,28 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertNotEquals(char logLevel, Object value, Object notExpectedValue, String message, boolean takePassedScreenshot) {
         String status = logAssertNotEquals(logLevel, value, notExpectedValue, message);
+        if (status.equals(ReporterNG.FAILED)) {
+            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
+            ScreenShotMaker.hasTake(true);
+            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
+            ScreenShotMaker.hasTake(hasOldValue);
+        } else {
+            if (takePassedScreenshot) {
+                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
+            }
+        }
+    }
+
+    /**
+     * Log Array List of String Equals Asertion.
+     *
+     * @param value - actual Array List of String
+     * @param expectedValue - expected Array List of String
+     * @param message - log message text
+     * @param takePassedScreenshot - Set True to take screenshot if assert passed
+     */
+    public static void logAssertArrayListEquals(char logLevel, ArrayList<String> value, ArrayList expectedValue, String message, boolean takePassedScreenshot) {
+        String status = logAssertArrayListEquals(logLevel, value, expectedValue, message);
         if (status.equals(ReporterNG.FAILED)) {
             boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
             ScreenShotMaker.hasTake(true);

@@ -14,6 +14,7 @@
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.ReporterNGExt;
+import org.openqa.selenium.WebElement;
 
 /**
  * RadioButton control implementation
@@ -53,8 +54,9 @@ public class RadioButton<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel check() {
         ReporterNGExt.logAction(this, getParentClassName(), "Check RadioButton");
-        if (!getWebElement().isSelected()) {
-            getWebElement().click();
+        WebElement webEl = getWebElement();
+        if (!webEl.isSelected()) {
+            webEl.click();
         }
         return super.parent;
     }
