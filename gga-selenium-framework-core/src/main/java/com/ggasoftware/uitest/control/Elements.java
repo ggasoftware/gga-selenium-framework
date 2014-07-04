@@ -247,7 +247,7 @@ public class Elements<ParentPanel> {
      */
     protected String getParentClassName() {
         if (parent == null) {
-            return name;
+            return "";
         }
         if (TestBaseWebDriver.simpleClassName) {
             return parent.getClass().getSimpleName();
