@@ -39,6 +39,14 @@ import java.util.*;
 public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
     private static final SuitComparator SUIT_COMPARATOR = new SuitComparator();
 
+    @Override
+    public String formatDuration(long millis) {
+        long second = (millis / 1000) % 60;
+        long minute = (millis / (1000 * 60)) % 60;
+        long hour = (millis / (1000 * 60 * 60)) % 24;
+        return String.format("%02d:%02d:%02d", hour, minute, second);
+    }
+
     /**
      * Decorate the string representation of an argument to give some
      * hint as to its type (e.g. render Strings in double quotes).
