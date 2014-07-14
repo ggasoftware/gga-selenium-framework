@@ -15,6 +15,7 @@ package com.ggasoftware.uitest.utils;
 
 import com.ggasoftware.uitest.control.Element;
 import com.ggasoftware.uitest.control.Elements;
+import com.ggasoftware.uitest.panel.BasePanel;
 import org.apache.commons.lang.ClassUtils;
 import org.testng.Reporter;
 
@@ -388,6 +389,9 @@ public class ReporterNGExt extends ReporterNG{
             return "";
         }
         String name = "";
+        if (BasePanel.class.isAssignableFrom(element.getClass())){
+            return element.getClass().getSimpleName();
+        }
         if (Element.class.isAssignableFrom(element.getClass())){
             name = ((Element) element).getName();
         }else{
