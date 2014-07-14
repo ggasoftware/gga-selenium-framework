@@ -387,28 +387,22 @@ public class ReporterNGExt extends ReporterNG{
         if (element == null) {
             return "";
         }
-        try
-        {
-            Element elementN1 = (Element)element;
-            if (elementN1.getName().length() > 0){
-                sClass += "." + elementN1.getName();
-            }
-        }catch (Exception ignored){}
-        if (sClass.length() <= 0)
-        {
-            try
-            {
-                Elements elements = (Elements)element;
-                if (elements.getName().length() > 0){
-                    sClass += "." + elements.getName();
-                }
-            } catch (Exception ignored) {}
+        String name = "";
+        if (Element.class.isAssignableFrom(element.getClass())){
+            name = ((Element) element).getName();
+        }else{
+            name = ((Elements) element).getName();
         }
-        sClass = (element.getClass().getSimpleName() + " ") + sClass;
+        if (name.contains(" ")){
+            sClass += ".'" + name + "'";
+        }else {
+            sClass += "." + name;
+        }
         if (sClass.length() <=0){
             return element.getClass().getSimpleName();
+        }else {
+            return (element.getClass().getSimpleName() + " ") + sClass;
         }
-        return sClass;
     }
 
     /**

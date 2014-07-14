@@ -214,7 +214,7 @@ public class Elements<ParentPanel> {
      * @return count of WebElements
      */
     public int getWebElementsCount() {
-        return getWebElements().size();
+        return (Integer) ReporterNGExt.logGetter(this, getParentClassName(), "count", getWebElements().size());
     }
 
     /**
@@ -224,7 +224,7 @@ public class Elements<ParentPanel> {
      * @return count of WebElements
      */
     public int getWebElementsCount(int seconds) {
-        return getWebElements(seconds).size();
+        return (Integer) ReporterNGExt.logGetter(this, getParentClassName(), "count", getWebElements(seconds).size());
     }
 
     /**
@@ -620,7 +620,7 @@ public class Elements<ParentPanel> {
             isVisible = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVisible, String.format("waitForFirstVisibleElement - first element of '%s' is visible", name), TestBaseWebDriver.takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVisible, String.format("waitForFirstVisibleElement - first element of '%s' should be visible", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -658,7 +658,7 @@ public class Elements<ParentPanel> {
             isNotVisible = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotVisible, String.format("waitForAllElementsNotVisible - all element of '%s' is not visible", name), TestBaseWebDriver.takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotVisible, String.format("waitForAllElementsNotVisible - all element of '%s' should be not visible", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -692,7 +692,7 @@ public class Elements<ParentPanel> {
             isVisible = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVisible, String.format("waitForAllElementsVisible - all elements of '%s' is visible", name), TestBaseWebDriver.takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVisible, String.format("waitForAllElementsVisible - all elements of '%s' should be visible", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -751,11 +751,12 @@ public class Elements<ParentPanel> {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
+            getWebElementsCount();
             isChanged = wait.until(
                     new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
-                            return getWebElementsCount(timeoutSec) != count;
+                            return getDriver().findElements(bylocator).size() != count;
                         }
                     }
             );
@@ -763,7 +764,7 @@ public class Elements<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitNumberOfElementsChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitNumberOfElementsChanged - '%s' should be changed", name), TestBaseWebDriver.takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitNumberOfElementsChanged - '%s' elements count '%d' should be changed", name, count), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 

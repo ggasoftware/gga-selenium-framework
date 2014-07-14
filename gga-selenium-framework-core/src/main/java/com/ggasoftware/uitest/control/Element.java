@@ -881,11 +881,12 @@ public class Element<ParentPanel> {
                 .ignoring(StaleElementReferenceException.class);
         try {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(bylocator, text));
+            getText();
             isPresent = wait.until(
                     new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
-                            return getText().equals(text);
+                            return getDriver().findElement(bylocator).getText().equals(text);
                         }
                     }
             );
@@ -959,7 +960,7 @@ public class Element<ParentPanel> {
 
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTextChanged - '%s' should be changed", name), TestBaseWebDriver.takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTextChanged - '%s' text '%s' should be changed", name, text), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -1010,11 +1011,12 @@ public class Element<ParentPanel> {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
+            getAttribute(attribute);
             isChanged = wait.until(
                     new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
-                            return !getAttribute(attribute).equals(value);
+                            return !getDriver().findElement(bylocator).getAttribute(attribute).equals(value);
                         }
                     }
             );
@@ -1022,7 +1024,7 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForAttributeChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForAttributeChanged - '%s' should be changed", name), TestBaseWebDriver.takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
