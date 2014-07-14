@@ -384,29 +384,30 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     private static String getClassName(Object element, String parentClassName) {
-        String sClass = parentClassName;
         if (element == null) {
             return "";
         }
-        String name = "";
-        if (BasePanel.class.isAssignableFrom(element.getClass())){
+        Class elClass = element.getClass();
+        if (BasePanel.class.isAssignableFrom(elClass)) {
             return element.getClass().getSimpleName();
+        } else {
+            String name = "";
+            String className = parentClassName;
+            if (Element.class.isAssignableFrom(elClass)){
+                name = ((Element) element).getName();
+            }else if (Elements.class.isAssignableFrom(elClass)){
+                name = ((Elements) element).getName();
+            }
+            if (name.length() > 0) {
+                className += name.contains(" ") ? ".'" + name + "'" : "." + name;
+            }
+            if (className.length() <=0){
+                return element.getClass().getSimpleName();
+            }else {
+                return (element.getClass().getSimpleName() + " ") + className;
+            }
         }
-        if (Element.class.isAssignableFrom(element.getClass())){
-            name = ((Element) element).getName();
-        }else{
-            name = ((Elements) element).getName();
-        }
-        if (name.contains(" ")){
-            sClass += ".'" + name + "'";
-        }else {
-            sClass += "." + name;
-        }
-        if (sClass.length() <=0){
-            return element.getClass().getSimpleName();
-        }else {
-            return (element.getClass().getSimpleName() + " ") + sClass;
-        }
+
     }
 
     /**
