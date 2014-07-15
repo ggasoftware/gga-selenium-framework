@@ -655,7 +655,7 @@ public class Elements<ParentPanel> {
             exist = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, exist, String.format("waitForAllElementsVisible - all elements of '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, exist, String.format("waitForAllElementsExist - all elements of '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
