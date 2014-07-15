@@ -436,7 +436,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Click on the Element(WebElement) until expectedElement is NOT EXISTS
+     * Click on the Element(WebElement) until expectedElement exists
      *
      * @param expectedElement - expected Element
      * @return Parent instance
@@ -455,7 +455,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Click on the Element(WebElement) until expectedElement is DISPLAYED
+     * Click on the Element(WebElement) until expectedElement is displayed
      *
      * @param expectedElement - expected Element
      * @return Parent instance
@@ -756,9 +756,9 @@ public class Element<ParentPanel> {
 
 
     /**
-     * Wait until element is NOT EXIST
+     * Wait until element exists.
      *
-     * @param timeoutSec seconds to wait until element become EXISTED.
+     * @param timeoutSec seconds to wait until element exists.
      * @return Parent instance
      */
     public ParentPanel waitForExists(int timeoutSec) {
@@ -781,7 +781,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element is NOT EXIST
+     * Wait until element exists.
      *
      * @return Parent instance
      */
@@ -790,9 +790,9 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element is NOT DISPLAYED
+     * Wait until element is displayed.
      *
-     * @param timeoutSec seconds to wait until element become DISPLAYED.
+     * @param timeoutSec seconds to wait until element is displayed.
      * @return Parent instance
      */
     public ParentPanel waitForDisplayed(int timeoutSec) {
@@ -815,7 +815,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element is NOT DISPLAYED
+     * Wait until element is displayed.
      *
      * @return Parent instance
      */
@@ -825,7 +825,7 @@ public class Element<ParentPanel> {
 
 
     /**
-     * Wait until element is displayed
+     * Wait until element is vanished.
      *
      * @return Parent instance
      */
@@ -834,7 +834,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element is displayed
+     * Wait until element is vanished.
      *
      * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
      * @return Parent instance
@@ -858,7 +858,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element has a text
+     * Wait until element has a text.
      *
      * @param text Text of Element
      * @return Parent instance
@@ -867,7 +867,7 @@ public class Element<ParentPanel> {
         return waitForText(text, TIMEOUT);
     }
     /**
-     * Wait until element has a text
+     * Wait until element has a text.
      *
      * @param text Text of Element
      * @param timeoutSec seconds to wait until element has a text
@@ -899,7 +899,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element contains a text
+     * Wait until element contains a text.
      *
      * @param text Text of Element
      * @return Parent instance
@@ -908,7 +908,7 @@ public class Element<ParentPanel> {
         return waitForTextContains(text, TIMEOUT);
     }
     /**
-     * Wait until element contains a text
+     * Wait until element contains a text.
      *
      * @param text Text of Element
      * @param timeoutSec seconds to wait until element contains a text
@@ -931,7 +931,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element is changed text
+     * Wait until element is changed text.
      *
      * @param text before change
      * @return Parent instance
@@ -941,7 +941,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element is changed text
+     * Wait until element is changed text.
      *
      * @param text before change
      * @param timeoutSec seconds to wait until element is changed text
@@ -965,7 +965,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element has a 'value' attribute
+     * Wait until element has a 'value' attribute.
      *
      * @param value 'Value' Attribute of Element
      * @return Parent instance
@@ -974,7 +974,7 @@ public class Element<ParentPanel> {
         return waitForText(value, TIMEOUT);
     }
     /**
-     * Wait until element has a 'value' attribute
+     * Wait until element has a 'value' attribute.
      *
      * @param value 'Value' Attribute of Element
      * @param timeoutSec seconds to wait until element has a 'value' attribute
@@ -997,7 +997,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element is changed the attribute
+     * Wait until element is changed the attribute.
      *
      * @param attribute  for watching
      * @param value      of attribute before change
@@ -1029,7 +1029,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Firstly :Wait until element is exists, then: Wait until element is vanished
+     * Firstly :Wait until element exists, then: Wait until element is vanished.
      *
      * @return Parent instance
      */
@@ -1041,7 +1041,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Get visible WebElement with Element locator
+     * Get visible WebElement with Element locator.
      *
      * @return WebElement
      */
@@ -1051,7 +1051,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until element is Clickable and click at it.
+     * Wait until element is clickable and click at it.
      *
      * @param timeoutSec seconds to wait until element become clickable.
      * @return Parent instance
@@ -1087,7 +1087,7 @@ public class Element<ParentPanel> {
 
 
     /**
-     * Wait until Expected Condition
+     * Wait until Expected Condition.
      *
      * @param condition - Expected Condition
      * @return Parent instance
@@ -1097,7 +1097,7 @@ public class Element<ParentPanel> {
     }
 
     /**
-     * Wait until Expected Condition
+     * Wait until Expected Condition.
      *
      * @param condition - Expected Condition
      * @param timeoutSec - the maximum time to wait in seconds

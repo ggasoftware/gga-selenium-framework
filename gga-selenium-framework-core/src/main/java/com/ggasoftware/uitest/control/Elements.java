@@ -600,7 +600,7 @@ public class Elements<ParentPanel> {
     }
 
     /**
-     * Wait until first element is visible
+     * Wait until first element is visible.
      *
      * @param timeoutSec seconds to wait until element become visible
      * @return Parent instance
@@ -632,6 +632,40 @@ public class Elements<ParentPanel> {
      */
     public ParentPanel waitForFirstVisibleElement() {
         return waitForFirstVisibleElement(TIMEOUT);
+    }
+
+    /**
+     * Wait until all elements exist.
+     *
+     * @param timeoutSec seconds to wait until all elements exist
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsExist(int timeoutSec) {
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAllElementsExist: %s", locator));
+        boolean exist;
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
+                .ignoring(StaleElementReferenceException.class);
+        setTimeout(1);
+        try {
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(bylocator));
+            exist = true;
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForAllElementsExist: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            exist = false;
+        }
+        setTimeout(TIMEOUT);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, exist, String.format("waitForAllElementsVisible - all elements of '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
+        return parent;
+    }
+
+    /**
+     * Wait until all elements exist
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsExist() {
+        return waitForAllElementsExist(TIMEOUT);
     }
 
 
