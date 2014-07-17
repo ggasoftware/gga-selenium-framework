@@ -4,14 +4,14 @@
 
     <groupId>com.ggasoftware.uitest</groupId>
     <artifactId>gga-selenium-framework-demo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>GGA Selenium Framework Demo</name>
     <description>Demo of GGA Selenium Framework</description>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fw.version>1.0-SNAPSHOT</fw.version>
+        <fw.version>1.0</fw.version>
         <testng_xml>testng.xml</testng_xml>
     </properties>
 
