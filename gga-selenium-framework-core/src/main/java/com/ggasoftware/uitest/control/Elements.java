@@ -189,7 +189,7 @@ public class Elements<ParentPanel> {
      * @return Element
      */
     public Element getElement(int elementIndex) {
-        return new Element<ParentPanel>(String.format("Element #%s", elementIndex), String.format("%s[%d]", getXPath().replace("//", "/descendant::"), elementIndex+1), null);
+        return new Element<ParentPanel>(String.format("Element #%s", elementIndex), String.format("%s[%d]", getXPath().replace("//", "/descendant::"), elementIndex+1), parent);
     }
 
     /**
@@ -203,7 +203,7 @@ public class Elements<ParentPanel> {
         String xpath = getXPath();
         StringBuilder b = new StringBuilder(getXPath());
         b.replace(xpath.lastIndexOf(tag), xpath.lastIndexOf(tag)+1+String.valueOf(elementIndex+1).length(), String.format("%s[%d]", tag, elementIndex+1));
-        return new Element<ParentPanel>(String.format("Element #%s", elementIndex), b.toString(), null);
+        return new Element<ParentPanel>(String.format("Element #%s", elementIndex), b.toString(), parent);
     }
 
     //  Common functions
@@ -389,7 +389,7 @@ public class Elements<ParentPanel> {
                 return webEl;
             }
         }
-        throw new NoSuchElementException("No visible elements available");
+        throw new NoSuchElementException("No visible elements available.");
     }
 
     /**

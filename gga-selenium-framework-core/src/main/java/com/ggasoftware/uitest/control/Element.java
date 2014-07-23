@@ -1046,7 +1046,7 @@ public class Element<ParentPanel> {
      * @return WebElement
      */
     public WebElement getVisibleWebElement() {
-        Elements elements = new Elements<ParentPanel>("elements", locator, null);
+        Elements elements = new Elements<ParentPanel>(name, locator, parent);
         return elements.getVisibleWebElement();
     }
 

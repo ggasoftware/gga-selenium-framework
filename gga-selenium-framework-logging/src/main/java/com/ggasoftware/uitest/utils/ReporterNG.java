@@ -70,7 +70,7 @@ public class ReporterNG {
      * @param message the message to add
      */
     public static void logWarning(String message) {
-        Reporter.log(String.format("%s %s", ReporterNG.BUSINESS_LEVEL, message));
+        Reporter.log(String.format("%s%s%s", ReporterNG.BUSINESS_LEVEL, String.valueOf(WARNING), message));
         LOG.warn(message);
     }
 
