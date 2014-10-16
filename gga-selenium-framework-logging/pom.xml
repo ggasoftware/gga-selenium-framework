@@ -4,13 +4,13 @@
     <parent>
         <groupId>com.ggasoftware.uitest</groupId>
         <artifactId>gga-selenium-framework</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <groupId>com.ggasoftware.uitest</groupId>
     <artifactId>gga-selenium-framework-logging</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>gga-selenium-framework-logging</name>
     <packaging>jar</packaging>
 
