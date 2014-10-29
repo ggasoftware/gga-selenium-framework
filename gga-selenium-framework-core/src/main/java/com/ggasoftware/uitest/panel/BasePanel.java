@@ -15,7 +15,7 @@ package com.ggasoftware.uitest.panel;
 
 import com.ggasoftware.uitest.control.Element;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
-import org.openqa.selenium.browserlaunchers.Sleeper;
+import com.ggasoftware.uitest.utils.Sleeper;
 
 /**
  * Base Panel

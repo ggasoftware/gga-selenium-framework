@@ -16,7 +16,7 @@
 
     <properties>
         <selenium.version>[2.41.0,)</selenium.version>
-        <cucumber-jvm.version>1.1.7</cucumber-jvm.version>
+        <cucumber-jvm.version>1.1.8</cucumber-jvm.version>
     </properties>
 
     <dependencies>

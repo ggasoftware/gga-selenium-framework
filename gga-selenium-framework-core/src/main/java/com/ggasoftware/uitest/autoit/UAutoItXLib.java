@@ -31,4 +31,5 @@ public interface UAutoItXLib extends Library
     int AU3_WinExists(String title, String text);
 
     int AU3_Send(String key, int mode);
+
 }

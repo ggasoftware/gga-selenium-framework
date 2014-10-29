@@ -14,8 +14,8 @@
 package com.ggasoftware.uitest.autoit;
 
 import com.ggasoftware.uitest.utils.ReporterNGExt;
+import com.ggasoftware.uitest.utils.Sleeper;
 import com.sun.jna.Native;
-import org.openqa.selenium.browserlaunchers.Sleeper;
 
 /**
  * Manage AutoIt instances.
