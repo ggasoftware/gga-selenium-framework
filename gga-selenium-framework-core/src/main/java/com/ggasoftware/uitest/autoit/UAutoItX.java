@@ -106,11 +106,11 @@ public class UAutoItX {
         return lib().AU3_ControlClick(Title, Text, Control, Button, NumClicks, X, Y);
     }
 
-    public void AU3_ControlCommand(String Title, String Text, String Control, String Command, String Extra, byte[] Result, int BufSize) {
+    public void ControlCommand(String Title, String Text, String Control, String Command, String Extra, byte[] Result, int BufSize) {
         lib().AU3_ControlCommand(Title, Text, Control, Command, Extra, Result, BufSize);
     }
 
-    public void AU3_ControlListView(String Title, String Text, String Control, String Command, String Extra1, String Extra2, byte[] Result, int BufSize) {
+    public void ControlListView(String Title, String Text, String Control, String Command, String Extra1, String Extra2, byte[] Result, int BufSize) {
         lib().AU3_ControlListView(Title, Text, Control, Command, Extra1, Extra2, Result, BufSize);
     }
 
@@ -126,11 +126,11 @@ public class UAutoItX {
         return lib().AU3_ControlFocus(Title, Text, Control);
     }
 
-    public void AU3_ControlGetFocus(String Title, String Text, byte[] ControlWithFocus, int BufSize) {
+    public void ControlGetFocus(String Title, String Text, byte[] ControlWithFocus, int BufSize) {
         lib().AU3_ControlGetFocus(Title, Text, ControlWithFocus, BufSize);
     }
 
-    public void AU3_ControlGetHandle(String Title, String Text, String Control, byte[] RetText, int BufSize) {
+    public void ControlGetHandle(String Title, String Text, String Control, byte[] RetText, int BufSize) {
         lib().AU3_ControlGetHandle(Title, Text, Control, RetText, BufSize);
     }
 
@@ -150,7 +150,7 @@ public class UAutoItX {
         return lib().AU3_ControlGetPosWidth(Title, Text, Control);
     }
 
-    public void AU3_ControlGetText(String Title, String Text, String Control, byte[] ControlText, int BufSize) {
+    public void ControlGetText(String Title, String Text, String Control, byte[] ControlText, int BufSize) {
         lib().AU3_ControlGetText(Title, Text, Control, ControlText, BufSize);
     }
 
@@ -170,7 +170,7 @@ public class UAutoItX {
         return lib().AU3_ControlShow(Title, Text, Control);
     }
 
-    public void AU3_DriveMapAdd(String Device, String Share, int Flags, String User, String Pwd, byte[] Result, int BufSize) {
+    public void DriveMapAdd(String Device, String Share, int Flags, String User, String Pwd, byte[] Result, int BufSize) {
         lib().AU3_DriveMapAdd(Device, Share, Flags, User, Pwd, Result, BufSize);
     }
 
@@ -178,7 +178,7 @@ public class UAutoItX {
         return lib().AU3_DriveMapDel(Device);
     }
 
-    public void AU3_DriveMapGet(String Device, byte[] Mapping, int BufSize) {
+    public void DriveMapGet(String Device, byte[] Mapping, int BufSize) {
         lib().AU3_DriveMapGet(Device, Mapping, BufSize);
     }
 
@@ -186,7 +186,7 @@ public class UAutoItX {
         return lib().AU3_IniDelete(Filename, Section, Key);
     }
 
-    public void AU3_IniRead(String Filename, String Section, String Key, String Default, byte[] Value, int BufSize) {
+    public void IniRead(String Filename, String Section, String Key, String Default, byte[] Value, int BufSize) {
         lib().AU3_IniRead(Filename, Section, Key, Default, Value, BufSize);
     }
 
@@ -202,7 +202,7 @@ public class UAutoItX {
         return lib().AU3_MouseClick(Button, X, Y, Clicks, Speed);
     }
 
-    public void AU3_MouseDown(String Button) {
+    public void MouseDown(String Button) {
         lib().AU3_MouseDown(Button);
     }
 
@@ -218,11 +218,11 @@ public class UAutoItX {
         return lib().AU3_MouseGetPosY();
     }
 
-    public void AU3_MouseUp(String Button) {
+    public void MouseUp(String Button) {
         lib().AU3_MouseUp(Button);
     }
 
-    public void AU3_MouseWheel(String Direction, int Clicks) {
+    public void MouseWheel(String Direction, int Clicks) {
         lib().AU3_MouseWheel(Direction, Clicks);
     }
 
@@ -238,7 +238,7 @@ public class UAutoItX {
         return lib().AU3_PixelGetColor(X, Y);
     }
 
-    public void AU3_PixelSearch(int Left, int Top, int Right, int Bottom, int Col, int Var, int Step, UAutoItXLib.LPPOINT pPointResult) {
+    public void PixelSearch(int Left, int Top, int Right, int Bottom, int Col, int Var, int Step, UAutoItXLib.LPPOINT pPointResult) {
         lib().AU3_PixelSearch(Left, Top, Right, Bottom, Col, Var, Step, pPointResult);
     }
 
@@ -270,15 +270,15 @@ public class UAutoItX {
         return lib().AU3_RegDeleteVal(Keyname, Valuename);
     }
 
-    public void AU3_RegEnumKey(String Keyname, int Instance, byte[] Result, int BufSize) {
+    public void RegEnumKey(String Keyname, int Instance, byte[] Result, int BufSize) {
         lib().AU3_RegEnumKey(Keyname, Instance, Result, BufSize);
     }
 
-    public void AU3_RegEnumVal(String Keyname, int Instance, byte[] Result, int BufSize) {
+    public void RegEnumVal(String Keyname, int Instance, byte[] Result, int BufSize) {
         lib().AU3_RegEnumVal(Keyname, Instance, Result, BufSize);
     }
 
-    public void AU3_RegRead(String Keyname, String Valuename, byte[] RetText, int BufSize) {
+    public void RegRead(String Keyname, String Valuename, byte[] RetText, int BufSize) {
         lib().AU3_RegRead(Keyname, Valuename, RetText, BufSize);
     }
 
@@ -298,7 +298,7 @@ public class UAutoItX {
         return lib().AU3_RunWait(Run, Dir, ShowFlags);
     }
 
-    public void AU3_Send(String SendText, int Mode) {
+    public void Send(String SendText, int Mode) {
         lib().AU3_Send(SendText, Mode);
     }
 
@@ -306,20 +306,16 @@ public class UAutoItX {
         return lib().AU3_Shutdown(Flags);
     }
 
-    public void AU3_Sleep(int Milliseconds) {
+    public void Sleep(int Milliseconds) {
         lib().AU3_Sleep(Milliseconds);
     }
 
-    public void AU3_StatusbarGetText(String Title, String Text, int Part, byte[] StatusText, int BufSize) {
+    public void StatusbarGetText(String Title, String Text, int Part, byte[] StatusText, int BufSize) {
         lib().AU3_StatusbarGetText(Title, Text, Part, StatusText, BufSize);
     }
 
-    public void AU3_ToolTip(String Tip, int X, int Y) {
+    public void ToolTip(String Tip, int X, int Y) {
         lib().AU3_ToolTip(Tip, X, Y);
-    }
-
-    public void AU3_WinActivate(String Title, String Text) {
-        lib().AU3_WinActivate(Title, Text);
     }
 
     public int WinClose(String Title, String Text) {
@@ -334,7 +330,7 @@ public class UAutoItX {
         return lib().AU3_WinGetCaretPosY();
     }
 
-    public void AU3_WinGetClassList(String Title, String Text, byte[] RetText, int BufSize) {
+    public void WinGetClassList(String Title, String Text, byte[] RetText, int BufSize) {
         lib().AU3_WinGetClassList(Title, Text, RetText, BufSize);
     }
 
@@ -346,7 +342,7 @@ public class UAutoItX {
         return lib().AU3_WinGetClientSizeWidth(Title, Text);
     }
 
-    public void AU3_WinGetHandle(String Title, String Text, byte[] RetText, int BufSize) {
+    public void WinGetHandle(String Title, String Text, byte[] RetText, int BufSize) {
         lib().AU3_WinGetHandle(Title, Text, RetText, BufSize);
     }
 
@@ -366,7 +362,7 @@ public class UAutoItX {
         return lib().AU3_WinGetPosWidth(Title, Text);
     }
 
-    public void AU3_WinGetProcess(String Title, String Text, byte[] RetText, int BufSize) {
+    public void WinGetProcess(String Title, String Text, byte[] RetText, int BufSize) {
         lib().AU3_WinGetProcess(Title, Text, RetText, BufSize);
     }
 
@@ -374,11 +370,11 @@ public class UAutoItX {
         return lib().AU3_WinGetState(Title, Text);
     }
 
-    public void AU3_WinGetText(String Title, String Text, byte[] RetText, int BufSize) {
+    public void WinGetText(String Title, String Text, byte[] RetText, int BufSize) {
         lib().AU3_WinGetText(Title, Text, RetText, BufSize);
     }
 
-    public void AU3_WinGetTitle(String Title, String Text, byte[] RetText, int BufSize) {
+    public void WinGetTitle(String Title, String Text, byte[] RetText, int BufSize) {
         lib().AU3_WinGetTitle(Title, Text, RetText, BufSize);
     }
 
@@ -390,11 +386,11 @@ public class UAutoItX {
         return lib().AU3_WinMenuSelectItem(Title, Text, Item1, Item2, Item3, Item4, Item5, Item6, Item7, Item8);
     }
 
-    public void AU3_WinMinimizeAll() {
+    public void WinMinimizeAll() {
         lib().AU3_WinMinimizeAll();
     }
 
-    public void AU3_WinMinimizeAllUndo() {
+    public void WinMinimizeAllUndo() {
         lib().AU3_WinMinimizeAllUndo();
     }
 
