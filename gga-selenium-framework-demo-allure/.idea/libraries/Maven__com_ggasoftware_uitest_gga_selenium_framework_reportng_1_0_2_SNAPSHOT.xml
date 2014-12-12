@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.ggasoftware.uitest:gga-selenium-framework-reportng:1.0.2-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/ggasoftware/uitest/gga-selenium-framework-reportng/1.0.2-SNAPSHOT/gga-selenium-framework-reportng-1.0.2-20141212.134003-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/ggasoftware/uitest/gga-selenium-framework-reportng/1.0.2-SNAPSHOT/gga-selenium-framework-reportng-1.0.2-20141212.134003-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/ggasoftware/uitest/gga-selenium-framework-reportng/1.0.2-SNAPSHOT/gga-selenium-framework-reportng-1.0.2-20141212.134003-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
