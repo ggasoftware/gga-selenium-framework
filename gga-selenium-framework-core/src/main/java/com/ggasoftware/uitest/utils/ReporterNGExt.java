@@ -18,6 +18,7 @@ import com.ggasoftware.uitest.control.Elements;
 import com.ggasoftware.uitest.panel.BasePanel;
 import org.apache.commons.lang.ClassUtils;
 import org.testng.Reporter;
+import ru.yandex.qatools.allure.annotations.Step;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,15 +71,14 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Match Asertion.
+     * Log Report.
      *
-     * @param value - analyzed text
-     * @param regExp - regular expression
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param status - test status
      * @param message - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
-    public static void logAssertMatch(char logLevel, String value, String regExp, String message, boolean takePassedScreenshot) {
-        String status = logAssertMatch(logLevel, value, regExp, message);
+    private static void logReport(char logLevel, String status, String message, boolean takePassedScreenshot) {
         if (status.equals(ReporterNG.FAILED)) {
             boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
             ScreenShotMaker.hasTake(true);
@@ -92,6 +92,19 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
+     * Log Match Asertion.
+     *
+     * @param value - analyzed text
+     * @param regExp - regular expression
+     * @param message - log message text
+     * @param takePassedScreenshot - Set True to take screenshot if assert passed
+     */
+    public static void logAssertMatch(char logLevel, String value, String regExp, String message, boolean takePassedScreenshot) {
+        String status = logAssertMatch(logLevel, value, regExp, message);
+        logReport(logLevel, status, message, takePassedScreenshot);
+    }
+
+    /**
      * Log Not Intersect Asertion.
      *
      * @param firstArray - first text array 
@@ -101,16 +114,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertNotIntersect(char logLevel, String[] firstArray, String[] secondArray, String message, boolean takePassedScreenshot) {
         String status = logAssertNotIntersect(logLevel, firstArray, secondArray, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -123,16 +127,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertEquals(char logLevel, Object value, Object expectedValue, String message, boolean takePassedScreenshot) {
         String status = logAssertEquals(logLevel, value, expectedValue, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -145,16 +140,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertNotEquals(char logLevel, Object value, Object notExpectedValue, String message, boolean takePassedScreenshot) {
         String status = logAssertNotEquals(logLevel, value, notExpectedValue, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -167,16 +153,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertArrayListEquals(char logLevel, ArrayList<String> value, ArrayList expectedValue, String message, boolean takePassedScreenshot) {
         String status = logAssertArrayListEquals(logLevel, value, expectedValue, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -189,16 +166,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertEquals(char logLevel, String[] value, String[] expectedValue, String message, boolean takePassedScreenshot) {
         String status = logAssertEquals(logLevel, value, expectedValue, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -228,16 +196,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertTrue(char logLevel, boolean what, String message, boolean takePassedScreenshot) {
         String status = logAssertTrue(logLevel, what, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -249,16 +208,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertFalse(char logLevel, boolean what, String message, boolean takePassedScreenshot) {
         String status = logAssertFalse(logLevel, what, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -270,16 +220,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertEmpty(char logLevel, String what, String message, boolean takePassedScreenshot) {
         String status = logAssertEmpty(logLevel, what, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -292,16 +233,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertContains(char logLevel, String toSearchIn, String whatToSearch, String message, boolean takePassedScreenshot) {
         String status = logAssertContains(logLevel, toSearchIn, whatToSearch, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -314,16 +246,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertNotContains(char logLevel, String toSearchIn, String whatToSearch, String message, boolean takePassedScreenshot) {
         String status = logAssertNotContains(logLevel, toSearchIn, whatToSearch, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -335,16 +258,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertNull(char logLevel, Object what, String message, boolean takePassedScreenshot) {
         String status = logAssertNull(logLevel, what, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(message + "_Passed")));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -356,16 +270,7 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logAssertNotNull(char logLevel, Object what, String message, boolean takePassedScreenshot) {
         String status = logAssertNotNull(logLevel, what, message);
-        if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
-        } else {
-            if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s_Passed", message))));
-            }
-        }
+        logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
@@ -435,6 +340,13 @@ public class ReporterNGExt extends ReporterNG{
     public static void logAction(Object element, String parentClassName, String actionName) {
         String className = getClassName(element, parentClassName);
         logAction(getLogLevel(element), className, actionName);
+        if (TestBaseWebDriver.allure) {
+            action(className, actionName);
+        }
+    }
+    @Step
+    public static void action(String element, String actionName) {
+        logTechnical("Allure action step");
     }
 
     /**

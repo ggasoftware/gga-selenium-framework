@@ -11,6 +11,12 @@ TestNG testing framework.
 
 License: Apache Software Licence, Version 2.0.
 
+### Allure Framework  ###
+Allure Test Report Framework.
+[ http://allure.qatools.ru]()
+
+License: Apache Software Licence, Version 2.0.
+
 ### JNA ###
 For Java bindings JNA library is used.
 [http://jna.java.net/]()

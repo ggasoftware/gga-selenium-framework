@@ -17,6 +17,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriverException;
+import ru.yandex.qatools.allure.annotations.Attachment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -90,6 +91,9 @@ public final class ScreenShotMaker {
                     try (FileOutputStream fos = new FileOutputStream(new File(ScreenShotMaker.path + name))) {
                         fos.write(decodedScreenshot);
                     }
+                    if (TestBaseWebDriver.allure) {
+                        saveScreenshot(decodedScreenshot);
+                    }
                 } catch (WebDriverException | IOException e) {
                     sId += String.format("  [%s when making screenshot(webdriver: %s)]", e.toString(), WebDriverWrapper.getDriver());
                     ReporterNGExt.log4jError(String.format("%s when making screenshot(webdriver: %s; file: %s%s) ", e.toString(), WebDriverWrapper.getDriver(), ScreenShotMaker.path, name));
@@ -101,5 +105,10 @@ public final class ScreenShotMaker {
         } else {
             return id;
         }
+    }
+
+    @Attachment(value = "Page screenshot", type = "image/png")
+    public static byte[] saveScreenshot(byte[] screenShot) {
+        return screenShot;
     }
 }
