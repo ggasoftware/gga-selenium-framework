@@ -44,6 +44,7 @@ public class TestBaseWebDriver extends TestBase{
     public static boolean takePassedScreenshot = false;
     public static boolean logFindElementLocator = true;
     public static boolean allure = false;
+    public static boolean reportportal = false;
 
     /**
      * Set Browser for WebDriver.
@@ -97,6 +98,15 @@ public class TestBaseWebDriver extends TestBase{
      */
     public static void useAllure(boolean useAllure) {
         allure = useAllure;
+    }
+
+    /**
+     * Use Reportportal framework.
+     *
+     * @param useReportPortal - true for useing ReportPortal framework.
+     */
+    public static void useReportPortal(boolean useReportPortal) {
+        reportportal = useReportPortal;
     }
 
 

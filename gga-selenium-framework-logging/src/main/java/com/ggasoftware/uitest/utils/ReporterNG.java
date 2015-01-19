@@ -484,6 +484,9 @@ public class ReporterNG {
         }
     }
 
+    public static void log4j(Object object) {
+        LOG.info(object);
+    }
     public static void log4j(String message) {
         LOG.info(message);
     }

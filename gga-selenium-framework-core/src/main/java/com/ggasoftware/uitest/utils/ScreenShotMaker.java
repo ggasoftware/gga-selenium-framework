@@ -88,11 +88,15 @@ public final class ScreenShotMaker {
                     base64Screenshot = tsDriver.getScreenshotAs(OutputType.BASE64);
 
                     byte[] decodedScreenshot = Base64.decodeBase64(base64Screenshot.getBytes());
-                    try (FileOutputStream fos = new FileOutputStream(new File(ScreenShotMaker.path + name))) {
+                    File file = new File(ScreenShotMaker.path + name);
+                    try (FileOutputStream fos = new FileOutputStream(file)) {
                         fos.write(decodedScreenshot);
                     }
                     if (TestBaseWebDriver.allure) {
                         saveScreenshot(decodedScreenshot);
+                    }
+                    if (TestBaseWebDriver.reportportal) {
+                        ReporterNGExt.log4j(new ReportPortalMessage(file, id));
                     }
                 } catch (WebDriverException | IOException e) {
                     sId += String.format("  [%s when making screenshot(webdriver: %s)]", e.toString(), WebDriverWrapper.getDriver());
