@@ -599,9 +599,9 @@ public class Elements<ParentPanel> {
      * Wait until first element is visible.
      *
      * @param timeoutSec seconds to wait until element become visible
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForFirstVisibleElement(int timeoutSec) {
+    public boolean waitForFirstVisibleElement(int timeoutSec) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForFirstVisibleElement: %s", locator));
         boolean isVisible;
         long start = System.currentTimeMillis() / 1000;
@@ -616,27 +616,46 @@ public class Elements<ParentPanel> {
             isVisible = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVisible, String.format("waitForFirstVisibleElement - first element of '%s' should be visible", name), TestBaseWebDriver.takePassedScreenshot);
+        return isVisible;
+    }
+
+    /**
+     * Wait until first element is visible
+     *
+     * @return true/false
+     */
+    public boolean waitForFirstVisibleElement() {
+        return waitForFirstVisibleElement(TIMEOUT);
+    }
+
+    /**
+     * Wait until first element is visible and assert.
+     *
+     * @param timeoutSec seconds to wait until element become visible
+     * @return Parent instance
+     */
+    public ParentPanel waitForFirstVisibleElementAndAssert(int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForFirstVisibleElement(timeoutSec), String.format("waitForFirstVisibleElement - first element of '%s' should be visible", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
 
     /**
-     * Wait until first element is visible
+     * Wait until first element is visible and assert.
      *
      * @return Parent instance
      */
-    public ParentPanel waitForFirstVisibleElement() {
-        return waitForFirstVisibleElement(TIMEOUT);
+    public ParentPanel waitForFirstVisibleElementAndAssert() {
+        return waitForFirstVisibleElementAndAssert(TIMEOUT);
     }
 
     /**
      * Wait until all elements exist.
      *
      * @param timeoutSec seconds to wait until all elements exist
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForAllElementsExist(int timeoutSec) {
+    public boolean waitForAllElementsExist(int timeoutSec) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAllElementsExist: %s", locator));
         boolean exist;
         long start = System.currentTimeMillis() / 1000;
@@ -651,27 +670,45 @@ public class Elements<ParentPanel> {
             exist = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, exist, String.format("waitForAllElementsExist - all elements of '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
-        return parent;
+        return exist;
     }
 
     /**
      * Wait until all elements exist
      *
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForAllElementsExist() {
+    public boolean waitForAllElementsExist() {
         return waitForAllElementsExist(TIMEOUT);
     }
 
+    /**
+     * Wait until all elements exist and assert.
+     *
+     * @param timeoutSec seconds to wait until all elements exist
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsExistAndAssert(int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForAllElementsExist(timeoutSec), String.format("waitForAllElementsExist - all elements of '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
+        return parent;
+    }
+
+    /**
+     * Wait until all elements exist and assert.
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsExistAndAssert() {
+        return waitForAllElementsExistAndAssert(TIMEOUT);
+    }
 
     /**
      * Wait until all elements is invisible
      *
      * @param timeoutSec seconds to wait until all elements become Not Visible
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForAllElementsNotVisible(int timeoutSec) {
+    public boolean waitForAllElementsNotVisible(int timeoutSec) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAllElementsNotVisible: %s", locator));
         boolean isNotVisible;
         long start = System.currentTimeMillis() / 1000;
@@ -688,26 +725,45 @@ public class Elements<ParentPanel> {
             isNotVisible = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotVisible, String.format("waitForAllElementsNotVisible - all element of '%s' should be not visible", name), TestBaseWebDriver.takePassedScreenshot);
-        return parent;
+        return isNotVisible;
     }
 
     /**
      * Wait until all elements is invisible
      *
+     * @return true/false
+     */
+    public boolean waitForAllElementsNotVisible() {
+        return waitForAllElementsNotVisible(TIMEOUT);
+    }
+
+    /**
+     * Wait until all elements is invisible and assert.
+     *
+     * @param timeoutSec seconds to wait until all elements become Not Visible
      * @return Parent instance
      */
-    public ParentPanel waitForAllElementsNotVisible() {
-        return waitForAllElementsNotVisible(TIMEOUT);
+    public ParentPanel waitForAllElementsNotVisibleAndAssert(int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForAllElementsNotVisible(timeoutSec), String.format("waitForAllElementsNotVisible - all element of '%s' should be not visible", name), TestBaseWebDriver.takePassedScreenshot);
+        return parent;
+    }
+
+    /**
+     * Wait until all elements is invisible and assert.
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsNotVisibleAndAssert() {
+        return waitForAllElementsNotVisibleAndAssert(TIMEOUT);
     }
 
     /**
      * Wait until all elements is visible
      *
      * @param timeoutSec seconds to wait until all elements become Visible
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForAllElementsVisible(int timeoutSec) {
+    public boolean waitForAllElementsVisible(int timeoutSec) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAllElementsVisible: %s", locator));
         boolean isVisible;
         long start = System.currentTimeMillis() / 1000;
@@ -722,28 +778,46 @@ public class Elements<ParentPanel> {
             isVisible = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVisible, String.format("waitForAllElementsVisible - all elements of '%s' should be visible", name), TestBaseWebDriver.takePassedScreenshot);
-        return parent;
+        return isVisible;
     }
 
     /**
      * Wait until all elements is visible
      *
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForAllElementsVisible() {
+    public boolean waitForAllElementsVisible() {
         return waitForAllElementsVisible(TIMEOUT);
     }
 
+    /**
+     * Wait until all elements is visible and assert.
+     *
+     * @param timeoutSec seconds to wait until all elements become Visible
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsVisibleAndAssert(int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForAllElementsVisible(timeoutSec), String.format("waitForAllElementsVisible - all elements of '%s' should be visible", name), TestBaseWebDriver.takePassedScreenshot);
+        return parent;
+    }
+
+    /**
+     * Wait until all elements is visible and assert.
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsVisibleAndAssert() {
+        return waitForAllElementsVisibleAndAssert(TIMEOUT);
+    }
 
     /**
      * Wait until elements is changed list of text
      *
      * @param list expected list of text
      * @param timeoutSec seconds to wait until elements is changed list of text
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForElementsTextChanged(final List<String> list, int timeoutSec) {
+    public boolean waitForElementsTextChanged(final List<String> list, int timeoutSec) {
         boolean isChanged;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForElementsTextChanged: %s", locator));
         long start = System.currentTimeMillis() / 1000;
@@ -762,8 +836,18 @@ public class Elements<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForElementsTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForElementsTextChanged - '%s' should be changed", name), TestBaseWebDriver.takePassedScreenshot);
+        return isChanged;
+    }
 
+    /**
+     * Wait until elements is changed list of text and assert.
+     *
+     * @param list expected list of text
+     * @param timeoutSec seconds to wait until elements is changed list of text
+     * @return Parent instance
+     */
+    public ParentPanel waitForElementsTextChangedAndAssert(final List<String> list, int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForElementsTextChanged(list, timeoutSec), String.format("waitForElementsTextChanged - '%s' should be changed", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -772,9 +856,9 @@ public class Elements<ParentPanel> {
      *
      * @param count      - source number of element
      * @param timeoutSec seconds to wait until elements count is changed
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForNumberOfElementsChanged(final int count, final int timeoutSec) {
+    public boolean waitForNumberOfElementsChanged(final int count, final int timeoutSec) {
         boolean isChanged;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitNumberOfElementsChanged[%d]: %s", count, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -794,7 +878,18 @@ public class Elements<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitNumberOfElementsChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitNumberOfElementsChanged - '%s' elements count '%d' should be changed", name, count), TestBaseWebDriver.takePassedScreenshot);
+        return isChanged;
+    }
+
+    /**
+     * Wait until number of elements is changed and assert.
+     *
+     * @param count      - source number of element
+     * @param timeoutSec seconds to wait until elements count is changed
+     * @return Parent instance
+     */
+    public ParentPanel waitForNumberOfElementsChangedAndAssert(final int count, final int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForNumberOfElementsChanged(count, timeoutSec), String.format("waitNumberOfElementsChanged - '%s' elements count '%d' should be changed", name, count), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 

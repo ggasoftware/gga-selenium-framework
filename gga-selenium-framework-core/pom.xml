@@ -4,13 +4,13 @@
     <parent>
         <groupId>com.ggasoftware.uitest</groupId>
         <artifactId>gga-selenium-framework</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>1.0.4-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <groupId>com.ggasoftware.uitest</groupId>
     <artifactId>gga-selenium-framework-core</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>gga-selenium-framework-core</name>
     <packaging>jar</packaging>
 
@@ -19,6 +19,7 @@
         <cucumber-jvm.version>1.1.8</cucumber-jvm.version>
         <allure.version>[1.4,)</allure.version>
         <aspectj.version>[1.7,)</aspectj.version>
+        <fw.version>1.0.4-SNAPSHOT</fw.version>
     </properties>
 
     <dependencies>
@@ -30,12 +31,12 @@
         <dependency>
             <groupId>com.ggasoftware.uitest</groupId>
             <artifactId>gga-selenium-framework-logging</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
+            <version>${fw.version}</version>
         </dependency>
         <dependency>
             <groupId>com.ggasoftware.uitest</groupId>
             <artifactId>gga-selenium-framework-reportng</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
+            <version>${fw.version}</version>
         </dependency>
         <dependency>
             <groupId>net.java.dev.jna</groupId>

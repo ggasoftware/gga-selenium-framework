@@ -42,8 +42,8 @@ public class BasePanel<T extends BasePanel> extends Element<T> {
     }
 
     @Override
-    public T waitForExists() {
-        super.waitForExists();
+    public T waitForExistsAndAssert() {
+        super.waitForExistsAndAssert();
         return (T)this;
     }
 

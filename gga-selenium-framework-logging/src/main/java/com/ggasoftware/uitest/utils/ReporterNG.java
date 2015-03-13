@@ -86,6 +86,16 @@ public class ReporterNG {
     }
 
     /**
+     * Adds passed message to selected part of test LOG.
+     * @param logLevel - ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL
+     * @param message the message to add
+     */
+    public static void logPassed(char logLevel, String message) {
+        Reporter.log(String.format("%s%s%s~ %s: %s.", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, PASSED));
+        LOG.info(String.format("%s: %s", message, PASSED));
+    }
+
+    /**
      * Checks whether text matches regular expression is TRUE. In case of matches is FALSE marks test as FAILED. Execution continuous.
      * Depending on logLevel param adds message to business, component or technical level
      *

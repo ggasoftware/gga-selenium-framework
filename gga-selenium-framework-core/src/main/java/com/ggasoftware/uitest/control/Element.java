@@ -677,8 +677,17 @@ public class Element<ParentPanel> {
      * @param tagName Tag name
      * @return Has child or not
      */
-    public boolean hasChild(String tagName) {
-        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.tagName(tagName)).isEmpty());
+    public boolean hasChildByTag(String tagName) {
+        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChildByTag", !getWebElement().findElements(By.tagName(tagName)).isEmpty());
+    }
+
+    /**
+     * Has child element
+     *
+     * @return Has child or not
+     */
+    public boolean hasChild() {
+        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.xpath(".//")).isEmpty());
     }
 
     /**
@@ -759,9 +768,9 @@ public class Element<ParentPanel> {
      * Wait until element exists.
      *
      * @param timeoutSec seconds to wait until element exists.
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForExists(int timeoutSec) {
+    public boolean waitForExists(int timeoutSec) {
         boolean isExists;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExists: %s", locator));
         long start = System.currentTimeMillis() / 1000;
@@ -776,26 +785,45 @@ public class Element<ParentPanel> {
             isExists = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists, String.format("waitForExists - '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
-        return parent;
+        return isExists;
     }
 
     /**
      * Wait until element exists.
      *
+     * @return true/false
+     */
+    public boolean waitForExists() {
+        return waitForExists(TIMEOUT);
+    }
+
+    /**
+     * Wait until element exists and assert.
+     *
+     * @param timeoutSec seconds to wait until element exists.
      * @return Parent instance
      */
-    public ParentPanel waitForExists() {
-        return waitForExists(TIMEOUT);
+    public ParentPanel waitForExistsAndAssert(int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForExists(timeoutSec), String.format("waitForExists - '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
+        return parent;
+    }
+
+    /**
+     * Wait until element exists and assert.
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForExistsAndAssert() {
+        return waitForExistsAndAssert(TIMEOUT);
     }
 
     /**
      * Wait until element is displayed.
      *
      * @param timeoutSec seconds to wait until element is displayed.
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForDisplayed(int timeoutSec) {
+    public boolean waitForDisplayed(int timeoutSec) {
         boolean isDisplayed;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForDisplayed: %s", locator));
         long start = System.currentTimeMillis() / 1000;
@@ -810,36 +838,45 @@ public class Element<ParentPanel> {
             isDisplayed = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed, String.format("waitForDisplayed - '%s' should be displayed", name), TestBaseWebDriver.takePassedScreenshot);
-        return parent;
+        return isDisplayed;
     }
 
     /**
      * Wait until element is displayed.
      *
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForDisplayed() {
+    public boolean waitForDisplayed() {
         return waitForDisplayed(TIMEOUT);
     }
 
+    /**
+     * Wait until element is displayed and assert.
+     *
+     * @param timeoutSec seconds to wait until element is displayed.
+     * @return Parent instance
+     */
+    public ParentPanel waitForDisplayedAndAssert(int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForDisplayed(timeoutSec), String.format("waitForDisplayed - '%s' should be displayed", name), TestBaseWebDriver.takePassedScreenshot);
+        return parent;
+    }
 
     /**
-     * Wait until element is vanished.
+     * Wait until element is displayed and assert.
      *
      * @return Parent instance
      */
-    public ParentPanel waitForElementToVanish() {
-        return waitForElementToVanish(TIMEOUT);
+    public ParentPanel waitForDisplayedAndAssert() {
+        return waitForDisplayedAndAssert(TIMEOUT);
     }
 
     /**
      * Wait until element is vanished.
      *
      * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForElementToVanish(final int timeoutSec) {
+    public boolean waitForElementToVanish(final int timeoutSec) {
         boolean isVanished;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForElementToVanish: %s", locator));
         long start = System.currentTimeMillis() / 1000;
@@ -853,27 +890,56 @@ public class Element<ParentPanel> {
             isVanished = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished, String.format("waitForElementToVanish - '%s' should be vanished", name), TestBaseWebDriver.takePassedScreenshot);
+        return isVanished;
+    }
+
+    /**
+     * Wait until element is vanished.
+     *
+     * @return true/false
+     */
+    public boolean waitForElementToVanish() {
+        return waitForElementToVanish(TIMEOUT);
+    }
+
+    /**
+     * Wait until element is vanished and assert.
+     *
+     * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
+     * @return Parent instance
+     */
+    public ParentPanel waitForElementToVanishAndAssert(final int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForElementToVanish(timeoutSec), String.format("waitForElementToVanish - '%s' should be vanished", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
+    }
+
+    /**
+     * Wait until element is vanished and assert.
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForElementToVanishAndAssert() {
+        return waitForElementToVanishAndAssert(TIMEOUT);
     }
 
     /**
      * Wait until element has a text.
      *
      * @param text Text of Element
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForText(final String text) {
+    public boolean waitForText(final String text) {
         return waitForText(text, TIMEOUT);
     }
+
     /**
      * Wait until element has a text.
      *
      * @param text Text of Element
      * @param timeoutSec seconds to wait until element has a text
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForText(final String text, final int timeoutSec) {
+    public boolean waitForText(final String text, final int timeoutSec) {
         boolean isPresent;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForText[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -894,7 +960,28 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForText: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForText - '%s' should has a text '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
+        return isPresent;
+    }
+
+    /**
+     * Wait until element has a text and assert.
+     *
+     * @param text Text of Element
+     * @return Parent instance
+     */
+    public ParentPanel waitForTextAndAssert(final String text) {
+        return waitForTextAndAssert(text, TIMEOUT);
+    }
+
+    /**
+     * Wait until element has a text and assert.
+     *
+     * @param text Text of Element
+     * @param timeoutSec seconds to wait until element has a text
+     * @return Parent instance
+     */
+    public ParentPanel waitForTextAndAssert(final String text, final int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForText(text, timeoutSec), String.format("waitForText - '%s' should has a text '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -902,9 +989,9 @@ public class Element<ParentPanel> {
      * Wait until element contains a text.
      *
      * @param text Text of Element
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForTextContains(final String text) {
+    public boolean waitForTextContains(final String text) {
         return waitForTextContains(text, TIMEOUT);
     }
     /**
@@ -912,9 +999,9 @@ public class Element<ParentPanel> {
      *
      * @param text Text of Element
      * @param timeoutSec seconds to wait until element contains a text
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForTextContains(final String text, final int timeoutSec) {
+    public boolean waitForTextContains(final String text, final int timeoutSec) {
         boolean isPresent;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForText[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -926,7 +1013,27 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForTextContains: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-         ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextContains - '%s' should has a text contains '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
+        return isPresent;
+    }
+
+    /**
+     * Wait until element contains a text and assert.
+     *
+     * @param text Text of Element
+     * @return Parent instance
+     */
+    public ParentPanel waitForTextContainsAndAssert(final String text) {
+        return waitForTextContainsAndAssert(text, TIMEOUT);
+    }
+    /**
+     * Wait until element contains a text and assert.
+     *
+     * @param text Text of Element
+     * @param timeoutSec seconds to wait until element contains a text
+     * @return Parent instance
+     */
+    public ParentPanel waitForTextContainsAndAssert(final String text, final int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForTextContains(text, timeoutSec), String.format("waitForTextContains - '%s' should has a text contains '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -934,9 +1041,9 @@ public class Element<ParentPanel> {
      * Wait until element is changed text.
      *
      * @param text before change
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForTextChanged(final String text) {
+    public boolean waitForTextChanged(final String text) {
         return waitForTextChanged(text, TIMEOUT);
     }
 
@@ -945,9 +1052,9 @@ public class Element<ParentPanel> {
      *
      * @param text before change
      * @param timeoutSec seconds to wait until element is changed text
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForTextChanged(final String text, final int timeoutSec) {
+    public boolean waitForTextChanged(final String text, final int timeoutSec) {
         boolean isChanged;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForTextChanged[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -957,10 +1064,30 @@ public class Element<ParentPanel> {
             isChanged = wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(bylocator, text)));
         } catch (TimeoutException e) {
             ReporterNGExt.logTechnical(String.format("waitForTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
-
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTextChanged - '%s' text '%s' should be changed", name, text), TestBaseWebDriver.takePassedScreenshot);
+        return isChanged;
+    }
+
+    /**
+     * Wait until element is changed text and assert.
+     *
+     * @param text before change
+     * @return Parent instance
+     */
+    public ParentPanel waitForTextChangedAndAssert(final String text) {
+        return waitForTextChangedAndAssert(text, TIMEOUT);
+    }
+
+    /**
+     * Wait until element is changed text and assert.
+     *
+     * @param text before change
+     * @param timeoutSec seconds to wait until element is changed text
+     * @return Parent instance
+     */
+    public ParentPanel waitForTextChangedAndAssert(final String text, final int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForTextChanged(text, timeoutSec), String.format("waitForTextChanged - '%s' text '%s' should be changed", name, text), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -968,9 +1095,9 @@ public class Element<ParentPanel> {
      * Wait until element has a 'value' attribute.
      *
      * @param value 'Value' Attribute of Element
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForValue(final String value) {
+    public boolean waitForValue(final String value) {
         return waitForText(value, TIMEOUT);
     }
     /**
@@ -978,9 +1105,9 @@ public class Element<ParentPanel> {
      *
      * @param value 'Value' Attribute of Element
      * @param timeoutSec seconds to wait until element has a 'value' attribute
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForValue(final String value, final int timeoutSec) {
+    public boolean waitForValue(final String value, final int timeoutSec) {
         boolean isPresent;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForValueAttribute[%s]: %s", value, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -992,7 +1119,27 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForValueAttribute: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForValueAttribute - '%s' should has a value attribute '%s'", name, value), TestBaseWebDriver.takePassedScreenshot);
+        return isPresent;
+    }
+
+    /**
+     * Wait until element has a 'value' attribute and assert.
+     *
+     * @param value 'Value' Attribute of Element
+     * @return Parent instance
+     */
+    public ParentPanel waitForValueAndAssert(final String value) {
+        return waitForValueAndAssert(value, TIMEOUT);
+    }
+    /**
+     * Wait until element has a 'value' attribute and assert.
+     *
+     * @param value 'Value' Attribute of Element
+     * @param timeoutSec seconds to wait until element has a 'value' attribute
+     * @return Parent instance
+     */
+    public ParentPanel waitForValueAndAssert(final String value, final int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForValue(value, timeoutSec), String.format("waitForValueAttribute - '%s' should has a value attribute '%s'", name, value), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -1002,9 +1149,9 @@ public class Element<ParentPanel> {
      * @param attribute  for watching
      * @param value      of attribute before change
      * @param timeoutSec seconds to wait until element is changed attribute
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
+    public boolean waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
         boolean isChanged;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAttributeChanged[%s]: %s", value, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -1024,7 +1171,19 @@ public class Element<ParentPanel> {
             ReporterNGExt.logTechnical(String.format("waitForAttributeChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value), TestBaseWebDriver.takePassedScreenshot);
+        return isChanged;
+    }
+
+    /**
+     * Wait until element is changed the attribute and assert.
+     *
+     * @param attribute  for watching
+     * @param value      of attribute before change
+     * @param timeoutSec seconds to wait until element is changed attribute
+     * @return Parent instance
+     */
+    public ParentPanel waitForAttributeChangedAndAssert(final String attribute, final String value, final int timeoutSec) {
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForAttributeChanged(attribute, value, timeoutSec), String.format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -1085,14 +1244,13 @@ public class Element<ParentPanel> {
         return parent;
     }
 
-
     /**
      * Wait until Expected Condition.
      *
      * @param condition - Expected Condition
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForExpectedConditions(ExpectedCondition condition) {
+    public boolean waitForExpectedConditions(ExpectedCondition condition) {
         return waitForExpectedConditions(condition, TIMEOUT);
     }
 
@@ -1101,9 +1259,9 @@ public class Element<ParentPanel> {
      *
      * @param condition - Expected Condition
      * @param timeoutSec - the maximum time to wait in seconds
-     * @return Parent instance
+     * @return true/false
      */
-    public ParentPanel waitForExpectedConditions(ExpectedCondition condition, int timeoutSec) {
+    public boolean waitForExpectedConditions(ExpectedCondition condition, int timeoutSec) {
         boolean isTrue;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExpectedCondition[%s}: %s",condition, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -1118,7 +1276,28 @@ public class Element<ParentPanel> {
             isTrue = true;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
+        return isTrue;
+    }
+
+    /**
+     * Wait until Expected Condition and assert.
+     *
+     * @param condition - Expected Condition
+     * @return Parent instance
+     */
+    public ParentPanel waitForExpectedConditionsAndAssert(ExpectedCondition condition) {
+        return waitForExpectedConditionsAndAssert(condition, TIMEOUT);
+    }
+
+    /**
+     * Wait until Expected Condition and assert.
+     *
+     * @param condition - Expected Condition
+     * @param timeoutSec - the maximum time to wait in seconds
+     * @return Parent instance
+     */
+    public ParentPanel waitForExpectedConditionsAndAssert(ExpectedCondition condition, int timeoutSec) {
+        ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, waitForExpectedConditions(condition, timeoutSec), String.format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
