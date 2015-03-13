@@ -15,7 +15,7 @@ package com.ggasoftware.uitest.autoit;
 
 import com.sun.jna.Library;
 import com.sun.jna.Structure;
-import com.sun.jna.platform.win32.WinUser;
+import com.sun.jna.WString;
 
 /**
  * Manage AutoIt instances.
@@ -33,72 +33,72 @@ public interface UAutoItXLib extends Library
 
     public int AU3_error();
 
-    public int AU3_AutoItSetOption(String Option, int Value);
+    public int AU3_AutoItSetOption(WString Option, int Value);
 
     public void AU3_BlockInput(int Flag); // 1 = disable user input, 0 enable user input (to have auto it run without
     // interference)
 
-    public void AU3_CDTray(String Drive, String Action); // drive: ,"open" or "closed"
+    public void AU3_CDTray(WString Drive, WString Action); // drive: ,"open" or "closed"
 
     public void AU3_ClipGet(byte[] Clip, int BufSize);
 
-    public void AU3_ClipPut(String Clip);
+    public void AU3_ClipPut(WString Clip);
 
-    public int AU3_ControlClick(String Title, String Text, String Control, String Button, int NumClicks, int X, int Y);
+    public int AU3_ControlClick(WString Title, WString Text, WString Control, WString Button, int NumClicks, int X, int Y);
 
-    public void AU3_ControlCommand(String Title, String Text, String Control, String Command, String Extra, byte[] Result, int BufSize);
+    public void AU3_ControlCommand(WString Title, WString Text, WString Control, WString Command, WString Extra, byte[] Result, int BufSize);
 
-    public void AU3_ControlListView(String Title, String Text, String Control, String Command, String Extra1, String Extra2, byte[] Result, int BufSize);
+    public void AU3_ControlListView(WString Title, WString Text, WString Control, WString Command, WString Extra1, WString Extra2, byte[] Result, int BufSize);
 
-    public int AU3_ControlDisable(String Title, String Text, String Control);
+    public int AU3_ControlDisable(WString Title, WString Text, WString Control);
 
-    public int AU3_ControlEnable(String Title, String Text, String Control);
+    public int AU3_ControlEnable(WString Title, WString Text, WString Control);
 
-    public int AU3_ControlFocus(String Title, String Text, String Control);
+    public int AU3_ControlFocus(WString Title, WString Text, WString Control);
 
-    public void AU3_ControlGetFocus(String Title, String Text, byte[] ControlWithFocus, int BufSize);
+    public void AU3_ControlGetFocus(WString Title, WString Text, byte[] ControlWithFocus, int BufSize);
 
-    public void AU3_ControlGetHandle(String Title, String Text, String Control, byte[] RetText, int BufSize);
+    public void AU3_ControlGetHandle(WString Title, WString Text, WString Control, byte[] RetText, int BufSize);
 
-    public int AU3_ControlGetPosX(String Title, String Text, String Control);
+    public int AU3_ControlGetPosX(WString Title, WString Text, WString Control);
 
-    public int AU3_ControlGetPosY(String Title, String Text, String Control);
+    public int AU3_ControlGetPosY(WString Title, WString Text, WString Control);
 
-    public int AU3_ControlGetPosHeight(String Title, String Text, String Control);
+    public int AU3_ControlGetPosHeight(WString Title, WString Text, WString Control);
 
-    public int AU3_ControlGetPosWidth(String Title, String Text, String Control);
+    public int AU3_ControlGetPosWidth(WString Title, WString Text, WString Control);
 
-    public void AU3_ControlGetText(String Title, String Text, String Control, byte[] ControlText, int BufSize);
+    public void AU3_ControlGetText(WString Title, WString Text, WString Control, byte[] ControlText, int BufSize);
 
-    public int AU3_ControlHide(String Title, String Text, String Control);
+    public int AU3_ControlHide(WString Title, WString Text, WString Control);
 
-    public int AU3_ControlMove(String Title, String Text, String Control, int X, int Y, int Width, int Height);
+    public int AU3_ControlMove(WString Title, WString Text, WString Control, int X, int Y, int Width, int Height);
 
-    public int AU3_ControlSend(String Title, String Text, String Control, String SendText, int Mode);
+    public int AU3_ControlSend(WString Title, WString Text, WString Control, WString SendText, int Mode);
 
-    public int AU3_ControlSetText(String Title, String Text, String Control, String ControlText);
+    public int AU3_ControlSetText(WString Title, WString Text, WString Control, WString ControlText);
 
-    public int AU3_ControlShow(String Title, String Text, String Control);
+    public int AU3_ControlShow(WString Title, WString Text, WString Control);
 
-    public void AU3_DriveMapAdd(String Device, String Share, int Flags, String User, String Pwd, byte[] Result, int BufSize);
+    public void AU3_DriveMapAdd(WString Device, WString Share, int Flags, WString User, WString Pwd, byte[] Result, int BufSize);
 
-    public int AU3_DriveMapDel(String Device);
+    public int AU3_DriveMapDel(WString Device);
 
-    public void AU3_DriveMapGet(String Device, byte[] Mapping, int BufSize);
+    public void AU3_DriveMapGet(WString Device, byte[] Mapping, int BufSize);
 
-    public int AU3_IniDelete(String Filename, String Section, String Key);
+    public int AU3_IniDelete(WString Filename, WString Section, WString Key);
 
-    public void AU3_IniRead(String Filename, String Section, String Key, String Default, byte[] Value, int BufSize);
+    public void AU3_IniRead(WString Filename, WString Section, WString Key, WString Default, byte[] Value, int BufSize);
 
-    public int AU3_IniWrite(String Filename, String Section, String Key, String Value);
+    public int AU3_IniWrite(WString Filename, WString Section, WString Key, WString Value);
 
     public int AU3_IsAdmin();
 
-    public int AU3_MouseClick(String Button, int X, int Y, int Clicks, int Speed);
+    public int AU3_MouseClick(WString Button, int X, int Y, int Clicks, int Speed);
 
-    public int AU3_MouseClickDrag(String Button, int X1, int Y1, int X2, int Y2, int Speed);
+    public int AU3_MouseClickDrag(WString Button, int X1, int Y1, int X2, int Y2, int Speed);
 
-    public void AU3_MouseDown(String Button);
+    public void AU3_MouseDown(WString Button);
 
     public int AU3_MouseGetCursor();
 
@@ -108,11 +108,11 @@ public interface UAutoItXLib extends Library
 
     public int AU3_MouseMove(int X, int Y, int Speed);
 
-    public void AU3_MouseUp(String Button);
+    public void AU3_MouseUp(WString Button);
 
-    public void AU3_MouseWheel(String Direction, int Clicks);
+    public void AU3_MouseWheel(WString Direction, int Clicks);
 
-    public int AU3_Opt(String Option, int Value);
+    public int AU3_Opt(WString Option, int Value);
 
     public int AU3_PixelChecksum(int Left, int Top, int Right, int Bottom, int Step);
 
@@ -120,104 +120,104 @@ public interface UAutoItXLib extends Library
 
     public void AU3_PixelSearch(int Left, int Top, int Right, int Bottom, int Col, int Var, int Step, LPPOINT pPointResult);
 
-    public int AU3_ProcessClose(String Process);
+    public int AU3_ProcessClose(WString Process);
 
-    public int AU3_ProcessExists(String Process);
+    public int AU3_ProcessExists(WString Process);
 
-    public int AU3_ProcessSetPriority(String Process, int Priority);
+    public int AU3_ProcessSetPriority(WString Process, int Priority);
 
-    public int AU3_ProcessWait(String Process, int Timeout);
+    public int AU3_ProcessWait(WString Process, int Timeout);
 
-    public int AU3_ProcessWaitClose(String Process, int Timeout);
+    public int AU3_ProcessWaitClose(WString Process, int Timeout);
 
-    public int AU3_RegDeleteKey(String Keyname);
+    public int AU3_RegDeleteKey(WString Keyname);
 
-    public int AU3_RegDeleteVal(String Keyname, String Valuename);
+    public int AU3_RegDeleteVal(WString Keyname, WString Valuename);
 
-    public void AU3_RegEnumKey(String Keyname, int Instance, byte[] Result, int BufSize);
+    public void AU3_RegEnumKey(WString Keyname, int Instance, byte[] Result, int BufSize);
 
-    public void AU3_RegEnumVal(String Keyname, int Instance, byte[] Result, int BufSize);
+    public void AU3_RegEnumVal(WString Keyname, int Instance, byte[] Result, int BufSize);
 
-    public void AU3_RegRead(String Keyname, String Valuename, byte[] RetText, int BufSize);
+    public void AU3_RegRead(WString Keyname, WString Valuename, byte[] RetText, int BufSize);
 
-    public int AU3_RegWrite(String Keyname, String Valuename, String Type, String Value);
+    public int AU3_RegWrite(WString Keyname, WString Valuename, WString Type, WString Value);
 
-    public int AU3_Run(String Run, String Dir, int ShowFlags);
+    public int AU3_Run(WString Run, WString Dir, int ShowFlags);
 
-    public int AU3_RunAsSet(String User, String Domain, String Password, int Options);
+    public int AU3_RunAsSet(WString User, WString Domain, WString Password, int Options);
 
-    public int AU3_RunWait(String Run, String Dir, int ShowFlags);
+    public int AU3_RunWait(WString Run, WString Dir, int ShowFlags);
 
-    public void AU3_Send(String SendText, int Mode);
+    public void AU3_Send(WString SendText, int Mode);
 
     public int AU3_Shutdown(int Flags);
 
     public void AU3_Sleep(int Milliseconds);
 
-    public void AU3_StatusbarGetText(String Title, String Text, int Part, byte[] StatusText, int BufSize);
+    public void AU3_StatusbarGetText(WString Title, WString Text, int Part, byte[] StatusText, int BufSize);
 
-    public void AU3_ToolTip(String Tip, int X, int Y);
+    public void AU3_ToolTip(WString Tip, int X, int Y);
 
-    public int AU3_WinActive(String Title, String Text);
+    public int AU3_WinActive(WString Title, WString Text);
 
-    public void AU3_WinActivate(String Title, String Text);
+    public void AU3_WinActivate(WString Title, WString Text);
 
-    public int AU3_WinClose(String Title, String Text);
+    public int AU3_WinClose(WString Title, WString Text);
 
-    public int AU3_WinExists(String Title, String Text);
+    public int AU3_WinExists(WString Title, WString Text);
 
     public int AU3_WinGetCaretPosX();
 
     public int AU3_WinGetCaretPosY();
 
-    public void AU3_WinGetClassList(String Title, String Text, byte[] RetText, int BufSize);
+    public void AU3_WinGetClassList(WString Title, WString Text, byte[] RetText, int BufSize);
 
-    public int AU3_WinGetClientSizeHeight(String Title, String Text);
+    public int AU3_WinGetClientSizeHeight(WString Title, WString Text);
 
-    public int AU3_WinGetClientSizeWidth(String Title, String Text);
+    public int AU3_WinGetClientSizeWidth(WString Title, WString Text);
 
-    public void AU3_WinGetHandle(String Title, String Text, byte[] RetText, int BufSize);
+    public void AU3_WinGetHandle(WString Title, WString Text, byte[] RetText, int BufSize);
 
-    public int AU3_WinGetPosX(String Title, String Text);
+    public int AU3_WinGetPosX(WString Title, WString Text);
 
-    public int AU3_WinGetPosY(String Title, String Text);
+    public int AU3_WinGetPosY(WString Title, WString Text);
 
-    public int AU3_WinGetPosHeight(String Title, String Text);
+    public int AU3_WinGetPosHeight(WString Title, WString Text);
 
-    public int AU3_WinGetPosWidth(String Title, String Text);
+    public int AU3_WinGetPosWidth(WString Title, WString Text);
 
-    public void AU3_WinGetProcess(String Title, String Text, byte[] RetText, int BufSize);
+    public void AU3_WinGetProcess(WString Title, WString Text, byte[] RetText, int BufSize);
 
-    public int AU3_WinGetState(String Title, String Text);
+    public int AU3_WinGetState(WString Title, WString Text);
 
-    public void AU3_WinGetText(String Title, String Text, byte[] RetText, int BufSize);
+    public void AU3_WinGetText(WString Title, WString Text, byte[] RetText, int BufSize);
 
-    public void AU3_WinGetTitle(String Title, String Text, byte[] RetText, int BufSize);
+    public void AU3_WinGetTitle(WString Title, WString Text, byte[] RetText, int BufSize);
 
-    public int AU3_WinKill(String Title, String Text);
+    public int AU3_WinKill(WString Title, WString Text);
 
-    public int AU3_WinMenuSelectItem(String Title, String Text, String Item1, String Item2, String Item3, String Item4, String Item5, String Item6, String Item7, String Item8);
+    public int AU3_WinMenuSelectItem(WString Title, WString Text, WString Item1, WString Item2, WString Item3, WString Item4, WString Item5, WString Item6, WString Item7, WString Item8);
 
     public void AU3_WinMinimizeAll();
 
     public void AU3_WinMinimizeAllUndo();
 
-    public int AU3_WinMove(String Title, String Text, int X, int Y, int Width, int Height);
+    public int AU3_WinMove(WString Title, WString Text, int X, int Y, int Width, int Height);
 
-    public int AU3_WinSetOnTop(String Title, String Text, int Flag);
+    public int AU3_WinSetOnTop(WString Title, WString Text, int Flag);
 
-    public int AU3_WinSetState(String Title, String Text, int Flags);
+    public int AU3_WinSetState(WString Title, WString Text, int Flags);
 
-    public int AU3_WinSetTitle(String Title, String Text, String NewTitle);
+    public int AU3_WinSetTitle(WString Title, WString Text, WString NewTitle);
 
-    public int AU3_WinSetTrans(String Title, String Text, int Trans);
+    public int AU3_WinSetTrans(WString Title, WString Text, int Trans);
 
-    public int AU3_WinWait(String Title, String Text, int Timeout);
+    public int AU3_WinWait(WString Title, WString Text, int Timeout);
 
-    public int AU3_WinWaitActive(String Title, String Text, int Timeout);
+    public int AU3_WinWaitActive(WString Title, WString Text, int Timeout);
 
-    public int AU3_WinWaitClose(String Title, String Text, int Timeout);
+    public int AU3_WinWaitClose(WString Title, WString Text, int Timeout);
 
-    public int AU3_WinWaitNotActive(String Title, String Text, int Timeout);
+    public int AU3_WinWaitNotActive(WString Title, WString Text, int Timeout);
 
 }
