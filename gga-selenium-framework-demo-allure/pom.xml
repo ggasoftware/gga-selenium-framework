@@ -11,10 +11,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fw.version>1.0.2-SNAPSHOT</fw.version>
+        <fw.version>1.0.4-SNAPSHOT</fw.version>
         <testng_xml>testng.xml</testng_xml>
         <selenium.version>2.44.0</selenium.version>
-        <allure.version>1.4.4</allure.version>
+        <allure.version>1.4.5</allure.version>
         <aspectj.version>1.7.4</aspectj.version>
     </properties>
 

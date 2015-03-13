@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fw.version>1.0</fw.version>
+        <fw.version>1.0.4-SNAPSHOT</fw.version>
         <cucumber-jvm.version>1.2.2</cucumber-jvm.version>
         <testng_xml>testng.xml</testng_xml>
         <gems-directory>${project.build.directory}/gems</gems-directory>
@@ -79,5 +79,16 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>oss-sonatype</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>

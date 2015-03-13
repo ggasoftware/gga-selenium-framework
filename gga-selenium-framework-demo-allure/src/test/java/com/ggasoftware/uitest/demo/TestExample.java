@@ -42,6 +42,7 @@ public class TestExample extends TestBaseWebDriver {
         setBrowserType(browser);
         takePassedScreenshot(false);
         useAllure(true);
+        useReportPortal(true);
         initWebDriver();
         ReporterNGExt.logTechnical(String.format("    ===== Processing Test Pack %s =====", this.getClass().getSimpleName()));
         WebDriverWrapper.open(website);

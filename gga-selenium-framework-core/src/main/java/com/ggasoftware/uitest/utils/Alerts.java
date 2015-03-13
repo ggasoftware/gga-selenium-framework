@@ -107,27 +107,23 @@ public class Alerts {
      * Check that alert appeared at web page.
      *
      * @param timeoutSec to wait until alert is exists.
+     * @param checkCondition log assert for expected conditions.
      */
-    public static boolean waitForAlert(int timeoutSec) {
+    public static void waitForAlert(int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction("Alerts", "", "waitForAlert");
         long start = System.currentTimeMillis() / 1000;
         boolean exists = findAlert(timeoutSec);
         ReporterNGExt.logTechnical(String.format("waitForAlert: during: [ %d ] sec ", System.currentTimeMillis() / 1000 - start));
-        return exists;
+        if (checkCondition) {
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, exists, String.format("waitForAlert: alert should be exists"));
+        }
     }
-    /**
-     * Check that alert appeared at web page and assert.
-     *
-     * @param timeoutSec to wait until alert is exists.
-     */
-    public static void waitForAlertAndAssert(int timeoutSec) {
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, waitForAlert(timeoutSec), String.format("waitForAlert: alert should be exists"));
-    }
+
     /**
      * Check that alert appeared at web page.
      */
     public static void waitForAlert() {
-        waitForAlert(TIMEOUT);
+        waitForAlert(TIMEOUT, false);
     }
 
     /**
