@@ -16,7 +16,7 @@
 
     <properties>
         <selenium.version>[2.44.0,)</selenium.version>
-        <cucumber-jvm.version>1.1.8</cucumber-jvm.version>
+        <cucumber.version>1.1.8</cucumber.version>
         <allure.version>[1.4,)</allure.version>
         <aspectj.version>[1.7,)</aspectj.version>
         <fw.version>1.0.4-SNAPSHOT</fw.version>
@@ -47,6 +47,12 @@
             <groupId>ru.yandex.qatools.allure</groupId>
             <artifactId>allure-testng-adaptor</artifactId>
             <version>${allure.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>xml-apis</groupId>
@@ -56,6 +62,11 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
             <version>1.5.6</version>
         </dependency>
         <dependency>
@@ -73,13 +84,14 @@
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>${cucumber-jvm.version}</version>
+            <version>${cucumber.version}</version>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-testng</artifactId>
-            <version>${cucumber-jvm.version}</version>
+            <version>${cucumber.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>

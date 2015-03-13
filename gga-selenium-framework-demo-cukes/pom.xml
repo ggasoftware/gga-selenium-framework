@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fw.version>1.0.4-SNAPSHOT</fw.version>
-        <cucumber-jvm.version>1.2.2</cucumber-jvm.version>
+        <cucumber-jvm.version>1.1.8</cucumber-jvm.version>
         <testng_xml>testng.xml</testng_xml>
         <gems-directory>${project.build.directory}/gems</gems-directory>
     </properties>
