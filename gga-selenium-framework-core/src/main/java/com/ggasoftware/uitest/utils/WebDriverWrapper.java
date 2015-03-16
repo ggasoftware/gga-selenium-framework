@@ -550,15 +550,16 @@ public final class WebDriverWrapper {
      * @param title - Expected window title.
      */
     public static void waitForTitle(String title) {
-        waitForTitle(title, TIMEOUT);
+        waitForTitle(title, TIMEOUT, false);
     }
     /**
      * Wait until windows has title.
      *
      * @param timeoutSec to wait until windows has title.
      * @param title - Expected window title.
+     * @param checkCondition log assert for expected conditions.
      */
-    public static void waitForTitle(String title, int timeoutSec) {
+    public static void waitForTitle(String title, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitle: %s", title));
         long start = System.currentTimeMillis()/1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
@@ -568,7 +569,9 @@ public final class WebDriverWrapper {
         }catch (TimeoutException ignored){
             ReporterNGExt.logTechnical(String.format("waitForTitle: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
         }
-        ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitle", TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitle", TestBaseWebDriver.takePassedScreenshot);
+        }
     }
     /**
      * Wait until windows title contains text.
@@ -576,7 +579,7 @@ public final class WebDriverWrapper {
      * @param title - Expected window title contains text.
      */
     public static void waitForTitleContains(String title) {
-        waitForTitleContains(title, TIMEOUT);
+        waitForTitleContains(title, TIMEOUT, false);
     }
     /**
      * Wait until windows title contains text.
@@ -584,7 +587,7 @@ public final class WebDriverWrapper {
      * @param timeoutSec to wait until windows title contains text.
      * @param title - Expected window title contains text.
      */
-    public static void waitForTitleContains(String title, int timeoutSec) {
+    public static void waitForTitleContains(String title, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitleContains: %s", title));
         long start = System.currentTimeMillis()/1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
@@ -594,7 +597,9 @@ public final class WebDriverWrapper {
         }catch (TimeoutException ignored){
             ReporterNGExt.logTechnical(String.format("waitForTitleContains: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
         }
-        ReporterNGExt.logAssertContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleContains", TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleContains", TestBaseWebDriver.takePassedScreenshot);
+        }
     }
     /**
      * Wait until windows title not contains text.
@@ -602,15 +607,16 @@ public final class WebDriverWrapper {
      * @param title - Expected window title not contains text.
      */
     public static void waitForTitleNotContains(String title) {
-        waitForTitleNotContains(title, TIMEOUT);
+        waitForTitleNotContains(title, TIMEOUT, false);
     }
     /**
      * Wait until windows title not contains text.
      *
      * @param timeoutSec to wait until windows title not contains text.
      * @param title - Expected window title not contains text.
+     * @param checkCondition log assert for expected conditions.
      */
-    public static void waitForTitleNotContains(String title, int timeoutSec) {
+    public static void waitForTitleNotContains(String title, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitleNotContains: %s", title));
         long start = System.currentTimeMillis()/1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
@@ -620,7 +626,9 @@ public final class WebDriverWrapper {
         }catch (TimeoutException ignored){
             ReporterNGExt.logTechnical(String.format("waitForTitleNotContains: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
         }
-        ReporterNGExt.logAssertNotContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleNotContains", TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertNotContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleNotContains", TestBaseWebDriver.takePassedScreenshot);
+        }
     }
 
     /**
@@ -629,7 +637,7 @@ public final class WebDriverWrapper {
      * @param title before change
      */
     public static void waitForTitleChanged(final String title) {
-        waitForTitleChanged(title, TIMEOUT);
+        waitForTitleChanged(title, TIMEOUT, false);
     }
 
     /**
@@ -638,7 +646,7 @@ public final class WebDriverWrapper {
      * @param title before change
      * @param timeoutSec seconds to wait until element is changed text
      */
-    public static void waitForTitleChanged(final String title, int timeoutSec) {
+    public static void waitForTitleChanged(final String title, int timeoutSec, boolean checkCondition) {
         boolean isChanged;
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitleChanged: %s", title));
         long start = System.currentTimeMillis() / 1000;
@@ -650,7 +658,9 @@ public final class WebDriverWrapper {
             ReporterNGExt.logTechnical(String.format("waitForTitleChanged: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTitleChanged: title '%s' should be changed", title), TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTitleChanged: title '%s' should be changed", title), TestBaseWebDriver.takePassedScreenshot);
+        }
     }
 
     /**
@@ -659,15 +669,16 @@ public final class WebDriverWrapper {
      * @param text - element text to be presents..
      */
     public static void waitForTextToBePresent(String text) {
-        waitForTextToBePresent(text, TIMEOUT);
+        waitForTextToBePresent(text, TIMEOUT, false);
     }
     /**
      * Wait until any element with text presents at web page.
      *
      * @param text - element text to be presents.
      * @param timeoutSec to wait until presents.
+     * @param checkCondition log assert for expected conditions.
      */
-    public static void waitForTextToBePresent(String text, int timeoutSec) {
+    public static void waitForTextToBePresent(String text, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForTextToBePresent: %s", text));
         boolean isPresent;
         long start = System.currentTimeMillis()/1000;
@@ -681,7 +692,9 @@ public final class WebDriverWrapper {
             isPresent = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextToBePresent: element with text '%s' should be exists", text), TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextToBePresent: element with text '%s' should be exists", text), TestBaseWebDriver.takePassedScreenshot);
+        }
     }
     /**
      * Wait until any element with text not presents at web page.
@@ -689,15 +702,16 @@ public final class WebDriverWrapper {
      * @param text - element text to not be presents.
      */
     public static void waitForTextToNotBePresent(String text) {
-        waitForTextToNotBePresent(text, TIMEOUT);
+        waitForTextToNotBePresent(text, TIMEOUT, false);
     }
     /**
      * Wait until any element with text not presents at web page.
      *
      * @param text - element text to not be presents.
      * @param timeoutSec to wait until not presents.
+     * @param checkCondition log assert for expected conditions.
      */
-    public static void waitForTextToNotBePresent(String text, int timeoutSec) {
+    public static void waitForTextToNotBePresent(String text, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForTextToNotBePresent: %s", text));
         boolean isNotPresent;
         long start = System.currentTimeMillis()/1000;
@@ -711,7 +725,9 @@ public final class WebDriverWrapper {
             isNotPresent = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForTextToNotBePresent: element with text '%s' should not be exists", text), TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForTextToNotBePresent: element with text '%s' should not be exists", text), TestBaseWebDriver.takePassedScreenshot);
+        }
     }
     /**
      * Wait until link presents at web page.
@@ -719,15 +735,16 @@ public final class WebDriverWrapper {
      * @param linkText - link to be presents.
      */
     public static void waitForLinkToBePresent(String linkText) {
-        waitForLinkToBePresent(linkText, TIMEOUT);
+        waitForLinkToBePresent(linkText, TIMEOUT, false);
     }
     /**
      * Wait until link presents at web page.
      *
      * @param linkText - linkText to be presents.
      * @param timeoutSec to wait until presents.
+     * @param checkCondition log assert for expected conditions.
      */
-    public static void waitForLinkToBePresent(String linkText, int timeoutSec) {
+    public static void waitForLinkToBePresent(String linkText, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForLinkToBePresent: %s", linkText));
         boolean isPresent;
         long start = System.currentTimeMillis()/1000;
@@ -742,7 +759,9 @@ public final class WebDriverWrapper {
             isPresent = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForLinkToBePresent: link with text '%s' should be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForLinkToBePresent: link with text '%s' should be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
+        }
     }
     /**
      * Wait until link not presents at web page.
@@ -750,15 +769,16 @@ public final class WebDriverWrapper {
      * @param linkText - link to not be presents.
      */
     public static void waitForLinkToNotBePresent(String linkText) {
-        waitForLinkToNotBePresent(linkText, TIMEOUT);
+        waitForLinkToNotBePresent(linkText, TIMEOUT, false);
     }
     /**
      * Wait until link not presents at web page.
      *
      * @param linkText - linkText to not be presents.
      * @param timeoutSec to wait until not presents.
+     * @param checkCondition log assert for expected conditions.
      */
-    public static void waitForLinkToNotBePresent(String linkText, int timeoutSec) {
+    public static void waitForLinkToNotBePresent(String linkText, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForLinkToNotBePresent: %s", linkText));
         boolean isNotPresent;
         long start = System.currentTimeMillis()/1000;
@@ -772,7 +792,9 @@ public final class WebDriverWrapper {
             isNotPresent = false;
         }
         setTimeout(TIMEOUT);
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForLinkToNotBePresent: link with text '%s' should not be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForLinkToNotBePresent: link with text '%s' should not be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
+        }
     }
     /**
      * Wait until native window is not exists.
@@ -780,15 +802,16 @@ public final class WebDriverWrapper {
      * @param title of native window
      */
     public static void waitForNativeWindow(final String title) {
-        waitForNativeWindow(title, TIMEOUT);
+        waitForNativeWindow(title, TIMEOUT, false);
     }
     /**
      * Wait until native window is not exists.
      *
      * @param title of native window
      * @param timeoutSec to wait until native window is not exists.
+     * @param checkCondition log assert for expected conditions.
      */
-    public static void waitForNativeWindow(final String title, int timeoutSec) {
+    public static void waitForNativeWindow(final String title, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForNativeWindow: %s", title));
         boolean isPresent;
         long start = System.currentTimeMillis()/1000;
@@ -807,7 +830,9 @@ public final class WebDriverWrapper {
             ReporterNGExt.logTechnical(String.format("waitForNativeWindow: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForNativeWindow: native window '%s' should be exists", title), TestBaseWebDriver.takePassedScreenshot);
+        if (checkCondition) {
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForNativeWindow: native window '%s' should be exists", title), TestBaseWebDriver.takePassedScreenshot);
+        }
     }
 
 
