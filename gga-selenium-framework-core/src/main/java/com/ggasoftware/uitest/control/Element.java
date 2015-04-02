@@ -16,7 +16,6 @@ package com.ggasoftware.uitest.control;
 import com.ggasoftware.uitest.utils.PropertyReader;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.TestBaseWebDriver;
-import com.thoughtworks.selenium.condition.Not;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -972,7 +971,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForTextContains(String text, int timeoutSec, boolean checkCondition) {
         boolean isPresent;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForText[%s]: %s", text, locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForTextContains[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
         final WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
@@ -1112,7 +1111,7 @@ public class Element<ParentPanel> {
      * @return WebElement
      */
     public WebElement getVisibleWebElement() {
-        Elements elements = new Elements<ParentPanel>(name, locator, parent);
+        Elements elements = new Elements<>(name, locator, parent);
         return elements.getVisibleWebElement();
     }
 

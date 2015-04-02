@@ -1,29 +1,28 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p/>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p/>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.utils;
 
-import com.sun.xml.bind.v2.TODO;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.asserts.SoftAssert;
-import sun.rmi.runtime.Log;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -33,13 +32,13 @@ import java.util.Collections;
  * @author Zharov Alexandr
  * @author Zhukov Anatoliy
  */
-public class TestBaseWebDriver extends TestBase{
+public class TestBaseWebDriver extends TestBase {
 
     public static WebDriver driver;
     public static String browserType = "chrome";
     public static boolean grid = false;
     public static String gridHub = "http://localhost:4444/wd/hub";
-    public static String screenshotDirectory = "target/surefire-reports/html/screenshots";
+    public static final String screenshotDirectory = "target/surefire-reports/html/screenshots";
     public static boolean simpleClassName = true;
     public static boolean takePassedScreenshot = false;
     public static boolean logFindElementLocator = true;
@@ -76,7 +75,7 @@ public class TestBaseWebDriver extends TestBase{
     /**
      * Take screenshots at passed assertion.
      *
-     * @param takeScreenshot - true for taking screenshorts at passed assection.
+     * @param takeScreenshot - true for taking screenshots at passed assertion.
      */
     public static void takePassedScreenshot(boolean takeScreenshot) {
         takePassedScreenshot = takeScreenshot;
@@ -94,7 +93,7 @@ public class TestBaseWebDriver extends TestBase{
     /**
      * Use allure framework.
      *
-     * @param useAllure - true for useing allure framework.
+     * @param useAllure - true for using allure framework.
      */
     public static void useAllure(boolean useAllure) {
         allure = useAllure;
@@ -103,7 +102,7 @@ public class TestBaseWebDriver extends TestBase{
     /**
      * Use Reportportal framework.
      *
-     * @param useReportPortal - true for useing ReportPortal framework.
+     * @param useReportPortal - true for using ReportPortal framework.
      */
     public static void useReportPortal(boolean useReportPortal) {
         reportportal = useReportPortal;
@@ -119,13 +118,13 @@ public class TestBaseWebDriver extends TestBase{
         logFindElementLocator = loggingLocator;
     }
 
-     /**
+    /**
      * WebDriver initialization.
      */
     public void initWebDriver() {
-        if (grid){
+        if (grid) {
             initWebDriverGrid();
-        }else {
+        } else {
             switch (browserType) {
                 case "safari":
                     WebDriverWrapper.initSafariDriver();
@@ -197,6 +196,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertEquals(Object value, Object expectedValue, String message) {
         assertEquals(value, expectedValue, message, takePassedScreenshot);
     }
+
     /**
      * assertEquals by ReporterNGExt
      *
@@ -207,7 +207,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertEquals(Object value, Object expectedValue, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertEquals(value, expectedValue, message);
         }
     }
@@ -222,10 +222,11 @@ public class TestBaseWebDriver extends TestBase{
     @Override
     public void assertNotEquals(Object value, Object notExpectedValue, String message) {
         assertNotEquals(value, notExpectedValue, message, takePassedScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertNotEquals(value, notExpectedValue, message);
         }
     }
+
     /**
      * assertNotEquals by ReporterNGExt
      *
@@ -236,7 +237,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertNotEquals(Object value, Object notExpectedValue, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertNotEquals(ReporterNGExt.BUSINESS_LEVEL, value, notExpectedValue, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertNotEquals(value, notExpectedValue, message);
         }
     }
@@ -251,6 +252,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertArrayListEquals(ArrayList<String> value, ArrayList<String> expectedValue, String message) {
         assertArrayListEquals(value, expectedValue, message, takePassedScreenshot);
     }
+
     /**
      * assertArrayListEquals by ReporterNGExt
      *
@@ -261,7 +263,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertArrayListEquals(ArrayList<String> value, ArrayList<String> expectedValue, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertArrayListEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertEquals(value, expectedValue, message);
         }
     }
@@ -277,6 +279,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertEquals(String[] value, String[] expectedValue, String message) {
         assertEquals(value, expectedValue, message, takePassedScreenshot);
     }
+
     /**
      * assertEquals by ReporterNGExt
      *
@@ -287,7 +290,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertEquals(String[] value, String[] expectedValue, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, value, expectedValue, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertEquals(value, expectedValue, message);
         }
     }
@@ -301,10 +304,11 @@ public class TestBaseWebDriver extends TestBase{
     @Override
     public void assertTrue(boolean what, String message) {
         assertTrue(what, message, takePassedScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertTrue(what, message);
         }
     }
+
     /**
      * assertTrue by ReporterNGExt
      *
@@ -314,7 +318,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertTrue(boolean what, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertTrue(what, message);
         }
     }
@@ -329,6 +333,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertFalse(boolean what, String message) {
         assertFalse(what, message, takePassedScreenshot);
     }
+
     /**
      * assertFalse by ReporterNGExt
      *
@@ -338,7 +343,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertFalse(boolean what, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertFalse(what, message);
         }
     }
@@ -354,6 +359,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertContains(String toSearchIn, String whatToSearch, String message) {
         assertContains(toSearchIn, whatToSearch, message, takePassedScreenshot);
     }
+
     /**
      * logAssertContains by ReporterNGExt
      *
@@ -364,7 +370,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertContains(String toSearchIn, String whatToSearch, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertContains(ReporterNGExt.BUSINESS_LEVEL, toSearchIn, whatToSearch, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             if (!toSearchIn.contains(whatToSearch)) {
                 Assert.fail(String.format("assertContains: %s: <br> Expected: %s.<br> Actual: %s", message, toSearchIn, whatToSearch));
             }
@@ -381,6 +387,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertNotContains(String toSearchIn, String whatToSearch, String message) {
         assertNotContains(toSearchIn, whatToSearch, message, takePassedScreenshot);
     }
+
     /**
      * assertNotContains by ReporterNGExt
      *
@@ -391,7 +398,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertNotContains(String toSearchIn, String whatToSearch, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertNotContains(ReporterNGExt.BUSINESS_LEVEL, toSearchIn, whatToSearch, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             if (toSearchIn.contains(whatToSearch)) {
                 Assert.fail(String.format("assertNotContains: %s: <br> Expected: %s.<br> Actual: %s", message, toSearchIn, whatToSearch));
             }
@@ -408,6 +415,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertNull(Object what, String message) {
         assertNull(what, message, takePassedScreenshot);
     }
+
     /**
      * assertNull by ReporterNGExt
      *
@@ -417,7 +425,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertNull(Object what, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertNull(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertNull(what, message);
         }
     }
@@ -432,6 +440,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertNotNull(Object what, String message) {
         assertNotNull(what, message, takePassedScreenshot);
     }
+
     /**
      * assertNotNull by ReporterNGExt
      *
@@ -441,7 +450,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertNotNull(Object what, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertNotNull(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertNotNull(what, message);
         }
     }
@@ -456,6 +465,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertEmpty(String what, String message) {
         assertEmpty(what, message, takePassedScreenshot);
     }
+
     /**
      * assertEmpty by ReporterNGExt
      *
@@ -465,7 +475,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertEmpty(String what, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertEmpty(ReporterNGExt.BUSINESS_LEVEL, what, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             Assert.assertEquals(what, "", message);
         }
     }
@@ -481,6 +491,7 @@ public class TestBaseWebDriver extends TestBase{
     public void assertNotIntersect(String[] firstArray, String[] secondArray, String message) {
         assertNotIntersect(firstArray, secondArray, message, takePassedScreenshot);
     }
+
     /**
      * assertNotIntersect by ReporterNGExt
      *
@@ -491,14 +502,14 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertNotIntersect(String[] firstArray, String[] secondArray, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertNotIntersect(ReporterNGExt.BUSINESS_LEVEL, firstArray, secondArray, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             ArrayList<String> secondArrayList = new ArrayList<>();
             ArrayList<String> firstArrayList = new ArrayList<>();
             Collections.addAll(secondArrayList, secondArray);
             Collections.addAll(firstArrayList, firstArray);
             if (firstArrayList.removeAll(secondArrayList)) {
                 Collections.addAll(firstArrayList, firstArray);
-                Assert.fail(String.format("assertNotIntersect: %s: <br> Expected: %s.<br> Actual: %s", message, firstArrayList.toString(), secondArray.toString()));
+                Assert.fail(String.format("assertNotIntersect: %s: <br> Expected: %s.<br> Actual: %s", message, firstArrayList.toString(), Arrays.toString(secondArray)));
             }
         }
     }
@@ -514,9 +525,10 @@ public class TestBaseWebDriver extends TestBase{
     public void assertMatch(String value, String regExp, String message) {
         assertMatch(value, regExp, message, takePassedScreenshot);
     }
+
     /**
      * assertMatch by ReporterNGExt
-     * 
+     *
      * @param value - analyzed text
      * @param regExp - regular expression
      * @param message - log message text
@@ -524,7 +536,7 @@ public class TestBaseWebDriver extends TestBase{
      */
     public void assertMatch(String value, String regExp, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertMatch(ReporterNGExt.BUSINESS_LEVEL, value, regExp, message, takeScreenshot);
-        if (allure){
+        if (allure) {
             if (!value.matches(regExp)) {
                 Assert.fail(String.format("assertMatch: %s: <br> Expected: %s.<br> Actual: %s", message, regExp, value));
             }
@@ -534,7 +546,7 @@ public class TestBaseWebDriver extends TestBase{
     /**
      * Use it for taking screenshots.
      *
-     * @param message - Screenshort message.
+     * @param message - Screenshot message.
      */
     protected void logBusinessScreenshot(String message) {
         ReporterNGExt.logBusiness(ScreenShotMaker.takeScreenshotRemote(message));

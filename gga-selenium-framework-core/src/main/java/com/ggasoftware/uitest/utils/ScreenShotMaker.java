@@ -41,7 +41,7 @@ public final class ScreenShotMaker {
     /**
      * Set ScreenShotMaker path
      *
-     * @param sPath - to take screenshorts
+     * @param sPath - to take screenshots
      */
     public static void setPath(String sPath) {
         ScreenShotMaker.dir = "." + sPath.substring(sPath.lastIndexOf("/")) + "/";

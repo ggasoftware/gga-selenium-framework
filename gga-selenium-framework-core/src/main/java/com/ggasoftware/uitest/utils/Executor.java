@@ -25,7 +25,7 @@ public final class Executor {
     private Executor(){}
 
     /**
-     *   Executes the specified string command with PAREMETERS in a separate process.
+     *   Executes the specified string command with parameters in a separate process.
      *
      *   @param path - path where file for execution is located
      *   @param command - command file for execution (ex.: cmd.exe)

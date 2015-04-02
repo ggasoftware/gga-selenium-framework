@@ -33,7 +33,7 @@ public class WebDriverInvokedMethodListener extends InvokedMethodListener {
             if (!TestBase.getPassed()) {
                 boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
                 ScreenShotMaker.hasTake(true);
-                ReporterNGExt.logBusinessScreenshot("Error Occured!");
+                ReporterNGExt.logBusinessScreenshot("Error Occurred!");
                 ScreenShotMaker.hasTake(hasOldValue);
             }
             else {

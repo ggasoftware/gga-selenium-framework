@@ -1,6 +1,6 @@
 package com.ggasoftware.uitest.cuke;
 
-import org.testng.annotations.Test;
+import com.ggasoftware.uitest.utils.ReporterNGExt;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,8 +24,10 @@ public class CukeBuilder {
 
         if (featurePath.isDirectory()) {
             File[] list = featurePath.listFiles();
-            for (File file : list) {
-                features.addAll(getFeatures(new File(file.getAbsolutePath())));
+            if (list!=null) {
+                for (File file : list) {
+                    features.addAll(getFeatures(new File(file.getAbsolutePath())));
+                }
             }
         } else {
             if (featurePath.getName().endsWith(".feature")) {
@@ -51,9 +53,12 @@ public class CukeBuilder {
      * @return List of features tests
      */
     public Object[] Run(String tags) {
+
+        ReporterNGExt.logBusiness(String.format("Run Cucumber features with tags: %s", tags));
         CukeTestImpl test;
 
         List<Object> tests = new ArrayList<>();
+
         List<String> features = getFeatures(new File("src/test/resources/features"));
         for (String feature : features) {
 
@@ -63,7 +68,5 @@ public class CukeBuilder {
 
         return tests.toArray();
     }
-
-
 
 }

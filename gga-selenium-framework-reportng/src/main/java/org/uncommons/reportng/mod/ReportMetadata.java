@@ -160,7 +160,7 @@ public final class ReportMetadata
         String host = "Unknown";
         try {
             host = InetAddress.getLocalHost().getHostName();
-        }catch (UnknownHostException e){
+        }catch (UnknownHostException ignored){
         }
         return user + '@' + host;
     }

@@ -133,9 +133,9 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
     }
 
     /**
-     * Returns the lenght of array.
+     * Returns the length of array.
      * @param array Array of string.
-     * @return Lenght of array.
+     * @return Length of array.
      */
     public int getStringArrayLength(String[] array) {
         if (array != null) {
@@ -275,7 +275,7 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
     }
 
     /**
-     * Returns the list after checking screenshort info.
+     * Returns the list after checking screenshot info.
      *
      * @param s String from log.
      * @return List of log string.

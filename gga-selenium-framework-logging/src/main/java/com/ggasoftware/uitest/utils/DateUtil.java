@@ -32,7 +32,7 @@ public final class DateUtil {
 
     private DateUtil(){}
 
-    public static final String DATE_FORMAT_NOW = "yyyy-MM-dd_HH-mm-ss-SSS";
+    private static final String DATE_FORMAT_NOW = "yyyy-MM-dd_HH-mm-ss-SSS";
 
     /**
      * Get time now

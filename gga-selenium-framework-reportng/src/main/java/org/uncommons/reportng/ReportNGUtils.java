@@ -99,7 +99,7 @@ public class ReportNGUtils
      */
     public List<Throwable> getCauses(Throwable t)
     {
-        List<Throwable> causes = new LinkedList<Throwable>();
+        List<Throwable> causes = new LinkedList<>();
         Throwable next = t;
         while (next.getCause() != null)
         {
@@ -141,7 +141,7 @@ public class ReportNGUtils
     public String getArguments(ITestResult result)
     {
         Object[] arguments = result.getParameters();
-        List<String> argumentStrings = new ArrayList<String>(arguments.length);
+        List<String> argumentStrings = new ArrayList<>(arguments.length);
         for (Object argument : arguments)
         {
             argumentStrings.add(renderArgument(argument));

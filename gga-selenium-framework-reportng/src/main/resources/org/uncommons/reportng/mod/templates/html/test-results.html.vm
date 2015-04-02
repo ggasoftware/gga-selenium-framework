@@ -84,7 +84,7 @@
             <span class="timeStamp">$timeStamp</span>
         #end
         #if ($step_class != "levelLog0" and $expandable and !$screenshot)
-            <span id="toggle-${step_id}" class="toggle">&#x25b6;</span>
+            <span id="toggles" class="toggle">&#x25b6;</span>
         #end
 
         #if ($screenshot)
@@ -105,11 +105,11 @@
     #end
 
     #if ($testResult.throwable && ( $testResult.status == 2 || $meta.shouldShowExpectedExceptions()))
-    <a href="javascript:toggleElement('exception-$id', 'block')" title="$messages.getString("clickToExpandCollapse")">
+    <a href="javascript:toggleElement('exception-$id', 'block')" title="$messages.getString('clickToExpandCollapse')">
         <b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b>
     </a>
     <br />
-    <div class="stackTrace" id="exception-$id">
+    <div class="stackTrace" id="exceptions">
       #foreach ($element in $testResult.throwable.stackTrace)
         $utils.escapeHTMLString( $element.toString() )<br />
       #end

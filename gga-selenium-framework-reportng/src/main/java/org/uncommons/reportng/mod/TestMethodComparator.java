@@ -20,7 +20,7 @@ import org.testng.ITestNGMethod;
 import java.util.Comparator;
 
 /**
- * Comparator for sorting TestNG test methods.  Sorts method alphabeticaly
+ * Comparator for sorting TestNG test methods.  Sorts method alphabetically
  * (first by fully-qualified class name, then by method name).
  * @author Daniel Dyer
  */

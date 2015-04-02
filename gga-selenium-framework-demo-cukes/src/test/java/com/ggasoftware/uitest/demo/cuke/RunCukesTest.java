@@ -1,10 +1,12 @@
 package com.ggasoftware.uitest.demo.cuke;
 
 import com.ggasoftware.uitest.cuke.CukeBuilder;
+import com.ggasoftware.uitest.utils.ReporterNGExt;
+import cucumber.api.Scenario;
+import cucumber.api.java.Before;
 import org.testng.annotations.Factory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Class for run cucumber features scenarios.

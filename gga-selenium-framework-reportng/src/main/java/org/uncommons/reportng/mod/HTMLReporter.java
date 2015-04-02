@@ -370,13 +370,13 @@ public class HTMLReporter extends AbstractReporter
      */ 
     private SortedMap<IClass, List<ITestResult>> sortByTestClass(IResultMap results)
     {
-        SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<IClass, List<ITestResult>>(CLASS_COMPARATOR);
+        SortedMap<IClass, List<ITestResult>> sortedResults = new TreeMap<>(CLASS_COMPARATOR);
         for (ITestResult result : results.getAllResults())
         {
             List<ITestResult> resultsForClass = sortedResults.get(result.getTestClass());
             if (resultsForClass == null)
             {
-                resultsForClass = new ArrayList<ITestResult>();
+                resultsForClass = new ArrayList<>();
                 sortedResults.put(result.getTestClass(), resultsForClass);
             }
             int index = Collections.binarySearch(resultsForClass, result, RESULT_COMPARATOR);
@@ -440,10 +440,10 @@ public class HTMLReporter extends AbstractReporter
      */
     private SortedMap<String, SortedSet<ITestNGMethod>> sortGroups(Map<String, Collection<ITestNGMethod>> groups)
     {
-        SortedMap<String, SortedSet<ITestNGMethod>> sortedGroups = new TreeMap<String, SortedSet<ITestNGMethod>>();
+        SortedMap<String, SortedSet<ITestNGMethod>> sortedGroups = new TreeMap<>();
         for (Map.Entry<String, Collection<ITestNGMethod>> entry : groups.entrySet())
         {
-            SortedSet<ITestNGMethod> methods = new TreeSet<ITestNGMethod>(METHOD_COMPARATOR);
+            SortedSet<ITestNGMethod> methods = new TreeSet<>(METHOD_COMPARATOR);
             methods.addAll(entry.getValue());
             sortedGroups.put(entry.getKey(), methods);
         }

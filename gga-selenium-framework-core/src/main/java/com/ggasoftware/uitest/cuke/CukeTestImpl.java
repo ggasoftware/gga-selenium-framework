@@ -1,8 +1,6 @@
 package com.ggasoftware.uitest.cuke;
 
 import com.ggasoftware.uitest.utils.ReporterNGExt;
-import cucumber.api.CucumberOptions;
-import cucumber.api.testng.TestNgReporter;
 import cucumber.runtime.ClassFinder;
 import cucumber.runtime.CucumberException;
 import cucumber.runtime.RuntimeOptions;
@@ -15,9 +13,6 @@ import org.testng.ITest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 /**
  * Cucumber test implementation.
@@ -26,14 +21,14 @@ import java.util.List;
  */
 public class CukeTestImpl implements ITest {
 
-    private String feature;
-    private String tags;
+    private final String feature;
+    private final String tags;
     private cucumber.runtime.Runtime runtime;
 
     public CukeTestImpl(String feature, String tags) {
         this.feature = feature;
         this.tags = tags;
-        runtime = null;
+        this.runtime = null;
     }
 
     @Override
@@ -47,7 +42,7 @@ public class CukeTestImpl implements ITest {
         ClassLoader classLoader = getClass().getClassLoader();
         ResourceLoader resourceLoader = new MultiLoader(classLoader);
 
-        RuntimeOptionsFactory roFactory = new RuntimeOptionsFactory(getClass(), new Class[]{CucumberOptions.class});
+        RuntimeOptionsFactory roFactory = new RuntimeOptionsFactory(getClass());
 
         RuntimeOptions ro = roFactory.create();
 
@@ -58,22 +53,23 @@ public class CukeTestImpl implements ITest {
         ro.getFeaturePaths().add(feature);
 
         if (!tags.isEmpty()) {
-            ro.getFilters().add(tags);
+            for(String s:tags.split("--tags")){
+                if (!s.trim().isEmpty()) {
+                    ro.getFilters().add(s.trim());
+                }
+            }
         }
 
-        TestNgReporter reporter = new TestNgReporter(System.out);
-        ro.addFormatter(reporter);
         ClassFinder classFinder = new ResourceLoaderClassFinder(resourceLoader, classLoader);
         runtime = new cucumber.runtime.Runtime(resourceLoader, classFinder, classLoader, ro);
-
         try {
-            ReporterNGExt.logBusiness(String.format("Cucumber --tags: %s", tags));
+            ReporterNGExt.logBusiness(String.format("Run Feature - %s", feature));
             runtime.run();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        runtime.printSummary();
         if (!runtime.getErrors().isEmpty()) {
+            ReporterNGExt.logBusiness(runtime.getErrors().toString());
             throw new CucumberException(runtime.getErrors().get(0));
         }
 

@@ -56,7 +56,7 @@ public final class FileUtil {
      *
      * @return
      * - true if file exists and
-     * - false if file absense default directory(path) for downloaded files
+     * - false if file absence default directory(path) for downloaded files
      * - true if and only if the file denoted by this abstract pathname exists and is a normal file;
      * - false otherwise
      */

@@ -30,7 +30,7 @@ public abstract class TestBase {
         PropertyReader.getProperties(properties, this.getClass().getName());
     }
 
-    public static enum ATTRIBUTES {
+    public enum ATTRIBUTES {
         ATTRIBUTE_BUG("bug"),
         ATTRIBUTE_NAME("name"),
         ATTRIBUTE_FAILED_MESSAGE("failedMessage"),

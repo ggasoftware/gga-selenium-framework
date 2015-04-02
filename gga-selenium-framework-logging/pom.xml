@@ -4,18 +4,18 @@
     <parent>
         <groupId>com.ggasoftware.uitest</groupId>
         <artifactId>gga-selenium-framework</artifactId>
-        <version>1.0.4-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
-    <groupId>com.ggasoftware.uitest</groupId>
     <artifactId>gga-selenium-framework-logging</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <name>gga-selenium-framework-logging</name>
     <packaging>jar</packaging>
 
     <properties>
-        <selenium.version>[2.44.0,)</selenium.version>
+        <selenium.version>[2.45.0,)</selenium.version>
+        <testng.version>[6.8.21,)</testng.version>
     </properties>
 
     <dependencies>
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.8.8</version>
+            <version>${testng.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

@@ -94,7 +94,7 @@ public class JUnitXMLReporter extends AbstractReporter
      */
     private Collection<TestClassResults> flattenResults(List<ISuite> suites)
     {
-        Map<IClass, TestClassResults> flattenedResults = new HashMap<IClass, TestClassResults>();
+        Map<IClass, TestClassResults> flattenedResults = new HashMap<>();
         for (ISuite suite : suites)
         {
             for (ISuiteResult suiteResult : suite.getResults().values())
@@ -146,9 +146,9 @@ public class JUnitXMLReporter extends AbstractReporter
     public static final class TestClassResults
     {
         private final IClass testClass;
-        private final Collection<ITestResult> failedTests = new LinkedList<ITestResult>();
-        private final Collection<ITestResult> skippedTests = new LinkedList<ITestResult>();
-        private final Collection<ITestResult> passedTests = new LinkedList<ITestResult>();
+        private final Collection<ITestResult> failedTests = new LinkedList<>();
+        private final Collection<ITestResult> skippedTests = new LinkedList<>();
+        private final Collection<ITestResult> passedTests = new LinkedList<>();
 
         private long duration = 0;
 

@@ -115,7 +115,7 @@ public class Alerts {
         boolean exists = findAlert(timeoutSec);
         ReporterNGExt.logTechnical(String.format("waitForAlert: during: [ %d ] sec ", System.currentTimeMillis() / 1000 - start));
         if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, exists, String.format("waitForAlert: alert should be exists"));
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, exists, "waitForAlert: alert should be exists");
         }
     }
 
@@ -152,7 +152,7 @@ public class Alerts {
         findAndAcceptAlert(TIMEOUT);
     }
     /**
-     * Wait for alert exists and dissmis.
+     * Wait for alert exists and dismiss.
      *
      * @param timeoutSec to wait until alert is exists.
      */
@@ -162,7 +162,7 @@ public class Alerts {
         }
     }
     /**
-     * Wait for alert exists and dissmis.
+     * Wait for alert exists and dismiss.
      */
     public static void findAndDismissAlert(){
         findAndDismissAlert(TIMEOUT);

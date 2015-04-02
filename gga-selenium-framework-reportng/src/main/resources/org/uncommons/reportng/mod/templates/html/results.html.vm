@@ -16,7 +16,7 @@
     <body onload="checkCookie()">
 <h1>$result.testContext.name</h1>
 <p>
-  Time stamp: <img src="timeStampOff.png" onclick="toggleTimeStamp()" title="Time stamp switch" id="timeStampSwitch" alt="switch"></img>
+  Time stamp: <img src="timeStampOff.png" onclick="toggleTimeStamp()" title="Time stamp switch" id="timeStampSwitch" alt="switch" />
   $messages.getString("testDuration"): $utils.formatDuration($utils.getDuration($result.testContext))s
 </p>
 
@@ -27,7 +27,7 @@
     #set ($id = 0)
     #foreach ($testClass in $failedConfigurations.keySet())
       <tr class="group">
-          <td colspan="3" class="group">$testClass.name</br></td>
+          <td colspan="3" class="group">$testClass.name</td>
       </tr>
       #set ($classResults = $failedConfigurations.get($testClass))
       #parse("org/uncommons/reportng/mod/templates/html/class-results.html.vm")
@@ -40,7 +40,7 @@
       #foreach ($testClass in $skippedConfigurations.keySet())
         <tr>
             #set ($testClassname = $testClass.name)
-          <td colspan="3" class="group">$testClass.name</br></td>
+          <td colspan="3" class="group">$testClass.name</td>
         </tr>
         #set ($classResults = $skippedConfigurations.get($testClass))
         #parse ("org/uncommons/reportng/mod/templates/html/class-results.html.vm")
@@ -56,7 +56,7 @@
     #foreach ($testClass in $failedTests.keySet())
       <tr>
             #set ($testClassname = $testClass.name)
-          <td colspan="3" class="group">$testClass.name</br></td>
+          <td colspan="3" class="group">$testClass.name</td>
       </tr>
       #set ($classResults = $failedTests.get($testClass))
       #parse ("org/uncommons/reportng/mod/templates/html/class-results.html.vm")
@@ -70,7 +70,7 @@
     #foreach ($testClass in $skippedTests.keySet())
       <tr>
             #set ($testClassname = $testClass.name)
-          <td colspan="3" class="group">$testClass.name</br></td>
+          <td colspan="3" class="group">$testClass.name</td>
       </tr>
       #set ($classResults = $skippedTests.get($testClass))
       #parse ("org/uncommons/reportng/mod/templates/html/class-results.html.vm")
@@ -85,7 +85,7 @@
     #foreach ($testClass in $passedTests.keySet())
       <tr>
           #set ($testClassname = $testClass.name)
-          <td colspan="3" class="group">$testClass.name</br></td>
+          <td colspan="3" class="group">$testClass.name</td>
       </tr>
       #set ($classResults = $passedTests.get($testClass))
       #parse ("org/uncommons/reportng/mod/templates/html/class-results.html.vm")

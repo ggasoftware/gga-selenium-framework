@@ -23,7 +23,7 @@
         </div>
 
         <h1>$meta.reportTitle</h1>
-        Time stamp: <img src="timeStampOff.png" onclick="toggleTimeStamp()" title="Time stamp switch" id="timeStampSwitch" alt="switch"></img>
+        Time stamp: <img src="timeStampOff.png" onclick="toggleTimeStamp()" title="Time stamp switch" id="timeStampSwitch" alt="switch" />
         #if (!$utils.allOutput.empty)
         <p>
             <a href="output.html">$messages.getString("logOutput")</a>

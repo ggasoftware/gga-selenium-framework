@@ -98,18 +98,12 @@ public abstract class AbstractReporter implements IReporter
                                 String templateName,
                                 VelocityContext context) throws Exception
     {
-        Writer writer = new BufferedWriter(new FileWriter(file));
-        try
-        {
+        try (Writer writer = new BufferedWriter(new FileWriter(file))) {
             Velocity.mergeTemplate(classpathPrefix + templateName,
-                                   ENCODING,
-                                   context,
-                                   writer);
+                    ENCODING,
+                    context,
+                    writer);
             writer.flush();
-        }
-        finally
-        {
-            writer.close();
         }
     }
 
@@ -142,14 +136,8 @@ public abstract class AbstractReporter implements IReporter
                             File sourceFile,
                             String targetFileName) throws IOException
     {
-        InputStream fileStream = new FileInputStream(sourceFile);
-        try
-        {
+        try (InputStream fileStream = new FileInputStream(sourceFile)) {
             copyStream(outputDirectory, fileStream, targetFileName);
-        }
-        finally
-        {
-            fileStream.close();
         }
     }
 
@@ -204,7 +192,7 @@ public abstract class AbstractReporter implements IReporter
      */
     protected void copyImage(File outputDirectory,
                    String resourceName,
-                   String targetFileName) {
+                   String targetFileName) throws IOException{
         String resourcePath = classpathPrefix + resourceName;
         InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
         File dst = new File(outputDirectory, targetFileName);

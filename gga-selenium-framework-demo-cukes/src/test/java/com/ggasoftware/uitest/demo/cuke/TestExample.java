@@ -4,6 +4,7 @@ import com.ggasoftware.uitest.demo.panel.TestPanel;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.TestBaseWebDriver;
 import com.ggasoftware.uitest.utils.WebDriverWrapper;
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -25,16 +26,13 @@ public class TestExample extends TestBaseWebDriver {
     public static final String iedriver = "c:\\Selenium\\Drivers\\IEDriverServer.exe";
 
     @Before
-    public void setUp() throws MalformedURLException {
-
-        System.out.print("Before");
-
+    public void setUp(Scenario scenario) throws MalformedURLException {
         System.setProperty("webdriver.chrome.driver", chromedriver);
         System.setProperty("webdriver.ie.driver", iedriver);
         setBrowserType(browser);
         initWebDriver();
         ReporterNGExt.logTechnical(String.format("    ===== Processing Test Pack %s =====", this.getClass().getSimpleName()));
-
+        ReporterNGExt.logBusiness(String.format("Run Cucumber scenario: %s", scenario.getName()));
     }
 
     @Given("^Open default website$")

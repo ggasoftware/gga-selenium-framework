@@ -29,7 +29,7 @@
 
 </p>
 <p>
-  $messages.getString("testStart"): ${start}  | Time stamp: <img src="timeStampOff.png" onclick="toggleTimeStamp()" title="Time stamp switch" id="timeStampSwitch" alt="switch"></img> | Show passed: <img src="showPassedOn.png" onclick="toggleShowPassed()" title="Show passed switch" id="showPassedSwitch" alt="switch"></img>
+  $messages.getString("testStart"): ${start}  | Time stamp: <img src="timeStampOff.png" onclick="toggleTimeStamp()" title="Time stamp switch" id="timeStampSwitch" alt="switch" /> | Show passed: <img src="showPassedOn.png" onclick="toggleShowPassed()" title="Show passed switch" id="showPassedSwitch" alt="switch" />
 </p>
 
 #set ($testResultName = $result.name)

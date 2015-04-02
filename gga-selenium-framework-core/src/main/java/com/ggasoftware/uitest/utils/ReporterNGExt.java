@@ -92,7 +92,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Match Asertion.
+     * Log Match Assertion.
      *
      * @param value - analyzed text
      * @param regExp - regular expression
@@ -105,7 +105,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Not Intersect Asertion.
+     * Log Not Intersect Assertion.
      *
      * @param firstArray - first text array 
      * @param secondArray - second text array
@@ -118,7 +118,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Equals Asertion.
+     * Log Equals Assertion.
      *
      * @param value - actual object
      * @param expectedValue - expected object
@@ -131,7 +131,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Not Equals Asertion.
+     * Log Not Equals Assertion.
      *
      * @param value - actual object
      * @param notExpectedValue - not expected object
@@ -144,20 +144,20 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Array List of String Equals Asertion.
+     * Log Array List of String Equals Assertion.
      *
      * @param value - actual Array List of String
      * @param expectedValue - expected Array List of String
      * @param message - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
-    public static void logAssertArrayListEquals(char logLevel, ArrayList<String> value, ArrayList expectedValue, String message, boolean takePassedScreenshot) {
+    public static void logAssertArrayListEquals(char logLevel, ArrayList<String> value, ArrayList<String> expectedValue, String message, boolean takePassedScreenshot) {
         String status = logAssertArrayListEquals(logLevel, value, expectedValue, message);
         logReport(logLevel, status, message, takePassedScreenshot);
     }
 
     /**
-     * Log Array Equals Asertion.
+     * Log Array Equals Assertion.
      *
      * @param value - actual text array
      * @param expectedValue - expected text array
@@ -188,7 +188,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log True Asertion.
+     * Log True Assertion.
      *
      * @param what - expression
      * @param message - log message text
@@ -200,7 +200,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log False Asertion.
+     * Log False Assertion.
      *
      * @param what - expression
      * @param message - log message text
@@ -212,7 +212,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Empty Asertion.
+     * Log Empty Assertion.
      *
      * @param what - analyzed text
      * @param message - log message text
@@ -224,7 +224,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Text Contains Asertion.
+     * Log Text Contains Assertion.
      *
      * @param toSearchIn - text search in
      * @param whatToSearch - text to search
@@ -237,7 +237,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Text Not Contains Asertion.
+     * Log Text Not Contains Assertion.
      *
      * @param toSearchIn - text search in
      * @param whatToSearch - text to search
@@ -250,7 +250,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Null Object Asertion.
+     * Log Null Object Assertion.
      *
      * @param what - analyzed object
      * @param message - log message text
@@ -262,7 +262,7 @@ public class ReporterNGExt extends ReporterNG{
     }
 
     /**
-     * Log Not Null Object Asertion.
+     * Log Not Null Object Assertion.
      *
      * @param what - analyzed object
      * @param message - log message text

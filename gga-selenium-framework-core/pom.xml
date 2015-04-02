@@ -4,22 +4,21 @@
     <parent>
         <groupId>com.ggasoftware.uitest</groupId>
         <artifactId>gga-selenium-framework</artifactId>
-        <version>1.0.4-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
-    <groupId>com.ggasoftware.uitest</groupId>
     <artifactId>gga-selenium-framework-core</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <name>gga-selenium-framework-core</name>
     <packaging>jar</packaging>
 
     <properties>
-        <selenium.version>[2.44.0,)</selenium.version>
-        <cucumber.version>1.1.8</cucumber.version>
+        <selenium.version>[2.45.0,)</selenium.version>
+        <cucumber.version>1.2.3-SNAPSHOT</cucumber.version>
         <allure.version>[1.4,)</allure.version>
         <aspectj.version>[1.7,)</aspectj.version>
-        <fw.version>1.0.4-SNAPSHOT</fw.version>
+        <jna.version>[4.1.0,)</jna.version>
     </properties>
 
     <dependencies>
@@ -31,17 +30,17 @@
         <dependency>
             <groupId>com.ggasoftware.uitest</groupId>
             <artifactId>gga-selenium-framework-logging</artifactId>
-            <version>${fw.version}</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>com.ggasoftware.uitest</groupId>
             <artifactId>gga-selenium-framework-reportng</artifactId>
-            <version>${fw.version}</version>
+            <version>${version}</version>
         </dependency>
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>[4.1.0,)</version>
+            <version>${jna.version}</version>
         </dependency>
         <dependency>
             <groupId>ru.yandex.qatools.allure</groupId>
@@ -54,33 +53,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.4.01</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.5.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.10-FINAL</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xml-apis</artifactId>
-                    <groupId>xml-apis</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>

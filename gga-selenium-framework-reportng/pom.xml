@@ -6,14 +6,17 @@
     <parent>
         <groupId>com.ggasoftware.uitest</groupId>
         <artifactId>gga-selenium-framework</artifactId>
-        <version>1.0.4-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>com.ggasoftware.uitest</groupId>
     <artifactId>gga-selenium-framework-reportng</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <name>gga-selenium-framework-reportng</name>
     <packaging>jar</packaging>
+
+    <properties>
+        <testng.version>[6.8.21,)</testng.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -24,7 +27,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.8.8</version>
+            <version>${testng.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
