@@ -35,7 +35,7 @@ public class ReporterNG {
     public static final String FAILED = "Failed";
 
 
-    public static final Logger LOG = Logger.getLogger(ReporterNG.class.getSimpleName());
+    public static Logger LOG = Logger.getLogger(ReporterNG.class.getSimpleName());
     private static final String SDFP = new SimpleDateFormat("HH:mm:ss.SSS").toPattern();
 
     /**
