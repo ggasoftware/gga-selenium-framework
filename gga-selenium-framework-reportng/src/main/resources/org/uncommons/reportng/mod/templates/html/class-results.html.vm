@@ -84,7 +84,7 @@
     #set ($failedMessage = $utils.getAttributeArray($testResult, "failedMessage"))
     #if ($testResult.throwable && ( $testResult.status == 2 || $meta.shouldShowExpectedExceptions()))
     <a href="javascript:toggleElement('exception-$id', 'block')"><b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b></a><br />
-    <div class="stackTrace" id="exceptions">
+    <div class="stackTrace" id="exception-$id">
       #foreach ($element in $testResult.throwable.stackTrace)
         $utils.escapeHTMLString( $element.toString() )<br />
       #end
