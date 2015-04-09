@@ -180,7 +180,7 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * Directory for Screenshot initialization.
      */
-    private void initScreenshotDirectory() {
+    public void initScreenshotDirectory() {
         MakeDir.makeDir(screenshotDirectory);
         ScreenShotMaker.setPath(screenshotDirectory);
     }

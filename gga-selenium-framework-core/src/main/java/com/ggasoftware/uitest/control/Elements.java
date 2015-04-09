@@ -186,7 +186,7 @@ public class Elements<ParentPanel> {
      * @return Element
      */
     public Element getElement(int elementIndex) {
-        return new Element<>(String.format("Element #%s", elementIndex), String.format("%s[%d]", getXPath().replace("//", "/descendant::"), elementIndex+1), parent);
+        return new Element<>(String.format("Element #%s", elementIndex), String.format("%s[%d]", getXPath().replace("//", "/descendant::"), elementIndex + 1), parent);
     }
 
     /**
@@ -780,6 +780,16 @@ public class Elements<ParentPanel> {
     }
 
     /**
+     * Wait until elements is changed list of text
+     *
+     * @param list expected list of text
+     * @return Parent instance
+     */
+    public ParentPanel waitForElementsTextChanged(final List<String> list) {
+        return waitForElementsTextChanged(list, TIMEOUT, false);
+    }
+
+    /**
      * Wait until number of elements is changed
      *
      * @param count      - source number of element
@@ -811,6 +821,16 @@ public class Elements<ParentPanel> {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitNumberOfElementsChanged - '%s' elements count '%d' should be changed", name, count), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
+    }
+
+    /**
+     * Wait until number of elements is changed
+     *
+     * @param count      - source number of element
+     * @return Parent instance
+     */
+    public ParentPanel waitForNumberOfElementsChanged(final int count) {
+        return waitForNumberOfElementsChanged(count, TIMEOUT, false);
     }
 
 }
