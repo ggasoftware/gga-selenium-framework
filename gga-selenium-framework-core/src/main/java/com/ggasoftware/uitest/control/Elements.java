@@ -603,7 +603,7 @@ public class Elements<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForFirstVisibleElement(int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForFirstVisibleElement(final int timeoutSec, final boolean checkCondition) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForFirstVisibleElement: %s", locator));
         boolean isVisible;
         long start = System.currentTimeMillis() / 1000;
@@ -632,6 +632,14 @@ public class Elements<ParentPanel> {
     public ParentPanel waitForFirstVisibleElement() {
         return waitForFirstVisibleElement(TIMEOUT, false);
     }
+    /**
+     * Wait until first element is visible
+     * @param timeoutSec seconds to wait until all elements exist
+     * @return Parent instance
+     */
+    public ParentPanel waitForFirstVisibleElement(final int timeoutSec) {
+        return waitForFirstVisibleElement(timeoutSec, false);
+    }
 
     /**
      * Wait until all elements exist.
@@ -640,7 +648,7 @@ public class Elements<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForAllElementsExist(int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForAllElementsExist(final int timeoutSec, final boolean checkCondition) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAllElementsExist: %s", locator));
         boolean exist;
         long start = System.currentTimeMillis() / 1000;
@@ -669,6 +677,14 @@ public class Elements<ParentPanel> {
     public ParentPanel waitForAllElementsExist() {
         return waitForAllElementsExist(TIMEOUT, false);
     }
+    /**
+     * Wait until all elements exist
+     * @param timeoutSec seconds to wait until all elements become Not Visible
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsExist(final int timeoutSec) {
+        return waitForAllElementsExist(timeoutSec, false);
+    }
 
     /**
      * Wait until all elements is invisible
@@ -677,7 +693,7 @@ public class Elements<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForAllElementsNotVisible(int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForAllElementsNotVisible(final int timeoutSec, final boolean checkCondition) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAllElementsNotVisible: %s", locator));
         boolean isNotVisible;
         long start = System.currentTimeMillis() / 1000;
@@ -708,6 +724,14 @@ public class Elements<ParentPanel> {
     public ParentPanel waitForAllElementsNotVisible() {
         return waitForAllElementsNotVisible(TIMEOUT, false);
     }
+    /**
+     * Wait until all elements is invisible
+     * @param timeoutSec seconds to wait until all elements become Visible
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsNotVisible(final int timeoutSec) {
+        return waitForAllElementsNotVisible(timeoutSec, false);
+    }
 
     /**
      * Wait until all elements is visible
@@ -716,7 +740,7 @@ public class Elements<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForAllElementsVisible(int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForAllElementsVisible(final int timeoutSec, final boolean checkCondition) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAllElementsVisible: %s", locator));
         boolean isVisible;
         long start = System.currentTimeMillis() / 1000;
@@ -747,6 +771,15 @@ public class Elements<ParentPanel> {
     }
 
     /**
+     * Wait until all elements is visible
+     * @param timeoutSec seconds to wait until elements is changed list of text
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsVisible(final int timeoutSec) {
+        return waitForAllElementsVisible(timeoutSec, false);
+    }
+
+    /**
      * Wait until elements is changed list of text
      *
      * @param list expected list of text
@@ -754,7 +787,7 @@ public class Elements<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForElementsTextChanged(final List<String> list, int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForElementsTextChanged(final List<String> list, final int timeoutSec, final boolean checkCondition) {
         boolean isChanged;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForElementsTextChanged: %s", locator));
         long start = System.currentTimeMillis() / 1000;
@@ -790,6 +823,17 @@ public class Elements<ParentPanel> {
     }
 
     /**
+     * Wait until elements is changed list of text
+     *
+     * @param list expected list of text
+     * @param timeoutSec seconds to wait until elements count is changed
+     * @return Parent instance
+     */
+    public ParentPanel waitForElementsTextChanged(final List<String> list, final int timeoutSec) {
+        return waitForElementsTextChanged(list, timeoutSec, false);
+    }
+
+    /**
      * Wait until number of elements is changed
      *
      * @param count      - source number of element
@@ -797,7 +841,7 @@ public class Elements<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForNumberOfElementsChanged(final int count, final int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForNumberOfElementsChanged(final int count, final int timeoutSec, final boolean checkCondition) {
         boolean isChanged;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitNumberOfElementsChanged[%d]: %s", count, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -831,6 +875,17 @@ public class Elements<ParentPanel> {
      */
     public ParentPanel waitForNumberOfElementsChanged(final int count) {
         return waitForNumberOfElementsChanged(count, TIMEOUT, false);
+    }
+
+    /**
+     * Wait until number of elements is changed
+     *
+     * @param count      - source number of element
+     * @param timeoutSec seconds to wait until elements count is changed
+     * @return Parent instance
+     */
+    public ParentPanel waitForNumberOfElementsChanged(final int count, final int timeoutSec) {
+        return waitForNumberOfElementsChanged(count, timeoutSec, false);
     }
 
 }

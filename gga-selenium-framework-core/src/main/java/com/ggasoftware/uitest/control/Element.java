@@ -947,7 +947,7 @@ public class Element<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForText(final String text, final int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForText(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForText[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -990,7 +990,7 @@ public class Element<ParentPanel> {
      * @param timeoutSec seconds to wait until element contains a text
      * @return Parent instance
      */
-    public ParentPanel waitForTextContains(final String text, int timeoutSec) {
+    public ParentPanel waitForTextContains(final String text, final int timeoutSec) {
         return waitForTextContains(text, timeoutSec, false);
     }
     /**
@@ -1001,7 +1001,7 @@ public class Element<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForTextContains(String text, int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForTextContains(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForTextContains[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -1036,7 +1036,7 @@ public class Element<ParentPanel> {
      * @param timeoutSec seconds to wait until element is changed text
      * @return Parent instance
      */
-    public ParentPanel waitForTextChanged(final String text, int timeoutSec) {
+    public ParentPanel waitForTextChanged(final String text, final int timeoutSec) {
         return waitForTextChanged(text, timeoutSec, false);
     }
 
@@ -1048,7 +1048,7 @@ public class Element<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForTextChanged(String text, int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForTextChanged(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isChanged;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForTextChanged[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -1095,7 +1095,7 @@ public class Element<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForValue(String value, int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForValue(final String value, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForValueAttribute[%s]: %s", value, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -1134,7 +1134,7 @@ public class Element<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, final boolean checkCondition) {
         boolean isChanged;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAttributeChanged[%s]: %s", value, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -1223,7 +1223,7 @@ public class Element<ParentPanel> {
      * @param condition - Expected Condition
      * @return Parent instance
      */
-    public ParentPanel waitForExpectedConditions(ExpectedCondition condition) {
+    public ParentPanel waitForExpectedConditions(final ExpectedCondition condition) {
         return waitForExpectedConditions(condition, TIMEOUT, false);
     }
 
@@ -1234,7 +1234,7 @@ public class Element<ParentPanel> {
      * @param timeoutSec - the maximum time to wait in seconds
      * @return Parent instance
      */
-    public ParentPanel waitForExpectedConditions(ExpectedCondition condition, int timeoutSec) {
+    public ParentPanel waitForExpectedConditions(final ExpectedCondition condition, final int timeoutSec) {
         return waitForExpectedConditions(condition, timeoutSec, false);
     }
 
@@ -1246,7 +1246,7 @@ public class Element<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForExpectedConditions(ExpectedCondition condition, int timeoutSec, boolean checkCondition) {
+    public ParentPanel waitForExpectedConditions(final ExpectedCondition condition, final int timeoutSec, final boolean checkCondition) {
         boolean isTrue;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExpectedCondition[%s}: %s",condition, locator));
         long start = System.currentTimeMillis() / 1000;
