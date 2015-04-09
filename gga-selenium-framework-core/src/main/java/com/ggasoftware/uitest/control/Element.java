@@ -880,6 +880,17 @@ public class Element<ParentPanel> {
     public ParentPanel waitForElementToVanish() {
         return waitForElementToVanish(TIMEOUT, false);
     }
+
+    /**
+     * Wait until element is vanished.
+     * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForElementToVanish(int timeoutSec) {
+        return waitForElementToVanish(timeoutSec, false);
+    }
+
     /**
      * Wait until element is vanished.
      *
@@ -915,6 +926,17 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForText(final String text) {
         return waitForText(text, TIMEOUT, false);
+    }
+
+    /**
+     * Wait until element has a text.
+     *
+     * @param text Text of Element
+     * @param timeoutSec seconds to wait until element has a text
+     * @return Parent instance
+     */
+    public ParentPanel waitForText(final String text, final int timeoutSec) {
+        return waitForText(text, timeoutSec, false);
     }
 
     /**
@@ -966,6 +988,16 @@ public class Element<ParentPanel> {
      *
      * @param text Text of Element
      * @param timeoutSec seconds to wait until element contains a text
+     * @return Parent instance
+     */
+    public ParentPanel waitForTextContains(final String text, int timeoutSec) {
+        return waitForTextContains(text, timeoutSec, false);
+    }
+    /**
+     * Wait until element contains a text.
+     *
+     * @param text Text of Element
+     * @param timeoutSec seconds to wait until element contains a text
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -995,6 +1027,17 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForTextChanged(final String text) {
         return waitForTextChanged(text, TIMEOUT, false);
+    }
+
+    /**
+     * Wait until element is changed text.
+     *
+     * @param text before change
+     * @param timeoutSec seconds to wait until element is changed text
+     * @return Parent instance
+     */
+    public ParentPanel waitForTextChanged(final String text, int timeoutSec) {
+        return waitForTextChanged(text, timeoutSec, false);
     }
 
     /**
@@ -1032,6 +1075,18 @@ public class Element<ParentPanel> {
     public ParentPanel waitForValue(final String value) {
         return waitForText(value, TIMEOUT, false);
     }
+
+    /**
+     * Wait until element has a 'value' attribute.
+     *
+     * @param value 'Value' Attribute of Element
+     * @param timeoutSec seconds to wait until element has a 'value' attribute
+     * @return Parent instance
+     */
+    public ParentPanel waitForValue(final String value, int timeoutSec) {
+        return waitForText(value, timeoutSec, false);
+    }
+
     /**
      * Wait until element has a 'value' attribute.
      *
@@ -1056,6 +1111,18 @@ public class Element<ParentPanel> {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForValueAttribute - '%s' should has a value attribute '%s'", name, value), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
+    }
+
+    /**
+     * Wait until element is changed the attribute.
+     *
+     * @param attribute  for watching
+     * @param value      of attribute before change
+     * @param timeoutSec seconds to wait until element is changed attribute
+     * @return Parent instance
+     */
+    public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
+        return waitForAttributeChanged(attribute, value, timeoutSec, false);
     }
 
     /**
@@ -1158,6 +1225,17 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForExpectedConditions(ExpectedCondition condition) {
         return waitForExpectedConditions(condition, TIMEOUT, false);
+    }
+
+    /**
+     * Wait until Expected Condition.
+     *
+     * @param condition - Expected Condition
+     * @param timeoutSec - the maximum time to wait in seconds
+     * @return Parent instance
+     */
+    public ParentPanel waitForExpectedConditions(ExpectedCondition condition, int timeoutSec) {
+        return waitForExpectedConditions(condition, timeoutSec, false);
     }
 
     /**
