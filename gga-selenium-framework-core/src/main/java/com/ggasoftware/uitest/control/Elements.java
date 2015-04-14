@@ -203,6 +203,23 @@ public class Elements<ParentPanel> {
         return new Element<>(String.format("Element #%s", elementIndex), b.toString(), parent);
     }
 
+    /**
+     * Get First Visible Element from Elements
+     *
+     * @return Element
+     */
+    public Element getVisibleElement() {
+        ReporterNGExt.logAction(this, getParentClassName(), "get first visible element");
+        int elementIndex = 0;
+        for (WebElement webEl : getWebElements()) {
+            if (webEl.isDisplayed()) {
+                return new Element<>(String.format("Element #%s", elementIndex), String.format("%s[%d]", getXPath().replace("//", "/descendant::"), elementIndex + 1), parent);
+            }
+            elementIndex++;
+        }
+        throw new NoSuchElementException("No visible elements available.");
+    }
+
     //  Common functions
 
     /**
