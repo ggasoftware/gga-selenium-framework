@@ -23,6 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
 import java.util.Properties;
 
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.*;
@@ -599,6 +600,20 @@ public class Element<ParentPanel> {
     }
 
     /**
+     * Get the visible (i.e. not hidden by CSS) innerText of this element, excluding sub-elements,
+     * without any leading or trailing whitespace.
+     *
+     * @return The innerText of this element.
+     */
+    public String getElementText() {
+        int l = 0;
+        for(WebElement webElement:getChild()){
+            l=+webElement.getText().length();
+        }
+        return (String) ReporterNGExt.logGetter(this, getParentClassName(), "element text", getWebElement().getText().substring(l));
+    }
+
+    /**
      * Get the value of a the given attribute of the element. Will return the current value, even if
      * this has been modified after the page has been loaded.
      *
@@ -686,7 +701,19 @@ public class Element<ParentPanel> {
      * @return Has child or not
      */
     public boolean hasChild() {
-        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.xpath(".//")).isEmpty());
+        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.xpath(".//*")).isEmpty());
+    }
+
+    /**
+     * Get child elements
+     *
+     * @return Has child or not
+     */
+    public List<WebElement> getChild() {
+        if (TestBaseWebDriver.logFindElementLocator) {
+            ReporterNGExt.logTechnical(String.format("Get Child Web Elements '%s'", locator));
+        }
+        return getWebElement().findElements(By.xpath(".//*"));
     }
 
     /**
