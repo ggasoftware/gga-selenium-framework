@@ -411,18 +411,18 @@ public final class WebDriverWrapper {
     	     });
     	     
         new WebDriverWait(getDriver(), TIMEOUT) {
-        }.until(new ExpectedCondition<Boolean>() { 
-            @Override 
+        }.until(new ExpectedCondition<Boolean>() {
+            @Override
             public Boolean apply(WebDriver wDriver) {
-            	boolean fullLoaded = true;
-            	for (String window : wDriver.getWindowHandles()) {
-					if (window.isEmpty()) {
-						fullLoaded = false;
-						break;
-					}
-				}
-                return (fullLoaded); 
-            } 
+                boolean fullLoaded = true;
+                for (String window : wDriver.getWindowHandles()) {
+                    if (window.isEmpty()) {
+                        fullLoaded = false;
+                        break;
+                    }
+                }
+                return (fullLoaded);
+            }
         });
         Sleeper.sleepTight(1000);
     }
@@ -832,6 +832,144 @@ public final class WebDriverWrapper {
         }
         if (checkCondition) {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForNativeWindow: native window '%s' should be exists", title), TestBaseWebDriver.takePassedScreenshot);
+        }
+    }
+
+    /**
+     * Wait until Expected Condition.
+     *
+     * @param condition - Expected Condition
+     */
+    public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition) {
+        waitForExpectedCondition(condition, TIMEOUT, false);
+    }
+
+    /**
+     * Wait until Expected Condition.
+     *
+     * @param condition - Expected Condition
+     * @param timeoutSec - the maximum time to wait in seconds
+     */
+    public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition, final int timeoutSec) {
+        waitForExpectedCondition(condition, timeoutSec, false);
+    }
+
+    /**
+     * Wait until Expected Condition.
+     *
+     * @param condition - Expected Condition
+     * @param timeoutSec - the maximum time to wait in seconds
+     * @param checkCondition log assert for expected conditions.
+     */
+    public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition, final int timeoutSec, final boolean checkCondition) {
+        boolean isTrue;
+        ReporterNGExt.logAction(getDriver(), "", String.format("waitForExpectedCondition: %s", condition));
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
+                .ignoring(StaleElementReferenceException.class);
+        setTimeout(timeoutSec);
+        try {
+            wait.until(condition);
+            isTrue = false;
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForExpectedCondition: [ %s ] during: [ %d ] sec ", condition, System.currentTimeMillis() / 1000 - start));
+            isTrue = true;
+        }
+        setTimeout(TIMEOUT);
+        if (checkCondition){
+            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
+        }
+    }
+
+    /**
+     * Wait until JavaScript Condition.
+     *
+     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
+     */
+    public static void waitForJavaScriptCondition(final String javaScript) {
+        waitForJavaScriptCondition(javaScript, TIMEOUT, false);
+    }
+
+    /**
+     * Wait until JavaScript Condition.
+     *
+     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
+     * @param timeoutSec - the maximum time to wait in seconds
+     */
+    public static void waitForJavaScriptCondition(final String javaScript, final int timeoutSec) {
+        waitForJavaScriptCondition(javaScript, timeoutSec, false);
+    }
+
+    /**
+     * Wait until JavaScript Condition.
+     *
+     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
+     * @param timeoutSec - the maximum time to wait in seconds
+     * @param checkCondition log assert for expected conditions.
+     */
+    public static void waitForJavaScriptCondition(final String javaScript, final int timeoutSec, final boolean checkCondition) {
+        boolean isTrue;
+        ReporterNGExt.logAction(getDriver(), "", String.format("waitForJavaScriptCondition: %s", javaScript));
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = new WebDriverWait(getDriver(), timeoutSec);
+        try {
+            wait.until(new ExpectedCondition<Boolean>() {
+                @Override
+                public Boolean apply(WebDriver driverObject) {
+                    return (Boolean) ((JavascriptExecutor) getDriver()).executeScript(javaScript);
+                }
+            });
+            isTrue = false;
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForJavaScriptCondition: [ %s ] during: [ %d ] sec ", javaScript, System.currentTimeMillis() / 1000 - start));
+            isTrue = true;
+        }
+        if (checkCondition){
+            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForJavaScriptCondition - '%s'", javaScript), TestBaseWebDriver.takePassedScreenshot);
+        }
+    }
+
+    /**
+     * Wait until Ajax JQuery Process finished.
+     */
+    public static void waitForAjaxJQueryProcess() {
+        waitForAjaxJQueryProcess(TIMEOUT, false);
+    }
+
+    /**
+     * Wait until Ajax JQuery Process finished.
+     *
+     * @param timeoutSec - the maximum time to wait in seconds
+     */
+    public static void waitForAjaxJQueryProcess(final int timeoutSec) {
+        waitForAjaxJQueryProcess(timeoutSec, false);
+    }
+
+    /**
+     * Wait until Ajax JQuery Process finished.
+     *
+     * @param timeoutSec - the maximum time to wait in seconds
+     * @param checkCondition log assert for expected conditions.
+     */
+    public static void waitForAjaxJQueryProcess(final int timeoutSec, final boolean checkCondition) {
+        boolean isTrue;
+        ReporterNGExt.logAction(getDriver(), "", "waitForAjaxJQueryProcess: return jQuery.active == 0");
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = new WebDriverWait(getDriver(), timeoutSec);
+        try {
+            wait.until(new ExpectedCondition<Boolean>() {
+                @Override
+                public Boolean apply(WebDriver driverObject) {
+                    return (Boolean) ((JavascriptExecutor) getDriver()).executeScript("return jQuery.active == 0");
+                }
+            });
+            isTrue = false;
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForAjaxJQueryProcess: [ return jQuery.active == 0 ] during: [ %d ] sec ", System.currentTimeMillis() / 1000 - start));
+            isTrue = true;
+        }
+        if (checkCondition){
+            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, "waitForAjaxJQueryProcess - 'return jQuery.active == 0'", TestBaseWebDriver.takePassedScreenshot);
         }
     }
 

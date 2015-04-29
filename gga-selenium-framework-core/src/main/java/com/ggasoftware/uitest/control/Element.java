@@ -1250,7 +1250,7 @@ public class Element<ParentPanel> {
      * @param condition - Expected Condition
      * @return Parent instance
      */
-    public ParentPanel waitForExpectedConditions(final ExpectedCondition condition) {
+    public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition) {
         return waitForExpectedConditions(condition, TIMEOUT, false);
     }
 
@@ -1261,7 +1261,7 @@ public class Element<ParentPanel> {
      * @param timeoutSec - the maximum time to wait in seconds
      * @return Parent instance
      */
-    public ParentPanel waitForExpectedConditions(final ExpectedCondition condition, final int timeoutSec) {
+    public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition, final int timeoutSec) {
         return waitForExpectedConditions(condition, timeoutSec, false);
     }
 
@@ -1273,7 +1273,7 @@ public class Element<ParentPanel> {
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    public ParentPanel waitForExpectedConditions(final ExpectedCondition condition, final int timeoutSec, final boolean checkCondition) {
+    public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition, final int timeoutSec, final boolean checkCondition) {
         boolean isTrue;
         ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExpectedCondition[%s}: %s",condition, locator));
         long start = System.currentTimeMillis() / 1000;
@@ -1293,8 +1293,5 @@ public class Element<ParentPanel> {
         }
         return parent;
     }
-
-
-
 
 }
