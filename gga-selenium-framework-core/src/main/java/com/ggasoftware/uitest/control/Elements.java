@@ -655,7 +655,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForFirstVisibleElement(final int timeoutSec) {
-        return waitForFirstVisibleElement(timeoutSec, false);
+        return waitForFirstVisibleElement(timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -700,7 +700,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForAllElementsExist(final int timeoutSec) {
-        return waitForAllElementsExist(timeoutSec, false);
+        return waitForAllElementsExist(timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -747,7 +747,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForAllElementsNotVisible(final int timeoutSec) {
-        return waitForAllElementsNotVisible(timeoutSec, false);
+        return waitForAllElementsNotVisible(timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -793,7 +793,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForAllElementsVisible(final int timeoutSec) {
-        return waitForAllElementsVisible(timeoutSec, false);
+        return waitForAllElementsVisible(timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -847,7 +847,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForElementsTextChanged(final List<String> list, final int timeoutSec) {
-        return waitForElementsTextChanged(list, timeoutSec, false);
+        return waitForElementsTextChanged(list, timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -902,7 +902,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForNumberOfElementsChanged(final int count, final int timeoutSec) {
-        return waitForNumberOfElementsChanged(count, timeoutSec, false);
+        return waitForNumberOfElementsChanged(count, timeoutSec, CHECKCONDITION);
     }
 
 }

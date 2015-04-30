@@ -825,7 +825,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForExists(int timeoutSec) {
-        return waitForExists(timeoutSec, false);
+        return waitForExists(timeoutSec, CHECKCONDITION);
     }
     /**
      * Wait until element exists.
@@ -879,7 +879,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForDisplayed(int timeoutSec) {
-        return waitForDisplayed(timeoutSec, false);
+        return waitForDisplayed(timeoutSec, CHECKCONDITION);
     }
     /**
      * Wait until element is displayed.
@@ -905,7 +905,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForElementToVanish() {
-        return waitForElementToVanish(TIMEOUT, false);
+        return waitForElementToVanish(TIMEOUT, CHECKCONDITION);
     }
 
     /**
@@ -915,7 +915,17 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForElementToVanish(int timeoutSec) {
-        return waitForElementToVanish(timeoutSec, false);
+        return waitForElementToVanish(timeoutSec, CHECKCONDITION);
+    }
+
+    /**
+     * Wait until element is vanished.
+     * @param checkCondition log assert for expected conditions.
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForElementToVanish(boolean checkCondition) {
+        return waitForElementToVanish(TIMEOUT, CHECKCONDITION);
     }
 
     /**
@@ -963,7 +973,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForText(final String text, final int timeoutSec) {
-        return waitForText(text, timeoutSec, false);
+        return waitForText(text, timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -1018,7 +1028,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForTextContains(final String text, final int timeoutSec) {
-        return waitForTextContains(text, timeoutSec, false);
+        return waitForTextContains(text, timeoutSec, CHECKCONDITION);
     }
     /**
      * Wait until element contains a text.
@@ -1064,7 +1074,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForTextChanged(final String text, final int timeoutSec) {
-        return waitForTextChanged(text, timeoutSec, false);
+        return waitForTextChanged(text, timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -1111,7 +1121,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForValue(final String value, int timeoutSec) {
-        return waitForText(value, timeoutSec, false);
+        return waitForText(value, timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -1149,7 +1159,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
-        return waitForAttributeChanged(attribute, value, timeoutSec, false);
+        return waitForAttributeChanged(attribute, value, timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -1184,6 +1194,19 @@ public class Element<ParentPanel> {
         if (checkCondition){
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value), TestBaseWebDriver.takePassedScreenshot);
         }
+        return parent;
+    }
+
+    /**
+     * Firstly :Wait until element exists, then: Wait until element is vanished.
+     *
+     * @param checkCondition log assert for expected conditions.
+     * @return Parent instance
+     */
+    public ParentPanel waitForExistsThenVanish(final boolean checkCondition) {
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExistsThenVanish:%s", locator));
+        waitForExists(checkCondition);
+        waitForElementToVanish(checkCondition);
         return parent;
     }
 
@@ -1262,7 +1285,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition, final int timeoutSec) {
-        return waitForExpectedConditions(condition, timeoutSec, false);
+        return waitForExpectedConditions(condition, timeoutSec, CHECKCONDITION);
     }
 
     /**

@@ -51,6 +51,7 @@ public final class WebDriverWrapper {
     private WebDriverWrapper(){}
 
     public static int TIMEOUT = 30; //seconds
+    public static boolean CHECKCONDITION = true;
 
     public static WebDriver getDriver() {
         return threadDriver.get();
@@ -68,6 +69,16 @@ public final class WebDriverWrapper {
     public static void setDefaultTimeout(int timeout) {
         TIMEOUT = timeout;
     }
+
+    /**
+     * Set Default check condition for wait methods
+     *
+     * @param checkCondition log assert for expected conditions.
+     */
+    public static void setDefaultCheckCondition(boolean checkCondition) {
+        CHECKCONDITION = checkCondition;
+    }
+
 
     /**
      * initialization RemoteWebDriver
@@ -851,7 +862,7 @@ public final class WebDriverWrapper {
      * @param timeoutSec - the maximum time to wait in seconds
      */
     public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition, final int timeoutSec) {
-        waitForExpectedCondition(condition, timeoutSec, false);
+        waitForExpectedCondition(condition, timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -897,7 +908,7 @@ public final class WebDriverWrapper {
      * @param timeoutSec - the maximum time to wait in seconds
      */
     public static void waitForJavaScriptCondition(final String javaScript, final int timeoutSec) {
-        waitForJavaScriptCondition(javaScript, timeoutSec, false);
+        waitForJavaScriptCondition(javaScript, timeoutSec, CHECKCONDITION);
     }
 
     /**
@@ -942,7 +953,7 @@ public final class WebDriverWrapper {
      * @param timeoutSec - the maximum time to wait in seconds
      */
     public static void waitForAjaxJQueryProcess(final int timeoutSec) {
-        waitForAjaxJQueryProcess(timeoutSec, false);
+        waitForAjaxJQueryProcess(timeoutSec, CHECKCONDITION);
     }
 
     /**
