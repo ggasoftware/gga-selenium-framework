@@ -647,7 +647,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForFirstVisibleElement() {
-        return waitForFirstVisibleElement(TIMEOUT, false);
+        return waitForFirstVisibleElement(TIMEOUT, CHECKCONDITION);
     }
     /**
      * Wait until first element is visible
@@ -692,7 +692,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForAllElementsExist() {
-        return waitForAllElementsExist(TIMEOUT, false);
+        return waitForAllElementsExist(TIMEOUT, CHECKCONDITION);
     }
     /**
      * Wait until all elements exist
@@ -739,7 +739,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForAllElementsNotVisible() {
-        return waitForAllElementsNotVisible(TIMEOUT, false);
+        return waitForAllElementsNotVisible(TIMEOUT, CHECKCONDITION);
     }
     /**
      * Wait until all elements is invisible
@@ -784,7 +784,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForAllElementsVisible() {
-        return waitForAllElementsVisible(TIMEOUT, false);
+        return waitForAllElementsVisible(TIMEOUT, CHECKCONDITION);
     }
 
     /**
@@ -836,7 +836,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForElementsTextChanged(final List<String> list) {
-        return waitForElementsTextChanged(list, TIMEOUT, false);
+        return waitForElementsTextChanged(list, TIMEOUT, CHECKCONDITION);
     }
 
     /**
@@ -891,7 +891,7 @@ public class Elements<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForNumberOfElementsChanged(final int count) {
-        return waitForNumberOfElementsChanged(count, TIMEOUT, false);
+        return waitForNumberOfElementsChanged(count, TIMEOUT, CHECKCONDITION);
     }
 
     /**

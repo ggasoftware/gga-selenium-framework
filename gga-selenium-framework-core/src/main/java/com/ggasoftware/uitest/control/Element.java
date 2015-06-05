@@ -962,7 +962,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForText(final String text) {
-        return waitForText(text, TIMEOUT, false);
+        return waitForText(text, TIMEOUT, CHECKCONDITION);
     }
 
     /**
@@ -1018,7 +1018,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForTextContains(final String text) {
-        return waitForTextContains(text, TIMEOUT, false);
+        return waitForTextContains(text, TIMEOUT, CHECKCONDITION);
     }
     /**
      * Wait until element contains a text.
@@ -1063,7 +1063,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForTextChanged(final String text) {
-        return waitForTextChanged(text, TIMEOUT, false);
+        return waitForTextChanged(text, TIMEOUT, CHECKCONDITION);
     }
 
     /**
@@ -1110,7 +1110,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForValue(final String value) {
-        return waitForText(value, TIMEOUT, false);
+        return waitForText(value, TIMEOUT, CHECKCONDITION);
     }
 
     /**
@@ -1274,7 +1274,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition) {
-        return waitForExpectedConditions(condition, TIMEOUT, false);
+        return waitForExpectedConditions(condition, TIMEOUT, CHECKCONDITION);
     }
 
     /**
