@@ -13,7 +13,9 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.utils.LinqUtils;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
+import com.ggasoftware.uitest.utils.Timer;
 import com.ggasoftware.uitest.utils.WebDriverWrapper;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
@@ -21,9 +23,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ggasoftware.uitest.utils.LinqUtils.foreach;
+import static com.ggasoftware.uitest.utils.ReporterNG.logAssertTrue;
+import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
+import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
+import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
 
 /**
  * Select control implementation
@@ -47,14 +54,16 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
         super(name, locator, parentPanel);
     }
 
+    private org.openqa.selenium.support.ui.Select select() {
+        return new org.openqa.selenium.support.ui.Select(getWebElement()); }
     /**
      * Deselect all items.
      *
      * @return Parent instance
      */
     public ParentPanel deselect() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Deselect all items");
-        new org.openqa.selenium.support.ui.Select(getWebElement()).deselectAll();
+        logAction(this, getParentClassName(), "Deselect all items");
+        alwaysDoneAction(() -> select().deselectAll());
         return this.parent;
     }
 
@@ -65,10 +74,12 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel select(int index) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Select %d item", index));
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        select.deselectAll();
-        select.selectByIndex(index);
+        logAction(this, getParentClassName(), String.format("Select %d item", index));
+        alwaysDoneAction(() -> {
+            org.openqa.selenium.support.ui.Select select = select();
+            select.deselectAll();
+            select.selectByIndex(index);
+        });
         return this.parent;
     }
 
@@ -79,10 +90,12 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel select(String value) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Select %s", value));
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        select.deselectAll();
-        select.selectByValue(value);
+        logAction(this, getParentClassName(), String.format("Select %s", value));
+        alwaysDoneAction(() -> {
+            org.openqa.selenium.support.ui.Select select = select();
+            select.deselectAll();
+            select.selectByValue(value);
+        });
         return this.parent;
     }
 
@@ -93,12 +106,14 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel select(String[] values) {
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        select.deselectAll();
-        for (String value : values) {
-            ReporterNGExt.logAction(this, getParentClassName(), String.format("Select %s", value));
-            select.selectByValue(value);
-        }
+        org.openqa.selenium.support.ui.Select select = select();
+        alwaysDoneAction(() -> {
+            select.deselectAll();
+            for (String value : values) {
+                logAction(this, getParentClassName(), String.format("Select %s", value));
+                select.selectByValue(value);
+            }
+        });
         return this.parent;
     }
 
@@ -109,12 +124,14 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel select(int[] ids) {
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        select.deselectAll();
-        for (int id : ids) {
-            ReporterNGExt.logAction(this, getParentClassName(), String.format("Select %d item", id));
-            select.selectByIndex(id);
-        }
+        org.openqa.selenium.support.ui.Select select = select();
+        alwaysDoneAction(() -> {
+            select.deselectAll();
+            for (int id : ids) {
+                logAction(this, getParentClassName(), String.format("Select %d item", id));
+                select.selectByIndex(id);
+            }
+        });
         return this.parent;
     }
 
@@ -124,14 +141,10 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public List<String> getSelectedItems() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get selected items");
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        List<WebElement> elements = select.getAllSelectedOptions();
-        List<String> items = new ArrayList<>();
-        for (WebElement element : elements) {
-            items.add(element.getText());
-        }
-        return items;
+        logAction(this, getParentClassName(), "Get selected items");
+        return (List<String>) LinqUtils.select(
+                select().getAllSelectedOptions(),
+                WebElement::getText);
     }
 
     /**
@@ -140,14 +153,10 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public List<String> getItems() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get all items");
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        List<WebElement> elements = select.getOptions();
-        List<String> items = new ArrayList<>();
-        for (WebElement element : elements) {
-            items.add(element.getText());
-        }
-        return items;
+        logAction(this, getParentClassName(), "Get all items");
+        return (List<String>) LinqUtils.select(
+                select().getOptions(),
+                WebElement::getText);
     }
 
     /**
@@ -158,7 +167,7 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel waitForItemAndSelect(final String value) {
         boolean isSelected;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForItemAndSelect[%s]: %s", value, locator));
+        logAction(this, getParentClassName(), String.format("waitForItemAndSelect[%s]: %s", value, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(WebDriverWrapper.getDriver(), WebDriverWrapper.TIMEOUT)
                 .ignoring(StaleElementReferenceException.class);
@@ -178,10 +187,10 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
                     }
             );
         }catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(String.format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isSelected = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, String.format("waitForItemAndSelect: select item %s of %s", value, name));
+        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, String.format("waitForItemAndSelect: select item %s of %s", value, name));
         return parent;
     }
 

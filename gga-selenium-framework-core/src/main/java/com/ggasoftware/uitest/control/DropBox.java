@@ -13,12 +13,17 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.utils.LinqUtils;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
+import com.ggasoftware.uitest.utils.Timer;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+
+import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
+import static com.ggasoftware.uitest.utils.Timer.getResultAction;
 
 /**
  * DropBox control implementation
@@ -42,6 +47,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
         super(name, locator, parentPanel);
     }
 
+    private Select select() { return new Select(getWebElement()); }
 
     /**
      * Select by the visible option text
@@ -51,8 +57,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel selectByText(String sItem) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("Set Value (selectByVisibleText): %s", sItem));
-        Select select = new Select(getWebElement());
-        select.selectByVisibleText(sItem);
+        alwaysDoneAction(() -> select().selectByVisibleText(sItem));
         return super.parent;
     }
 
@@ -67,8 +72,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel selectByValue(String value) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("Set Value (selectByValue): %s", value));
-        Select select = new Select(getWebElement());
-        select.selectByValue(value);
+        alwaysDoneAction(() -> select().selectByValue(value));
         return super.parent;
     }
 
@@ -80,8 +84,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel selectByIndex(int index) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("Set Value by Index: %d", index));
-        Select select = new Select(getWebElement());
-        select.selectByIndex(index);
+        alwaysDoneAction(() -> select().selectByIndex(index));
         return super.parent;
     }
 
@@ -93,14 +96,13 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel selectByTextContains(String sItem) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("Set Value contains: %s", sItem));
-        Select select = new Select(getWebElement());
-
-        List<WebElement> options = select.getOptions();
-        for (int i = 0; i < options.size(); i++) {
-            if (options.get(i).getText().contains(sItem)) {
-                select.selectByIndex(i);
-                return super.parent;
-            }
+        Select select = select();
+        int firstIndex = getResultAction(() -> LinqUtils.firstIndex(
+                select.getOptions(),
+                option -> option.getText().contains(sItem)));
+        if (firstIndex > -1) {
+            select.selectByIndex(firstIndex);
+            return super.parent;
         }
         throw new NoSuchElementException(String.format("Cannot find item contains this text '%s'", sItem));
     }
@@ -112,8 +114,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public int getOptionsCount() {
         ReporterNGExt.logAction(this, getParentClassName(), "Get count of all options");
-        Select select = new Select(getWebElement());
-        return (select.getOptions().size());
+        return select().getOptions().size();
     }
 
     /**
@@ -123,16 +124,9 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public String[] getAllOptions() {
         ReporterNGExt.logAction(this, getParentClassName(), "Get all options");
-        Select select = new Select(getWebElement());
-
-        List<WebElement> allOptionsWE;
-        allOptionsWE = select.getOptions();
-
-        String[] allOptions = new String[allOptionsWE.size()];
-        for (int i = 0; i < allOptionsWE.size(); i++) {
-            allOptions[i] = allOptionsWE.get(i).getText();
-        }
-        return allOptions;
+        return getResultAction(() -> (String[])LinqUtils.select(
+                select().getOptions(),
+                WebElement::getText).toArray());
     }
 
     /**
@@ -143,8 +137,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public String getFirstSelectedOption() {
         ReporterNGExt.logAction(this, getParentClassName(), "Get First Selected Option");
-        Select select = new Select(getWebElement());
-        return select.getFirstSelectedOption().getText();
+        return select().getFirstSelectedOption().getText();
     }
 
     /**
@@ -154,16 +147,9 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public String[] getAllSelectedOptions() {
         ReporterNGExt.logAction(this, getParentClassName(), "Get All selected options");
-        Select select = new Select(getWebElement());
-
-        List<WebElement> allSelectedOptionsWE;
-        allSelectedOptionsWE = select.getAllSelectedOptions();
-
-        String[] allSelectedOptions = new String[allSelectedOptionsWE.size()];
-        for (int i = 0; i < allSelectedOptionsWE.size(); i++) {
-            allSelectedOptions[i] = allSelectedOptionsWE.get(i).getText();
-        }
-        return allSelectedOptions;
+        return getResultAction(() -> (String[])LinqUtils.select(
+                    select().getAllSelectedOptions(),
+                    WebElement::getText).toArray());
     }
 
 
@@ -177,8 +163,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel deSelectByText(String sItem) {
         ReporterNGExt.logAction(this, getParentClassName(), String.format("Deselect value%s", sItem));
-        Select select = new Select(getWebElement());
-        select.deselectByVisibleText(sItem);
+        alwaysDoneAction(() -> select().deselectByVisibleText(sItem));
         return super.parent;
     }
 
@@ -192,8 +177,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel deselectAll() {
         ReporterNGExt.logAction(this, getParentClassName(), "Deselect All values");
-        Select select = new Select(getWebElement());
-        select.deselectAll();
+        alwaysDoneAction(() -> select().deselectAll());
         return super.parent;
     }
 
@@ -205,8 +189,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      */
     public boolean isMultiple() {
         ReporterNGExt.logAction(this, getParentClassName(), "isMultiple");
-        Select select = new Select(getWebElement());
-        return select.isMultiple();
+        return select().isMultiple();
     }
 
     /**
@@ -216,13 +199,9 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      * @return true if value exists
      */
     public boolean isOptionExist(String value) {
-        String[] allOptions = getAllOptions();
-        for (String option : allOptions) {
-            if (option.equals(value)) {
-                return true;
-            }
-        }
-        return false;
+        return LinqUtils.first(
+                getAllOptions(),
+                option -> option.equals(value)) != null;
     }
 
 }

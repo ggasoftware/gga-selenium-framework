@@ -14,7 +14,10 @@
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.ReporterNGExt;
+import com.ggasoftware.uitest.utils.Timer;
 import org.openqa.selenium.WebElement;
+
+import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
 
 /**
  * RadioButton control implementation
@@ -43,7 +46,7 @@ public class RadioButton<ParentPanel> extends Element<ParentPanel> {
      * @return True if the element is currently checked, false otherwise.
      */
     public boolean isChecked() {
-        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(),
+        return (Boolean) logGetter(this, getParentClassName(),
                 "RadioButton Checked", getWebElement().isSelected());
     }
 
@@ -54,10 +57,12 @@ public class RadioButton<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel check() {
         ReporterNGExt.logAction(this, getParentClassName(), "Check RadioButton");
-        WebElement webEl = getWebElement();
-        if (!webEl.isSelected()) {
-            webEl.click();
-        }
+        Timer.alwaysDoneAction(() -> {
+            WebElement webEl = getWebElement();
+            if (!webEl.isSelected()) {
+                webEl.click();
+            }
+        });
         return super.parent;
     }
 
