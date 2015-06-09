@@ -14,17 +14,19 @@
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.*;
+import com.ggasoftware.uitest.utils.interfaces.*;
+import com.ggasoftware.uitest.utils.linqInterfaces.*;
+import com.ggasoftware.uitest.utils.linqInterfaces.Action;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.*;
+import org.openqa.selenium.support.ui.*;
 
 import java.util.List;
 import java.util.Properties;
 
+import static com.ggasoftware.uitest.utils.FrameworkSettings.*;
 import static com.ggasoftware.uitest.utils.LinqUtils.where;
+import static com.ggasoftware.uitest.utils.ReporterNG.logBusiness;
 import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
@@ -87,7 +89,6 @@ public class Element<ParentPanel> {
         return properties.getProperty(key);
     }
 
-
     /**
      * Parent panel which contains current element
      */
@@ -118,6 +119,70 @@ public class Element<ParentPanel> {
         this.bylocator = byLocator;
         this.locator = byLocator.toString();
     }
+
+    protected String getTypeName() { return "Element"; }
+
+    public String getDefaultLogMessage(String text) throws Exception {
+        return text +  format(" (Name: '%s', Type: '%s', LocatorAttribute: '%s')", getName(), getTypeName(), bylocator);
+    }
+
+    public static Scenario invocationScenario = new Scenario() {
+        @Override
+        public <T> T invoke(Element element, String actionName, FuncT<T> viAction) throws Exception {
+            logger.info(element.getDefaultLogMessage(actionName));
+            return viAction.invoke();
+        }
+    };
+
+    protected final <T> T doVIActionResult(String logActionName, FuncT<T> viAction) throws Exception {
+        return doVIActionResult(logActionName, viAction, null);
+    }
+    protected final <T> T doVIActionResult(String actionName, FuncT<T> viAction, FuncTT<T, String> logResult) throws Exception
+    {
+        try {
+            T result = invocationScenario.invoke(this, actionName, viAction);
+            if (isDemoMode)
+                highlight(highlightSettings);
+            if (logResult != null)
+                logger.info(logResult.invoke(result));
+            return result;
+        }
+        catch (Exception ex) {
+            throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+        }
+    }
+
+    protected final void doVIAction(String actionName, Action viAction) throws Exception
+    {
+        try {
+            invocationScenario.invoke(this, actionName, () -> {viAction.invoke(); return null;});
+            if (isDemoMode)
+                highlight(highlightSettings);
+        }
+        catch (Exception ex) {
+            throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+        }
+    }
+
+    public void highlight() {
+        highlight(highlightSettings);
+    }
+
+    public void highlight(HighlightSettings highlightSettings) {
+        if (highlightSettings == null)
+            highlightSettings = new HighlightSettings();
+        String orig = getWebElement().getAttribute("style");
+        setAttribute("style", format("border: 3px solid %s; background-color: %s;", highlightSettings.FrameColor,
+                highlightSettings.BgColor));
+        try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception ignore) {}
+        setAttribute("style", orig);
+    }
+
+    public void setAttribute(String attributeName, String value) {
+        jsExecutor().executeScript("arguments[0].setAttribute(arguments[1], arguments[2])",
+            getWebElement(), attributeName, value);
+    }
+
     /**
      * Replace each substring of this string "$VALUE" to [value] in [str]
      *
@@ -299,7 +364,7 @@ public class Element<ParentPanel> {
         logAction(this, getParentClassName(), format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset));
         alwaysDoneAction(() -> {
             Actions builder = new Actions(getDriver());
-            Action click = builder.moveToElement(getWebElement(), xOffset, yOffset).click().build();
+            org.openqa.selenium.interactions.Action click = builder.moveToElement(getWebElement(), xOffset, yOffset).click().build();
             click.perform();
         });
         return parent;
@@ -813,7 +878,7 @@ public class Element<ParentPanel> {
 
         Actions builder = new Actions(getDriver());
 
-        Action dragAndDropBy = builder.dragAndDropBy(getWebElement(), xOffset, yOffset).build();
+        org.openqa.selenium.interactions.Action dragAndDropBy = builder.dragAndDropBy(getWebElement(), xOffset, yOffset).build();
         dragAndDropBy.perform();
         return parent;
     }

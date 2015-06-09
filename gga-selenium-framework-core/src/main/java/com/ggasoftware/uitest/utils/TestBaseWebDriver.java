@@ -108,7 +108,7 @@ public class TestBaseWebDriver extends TestBase {
         reportportal = useReportPortal;
     }
 
-
+    public static String frameworkName = "Jedi Viqa";
     /**
      * Logging locator of element at findElement method.
      *
