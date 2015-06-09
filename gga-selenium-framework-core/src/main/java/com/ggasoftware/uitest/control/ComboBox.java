@@ -13,6 +13,7 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.utils.LinqUtils;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.WebDriverWrapper;
 import org.openqa.selenium.*;
@@ -22,6 +23,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ggasoftware.uitest.utils.LinqUtils.firstIndex;
+import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
+import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
+import static com.ggasoftware.uitest.utils.Timer.getResultAction;
+import static java.lang.String.format;
+import static java.lang.System.currentTimeMillis;
 
 /**
  * ComboBox control implementation
@@ -44,6 +52,8 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
         super(name, locator, parentPanel);
     }
 
+    private Select select() { return new Select(getWebElement()); }
+
     /**
      * Select by Index.
      *
@@ -51,9 +61,8 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel select(int index) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Select %s item", index));
-        Select select = new Select(getWebElement());
-        select.selectByIndex(index);
+        logAction(this, getParentClassName(), format("Select %s item", index));
+        alwaysDoneAction(() -> select().selectByIndex(index));
         return this.parent;
     }
 
@@ -64,9 +73,8 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel select(String value) {
-        ReporterNGExt.logAction(this, getParentClassName(), "Select " + value);
-        Select select = new Select(getWebElement());
-        select.selectByValue(value);
+        logAction(this, getParentClassName(), "Select " + value);
+        alwaysDoneAction(() -> select().selectByValue(value));
         return this.parent;
     }
 
@@ -77,17 +85,15 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel selectByTextContains(String item) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("select by text contains: %s", item));
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-
-        List<WebElement> options = select.getOptions();
-        for (int i = 0; i < options.size(); i++) {
-            if (options.get(i).getText().contains(item)) {
-                select.selectByIndex(i);
-                return super.parent;
-            }
-        }
-        throw new NoSuchElementException(String.format("Cannot find item contains this text '%s'", item));
+        logAction(this, getParentClassName(), format("select by text contains: %s", item));
+        Select select = select();
+        int firstIndex = getResultAction(() -> firstIndex(
+                select.getOptions(),
+                option -> option.getText().contains(item)));
+        if (firstIndex > -1) {
+            select.selectByIndex(firstIndex);
+            return super.parent; }
+        throw new NoSuchElementException(format("Cannot find item contains this text '%s'", item));
     }
 
     /**
@@ -96,9 +102,8 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return First Selected option.
      */
     public String getFirstSelectedItem() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get selected items");
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        return select.getFirstSelectedOption().getText();
+        logAction(this, getParentClassName(), "Get selected items");
+        return getResultAction(() -> select().getFirstSelectedOption().getText());
     }
 
     /**
@@ -107,14 +112,10 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return All Selected options.
      */
     public List<String> getSelectedItem() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get selected items");
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        List<WebElement> elements = select.getAllSelectedOptions();
-        List<String> items = new ArrayList<>();
-        for (WebElement element : elements) {
-            items.add(element.getText());
-        }
-        return items;
+        logAction(this, getParentClassName(), "Get selected items");
+        return getResultAction(() -> (List<String>)LinqUtils.select(
+                select().getAllSelectedOptions(),
+                WebElement::getText));
     }
 
     /**
@@ -123,14 +124,10 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return List of all options.
      */
     public List<String> getItems() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get all items");
-        org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-        List<WebElement> elements = select.getOptions();
-        List<String> items = new ArrayList<>();
-        for (WebElement element : elements) {
-            items.add(element.getText());
-        }
-        return items;
+        logAction(this, getParentClassName(), "Get all items");
+        return getResultAction(() -> (List<String>)LinqUtils.select(
+                select().getOptions(),
+                WebElement::getText));
     }
 
     /**
@@ -141,8 +138,8 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      */
     public ParentPanel waitForItemAndSelect(final String value) {
         boolean isSelected;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForItemAndSelect[%s]: %s", value, locator));
-        long start = System.currentTimeMillis() / 1000;
+        logAction(this, getParentClassName(), format("waitForItemAndSelect[%s]: %s", value, locator));
+        long start = currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(WebDriverWrapper.getDriver(), WebDriverWrapper.TIMEOUT)
                 .ignoring(StaleElementReferenceException.class);
         try {
@@ -161,10 +158,10 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
                     }
             );
         }catch (TimeoutException e){
-            ReporterNGExt.logTechnical(String.format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, currentTimeMillis() / 1000 - start));
             isSelected = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, String.format("waitForItemAndSelect: select item %s of %s", value, name));
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, format("waitForItemAndSelect: select item %s of %s", value, name));
         return parent;
     }
 

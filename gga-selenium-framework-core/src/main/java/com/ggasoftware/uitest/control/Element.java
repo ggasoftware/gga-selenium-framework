@@ -13,9 +13,7 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
-import com.ggasoftware.uitest.utils.PropertyReader;
-import com.ggasoftware.uitest.utils.ReporterNGExt;
-import com.ggasoftware.uitest.utils.TestBaseWebDriver;
+import com.ggasoftware.uitest.utils.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -26,7 +24,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.Properties;
 
+import static com.ggasoftware.uitest.utils.LinqUtils.where;
+import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
+import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
+import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.logFindElementLocator;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.simpleClassName;
+import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
+import static com.ggasoftware.uitest.utils.Timer.getResultAction;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.*;
+import static java.lang.String.format;
 
 /**
  * Base Element control implementation
@@ -106,6 +113,11 @@ public class Element<ParentPanel> {
         this.parent = panel;
     }
 
+    public Element(String name, By byLocator) {
+        this.name = name;
+        this.bylocator = byLocator;
+        this.locator = byLocator.toString();
+    }
     /**
      * Replace each substring of this string "$VALUE" to [value] in [str]
      *
@@ -188,7 +200,7 @@ public class Element<ParentPanel> {
             case "xpath":
                 return By.xpath(locator_body);
             case "text":
-                return By.xpath(String.format("//*[contains(text(), '%s')]", locator_body));
+                return By.xpath(format("//*[contains(text(), '%s')]", locator_body));
             case "name":
                 return By.name(locator_body);
             default:
@@ -214,7 +226,7 @@ public class Element<ParentPanel> {
         if (parent == null) {
             return "";
         }
-        if (TestBaseWebDriver.simpleClassName) {
+        if (simpleClassName) {
             return parent.getClass().getSimpleName();
         }
         return parent.getClass().getCanonicalName();
@@ -227,11 +239,12 @@ public class Element<ParentPanel> {
      *
      * @return WebElement
      */
+    private TestBaseWebDriver checker = new TestBaseWebDriver();
+    private static final String failedToFindElementMessage = "Can't find element by locator '%s' during %s seconds";
+    private static final String findToMuchElementsMessage = "Find %s elements instead of one by locator '%s' during %s seconds";
+
     public WebElement getWebElement() {
-        if (TestBaseWebDriver.logFindElementLocator) {
-            ReporterNGExt.logTechnical(String.format("Get Web Element '%s'", locator));
-        }
-        return getDriver().findElement(bylocator);
+        return getWebElement(TIMEOUT);
     }
 
     /**
@@ -239,14 +252,27 @@ public class Element<ParentPanel> {
      * start it with locator type "id=", "css=", "xpath=" and etc. Locator
      * without type is assigned to xpath
      *
-     * @param seconds to wait until element found.
+     * @param timeouInSec to wait until element found.
      * @return WebElement
      */
-    public WebElement getWebElement(int seconds) {
-        setTimeout(seconds);
-        WebElement webElement = getWebElement();
+    public WebElement getWebElement(int timeouInSec) {
+        setTimeout(timeouInSec);
+        if (logFindElementLocator) {
+            logTechnical(format("Get Web Element '%s'", locator));
+        }
+        List<WebElement> result = new Timer(timeouInSec * 1000).getByCondition(
+                () -> getDriver().findElements(bylocator),
+                els -> where(els, WebElement::isDisplayed).size() > 0);
         setTimeout(TIMEOUT);
-        return webElement;
+        if (result == null) {
+            checker.assertTrue(false, format(failedToFindElementMessage, bylocator, TIMEOUT));
+            return null;
+        }
+        if (result.size() > 1) {
+            checker.assertTrue(false, format(findToMuchElementsMessage, result.size(), bylocator, TIMEOUT));
+            return null;
+        }
+        return result.get(0);
     }
 
     //  Common functions
@@ -257,8 +283,8 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel click() {
-        ReporterNGExt.logAction(this, getParentClassName(), "click");
-        getWebElement().click();
+        logAction(this, getParentClassName(), "click");
+        alwaysDoneAction(() -> getWebElement().click());
         return parent;
     }
 
@@ -270,23 +296,25 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel clickBy(int xOffset, int yOffset) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset));
-        Actions builder = new Actions(getDriver());
-        Action click = builder.moveToElement(getWebElement(), xOffset, yOffset).click().build();
-        click.perform();
+        logAction(this, getParentClassName(), format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset));
+        alwaysDoneAction(() -> {
+            Actions builder = new Actions(getDriver());
+            Action click = builder.moveToElement(getWebElement(), xOffset, yOffset).click().build();
+            click.perform();
+        });
         return parent;
     }
 
-
+    private JavascriptExecutor jsExecutor() { return (JavascriptExecutor) getDriver(); }
+    
     /**
      * Click on the Element(WebElement) by JS
      *
      * @return Parent instance
      */
     public ParentPanel clickJS() {
-        ReporterNGExt.logAction(this, getParentClassName(), "clickJS");
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", getWebElement());
+        logAction(this, getParentClassName(), "clickJS");
+        alwaysDoneAction(() -> jsExecutor().executeScript("arguments[0].click();", getWebElement()));
         return parent;
     }
 
@@ -296,9 +324,8 @@ public class Element<ParentPanel> {
      * @return Serialize result
      */
     public String serializeForm() {
-        ReporterNGExt.logAction(this, getParentClassName(), "serializeForm");
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        return (String) executor.executeScript("return $(arguments[0]).serialize();", getWebElement());
+        logAction(this, getParentClassName(), "serializeForm");
+        return (String) jsExecutor().executeScript("return $(arguments[0]).serialize();", getWebElement());
     }
 
     /**
@@ -307,12 +334,11 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel mouseOverJS() {
-        ReporterNGExt.logAction(this, getParentClassName(), "mouseOverJS");
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        logAction(this, getParentClassName(), "mouseOverJS");
         String script = "var evt = document.createEvent('MouseEvents');" +
                 "evt.initMouseEvent('mouseover',true, true, window, 500, 100, 0, 0, 0, false, false, false, false, 0, null);" +
                 "arguments[0].dispatchEvent(evt);";
-        executor.executeScript(script, getWebElement());
+        jsExecutor().executeScript(script, getWebElement());
         return parent;
     }
 
@@ -322,7 +348,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel ctrlClick() {
-        ReporterNGExt.logAction(this, getParentClassName(), "ctrlClick");
+        logAction(this, getParentClassName(), "ctrlClick");
         Actions builder = new Actions(getDriver());
         builder.keyDown(Keys.CONTROL)
                 .moveToElement(getWebElement())
@@ -338,7 +364,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel focusWindowAndClick() {
-        ReporterNGExt.logAction(this, getParentClassName(), "focusWindowAndClick");
+        logAction(this, getParentClassName(), "focusWindowAndClick");
         getDriver().switchTo().window("");
         getWebElement().click();
         return parent;
@@ -351,9 +377,11 @@ public class Element<ParentPanel> {
      */
     public ParentPanel doubleClick() {
         getWebElement().getSize(); //for scroll to object
-        ReporterNGExt.logAction(this, getParentClassName(), "doubleClick");
-        Actions builder = new Actions(getDriver());
-        builder.doubleClick();
+        logAction(this, getParentClassName(), "doubleClick");
+        alwaysDoneAction(() -> {
+            Actions builder = new Actions(getDriver());
+            builder.doubleClick();
+        });
         return parent;
     }
 
@@ -365,7 +393,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel rightClick() {
         getWebElement().getSize(); //for scroll to object
-        ReporterNGExt.logAction(this, getParentClassName(), "rightClick");
+        logAction(this, getParentClassName(), "rightClick");
         Actions builder = new Actions(getDriver());
         builder.contextClick(getWebElement()).perform();
         return parent;
@@ -379,9 +407,11 @@ public class Element<ParentPanel> {
      */
     public ParentPanel clickAction() {
         getWebElement().getSize(); //for scroll to object
-        ReporterNGExt.logAction(this, getParentClassName(), "clickAction");
-        Actions builder = new Actions(getDriver());
-        builder.click(getWebElement()).perform();
+        logAction(this, getParentClassName(), "clickAction");
+        alwaysDoneAction(() -> {
+            Actions builder = new Actions(getDriver());
+            builder.click(getWebElement()).perform();
+        });
         return parent;
     }
 
@@ -392,7 +422,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel mouseOver() {
         getWebElement().getSize(); //for scroll to object
-        ReporterNGExt.logAction(this, getParentClassName(), "mouseOver");
+        logAction(this, getParentClassName(), "mouseOver");
         Actions builder = new Actions(getDriver());
         builder.moveToElement(getWebElement()).build().perform();
         return parent;
@@ -405,7 +435,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel focus() {
         Dimension size = getWebElement().getSize(); //for scroll to object
-        ReporterNGExt.logAction(this, getParentClassName(), "focus");
+        logAction(this, getParentClassName(), "focus");
         Actions builder = new Actions(getDriver());
         org.openqa.selenium.interactions.Action focus = builder.moveToElement(getWebElement(), size.width / 2, size.height / 2).build();
         focus.perform();
@@ -419,7 +449,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotDisplayed(Element expectedElement, int tryCount) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectNotDisplayed: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
+        logAction(this, getParentClassName(), format("clickWhileObjectNotDisplayed: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while (!(expectedElement.isDisplayed())) {
             if (isDisplayed()) {
@@ -442,7 +472,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotExist(Element expectedElement, int tryCount) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectNotExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
+        logAction(this, getParentClassName(), format("clickWhileObjectNotExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while (!(expectedElement.isExists())) {
             getWebElement().click();
@@ -461,7 +491,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectIsDisplayed(Element expectedElement, int tryCount) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
+        logAction(this, getParentClassName(), format("clickWhileObjectExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while ((expectedElement.isDisplayed())) {
             getWebElement().click();
@@ -480,9 +510,11 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel sendKeys(CharSequence... keysToSend) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("sendKeys - %s", keysToSend));
-        getDriver().switchTo().activeElement();
-        getWebElement().sendKeys(keysToSend);
+        logAction(this, getParentClassName(), format("sendKeys - %s", keysToSend));
+        alwaysDoneAction(() -> {
+            getDriver().switchTo().activeElement();
+            getWebElement().sendKeys(keysToSend);
+        });
         return parent;
     }
 
@@ -493,9 +525,11 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel sendKeysSecure(CharSequence... keysToSend) {
-        ReporterNGExt.logAction(this, getParentClassName(), "sendKeysSecure");
-        getDriver().switchTo().activeElement();
-        getWebElement().sendKeys(keysToSend);
+        logAction(this, getParentClassName(), "sendKeysSecure");
+        alwaysDoneAction(() -> {
+            getDriver().switchTo().activeElement();
+            getWebElement().sendKeys(keysToSend);
+        });
         return parent;
     }
 
@@ -506,9 +540,11 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     protected ParentPanel sendKeys(Keys sendKeys) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("sendKeys - %s", sendKeys));
-        getDriver().switchTo().activeElement();
-        getWebElement().sendKeys(sendKeys);
+        logAction(this, getParentClassName(), format("sendKeys - %s", sendKeys));
+        alwaysDoneAction(() -> {
+            getDriver().switchTo().activeElement();
+            getWebElement().sendKeys(sendKeys);
+        });
         return parent;
     }
 
@@ -518,8 +554,8 @@ public class Element<ParentPanel> {
      * @return true if we can find Element on the web page, otherwise false
      */
     public boolean isExists() {
-        if (TestBaseWebDriver.logFindElementLocator) {
-            ReporterNGExt.logTechnical(String.format("Find Elements '%s'", locator));
+        if (logFindElementLocator) {
+            logTechnical(format("Find Elements '%s'", locator));
         }
         return !getDriver().findElements(bylocator).isEmpty();
     }
@@ -596,7 +632,9 @@ public class Element<ParentPanel> {
      * @return The innerText of this element.
      */
     public String getText() {
-        return (String) ReporterNGExt.logGetter(this, getParentClassName(), "text", getWebElement().getText());
+        String result = getResultAction(() -> getWebElement().getText());
+        logAction(this, getParentClassName(), format("got ext : %s", result));
+        return result;
     }
 
     /**
@@ -610,7 +648,7 @@ public class Element<ParentPanel> {
         for(WebElement webElement:getChild()){
             l=+webElement.getText().length();
         }
-        return (String) ReporterNGExt.logGetter(this, getParentClassName(), "element text", getWebElement().getText().substring(l));
+        return (String) logGetter(this, getParentClassName(), "element text", getWebElement().getText().substring(l));
     }
 
     /**
@@ -621,7 +659,7 @@ public class Element<ParentPanel> {
      * @return The attribute's current value or null if the value is not set.
      */
     public String getAttribute(String sName) {
-        return (String) ReporterNGExt.logGetter(this, getParentClassName(), sName, getWebElement().getAttribute(sName));
+        return (String) logGetter(this, getParentClassName(), sName, getWebElement().getAttribute(sName));
     }
 
     /**
@@ -632,7 +670,7 @@ public class Element<ParentPanel> {
      * @value value The value of the attribute.
      */
     public ParentPanel setAttributeJS(String attribute, String value) {
-        ((JavascriptExecutor) getDriver()).executeScript(String.format("arguments[0].setAttribute('%s',arguments[1]);", attribute),
+        ((JavascriptExecutor) getDriver()).executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attribute),
                 getWebElement(),
                 value);
         return parent;
@@ -648,7 +686,7 @@ public class Element<ParentPanel> {
      * @return The current, computed value of the property.
      */
     public String getCssValue(String sName) {
-        return (String) ReporterNGExt.logGetter(this, getParentClassName(), sName, getWebElement().getCssValue(sName));
+        return (String) logGetter(this, getParentClassName(), sName, getWebElement().getCssValue(sName));
     }
 
     /**
@@ -660,7 +698,7 @@ public class Element<ParentPanel> {
      * @return A point, containing the location of the top left-hand corner of the element
      */
     public Point getLocation() {
-        return (Point) ReporterNGExt.logGetter(this, getParentClassName(), "Location", getWebElement().getLocation());
+        return (Point) logGetter(this, getParentClassName(), "Location", getWebElement().getLocation());
     }
 
     /**
@@ -672,7 +710,7 @@ public class Element<ParentPanel> {
      * @return The size of the element on the page.
      */
     public Dimension getSize() {
-        return (Dimension) ReporterNGExt.logGetter(this, getParentClassName(), "Dimension", getWebElement().getSize());
+        return (Dimension) logGetter(this, getParentClassName(), "Dimension", getWebElement().getSize());
     }
 
     /**
@@ -682,7 +720,7 @@ public class Element<ParentPanel> {
      * @return The tag name of this element.
      */
     public String getTagName() {
-        return (String) ReporterNGExt.logGetter(this, getParentClassName(), "TagName", getWebElement().getTagName());
+        return (String) logGetter(this, getParentClassName(), "TagName", getWebElement().getTagName());
     }
 
     /**
@@ -692,7 +730,7 @@ public class Element<ParentPanel> {
      * @return Has child or not
      */
     public boolean hasChildByTag(String tagName) {
-        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChildByTag", !getWebElement().findElements(By.tagName(tagName)).isEmpty());
+        return (Boolean) logGetter(this, getParentClassName(), "HasChildByTag", !getWebElement().findElements(By.tagName(tagName)).isEmpty());
     }
 
     /**
@@ -701,7 +739,7 @@ public class Element<ParentPanel> {
      * @return Has child or not
      */
     public boolean hasChild() {
-        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.xpath(".//*")).isEmpty());
+        return (Boolean) logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.xpath(".//*")).isEmpty());
     }
 
     /**
@@ -710,8 +748,8 @@ public class Element<ParentPanel> {
      * @return Has child or not
      */
     public List<WebElement> getChild() {
-        if (TestBaseWebDriver.logFindElementLocator) {
-            ReporterNGExt.logTechnical(String.format("Get Child Web Elements '%s'", locator));
+        if (logFindElementLocator) {
+            logTechnical(format("Get Child Web Elements '%s'", locator));
         }
         return getWebElement().findElements(By.xpath(".//*"));
     }
@@ -728,15 +766,15 @@ public class Element<ParentPanel> {
             case "css":
                 return "";
             case "id":
-                return String.format("//*[@id=\"%s\"]", sLocator);
+                return format("//*[@id=\"%s\"]", sLocator);
             case "link":
-                return String.format("//*[@link=\"%s\"]", sLocator);
+                return format("//*[@link=\"%s\"]", sLocator);
             case "xpath":
-                return String.format("%s", sLocator);
+                return format("%s", sLocator);
             case "text":
-                return String.format("//*[contains(text(), '%s')]", sLocator);
+                return format("//*[contains(text(), '%s')]", sLocator);
             case "name":
-                return String.format("//*[@name=\"%s\"]", sLocator);
+                return format("//*[@name=\"%s\"]", sLocator);
             default:
                 return locator;
         }
@@ -752,7 +790,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel selectArea(int x1, int y1, int x2, int y2) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Select area: from %d,%d;to %d,%d", x1, y1, x2, y2));
+        logAction(this, getParentClassName(), format("Select area: from %d,%d;to %d,%d", x1, y1, x2, y2));
         WebElement element = getWebElement();
         new Actions(getDriver()).moveToElement(element, x1, y1)
                 .clickAndHold()
@@ -771,7 +809,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel dragAndDropBy(int xOffset, int yOffset) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Drag and drop element: horizontal move offset - %dpx; vertical move offset - %dpx", xOffset, yOffset));
+        logAction(this, getParentClassName(), format("Drag and drop element: horizontal move offset - %dpx; vertical move offset - %dpx", xOffset, yOffset));
 
         Actions builder = new Actions(getDriver());
 
@@ -799,7 +837,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForExists(int timeoutSec, boolean checkCondition) {
         boolean isExists;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExists: %s", locator));
+        logAction(this, getParentClassName(), format("waitForExists: %s", locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
@@ -808,12 +846,12 @@ public class Element<ParentPanel> {
             wait.until(ExpectedConditions.presenceOfElementLocated(bylocator));
             isExists = true;
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForExists: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForExists: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isExists = false;
         }
         setTimeout(TIMEOUT);
         if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists, String.format("waitForExists - '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists, format("waitForExists - '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -854,7 +892,7 @@ public class Element<ParentPanel> {
      */
     private ParentPanel waitForDisplayed(int timeoutSec, boolean checkCondition) {
         boolean isDisplayed;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForDisplayed: %s", locator));
+        logAction(this, getParentClassName(), format("waitForDisplayed: %s", locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
@@ -863,12 +901,12 @@ public class Element<ParentPanel> {
             wait.until(ExpectedConditions.visibilityOfElementLocated(bylocator));
             isDisplayed = true;
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForDisplayed: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForDisplayed: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isDisplayed = false;
         }
         setTimeout(TIMEOUT);
         if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed, String.format("waitForDisplayed - '%s' should be displayed", name), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed, format("waitForDisplayed - '%s' should be displayed", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -937,7 +975,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForElementToVanish(int timeoutSec, boolean checkCondition) {
         boolean isVanished;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForElementToVanish: %s", locator));
+        logAction(this, getParentClassName(), format("waitForElementToVanish: %s", locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class, NoSuchElementException.class);
@@ -945,12 +983,12 @@ public class Element<ParentPanel> {
         try {
             isVanished = wait.until(ExpectedConditions.invisibilityOfElementLocated(bylocator));
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForElementToVanish: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForElementToVanish: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isVanished = false;
         }
         setTimeout(TIMEOUT);
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished, String.format("waitForElementToVanish - '%s' should be vanished", name), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished, format("waitForElementToVanish - '%s' should be vanished", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -986,7 +1024,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForText(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForText[%s]: %s", text, locator));
+        logAction(this, getParentClassName(), format("waitForText[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
@@ -1002,11 +1040,11 @@ public class Element<ParentPanel> {
                     }
             );
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForText: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForText: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForText - '%s' should has a text '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, format("waitForText - '%s' should has a text '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -1040,18 +1078,18 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForTextContains(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForTextContains[%s]: %s", text, locator));
+        logAction(this, getParentClassName(), format("waitForTextContains[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
         final WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
             isPresent = wait.until(ExpectedConditions.textToBePresentInElementLocated(bylocator, text));
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForTextContains: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForTextContains: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextContains - '%s' should has a text contains '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, format("waitForTextContains - '%s' should has a text contains '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -1087,18 +1125,18 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForTextChanged(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isChanged;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForTextChanged[%s]: %s", text, locator));
+        logAction(this, getParentClassName(), format("waitForTextChanged[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
             isChanged = wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(bylocator, text)));
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTextChanged - '%s' text '%s' should be changed", name, text), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, format("waitForTextChanged - '%s' text '%s' should be changed", name, text), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -1134,18 +1172,18 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForValue(final String value, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForValueAttribute[%s]: %s", value, locator));
+        logAction(this, getParentClassName(), format("waitForValueAttribute[%s]: %s", value, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
             isPresent = wait.until(ExpectedConditions.textToBePresentInElementValue(bylocator, value));
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForValueAttribute: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForValueAttribute: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForValueAttribute - '%s' should has a value attribute '%s'", name, value), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, format("waitForValueAttribute - '%s' should has a value attribute '%s'", name, value), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -1173,7 +1211,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, final boolean checkCondition) {
         boolean isChanged;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAttributeChanged[%s]: %s", value, locator));
+        logAction(this, getParentClassName(), format("waitForAttributeChanged[%s]: %s", value, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
@@ -1188,11 +1226,11 @@ public class Element<ParentPanel> {
                     }
             );
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForAttributeChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForAttributeChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -1204,7 +1242,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForExistsThenVanish(final boolean checkCondition) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExistsThenVanish:%s", locator));
+        logAction(this, getParentClassName(), format("waitForExistsThenVanish:%s", locator));
         waitForExists(checkCondition);
         waitForElementToVanish(checkCondition);
         return parent;
@@ -1216,7 +1254,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel waitForExistsThenVanish() {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExistsThenVanish:%s", locator));
+        logAction(this, getParentClassName(), format("waitForExistsThenVanish:%s", locator));
         waitForExists();
         waitForElementToVanish();
         return parent;
@@ -1240,7 +1278,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForClickableAndClick(final int timeoutSec) {
         boolean isClicked;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForClickable: %s", locator));
+        logAction(this, getParentClassName(), format("waitForClickable: %s", locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
@@ -1260,10 +1298,10 @@ public class Element<ParentPanel> {
                     }
             );
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForClickable: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForClickable: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isClicked = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked, String.format("waitForClickableAndClick: '%s' was clickable and click at it", name), TestBaseWebDriver.takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked, format("waitForClickableAndClick: '%s' was clickable and click at it", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -1298,7 +1336,7 @@ public class Element<ParentPanel> {
      */
     public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition, final int timeoutSec, final boolean checkCondition) {
         boolean isTrue;
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExpectedCondition[%s}: %s",condition, locator));
+        logAction(this, getParentClassName(), format("waitForExpectedCondition[%s}: %s", condition, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
@@ -1307,12 +1345,12 @@ public class Element<ParentPanel> {
             wait.until(condition);
             isTrue = false;
         } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForExpectedCondition: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            logTechnical(format("waitForExpectedCondition: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isTrue = true;
         }
         setTimeout(TIMEOUT);
         if (checkCondition){
-            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
+            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }

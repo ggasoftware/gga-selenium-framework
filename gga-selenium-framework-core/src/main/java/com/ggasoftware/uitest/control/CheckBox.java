@@ -14,7 +14,11 @@
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.ReporterNGExt;
+import com.ggasoftware.uitest.utils.Timer;
 import org.openqa.selenium.WebElement;
+
+import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
+import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
 
 /**
  * Checkbox control implementation
@@ -42,7 +46,7 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
      * @return True if the element is currently checked, false otherwise.
      */
     public boolean isChecked() {
-        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "Checked", getWebElement().isSelected());
+        return (Boolean) logGetter(this, getParentClassName(), "Checked", getWebElement().isSelected());
     }
 
     /**
@@ -52,10 +56,11 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel check() {
         ReporterNGExt.logAction(this, getParentClassName(), "Check");
-        WebElement webEl = getWebElement();
-        if (!webEl.isSelected()) {
-            webEl.click();
-        }
+        alwaysDoneAction(() -> {
+            WebElement webEl = getWebElement();
+            if (!webEl.isSelected())
+                webEl.click();
+        });
         return super.parent;
     }
 
@@ -66,10 +71,12 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel uncheck() {
         ReporterNGExt.logAction(this, getParentClassName(), "Uncheck");
-        WebElement webEl = getWebElement();
-        if (webEl.isSelected()) {
-            webEl.click();
-        }
+        alwaysDoneAction(() -> {
+            WebElement webEl = getWebElement();
+            if (webEl.isSelected()) {
+                webEl.click();
+            }
+        });
         return super.parent;
     }
 
