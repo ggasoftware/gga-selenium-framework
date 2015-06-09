@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static com.ggasoftware.uitest.utils.FrameworkSettings.*;
+import static com.ggasoftware.uitest.utils.LinqUtils.last;
 import static com.ggasoftware.uitest.utils.LinqUtils.where;
 import static com.ggasoftware.uitest.utils.ReporterNG.logBusiness;
 import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
@@ -120,7 +121,8 @@ public class Element<ParentPanel> {
         this.locator = byLocator.toString();
     }
 
-    protected String getTypeName() { return "Element"; }
+    protected String getTypeName() { return last(this.getClass().getName().split("\\.")); }
+    protected String getParentName() { return last(this.getClass().getName().split("\\.")); }
 
     public String getDefaultLogMessage(String text) throws Exception {
         return text +  format(" (Name: '%s', Type: '%s', LocatorAttribute: '%s')", getName(), getTypeName(), bylocator);
