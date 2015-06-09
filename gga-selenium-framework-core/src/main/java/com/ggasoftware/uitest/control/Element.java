@@ -446,6 +446,7 @@ public class Element<ParentPanel> {
      * Click on the Element(WebElement) until expectedElement is NOT DISPLAYED
      *
      * @param expectedElement - expected Element
+     * @param tryCount - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotDisplayed(Element expectedElement, int tryCount) {
@@ -469,6 +470,7 @@ public class Element<ParentPanel> {
      * Click on the Element(WebElement) until expectedElement exists
      *
      * @param expectedElement - expected Element
+     * @param tryCount - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotExist(Element expectedElement, int tryCount) {
@@ -488,6 +490,7 @@ public class Element<ParentPanel> {
      * Click on the Element(WebElement) until expectedElement is displayed
      *
      * @param expectedElement - expected Element
+     * @param tryCount - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectIsDisplayed(Element expectedElement, int tryCount) {
@@ -666,8 +669,9 @@ public class Element<ParentPanel> {
      * Set the value of a the given attribute of the element by JS.
      *
      * @param attribute The name of the attribute.
+     * @param value value The value of the attribute.
      * @return Parent instance
-     * @value value The value of the attribute.
+     *
      */
     public ParentPanel setAttributeJS(String attribute, String value) {
         ((JavascriptExecutor) getDriver()).executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attribute),
@@ -683,10 +687,11 @@ public class Element<ParentPanel> {
      * hex strings, so, for example if the "background-color" property is set as "green" in the HTML
      * source, the returned value will be "#008000"
      *
+     * @param name - css name
      * @return The current, computed value of the property.
      */
-    public String getCssValue(String sName) {
-        return (String) logGetter(this, getParentClassName(), sName, getWebElement().getCssValue(sName));
+    public String getCssValue(String name) {
+        return (String) logGetter(this, getParentClassName(), name, getWebElement().getCssValue(name));
     }
 
     /**
