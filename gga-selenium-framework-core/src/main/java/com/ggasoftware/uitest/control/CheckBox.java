@@ -55,13 +55,11 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel check() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Check");
-        alwaysDoneAction(() -> {
+        return doJAction("Check", () -> {
             WebElement webEl = getWebElement();
             if (!webEl.isSelected())
                 webEl.click();
         });
-        return super.parent;
     }
 
     /**
@@ -70,14 +68,12 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel uncheck() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Uncheck");
-        alwaysDoneAction(() -> {
+        return doJAction("Uncheck", () -> {
             WebElement webEl = getWebElement();
             if (webEl.isSelected()) {
                 webEl.click();
             }
         });
-        return super.parent;
     }
 
 }

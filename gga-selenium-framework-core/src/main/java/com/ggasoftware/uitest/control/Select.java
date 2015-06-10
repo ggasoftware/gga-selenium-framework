@@ -31,6 +31,10 @@ import static com.ggasoftware.uitest.utils.ReporterNG.logAssertTrue;
 import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
 import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
+import static java.lang.String.format;
+import static java.lang.String.valueOf;
+import static java.lang.System.currentTimeMillis;
+import static jdk.nashorn.internal.objects.Global.print;
 
 /**
  * Select control implementation
@@ -62,9 +66,7 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel deselect() {
-        logAction(this, getParentClassName(), "Deselect all items");
-        alwaysDoneAction(() -> select().deselectAll());
-        return this.parent;
+        return doJAction("Deselect all items",() -> select().deselectAll());
     }
 
     /**
@@ -74,13 +76,11 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel select(int index) {
-        logAction(this, getParentClassName(), String.format("Select %d item", index));
-        alwaysDoneAction(() -> {
+        return doJAction(format("Select %d item", index), () -> {
             org.openqa.selenium.support.ui.Select select = select();
             select.deselectAll();
             select.selectByIndex(index);
         });
-        return this.parent;
     }
 
     /**
@@ -90,13 +90,11 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel select(String value) {
-        logAction(this, getParentClassName(), String.format("Select %s", value));
-        alwaysDoneAction(() -> {
+        return doJAction(format("Select %s", value), () -> {
             org.openqa.selenium.support.ui.Select select = select();
             select.deselectAll();
             select.selectByValue(value);
         });
-        return this.parent;
     }
 
     /**
@@ -107,14 +105,13 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel select(String[] values) {
         org.openqa.selenium.support.ui.Select select = select();
-        alwaysDoneAction(() -> {
+        return doJAction("Select^ " + print(values), () -> {
             select.deselectAll();
             for (String value : values) {
-                logAction(this, getParentClassName(), String.format("Select %s", value));
+                logAction(this, getParentClassName(), format("Select %s", value));
                 select.selectByValue(value);
             }
         });
-        return this.parent;
     }
 
     /**
@@ -125,14 +122,13 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      */
     public ParentPanel select(int[] ids) {
         org.openqa.selenium.support.ui.Select select = select();
-        alwaysDoneAction(() -> {
+        return doJAction("Select^ " + print(ids), () -> {
             select.deselectAll();
             for (int id : ids) {
-                logAction(this, getParentClassName(), String.format("Select %d item", id));
+                logAction(this, getParentClassName(), format("Select %d item", id));
                 select.selectByIndex(id);
             }
         });
-        return this.parent;
     }
 
     /**
@@ -141,10 +137,10 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public List<String> getSelectedItems() {
-        logAction(this, getParentClassName(), "Get selected items");
-        return (List<String>) LinqUtils.select(
+        return doJActionResult("Get selected items",
+            () -> (List<String>) LinqUtils.select(
                 select().getAllSelectedOptions(),
-                WebElement::getText);
+                WebElement::getText));
     }
 
     /**
@@ -153,10 +149,10 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public List<String> getItems() {
-        logAction(this, getParentClassName(), "Get all items");
-        return (List<String>) LinqUtils.select(
+        return doJActionResult("Get all items",
+                () -> (List<String>) LinqUtils.select(
                 select().getOptions(),
-                WebElement::getText);
+                WebElement::getText));
     }
 
     /**
@@ -166,32 +162,34 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel waitForItemAndSelect(final String value) {
-        boolean isSelected;
-        logAction(this, getParentClassName(), String.format("waitForItemAndSelect[%s]: %s", value, locator));
-        long start = System.currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(WebDriverWrapper.getDriver(), WebDriverWrapper.TIMEOUT)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            isSelected = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            try {
-                                org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
-                                select.selectByValue(value);
-                                return true;
-                            } catch (Exception e) {
-                                return false;
-                            }
-                        }
+        return doJAction(format("waitForItemAndSelect[%s]: %s", value, getLocator()),
+                () -> {
+                    boolean isSelected;
+                    long start = currentTimeMillis() / 1000;
+                    WebDriverWait wait = (WebDriverWait) new WebDriverWait(WebDriverWrapper.getDriver(), WebDriverWrapper.TIMEOUT)
+                            .ignoring(StaleElementReferenceException.class);
+                    try {
+                        isSelected = wait.until(
+                                new ExpectedCondition<Boolean>() {
+                                    @Override
+                                    public Boolean apply(WebDriver driver) {
+                                        try {
+                                            org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(getWebElement());
+                                            select.selectByValue(value);
+                                            return true;
+                                        } catch (Exception e) {
+                                            return false;
+                                        }
+                                    }
+                                }
+                        );
+                    } catch (TimeoutException e) {
+                        logTechnical(format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", getLocator(), currentTimeMillis() / 1000 - start));
+                        isSelected = false;
                     }
-            );
-        }catch (TimeoutException e) {
-            logTechnical(String.format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
-            isSelected = false;
-        }
-        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, String.format("waitForItemAndSelect: select item %s of %s", value, name));
-        return parent;
+                    logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected,
+                            format("waitForItemAndSelect: select item %s of %s", value, getName()));
+                });
     }
 
 }

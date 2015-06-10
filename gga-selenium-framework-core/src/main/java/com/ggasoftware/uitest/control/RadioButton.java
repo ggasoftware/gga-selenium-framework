@@ -56,14 +56,12 @@ public class RadioButton<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel check() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Check RadioButton");
-        Timer.alwaysDoneAction(() -> {
+        return doJAction("Check RadioButton", () -> {
             WebElement webEl = getWebElement();
             if (!webEl.isSelected()) {
                 webEl.click();
             }
         });
-        return super.parent;
     }
 
 }

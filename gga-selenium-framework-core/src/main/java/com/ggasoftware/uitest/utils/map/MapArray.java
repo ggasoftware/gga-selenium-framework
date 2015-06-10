@@ -9,8 +9,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.ggasoftware.uitest.utils.Timer.ignoreException;
 import static com.ggasoftware.uitest.utils.LinqUtils.select;
+import static com.ggasoftware.uitest.utils.Timer.ignore;
 
 
 /**
@@ -24,14 +24,14 @@ public class MapArray<K, V> implements Collection<KeyValue<K,V>> {
         this();
         add(key, value);
     }
-    public <T> MapArray(Collection<T> collection, FuncTT<T, K> key, FuncTT<T, V> value) throws Exception {
+    public <T> MapArray(Collection<T> collection, JFuncTT<T, K> key, JFuncTT<T, V> value) throws Exception {
         this();
         try {
             for (T t : collection)
                 add(key.invoke(t), value.invoke(t));
         } catch (Exception ex) { throw new Exception("Can't init MapArray"); }
     }
-    public MapArray(int count, FuncTT<Integer, K> key, FuncTT<Integer, V> value) throws Exception {
+    public MapArray(int count, JFuncTT<Integer, K> key, JFuncTT<Integer, V> value) throws Exception {
         this();
         try {
             for (int i = 0; i < count; i++)
@@ -65,10 +65,10 @@ public class MapArray<K, V> implements Collection<KeyValue<K,V>> {
         return get(index).value;
     }
     public Collection<K> keys() {
-        return ignoreException(() -> select(pairs, pair -> pair.key));
+        return ignore(() -> select(pairs, pair -> pair.key));
     }
     public Collection<V> values() {
-        return ignoreException(() -> select(pairs, pair -> pair.value));
+        return ignore(() -> select(pairs, pair -> pair.value));
     }
 
     public int size() { return pairs.size(); }

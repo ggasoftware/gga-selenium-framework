@@ -13,8 +13,6 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
-import com.ggasoftware.uitest.control.interfaces.IList;
-
 /**
  * Button control implementation
  *

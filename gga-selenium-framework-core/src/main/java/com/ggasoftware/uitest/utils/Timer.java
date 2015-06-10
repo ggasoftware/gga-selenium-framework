@@ -1,6 +1,7 @@
 package com.ggasoftware.uitest.utils;
 
 import com.ggasoftware.uitest.utils.linqInterfaces.*;
+import com.ggasoftware.uitest.utils.linqInterfaces.JAction;
 
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
 import static java.lang.System.currentTimeMillis;
@@ -36,7 +37,7 @@ public class Timer {
         return timePassedInMSec() >  _timeoutInMSec;
     }
 
-    public boolean wait(FuncT<Boolean> waitCase) {
+    public boolean wait(JFuncT<Boolean> waitCase) {
         while (!timeoutPassed())
             try {
                 if (tryGetResult(waitCase) != null)
@@ -46,48 +47,49 @@ public class Timer {
         return false;
     }
 
-    public <T> T getResult(FuncT<T> getFunc) {
+    public <T> T getResult(JFuncT<T> getFunc) {
         return getByCondition(getFunc, result -> true);
     }
-    public <T> T getByCondition(FuncT<T> getFunc, FuncTT<T, Boolean> conditionFunc) {
-        while (!timeoutPassed())
+    public <T> T getByCondition(JFuncT<T> getFunc, JFuncTT<T, Boolean> conditionFunc) {
+        while (!timeoutPassed()) {
             try {
                 T result = tryGetResult(getFunc);
                 if (result != null && conditionFunc.invoke(result))
                     return result;
-                sleep(_retryTimeoutInMSec);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) { }
+            ignore(() -> sleep(_retryTimeoutInMSec));
+        }
         return null;
     }
-    public static <T> T getByConditionAction(FuncT<T> getFunc, FuncTT<T, Boolean> conditionFunc) {
+    public static <T> T getByConditionAction(JFuncT<T> getFunc, JFuncTT<T, Boolean> conditionFunc) {
         return new Timer().getByCondition(getFunc, conditionFunc);
     }
 
-    public static <T> T getResultAction(FuncT<T> getFunc) {
+    public static <T> T getResultAction(JFuncT<T> getFunc) {
         return new Timer().getByCondition(getFunc, result -> true);
     }
-    public static boolean alwaysDoneAction(Action action) {
+    public static boolean alwaysDoneAction(JAction action) {
         return new Timer().wait(() -> {
             action.invoke();
             return true;
         });
     }
 
-    public static boolean waitCondition(FuncT<Boolean> condition) {
+    public static boolean waitCondition(JFuncT<Boolean> condition) {
         return new Timer().wait(condition);
     }
 
-    private static <T> T tryGetResult(FuncT<T> waitCase)
+    private static <T> T tryGetResult(JFuncT<T> waitCase)
     {
         try { return waitCase.invoke(); }
         catch(Exception ex) { return null; }
     }
 
-    public static <T> T ignoreException(FuncT<T> func) {
+    public static <T> T ignore(JFuncT<T> func) {
         try { return func.invoke();
         } catch (Exception ignore) { return null; }
     }
-    public static void ignoreException(Action action) {
+    public static void ignore(JAction action) {
         try { action.invoke();
         } catch (Exception ignore) { }
     }

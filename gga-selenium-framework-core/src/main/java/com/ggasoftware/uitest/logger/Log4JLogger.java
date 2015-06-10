@@ -12,60 +12,51 @@ import static com.ggasoftware.uitest.utils.TestBaseWebDriver.frameworkName;
  */
 public class Log4JLogger implements ILogger {
     public void init(String message) {
-        consoleLogger.init(message);
         if (logLevel.lessThan(FATAL)) {
             log4j.info("[INIT]: " + message);
         }
     }
 
     public void suit(String message) {
-        consoleLogger.suit(message);
         if (logLevel.lessThan(FATAL)) {
             log4j.info("[SUIT]: " + message);
         }
     }
 
     public void test(String message) {
-        consoleLogger.test(message);
         if (logLevel.lessThan(FATAL)) {
             log4j.info("[TEST]: " + message);
         }
     }
 
     public void step(String message) {
-        consoleLogger.step(message);
         if (logLevel.lessThan(FATAL)) {
             log4j.info("[STEP]: " + message);
         }
     }
 
     public void fatal(String message) {
-        consoleLogger.fatal(message);
         if (logLevel.lessThan(FATAL)) {
             log4j.fatal(message);
         }
     }
 
     public void error(String message) {
-        consoleLogger.error(message);
         if (logLevel.lessThan(ERROR))
             log4j.error(message);
     }
 
     public void warning(String message) {
-        consoleLogger.warning(message);
         if (logLevel.lessThan(WARNING))
             log4j.warn(message);
     }
 
     public void info(String message) {
-        consoleLogger.info(message);
         if (logLevel.lessThan(INFO))
             log4j.info(message);
     }
 
     public void debug(String message) {
-        consoleLogger.debug(message);
         if (logLevel.lessThan(DEBUG))
             log4j.debug(message);
     }

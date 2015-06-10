@@ -1,5 +1,6 @@
 package com.ggasoftware.uitest.demo;
 
+import com.ggasoftware.uitest.control.Element;
 import com.ggasoftware.uitest.demo.panel.TestPanel;
 import com.ggasoftware.uitest.utils.*;
 import org.apache.log4j.LogManager;
@@ -26,7 +27,6 @@ public class TestExample extends TestBaseWebDriver {
 
     @BeforeTest
     public void setUp() throws MalformedURLException {
-
         testproperties = new Properties();
         try {
             testproperties.load(ClassLoader.getSystemResourceAsStream("test.properties"));
@@ -55,7 +55,6 @@ public class TestExample extends TestBaseWebDriver {
 
     @Test
     public void Google_Page() {
-
         assertTrue(TestPanel.get().logo.isDisplayed(), "check logo", true);
         assertTrue(TestPanel.get().searchBtn.isDisplayed(), "check search button is visible");
     }

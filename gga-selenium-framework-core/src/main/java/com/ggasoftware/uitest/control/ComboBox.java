@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ggasoftware.uitest.utils.LinqUtils.firstIndex;
+import static com.ggasoftware.uitest.utils.ReporterNG.logAssertTrue;
+import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
 import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
 import static com.ggasoftware.uitest.utils.Timer.getResultAction;
@@ -61,9 +63,8 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel select(int index) {
-        logAction(this, getParentClassName(), format("Select %s item", index));
-        alwaysDoneAction(() -> select().selectByIndex(index));
-        return this.parent;
+        return doJAction(format("Select %s item", index),
+                () -> select().selectByIndex(index));
     }
 
     /**
@@ -73,9 +74,8 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel select(String value) {
-        logAction(this, getParentClassName(), "Select " + value);
-        alwaysDoneAction(() -> select().selectByValue(value));
-        return this.parent;
+        return doJAction("Select " + value,
+            () -> select().selectByValue(value));
     }
 
     /**
@@ -85,15 +85,15 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel selectByTextContains(String item) {
-        logAction(this, getParentClassName(), format("select by text contains: %s", item));
-        Select select = select();
-        int firstIndex = getResultAction(() -> firstIndex(
-                select.getOptions(),
-                option -> option.getText().contains(item)));
-        if (firstIndex > -1) {
+        return doJAction(format("select by text contains: %s", item), () -> {
+            Select select = select();
+            int firstIndex = firstIndex(
+                    select.getOptions(),
+                    option -> option.getText().contains(item));
+            if (firstIndex == -1)
+                throw new NoSuchElementException(format("Cannot find item contains this text '%s'", item));
             select.selectByIndex(firstIndex);
-            return super.parent; }
-        throw new NoSuchElementException(format("Cannot find item contains this text '%s'", item));
+            });
     }
 
     /**
@@ -102,8 +102,8 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return First Selected option.
      */
     public String getFirstSelectedItem() {
-        logAction(this, getParentClassName(), "Get selected items");
-        return getResultAction(() -> select().getFirstSelectedOption().getText());
+        return doJActionResult("Get selected items",
+                () -> select().getFirstSelectedOption().getText());
     }
 
     /**
@@ -112,10 +112,10 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return All Selected options.
      */
     public List<String> getSelectedItem() {
-        logAction(this, getParentClassName(), "Get selected items");
-        return getResultAction(() -> (List<String>)LinqUtils.select(
-                select().getAllSelectedOptions(),
-                WebElement::getText));
+        return doJActionResult("Get selected items", () ->
+                (List<String>) LinqUtils.select(
+                        select().getAllSelectedOptions(),
+                        WebElement::getText));
     }
 
     /**
@@ -124,10 +124,10 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return List of all options.
      */
     public List<String> getItems() {
-        logAction(this, getParentClassName(), "Get all items");
-        return getResultAction(() -> (List<String>)LinqUtils.select(
-                select().getOptions(),
-                WebElement::getText));
+        return doJActionResult("Get all items",
+                () -> (List<String>) LinqUtils.select(
+                        select().getOptions(),
+                        WebElement::getText));
     }
 
     /**
@@ -137,32 +137,33 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
      * @return Parent Panel instance
      */
     public ParentPanel waitForItemAndSelect(final String value) {
-        boolean isSelected;
-        logAction(this, getParentClassName(), format("waitForItemAndSelect[%s]: %s", value, locator));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(WebDriverWrapper.getDriver(), WebDriverWrapper.TIMEOUT)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            isSelected = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            try {
-                                Select select = new Select(getWebElement());
-                                select.selectByValue(value);
-                                return true;
-                            } catch (Exception e) {
-                                return false;
+        return doJAction(format("waitForItemAndSelect[%s]: %s", value, getLocator()), () -> {
+            boolean isSelected;
+            long start = currentTimeMillis() / 1000;
+            WebDriverWait wait = (WebDriverWait) new WebDriverWait(WebDriverWrapper.getDriver(), WebDriverWrapper.TIMEOUT)
+                    .ignoring(StaleElementReferenceException.class);
+            try {
+                isSelected = wait.until(
+                        new ExpectedCondition<Boolean>() {
+                            @Override
+                            public Boolean apply(WebDriver driver) {
+                                try {
+                                    Select select = new Select(getWebElement());
+                                    select.selectByValue(value);
+                                    return true;
+                                } catch (Exception e) {
+                                    return false;
+                                }
                             }
                         }
-                    }
-            );
-        }catch (TimeoutException e){
-            ReporterNGExt.logTechnical(format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, currentTimeMillis() / 1000 - start));
-            isSelected = false;
-        }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, format("waitForItemAndSelect: select item %s of %s", value, name));
-        return parent;
+                );
+            } catch (TimeoutException e) {
+                logTechnical(format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", getLocator(), currentTimeMillis() / 1000 - start));
+                isSelected = false;
+            }
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected,
+                    format("waitForItemAndSelect: select item %s of %s", value, getName()));
+        });
     }
 
 }

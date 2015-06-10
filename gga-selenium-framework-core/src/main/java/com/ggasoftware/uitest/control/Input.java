@@ -17,6 +17,8 @@ import com.ggasoftware.uitest.utils.ReporterNGExt;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import static java.lang.String.format;
+
 /**
  * Text Field control implementation
  *
@@ -57,13 +59,13 @@ public class Input<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel setText(String text) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("setText - %s", text));
-        WebElement webEl = getWebElement();
-        webEl.click();
-        webEl.clear();
-        webEl.click();
-        super.sendKeys(text);
-        return super.parent;
+        return doJAction(format("setText - %s", text), () -> {
+            WebElement webEl = getWebElement();
+            webEl.click();
+            webEl.clear();
+            webEl.click();
+            super.sendKeys(text);
+        });
     }
 
     /**
@@ -73,13 +75,14 @@ public class Input<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel setTextSecure(String text) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("setTextSecure - %s", text.replaceAll("[^']", "*")));
-        WebElement webEl = getWebElement();
-        webEl.click();
-        webEl.clear();
-        webEl.click();
-        super.sendKeysSecure(text);
-        return super.parent;
+        return doJAction(format("setTextSecure - %s", text.replaceAll("[^']", "*")),
+            () -> {
+                WebElement webEl = getWebElement();
+                webEl.click();
+                webEl.clear();
+                webEl.click();
+                super.sendKeysSecure(text);
+            });
     }
 
     /**
@@ -88,9 +91,7 @@ public class Input<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel clear() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Clear");
-        getWebElement().clear();
-        return super.parent;
+        return doJAction("Clear", () -> getWebElement().clear());
     }
 
     /**
