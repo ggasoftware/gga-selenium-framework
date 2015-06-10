@@ -34,10 +34,10 @@
         <module>gga-selenium-framework-logging</module>
         <module>gga-selenium-framework-core</module>
         <module>gga-selenium-framework-reportng</module>
-        <module>gga-selenium-framework-demo</module>
-        <module>gga-selenium-framework-demo-allure</module>
-        <module>gga-selenium-framework-demo-cuke</module>
-        <module>gga-selenium-framework-demo-junit</module>
+        <!--<module>gga-selenium-framework-demo</module>-->
+        <!--<module>gga-selenium-framework-demo-allure</module>-->
+        <!--<module>gga-selenium-framework-demo-cuke</module>-->
+        <!--<module>gga-selenium-framework-demo-junit</module>-->
     </modules>
 
     <dependencies>
