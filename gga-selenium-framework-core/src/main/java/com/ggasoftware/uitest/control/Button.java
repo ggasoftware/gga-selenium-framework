@@ -13,13 +13,14 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.control.interfaces.IList;
+
 /**
  * Button control implementation
  *
  * @author Alexeenko Yan
  */
 public class Button<ParentPanel> extends Element<ParentPanel> {
-
     //constructors
 
     /**
