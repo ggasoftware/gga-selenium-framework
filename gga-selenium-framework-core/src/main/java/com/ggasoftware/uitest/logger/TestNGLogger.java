@@ -5,7 +5,7 @@ import com.ggasoftware.uitest.logger.enums.LogInfoTypes;
 import com.ggasoftware.uitest.logger.enums.LogLevels;
 
 import static com.ggasoftware.uitest.logger.enums.LogInfoTypes.BUSINESS;
-import static com.ggasoftware.uitest.utils.Timer.nowTime;
+import static com.ggasoftware.uitest.utils.common.Timer.nowTime;
 import static java.lang.String.format;
 import static org.testng.Reporter.log;
 

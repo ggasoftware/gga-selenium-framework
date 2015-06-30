@@ -1,4 +1,4 @@
-package com.ggasoftware.uitest.utils;
+package com.ggasoftware.uitest.utils.common;
 
 
 import com.ggasoftware.uitest.utils.linqInterfaces.*;

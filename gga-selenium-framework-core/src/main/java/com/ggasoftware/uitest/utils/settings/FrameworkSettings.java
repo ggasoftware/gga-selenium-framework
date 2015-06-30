@@ -1,4 +1,4 @@
-package com.ggasoftware.uitest.utils;
+package com.ggasoftware.uitest.utils.settings;
 
 import com.ggasoftware.uitest.asserter.*;
 import com.ggasoftware.uitest.logger.*;

@@ -1,7 +1,6 @@
 package com.ggasoftware.uitest.apiAccessors.selenium;
 
 import com.ggasoftware.uitest.apiAccessors.IAPIAvatar;
-import com.ggasoftware.uitest.utils.FrameworkSettings;
 import com.ggasoftware.uitest.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,8 +9,8 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Set;
 
-import static com.ggasoftware.uitest.utils.FrameworkSettings.asserter;
-import static com.ggasoftware.uitest.utils.LinqUtils.select;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.asserter;
+import static com.ggasoftware.uitest.utils.common.LinqUtils.select;
 import static java.lang.String.format;
 
 /**

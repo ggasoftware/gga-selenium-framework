@@ -1,4 +1,4 @@
-package com.ggasoftware.uitest.utils;
+package com.ggasoftware.uitest.utils.common;
 
 import com.ggasoftware.uitest.utils.linqInterfaces.*;
 import com.ggasoftware.uitest.utils.linqInterfaces.JAction;
@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
-import static com.ggasoftware.uitest.utils.WebDriverWrapper.refresh;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.Thread.sleep;
 
@@ -68,7 +67,7 @@ public class Timer {
                 if (result != null && conditionFunc.invoke(result))
                     return result;
             } catch (Exception ignore) { }
-            ignore(() -> sleep(_retryTimeoutInMSec));
+            ignoreException(() -> sleep(_retryTimeoutInMSec));
         }
         return null;
     }
@@ -90,17 +89,12 @@ public class Timer {
         return new Timer().wait(condition);
     }
 
-    private static <T> T tryGetResult(JFuncT<T> waitCase)
+    public static <T> T tryGetResult(JFuncT<T> waitCase)
     {
         try { return waitCase.invoke(); }
         catch(Exception ex) { return null; }
     }
-
-    public static <T> T ignore(JFuncT<T> func) {
-        try { return func.invoke();
-        } catch (Exception ignore) { return null; }
-    }
-    public static void ignore(JAction action) {
+    public static void ignoreException(JAction action) {
         try { action.invoke();
         } catch (Exception ignore) { }
     }

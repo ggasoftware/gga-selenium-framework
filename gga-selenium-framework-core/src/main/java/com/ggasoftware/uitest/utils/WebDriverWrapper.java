@@ -13,7 +13,6 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.utils;
 
-import com.ggasoftware.uitest.autoit.UAutoItX;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -805,44 +804,6 @@ public final class WebDriverWrapper {
         setTimeout(TIMEOUT);
         if (checkCondition) {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForLinkToNotBePresent: link with text '%s' should not be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-    /**
-     * Wait until native window is not exists.
-     *
-     * @param title of native window
-     */
-    public static void waitForNativeWindow(final String title) {
-        waitForNativeWindow(title, TIMEOUT, false);
-    }
-    /**
-     * Wait until native window is not exists.
-     *
-     * @param title of native window
-     * @param timeoutSec to wait until native window is not exists.
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForNativeWindow(final String title, int timeoutSec, boolean checkCondition) {
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForNativeWindow: %s", title));
-        boolean isPresent;
-        long start = System.currentTimeMillis()/1000;
-        WebDriverWait wait = new WebDriverWait(getDriver(), timeoutSec);
-        try {
-            isPresent = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            UAutoItX UIMethods = new UAutoItX();
-                            return UIMethods.WinExists(title, "") > 0;
-                        }
-                    }
-            );
-        } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForNativeWindow: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
-            isPresent = false;
-        }
-        if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForNativeWindow: native window '%s' should be exists", title), TestBaseWebDriver.takePassedScreenshot);
         }
     }
 

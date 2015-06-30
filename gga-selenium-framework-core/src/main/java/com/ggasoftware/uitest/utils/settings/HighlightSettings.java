@@ -1,4 +1,4 @@
-package com.ggasoftware.uitest.utils;
+package com.ggasoftware.uitest.utils.settings;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.

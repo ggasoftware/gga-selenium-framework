@@ -1,19 +1,21 @@
 package com.ggasoftware.uitest.control.interfaces;
 
+import com.ggasoftware.uitest.control.complex.table.ClickableText;
+
 import java.util.List;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public interface ISelector<TEnum extends Enum, TElement extends IClickable & IText> extends IList<TEnum, TElement> {
+public interface ISelector {
+                                // extends IList<TEnum, TElement>
     void select(String elementName);
-    void select(TEnum elementName);
+    void select(Enum elementName);
     void select(int index);
     String isSelected();
     boolean isSelected(String elementName);
-    boolean isSelected(TEnum elementName);
-    boolean isSelected(int index);
+    boolean isSelected(Enum elementName);
     void selectNew();
-    List<String> getAllValues();
-    String getAllValuesAsText();
+    List<String> getAllLabels();
+    String getAllLabelsAsText();
 }

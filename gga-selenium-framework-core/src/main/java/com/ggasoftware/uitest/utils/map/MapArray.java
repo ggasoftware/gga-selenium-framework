@@ -1,17 +1,12 @@
 package com.ggasoftware.uitest.utils.map;
 
 
-import com.ggasoftware.uitest.utils.LinqUtils;
+import com.ggasoftware.uitest.utils.common.LinqUtils;
 import com.ggasoftware.uitest.utils.linqInterfaces.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-import static com.ggasoftware.uitest.utils.LinqUtils.select;
-import static com.ggasoftware.uitest.utils.Timer.ignore;
-
+import static com.ggasoftware.uitest.utils.common.LinqUtils.select;
 
 /**
  * Created by Roman_Iovlev on 6/3/2015.
@@ -37,6 +32,18 @@ public class MapArray<K, V> implements Collection<KeyValue<K,V>> {
             for (int i = 0; i < count; i++)
                 add(key.invoke(i), value.invoke(i));
         } catch (Exception ex) { throw new Exception("Can't init MapArray"); }
+    }
+    public static <T> MapArray<Integer, T> asMapArray(Collection<T> collection) {
+        MapArray<Integer, T> mapArray = new MapArray<>();
+        int i = 0;
+        for (T t : collection)
+            mapArray.add(i++, t);
+        return mapArray;
+    }
+    public static <T> MapArray<Integer, T> asMapArray(T[] array) {
+        Set<T> mySet = new HashSet<T>();
+        Collections.addAll(mySet, array);
+        return asMapArray(mySet);
     }
     public boolean add(K key, V value) {
         if (keys().contains(key))
@@ -65,10 +72,10 @@ public class MapArray<K, V> implements Collection<KeyValue<K,V>> {
         return get(index).value;
     }
     public Collection<K> keys() {
-        return ignore(() -> select(pairs, pair -> pair.key));
+        return select(pairs, pair -> pair.key);
     }
     public Collection<V> values() {
-        return ignore(() -> select(pairs, pair -> pair.value));
+        return select(pairs, pair -> pair.value);
     }
 
     public int size() { return pairs.size(); }

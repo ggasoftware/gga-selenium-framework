@@ -13,9 +13,8 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.utils;
 
-import com.ggasoftware.uitest.control.Element;
-import com.ggasoftware.uitest.control.Elements;
-import com.ggasoftware.uitest.panel.BasePanel;
+import com.ggasoftware.uitest.control.simple.Element;
+import com.ggasoftware.uitest.control.simple.Elements;
 import org.apache.commons.lang.ClassUtils;
 import org.testng.Reporter;
 import ru.yandex.qatools.allure.annotations.Step;
@@ -293,7 +292,7 @@ public class ReporterNGExt extends ReporterNG{
             return "";
         }
         Class elClass = element.getClass();
-        if (BasePanel.class.isAssignableFrom(elClass)) {
+        if (Element.class.isAssignableFrom(elClass)) {
             return element.getClass().getSimpleName();
         } else {
             String name = "";

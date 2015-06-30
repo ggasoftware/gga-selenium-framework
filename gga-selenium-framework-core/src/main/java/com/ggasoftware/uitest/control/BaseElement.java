@@ -2,24 +2,24 @@ package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.control.interfaces.IBaseElement;
 import com.ggasoftware.uitest.control.interfaces.IElement;
-import com.ggasoftware.uitest.utils.HighlightSettings;
 import com.ggasoftware.uitest.utils.PropertyReader;
-import com.ggasoftware.uitest.utils.ReflectionUtils;
-import com.ggasoftware.uitest.utils.interfaces.Scenario;
+import com.ggasoftware.uitest.utils.interfaces.IScenario;
 import com.ggasoftware.uitest.utils.linqInterfaces.JAction;
 import com.ggasoftware.uitest.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-import static com.ggasoftware.uitest.utils.FrameworkSettings.*;
-import static com.ggasoftware.uitest.utils.FrameworkSettings.highlightSettings;
-import static com.ggasoftware.uitest.utils.ReflectionUtils.isInterface;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.*;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.highlightSettings;
+import static com.ggasoftware.uitest.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.simpleClassName;
-import static com.ggasoftware.uitest.utils.Timer.getResultAction;
+import static com.ggasoftware.uitest.utils.common.Timer.getResultAction;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.getDriver;
 import static java.lang.String.format;
 
@@ -60,6 +60,15 @@ public abstract class BaseElement<ParentPanel>  implements IBaseElement {
         }
     }
 
+    protected List<By> context;
+
+    public void setContext(By context) {
+        this.context = new ArrayList<>();
+        this.context.add(context);
+    }
+    public void setContext(List<By> context) {
+        this.context = context;
+    }
     /**
      * Searches for the property with the specified key in this property list.
      * If the key is not found in this property list, the default property list,
@@ -128,7 +137,7 @@ public abstract class BaseElement<ParentPanel>  implements IBaseElement {
                 getName(), getTypeName(), getParentName(), bylocator);
     }
 
-    public static Scenario invocationScenario = new Scenario() {
+    public static IScenario invocationScenario = new IScenario() {
         @Override
         public <TResult> TResult invoke(
                 BaseElement element, String actionName, JFuncT<TResult> jAction) {
@@ -184,10 +193,13 @@ public abstract class BaseElement<ParentPanel>  implements IBaseElement {
      *
      * @param elementLocator - Locator of the element. Start it with locator type "id=", "css=", "xpath=" and etc.
      */
-    protected void setLocator(String elementLocator) {
+    public void setLocator(String elementLocator) {
         this.locator = elementLocator;
     }
-
+    public void setLocator(By byLocator) {
+        this.bylocator = byLocator;
+    }
+    public boolean haveLocator() { return bylocator != null; }
     /**
      * Sets locator for the element
      *
