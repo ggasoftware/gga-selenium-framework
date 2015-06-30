@@ -1,79 +1,37 @@
 package com.ggasoftware.uitest.logger;
 
-import com.ggasoftware.uitest.utils.TestBaseWebDriver;
-import org.apache.log4j.LogManager;
+import com.ggasoftware.uitest.logger.enums.BusinessInfoTypes;
+import com.ggasoftware.uitest.logger.enums.LogInfoTypes;
+import com.ggasoftware.uitest.logger.enums.LogLevels;
 import org.apache.log4j.Logger;
 
-import static com.ggasoftware.uitest.logger.LogLevels.*;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.frameworkName;
+import static java.lang.String.format;
+import static org.apache.log4j.LogManager.getLogger;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
-public class Log4JLogger implements ILogger {
-    public void init(String message) {
-        if (logLevel.lessThan(FATAL)) {
-            log4j.info("[INIT]: " + message);
+public class Log4JLogger extends AbstractLogger {
+
+    @Override
+    public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
+        switch (logLevel) {
+            case FATAL: log4j.fatal(message); break;
+            case ERROR: log4j.error(message); break;
+            case WARNING: log4j.warn(message); break;
+            case INFO: log4j.info(message); break;
+            case DEBUG: log4j.debug(message); break;
         }
     }
-
-    public void suit(String message) {
-        if (logLevel.lessThan(FATAL)) {
-            log4j.info("[SUIT]: " + message);
-        }
+    @Override
+    public void inLog(String message, BusinessInfoTypes infoType) {
+        log4j.info(format("[%s]: %s", infoType, message));
     }
 
-    public void test(String message) {
-        if (logLevel.lessThan(FATAL)) {
-            log4j.info("[TEST]: " + message);
-        }
-    }
+    private Logger log4j = getLogger(frameworkName + " logger");
 
-    public void step(String message) {
-        if (logLevel.lessThan(FATAL)) {
-            log4j.info("[STEP]: " + message);
-        }
-    }
+    public Log4JLogger() { super(); }
+    public Log4JLogger(LogLevels logLevel) { super(logLevel); }
 
-    public void fatal(String message) {
-        if (logLevel.lessThan(FATAL)) {
-            log4j.fatal(message);
-        }
-    }
-
-    public void error(String message) {
-        if (logLevel.lessThan(ERROR))
-            log4j.error(message);
-    }
-
-    public void warning(String message) {
-        if (logLevel.lessThan(WARNING))
-            log4j.warn(message);
-    }
-
-    public void info(String message) {
-        if (logLevel.lessThan(INFO))
-            log4j.info(message);
-    }
-
-    public void debug(String message) {
-        if (logLevel.lessThan(DEBUG))
-            log4j.debug(message);
-    }
-
-    private Logger log4j = LogManager.getLogger(frameworkName + " logger");
-    private ConsoleLogger consoleLogger;
-
-    public Log4JLogger() {
-        this.consoleLogger = new ConsoleLogger(INFO);
-    }
-    public Log4JLogger(LogLevels logLevel) {
-        this.logLevel = logLevel;
-        this.consoleLogger = new ConsoleLogger(logLevel);
-    }
-
-    private LogLevels logLevel = INFO;
-    public LogLevels getLogLevel() {
-        return logLevel;
-    }
 }

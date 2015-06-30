@@ -2,6 +2,7 @@ package com.ggasoftware.uitest.asserter;
 
 import org.testng.Assert;
 
+import static com.ggasoftware.uitest.logger.enums.LogInfoTypes.FRAMEWORK;
 import static com.ggasoftware.uitest.utils.FrameworkSettings.logger;
 
 /**
@@ -9,7 +10,7 @@ import static com.ggasoftware.uitest.utils.FrameworkSettings.logger;
  */
 public class TestNGAsserter extends Assert implements IAsserter {
     public Exception exception(String message) {
-        logger.error(message);
+        logger.error(message, FRAMEWORK);
         assertTrue(false, message);
         return new Exception(message);
     }

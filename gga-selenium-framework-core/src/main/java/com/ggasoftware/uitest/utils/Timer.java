@@ -3,7 +3,11 @@ package com.ggasoftware.uitest.utils;
 import com.ggasoftware.uitest.utils.linqInterfaces.*;
 import com.ggasoftware.uitest.utils.linqInterfaces.JAction;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
+import static com.ggasoftware.uitest.utils.WebDriverWrapper.refresh;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.Thread.sleep;
 
@@ -14,6 +18,13 @@ public class Timer {
     private long _timeoutInMSec = TIMEOUT * 1000;
     private long _retryTimeoutInMSec = 100;
     private final Long start = currentTimeMillis();
+    public static String nowTime() { return nowTime("HH:mm:ss.SSS"); }
+    public static String nowTimeShort() { return nowTime("mm:ss.SSS"); }
+    public static String nowDate() { return nowTime("yyyy-MM-dd HH:mm:ss"); }
+    public static String nowTime(String timeFormat) {
+        return new SimpleDateFormat(timeFormat).format(new Date());
+    }
+    public static String nowMSecs() { return currentTimeMillis()+""; }
 
     public Timer() { }
     public Timer(long timeoutInMSec, long retryTimeoutInMSec) {

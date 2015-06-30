@@ -4,23 +4,24 @@ import com.ggasoftware.uitest.logger.enums.BusinessInfoTypes;
 import com.ggasoftware.uitest.logger.enums.LogInfoTypes;
 import com.ggasoftware.uitest.logger.enums.LogLevels;
 
+import static com.ggasoftware.uitest.logger.enums.LogInfoTypes.BUSINESS;
 import static com.ggasoftware.uitest.utils.Timer.nowTime;
 import static java.lang.String.format;
-import static java.lang.System.out;
+import static org.testng.Reporter.log;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
-public class ConsoleLogger extends AbstractLogger {
+public class TestNGLogger extends AbstractLogger {
     @Override
     public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
-        out.println(format("%s [%s-%s]: %s ", nowTime(), logInfoType, logLevel, message));
+        log(format("%s %s~ %s", logInfoType.num, nowTime(), message));
     }
     @Override
     public void inLog(String message, BusinessInfoTypes infoType) {
-        out.println(format("%s [%s]: %s ", nowTime(), infoType, message));
+        log(format("%s %s~ %s", BUSINESS.num, nowTime(), format("[%s] %s", infoType, message)));
     }
 
-    public ConsoleLogger() { super(); }
-    public ConsoleLogger(LogLevels logLevel) { super(logLevel); }
+    public TestNGLogger() { super(); }
+    public TestNGLogger(LogLevels logLevel) { super(logLevel); }
 }

@@ -1,4 +1,4 @@
-package com.ggasoftware.uitest.logger;
+package com.ggasoftware.uitest.logger.enums;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
@@ -14,7 +14,7 @@ public enum LogLevels {
 
     private int priority;
     public int getPriority() { return priority; }
-    public boolean lessThan(LogLevels level) {
+    public boolean equalOrLessThan(LogLevels level) {
         return getPriority() >= level.getPriority();
     }
     LogLevels(int priority) {

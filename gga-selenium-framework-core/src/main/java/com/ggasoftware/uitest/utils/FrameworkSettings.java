@@ -8,7 +8,7 @@ import com.ggasoftware.uitest.testRunner.*;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class FrameworkSettings {
-    public static ILogger logger = new Log4JLogger();
+    public static ILogger logger = new GGALogger();
     public static IAsserter asserter = new TestNGAsserter();
     public static ITestRunner testRunner = new TestNGRunner();
 
