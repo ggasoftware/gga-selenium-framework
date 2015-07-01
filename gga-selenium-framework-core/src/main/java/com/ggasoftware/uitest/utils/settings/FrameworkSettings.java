@@ -8,6 +8,8 @@ import com.ggasoftware.uitest.testRunner.*;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class FrameworkSettings {
+    public static String frameworkName = "Jedi Viqa";
+
     public static ILogger logger = new GGALogger();
     public static IAsserter asserter = new TestNGAsserter();
     public static ITestRunner testRunner = new TestNGRunner();

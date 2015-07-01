@@ -9,28 +9,28 @@ import java.util.List;
  */
 
 public interface ITable<P, T extends ClickableText> extends IHaveValue {
-    Cell<P, T> cell(int colNum, int rowNum) throws Exception;
-    Cell<P, T> cell(String colName, int rowNum) throws Exception;
-    Cell<P, T> cell(int colNum, String rowName) throws Exception;
-    Cell<P, T> cell(String colName, String rowName) throws Exception;
-    List<Cell<P, T>> findCellsValues(String value) throws Exception;
-    List<Cell<P, T>> matchCellsValues(String regex) throws Exception;
-    Cell<P, T> findFirstCellWithValue(String value) throws Exception;
+    Cell<P, T> cell(int colNum, int rowNum);
+    Cell<P, T> cell(String colName, int rowNum);
+    Cell<P, T> cell(int colNum, String rowName);
+    Cell<P, T> cell(String colName, String rowName);
+    List<Cell<P, T>> findCellsValues(String value);
+    List<Cell<P, T>> matchCellsValues(String regex);
+    Cell<P, T> findFirstCellWithValue(String value);
 
-    Cell<P, T> findCellInColumn(int colIndex, String value) throws Exception;
-    MapArray<String, Cell<P, T>> matchCellsInColumn(int colIndex, String regex) throws Exception;
-    Cell<P, T> findCellInColumn(String colName, String value) throws Exception;
-    MapArray<String, Cell<P, T>> matchCellsInColumn(String colname, String regex) throws Exception;
+    Cell<P, T> findCellInColumn(int colIndex, String value);
+    MapArray<String, Cell<P, T>> matchCellsInColumn(int colIndex, String regex);
+    Cell<P, T> findCellInColumn(String colName, String value);
+    MapArray<String, Cell<P, T>> matchCellsInColumn(String colname, String regex);
 
-    Cell<P, T> findCellInRow(int rowIndex, String value) throws Exception;
-    MapArray<String, Cell<P, T>> matchCellsInRow(int rowIndex, String regex) throws Exception;
-    Cell<P, T> findCellInRow(String rowName, String value) throws Exception;
-    MapArray<String, Cell<P, T>> matchCellsInRow(String rowName, String pattern) throws Exception;
+    Cell<P, T> findCellInRow(int rowIndex, String value);
+    MapArray<String, Cell<P, T>> matchCellsInRow(int rowIndex, String regex);
+    Cell<P, T> findCellInRow(String rowName, String value);
+    MapArray<String, Cell<P, T>> matchCellsInRow(String rowName, String pattern);
 
-    MapArray<String, Cell<P, T>> findColumnByRowValue(int rowIndex, String value) throws Exception;
-    MapArray<String, Cell<P, T>> findColumnByRowValue(String rowName, String value) throws Exception;
-    MapArray<String, Cell<P, T>> findRowByColumnValue(int colIndex, String value) throws Exception;
-    MapArray<String, Cell<P, T>> findRowByColumnValue(String colName, String value) throws Exception;
+    MapArray<String, Cell<P, T>> findColumnByRowValue(int rowIndex, String value);
+    MapArray<String, Cell<P, T>> findColumnByRowValue(String rowName, String value);
+    MapArray<String, Cell<P, T>> findRowByColumnValue(int colIndex, String value);
+    MapArray<String, Cell<P, T>> findRowByColumnValue(String colName, String value);
 
     Columns<P, T> columns();
     MapArray<String, Cell<P, T>> getColumn(int colNum);

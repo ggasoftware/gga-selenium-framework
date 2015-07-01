@@ -13,10 +13,7 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control.simple;
 
-import com.ggasoftware.uitest.utils.ReporterNGExt;
 import org.openqa.selenium.WebElement;
-
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
 
 /**
  * Checkbox control implementation
@@ -44,7 +41,7 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
      * @return True if the element is currently checked, false otherwise.
      */
     public boolean isChecked() {
-        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "Checked", getWebElement().isSelected());
+        return doJActionResult("Checked", () -> getWebElement().isSelected());
     }
 
     /**

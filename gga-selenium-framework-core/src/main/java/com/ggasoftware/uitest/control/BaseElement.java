@@ -17,8 +17,6 @@ import java.util.Properties;
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.*;
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.highlightSettings;
 import static com.ggasoftware.uitest.utils.common.ReflectionUtils.isInterface;
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
-import static com.ggasoftware.uitest.utils.TestBaseWebDriver.simpleClassName;
 import static com.ggasoftware.uitest.utils.common.Timer.getResultAction;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.getDriver;
 import static java.lang.String.format;
@@ -61,6 +59,7 @@ public abstract class BaseElement<ParentPanel>  implements IBaseElement {
     }
 
     protected List<By> context;
+    public static boolean logFindElementLocator = true;
 
     public void setContext(By context) {
         this.context = new ArrayList<>();
@@ -132,7 +131,7 @@ public abstract class BaseElement<ParentPanel>  implements IBaseElement {
 
     protected JavascriptExecutor jsExecutor() { return (JavascriptExecutor) getDriver(); }
 
-    public String getDefaultLogMessage(String text) throws Exception {
+    public String getDefaultLogMessage(String text)  {
         return text +  format(" (Name: '%s', Type: '%s' In: '%s', LocatorAttribute: '%s')",
                 getName(), getTypeName(), getParentName(), bylocator);
     }
@@ -143,10 +142,14 @@ public abstract class BaseElement<ParentPanel>  implements IBaseElement {
                 BaseElement element, String actionName, JFuncT<TResult> jAction) {
             // TODO replace logAction with
             // logger.info(element.getDefaultLogMessage(actionName));
-            logAction(element, element.getParentClassName(), actionName);
+            element.logAction(actionName);
             return getResultAction(jAction::invoke);
         }
     };
+
+    public void logAction(String actionName) {
+        logger.info("Perform action '%s' with element '%s'", actionName, getDefaultLogMessage(""));
+    }
 
     protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction) {
         return doJActionResult(actionName, viAction, null);
@@ -227,10 +230,7 @@ public abstract class BaseElement<ParentPanel>  implements IBaseElement {
         if (parent == null) {
             return "";
         }
-        if (simpleClassName) {
-            return parent.getClass().getSimpleName();
-        }
-        return parent.getClass().getCanonicalName();
+        return parent.getClass().getSimpleName();
     }
 
     /**

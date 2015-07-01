@@ -13,6 +13,7 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.utils;
 
+import com.ggasoftware.uitest.utils.settings.FrameworkSettings;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -34,6 +35,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.logger;
+import static java.lang.String.format;
 
 /**
  * Manage WebDriver instances.
@@ -86,7 +90,7 @@ public final class WebDriverWrapper {
      * @param capabilities - desired capabilities
      */
     public static void initRemoteWebDriver(String remoteUrl, Capabilities capabilities) throws MalformedURLException {
-        ReporterNGExt.logTechnical(String.format("Initialization Remote Web Driver at url '%s'", remoteUrl));
+        logger.debug(format("Initialization Remote Web Driver at url '%s'", remoteUrl));
         setWebDriver(new RemoteWebDriver(new URL(remoteUrl), capabilities));
         setTimeout(TIMEOUT);
         getDriver().manage().window().maximize();
@@ -98,7 +102,7 @@ public final class WebDriverWrapper {
      * @param capabilities - desired capabilities
      */
     public static void initFirefoxDriver(Capabilities capabilities) {
-        ReporterNGExt.logTechnical("Initialization Firefox Driver");
+        logger.debug("Initialization Firefox Driver");
         setWebDriver(new FirefoxDriver(capabilities));
         setTimeout(TIMEOUT);
         getDriver().manage().window().maximize();
@@ -110,7 +114,7 @@ public final class WebDriverWrapper {
      * @param capabilities - desired capabilities
      */
     public static void initChromeDriver(Capabilities capabilities) {
-        ReporterNGExt.logTechnical("Initialization Chrome Driver");
+        logger.debug("Initialization Chrome Driver");
         setWebDriver(new ChromeDriver(capabilities));
         setTimeout(TIMEOUT);
         getDriver().manage().window().maximize();
@@ -122,7 +126,7 @@ public final class WebDriverWrapper {
      * @param capabilities - desired capabilities
      */
     public static void initSafariDriver(Capabilities capabilities) {
-        ReporterNGExt.logTechnical("Initialization Safari Driver");
+        logger.debug("Initialization Safari Driver");
         setWebDriver(new SafariDriver(capabilities));
         setTimeout(TIMEOUT);
         getDriver().manage().window().maximize();
@@ -134,7 +138,7 @@ public final class WebDriverWrapper {
      * @param capabilities - desired capabilities
      */
     public static void initInternetExplorerDriver(Capabilities capabilities) {
-        ReporterNGExt.logTechnical("Initialization Internet Explorer Driver");
+        logger.debug("Initialization Internet Explorer Driver");
         setWebDriver(new InternetExplorerDriver(capabilities));
         setTimeout(TIMEOUT);
         getDriver().manage().window().maximize();
@@ -146,7 +150,7 @@ public final class WebDriverWrapper {
      * @param capabilities - desired capabilities
      */
     public static void initHtmlUnitDriver(Capabilities capabilities) {
-        ReporterNGExt.logTechnical("Initialization Html Unit Driver");
+        logger.debug("Initialization Html Unit Driver");
         setWebDriver(new HtmlUnitDriver(capabilities));
         setTimeout(TIMEOUT);
         getDriver().manage().window().maximize();
@@ -159,7 +163,7 @@ public final class WebDriverWrapper {
      * @param path - profile path
      */
     public static void initFFProfile(String path) {
-        ReporterNGExt.logTechnical(String.format("Initialization Firefox Driver with Profile '%s'", path));
+        logger.debug(format("Initialization Firefox Driver with Profile '%s'", path));
         File profileDir = new File(path);
         FirefoxProfile ffprofile = new FirefoxProfile(profileDir);
         ffprofile.setEnableNativeEvents(true);
@@ -171,7 +175,7 @@ public final class WebDriverWrapper {
      * initialization FirefoxDriver
      */
     public static void initFirefoxDriver() {
-        ReporterNGExt.logTechnical("Initialization Firefox Driver");
+        logger.debug("Initialization Firefox Driver");
         FirefoxProfile profile = new FirefoxProfile();
         profile.setAcceptUntrustedCertificates(true);
         profile.setAssumeUntrustedCertificateIssuer(true);
@@ -188,7 +192,7 @@ public final class WebDriverWrapper {
      * initialization InternetExplorerDriver
      */
     public static void initInternetExplorerDriver() {
-        ReporterNGExt.logTechnical("Initialization Internet Explorer Driver");
+        logger.debug("Initialization Internet Explorer Driver");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setPlatform(Platform.WINDOWS);
         capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
@@ -207,7 +211,7 @@ public final class WebDriverWrapper {
      *
      */
     public static void initChromeDriver() {
-        ReporterNGExt.logTechnical("Initialization Chrome Driver");
+        logger.debug("Initialization Chrome Driver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments(Arrays.asList("--start-maximized", "--test-type", "--ignore-certificate-errors", "--disable-popup-blocking", "--allow-running-insecure-content", "--disable-translate", "--always-authorize-plugins"));
         setWebDriver(new ChromeDriver(options));
@@ -218,7 +222,7 @@ public final class WebDriverWrapper {
      * initialization SafariDriver
      */
     public static void initSafariDriver() {
-        ReporterNGExt.logTechnical("Initialization Safari Driver");
+        logger.debug("Initialization Safari Driver");
         setWebDriver(new SafariDriver());
         setTimeout(TIMEOUT);
         getDriver().manage().window().maximize();
@@ -248,7 +252,7 @@ public final class WebDriverWrapper {
      * Remove all cookies from browser
      */
     public static void deleteAllCookies() {
-        ReporterNGExt.logTechnical("Remove all cookies");
+        logger.debug("Remove all cookies");
         getDriver().manage().deleteAllCookies();
     }
 
@@ -259,7 +263,7 @@ public final class WebDriverWrapper {
      * @param cookieName The name of the cookie to delete
      */
     public static void deleteCookieNamed(String cookieName){
-        ReporterNGExt.logTechnical(String.format("Remove cookie: %s", cookieName));
+        logger.debug(format("Remove cookie: %s", cookieName));
         getCookieNamed(cookieName);
         getDriver().manage().deleteCookieNamed(cookieName);
         getCookieNamed(cookieName);
@@ -271,12 +275,12 @@ public final class WebDriverWrapper {
      * @param cookieName The name of the cookie to log.
      */
     public static void getCookieNamed(String cookieName){
-        ReporterNGExt.logTechnical(String.format("getCookieNamed: %s", cookieName));
+        logger.debug(format("getCookieNamed: %s", cookieName));
         if((getDriver().manage().getCookieNamed(cookieName))!=null) {
-            ReporterNGExt.logTechnical(String.format(" cookie: %s%s", cookieName, getDriver().manage().getCookieNamed(cookieName)));
+            logger.debug(format(" cookie: %s%s", cookieName, getDriver().manage().getCookieNamed(cookieName)));
         }
         else{
-            ReporterNGExt.logTechnical(String.format(" cookie: [ %s ] = null !!! )", cookieName));
+            logger.debug(format(" cookie: [ %s ] = null !!! )", cookieName));
         }
     }
 
@@ -287,7 +291,7 @@ public final class WebDriverWrapper {
      * @param page - target for navigate
      */
     public static void open(String page) {
-        ReporterNGExt.logTechnical(String.format("Navigate to page: %s", page));
+        logger.debug(format("Navigate to page: %s", page));
         getDriver().get(page);
     }
 
@@ -296,7 +300,7 @@ public final class WebDriverWrapper {
      */
     public static void quit() {
         if (getDriver() != null) {
-            ReporterNGExt.logTechnical("WebDriver Quit");
+            logger.debug("WebDriver Quit");
             getDriver().quit();
         }
     }
@@ -307,7 +311,7 @@ public final class WebDriverWrapper {
      */
     public static void close() {
         if (getDriver() != null) {
-            ReporterNGExt.logTechnical("WebDriver Close");
+            logger.debug("WebDriver Close");
             getDriver().close();
         }
     }
@@ -319,7 +323,7 @@ public final class WebDriverWrapper {
      * @return Execution results
      */
     public static Object executeScript(String script) {
-        ReporterNGExt.logTechnical(String.format("Execute Script - %s", script));
+        logger.debug(format("Execute Script - %s", script));
         return ((JavascriptExecutor) getDriver()).executeScript(script);
     }
 
@@ -329,7 +333,7 @@ public final class WebDriverWrapper {
      * @param frame - target frame
      */
     public static void switchToFrame(String frame) {
-        ReporterNGExt.logTechnical(String.format("Switch To Frame - %s", frame));
+        logger.debug(format("Switch To Frame - %s", frame));
         getDriver().switchTo().frame(frame);
     }
 
@@ -339,7 +343,7 @@ public final class WebDriverWrapper {
      * @param window - target window
      */
     public static void switchToWindow(String window) {
-        ReporterNGExt.logTechnical(String.format("Switch To Window - %s", window));
+        logger.debug(format("Switch To Window - %s", window));
         getDriver().switchTo().window(window);
     }
 
@@ -349,7 +353,7 @@ public final class WebDriverWrapper {
      * @return active WebElement
      */
     public static WebElement switchToActive() {
-        ReporterNGExt.logTechnical("Switch To Active");
+        logger.debug("Switch To Active");
         return getDriver().switchTo().activeElement();
     }
 
@@ -357,91 +361,24 @@ public final class WebDriverWrapper {
      * Switch to the next window.
      */
     public static void switchWindow() {
-        ReporterNGExt.logTechnical("Switch Window");
+        logger.debug("Switch Window");
         Set<String> handles = getDriver().getWindowHandles();
         if (handles.size() > 1 ){
             String current = getDriver().getWindowHandle();
             handles.remove(current);
         }
         else{
-            ReporterNGExt.logTechnical("SwitchWindow: only one windows is available");
+            logger.debug("SwitchWindow: only one windows is available");
         }
         String newTab = handles.iterator().next();
         getDriver().switchTo().window(newTab);
     }
 
     /**
-     * Close active and switch to the next window.
-     */
-    public static void switchCloseWindow() {
-        ReporterNGExt.logTechnical("Switch And Close Window");
-        new WebDriverWait(getDriver(), TIMEOUT) {
-        }.until(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver wDriver) {
-                return (wDriver.getWindowHandles().size() > 1);
-            }
-        });
-        Set<String> handles = getDriver().getWindowHandles();
-        if (handles.size() == 1 ){
-            ReporterNGExt.logTechnical("switchCloseWindow: only one windows is available");
-            return;
-        }
-        getDriver().close();
-        Sleeper.sleepTight(500);
-        handles = getDriver().getWindowHandles();
-        getDriver().switchTo().window(handles.iterator().next());
-    }
-
-    public static boolean waitWindowsCount(final int numberOfWindows){
-        ReporterNGExt.logTechnical("Wait for Open Windows Count");
-        new WebDriverWait(getDriver(), TIMEOUT) {
-        }.until(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver wDriver) {
-                return (wDriver.getWindowHandles().size() == numberOfWindows);
-            }
-        });
-        return false;
-    }
-
-    /**
-     * Wait until all windows not empty.
-     *
-     * @param numberOfWindows - number of existing windows
-     */
-    public static void waitAllWindowsFullLoaded(final int numberOfWindows) {
-        ReporterNGExt.logTechnical("Wait for All Windows Full Loaded");
-    	new WebDriverWait(getDriver(), TIMEOUT) {
-    	     }.until(new ExpectedCondition<Boolean>() { 
-    	         @Override 
-    	         public Boolean apply(WebDriver wDriver) {
-    	             return (wDriver.getWindowHandles().size() == numberOfWindows);
-    	         } 
-    	     });
-    	     
-        new WebDriverWait(getDriver(), TIMEOUT) {
-        }.until(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver wDriver) {
-                boolean fullLoaded = true;
-                for (String window : wDriver.getWindowHandles()) {
-                    if (window.isEmpty()) {
-                        fullLoaded = false;
-                        break;
-                    }
-                }
-                return (fullLoaded);
-            }
-        });
-        Sleeper.sleepTight(1000);
-    }
-
-    /**
      * Switch to the default window.
      */
     public static void switchToDefault() {
-        ReporterNGExt.logTechnical("Switch To Default");
+        logger.debug("Switch To Default");
         getDriver().switchTo().defaultContent();
     }
 
@@ -452,7 +389,7 @@ public final class WebDriverWrapper {
      * @return True if window is switched, otherwise False
      */
     public static boolean switchToWindowUsingTitle(String title) {
-        ReporterNGExt.logTechnical(String.format("Switch To Window Using Title '%s'", title));
+        logger.debug(format("Switch To Window Using Title '%s'", title));
         Set<String> availableWindows = getDriver().getWindowHandles();
         if (!availableWindows.isEmpty() && availableWindows.contains(title)) {
             getDriver().switchTo().window(title);
@@ -467,7 +404,7 @@ public final class WebDriverWrapper {
      * @return Active window handle.
      */
     public static String getWindowHandle() {
-        ReporterNGExt.logTechnical("Get Window Handle");
+        logger.debug("Get Window Handle");
         return getDriver().getWindowHandle();
     }
 
@@ -477,7 +414,7 @@ public final class WebDriverWrapper {
      * @return Window handles.
      */
     public static Set<String> getWindowHandles() {
-        ReporterNGExt.logTechnical("Get Windows Handles");
+        logger.debug("Get Windows Handles");
         return getDriver().getWindowHandles();
     }
 
@@ -487,7 +424,7 @@ public final class WebDriverWrapper {
      * @return Window title.
      */
     public static String getWindowTitle() {
-        ReporterNGExt.logTechnical("Get Window Title");
+        logger.debug("Get Window Title");
         return getDriver().getTitle();
     }
 
@@ -495,7 +432,7 @@ public final class WebDriverWrapper {
      * Click "go Back" button on the current page
      */
     public static void goBack() {
-        ReporterNGExt.logTechnical("Go Back");
+        logger.debug("Go Back");
         getDriver().navigate().back();
     }
 
@@ -503,7 +440,7 @@ public final class WebDriverWrapper {
      * Click "go Forward" button on the current page
      */
     public static void goForward() {
-        ReporterNGExt.logTechnical("Go Forward");
+        logger.debug("Go Forward");
         getDriver().navigate().forward();
     }
 
@@ -511,439 +448,37 @@ public final class WebDriverWrapper {
      * Click "Refresh" button on the current page
      */
     public static void refresh() {
-        ReporterNGExt.logTechnical("Refresh");
+        logger.debug("Refresh");
         getDriver().navigate().refresh();
-    }
-
-    /**
-     * Sleep by seconds.
-     *
-     * @param seconds to sleeping.
-     */
-    public static void sleep(int seconds) {
-        ReporterNGExt.logTechnical(String.format("Sleeping %d seconds", seconds));
-        Sleeper.sleepTightInSeconds(seconds);
     }
 
     /**
      * Scroll page to top by JS
      */
     public static void scrollPageToTop() {
-        ReporterNGExt.logTechnical("Scroll Page To Top");
+        logger.debug("Scroll Page To Top");
         WebDriverWrapper.executeScript("window.scrollTo(0, 0);");
     }
     /**
      * Scroll page down by JS
      */
     public static void scrollPageDown(int iHeight) {
-        ReporterNGExt.logTechnical("Scroll Page To Top");
+        logger.debug("Scroll Page To Top");
         WebDriverWrapper.executeScript("window.scrollTo(0, " + iHeight + ");");
     }
     /**
      * Scroll page up by JS
      */
     public static void scrollPageUp(int iHeight) {
-        ReporterNGExt.logTechnical("Scroll Page To Top");
+        logger.debug("Scroll Page To Top");
         WebDriverWrapper.executeScript("window.scrollTo(0, " + iHeight + ");");
     }
     /**
      * Scroll page to end by JS
      */
     public static void scrollPageToEnd() {
-        ReporterNGExt.logTechnical("Scroll Page To End");
+        logger.debug("Scroll Page To End");
         WebDriverWrapper.executeScript("window.scrollTo(0, document.body.clientHeight )");
     }
-
-    /**
-     * Wait until windows has title.
-     *
-     * @param title - Expected window title.
-     */
-    public static void waitForTitle(String title) {
-        waitForTitle(title, TIMEOUT, false);
-    }
-    /**
-     * Wait until windows has title.
-     *
-     * @param timeoutSec to wait until windows has title.
-     * @param title - Expected window title.
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForTitle(String title, int timeoutSec, boolean checkCondition) {
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitle: %s", title));
-        long start = System.currentTimeMillis()/1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            wait.until(ExpectedConditions.titleIs(title));
-        }catch (TimeoutException ignored){
-            ReporterNGExt.logTechnical(String.format("waitForTitle: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
-        }
-        if (checkCondition) {
-            ReporterNGExt.logAssertEquals(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitle", TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-    /**
-     * Wait until windows title contains text.
-     *
-     * @param title - Expected window title contains text.
-     */
-    public static void waitForTitleContains(String title) {
-        waitForTitleContains(title, TIMEOUT, false);
-    }
-    /**
-     * Wait until windows title contains text.
-     *
-     * @param timeoutSec to wait until windows title contains text.
-     * @param title - Expected window title contains text.
-     */
-    public static void waitForTitleContains(String title, int timeoutSec, boolean checkCondition) {
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitleContains: %s", title));
-        long start = System.currentTimeMillis()/1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try{
-            wait.until(ExpectedConditions.titleContains(title));
-        }catch (TimeoutException ignored){
-            ReporterNGExt.logTechnical(String.format("waitForTitleContains: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
-        }
-        if (checkCondition) {
-            ReporterNGExt.logAssertContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleContains", TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-    /**
-     * Wait until windows title not contains text.
-     *
-     * @param title - Expected window title not contains text.
-     */
-    public static void waitForTitleNotContains(String title) {
-        waitForTitleNotContains(title, TIMEOUT, false);
-    }
-    /**
-     * Wait until windows title not contains text.
-     *
-     * @param timeoutSec to wait until windows title not contains text.
-     * @param title - Expected window title not contains text.
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForTitleNotContains(String title, int timeoutSec, boolean checkCondition) {
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitleNotContains: %s", title));
-        long start = System.currentTimeMillis()/1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try{
-            wait.until(ExpectedConditions.not(ExpectedConditions.titleContains(title)));
-        }catch (TimeoutException ignored){
-            ReporterNGExt.logTechnical(String.format("waitForTitleNotContains: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
-        }
-        if (checkCondition) {
-            ReporterNGExt.logAssertNotContains(ReporterNGExt.BUSINESS_LEVEL, getDriver().getTitle(), title, "waitForTitleNotContains", TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-
-    /**
-     * Wait until title is changed text
-     *
-     * @param title before change
-     */
-    public static void waitForTitleChanged(final String title) {
-        waitForTitleChanged(title, TIMEOUT, false);
-    }
-
-    /**
-     * Wait until element is changed text
-     *
-     * @param title before change
-     * @param timeoutSec seconds to wait until element is changed text
-     */
-    public static void waitForTitleChanged(final String title, int timeoutSec, boolean checkCondition) {
-        boolean isChanged;
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitleChanged: %s", title));
-        long start = System.currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try{
-            isChanged = wait.until(ExpectedConditions.not(ExpectedConditions.titleIs(title)));
-        }catch (TimeoutException e){
-            ReporterNGExt.logTechnical(String.format("waitForTitleChanged: [ %s ] during: [ %d ] sec ", title, System.currentTimeMillis() / 1000 - start));
-            isChanged = false;
-        }
-        if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTitleChanged: title '%s' should be changed", title), TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-
-    /**
-     * Wait until any element with text presents at web page.
-     *
-     * @param text - element text to be presents..
-     */
-    public static void waitForTextToBePresent(String text) {
-        waitForTextToBePresent(text, TIMEOUT, false);
-    }
-    /**
-     * Wait until any element with text presents at web page.
-     *
-     * @param text - element text to be presents.
-     * @param timeoutSec to wait until presents.
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForTextToBePresent(String text, int timeoutSec, boolean checkCondition) {
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForTextToBePresent: %s", text));
-        boolean isPresent;
-        long start = System.currentTimeMillis()/1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        setTimeout(timeoutSec);
-        try {
-            isPresent = wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*"), text));
-        }catch (TimeoutException ignored){
-            ReporterNGExt.logTechnical(String.format("waitForTextToBePresent: [ %s ] during: [ %d ] sec ", text, System.currentTimeMillis() / 1000 - start));
-            isPresent = false;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextToBePresent: element with text '%s' should be exists", text), TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-    /**
-     * Wait until any element with text not presents at web page.
-     *
-     * @param text - element text to not be presents.
-     */
-    public static void waitForTextToNotBePresent(String text) {
-        waitForTextToNotBePresent(text, TIMEOUT, false);
-    }
-    /**
-     * Wait until any element with text not presents at web page.
-     *
-     * @param text - element text to not be presents.
-     * @param timeoutSec to wait until not presents.
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForTextToNotBePresent(String text, int timeoutSec, boolean checkCondition) {
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForTextToNotBePresent: %s", text));
-        boolean isNotPresent;
-        long start = System.currentTimeMillis()/1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        setTimeout(timeoutSec);
-        try {
-            isNotPresent = wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//*"), text)));
-        }catch (TimeoutException ignored){
-            ReporterNGExt.logTechnical(String.format("waitForTextToNotBePresent: [ %s ] during: [ %d ] sec ", text, System.currentTimeMillis() / 1000 - start));
-            isNotPresent = false;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForTextToNotBePresent: element with text '%s' should not be exists", text), TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-    /**
-     * Wait until link presents at web page.
-     *
-     * @param linkText - link to be presents.
-     */
-    public static void waitForLinkToBePresent(String linkText) {
-        waitForLinkToBePresent(linkText, TIMEOUT, false);
-    }
-    /**
-     * Wait until link presents at web page.
-     *
-     * @param linkText - linkText to be presents.
-     * @param timeoutSec to wait until presents.
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForLinkToBePresent(String linkText, int timeoutSec, boolean checkCondition) {
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForLinkToBePresent: %s", linkText));
-        boolean isPresent;
-        long start = System.currentTimeMillis()/1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        setTimeout(timeoutSec);
-        try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(linkText)));
-            isPresent = true;
-        }catch (TimeoutException ignored){
-            ReporterNGExt.logTechnical(String.format("waitForLinkToBePresent: [ %s ] during: [ %d ] sec ", linkText, System.currentTimeMillis() / 1000 - start));
-            isPresent = false;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForLinkToBePresent: link with text '%s' should be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-    /**
-     * Wait until link not presents at web page.
-     *
-     * @param linkText - link to not be presents.
-     */
-    public static void waitForLinkToNotBePresent(String linkText) {
-        waitForLinkToNotBePresent(linkText, TIMEOUT, false);
-    }
-    /**
-     * Wait until link not presents at web page.
-     *
-     * @param linkText - linkText to not be presents.
-     * @param timeoutSec to wait until not presents.
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForLinkToNotBePresent(String linkText, int timeoutSec, boolean checkCondition) {
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForLinkToNotBePresent: %s", linkText));
-        boolean isNotPresent;
-        long start = System.currentTimeMillis()/1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        setTimeout(timeoutSec);
-        try {
-            isNotPresent = wait.until(ExpectedConditions.invisibilityOfElementLocated(By.linkText(linkText)));
-        }catch (TimeoutException ignored){
-            ReporterNGExt.logTechnical(String.format("waitForLinkToNotBePresent: [ %s ] during: [ %d ] sec ", linkText, System.currentTimeMillis() / 1000 - start));
-            isNotPresent = false;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotPresent, String.format("waitForLinkToNotBePresent: link with text '%s' should not be exists", linkText), TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-
-    /**
-     * Wait until Expected Condition.
-     *
-     * @param condition - Expected Condition
-     */
-    public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition) {
-        waitForExpectedCondition(condition, TIMEOUT, false);
-    }
-
-    /**
-     * Wait until Expected Condition.
-     *
-     * @param condition - Expected Condition
-     * @param timeoutSec - the maximum time to wait in seconds
-     */
-    public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition, final int timeoutSec) {
-        waitForExpectedCondition(condition, timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until Expected Condition.
-     *
-     * @param condition - Expected Condition
-     * @param timeoutSec - the maximum time to wait in seconds
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition, final int timeoutSec, final boolean checkCondition) {
-        boolean isTrue;
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForExpectedCondition: %s", condition));
-        long start = System.currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        setTimeout(timeoutSec);
-        try {
-            wait.until(condition);
-            isTrue = false;
-        } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForExpectedCondition: [ %s ] during: [ %d ] sec ", condition, System.currentTimeMillis() / 1000 - start));
-            isTrue = true;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition){
-            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-
-    /**
-     * Wait until JavaScript Condition.
-     *
-     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
-     */
-    public static void waitForJavaScriptCondition(final String javaScript) {
-        waitForJavaScriptCondition(javaScript, TIMEOUT, false);
-    }
-
-    /**
-     * Wait until JavaScript Condition.
-     *
-     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
-     * @param timeoutSec - the maximum time to wait in seconds
-     */
-    public static void waitForJavaScriptCondition(final String javaScript, final int timeoutSec) {
-        waitForJavaScriptCondition(javaScript, timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until JavaScript Condition.
-     *
-     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
-     * @param timeoutSec - the maximum time to wait in seconds
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForJavaScriptCondition(final String javaScript, final int timeoutSec, final boolean checkCondition) {
-        boolean isTrue;
-        ReporterNGExt.logAction(getDriver(), "", String.format("waitForJavaScriptCondition: %s", javaScript));
-        long start = System.currentTimeMillis() / 1000;
-        WebDriverWait wait = new WebDriverWait(getDriver(), timeoutSec);
-        try {
-            wait.until(new ExpectedCondition<Boolean>() {
-                @Override
-                public Boolean apply(WebDriver driverObject) {
-                    return (Boolean) ((JavascriptExecutor) getDriver()).executeScript(javaScript);
-                }
-            });
-            isTrue = false;
-        } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForJavaScriptCondition: [ %s ] during: [ %d ] sec ", javaScript, System.currentTimeMillis() / 1000 - start));
-            isTrue = true;
-        }
-        if (checkCondition){
-            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForJavaScriptCondition - '%s'", javaScript), TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-
-    /**
-     * Wait until Ajax JQuery Process finished.
-     */
-    public static void waitForAjaxJQueryProcess() {
-        waitForAjaxJQueryProcess(TIMEOUT, false);
-    }
-
-    /**
-     * Wait until Ajax JQuery Process finished.
-     *
-     * @param timeoutSec - the maximum time to wait in seconds
-     */
-    public static void waitForAjaxJQueryProcess(final int timeoutSec) {
-        waitForAjaxJQueryProcess(timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until Ajax JQuery Process finished.
-     *
-     * @param timeoutSec - the maximum time to wait in seconds
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void waitForAjaxJQueryProcess(final int timeoutSec, final boolean checkCondition) {
-        boolean isTrue;
-        ReporterNGExt.logAction(getDriver(), "", "waitForAjaxJQueryProcess: return jQuery.active == 0");
-        long start = System.currentTimeMillis() / 1000;
-        WebDriverWait wait = new WebDriverWait(getDriver(), timeoutSec);
-        try {
-            wait.until(new ExpectedCondition<Boolean>() {
-                @Override
-                public Boolean apply(WebDriver driverObject) {
-                    return (Boolean) ((JavascriptExecutor) getDriver()).executeScript("return jQuery.active == 0");
-                }
-            });
-            isTrue = false;
-        } catch (TimeoutException e) {
-            ReporterNGExt.logTechnical(String.format("waitForAjaxJQueryProcess: [ return jQuery.active == 0 ] during: [ %d ] sec ", System.currentTimeMillis() / 1000 - start));
-            isTrue = true;
-        }
-        if (checkCondition){
-            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, "waitForAjaxJQueryProcess - 'return jQuery.active == 0'", TestBaseWebDriver.takePassedScreenshot);
-        }
-    }
-
 
 }

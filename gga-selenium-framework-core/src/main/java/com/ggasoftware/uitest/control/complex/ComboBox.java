@@ -15,7 +15,6 @@ package com.ggasoftware.uitest.control.complex;
 
 import com.ggasoftware.uitest.control.simple.Input;
 import com.ggasoftware.uitest.utils.common.LinqUtils;
-import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.WebDriverWrapper;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -27,7 +26,6 @@ import java.util.List;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.firstIndex;
 import static com.ggasoftware.uitest.utils.ReporterNG.logAssertTrue;
 import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
 import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
 
@@ -126,42 +124,6 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
                 () -> (List<String>) LinqUtils.select(
                         select().getOptions(),
                         WebElement::getText));
-    }
-
-    /**
-     * Wait until option is selected by value.
-     *
-     * @param value - option text
-     * @return Parent Panel instance
-     */
-    public ParentPanel waitForItemAndSelect(final String value) {
-        return doJAction(format("waitForItemAndSelect[%s]: %s", value, getLocator()), () -> {
-            boolean isSelected;
-            long start = currentTimeMillis() / 1000;
-            WebDriverWait wait = (WebDriverWait) new WebDriverWait(WebDriverWrapper.getDriver(), WebDriverWrapper.TIMEOUT)
-                    .ignoring(StaleElementReferenceException.class);
-            try {
-                isSelected = wait.until(
-                        new ExpectedCondition<Boolean>() {
-                            @Override
-                            public Boolean apply(WebDriver driver) {
-                                try {
-                                    Select select = new Select(getWebElement());
-                                    select.selectByValue(value);
-                                    return true;
-                                } catch (Exception e) {
-                                    return false;
-                                }
-                            }
-                        }
-                );
-            } catch (TimeoutException e) {
-                logTechnical(format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", getLocator(), currentTimeMillis() / 1000 - start));
-                isSelected = false;
-            }
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected,
-                    format("waitForItemAndSelect: select item %s of %s", value, getName()));
-        });
     }
 
 }

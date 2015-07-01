@@ -5,7 +5,7 @@ import com.ggasoftware.uitest.logger.enums.LogInfoTypes;
 import com.ggasoftware.uitest.logger.enums.LogLevels;
 import org.apache.log4j.Logger;
 
-import static com.ggasoftware.uitest.utils.TestBaseWebDriver.frameworkName;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.frameworkName;
 import static java.lang.String.format;
 import static org.apache.log4j.LogManager.getLogger;
 

@@ -15,27 +15,19 @@ package com.ggasoftware.uitest.control.simple;
 
 import com.ggasoftware.uitest.control.BaseElement;
 import com.ggasoftware.uitest.control.interfaces.IElement;
-import com.ggasoftware.uitest.utils.*;
 import com.ggasoftware.uitest.utils.common.Timer;
 import com.ggasoftware.uitest.utils.settings.HighlightSettings;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
-import org.openqa.selenium.support.ui.*;
 
 import java.util.List;
 
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.*;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.where;
 import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
-import static com.ggasoftware.uitest.utils.TestBaseWebDriver.logFindElementLocator;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.*;
 import static java.lang.String.format;
-import static java.lang.System.currentTimeMillis;
 import static org.openqa.selenium.Keys.CONTROL;
-import static org.openqa.selenium.support.ui.ExpectedConditions.not;
-import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
 
 /**
  * Base Element control implementation
@@ -137,7 +129,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      *
      * @return WebElement
      */
-    private TestBaseWebDriver checker = new TestBaseWebDriver();
     private static final String failedToFindElementMessage = "Can't find element by locator '%s' during %s seconds";
     private static final String findToMuchElementsMessage = "Find %s elements instead of one by locator '%s' during %s seconds";
 
@@ -171,13 +162,11 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
                 els -> where(els, el -> el != null && el.isDisplayed()).size() > 0);
         setTimeout(TIMEOUT);
         if (result == null) {
-            checker.assertTrue(false, format(failedToFindElementMessage, getByLocator(), TIMEOUT));
+            asserter.exception(format(failedToFindElementMessage, getByLocator(), TIMEOUT));
             return null;
         }
-        if (result.size() > 1) {
-            checker.assertTrue(false, format(findToMuchElementsMessage, result.size(), getByLocator(), TIMEOUT));
-            return null;
-        }
+        if (result.size() > 1)
+            asserter.exception(format(findToMuchElementsMessage, result.size(), getByLocator(), TIMEOUT));
         return result.get(0);
     }
 
@@ -341,7 +330,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotDisplayed(Element expectedElement, int tryCount) {
-        logAction(this, getParentClassName(), format("clickWhileObjectNotDisplayed: element locator '%s', element name '%s'",
+        logAction(format("clickWhileObjectNotDisplayed: element locator '%s', element name '%s'",
                 expectedElement.getLocator(), expectedElement.getName()));
         int i = 0;
         while (!(expectedElement.isDisplayed())) {
@@ -365,8 +354,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotExist(Element expectedElement, int tryCount) {
-        logAction(this, getParentClassName(),
-            format("clickWhileObjectNotExist: element locator '%s', element name '%s'",
+        logAction(format("clickWhileObjectNotExist: element locator '%s', element name '%s'",
                 expectedElement.getLocator(), expectedElement.getName()));
         int i = 0;
         while (!(expectedElement.isExists())) {
@@ -386,8 +374,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectIsDisplayed(Element expectedElement, int tryCount) {
-        logAction(this, getParentClassName(),
-            format("clickWhileObjectExist: element locator '%s', element name '%s'",
+        logAction(format("clickWhileObjectExist: element locator '%s', element name '%s'",
                 expectedElement.getLocator(), expectedElement.getName()));
         int i = 0;
         while ((expectedElement.isDisplayed())) {
@@ -529,20 +516,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
 
     /**
-     * Get the visible (i.e. not hidden by CSS) innerText of this element, excluding sub-elements,
-     * without any leading or trailing whitespace.
-     *
-     * @return The innerText of this element.
-     */
-    public String getElementText() {
-        int l = 0;
-        for(WebElement webElement:getChild()){
-            l=+webElement.getText().length();
-        }
-        return (String) logGetter(this, getParentClassName(), "element text", getWebElement().getText().substring(l));
-    }
-
-    /**
      * Get the value of a the given attribute of the element. Will return the current value, even if
      * this has been modified after the page has been loaded.
      *
@@ -569,84 +542,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
 
     /**
-     * Get the value of a given CSS property. This is probably not going to return what you expect it
-     * to unless you've already had a look at the element using something like firebug. Seriously,
-     * even then you'll be lucky for this to work cross-browser. Colour values should be returned as
-     * hex strings, so, for example if the "background-color" property is set as "green" in the HTML
-     * source, the returned value will be "#008000"
-     *
-     * @return The current, computed value of the property.
-     */
-    public String getCssValue(String sName) {
-        return (String) logGetter(this, getParentClassName(), sName, getWebElement().getCssValue(sName));
-    }
-
-    /**
-     * Where on the page is the top left-hand corner of the rendered element?
-     * We can use also:
-     * - getLocation().x or getLocation().getX
-     * - getLocation().y or getLocation().getY
-     *
-     * @return A point, containing the location of the top left-hand corner of the element
-     */
-    public Point getLocation() {
-        return (Point) logGetter(this, getParentClassName(), "Location", getWebElement().getLocation());
-    }
-
-    /**
-     * What is the width and height of the rendered element?
-     * We can use also:
-     * - getWebElement().getSize().width or getWebElement().getSize().getWidth()
-     * - getWebElement().getSize().height or getWebElement().getSize().getHeight()
-     *
-     * @return The size of the element on the page.
-     */
-    public Dimension getSize() {
-        return (Dimension) logGetter(this, getParentClassName(), "Dimension", getWebElement().getSize());
-    }
-
-    /**
-     * Get the tag name of this element. <b>Not</b> the value of the name attribute: will return
-     * <code>"input"</code> for the element <code>&lt;input name="foo" /&gt;</code>.
-     *
-     * @return The tag name of this element.
-     */
-    public String getTagName() {
-        return (String) logGetter(this, getParentClassName(), "TagName", getWebElement().getTagName());
-    }
-
-    /**
-     * Has child element with specified tag
-     *
-     * @param tagName Tag name
-     * @return Has child or not
-     */
-    public boolean hasChildByTag(String tagName) {
-        return (Boolean) logGetter(this, getParentClassName(), "HasChildByTag", !getWebElement().findElements(By.tagName(tagName)).isEmpty());
-    }
-
-    /**
-     * Has child element
-     *
-     * @return Has child or not
-     */
-    public boolean hasChild() {
-        return (Boolean) logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.xpath(".//*")).isEmpty());
-    }
-
-    /**
-     * Get child elements
-     *
-     * @return Has child or not
-     */
-    public List<WebElement> getChild() {
-        if (logFindElementLocator) {
-            logTechnical(format("Get Child Web Elements '%s'", getLocator()));
-        }
-        return getWebElement().findElements(By.xpath(".//*"));
-    }
-
-    /**
      * Select some area (mouse from point(x1, y1) to point(x2, y2) in element)
      *
      * @param x1 - x1 coordinate of element
@@ -656,7 +551,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel selectArea(int x1, int y1, int x2, int y2) {
-        logAction(this, getParentClassName(), format("Select area: from %d,%d;to %d,%d", x1, y1, x2, y2));
+        logAction(format("Select area: from %d,%d;to %d,%d", x1, y1, x2, y2));
         WebElement element = getWebElement();
         new Actions(getDriver()).moveToElement(element, x1, y1)
                 .clickAndHold()
@@ -682,459 +577,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
 
     /**
-     * Wait until element exists.
-     *
-     * @param timeoutSec seconds to wait until element exists.
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForExists(int timeoutSec, boolean checkCondition) {
-        boolean isExists;
-        logAction(this, getParentClassName(), format("waitForExists: %s", getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        setTimeout(1);
-        try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(getByLocator()));
-            isExists = true;
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForExists: [ %s ] during: [ %d ] sec ", getLocator(), currentTimeMillis() / 1000 - start));
-            isExists = false;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists,
-                    format("waitForExists - '%s' should exist", getName()), TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
-    }
-
-    /**
-     * Wait until element exists.
-     *
-     * @param timeoutSec seconds to wait until element exists.
-     * @return Parent instance
-     */
-    public ParentPanel waitForExists(int timeoutSec) {
-        return waitForExists(timeoutSec, CHECKCONDITION);
-    }
-    /**
-     * Wait until element exists.
-     *
-     * @return Parent instance
-     */
-    public ParentPanel waitForExists() {
-        return waitForExists(TIMEOUT);
-    }
-    /**
-     * Wait until element exists.
-     *
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForExists(boolean checkCondition) {
-        return waitForExists(TIMEOUT, checkCondition);
-    }
-
-    /**
-     * Wait until element is displayed.
-     *
-     * @param timeoutSec seconds to wait until element is displayed.
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    private ParentPanel waitForDisplayed(int timeoutSec, boolean checkCondition) {
-        boolean isDisplayed;
-        logAction(this, getParentClassName(), format("waitForDisplayed: %s", getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        setTimeout(1);
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(getByLocator()));
-            isDisplayed = true;
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForDisplayed: [ %s ] during: [ %d ] sec ",
-                    getLocator(), currentTimeMillis() / 1000 - start));
-            isDisplayed = false;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed,
-                format("waitForDisplayed - '%s' should be displayed",
-                        getName()), TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
-    }
-    /**
-     * Wait until element is displayed.
-     *
-     * @param timeoutSec seconds to wait until element is displayed.
-     * @return Parent instance
-     */
-    public ParentPanel waitForDisplayed(int timeoutSec) {
-        return waitForDisplayed(timeoutSec, CHECKCONDITION);
-    }
-    /**
-     * Wait until element is displayed.
-     *
-     * @return Parent instance
-     */
-    public ParentPanel waitForDisplayed() {
-        return waitForDisplayed(TIMEOUT);
-    }
-    /**
-     * Wait until element is displayed.
-     *
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForDisplayed(boolean checkCondition) {
-        return waitForDisplayed(TIMEOUT, checkCondition);
-    }
-
-    /**
-     * Wait until element is vanished.
-     *
-     * @return Parent instance
-     */
-    public ParentPanel waitForElementToVanish() {
-        return waitForElementToVanish(TIMEOUT, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element is vanished.
-     * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
-     *
-     * @return Parent instance
-     */
-    public ParentPanel waitForElementToVanish(int timeoutSec) {
-        return waitForElementToVanish(timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element is vanished.
-     * @param checkCondition log assert for expected conditions.
-     *
-     * @return Parent instance
-     */
-    public ParentPanel waitForElementToVanish(boolean checkCondition) {
-        return waitForElementToVanish(TIMEOUT, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element is vanished.
-     *
-     * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForElementToVanish(int timeoutSec, boolean checkCondition) {
-        boolean isVanished;
-        logAction(this, getParentClassName(), format("waitForElementToVanish: %s", getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class, NoSuchElementException.class);
-        setTimeout(1);
-        try {
-            isVanished = wait.until(ExpectedConditions.invisibilityOfElementLocated(getByLocator()));
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForElementToVanish: [ %s ] during: [ %d ] sec ",
-                    getLocator(), currentTimeMillis() / 1000 - start));
-            isVanished = false;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished,
-                    format("waitForElementToVanish - '%s' should be vanished", getName()),
-                    TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
-    }
-
-    /**
-     * Wait until element has a text.
-     *
-     * @param text Text of Element
-     * @return Parent instance
-     */
-    public ParentPanel waitForText(final String text) {
-        return waitForText(text, TIMEOUT, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element has a text.
-     *
-     * @param text Text of Element
-     * @param timeoutSec seconds to wait until element has a text
-     * @return Parent instance
-     */
-    public ParentPanel waitForText(final String text, final int timeoutSec) {
-        return waitForText(text, timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element has a text.
-     *
-     * @param text Text of Element
-     * @param timeoutSec seconds to wait until element has a text
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForText(final String text, final int timeoutSec, final boolean checkCondition) {
-        boolean isPresent;
-        logAction(this, getParentClassName(), format("waitForText[%s]: %s", text, getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            wait.until(textToBePresentInElementLocated(getByLocator(), text));
-            getText();
-            isPresent = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            return getDriver().findElement(getByLocator()).getText().equals(text);
-                        }
-                    }
-            );
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForText: [ %s ] during: [ %d ] sec ",
-                    getLocator(), currentTimeMillis() / 1000 - start));
-            isPresent = false;
-        }
-        if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForText - '%s' should has a text '%s'",
-                        getName(), text), TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
-    }
-
-    /**
-     * Wait until element contains a text.
-     *
-     * @param text Text of Element
-     * @return Parent instance
-     */
-    public ParentPanel waitForTextContains(final String text) {
-        return waitForTextContains(text, TIMEOUT, CHECKCONDITION);
-    }
-    /**
-     * Wait until element contains a text.
-     *
-     * @param text Text of Element
-     * @param timeoutSec seconds to wait until element contains a text
-     * @return Parent instance
-     */
-    public ParentPanel waitForTextContains(final String text, final int timeoutSec) {
-        return waitForTextContains(text, timeoutSec, CHECKCONDITION);
-    }
-    /**
-     * Wait until element contains a text.
-     *
-     * @param text Text of Element
-     * @param timeoutSec seconds to wait until element contains a text
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForTextContains(final String text, final int timeoutSec, final boolean checkCondition) {
-        boolean isPresent;
-        logAction(this, getParentClassName(), format("waitForTextContains[%s]: %s", text, getLocator()));
-        long start = currentTimeMillis() / 1000;
-        final WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            isPresent = wait.until(textToBePresentInElementLocated(getByLocator(), text));
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForTextContains: [ %s ] during: [ %d ] sec ", getLocator(), currentTimeMillis() / 1000 - start));
-            isPresent = false;
-        }
-        if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForTextContains - '%s' should has a text contains '%s'",
-                            getName(), text), TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
-    }
-
-    /**
-     * Wait until element is changed text.
-     *
-     * @param text before change
-     * @return Parent instance
-     */
-    public ParentPanel waitForTextChanged(final String text) {
-        return waitForTextChanged(text, TIMEOUT, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element is changed text.
-     *
-     * @param text before change
-     * @param timeoutSec seconds to wait until element is changed text
-     * @return Parent instance
-     */
-    public ParentPanel waitForTextChanged(final String text, final int timeoutSec) {
-        return waitForTextChanged(text, timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element is changed text.
-     *
-     * @param text before change
-     * @param timeoutSec seconds to wait until element is changed text
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForTextChanged(final String text, final int timeoutSec, final boolean checkCondition) {
-        boolean isChanged;
-        logAction(this, getParentClassName(), format("waitForTextChanged[%s]: %s", text, getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            isChanged = wait.until(not(textToBePresentInElementLocated(getByLocator(), text)));
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForTextChanged: [ %s ] during: [ %d ] sec ",
-                    getLocator(), currentTimeMillis() / 1000 - start));
-            isChanged = false;
-        }
-        if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged,
-                    format("waitForTextChanged - '%s' text '%s' should be changed",
-                            getName(), text), TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
-    }
-
-    /**
-     * Wait until element has a 'value' attribute.
-     *
-     * @param value 'Value' Attribute of Element
-     * @return Parent instance
-     */
-    public ParentPanel waitForValue(final String value) {
-        return waitForText(value, TIMEOUT, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element has a 'value' attribute.
-     *
-     * @param value 'Value' Attribute of Element
-     * @param timeoutSec seconds to wait until element has a 'value' attribute
-     * @return Parent instance
-     */
-    public ParentPanel waitForValue(final String value, int timeoutSec) {
-        return waitForText(value, timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element has a 'value' attribute.
-     *
-     * @param value 'Value' Attribute of Element
-     * @param timeoutSec seconds to wait until element has a 'value' attribute
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForValue(final String value, final int timeoutSec, final boolean checkCondition) {
-        boolean isPresent;
-        logAction(this, getParentClassName(), format("waitForValueAttribute[%s]: %s", value, getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            isPresent = wait.until(ExpectedConditions.textToBePresentInElementValue(getByLocator(), value));
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForValueAttribute: [ %s ] during: [ %d ] sec ",
-                    getLocator(), currentTimeMillis() / 1000 - start));
-            isPresent = false;
-        }
-        if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForValueAttribute - '%s' should has a value attribute '%s'",
-                            getName(), value), TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
-    }
-
-    /**
-     * Wait until element is changed the attribute.
-     *
-     * @param attribute  for watching
-     * @param value      of attribute before change
-     * @param timeoutSec seconds to wait until element is changed attribute
-     * @return Parent instance
-     */
-    public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
-        return waitForAttributeChanged(attribute, value, timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until element is changed the attribute.
-     *
-     * @param attribute  for watching
-     * @param value      of attribute before change
-     * @param timeoutSec seconds to wait until element is changed attribute
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, final boolean checkCondition) {
-        boolean isChanged;
-        logAction(this, getParentClassName(), format("waitForAttributeChanged[%s]: %s", value, getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            getAttribute(attribute);
-            isChanged = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            return !getDriver().findElement(getByLocator()).getAttribute(attribute).equals(value);
-                        }
-                    }
-            );
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForAttributeChanged: [ %s ] during: [ %d ] sec ",
-                    getLocator(), currentTimeMillis() / 1000 - start));
-            isChanged = false;
-        }
-        if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged,
-                    format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed",
-                            getName(), attribute, value), TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
-    }
-
-    /**
-     * Firstly :Wait until element exists, then: Wait until element is vanished.
-     *
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForExistsThenVanish(final boolean checkCondition) {
-        logAction(this, getParentClassName(), format("waitForExistsThenVanish:%s", getLocator()));
-        waitForExists(checkCondition);
-        waitForElementToVanish(checkCondition);
-        return parent;
-    }
-
-    /**
-     * Firstly :Wait until element exists, then: Wait until element is vanished.
-     *
-     * @return Parent instance
-     */
-    public ParentPanel waitForExistsThenVanish() {
-        logAction(this, getParentClassName(), format("waitForExistsThenVanish:%s", getLocator()));
-        waitForExists();
-        waitForElementToVanish();
-        return parent;
-    }
-
-    /**
      * Get visible WebElement with Element locator.
      *
      * @return WebElement
@@ -1142,94 +584,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public WebElement getVisibleWebElement() {
         Elements elements = new Elements<>(getName(), getLocator(), parent);
         return elements.getVisibleWebElement();
-    }
-
-    /**
-     * Wait until element is clickable and click at it.
-     *
-     * @param timeoutSec seconds to wait until element become clickable.
-     * @return Parent instance
-     */
-    public ParentPanel waitForClickableAndClick(final int timeoutSec) {
-        boolean isClicked;
-        logAction(this, getParentClassName(), format("waitForClickable: %s", getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            wait.until(ExpectedConditions.elementToBeClickable(getByLocator()));
-            isClicked = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            try {
-                                getWebElement(timeoutSec).click();
-                                return true;
-                            } catch (Exception e) {
-                                return false;
-                            }
-                        }
-                    }
-            );
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForClickable: [ %s ] during: [ %d ] sec ",
-                    getLocator(), currentTimeMillis() / 1000 - start));
-            isClicked = false;
-        }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked,
-                format("waitForClickableAndClick: '%s' was clickable and click at it",
-                        getName()), TestBaseWebDriver.takePassedScreenshot);
-        return parent;
-    }
-
-    /**
-     * Wait until Expected Condition.
-     *
-     * @param condition - Expected Condition
-     * @return Parent instance
-     */
-    public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition) {
-        return waitForExpectedConditions(condition, TIMEOUT, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until Expected Condition.
-     *
-     * @param condition - Expected Condition
-     * @param timeoutSec - the maximum time to wait in seconds
-     * @return Parent instance
-     */
-    public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition, final int timeoutSec) {
-        return waitForExpectedConditions(condition, timeoutSec, CHECKCONDITION);
-    }
-
-    /**
-     * Wait until Expected Condition.
-     *
-     * @param condition - Expected Condition
-     * @param timeoutSec - the maximum time to wait in seconds
-     * @param checkCondition log assert for expected conditions.
-     * @return Parent instance
-     */
-    public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition, final int timeoutSec, final boolean checkCondition) {
-        boolean isTrue;
-        logAction(this, getParentClassName(), format("waitForExpectedCondition[%s}: %s", condition, getLocator()));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        setTimeout(1);
-        try {
-            wait.until(condition);
-            isTrue = false;
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForExpectedCondition: [ %s ] during: [ %d ] sec ", getLocator(), currentTimeMillis() / 1000 - start));
-            isTrue = true;
-        }
-        setTimeout(TIMEOUT);
-        if (checkCondition){
-            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
-        }
-        return parent;
     }
 
 }

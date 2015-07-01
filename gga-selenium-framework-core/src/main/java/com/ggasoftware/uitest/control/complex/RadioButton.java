@@ -16,8 +16,6 @@ package com.ggasoftware.uitest.control.complex;
 import com.ggasoftware.uitest.control.simple.Element;
 import org.openqa.selenium.WebElement;
 
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
-
 /**
  * RadioButton control implementation
  *
@@ -45,8 +43,7 @@ public class RadioButton<ParentPanel> extends Element<ParentPanel> {
      * @return True if the element is currently checked, false otherwise.
      */
     public boolean isChecked() {
-        return (Boolean) logGetter(this, getParentClassName(),
-                "RadioButton Checked", getWebElement().isSelected());
+        return doJActionResult("RadioButton Checked", () -> getWebElement().isSelected());
     }
 
     /**

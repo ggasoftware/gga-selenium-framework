@@ -35,10 +35,10 @@ public class Columns<P, T extends ClickableText> extends TableLine<P, T> {
         catch (Exception ex) { throwColsException(rowName, ex); return null; }
     }
 
-    public MapArray<String, Cell<P, T>> cellsToRow(Collection<Cell<P, T>> cells) throws Exception {
-        return new MapArray<>(cells,
+    public MapArray<String, Cell<P, T>> cellsToRow(Collection<Cell<P, T>> cells) {
+        return asserter.silentException(() -> new MapArray<String, Cell<P, T>>(cells,
                 cell -> table.columns().headers()[cell.columnNum - 1],
-                cell -> cell);
+                cell -> cell));
     }
 
     public MapArray<String, Cell<P, T>> getRow(int rowNum) {
@@ -57,7 +57,7 @@ public class Columns<P, T extends ClickableText> extends TableLine<P, T> {
         catch (Exception ex) { throwColsException(rowNum + "", ex); return null; }
     }
 
-    public MapArray<String, MapArray<String, Cell<P, T>>> get() throws Exception {
+    public MapArray<String, MapArray<String, Cell<P, T>>> get() {
         MapArray<String, MapArray<String, Cell<P, T>>> cols = new MapArray<>();
         for(String columnName : headers()) {
             MapArray<String, Cell<P, T>> row = new MapArray<>();

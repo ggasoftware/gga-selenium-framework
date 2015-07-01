@@ -12,60 +12,60 @@ import static com.ggasoftware.uitest.logger.enums.LogInfoTypes.BUSINESS;
 import static com.ggasoftware.uitest.logger.enums.LogInfoTypes.FRAMEWORK;
 import static com.ggasoftware.uitest.logger.enums.LogInfoTypes.TECHNICAL;
 import static com.ggasoftware.uitest.logger.enums.LogLevels.*;
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static org.apache.log4j.LogManager.getLogger;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public abstract class AbstractLogger implements ILogger {
-    public void init(String message) {
+    public void init(String message, Object... args) {
         if (logLevel.equalOrLessThan(FATAL) && isMatchLogInfoType(BUSINESS))
-            inLog(message, INIT);
+            inLog(format(message, args), INIT);
     }
 
-    public void suit(String message) {
+    public void suit(String message, Object... args) {
         if (logLevel.equalOrLessThan(FATAL) && isMatchLogInfoType(BUSINESS)) {
-            inLog(message, SUIT);
+            inLog(format(message, args), SUIT);
         }
     }
 
-    public void test(String message) {
+    public void test(String message, Object... args) {
         if (logLevel.equalOrLessThan(FATAL) && isMatchLogInfoType(BUSINESS)) {
-            inLog(message, TEST);
+            inLog(format(message, args), TEST);
         }
     }
 
-    public void step(String message) {
+    public void step(String message, Object... args) {
         if (logLevel.equalOrLessThan(FATAL) && isMatchLogInfoType(BUSINESS)) {
-            inLog(message, STEP);
+            inLog(format(message, args), STEP);
         }
     }
 
-    public void fatal(String message) {
+    public void fatal(String message, Object... args) {
         if (logLevel.equalOrLessThan(FATAL) && isMatchLogInfoType(BUSINESS)) {
-            inLog(message, FATAL, TECHNICAL);
+            inLog(format(message, args), FATAL, TECHNICAL);
         }
     }
 
-    public void error(String message, LogInfoTypes logInfoType) {
+    public void error(LogInfoTypes logInfoType, String message, Object... args) {
         if (logLevel.equalOrLessThan(ERROR) && isMatchLogInfoType(logInfoType))
-            inLog(message, ERROR, logInfoType);
+            inLog(format(message, args), ERROR, logInfoType);
     }
 
-    public void warning(String message, LogInfoTypes logInfoType) {
+    public void warning(LogInfoTypes logInfoType, String message, Object... args) {
         if (logLevel.equalOrLessThan(WARNING) && isMatchLogInfoType(logInfoType))
-            inLog(message, WARNING, logInfoType);
+            inLog(format(message, args), WARNING, logInfoType);
     }
 
-    public void info(String message) {
+    public void info(String message, Object... args) {
         if (logLevel.equalOrLessThan(INFO) && isMatchLogInfoType(FRAMEWORK))
-            inLog(message, INFO, FRAMEWORK);
+            inLog(format(message, args), INFO, FRAMEWORK);
     }
 
-    public void debug(String message) {
+    public void debug(String message, Object... args) {
         if (logLevel.equalOrLessThan(DEBUG) && isMatchLogInfoType(TECHNICAL))
-            inLog(message, DEBUG, TECHNICAL);
+            inLog(format(message, args), DEBUG, TECHNICAL);
     }
 
     public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {}
