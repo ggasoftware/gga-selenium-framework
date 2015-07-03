@@ -15,20 +15,11 @@ package com.ggasoftware.uitest.control.complex;
 
 import com.ggasoftware.uitest.control.simple.Element;
 import com.ggasoftware.uitest.utils.common.LinqUtils;
-import com.ggasoftware.uitest.utils.WebDriverWrapper;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-import static com.ggasoftware.uitest.utils.ReporterNG.logAssertTrue;
-import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static java.lang.String.format;
-import static java.lang.System.currentTimeMillis;
 import static jdk.nashorn.internal.objects.Global.print;
 
 /**
@@ -133,7 +124,7 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      */
     public List<String> getSelectedItems() {
         return doJActionResult("Get selected items",
-            () -> (List<String>) LinqUtils.select(
+                () -> (List<String>) LinqUtils.select(
                 select().getAllSelectedOptions(),
                 WebElement::getText));
     }

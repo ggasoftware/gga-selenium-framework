@@ -1,18 +1,14 @@
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.control.apiInteract.GetElementModule;
 import com.ggasoftware.uitest.control.interfaces.IBaseElement;
 import com.ggasoftware.uitest.control.interfaces.IElement;
-import com.ggasoftware.uitest.utils.PropertyReader;
 import com.ggasoftware.uitest.utils.interfaces.IScenario;
 import com.ggasoftware.uitest.utils.linqInterfaces.JAction;
 import com.ggasoftware.uitest.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.*;
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.highlightSettings;
@@ -24,84 +20,17 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public abstract class BaseElement<ParentPanel>  implements IBaseElement {
-
-    /**
-     * Name of the element for Report
-     */
+public abstract class BaseElement implements IBaseElement {
     private String name;
-
-    /**
-     * Locator of the element if applicable
-     */
-    private String locator;
-
-    /**
-     * Locator of the element if applicable
-     */
-    private By bylocator;
-
     public String getName() { return name; }
+    private GetElementModule avatar;
 
-    public By getByLocator() { return bylocator; }
-    /**
-     * Contains name of the element used for locating its parameters in properties file
-     */
-    private final Properties properties = new Properties();
-
-    {
-        PropertyReader.getProperties(properties, this.getClass().getName());
-        String panelLocator = getProperty("main");
-        if (panelLocator != null) {
-            this.locator = panelLocator;
-            this.bylocator = getByLocator();
-        }
-    }
-
-    protected List<By> context;
-    public static boolean logFindElementLocator = true;
-
-    public void setContext(By context) {
-        this.context = new ArrayList<>();
-        this.context.add(context);
-    }
-    public void setContext(List<By> context) {
-        this.context = context;
-    }
-    /**
-     * Searches for the property with the specified key in this property list.
-     * If the key is not found in this property list, the default property list,
-     * and its defaults, recursively, are then checked. The method returns
-     * <code>null</code> if the property is not found.
-     *
-     * @param key the property key.
-     * @return the value in this property list with the specified key value.
-     */
-    public String getProperty(String key) {
-        return properties.getProperty(key);
-    }
-
-    /**
-     * Parent panel which contains current element
-     */
-    protected ParentPanel parent;
     public BaseElement() { }
-
-    /**
-     * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
-     * to initialize.
-     *
-     * @param name    - Element name
-     * @param locator - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
-     * @param panel   - Parent panel instance
-     */
-    public BaseElement(String name, String locator, ParentPanel panel) {
-        this.name = name;
-        this.locator = locator;
-        this.bylocator = getByLocator();
-        this.parent = panel;
-        this.parentTypeName = panel.getClass().getSimpleName();
+    public BaseElement(By byLocator) { }
+    public BaseElement(String name, By byLocator) {
+        avatar = new GetElementModule(byLocator);
     }
+
 
     /**
      * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries

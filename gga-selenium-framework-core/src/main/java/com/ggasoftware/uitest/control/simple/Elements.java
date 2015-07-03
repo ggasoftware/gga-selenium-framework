@@ -26,10 +26,10 @@ import java.util.List;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.first;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.firstIndex;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.select;
-import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static com.ggasoftware.uitest.utils.common.Timer.alwaysDoneAction;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.*;
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.asserter;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.logger;
 import static java.lang.String.format;
 
 /**
@@ -94,7 +94,7 @@ public class Elements<ParentPanel> extends BaseElement<ParentPanel> implements I
 
     public List<WebElement> getWebElements(int seconds) {
         if (logFindElementLocator)
-            logTechnical(format("Get Web Elements '%s'", getLocator()));
+            logger.debug(format("Get Web Elements '%s'", getLocator()));
         SearchContext currentContext = getDriver();
         if (context != null)
             for (By by : context) {

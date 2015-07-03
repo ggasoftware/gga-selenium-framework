@@ -1,5 +1,6 @@
 package com.ggasoftware.uitest.utils.settings;
 
+import com.ggasoftware.uitest.apiAccessors.selenium.SeleniumAvatar;
 import com.ggasoftware.uitest.asserter.*;
 import com.ggasoftware.uitest.logger.*;
 import com.ggasoftware.uitest.testRunner.*;
@@ -16,4 +17,6 @@ public class FrameworkSettings {
 
     public static boolean isDemoMode = false;
     public static HighlightSettings highlightSettings = new HighlightSettings();
+
+    public static SeleniumAvatar avatar = new SeleniumAvatar();
 }

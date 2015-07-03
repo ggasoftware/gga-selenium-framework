@@ -2,11 +2,13 @@ package com.ggasoftware.uitest.utils.map;
 
 
 import com.ggasoftware.uitest.utils.common.LinqUtils;
+import com.ggasoftware.uitest.utils.common.PrintUtils;
 import com.ggasoftware.uitest.utils.linqInterfaces.*;
 
 import java.util.*;
 
 import static com.ggasoftware.uitest.utils.common.LinqUtils.select;
+import static com.ggasoftware.uitest.utils.common.PrintUtils.*;
 
 /**
  * Created by Roman_Iovlev on 6/3/2015.
@@ -152,5 +154,10 @@ public class MapArray<K, V> implements Collection<KeyValue<K,V>> {
 
     public void clear() {
         pairs.clear();
+    }
+
+    @Override
+    public String toString() {
+        return print(select(pairs, pair -> pair.key + ":" + pair.value));
     }
 }

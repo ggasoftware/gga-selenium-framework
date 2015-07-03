@@ -16,35 +16,23 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public class SeleniumAvatar implements IAPIAvatar<WebElementAvatar>, WebDriver {
-    public WebDriver driver;
+public class SeleniumAvatar/* implements IAPIAvatar<WebElementAvatar>, WebDriver */{
     private MapArray<String, WebDriver> drivers = new MapArray<>();
     public void registerDriver(WebDriver driver) throws Exception {
-        registerDriver("Driver" + drivers.size(), driver);
+        registerDriver("Driver" + drivers.size() + 1, driver);
     }
     public void registerDriver(String driverName, WebDriver driver) throws Exception {
         if (!drivers.add(driverName, driver))
-            throw asserter.exception(format(
-                "Can't register Webdriver '%s'. Driver with same name already registered", driverName));
-        this.driver = driver;
+            throw asserter.exception(format("Can't register Webdriver '%s'. Driver with same name already registered", driverName));
+        currentDriverName = driverName;
     }
-    public void useDriver(String driverName) throws Exception {
+    public WebDriver useDriver(String driverName) throws Exception {
         WebDriver resultDriver = drivers.get(driverName);
         if (resultDriver != null)
-            this.driver = resultDriver;
-        else throw asserter.exception(format(
-                "Can't use Webdriver '%s'. This Driver name not registered", driverName));
+            return resultDriver;
+        else throw asserter.exception(format("Can't use Webdriver '%s'. This Driver name not registered", driverName));
     }
-
-    public WebElementAvatar getElement(String locator) {
-        return new WebElementAvatar(driver.findElement(By.xpath(locator)));
-    }
-
-    public List<WebElementAvatar> getElements(String locator) {
-        return (List<WebElementAvatar>)select(
-                driver.findElements(By.xpath(locator)),
-                WebElementAvatar::new);
-    }
+    public String currentDriverName = "";
 
     public void runApplication() {
 
@@ -91,18 +79,6 @@ public class SeleniumAvatar implements IAPIAvatar<WebElementAvatar>, WebDriver {
     }
 
     public String getWindowHandle() {
-        return null;
-    }
-
-    public TargetLocator switchTo() {
-        return null;
-    }
-
-    public Navigation navigate() {
-        return null;
-    }
-
-    public Options manage() {
         return null;
     }
 }

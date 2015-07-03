@@ -24,7 +24,6 @@ import java.util.List;
 
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.*;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.where;
-import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.*;
 import static java.lang.String.format;
 import static org.openqa.selenium.Keys.CONTROL;
@@ -147,7 +146,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public WebElement getWebElement(int timeouInSec) {
         setTimeout(timeouInSec);
         if (logFindElementLocator)
-            logTechnical(format("Get Web Element '%s'", getLocator()));
+            logger.debug(format("Get Web Element '%s'", getLocator()));
         SearchContext currentContext = getDriver();
         if (context != null)
             for (By by : context) {
@@ -190,10 +189,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel clickBy(int xOffset, int yOffset) {
         return doJAction(
-            format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset),
-            () -> new Actions(getDriver())
-                .moveToElement(getWebElement(), xOffset, yOffset)
-                .click().build().perform() );
+                format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset),
+                () -> new Actions(getDriver())
+                        .moveToElement(getWebElement(), xOffset, yOffset)
+                        .click().build().perform());
     }
     
     /**
@@ -433,7 +432,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public boolean isExists() {
         if (logFindElementLocator) {
-            logTechnical(format("Find Elements '%s'", getLocator()));
+            logger.debug(format("Find Elements '%s'", getLocator()));
         }
         return !getDriver().findElements(getByLocator()).isEmpty();
     }
