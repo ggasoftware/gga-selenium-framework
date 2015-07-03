@@ -26,66 +26,42 @@ public abstract class BaseElement implements IBaseElement {
     private GetElementModule avatar;
 
     public BaseElement() { }
-    public BaseElement(By byLocator) { }
+    public BaseElement(By byLocator) {
+        this(null, byLocator); }
     public BaseElement(String name, By byLocator) {
+        this.name = name != null ? name : getTypeName();
         avatar = new GetElementModule(byLocator);
     }
 
-
-    /**
-     * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
-     * to initialize.
-     *
-     * @param name    - Element name
-     * @param byLocator - Selenium By
-     */
-    public BaseElement(String name, By byLocator) {
-        this.name = name;
-        this.bylocator = byLocator;
-        this.locator = byLocator.toString();
-    }
-    /**
-     * Gets element's locator
-     *
-     * @return Locator of the element
-     */
-    public String getLocator() {
-        return locator;
-    }
-
     protected String parentTypeName = "";
-    protected String getTypeName() { return this.getClass().getSimpleName(); }
+    protected String getTypeName() { return getClass().getSimpleName(); }
     protected String getParentName() { return parentTypeName; }
     protected void setParentName(String parrentName) { parentTypeName = parrentName; }
 
     protected JavascriptExecutor jsExecutor() { return (JavascriptExecutor) getDriver(); }
 
-    public String getDefaultLogMessage(String text)  {
-        return text +  format(" (Name: '%s', Type: '%s' In: '%s', LocatorAttribute: '%s')",
-                getName(), getTypeName(), getParentName(), bylocator);
+    public String getElementInfo()  {
+        return format(" (Name: '%s', Type: '%s' In: '%s', Locator: '%s')",
+                getName(), getTypeName(), getParentName(), avatar);
     }
 
     public static IScenario invocationScenario = new IScenario() {
         @Override
-        public <TResult> TResult invoke(
-                BaseElement element, String actionName, JFuncT<TResult> jAction) {
-            // TODO replace logAction with
-            // logger.info(element.getDefaultLogMessage(actionName));
+        public <TResult> TResult invoke(BaseElement element, String actionName, JFuncT<TResult> jAction) {
             element.logAction(actionName);
             return getResultAction(jAction::invoke);
         }
     };
 
     public void logAction(String actionName) {
-        logger.info("Perform action '%s' with element '%s'", actionName, getDefaultLogMessage(""));
+        logger.info(format("Perform action '%s' with element '%s'", actionName, getElementInfo()));
     }
 
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction) {
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction) throws Exception {
         return doJActionResult(actionName, viAction, null);
     }
     protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction,
-                                                      JFuncTT<TResult, String> logResult)
-    {
+                                                      JFuncTT<TResult, String> logResult) throws Exception {
         try {
             if (isDemoMode)
                 if (isInterface(getClass(), IElement.class))
@@ -96,13 +72,11 @@ public abstract class BaseElement implements IBaseElement {
             return result;
         }
         catch (Exception ex) {
-            asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
-            return null;
+            throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
 
-    protected final ParentPanel doJAction(String actionName, JAction viAction)
-    {
+    protected final void doJAction(String actionName, JAction viAction) throws Exception {
         try {
             if (isDemoMode)
                 if (isInterface(getClass(), IElement.class))
@@ -111,80 +85,10 @@ public abstract class BaseElement implements IBaseElement {
                 viAction.invoke();
                 return null;
             });
-            // TODO remove
-            // return parent;
-            return parent;
         }
         catch (Exception ex) {
-            asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
-            return null;
+            throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
-    /**
-     * Sets locator for the element
-     *
-     * @param elementLocator - Locator of the element. Start it with locator type "id=", "css=", "xpath=" and etc.
-     */
-    public void setLocator(String elementLocator) {
-        this.locator = elementLocator;
-    }
-    public void setLocator(By byLocator) {
-        this.bylocator = byLocator;
-    }
-    public boolean haveLocator() { return bylocator != null; }
-    /**
-     * Sets locator for the element
-     *
-     * @param parentPanel - Locator of the element. Start it with locator type "id=", "css=", "xpath=" and etc.
-     */
-    protected void setParent(ParentPanel parentPanel) {
-        this.parent = parentPanel;
-    }
-
-    /**
-     * Get simple element class name
-     *
-     * @return class name string
-     */
-    protected String getSimpleClassName() {
-        return this.getClass().getSimpleName();
-    }
-
-    /**
-     * Get Parent Class Name
-     *
-     * @return Parent Canonical Class Name
-     */
-    protected String getParentClassName() {
-        if (parent == null) {
-            return "";
-        }
-        return parent.getClass().getSimpleName();
-    }
-
-    /**
-     * Get full xpath string
-     *
-     * @return Xpath of the element
-     */
-    public String getXPath() {
-        String sLocator = getLocator().replaceAll("\\w*=(.*)", "$1").trim();
-        String sType = getLocator().replaceAll("(\\w*)=.*", "$1").trim();
-        switch (sType) {
-            case "css":
-                return "";
-            case "id":
-                return format("//*[@id=\"%s\"]", sLocator);
-            case "link":
-                return format("//*[@link=\"%s\"]", sLocator);
-            case "xpath":
-                return format("%s", sLocator);
-            case "text":
-                return format("//*[contains(text(), '%s')]", sLocator);
-            case "name":
-                return format("//*[@name=\"%s\"]", sLocator);
-            default:
-                return "";
-        }
-    }
+    public boolean haveLocator() { return avatar.haveLocator(); }
 }

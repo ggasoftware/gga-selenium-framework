@@ -3,7 +3,6 @@ package com.ggasoftware.uitest.control.apiInteract;
 import com.ggasoftware.uitest.utils.common.WebDriverByUtils;
 import com.ggasoftware.uitest.utils.map.KeyValue;
 import com.ggasoftware.uitest.utils.map.MapArray;
-import com.ggasoftware.uitest.utils.settings.FrameworkSettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -22,6 +21,7 @@ import static java.lang.String.format;
  */
 public class GetElementModule {
     private By byLocator;
+    public boolean haveLocator() { return byLocator != null};
     private String driverName = "";
 
     private MapArray<ContextType, By> context = new MapArray<>();
@@ -29,9 +29,12 @@ public class GetElementModule {
     public void addToContext(ContextType type, By byLocator) { context.add(type, byLocator); }
     public String printContext() { return context.toString(); }
 
-    public GetElementModule(By byLocator) {
-        this.byLocator = byLocator;
+    public GetElementModule() {
         driverName = avatar.currentDriverName;
+    }
+    public GetElementModule(By byLocator) {
+        this();
+        this.byLocator = byLocator;
     }
 
     private WebDriver getDriver() throws Exception {
@@ -73,6 +76,9 @@ public class GetElementModule {
 
     @Override
     public String toString() {
-        return format("Locator: '%s', Context: '%s'", byLocator, context);
+        return format("Locator: '%s'", byLocator) +
+                ((context.size() > 0)
+                        ? format(", Context: '%s'", context)
+                        : "");
     }
 }
