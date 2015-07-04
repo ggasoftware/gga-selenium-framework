@@ -6,6 +6,7 @@ import com.ggasoftware.uitest.utils.linqInterfaces.JAction;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.ggasoftware.uitest.utils.TryCatchUtil.*;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.Thread.sleep;
@@ -89,13 +90,4 @@ public class Timer {
         return new Timer().wait(condition);
     }
 
-    public static <T> T tryGetResult(JFuncT<T> waitCase)
-    {
-        try { return waitCase.invoke(); }
-        catch(Exception ex) { return null; }
-    }
-    public static void ignoreException(JAction action) {
-        try { action.invoke();
-        } catch (Exception ignore) { }
-    }
 }

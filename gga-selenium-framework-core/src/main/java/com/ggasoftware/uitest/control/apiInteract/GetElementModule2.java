@@ -19,9 +19,9 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 7/3/2015.
  */
-public class GetElementModule {
+public class GetElementModule2 {
     private By byLocator;
-    public boolean haveLocator() { return byLocator != null};
+    public boolean haveLocator() { return byLocator != null; }
     private String driverName = "";
 
     private MapArray<ContextType, By> context = new MapArray<>();
@@ -29,10 +29,10 @@ public class GetElementModule {
     public void addToContext(ContextType type, By byLocator) { context.add(type, byLocator); }
     public String printContext() { return context.toString(); }
 
-    public GetElementModule() {
+    public GetElementModule2() {
         driverName = avatar.currentDriverName;
     }
-    public GetElementModule(By byLocator) {
+    public GetElementModule2(By byLocator) {
         this();
         this.byLocator = byLocator;
     }
