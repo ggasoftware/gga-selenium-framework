@@ -19,7 +19,7 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 7/3/2015.
  */
-public class GetElementModule2 {
+public class GetElementModule {
     private By byLocator;
     public boolean haveLocator() { return byLocator != null; }
     private String driverName = "";
@@ -29,10 +29,10 @@ public class GetElementModule2 {
     public void addToContext(ContextType type, By byLocator) { context.add(type, byLocator); }
     public String printContext() { return context.toString(); }
 
-    public GetElementModule2() {
+    public GetElementModule() {
         driverName = avatar.currentDriverName;
     }
-    public GetElementModule2(By byLocator) {
+    public GetElementModule(By byLocator) {
         this();
         this.byLocator = byLocator;
     }
