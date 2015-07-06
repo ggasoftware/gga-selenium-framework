@@ -1,16 +1,22 @@
 package com.ggasoftware.uitest.control.interfaces;
 
-import org.openqa.selenium.By;
+import com.ggasoftware.uitest.utils.JDIAction;
 import org.openqa.selenium.WebDriver;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface IBaseElement {
-    String getName();
-    By getByLocator();
+    @JDIAction
     boolean isDisplayed() throws Exception;
-    boolean isPresent();
+    @JDIAction
+    boolean waitDisplayed() throws Exception;
+    @JDIAction
+    boolean waitDisplayed(int seconds) throws Exception;
+    @JDIAction
+    boolean waitVanished() throws Exception;
+    @JDIAction
+    boolean waitVanished(int seconds) throws Exception;
 
     WebDriver getDriver() throws Exception;
 }

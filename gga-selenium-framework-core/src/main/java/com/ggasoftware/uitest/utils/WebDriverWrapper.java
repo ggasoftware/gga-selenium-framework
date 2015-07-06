@@ -13,7 +13,6 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.utils;
 
-import com.ggasoftware.uitest.utils.settings.FrameworkSettings;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -25,17 +24,13 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.seleniumFactory;
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.logger;
 import static java.lang.String.format;
 
@@ -52,48 +47,16 @@ public final class WebDriverWrapper {
 
     public static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
     private WebDriverWrapper(){}
-
-    public static int TIMEOUT = 30; //seconds
-    public static boolean CHECKCONDITION = true;
-
-    public static WebDriver getDriver() {
-        return threadDriver.get();
-    }
-
-    public static void setWebDriver(WebDriver webDriver) {
-        threadDriver.set(webDriver);
-    }
-
-    /**
-     * Set Default timeout for WebDriver
-     *
-     * @param timeout - seconds to wait web element
-     */
-    public static void setDefaultTimeout(int timeout) {
-        TIMEOUT = timeout;
-    }
-
-    /**
-     * Set Default check condition for wait methods
-     *
-     * @param checkCondition log assert for expected conditions.
-     */
-    public static void setDefaultCheckCondition(boolean checkCondition) {
-        CHECKCONDITION = checkCondition;
-    }
-
-
     /**
      * initialization RemoteWebDriver
      *
      * @param remoteUrl - remote host
      * @param capabilities - desired capabilities
      */
-    public static void initRemoteWebDriver(String remoteUrl, Capabilities capabilities) throws MalformedURLException {
+    public static void initRemoteWebDriver(String remoteUrl, Capabilities capabilities) throws Exception {
         logger.debug(format("Initialization Remote Web Driver at url '%s'", remoteUrl));
-        setWebDriver(new RemoteWebDriver(new URL(remoteUrl), capabilities));
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new RemoteWebDriver(new URL(remoteUrl), capabilities));
+        // getDriver().manage().window().maximize();
     }
 
     /**
@@ -101,11 +64,10 @@ public final class WebDriverWrapper {
      *
      * @param capabilities - desired capabilities
      */
-    public static void initFirefoxDriver(Capabilities capabilities) {
+    public static void initFirefoxDriver(Capabilities capabilities) throws Exception {
         logger.debug("Initialization Firefox Driver");
-        setWebDriver(new FirefoxDriver(capabilities));
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new FirefoxDriver(capabilities));
+        // getDriver().manage().window().maximize();
     }
 
     /**
@@ -113,11 +75,10 @@ public final class WebDriverWrapper {
      *
      * @param capabilities - desired capabilities
      */
-    public static void initChromeDriver(Capabilities capabilities) {
+    public static void initChromeDriver(Capabilities capabilities) throws Exception {
         logger.debug("Initialization Chrome Driver");
-        setWebDriver(new ChromeDriver(capabilities));
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new ChromeDriver(capabilities));
+        // getDriver().manage().window().maximize();
     }
 
     /**
@@ -125,11 +86,10 @@ public final class WebDriverWrapper {
      *
      * @param capabilities - desired capabilities
      */
-    public static void initSafariDriver(Capabilities capabilities) {
+    public static void initSafariDriver(Capabilities capabilities) throws Exception {
         logger.debug("Initialization Safari Driver");
-        setWebDriver(new SafariDriver(capabilities));
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new SafariDriver(capabilities));
+        // getDriver().manage().window().maximize();
     }
 
     /**
@@ -137,11 +97,10 @@ public final class WebDriverWrapper {
      *
      * @param capabilities - desired capabilities
      */
-    public static void initInternetExplorerDriver(Capabilities capabilities) {
+    public static void initInternetExplorerDriver(Capabilities capabilities) throws Exception {
         logger.debug("Initialization Internet Explorer Driver");
-        setWebDriver(new InternetExplorerDriver(capabilities));
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new InternetExplorerDriver(capabilities));
+        // getDriver().manage().window().maximize();
     }
 
     /**
@@ -149,11 +108,10 @@ public final class WebDriverWrapper {
      *
      * @param capabilities - desired capabilities
      */
-    public static void initHtmlUnitDriver(Capabilities capabilities) {
+    public static void initHtmlUnitDriver(Capabilities capabilities) throws Exception {
         logger.debug("Initialization Html Unit Driver");
-        setWebDriver(new HtmlUnitDriver(capabilities));
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new HtmlUnitDriver(capabilities));
+        // getDriver().manage().window().maximize();
     }
 
     /**
@@ -162,19 +120,19 @@ public final class WebDriverWrapper {
      * Before running create your profile. Use cmd >> firefox.exe -ProfileManager -no-remote
      * @param path - profile path
      */
-    public static void initFFProfile(String path) {
+    public static void initFFProfile(String path) throws Exception {
         logger.debug(format("Initialization Firefox Driver with Profile '%s'", path));
         File profileDir = new File(path);
         FirefoxProfile ffprofile = new FirefoxProfile(profileDir);
         ffprofile.setEnableNativeEvents(true);
-        setWebDriver(new FirefoxDriver(ffprofile));
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new FirefoxDriver(ffprofile));
+        // getDriver().manage().window().maximize();
     }
     
      /**
      * initialization FirefoxDriver
      */
-    public static void initFirefoxDriver() {
+    public static void initFirefoxDriver() throws Exception {
         logger.debug("Initialization Firefox Driver");
         FirefoxProfile profile = new FirefoxProfile();
         profile.setAcceptUntrustedCertificates(true);
@@ -183,15 +141,14 @@ public final class WebDriverWrapper {
         profile.setPreference("javascript.enabled", true);
         profile.setPreference("dom.max_script_run_time", 0);
         profile.setPreference("dom.max_chrome_script_run_time", 0);
-        setWebDriver(new FirefoxDriver(profile));
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new FirefoxDriver(profile));
+        // getDriver().manage().window().maximize();
     }
     
      /**
      * initialization InternetExplorerDriver
      */
-    public static void initInternetExplorerDriver() {
+    public static void initInternetExplorerDriver() throws Exception {
         logger.debug("Initialization Internet Explorer Driver");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setPlatform(Platform.WINDOWS);
@@ -201,51 +158,28 @@ public final class WebDriverWrapper {
         capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         capabilities.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
         capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
-        setWebDriver(new InternetExplorerDriver(capabilities));
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
+        seleniumFactory.registerDriver(new InternetExplorerDriver(capabilities));
+        // getDriver().manage().window().maximize();
     }
     
      /**
      * initialization ChromeDriver
      *
      */
-    public static void initChromeDriver() {
+    public static void initChromeDriver() throws Exception {
         logger.debug("Initialization Chrome Driver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments(Arrays.asList("--start-maximized", "--test-type", "--ignore-certificate-errors", "--disable-popup-blocking", "--allow-running-insecure-content", "--disable-translate", "--always-authorize-plugins"));
-        setWebDriver(new ChromeDriver(options));
-        setTimeout(TIMEOUT);
+        seleniumFactory.registerDriver(new ChromeDriver(options));
     }
     
      /**
      * initialization SafariDriver
      */
-    public static void initSafariDriver() {
+    public static void initSafariDriver() throws Exception {
         logger.debug("Initialization Safari Driver");
-        setWebDriver(new SafariDriver());
-        setTimeout(TIMEOUT);
-        getDriver().manage().window().maximize();
-    }
-
-    /**
-     * Set Wait and Script timeouts for WebDriver
-     *
-     * @param timeout - seconds to wait element and running script
-     */
-    public static void setTimeout(int timeout) {
-        getDriver().manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
-        getDriver().manage().timeouts().setScriptTimeout(timeout, TimeUnit.SECONDS);
-    }
-
-    /**
-     * Set Wait and Script timeouts for WebDriver
-     *
-     * @param timeout - milliseconds to wait element and running script
-     */
-    public static void setTimeoutMls(int timeout) {
-    	getDriver().manage().timeouts().implicitlyWait(timeout, TimeUnit.MILLISECONDS);
-    	getDriver().manage().timeouts().setScriptTimeout(timeout, TimeUnit.MILLISECONDS);
+        seleniumFactory.registerDriver(new SafariDriver());
+        // getDriver().manage().window().maximize();
     }
 
     /**

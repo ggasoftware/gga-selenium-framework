@@ -13,17 +13,27 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control.simple;
 
-import com.ggasoftware.uitest.control.base.Clickable;
+import com.ggasoftware.uitest.control.interfaces.ITextArea;
 import org.openqa.selenium.By;
 
 /**
- * Image control implementation
+ * Text Field control implementation
  *
  * @author Alexeenko Yan
+ * @author Shubin Konstantin
+ * @author Zharov Alexandr
  */
-public class Image extends Clickable {
-    public Image() { }
-    public Image(By byLocator) { super(byLocator); }
-    public Image(String name, By byLocator) { super(name, byLocator); }
+public class TextArea extends Input implements ITextArea {
+    public TextArea() { }
+    public TextArea(By byLocator) { super(byLocator); }
+    public TextArea(String name, By byLocator) { super(name, byLocator); }
 
+    @Override
+    public String getValueAction() throws Exception {
+        return getWebElement().getText();
+    }
+
+    public final String[] getLines() throws Exception {
+        return getText().split("\\n");
+    }
 }

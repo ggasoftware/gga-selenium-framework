@@ -1,6 +1,6 @@
 package com.ggasoftware.uitest.control.complex.table;
 
-import com.ggasoftware.uitest.control.simple.Element;
+import com.ggasoftware.uitest.control.base.Element;
 import com.ggasoftware.uitest.control.interfaces.IClickable;
 import com.ggasoftware.uitest.control.interfaces.IText;
 import com.ggasoftware.uitest.utils.linqInterfaces.JFuncT;

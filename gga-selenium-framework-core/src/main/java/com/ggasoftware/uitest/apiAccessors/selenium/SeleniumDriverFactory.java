@@ -14,7 +14,7 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public class SeleniumAvatar/* implements IAPIAvatar<WebElementAvatar>, WebDriver */{
+public class SeleniumDriverFactory/* implements IAPIAvatar<WebElementAvatar>, WebDriver */{
     private MapArray<String, WebDriver> drivers = new MapArray<>();
     public void registerDriver(WebDriver driver) throws Exception {
         registerDriver("Driver" + drivers.size() + 1, driver);

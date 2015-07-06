@@ -1,6 +1,6 @@
 package com.ggasoftware.uitest.control.complex.table;
 
-import com.ggasoftware.uitest.control.simple.Element;
+import com.ggasoftware.uitest.control.base.Element;
 import com.ggasoftware.uitest.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.uitest.utils.map.KeyValue;
 import com.ggasoftware.uitest.utils.map.MapArray;
@@ -19,6 +19,7 @@ import static com.ggasoftware.uitest.utils.common.StringUtils.LineBreak;
 import static com.ggasoftware.uitest.utils.common.Timer.getResultAction;
 import static com.ggasoftware.uitest.utils.common.WebDriverByUtils.fillByTemplate;
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.asserter;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.timeouts;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -95,7 +96,7 @@ public class Table<P, T extends ClickableText> extends Element<P> implements ITa
     public boolean isEmpty(long timeout) {
         getDriver().manage().timeouts().implicitlyWait(timeout, MILLISECONDS);
         int rowsCount = rows().count();
-        getDriver().manage().timeouts().implicitlyWait(TIMEOUT, SECONDS);
+        getDriver().manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
         return rowsCount == 0;
     }
 
@@ -172,7 +173,7 @@ public class Table<P, T extends ClickableText> extends Element<P> implements ITa
             boolean matches = true;
             for (String colNameValue : colNameValues) {
                 if (!colNameValue.matches("[^=]+=[^=]*"))
-                    asserter.exception("Wrong searchCritaria for Cells: " + colNameValue);
+                    asserter.exception("Wrong searchCriteria for Cells: " + colNameValue);
                 String[] splitted = colNameValue.split("=");
                 String colName = splitted[0];
                 String colValue = splitted[1];
@@ -327,7 +328,7 @@ public class Table<P, T extends ClickableText> extends Element<P> implements ITa
     private Cell<P, T> createCell(int colIndex, int rowIndex, int colNum, int rowNum, String colName, String rowName) {
         T cell = createCell(colIndex, rowIndex);
         //PageObjectsInit.initSubElements(cell);
-        return new Cell<P, T>(cell, colNum, rowNum, colName, rowName, getByLocator());
+        return new Cell<P, T>(cell, colNum, rowNum, colName, rowName, getLocator());
     }
 
     private Class<ClickableText> clazz;
@@ -336,7 +337,7 @@ public class Table<P, T extends ClickableText> extends Element<P> implements ITa
     private By getCellLocator(T cell) {
         if (_cellLocatorTemplate == null)
             _cellLocatorTemplate = (cell.haveLocator())
-                    ? cell.getByLocator()
+                    ? cell.getLocator()
                     : By.xpath(".//tr[%s]/td[%s]");
         return _cellLocatorTemplate;
     }

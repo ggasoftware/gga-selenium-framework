@@ -20,17 +20,22 @@ import com.ggasoftware.uitest.control.interfaces.IText;
 import org.openqa.selenium.By;
 
 /**
- * Button control implementation
+ * Link control implementation
  *
- * @author Alexeenko Yan
+ * @author Roman Iovlev
  */
-public class Button extends Clickable implements IText, IClickable, IHaveValue {
-    public Button() { }
-    public Button(By byLocator) { super(byLocator); }
-    public Button(String name, By byLocator) { super(name, byLocator); }
+public class Link extends Clickable implements IText, IClickable, IHaveValue {
+    public Link() { }
+    public Link(By byLocator) { super(byLocator); }
+    public Link(String name, By byLocator) { super(name, byLocator); }
 
     protected String getTextAction() throws Exception { return getWebElement().getText(); }
     public final String getText() throws Exception { return doJActionResult("Get text", this::getTextAction); }
     public final String getValue() throws Exception { return doJActionResult("Get value", this::getTextAction); }
+
+    protected String getReferenceAction() throws Exception { return getWebElement().getAttribute("href"); }
+    public final String getReference() throws Exception {
+        return doJActionResult("Get Reference", this::getReferenceAction, href -> "Get href of link '" + href + "'");
+    }
 
 }

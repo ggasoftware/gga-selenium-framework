@@ -13,10 +13,9 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control.simple;
 
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-
-import static java.lang.String.format;
+import com.ggasoftware.uitest.control.base.SetValue;
+import com.ggasoftware.uitest.control.interfaces.IInput;
+import org.openqa.selenium.By;
 
 /**
  * Text Field control implementation
@@ -25,101 +24,41 @@ import static java.lang.String.format;
  * @author Shubin Konstantin
  * @author Zharov Alexandr
  */
-public class Input<ParentPanel> extends Element<ParentPanel> {
+public class Input extends SetValue implements IInput {
+    public Input() { }
+    public Input(By byLocator) { super(byLocator); }
+    public Input(String name, By byLocator) { super(name, byLocator); }
 
-    //constructors
+    protected void inputAction(String text) throws Exception { getWebElement().sendKeys(text); }
+    protected void clearAction() throws Exception { getWebElement().clear(); }
+    protected void focusAction() throws Exception { getWebElement().click(); }
 
-    /**
-     * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
-     * to initialize.
-     *
-     * @param name        - Input name
-     * @param locator     - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
-     * @param parentPanel - Parent instance
-     */
-    public Input(String name, String locator, ParentPanel parentPanel) {
-        super(name, locator, parentPanel);
+    @Override
+    protected void setValueAction(String value) throws Exception {
+        if (value == null) return;
+        newInput(value);
     }
 
-    /**
-     * Gets the value of an input field
-     *
-     * @return the value of an input field
-     */
-    public String getValue() {
-        return super.getAttribute("value");
+    public String getValueAction() throws Exception {
+        return getWebElement().getAttribute("value");
     }
+    public final String getText() throws Exception { return getValue(); }
 
-
-    /**
-     * Type text to the Input field
-     *
-     * @param text - text for Input field
-     * @return Parent instance
-     */
-    public ParentPanel setText(String text) {
-        return doJAction(format("setText - %s", text), () -> {
-            WebElement webEl = getWebElement();
-            webEl.click();
-            webEl.clear();
-            webEl.click();
-            super.sendKeys(text);
+    public final void input(String text) throws Exception {
+        doJAction("Input text '" + text + "' in text field", () -> inputAction(text));
+    }
+    public final void newInput(String text) throws Exception {
+        doJAction("New input text '" + text + "' in text field", () -> {
+            clearAction();
+            inputAction(text);
         });
     }
-
-    /**
-     * Type text to the Input field with secure log.
-     *
-     * @param text - text for Input field
-     * @return Parent instance
-     */
-    public ParentPanel setTextSecure(String text) {
-        return doJAction(format("setTextSecure - %s", text.replaceAll("[^']", "*")),
-            () -> {
-                WebElement webEl = getWebElement();
-                webEl.click();
-                webEl.clear();
-                webEl.click();
-                super.sendKeysSecure(text);
-            });
+    public final void clear() throws Exception {
+        doJAction("Clear text field", this::clearAction);
+    }
+    public final void focus() throws Exception {
+        doJAction("Focus on text field", this::focusAction);
     }
 
-    /**
-     * Clear the value from the Input field
-     *
-     * @return Parent instance
-     */
-    public ParentPanel clear() {
-        return doJAction("Clear", () -> getWebElement().clear());
-    }
-
-    /**
-     * Use this method to simulate typing into an element, which may set its value.
-     *
-     * @param keysToSend - CharSequence to send
-     * @return Parent instance
-     */
-    public ParentPanel sendKeys(CharSequence... keysToSend) {
-        return super.sendKeys(keysToSend);
-    }
-
-    /**
-     * Use this method to simulate enter key press into an element.
-     *
-     * @return Parent instance
-     */
-    public ParentPanel pressEnter() {
-        return super.sendKeys(Keys.ENTER);
-    }
-
-    /**
-     * Use this method to simulate send keys to the element.
-     *
-     * @param sendKeys - e.g. sendKeys(Keys.ARROW_DOWN)
-     * @return Parent instance
-     */
-    public ParentPanel sendKeys(Keys sendKeys) {
-        return super.sendKeys(sendKeys);
-    }
 
 }

@@ -13,7 +13,7 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control.complex;
 
-import com.ggasoftware.uitest.control.simple.Element;
+import com.ggasoftware.uitest.control.base.Element;
 import org.openqa.selenium.WebElement;
 
 /**

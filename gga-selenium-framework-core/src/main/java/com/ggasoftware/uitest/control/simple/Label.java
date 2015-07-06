@@ -13,25 +13,16 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control.simple;
 
+import org.openqa.selenium.By;
+
 /**
  * Text Label control implementation
  *
  * @author Alexeenko Yan
  */
-public class Label<ParentPanel> extends Element<ParentPanel> {
-
-    //constructor
-
-    /**
-     * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
-     * to initialize.
-     *
-     * @param name        - Label name
-     * @param locator     - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
-     * @param parentPanel - Parent instance
-     */
-    public Label(String name, String locator, ParentPanel parentPanel) {
-        super(name, locator, parentPanel);
-    }
+public class Label extends Text {
+    public Label() { }
+    public Label(By byLocator) { super(byLocator); }
+    public Label(String name, By byLocator) { super(name, byLocator); }
 
 }

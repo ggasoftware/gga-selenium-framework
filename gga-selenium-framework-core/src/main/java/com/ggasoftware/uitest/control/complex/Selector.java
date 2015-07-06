@@ -3,41 +3,50 @@ package com.ggasoftware.uitest.control.complex;
 import com.ggasoftware.uitest.control.BaseElement;
 import com.ggasoftware.uitest.control.complex.table.ClickableText;
 import com.ggasoftware.uitest.control.interfaces.ISelector;
-import com.ggasoftware.uitest.control.simple.Elements;
+import com.ggasoftware.uitest.control.base.ElementsList;
 import com.ggasoftware.uitest.utils.common.LinqUtils;
-import com.ggasoftware.uitest.utils.settings.FrameworkSettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
+import static com.ggasoftware.uitest.utils.TryCatchUtil.ignoreException;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.first;
 import static com.ggasoftware.uitest.utils.common.PrintUtils.print;
 import static com.ggasoftware.uitest.utils.common.Timer.getByConditionAction;
-import static com.ggasoftware.uitest.utils.common.Timer.ignoreException;
-import static com.ggasoftware.uitest.utils.common.Timer.tryGetResult;
 import static com.ggasoftware.uitest.utils.common.WebDriverByUtils.fillByTemplate;
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.asserter;
+import static java.lang.String.format;
 
 /**
  * Created by roman.i on 03.10.2014.
  */
 
-public class Selector<T extends Enum, P> extends Elements<P> implements ISelector {
+public class Selector<T extends Enum> extends ElementsList implements ISelector {
     public Selector() { super(); }
     public Selector(By optionsNamesLocator) {
         super(optionsNamesLocator); }
     public Selector(By optionsNamesLocator, By allOptionsNamesLocator) {
         super(optionsNamesLocator);
-        allOptionsNames = new BaseElement(allOptionsNamesLocator);
+        allOptionsNames = new ElementsList(allOptionsNamesLocator);
     }
 
-    private Elements allOptionsNames;
+    private ElementsList allOptionsNames;
 
     protected ClickableText getElement(String name)  {
         return new ClickableText(name, ignoreException(() -> fillByTemplate(getLocator(), name)));
+    }
+
+
+    private TElement newElement(Class<TElement> clazz, String... args) {
+        TElement element = null;
+        try { element = clazz.getDeclaredConstructor(new Class[]{String.class, By.class})
+                .newInstance(getName() + " with option " + print(args), avatar.fillLocatorTemplate(args)); }
+        catch (Exception ignore) { }
+        if (element == null)
+            asserter.exception(format("Can't create new element '%s' with args '%s'", this, print(args)));
+        return element;
     }
 
     protected WebElement getWebElement(String name)  {
@@ -70,14 +79,6 @@ public class Selector<T extends Enum, P> extends Elements<P> implements ISelecto
     public final void select(String valueName) { selectAction(valueName); }
     public final void select(T valueName) { selectAction(getEnumValue(valueName)); }
     public final void select(int index) { selectByIndexAction(index); }
-    protected String getEnumValue(T enumWithValue) {
-        Field field;
-        try { field = enumWithValue.getClass().getField("value");
-            if (field.getType() != String.class)
-                throw new Exception("Can't get Value from enum");
-        } catch (Exception ex) { return enumWithValue.toString(); }
-        return tryGetResult(() -> (String) field.get(enumWithValue));
-    }
 
     public final String getValue() {
         return getValueAction();
