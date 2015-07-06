@@ -14,7 +14,9 @@
 package com.ggasoftware.uitest.control.simple;
 
 import com.ggasoftware.uitest.control.BaseElement;
+import com.ggasoftware.uitest.control.apiInteract.GetElementModule;
 import com.ggasoftware.uitest.control.interfaces.IElement;
+import com.ggasoftware.uitest.utils.JDIAction;
 import com.ggasoftware.uitest.utils.common.Timer;
 import com.ggasoftware.uitest.utils.settings.HighlightSettings;
 import org.openqa.selenium.*;
@@ -38,37 +40,31 @@ import static org.openqa.selenium.Keys.CONTROL;
  * @author Zharov Alexandr
  */
 public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IElement {
-
     public Element() { }
+    public Element(By byLocator) { super(null, byLocator); }
+    public Element(String name, By byLocator) { super(name, byLocator); }
 
-    /**
-     * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
-     * to initialize.
-     *
-     * @param name    - Element name
-     * @param locator - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
-     * @param panel   - Parent panel instance
-     */
-    public Element(String name, String locator, ParentPanel panel) {
-        super(name, locator, panel);
+
+
+    public boolean isDisplayed() throws Exception { return waitDisplayed(0); }
+    public boolean waitDisplayed() throws Exception { return waitDisplayed(timeouts.waitElementSec); }
+    public boolean waitDisplayed(int seconds) throws Exception {
+        setWaitTimeout(seconds);
+        boolean result = new Timer(seconds*1000).wait(() -> getWebElement().isDisplayed());
+        setWaitTimeout(timeouts.waitElementSec);
+        return result;
     }
 
-    /**
-     * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
-     * to initialize.
-     *
-     * @param name    - Element name
-     * @param byLocator - Selenium By
-     */
-    public Element(String name, By byLocator) {
-        super(name, byLocator);
+    public boolean waitVanished() throws Exception { return waitDisplayed(timeouts.waitElementSec); }
+    public boolean waitVanished(int seconds) throws Exception {
+        setWaitTimeout(timeouts.retryMSec);
+        boolean result = new Timer(seconds*1000).wait(() -> !getWebElement().isDisplayed());
+        setWaitTimeout(timeouts.waitElementSec);
+        return result;
     }
 
-    public void highlight() {
-        highlight(highlightSettings);
-    }
-
-    public void highlight(HighlightSettings highlightSettings) {
+    public void highlight() throws Exception { highlight(highlightSettings); }
+    public void highlight(HighlightSettings highlightSettings) throws Exception {
         if (highlightSettings == null)
             highlightSettings = new HighlightSettings();
         String orig = getWebElement().getAttribute("style");
@@ -77,8 +73,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception ignore) {}
         setAttribute("style", orig);
     }
-
-    public void setAttribute(String attributeName, String value) {
+    public void setAttribute(String attributeName, String value) throws Exception {
         jsExecutor().executeScript("arguments[0].setAttribute(arguments[1], arguments[2])",
                 getWebElement(), attributeName, value);
     }
@@ -457,28 +452,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public boolean isVanished() {
         return !isExists(0) || !(getWebElement(0).isDisplayed());
-    }
-
-    /**
-     * Is this element displayed or not? This method avoids the problem of having to parse an
-     * element's "style" attribute.
-     *
-     * @return Whether or not the element is displayed
-     */
-    public boolean isDisplayed() {
-        return isDisplayed(TIMEOUT);
-    }
-
-
-    /**
-     * Is this element displayed or not? This method avoids the problem of having to parse an
-     * element's "style" attribute.
-     *
-     * @param seconds to wait until element become visible or undiscovered.
-     * @return Whether or not the element is displayed
-     */
-    public boolean isDisplayed(int seconds) {
-        return isExists(seconds) && getWebElement(seconds).isDisplayed();
     }
 
     /**

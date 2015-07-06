@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.ggasoftware.uitest.utils.TryCatchUtil.*;
-import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.*;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.Thread.sleep;
 
@@ -15,8 +15,8 @@ import static java.lang.Thread.sleep;
  * Created by 12345 on 28.09.2014.
  */
 public class Timer {
-    private long _timeoutInMSec = TIMEOUT * 1000;
-    private long _retryTimeoutInMSec = 100;
+    private long _timeoutInMSec = timeouts.waitElementSec * 1000;
+    private long _retryTimeoutInMSec = timeouts.retryMSec;
     private final Long start = currentTimeMillis();
     public static String nowTime() { return nowTime("HH:mm:ss.SSS"); }
     public static String nowTimeShort() { return nowTime("mm:ss.SSS"); }

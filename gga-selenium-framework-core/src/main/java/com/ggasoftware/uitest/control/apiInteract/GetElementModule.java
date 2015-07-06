@@ -37,8 +37,8 @@ public class GetElementModule {
         this.byLocator = byLocator;
     }
 
-    private WebDriver getDriver() throws Exception {
-        return avatar.useDriver(driverName);
+    public WebDriver getDriver() throws Exception {
+        return avatar.getDriver(driverName);
     }
 
     public WebElement getElement() throws Exception {

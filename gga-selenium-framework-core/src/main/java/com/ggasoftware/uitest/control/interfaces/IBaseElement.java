@@ -1,6 +1,7 @@
 package com.ggasoftware.uitest.control.interfaces;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.
@@ -8,6 +9,8 @@ import org.openqa.selenium.By;
 public interface IBaseElement {
     String getName();
     By getByLocator();
-    boolean isDisplayed();
+    boolean isDisplayed() throws Exception;
     boolean isPresent();
+
+    WebDriver getDriver() throws Exception;
 }

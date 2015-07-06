@@ -19,4 +19,5 @@ public class FrameworkSettings {
     public static HighlightSettings highlightSettings = new HighlightSettings();
 
     public static SeleniumAvatar avatar = new SeleniumAvatar();
+    public static TimeoutSettings timeouts = new TimeoutSettings();
 }

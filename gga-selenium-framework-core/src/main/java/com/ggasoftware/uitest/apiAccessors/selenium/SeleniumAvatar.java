@@ -1,6 +1,5 @@
 package com.ggasoftware.uitest.apiAccessors.selenium;
 
-import com.ggasoftware.uitest.apiAccessors.IAPIAvatar;
 import com.ggasoftware.uitest.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.asserter;
-import static com.ggasoftware.uitest.utils.common.LinqUtils.select;
 import static java.lang.String.format;
 
 /**
@@ -26,11 +24,21 @@ public class SeleniumAvatar/* implements IAPIAvatar<WebElementAvatar>, WebDriver
             throw asserter.exception(format("Can't register Webdriver '%s'. Driver with same name already registered", driverName));
         currentDriverName = driverName;
     }
-    public WebDriver useDriver(String driverName) throws Exception {
+    public WebDriver getDriver() throws Exception {
+        return getDriver(currentDriverName);
+    }
+    public WebDriver getDriver(String driverName) throws Exception {
         WebDriver resultDriver = drivers.get(driverName);
         if (resultDriver != null)
             return resultDriver;
-        else throw asserter.exception(format("Can't use Webdriver '%s'. This Driver name not registered", driverName));
+        else throw asserter.exception(format("Can't get Webdriver '%s'. This Driver name not registered", driverName));
+    }
+    public void switchToDriver(String driverName) throws Exception {
+        WebDriver driver = drivers.get(driverName);
+        if (driver != null)
+            currentDriverName = driverName;
+        else
+            throw asserter.exception(format("Can't switch to Webdriver '%s'. This Driver name not registered", driverName));
     }
     public String currentDriverName = "";
 
