@@ -1,6 +1,8 @@
 package com.ggasoftware.uitest.control.interfaces;
 
+import com.ggasoftware.uitest.control.apiInteract.GetElementModule;
 import com.ggasoftware.uitest.utils.JDIAction;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -8,15 +10,17 @@ import org.openqa.selenium.WebDriver;
  */
 public interface IBaseElement {
     @JDIAction
-    boolean isDisplayed() throws Exception;
+    boolean isDisplayed();
     @JDIAction
-    boolean waitDisplayed() throws Exception;
+    boolean waitDisplayed();
     @JDIAction
-    boolean waitDisplayed(int seconds) throws Exception;
+    boolean waitDisplayed(int seconds);
     @JDIAction
-    boolean waitVanished() throws Exception;
+    boolean waitVanished();
     @JDIAction
-    boolean waitVanished(int seconds) throws Exception;
+    boolean waitVanished(int seconds);
 
-    WebDriver getDriver() throws Exception;
+    WebDriver getDriver();
+    By getLocator();
+    void setAvatar(GetElementModule avatar);
 }

@@ -6,8 +6,10 @@ import org.openqa.selenium.By;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ggasoftware.uitest.utils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.*;
 import static com.ggasoftware.uitest.utils.common.PrintUtils.print;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.asserter;
 import static java.lang.String.format;
 
 /**
@@ -15,10 +17,10 @@ import static java.lang.String.format;
  */
 public class WebDriverByUtils {
 
-    public static JFuncTT<String, By> getByFunc(By by) throws Exception {
+    public static JFuncTT<String, By> getByFunc(By by) {
         return first(getMapByTypes(), key -> by.toString().contains(key));
     }
-    private static String getBadLocatorMsg(String byLocator, Object... args) throws Exception {
+    private static String getBadLocatorMsg(String byLocator, Object... args) {
         return "Bad locator template '" + byLocator + "'. Args: " + print(select(args, Object::toString), ", ", "'%s'") + ".";
     }
 
@@ -29,9 +31,14 @@ public class WebDriverByUtils {
             throw new Exception(getBadLocatorMsg(byLocator, args)); }
         return getByFunc(by).invoke(byLocator);
     }
-    public static By copyBy(By by) throws Exception {
+
+    public static By fillByTemplateSilent(By by, Object... args) {
+        try { return fillByTemplate(by, args);
+        } catch (Exception ex) { asserter.exception(ex.getMessage()); return null; }
+    }
+    public static By copyBy(By by) {
         String byLocator = getByLocator(by);
-        return getByFunc(by).invoke(byLocator);
+        return tryGetResult(() -> getByFunc(by).invoke(byLocator));
     }
 
 

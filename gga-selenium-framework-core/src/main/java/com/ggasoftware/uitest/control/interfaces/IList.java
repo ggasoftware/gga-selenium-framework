@@ -10,18 +10,18 @@ import java.util.List;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface IList<TEnum extends Enum> extends IBaseElement, IHaveValue {
-    List<WebElement> getWebElements() throws Exception;
-    List<WebElement> getWebElements(int timeouInSec) throws Exception;
-    WebElement getElement(String name) throws Exception;
-    WebElement getElement(int index) throws Exception;
-    WebElement getElement(TEnum enumName) throws Exception;
-    MapArray<String, WebElement> getElements() throws Exception;
+    List<WebElement> getWebElements();
+    List<WebElement> getWebElements(int timeouInSec);
+    WebElement getElement(String name);
+    WebElement getElement(int index);
+    WebElement getElement(TEnum enumName);
+    MapArray<String, WebElement> getElements();
     @JDIAction
-    String getText(String name) throws Exception;
+    String getText(String name);
     @JDIAction
-    String getText(int name) throws Exception;
+    String getText(int name);
     @JDIAction
-    String getText(TEnum enumName) throws Exception;
+    String getText(TEnum enumName);
     @JDIAction
-    int count() throws Exception;
+    int count();
 }

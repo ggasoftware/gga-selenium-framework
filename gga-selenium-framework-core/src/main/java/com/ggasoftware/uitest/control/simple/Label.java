@@ -23,6 +23,5 @@ import org.openqa.selenium.By;
 public class Label extends Text {
     public Label() { }
     public Label(By byLocator) { super(byLocator); }
-    public Label(String name, By byLocator) { super(name, byLocator); }
 
 }

@@ -13,111 +13,53 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control.complex;
 
+import com.ggasoftware.uitest.control.interfaces.IComboBox;
 import com.ggasoftware.uitest.control.simple.Input;
-import com.ggasoftware.uitest.utils.common.LinqUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.Select;
-
-import java.util.List;
-
-import static com.ggasoftware.uitest.utils.common.LinqUtils.firstIndex;
-import static java.lang.String.format;
 
 /**
  * ComboBox control implementation
  *
  * @author Alexeenko Yan
  */
-public class ComboBox<ParentPanel> extends Input<ParentPanel> {
+public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements IComboBox<TEnum> {
+    public ComboBox() { super(); }
+    public ComboBox(By valueLocator) {
+        super(valueLocator);
+        input = new Input(valueLocator);
+    }
+    public ComboBox(By valueLocator, By optionsNamesLocatorTemplate) {
+        super(valueLocator, optionsNamesLocatorTemplate);
+        input = new Input(valueLocator);
+    }
+    public ComboBox(By valueLocator, By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {
+        super(valueLocator, optionsNamesLocatorTemplate, allOptionsNamesLocator);
+        input = new Input(valueLocator);
+    }
+    private Input input;
 
-    //constructors
-
-    /**
-     * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
-     * to initialize.
-     *
-     * @param name        - Button Name
-     * @param locator     - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
-     * @param parentPanel - Panel which contains current button
-     */
-    public ComboBox(String name, String locator, ParentPanel parentPanel) {
-        super(name, locator, parentPanel);
+    protected void inputAction(String text) { input.input(text); }
+    protected void clearAction() { input.clear(); }
+    protected void focusAction() { input.focus(); }
+    @Override
+    protected void setValueAction(String value) {
+        if (value == null) return;
+        newInput(value);
     }
 
-    private Select select() { return new Select(getWebElement()); }
-
-    /**
-     * Select by Index.
-     *
-     * @param index - option index
-     * @return Parent Panel instance
-     */
-    public ParentPanel select(int index) {
-        return doJAction(format("Select %s item", index),
-                () -> select().selectByIndex(index));
+    public final void input(String text) {
+        doJAction("Input text '" + text + "' in text field", () -> inputAction(text));
     }
-
-    /**
-     * Select by option text.
-     *
-     * @param value - option text
-     * @return Parent Panel instance
-     */
-    public ParentPanel select(String value) {
-        return doJAction("Select " + value,
-            () -> select().selectByValue(value));
+    public final void newInput(String text) {
+        doJAction("New input text '" + text + "' in text field", () -> {
+            clearAction();
+            inputAction(text);
+        });
     }
-
-    /**
-     * Select by the visible option text(contains)
-     *
-     * @param item - visible option text(contains)
-     * @return Parent Panel instance
-     */
-    public ParentPanel selectByTextContains(String item) {
-        return doJAction(format("select by text contains: %s", item), () -> {
-            Select select = select();
-            int firstIndex = firstIndex(
-                    select.getOptions(),
-                    option -> option.getText().contains(item));
-            if (firstIndex == -1)
-                throw new NoSuchElementException(format("Cannot find item contains this text '%s'", item));
-            select.selectByIndex(firstIndex);
-            });
+    public final void clear() {
+        doJAction("Clear text field", this::clearAction);
     }
-
-    /**
-     * Get first selected option text.
-     *
-     * @return First Selected option.
-     */
-    public String getFirstSelectedItem() {
-        return doJActionResult("Get selected items",
-                () -> select().getFirstSelectedOption().getText());
+    public final void focus() {
+        doJAction("Focus on text field", this::focusAction);
     }
-
-    /**
-     * Get all selected options text.
-     *
-     * @return All Selected options.
-     */
-    public List<String> getSelectedItem() {
-        return doJActionResult("Get selected items", () ->
-                (List<String>) LinqUtils.select(
-                        select().getAllSelectedOptions(),
-                        WebElement::getText));
-    }
-
-    /**
-     * Get all option text.
-     *
-     * @return List of all options.
-     */
-    public List<String> getItems() {
-        return doJActionResult("Get all items",
-                () -> (List<String>) LinqUtils.select(
-                        select().getOptions(),
-                        WebElement::getText));
-    }
-
 }

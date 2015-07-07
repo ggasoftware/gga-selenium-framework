@@ -10,11 +10,11 @@ import org.openqa.selenium.WebElement;
  */
 public interface IElement extends IBaseElement {
     @JDIAction
-    WebElement getWebElement() throws Exception;
+    WebElement getWebElement();
     @JDIAction
-    WebElement getWebElement(int timeouInSec) throws Exception;
-    void highlight() throws Exception;
-    void highlight(HighlightSettings settings) throws Exception;
+    WebElement getWebElement(int timeouInSec);
+    void highlight();
+    void highlight(HighlightSettings settings);
     @JDIAction
-    String getAttribute(String attributeName) throws Exception;
+    String getAttribute(String attributeName);
 }

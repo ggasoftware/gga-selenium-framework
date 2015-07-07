@@ -14,9 +14,8 @@
 package com.ggasoftware.uitest.control.simple;
 
 import com.ggasoftware.uitest.control.base.Clickable;
-import com.ggasoftware.uitest.control.interfaces.IClickable;
+import com.ggasoftware.uitest.control.interfaces.IClickableText;
 import com.ggasoftware.uitest.control.interfaces.IHaveValue;
-import com.ggasoftware.uitest.control.interfaces.IText;
 import org.openqa.selenium.By;
 
 /**
@@ -24,17 +23,17 @@ import org.openqa.selenium.By;
  *
  * @author Roman Iovlev
  */
-public class Link extends Clickable implements IText, IClickable, IHaveValue {
+public class Link extends Clickable implements IClickableText, IHaveValue {
     public Link() { }
     public Link(By byLocator) { super(byLocator); }
-    public Link(String name, By byLocator) { super(name, byLocator); }
 
-    protected String getTextAction() throws Exception { return getWebElement().getText(); }
-    public final String getText() throws Exception { return doJActionResult("Get text", this::getTextAction); }
-    public final String getValue() throws Exception { return doJActionResult("Get value", this::getTextAction); }
+    protected String getTextAction() { return getWebElement().getText(); }
+    protected String getValueAction() { return getTextAction(); }
+    protected String getReferenceAction() { return getWebElement().getAttribute("href"); }
 
-    protected String getReferenceAction() throws Exception { return getWebElement().getAttribute("href"); }
-    public final String getReference() throws Exception {
+    public final String getText() { return doJActionResult("Get text", this::getTextAction); }
+    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
+    public final String getReference() {
         return doJActionResult("Get Reference", this::getReferenceAction, href -> "Get href of link '" + href + "'");
     }
 

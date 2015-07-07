@@ -12,18 +12,17 @@ import static java.lang.String.format;
 public class Clickable extends Element implements IClickable {
     public Clickable() { }
     public Clickable(By byLocator) { super(byLocator); }
-    public Clickable(String name, By byLocator) { super(name, byLocator); }
 
-    protected void clickAction() throws Exception { getWebElement().click(); }
-    public final void click() throws Exception { doJAction("Click on element", this::clickAction); }
+    protected void clickAction() { getWebElement().click(); }
+    public final void click() { doJAction("Click on element", this::clickAction); }
 
-    public void clickByXY(int x, int y) throws Exception {
+    public void clickByXY(int x, int y) {
         doJAction(format("Click on element with coordinates (x,y) = (%s, %s)", x, y),
             () -> new Actions(getDriver())
                 .moveToElement(getWebElement(), x, y).click().build().perform());
     }
 
-    public void clickJS() throws Exception {
+    public void clickJS() {
         doJAction("Click on element using JavaScript",
                 () -> jsExecutor().executeScript("arguments[0].click();", getWebElement()));
     }

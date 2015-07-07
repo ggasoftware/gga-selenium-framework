@@ -2,10 +2,10 @@ package com.ggasoftware.uitest.utils.map;
 
 
 import com.ggasoftware.uitest.utils.common.LinqUtils;
-import com.ggasoftware.uitest.utils.common.PrintUtils;
 import com.ggasoftware.uitest.utils.linqInterfaces.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.ggasoftware.uitest.utils.common.LinqUtils.select;
 import static com.ggasoftware.uitest.utils.common.PrintUtils.*;
@@ -13,7 +13,7 @@ import static com.ggasoftware.uitest.utils.common.PrintUtils.*;
 /**
  * Created by Roman_Iovlev on 6/3/2015.
  */
-public class MapArray<K, V> implements Collection<KeyValue<K,V>> {
+public class MapArray<K, V> implements Collection<KeyValue<K,V>>, Cloneable {
     public List<KeyValue<K,V>> pairs;
 
     public MapArray() { pairs = new ArrayList<>(); }
@@ -23,18 +23,21 @@ public class MapArray<K, V> implements Collection<KeyValue<K,V>> {
     }
     public <T> MapArray(Collection<T> collection, JFuncTT<T, K> key, JFuncTT<T, V> value) throws Exception {
         this();
-        try {
-            for (T t : collection)
+        try { for (T t : collection)
                 add(key.invoke(t), value.invoke(t));
         } catch (Exception ex) { throw new Exception("Can't init MapArray"); }
     }
     public MapArray(int count, JFuncTT<Integer, K> key, JFuncTT<Integer, V> value) throws Exception {
         this();
-        try {
-            for (int i = 0; i < count; i++)
+        try { for (int i = 0; i < count; i++)
                 add(key.invoke(i), value.invoke(i));
         } catch (Exception ex) { throw new Exception("Can't init MapArray"); }
     }
+    public MapArray(MapArray<K, V> mapArray) {
+        this();
+        addAll(mapArray.stream().collect(Collectors.toList()));
+    }
+
     public static <T> MapArray<Integer, T> asMapArray(Collection<T> collection) {
         MapArray<Integer, T> mapArray = new MapArray<>();
         int i = 0;
@@ -159,5 +162,10 @@ public class MapArray<K, V> implements Collection<KeyValue<K,V>> {
     @Override
     public String toString() {
         return print(select(pairs, pair -> pair.key + ":" + pair.value));
+    }
+
+    @Override
+    public MapArray<K,V> clone() {
+        return new MapArray<>(this);
     }
 }

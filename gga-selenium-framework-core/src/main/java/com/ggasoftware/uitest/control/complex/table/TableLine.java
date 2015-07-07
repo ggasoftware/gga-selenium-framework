@@ -1,6 +1,7 @@
 package com.ggasoftware.uitest.control.complex.table;
 
 import com.ggasoftware.uitest.control.base.Element;
+import com.ggasoftware.uitest.control.interfaces.IClickableText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +12,12 @@ import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.asserter;
 /**
  * Created by 12345 on 25.10.2014.
  */
-public abstract class TableLine<P, T extends ClickableText> extends Element<P> {
+public abstract class TableLine<T extends IClickableText> extends Element {
     public int startIndex = 1;
     public boolean haveHeader;
     public ElementIndexType elementIndex;
 
-    public Table<P, T> table;
+    public Table<T> table;
 
     protected int count = -1;
     public void setCount(int value) { count = value; }
@@ -52,7 +53,7 @@ public abstract class TableLine<P, T extends ClickableText> extends Element<P> {
         return result.toArray(new String[count]);
     }
 
-    public final void update(TableLine<P, T> tableLine) {
+    public final void update(TableLine<T> tableLine) {
         if (tableLine.count > 0)
             setCount(tableLine.count());
         if (tableLine.startIndex != 1)

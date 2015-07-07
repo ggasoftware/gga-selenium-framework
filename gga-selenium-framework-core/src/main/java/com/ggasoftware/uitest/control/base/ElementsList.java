@@ -13,7 +13,7 @@ import java.util.List;
 import static com.ggasoftware.uitest.utils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.*;
 import static com.ggasoftware.uitest.utils.common.PrintUtils.print;
-import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.timeouts;
+import static com.ggasoftware.uitest.utils.settings.FrameworkSettings.*;
 import static java.lang.String.format;
 
 /**
@@ -22,13 +22,12 @@ import static java.lang.String.format;
 public class ElementsList<TEnum extends Enum> extends BaseElement implements IList<TEnum> {
     public ElementsList() { }
     public ElementsList(By byLocator) { super(byLocator); }
-    public ElementsList(String name, By byLocator) { super(name, byLocator); }
 
-    public List<WebElement> getWebElements() throws Exception {
+    public List<WebElement> getWebElements() {
         return getWebElements(timeouts.waitElementSec);
     }
 
-    public List<WebElement> getWebElements(int timeouInSec) throws Exception {
+    public List<WebElement> getWebElements(int timeouInSec) {
         timeouts.currentTimoutSec = timeouInSec;
         List<WebElement> element = doJActionResult("Get web elements " + this.toString(), avatar::getElements);
         timeouts.currentTimoutSec = timeouts.waitElementSec;
@@ -39,7 +38,7 @@ public class ElementsList<TEnum extends Enum> extends BaseElement implements ILi
     public boolean waitDisplayed() { return waitDisplayed(timeouts.waitElementSec); }
     public boolean waitDisplayed(int seconds) {
         setWaitTimeout(seconds);
-        boolean result = new Timer(seconds*1000).wait(() -> getWebElements().size() > 0);
+        boolean result = new Timer(seconds*1000).wait(() -> where(getWebElements(), WebElement::isDisplayed).size() > 0);
         setWaitTimeout(timeouts.waitElementSec);
         return result;
     }
@@ -47,18 +46,18 @@ public class ElementsList<TEnum extends Enum> extends BaseElement implements ILi
     public boolean waitVanished() { return waitDisplayed(timeouts.waitElementSec); }
     public boolean waitVanished(int seconds)  {
         setWaitTimeout(timeouts.retryMSec);
-        boolean result = new Timer(seconds*1000).wait(() -> getWebElements().size() == 0);
+        boolean result = new Timer(seconds*1000).wait(() -> where(getWebElements(), WebElement::isDisplayed).size() == 0);
         setWaitTimeout(timeouts.waitElementSec);
         return result;
     }
 
-    public WebElement getElement(String name) throws Exception {
+    public WebElement getElement(String name)  {
         return first(getWebElements(), el -> el.getText().equals(name));
     }
-    public WebElement getElement(int index) throws Exception {
+    public WebElement getElement(int index) {
         return getWebElements().get(index);
     }
-    public WebElement getElement(TEnum enumName) throws Exception {
+    public WebElement getElement(TEnum enumName) {
         return getElement(getEnumValue(enumName));
     }
 
@@ -71,28 +70,38 @@ public class ElementsList<TEnum extends Enum> extends BaseElement implements ILi
         return tryGetResult(() -> (String) field.get(enumWithValue));
     }
 
-    public MapArray<String, WebElement> getElements() throws Exception {
-        return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
+    protected MapArray<String, WebElement> getElementsAction() {
+        try { return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
+        } catch (Exception ex) { asserter.exception(ex.getMessage()); return null; }
+    }
+    protected List<String> getLabelsAction() {
+        return (List<String>) getElementsAction().keys();
     }
 
-    protected String getTextAction(WebElement element) throws Exception { return element.getText(); }
+    public final MapArray<String, WebElement> getElements() {
+        return doJActionResult("Get elements", this::getElementsAction);
+    }
+    public final List<String> getLabels() {
+        return doJActionResult("Get names", this::getLabelsAction);
+    }
+    protected String getTextAction(WebElement element) { return element.getText(); }
 
-    public final String getText(String name) throws Exception {
+    public final String getText(String name) {
         return doJActionResult(format("Get text for element '%s' with name '%s'", this.toString(), name),
             () -> getTextAction(getElement(name)));
     }
 
-    public String getText(int index) throws Exception {
+    public String getText(int index) {
         return doJActionResult(format("Get text for element '%s' with index '%s'", this.toString(), index),
                 () -> getTextAction(getElement(index)));
     }
-    public String getText(TEnum enumName) throws Exception {
+    public String getText(TEnum enumName) {
         return getText(getEnumValue(enumName));
     }
-    public int count() throws Exception {
+    public int count() {
         return getElements().size();
     }
 
-    protected String getValueAction() throws Exception { return print(select(getWebElements(), WebElement::getText)); }
-    public final String getValue() throws Exception { return doJActionResult("Get value", this::getValueAction); }
+    protected String getValueAction() { return print(select(getWebElements(), WebElement::getText)); }
+    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
 }

@@ -4,6 +4,8 @@ import com.ggasoftware.uitest.apiAccessors.selenium.SeleniumDriverFactory;
 import com.ggasoftware.uitest.asserter.*;
 import com.ggasoftware.uitest.logger.*;
 import com.ggasoftware.uitest.testRunner.*;
+import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTT;
+import org.openqa.selenium.WebElement;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
@@ -20,4 +22,5 @@ public class FrameworkSettings {
 
     public static SeleniumDriverFactory seleniumFactory = new SeleniumDriverFactory();
     public static TimeoutSettings timeouts = new TimeoutSettings();
+    public static JFuncTT<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
 }

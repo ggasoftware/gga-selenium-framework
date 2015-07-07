@@ -14,9 +14,8 @@
 package com.ggasoftware.uitest.control.simple;
 
 import com.ggasoftware.uitest.control.base.Clickable;
-import com.ggasoftware.uitest.control.interfaces.IClickable;
+import com.ggasoftware.uitest.control.interfaces.IClickableText;
 import com.ggasoftware.uitest.control.interfaces.IHaveValue;
-import com.ggasoftware.uitest.control.interfaces.IText;
 import org.openqa.selenium.By;
 
 /**
@@ -24,13 +23,14 @@ import org.openqa.selenium.By;
  *
  * @author Alexeenko Yan
  */
-public class Button extends Clickable implements IText, IClickable, IHaveValue {
+public class Button extends Clickable implements IClickableText, IHaveValue {
     public Button() { }
     public Button(By byLocator) { super(byLocator); }
-    public Button(String name, By byLocator) { super(name, byLocator); }
 
-    protected String getTextAction() throws Exception { return getWebElement().getText(); }
-    public final String getText() throws Exception { return doJActionResult("Get text", this::getTextAction); }
-    public final String getValue() throws Exception { return doJActionResult("Get value", this::getTextAction); }
+    protected String getTextAction() { return getWebElement().getText(); }
+    protected String getValueAction() { return getTextAction(); }
+
+    public final String getText() { return doJActionResult("Get text", this::getTextAction); }
+    public final String getValue() { return doJActionResult("Get value", this::getTextAction); }
 
 }

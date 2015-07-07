@@ -1,12 +1,19 @@
 package com.ggasoftware.uitest.control.interfaces;
 
+import com.ggasoftware.uitest.utils.JDIAction;
+
 /**
  * Created by Roman_Iovlev on 7/6/2015.
  */
 public interface IInput extends ISetValue {
-    void input(String text) throws Exception;
-    void newInput(String text) throws Exception;
-    String getText() throws Exception;
-    void clear() throws Exception;
-    void focus() throws Exception;
+    @JDIAction
+    void input(String text);
+    @JDIAction
+    void newInput(String text);
+    @JDIAction
+    String getText();
+    @JDIAction
+    void clear();
+    @JDIAction
+    void focus();
 }

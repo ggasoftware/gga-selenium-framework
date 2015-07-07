@@ -11,18 +11,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
  ***************************************************************************/
-package com.ggasoftware.uitest.control.simple;
+package com.ggasoftware.uitest.control.complex;
 
-import com.ggasoftware.uitest.control.base.Clickable;
+import com.ggasoftware.uitest.control.interfaces.ICheckList;
 import org.openqa.selenium.By;
 
 /**
- * Image control implementation
+ * Select control implementation
  *
  * @author Alexeenko Yan
+ * @author Belousov Andrey
  */
-public class Image extends Clickable {
-    public Image() { }
-    public Image(By byLocator) { super(byLocator); }
+public class CheckList<TEnum extends Enum> extends MultiSelector<TEnum> implements ICheckList<TEnum> {
+    public CheckList() { super(); }
+    public CheckList(By optionsNamesLocator) { super(optionsNamesLocator); }
+    public CheckList(By optionsNamesLocator, By allOptionsNamesLocator) {
+        super(optionsNamesLocator, allOptionsNamesLocator);
+    }
 
 }

@@ -3,13 +3,14 @@ package com.ggasoftware.uitest.utils.usefulUtils;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.os.WindowsUtils;
 
+import static com.ggasoftware.uitest.utils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.uitest.utils.common.LinqUtils.*;
 
 /**
  * Created by 12345 on 26.01.2015.
  */
 public class WebDriverUtils {
-    public static void killAllRunWebDrivers() throws Exception {
+    public static void killAllRunWebDrivers() {
         try {
             String pid = getPid();
             while (pid != null) {
@@ -19,8 +20,8 @@ public class WebDriverUtils {
         } catch(Exception ignore) { }
     }
 
-    private static String getPid() throws Exception {
-        return first(where(WindowsUtils.procMap(), el -> el.getKey() != null
+    private static String getPid() {
+        return first(where(tryGetResult(WindowsUtils::procMap), el -> el.getKey() != null
                 && (el.getKey().contains("firefox") && el.getKey().contains("-foreground"))
                 | el.getKey().contains("chromedriver")
                 | el.getKey().contains("IEDriverServer")));

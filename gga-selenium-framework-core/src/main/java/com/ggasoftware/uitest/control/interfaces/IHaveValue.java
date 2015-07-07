@@ -7,5 +7,5 @@ import com.ggasoftware.uitest.utils.JDIAction;
  */
 public interface IHaveValue {
     @JDIAction
-    String getValue() throws Exception;
+    String getValue();
 }

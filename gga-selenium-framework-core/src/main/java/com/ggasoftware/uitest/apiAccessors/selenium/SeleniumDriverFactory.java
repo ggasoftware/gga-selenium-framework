@@ -16,29 +16,31 @@ import static java.lang.String.format;
  */
 public class SeleniumDriverFactory/* implements IAPIAvatar<WebElementAvatar>, WebDriver */{
     private MapArray<String, WebDriver> drivers = new MapArray<>();
-    public void registerDriver(WebDriver driver) throws Exception {
+    public void registerDriver(WebDriver driver) {
         registerDriver("Driver" + drivers.size() + 1, driver);
     }
-    public void registerDriver(String driverName, WebDriver driver) throws Exception {
+    public void registerDriver(String driverName, WebDriver driver) {
         if (!drivers.add(driverName, driver))
-            throw asserter.exception(format("Can't register Webdriver '%s'. Driver with same name already registered", driverName));
+            asserter.exception(format("Can't register Webdriver '%s'. Driver with same name already registered", driverName));
         currentDriverName = driverName;
     }
-    public WebDriver getDriver() throws Exception {
+    public WebDriver getDriver() {
         return getDriver(currentDriverName);
     }
-    public WebDriver getDriver(String driverName) throws Exception {
+    public WebDriver getDriver(String driverName) {
         WebDriver resultDriver = drivers.get(driverName);
-        if (resultDriver != null)
-            return resultDriver;
-        else throw asserter.exception(format("Can't get Webdriver '%s'. This Driver name not registered", driverName));
+        if (resultDriver == null) {
+            asserter.exception(format("Can't get Webdriver '%s'. This Driver name not registered", driverName));
+            return null;
+        }
+        return resultDriver;
     }
-    public void switchToDriver(String driverName) throws Exception {
+    public void switchToDriver(String driverName) {
         WebDriver driver = drivers.get(driverName);
         if (driver != null)
             currentDriverName = driverName;
         else
-            throw asserter.exception(format("Can't switch to Webdriver '%s'. This Driver name not registered", driverName));
+            asserter.exception(format("Can't switch to Webdriver '%s'. This Driver name not registered", driverName));
     }
     public String currentDriverName = "";
 

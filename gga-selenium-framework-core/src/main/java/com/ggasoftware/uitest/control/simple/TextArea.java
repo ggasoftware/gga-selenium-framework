@@ -26,14 +26,13 @@ import org.openqa.selenium.By;
 public class TextArea extends Input implements ITextArea {
     public TextArea() { }
     public TextArea(By byLocator) { super(byLocator); }
-    public TextArea(String name, By byLocator) { super(name, byLocator); }
 
     @Override
-    public String getValueAction() throws Exception {
+    public String getValueAction() {
         return getWebElement().getText();
     }
 
-    public final String[] getLines() throws Exception {
-        return getText().split("\\n");
+    public final String[] getLines() {
+        return doJActionResult("Get text as lines", () -> getTextAction().split("\\n"));
     }
 }

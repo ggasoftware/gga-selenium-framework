@@ -11,18 +11,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
  ***************************************************************************/
-package com.ggasoftware.uitest.control.simple;
+package com.ggasoftware.uitest.control.complex;
 
-import com.ggasoftware.uitest.control.base.Clickable;
+import com.ggasoftware.uitest.control.interfaces.IRadioButtons;
 import org.openqa.selenium.By;
 
 /**
- * Image control implementation
+ * RadioButtons control implementation
  *
  * @author Alexeenko Yan
  */
-public class Image extends Clickable {
-    public Image() { }
-    public Image(By byLocator) { super(byLocator); }
+public class Menu<TEnum extends Enum> extends Selector<TEnum> implements IRadioButtons<TEnum> {
+    public Menu() { super(); }
+    public Menu(By optionsNamesLocatorTemplate) { super(optionsNamesLocatorTemplate); }
+    public Menu(By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {
+        super(optionsNamesLocatorTemplate, allOptionsNamesLocator);
+    }
 
 }

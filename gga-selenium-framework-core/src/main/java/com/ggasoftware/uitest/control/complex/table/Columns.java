@@ -1,5 +1,6 @@
 package com.ggasoftware.uitest.control.complex.table;
 
+import com.ggasoftware.uitest.control.interfaces.IClickableText;
 import com.ggasoftware.uitest.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,7 +14,7 @@ import static java.lang.String.format;
 /**
  * Created by 12345 on 26.10.2014.
  */
-public class Columns<P, T extends ClickableText> extends TableLine<P, T> {
+public class Columns<T extends IClickableText> extends TableLine<T> {
     public Columns() {
         haveHeader = true;
         elementIndex = ElementIndexType.Nums;
@@ -28,20 +29,20 @@ public class Columns<P, T extends ClickableText> extends TableLine<P, T> {
         asserter.exception(format("Can't Get Column '%s'. Exception: %s", colName, ex));
     }
 
-    public final MapArray<String, Cell<P, T>> getRow(String rowName) {
+    public final MapArray<String, Cell<T>> getRow(String rowName) {
         try {
             return cellsToRow(select(table.columns().headers(), colName -> table.cell(colName, rowName)));
         }
         catch (Exception ex) { throwColsException(rowName, ex); return null; }
     }
 
-    public MapArray<String, Cell<P, T>> cellsToRow(Collection<Cell<P, T>> cells) {
-        return asserter.silentException(() -> new MapArray<String, Cell<P, T>>(cells,
+    public MapArray<String, Cell<T>> cellsToRow(Collection<Cell<T>> cells) {
+        return asserter.silentException(() -> new MapArray<String, Cell<T>>(cells,
                 cell -> table.columns().headers()[cell.columnNum - 1],
                 cell -> cell));
     }
 
-    public MapArray<String, Cell<P, T>> getRow(int rowNum) {
+    public MapArray<String, Cell<T>> getRow(int rowNum) {
         int colsCount = -1;
         if (count > 0)
         colsCount = count;
@@ -57,10 +58,10 @@ public class Columns<P, T extends ClickableText> extends TableLine<P, T> {
         catch (Exception ex) { throwColsException(rowNum + "", ex); return null; }
     }
 
-    public MapArray<String, MapArray<String, Cell<P, T>>> get() {
-        MapArray<String, MapArray<String, Cell<P, T>>> cols = new MapArray<>();
+    public MapArray<String, MapArray<String, Cell<T>>> get() {
+        MapArray<String, MapArray<String, Cell<T>>> cols = new MapArray<>();
         for(String columnName : headers()) {
-            MapArray<String, Cell<P, T>> row = new MapArray<>();
+            MapArray<String, Cell<T>> row = new MapArray<>();
             for (String rowName : table.rows().headers())
                 row.add(rowName, table.cell(columnName, rowName));
             cols.add(columnName, row);
