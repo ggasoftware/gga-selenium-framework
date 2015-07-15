@@ -513,7 +513,7 @@ public class Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel sendKeys(CharSequence... keysToSend) {
-        logAction(this, getParentClassName(), format("sendKeys - %s", keysToSend));
+        logAction(this, getParentClassName(), format("sendKeys - %s", new Object[]{keysToSend}));
         alwaysDoneAction(() -> {
             getDriver().switchTo().activeElement();
             getWebElement().sendKeys(keysToSend);
