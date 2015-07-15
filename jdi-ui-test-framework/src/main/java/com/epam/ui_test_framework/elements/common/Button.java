@@ -13,7 +13,7 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.common;
 
-import com.epam.ui_test_framework.elements.interfaces.simple.IButton;
+import com.epam.ui_test_framework.elements.interfaces.common.IButton;
 import org.openqa.selenium.By;
 
 /**

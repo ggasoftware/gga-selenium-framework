@@ -15,8 +15,8 @@ package com.epam.ui_test_framework.elements.base;
 
 import com.epam.ui_test_framework.elements.interfaces.base.IElement;
 import com.epam.ui_test_framework.elements.BaseElement;
-import com.epam.ui_test_framework.elements.interfaces.simple.IButton;
-import com.epam.ui_test_framework.elements.interfaces.simple.IText;
+import com.epam.ui_test_framework.elements.interfaces.common.IButton;
+import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.common.Text;
 import com.epam.ui_test_framework.logger.LogSettings;

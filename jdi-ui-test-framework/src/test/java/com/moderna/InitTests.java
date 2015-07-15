@@ -3,7 +3,7 @@ package com.moderna;
 import com.epam.page_objects.mct.custom.ModernaCombobox;
 import com.epam.page_objects.mct.custom.ModernaFileInput;
 import com.epam.ui_test_framework.elements.interfaces.complex.IComboBox;
-import com.epam.ui_test_framework.elements.interfaces.simple.IFileInput;
+import com.epam.ui_test_framework.elements.interfaces.common.IFileInput;
 import com.epam.ui_test_framework.utils.common.Timer;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterSuite;

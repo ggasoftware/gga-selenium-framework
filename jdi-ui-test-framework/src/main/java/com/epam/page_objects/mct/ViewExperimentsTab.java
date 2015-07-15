@@ -5,14 +5,13 @@ import com.epam.page_objects.enums.MCTTabs;
 import com.epam.ui_test_framework.elements.complex.table.Table;
 import com.epam.ui_test_framework.elements.interfaces.base.IElement;
 import com.epam.ui_test_framework.elements.interfaces.complex.ITabs;
-import com.epam.ui_test_framework.elements.interfaces.simple.IButton;
+import com.epam.ui_test_framework.elements.interfaces.common.IButton;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import static com.epam.page_objects.enums.MCTTabs.*;
 import static com.epam.ui_test_framework.elements.BaseElement.InitElements;
-import static com.epam.ui_test_framework.utils.usefulUtils.TryCatchUtil.ignoreException;
 import static java.lang.Thread.sleep;
 import static org.testng.Assert.assertTrue;
 

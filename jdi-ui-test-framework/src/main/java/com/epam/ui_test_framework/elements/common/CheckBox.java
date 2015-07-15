@@ -13,8 +13,9 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.common;
 
+import com.epam.ui_test_framework.elements.base.Clickable;
 import com.epam.ui_test_framework.elements.base.Element;
-import com.epam.ui_test_framework.elements.interfaces.simple.ICheckBox;
+import com.epam.ui_test_framework.elements.interfaces.common.ICheckBox;
 import org.openqa.selenium.By;
 
 /**
@@ -23,7 +24,7 @@ import org.openqa.selenium.By;
  * @author Alexeenko Yan
  * @author Belousov Andrey
  */
-public class CheckBox extends Element implements ICheckBox {
+public class CheckBox extends Clickable implements ICheckBox {
     public CheckBox() { }
     public CheckBox(By byLocator) { super(byLocator); }
 
@@ -44,7 +45,6 @@ public class CheckBox extends Element implements ICheckBox {
         if (value.toLowerCase().equals("false") || value.toLowerCase().equals("0"))
             uncheck();
     }
-    protected void clickAction() { getWebElement().click(); }
 
     public final void check() {
         doJAction("Check Checkbox", this::checkAction);
@@ -56,9 +56,6 @@ public class CheckBox extends Element implements ICheckBox {
         return doJActionResult("IsChecked",
                 this::isCheckedAction,
                 result -> "Checkbox is " + (result ? "checked" : "unchecked"));
-    }
-    public final void click() {
-        doJAction("Click on element", this::clickAction);
     }
 
     public final String getValue() { return doJActionResult("Get value", this::getValueAction); }

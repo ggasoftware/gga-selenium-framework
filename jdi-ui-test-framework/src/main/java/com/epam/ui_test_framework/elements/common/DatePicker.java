@@ -1,6 +1,6 @@
 package com.epam.ui_test_framework.elements.common;
 
-import com.epam.ui_test_framework.elements.interfaces.simple.IDatePicker;
+import com.epam.ui_test_framework.elements.interfaces.common.IDatePicker;
 import org.openqa.selenium.By;
 
 /**

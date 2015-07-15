@@ -14,7 +14,7 @@
 package com.epam.ui_test_framework.elements.common;
 
 import com.epam.ui_test_framework.elements.base.Clickable;
-import com.epam.ui_test_framework.elements.interfaces.simple.IImage;
+import com.epam.ui_test_framework.elements.interfaces.common.IImage;
 import org.openqa.selenium.By;
 
 /**

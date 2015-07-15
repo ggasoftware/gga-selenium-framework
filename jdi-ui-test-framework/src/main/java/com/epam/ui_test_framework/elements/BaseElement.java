@@ -10,7 +10,7 @@ import com.epam.ui_test_framework.elements.complex.*;
 import com.epam.ui_test_framework.elements.complex.table.Table;
 import com.epam.ui_test_framework.elements.interfaces.base.*;
 import com.epam.ui_test_framework.elements.interfaces.complex.*;
-import com.epam.ui_test_framework.elements.interfaces.simple.*;
+import com.epam.ui_test_framework.elements.interfaces.common.*;
 import com.epam.ui_test_framework.elements.page_objects.annotations.Frame;
 import com.epam.ui_test_framework.elements.page_objects.annotations.JFindBy;
 import com.epam.ui_test_framework.elements.common.*;

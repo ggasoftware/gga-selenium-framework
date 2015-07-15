@@ -1,4 +1,4 @@
-package com.epam.ui_test_framework.elements.interfaces.simple;
+package com.epam.ui_test_framework.elements.interfaces.common;
 
 import com.epam.ui_test_framework.elements.interfaces.base.IClickable;
 import com.epam.ui_test_framework.utils.JDIAction;

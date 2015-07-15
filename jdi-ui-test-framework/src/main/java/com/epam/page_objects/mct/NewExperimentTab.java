@@ -3,13 +3,11 @@ package com.epam.page_objects.mct;
 import com.epam.page_objects.entities.Experiment;
 import com.epam.page_objects.enums.*;
 import com.epam.page_objects.mct.custom.*;
-import com.epam.page_objects.mct.popup.AmplexRedInfoPopup;
-import com.epam.page_objects.mct.popup.Popups;
 import com.epam.ui_test_framework.elements.base.ElementsGroup;
 import com.epam.ui_test_framework.elements.complex.Dropdown;
 import com.epam.ui_test_framework.elements.composite.*;
 import com.epam.ui_test_framework.elements.interfaces.complex.*;
-import com.epam.ui_test_framework.elements.interfaces.simple.*;
+import com.epam.ui_test_framework.elements.interfaces.common.*;
 import com.epam.ui_test_framework.elements.common.*;
 import org.openqa.selenium.By;
 

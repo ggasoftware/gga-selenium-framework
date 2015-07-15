@@ -1,6 +1,6 @@
 package com.epam.ui_test_framework.elements.common;
 
-import com.epam.ui_test_framework.elements.interfaces.simple.IFileInput;
+import com.epam.ui_test_framework.elements.interfaces.common.IFileInput;
 import org.openqa.selenium.By;
 
 /**

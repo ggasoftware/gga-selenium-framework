@@ -14,7 +14,7 @@
 package com.epam.ui_test_framework.elements.common;
 
 import com.epam.ui_test_framework.elements.base.Element;
-import com.epam.ui_test_framework.elements.interfaces.simple.IInput;
+import com.epam.ui_test_framework.elements.interfaces.common.IInput;
 import org.openqa.selenium.By;
 
 import static com.epam.ui_test_framework.utils.common.Timer.getByCondition;

@@ -1,8 +1,8 @@
 package com.epam.page_objects.mct.popup;
 
 import com.epam.ui_test_framework.elements.composite.Popup;
-import com.epam.ui_test_framework.elements.interfaces.simple.IButton;
-import com.epam.ui_test_framework.elements.interfaces.simple.IText;
+import com.epam.ui_test_framework.elements.interfaces.common.IButton;
+import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import com.epam.ui_test_framework.elements.page_objects.annotations.Function;
 import org.openqa.selenium.support.FindBy;
 
