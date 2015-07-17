@@ -28,7 +28,7 @@ public class TextArea extends Input implements ITextArea {
     public TextArea(By byLocator) { super(byLocator); }
 
     @Override
-    public String getValueAction() {
+    public String getTextAction() {
         return getWebElement().getText();
     }
 

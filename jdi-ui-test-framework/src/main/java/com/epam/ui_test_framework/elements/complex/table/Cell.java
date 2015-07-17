@@ -8,7 +8,7 @@ import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
  */
 
 public class Cell<T extends IClickableText> extends ClickableText implements IClickableText {
-    public T element;
+    private T element;
     public int columnNum;
     public int rowNum;
     public String columnName;
@@ -19,6 +19,7 @@ public class Cell<T extends IClickableText> extends ClickableText implements ICl
     @Override
     protected void clickAction() { element.click(); }
     public void select() { click(); }
+    public T get() { return element; }
 
     public Cell(T element, int columnNum, int rowNum, String colName, String rowName) {
         this.element = element;

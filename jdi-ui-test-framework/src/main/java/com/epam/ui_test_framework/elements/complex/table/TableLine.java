@@ -3,11 +3,13 @@ package com.epam.ui_test_framework.elements.complex.table;
 import com.epam.ui_test_framework.elements.base.Element;
 import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
 import com.epam.ui_test_framework.utils.common.ReflectionUtils;
+import com.epam.ui_test_framework.utils.linqInterfaces.JFuncT;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.isClass;
+import static com.epam.ui_test_framework.utils.common.Timer.getResultAction;
 import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
 
 /**
@@ -34,7 +36,7 @@ public abstract class TableLine<T extends IClickableText> extends Element {
     public final String[] headers() {
         if (headers != null)
             return headers;
-        String[] localHeaders = table.getHeaders(this::getHeadersAction);
+        String[] localHeaders = getResultAction(this::getHeadersAction);
         setHeaders((haveHeader)
             ? localHeaders
             : getNumList(localHeaders.length));

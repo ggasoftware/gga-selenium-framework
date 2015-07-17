@@ -9,9 +9,9 @@ import com.epam.ui_test_framework.utils.JDIAction;
  */
 public interface IPopup extends IHaveValue, IComposite {
     @JDIAction
-    void clickOk();
+    void ok();
     @JDIAction
-    void clickCancel();
+    void cancel();
     @JDIAction
     void close();
 }

@@ -29,7 +29,7 @@ import static java.lang.String.format;
  *
  * @author Alexeenko Yan
  */
-public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDropDown<TEnum>, IElement {
+public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDropDown<TEnum> {
     public Dropdown() { super(); }
     public Dropdown(By selectLocator) { this.selectLocator = selectLocator; }
     public Dropdown(By selectLocator, By optionsNamesLocatorTemplate) { super(optionsNamesLocatorTemplate); this.selectLocator = selectLocator;}
@@ -58,10 +58,10 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     }
 
     public final String getText() { return getTextAction(); }
-    public final String waitText(String text) { return doJActionResult("Wait text",
+    public final String waitText(String text) { return doJActionResult(format("Wait text contains '%s'", text),
             () -> getByCondition(this::getTextAction, t -> t.contains(text)));
     }
-    public final String waitTextByRegEx(String regEx) { return doJActionResult("Wait text",
+    public final String waitMatchText(String regEx) { return doJActionResult(format("Wait text match regex '%s'", regEx),
             () -> getByCondition(this::getTextAction, t -> t.matches(regEx)));
     }
 

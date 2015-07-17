@@ -148,9 +148,9 @@ public class NewExperimentTab extends Form<Experiment> {
     public void publishExperiment(Experiment experiment) {
         expButtons.get(PUBLISH).click();
         sleep(500);
-        mctInfoPopup().clickOk();
+        mctInfoPopup().ok();
         experiment.id = mctInfoPopup().getExperimentId();
-        mctInfoPopup().clickOk();
+        mctInfoPopup().ok();
     }
 
 }

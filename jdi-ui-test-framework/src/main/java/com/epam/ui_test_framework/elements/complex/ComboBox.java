@@ -58,8 +58,6 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
     }
     public final void input(String text) { input.input(text); }
     public final void newInput(String text) { input.newInput(text); }
-    public final void input(Object obj) { input.input(obj); }
-    public final void newInput(Object obj) { input.newInput(obj); }
     public final void clear() { input.clear(); }
     public final void focus() { input.focus(); }
 

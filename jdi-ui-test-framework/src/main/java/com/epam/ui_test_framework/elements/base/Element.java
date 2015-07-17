@@ -26,12 +26,14 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
 
 import static com.epam.ui_test_framework.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.epam.ui_test_framework.logger.enums.LogInfoTypes.BUSINESS;
 import static com.epam.ui_test_framework.logger.enums.LogLevels.DEBUG;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.first;
+import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFieldValue;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFields;
 import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
@@ -73,24 +75,22 @@ public class Element extends BaseElement implements IElement {
 
     protected Button getButton(String funcName) {
         List<Field> fields = getFields(this, IButton.class);
-        Field buttonField = first(fields, f -> ((BaseElement) getFieldValue(f, this)).function.toLowerCase().equals(funcName.toLowerCase()));
-        Object button;
-        if (buttonField == null || (button = getFieldValue(buttonField, this)) == null) {
-            asserter.exception(format("Can't find button '%s' for form '%s'", funcName, toString()));
+        if (fields.size() == 1)
+            return (Button) getFieldValue(fields.get(0), this);
+        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
+        Button button = first(buttons, b -> b.function.toLowerCase().equals(funcName.toLowerCase()));
+        if (button == null) {
+            asserter.exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
             return null;
         }
-        return (Button) button;
+        return button;
     }
 
     protected Text getTextElement() {
-        List<Field> fields = getFields(this, IText.class);
-        Field buttonField = first(fields, f -> ((BaseElement) getFieldValue(f, this)).function.toLowerCase().equals("text"));
-        Object textElement;
-        if (buttonField == null || (textElement = getFieldValue(buttonField, this)) == null) {
-            asserter.exception(format("Can't find button 'text' for form '%s'", toString()));
-            return null;
-        }
-        return (Text) textElement;
+        Field textField = first(getClass().getDeclaredFields(), f -> f.getType() == Text.class);
+        if (textField!= null) return (Text) getFieldValue(textField, this);
+        asserter.exception(format("Can't find text element for element '%s'", toString()));
+        return null;
     }
 
     public boolean isDisplayed() { return waitDisplayed(0); }

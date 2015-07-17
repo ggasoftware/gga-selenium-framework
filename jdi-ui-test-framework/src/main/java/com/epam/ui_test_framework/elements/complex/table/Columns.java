@@ -32,14 +32,14 @@ public class Columns<T extends IClickableText> extends TableLine<T> {
 
     public final MapArray<String, Cell<T>> getRow(String rowName) {
         try {
-            return cellsToRow(LinqUtils.select(table.columns().headers(), colName -> table.cell(colName, rowName)));
+            return cellsToRow(LinqUtils.select(headers(), colName -> table.cell(new Column(colName), new Row(rowName))));
         }
         catch (Exception ex) { throwColsException(rowName, ex); return null; }
     }
 
     public MapArray<String, Cell<T>> cellsToRow(Collection<Cell<T>> cells) {
         return FrameworkSettings.asserter.silentException(() -> new MapArray<String, Cell<T>>(cells,
-                cell -> table.columns().headers()[cell.columnNum - 1],
+                cell -> headers()[cell.columnNum - 1],
                 cell -> cell));
     }
 
@@ -52,9 +52,9 @@ public class Columns<T extends IClickableText> extends TableLine<T> {
         if (colsCount > 0 && colsCount < rowNum)
             FrameworkSettings.asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, colsCount));
         try {
-            return new MapArray<>(table.columns().count(),
+            return new MapArray<>(count(),
                     colNum -> headers()[colNum],
-                    colNum -> table.cell(colNum, rowNum));
+                    colNum -> table.cell(new Column(colNum), new Row(rowNum)));
         }
         catch (Exception ex) { throwColsException(rowNum + "", ex); return null; }
     }
@@ -64,7 +64,7 @@ public class Columns<T extends IClickableText> extends TableLine<T> {
         for(String columnName : headers()) {
             MapArray<String, Cell<T>> row = new MapArray<>();
             for (String rowName : table.rows().headers())
-                row.add(rowName, table.cell(columnName, rowName));
+                row.add(rowName, table.cell(new Column(columnName), new Row(rowName)));
             cols.add(columnName, row);
         }
         return cols;

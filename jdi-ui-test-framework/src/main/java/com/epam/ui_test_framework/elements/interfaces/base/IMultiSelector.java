@@ -15,34 +15,36 @@ public interface IMultiSelector<TEnum extends Enum> extends IBaseElement, ISetVa
     @JDIAction
     void select(int... indexes);
     @JDIAction
-    void selectOnly(String... names);
+    void check(String... names);
     @JDIAction
-    void selectOnly(TEnum... names);
+    void check(TEnum... names);
     @JDIAction
-    void selectOnly(int... indexes);
+    void check(int... indexes);
     @JDIAction
-    void deselectOnly(String... names);
+    void uncheck(String... names);
     @JDIAction
-    void deselectOnly(TEnum... names);
+    void uncheck(TEnum... names);
     @JDIAction
-    void deselectOnly(int... indexes);
+    void uncheck(int... indexes);
     @JDIAction
     List<String> areSelected();
-    boolean areSelected(String... names);
+    boolean waitSelected(String... names);
     @JDIAction
-    boolean areSelected(TEnum... names);
+    boolean waitSelected(TEnum... names);
     @JDIAction
     List<String> areDeselected();
     @JDIAction
-    boolean areDeselected(String... names);
+    boolean waitDeselected(String... names);
     @JDIAction
-    boolean areDeselected(TEnum... names);
+    boolean waitDeselected(TEnum... names);
+    @JDIAction
+    List<String> getOptions();
     @JDIAction
     String getOptionsAsText();
     @JDIAction
     void clear();
     @JDIAction
-    void deselectAll();
+    void uncheckAll();
     @JDIAction
-    void selectAll();
+    void checkAll();
 }

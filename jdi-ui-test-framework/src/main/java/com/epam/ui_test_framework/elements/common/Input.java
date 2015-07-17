@@ -13,11 +13,9 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.common;
 
-import com.epam.ui_test_framework.elements.base.Element;
 import com.epam.ui_test_framework.elements.interfaces.common.IInput;
 import org.openqa.selenium.By;
 
-import static com.epam.ui_test_framework.utils.common.Timer.getByCondition;
 import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
 
 /**
@@ -27,7 +25,7 @@ import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.assert
  * @author Shubin Konstantin
  * @author Zharov Alexandr
  */
-public class Input extends Element implements IInput {
+public class Input extends Text implements IInput {
     public Input() { super(); }
     public Input(By byLocator) { super(byLocator); }
 
@@ -35,22 +33,16 @@ public class Input extends Element implements IInput {
         if (value == null) return;
         newInput(value);
     }
-    protected String getValueAction() { return getWebElement().getAttribute("value"); }
-    protected String getTextAction() { return getValueAction(); }
+    @Override
+    protected String getTextAction() { return getWebElement().getAttribute("value"); }
     protected void inputAction(String text) { getWebElement().sendKeys(text); }
-    protected void inputAction(Object obj) { inputAction(obj.toString()); }
     protected void clearAction() { getWebElement().clear(); }
     protected void focusAction() { getWebElement().click(); }
 
-    public final void setValue(String value) { doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction)); }
-    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
-    public final String getText() { return doJActionResult("Get text", this::getTextAction); }
-    public final String waitText(String text) { return doJActionResult("Wait text",
-            () -> getByCondition(this::getTextAction, t -> t.contains(text)));
+    public final void setValue(String value) {
+        doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction));
     }
-    public final String waitTextByRegEx(String regEx) { return doJActionResult("Wait text",
-            () -> getByCondition(this::getTextAction, t -> t.matches(regEx)));
-    }
+
     public final void input(String text) {
         doJAction("Input text '" + text + "' in text field",
                 () -> setValueRule.invoke(text, this::inputAction));
@@ -60,15 +52,6 @@ public class Input extends Element implements IInput {
             clear();
             input(t);
         }));
-    }
-    public final void input(Object obj) {
-        doJAction("Input text '" + obj + "' in text field",
-            () -> inputAction(obj));
-    }
-    public final void newInput(Object obj) {
-        doJAction("Input text '" + obj + "' in text field",
-                () -> {
-                    clearAction(); inputAction(obj); });
     }
     public final void clear() {
         doJAction("Clear text field", this::clearAction);

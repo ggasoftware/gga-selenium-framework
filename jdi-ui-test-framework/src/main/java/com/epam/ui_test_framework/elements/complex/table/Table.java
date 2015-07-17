@@ -20,7 +20,7 @@ import static com.epam.ui_test_framework.elements.apiInteract.ContextType.Locato
 import static com.epam.ui_test_framework.utils.common.LinqUtils.*;
 import static com.epam.ui_test_framework.utils.common.PrintUtils.print;
 import static com.epam.ui_test_framework.utils.common.StringUtils.LineBreak;
-import static com.epam.ui_test_framework.utils.common.Timer.getResultAction;
+import static com.epam.ui_test_framework.utils.common.Timer.waitCondition;
 import static com.epam.ui_test_framework.utils.common.WebDriverByUtils.fillByTemplateSilent;
 import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
 import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.timeouts;
@@ -54,22 +54,25 @@ public class Table<T extends IClickableText> extends Text implements ITable<T> {
     public List<Cell<T>> getCells() {
         for(String columnName : columns().headers())
             for(String rowName : rows().headers())
-                _allCells.add(cell(columnName, rowName));
+                _allCells.add(cell(new Column(columnName), new Row(rowName)));
         return _allCells;
     }
 
-    private Columns<T> _columns = new Columns<T>();
+    private Columns<T> _columns = new Columns<>();
     public Columns<T> columns() { return _columns; }
-    public MapArray<String, Cell<T>> getColumn(int colNum) { return rows().getColumn(colNum); }
-    public MapArray<String, Cell<T>> getColumn(String colName) { return rows().getColumn(colName); }
+    public MapArray<String, Cell<T>> column(int colNum) { return rows().getColumn(colNum); }
+    public MapArray<String, Cell<T>> column(String colName) { return rows().getColumn(colName); }
+
+    private MapArray<String, Cell<T>> column(Column column) { return column.get(this::column, this::column); }
+
     public void setColumns(Columns<T> value) { _columns.update(value); }
-    public String[] getHeaders(JFuncT<String[]> getHeadersAction) {
-        return getResultAction(getHeadersAction::invoke); }
 
     private Rows<T> _rows = new Rows<>();
     public Rows<T> rows() { return _rows; }
-    public MapArray<String, Cell<T>> getRow(int rowNum) { return columns().getRow(rowNum); }
-    public MapArray<String, Cell<T>> getRow(String rowName) { return columns().getRow(rowName); }
+    public MapArray<String, Cell<T>> row(int rowNum) { return columns().getRow(rowNum); }
+    public MapArray<String, Cell<T>> row(String rowName) { return columns().getRow(rowName); }
+
+    private MapArray<String, Cell<T>> row(Row row) { return row.get(this::row, this::row); }
     public void setRows(Rows<T> value) { _rows.update(value); }
 
     public void setColumnHeaders(String[] value) { columns().setHeaders(value); }
@@ -83,7 +86,8 @@ public class Table<T extends IClickableText> extends Text implements ITable<T> {
     }
     protected String[] _footer;
     public void setFooter(String[] value) { _footer = value; }
-    public String[] getFooter() {
+    public String[] header() { return columns().headers(); }
+    public String[] footer() {
         if (_footer != null)
             return _footer;
         _footer = doJActionResult("Get Footer", this::getFooterAction);
@@ -93,84 +97,54 @@ public class Table<T extends IClickableText> extends Text implements ITable<T> {
         return _footer;
     }
 
-    public boolean isEmpty() {
-        return isEmpty(1000);
-    }
-    public boolean isEmpty(long timeout) {
-        getDriver().manage().timeouts().implicitlyWait(timeout, MILLISECONDS);
-        int rowsCount = rows().count();
-        getDriver().manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
-        return rowsCount == 0;
-    }
-
-
-    // ------------------------------------------ //
-
-    public Cell<T> cell(int colNum, int rowNum) {
-        int colIndex = colNum + columns().startIndex - 1;
-        int rowIndex = rowNum + rows().startIndex - 1;
-        return addCell(colIndex, rowIndex, colNum, rowNum, "", "");
+    public Cell<T> cell(Column column, Row row) {
+        int colIndex = column.get(this::getColumnIndex, num -> num + columns().startIndex - 1);
+        int rowIndex = row.get(this::getRowIndex, num -> num + rows().startIndex - 1);
+        return addCell(colIndex, rowIndex,
+                column.get(name -> asList(columns().headers()).indexOf(name) + 1, num -> num),
+                row.get(name -> asList(rows().headers()).indexOf(name) + 1, num -> num),
+                column.get(name -> name, num -> ""),
+                row.get(name -> name, num -> ""));
     }
 
-    public Cell<T> cell(String colName, int rowNum) {
-        int colIndex = getColumnIndex(colName);
-        int rowIndex = rowNum + rows().startIndex - 1;
-        return addCell(colIndex, rowIndex, asList(columns().headers()).indexOf(colName) + 1, rowNum, colName, "");
+    private List<Cell<T>> matches(Collection<Cell<T>> list, String regex) {
+        return new ArrayList<>(where(list, cell -> cell.getValue().matches(regex)));
     }
 
-    public Cell<T> cell(int colNum, String rowName) {
-        int colIndex = colNum + columns().startIndex - 1;
-        int rowIndex = getRowIndex(rowName);
-        return addCell(colIndex, rowIndex, colNum, asList(rows().headers()).indexOf(rowName) + 1, "", rowName);
-    }
-
-    public Cell<T> cell(String colName, String rowName)  {
-        int colIndex = getColumnIndex(colName);
-        int rowIndex = getRowIndex(rowName);
-        return addCell(colIndex, rowIndex, asList(columns().headers()).indexOf(colName) + 1,
-                asList(rows().headers()).indexOf(rowName) + 1, colName, rowName);
-    }
-
-    // ------------------------------------------ //
-
-    private List<Cell<T>> matches(Collection<Cell<T>> list, String pattern) {
-        return new ArrayList<>(where(list, cell -> cell.getValue().matches(pattern)));
-    }
-
-    public List<Cell<T>> findCellsValues(String value) {
+    public List<Cell<T>> cells(String value) {
         return new ArrayList<>(where(getCells(), cell -> cell.getValue().equals(value)));
     }
 
-    public List<Cell<T>> matchCellsValues(String pattern) {
-        return matches(getCells(), pattern);
+    public List<Cell<T>> cellsMatch(String regex) {
+        return matches(getCells(), regex);
     }
 
-    public Cell<T> findFirstCellWithValue(String value) {
+    public Cell<T> cell(String value) {
         for (int colIndex = 1; colIndex <= columns().count(); colIndex++)
             for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-                Cell<T> cell = cell(colIndex, rowIndex);
+                Cell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
                 if (cell.getValue().equals(value)) return cell;
             }
         return null;
     }
 
-    public Cell<T> findFirstCellMatchesValue(String pattern) {
+    public Cell<T> cellMatch(String regex) {
         for (int colIndex = 1; colIndex <= columns().count(); colIndex++)
             for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-                Cell<T> cell = cell(colIndex, rowIndex);
-                if (cell.getValue().matches(pattern)) return cell;
+                Cell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
+                if (cell.getValue().matches(regex)) return cell;
             }
         return null;
     }
 
     /**
-     * Finds Rows in table matches specified criterias
-     * @param colNameValues - list of search criterias in format <columnName>=<columnValue>
-     * (e.g. findRows("Name=Roman", "Profession=Tester") )
+     * Finds Rows in table matches specified criteria
+     * @param colNameValues - list of search criteria in format <columnName>=<columnValue>
+     * (e.g. rows("Name=Roman", "Profession=QA") )
      * @return List of Rows (dictionary: rowName:row)
      * Each Row is dictionary: columnName:cell)
      */
-    public MapArray<String, MapArray<String, Cell<T>>> findRows(String... colNameValues) {
+    public MapArray<String, MapArray<String, Cell<T>>> rows(String... colNameValues) {
         MapArray<String, MapArray<String, Cell<T>>> result = new MapArray<>();
         for (Pair<String, MapArray<String, Cell<T>>> row : rows().get()) {
             boolean matches = true;
@@ -191,13 +165,13 @@ public class Table<T extends IClickableText> extends Text implements ITable<T> {
     }
 
     /**
-     * Finds Columns in table matches specified criterias
-     * @param rowNameValues - list of search criterias in format <rowName>=<rowValue>
-     * (e.g. findColumns("Name=Roman", "Profession=Tester") )
+     * Finds Columns in table matches specified criteria
+     * @param rowNameValues - list of search criteria in format <rowName>=<rowValue>
+     * (e.g. columns("Name=Roman", "Profession=QA") )
      * @return List of Columns (dictionary: columnName:column)
      * Each Column is dictionary: rowName:cell)
      */
-    public MapArray<String, MapArray<String, Cell<T>>> findColumns(String... rowNameValues) {
+    public MapArray<String, MapArray<String, Cell<T>>> columns(String... rowNameValues) {
         MapArray<String, MapArray<String, Cell<T>>> result = new MapArray<>();
         for (Pair<String, MapArray<String, Cell<T>>> column : columns().get()) {
             boolean matches = true;
@@ -216,87 +190,66 @@ public class Table<T extends IClickableText> extends Text implements ITable<T> {
         }
         return result;
     }
-    public boolean isValueInRow(int rowNum, String value) {
-        return findColumnByRowValue(rowNum, value) != null;
+    public boolean waitValue(String value, Row row) {
+        return waitCondition(() -> column(value, row) != null);
     }
-    public boolean isValueInRow(String rowName, String value) {
-        return findColumnByRowValue(rowName, value) != null;
-    }
-    public boolean isValueInColumn(int colNum, String value) {
-        return findRowByColumnValue(colNum, value) != null;
-    }
-    public boolean isValueInColumn(String colName, String value) {
-        return findRowByColumnValue(colName, value) != null;
+    public boolean waitValue(String value, Column column) {
+        return waitCondition(() -> row(value, column) != null);
     }
 
-    public Cell<T> findCellInColumn(int colIndex, String value) {
-        for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-            Cell<T> cell = cell(colIndex, rowIndex);
-            if (cell.getValue().equals(value)) return cell;
-        }
-        return null;
+    public boolean isEmpty() {
+        getDriver().manage().timeouts().implicitlyWait(0, MILLISECONDS);
+        int rowsCount = rows().count();
+        getDriver().manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
+        return rowsCount == 0;
+    }
+    public boolean waitHaveRows() {
+        return waitRows(1);
+    }
+    public boolean waitRows(int count) {
+        return waitCondition(() -> rows().count() > count);
     }
 
-    public Cell<T> findCellInColumn(String colName, String value) {
-        int colIndex = asList(columns().headers()).indexOf(colName) + 1;
-        for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-            Cell<T> cell = cell(colIndex, rowIndex);
-            if (cell.getValue().equals(value)) return cell;
-        }
-        return null;
-    }
+    public Cell<T> cell(String value, Row row) {
+        int rowIndex = (row.haveName())
+            ? asList(rows().headers()).indexOf(row.getName()) + 1
+            : row.getNum();
 
-    public MapArray<String, Cell<T>> matchCellsInColumn(int colIndex, String pattern) {
-        return _rows.cellsToColumn(matches(getColumn(colIndex).values(), pattern));
-    }
-
-    public MapArray<String, Cell<T>> matchCellsInColumn(String colName, String pattern) {
-        return _rows.cellsToColumn(matches(getColumn(colName).values(), pattern));
-    }
-
-    //Row filters
-    public MapArray<String, Cell<T>> matchCellsInRow(int rowIndex, String pattern) {
-        return _columns.cellsToRow(matches(getRow(rowIndex).values(), pattern));
-    }
-
-    public MapArray<String, Cell<T>> matchCellsInRow(String rowName, String pattern) {
-        return _columns.cellsToRow(matches(getRow(rowName).values(), pattern));
-    }
-
-    public Cell<T> findCellInRow(int rowIndex, String value) {
         for (int colIndex = 1; colIndex <= columns().count(); colIndex++) {
-            Cell<T> cell = cell(colIndex, rowIndex);
+            Cell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
             if (cell.getValue().equals(value)) return cell;
         }
         return null;
     }
 
-    public Cell<T> findCellInRow(String rowName, String value) {
-        int rowIndex = asList(rows().headers()).indexOf(rowName) + 1;
-        for (int colIndex = 1; colIndex <= columns().count(); colIndex++) {
-            Cell<T> cell = cell(colIndex, rowIndex);
+    public Cell<T> cell(String value, Column column) {
+        int colIndex = (column.haveName())
+                ? asList(columns().headers()).indexOf(column.getName()) + 1
+                : column.getNum();
+
+        for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
+            Cell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
             if (cell.getValue().equals(value)) return cell;
         }
         return null;
     }
 
-    public MapArray<String, Cell<T>> findColumnByRowValue(int rowIndex, String value) {
-        Cell<T> columnCell = findCellInRow(rowIndex, value);
+    public List<Cell<T>> cellsMatch(String regex, Column column) {
+        MapArray<String, Cell<T>> columnLine = column(column);
+        return matches(columnLine.values(), regex);
+    }
+
+    public List<Cell<T>> cellsMatch(String regex, Row row) {
+        MapArray<String, Cell<T>> rowLine = row(row);
+        return matches(rowLine.values(), regex);
+    }
+
+    public MapArray<String, Cell<T>> column(String value, Row row) {
+        Cell<T> columnCell = cell(value, row);
         return columnCell != null ? columns().getRow(columnCell.columnNum) : null;
     }
-
-    public MapArray<String, Cell<T>> findColumnByRowValue(String rowName, String value) {
-        Cell<T> columnCell = findCellInRow(rowName, value);
-        return columnCell != null ? columns().getRow(columnCell.columnNum) : null;
-    }
-
-    public MapArray<String, Cell<T>> findRowByColumnValue(int colIndex, String value) {
-        Cell<T> rowCell = findCellInColumn(colIndex, value);
-        return rowCell != null ? rows().getColumn(rowCell.rowNum) : null;
-    }
-
-    public MapArray<String, Cell<T>> findRowByColumnValue(String colName, String value) {
-        Cell<T> rowCell = findCellInColumn(colName, value);
+    public MapArray<String, Cell<T>> row(String value, Column column) {
+        Cell<T> rowCell = cell(value, column);
         return rowCell != null ? rows().getColumn(rowCell.rowNum) : null;
     }
 

@@ -19,6 +19,7 @@ import com.epam.ui_test_framework.elements.interfaces.base.IHaveValue;
 import org.openqa.selenium.By;
 
 import static com.epam.ui_test_framework.utils.common.Timer.getByCondition;
+import static java.lang.String.format;
 
 /**
  * Button control implementation
@@ -34,10 +35,10 @@ public class ClickableText extends Clickable implements IClickableText, IHaveVal
 
     public final String getText() { return doJActionResult("Get text", this::getTextAction); }
     public final String getValue() { return doJActionResult("Get value", this::getTextAction); }
-    public final String waitText(String text) { return doJActionResult("Wait text",
+    public final String waitText(String text) { return doJActionResult(format("Wait text contains '%s'", text),
             () -> getByCondition(this::getTextAction, t -> t.contains(text)));
     }
-    public final String waitMatchText(String regEx) { return doJActionResult("Wait text",
+    public final String waitMatchText(String regEx) { return doJActionResult(format("Wait text match regex '%s'", regEx),
             () -> getByCondition(this::getTextAction, t -> t.matches(regEx)));
     }
 }

@@ -10,9 +10,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 
+
 import static com.epam.page_objects.enums.MCTTabs.*;
 import static com.epam.ui_test_framework.elements.BaseElement.InitElements;
-import static java.lang.Thread.sleep;
+import static com.epam.ui_test_framework.elements.complex.table.Column.column;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -36,6 +37,6 @@ public class ViewExperimentsTab {
         viewExpButton.click();
         assertTrue(mctTabs.waitSelected(SEARCH_EXPERIMENTS));
         mctTabs.select(SEARCH_RESULTS);
-        assertTrue(grid.isValueInColumn("Experiment Name", experiment.name));
+        assertTrue(grid.waitValue(experiment.name, column("Experiment Name")));
     }
 }

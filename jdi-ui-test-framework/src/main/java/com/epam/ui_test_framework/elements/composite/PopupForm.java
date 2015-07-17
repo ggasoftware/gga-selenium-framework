@@ -19,8 +19,8 @@ public class PopupForm<T> extends Form<T> implements IPopup {
     protected void buttonAction(Button button) {
         button.click();
     }
-    public void clickOk()       { buttonAction(getButton("Ok"));}
-    public void clickCancel()   { buttonAction(getButton("Cancel"));}
+    public void ok()       { buttonAction(getButton("Ok"));}
+    public void cancel()   { buttonAction(getButton("Cancel"));}
     public void close()         { buttonAction(getButton("Close"));}
 
     protected String getValueAction() { return ""; }
