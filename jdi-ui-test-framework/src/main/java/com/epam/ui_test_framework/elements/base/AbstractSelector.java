@@ -1,5 +1,6 @@
 package com.epam.ui_test_framework.elements.base;
 
+import com.epam.ui_test_framework.elements.complex.TextList;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

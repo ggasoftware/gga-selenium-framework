@@ -1,10 +1,10 @@
 package com.epam.page_objects.mct.custom;
 
-import com.epam.ui_test_framework.elements.complex.ComboBox;
 import com.epam.ui_test_framework.elements.common.Input;
+import com.epam.ui_test_framework.elements.complex.ComboBox;
 import org.openqa.selenium.By;
 
-import static com.epam.page_objects.mct.NewExperimentTab.*;
+import static com.epam.page_objects.mct.NewExperimentTab.newExperimentTab;
 
 /**
  * Created by Roman_Iovlev on 7/10/2015.

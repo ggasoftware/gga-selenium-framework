@@ -1,12 +1,14 @@
 package com.epam.page_objects.entities;
 
 import com.epam.page_objects.enums.AssayTypes;
+import com.epam.ui_test_framework.elements.page_objects.annotations.Complex;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.page_objects.enums.AssayTypes.*;
+import static com.epam.page_objects.enums.AssayTypes.FLUORESCENCE;
 import static com.epam.ui_test_framework.utils.common.PrintUtils.print;
+import static com.epam.ui_test_framework.utils.common.PrintUtils.printFields;
 import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
 
@@ -21,6 +23,8 @@ public class Experiment {
     public String project = "Amplex Red";
     public String target = "ELISA";
     public AssayTypes assayType = FLUORESCENCE;
+    @Complex public AmplexRedInfo amplexRedInfo;
+    @Complex public LCMCInfo lcmcInfo;
     public String source = "IVT";
     public String cellLine;
     public String date;
@@ -35,35 +39,23 @@ public class Experiment {
     public String readout;
 
     public String blotImage;
-    public String transfection;
+    public String transfectionControlImages;
     public String sampleIdentifiers;
 
-    public String assayName;
-    public String catalogNumber;
-    public String lotNumber;
-
     public String barCode;
-    public String proteinExprRes;
-    public String result;
-    public boolean goodBarCode=false;
 
     private List<String> changedFields = new ArrayList<>();
 
     public Experiment setAssayType(AssayTypes value) { assayType = value; changedFields.add("AssayType:" + value); return this; }
-    public Experiment setAssayName(String value) { assayName = value; changedFields.add("AssayName:" + value); return this; }
-    public Experiment setCatalogNumber(String value) { catalogNumber = value; changedFields.add("CatalogNumber:" + value); return this; }
-    public Experiment setLotNumber(String value) { lotNumber = value; changedFields.add("LotNumber:" + value); return this; }
+    public Experiment setAmplexRedInfo(AmplexRedInfo value) { amplexRedInfo = value; changedFields.add("AmplexRedInfo:" + printFields(value)); return this; }
+    public Experiment setLCMCInfo(LCMCInfo value) { lcmcInfo = value; changedFields.add("LCMCInfo:" + printFields(value)); return this; }
     public Experiment setTarget(String value) { target = value; changedFields.add("Target:" + value); return this; }
-    public Experiment setBarCode(String value, Boolean flag) { barCode = value; goodBarCode = flag;
-        changedFields.add("BarCode:" + value); changedFields.add("BarCodeFlag:" + value); return this; }
     public Experiment setPlatemap(String value) { platemap = value; changedFields.add("Platemap:" + value); return this; }
     public Experiment setReadout(String value) { readout = value; changedFields.add("Readout:" + value); return this; }
     public Experiment setComment(String value) { comment = value; changedFields.add("Comment:" + value); return this; }
-    public Experiment setProtein(String value) { proteinExprRes = value; changedFields.add("ProteinExprRes:" + value); return this; }
-    public Experiment setResult(String value) { result = value; changedFields.add("ResultAcceptable:" + value); return this; }
 
     public Experiment setBlotImage(String value) { blotImage = value; changedFields.add("BlotImage:" + value); return this; }
-    public Experiment setTransfection(String value) { transfection = value; changedFields.add("TransfectionControlImages:" + value); return this; }
+    public Experiment setTransfectionControlImages(String value) { transfectionControlImages = value; changedFields.add("TransfectionControlImages:" + value); return this; }
     public Experiment setSampleIdentifiers(String value) { sampleIdentifiers = value; changedFields.add("SampleIdentifiers:" + value); return this; }
 
     public Experiment() {
@@ -71,7 +63,7 @@ public class Experiment {
     }
 
 
-    public Experiment(String name, String Project,String Target, AssayTypes AssayType, String Source, String CellLine, String Date, String CellPassage, String BlotImage, String transfection, String CellCount,
+    public Experiment(String name, String Project,String Target, AssayTypes AssayType, String Source, String CellLine, String Date, String CellPassage, String BlotImage, String TransfectionControlImages, String CellCount,
                       String Platemap, String Readout, String Attachments, String Comment, String transfectedDate, String TransfectedBy, String SampleIdentifiers) {
         this.name = name;
         this.project = Project;
@@ -82,7 +74,7 @@ public class Experiment {
         this.date = Date;
         this.cellPassage = CellPassage;
         this.blotImage = BlotImage;
-        this.transfection = transfection;
+        this.transfectionControlImages = TransfectionControlImages;
         this.cellCount = CellCount;
         this.platemap = Platemap;
         this.readout = Readout;
@@ -113,19 +105,16 @@ public class Experiment {
         setAssayType(assayType);
         switch(assayType) {
             case AMPLEX_RED:
-                setAssayName("Name " + assayType);
-                setCatalogNumber("PT00037340");
-                setLotNumber("1777594.1");
+                setAmplexRedInfo(new AmplexRedInfo());
                 break;
             case LC_MS:
-                setProtein("Protein experiment resource");
-                setResult("Acceptable");
+                setLCMCInfo(new LCMCInfo());
                 break;
         }
         switch (assayType) {
             case WESTERN_BLOT:
                 setBlotImage("FvX08tk0jSk.jpg");
-                setTransfection("724804700.jpg");
+                setTransfectionControlImages("724804700.jpg");
                 setSampleIdentifiers("PT00037331");
                 break;
             case AMPLEX_RED:

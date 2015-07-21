@@ -1,4 +1,4 @@
-package com.epam.ui_test_framework.elements.base;
+package com.epam.ui_test_framework.elements.complex;
 
 import com.epam.ui_test_framework.elements.interfaces.complex.ITextList;
 import com.epam.ui_test_framework.elements.BaseElement;

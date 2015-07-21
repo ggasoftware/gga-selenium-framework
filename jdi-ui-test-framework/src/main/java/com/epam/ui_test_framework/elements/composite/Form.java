@@ -1,16 +1,23 @@
 package com.epam.ui_test_framework.elements.composite;
 
 import com.epam.ui_test_framework.elements.base.Element;
+import com.epam.ui_test_framework.elements.interfaces.base.IHaveValue;
 import com.epam.ui_test_framework.elements.interfaces.complex.IForm;
 import com.epam.ui_test_framework.elements.interfaces.base.ISetValue;
+import com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions;
+import com.epam.ui_test_framework.utils.common.PrintUtils;
+import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.epam.ui_test_framework.elements.page_objects.annotations.AnnotationsUtil.getElementName;
+import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.SUBMIT_BUTTON;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.first;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.foreach;
+import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
+import static com.epam.ui_test_framework.utils.common.PrintUtils.*;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFieldValue;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFields;
 
@@ -27,27 +34,38 @@ public class Form<T> extends Element implements IForm<T> {
         element.setValue(text);
     }
 
-    public void fill(T entity) {
-        if (entity == null) return;
-        List<Field> values = getFields(entity, Object.class);
+    protected void fill(MapArray<String, String> objStrings) {
         foreach(getFields(this, ISetValue.class), element -> {
-            Field fieldWithName = first(values, value ->
-                    namesEqual(getElementName(value), getElementName(element)));
-            if (fieldWithName != null) {
-                Object fieldValue = getFieldValue(fieldWithName, entity);
-                String value = (fieldValue == null) ? null : fieldValue.toString();
+            String fieldValue = objStrings.first(name ->
+                    namesEqual(name, getElementName(element)));
+            if (fieldValue != null) {
                 ISetValue seValueElement = (ISetValue) getFieldValue(element, this);
-                setValueRule.invoke(value, val -> setValueAction(val, seValueElement));
+                setValueRule.invoke(fieldValue, val -> setValueAction(val, seValueElement));
             }
         });
+    }
+    public void fill(T entity) {
+        fill(objToSetValue(entity));
     }
 
     private boolean namesEqual(String name1, String name2) {
         return name1.toLowerCase().replace(" ", "").equals(name2.toLowerCase().replace(" ", ""));
     }
 
-    public void submit(T entity) {
-        fill(entity);
-        getButton("submit").click();
+    protected void submit(MapArray<String, String> objStrings) {
+        fill(objStrings);
+        getButton(SUBMIT_BUTTON).click();
     }
+    public void submit(T entity) {
+        submit(objToSetValue(entity));
+    }
+    protected void setValueAction(String value) {
+        submit(parseObjectAsString(value));
+    }
+    protected String getValueAction() {
+        return print(select(getFields(this, IHaveValue.class), field ->
+                ((IHaveValue) getFieldValue(field, this)).getValue()));
+    }
+    public final void setValue(String value) { doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction)); }
+    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
 }

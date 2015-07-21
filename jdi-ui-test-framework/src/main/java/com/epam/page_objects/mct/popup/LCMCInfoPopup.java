@@ -3,10 +3,9 @@ package com.epam.page_objects.mct.popup;
 import com.epam.page_objects.entities.Experiment;
 import com.epam.ui_test_framework.elements.complex.Dropdown;
 import com.epam.ui_test_framework.elements.composite.PopupForm;
-import com.epam.ui_test_framework.elements.interfaces.common.IButton;
-import com.epam.ui_test_framework.elements.interfaces.complex.IDropDown;
-import com.epam.ui_test_framework.elements.interfaces.common.IInput;
-import com.epam.ui_test_framework.elements.page_objects.annotations.Function;
+import com.epam.ui_test_framework.elements.interfaces.common.*;
+import com.epam.ui_test_framework.elements.interfaces.complex.*;
+import com.epam.ui_test_framework.elements.page_objects.annotations.functions.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
@@ -22,9 +21,9 @@ public class LCMCInfoPopup extends PopupForm<Experiment> {
             By.xpath("//*[@class='k-input' and text()='Select...']"),
             By.xpath("//ul[@aria-hidden='false']/li[text()='%s']"));
 
-    @FindBy(xpath = "//button[contains(text(),'OK')]") @Function(value = "ok")
+    @FindBy(xpath = "//button[contains(text(),'OK')]") @OkButton
     private IButton okButton;
-    @FindBy(xpath = "//button[contains(text(),'Cancel')]") @Function(value = "cancel")
+    @FindBy(xpath = "//button[contains(text(),'Cancel')]") @CancelButton
     private IButton cancelButton;
 
 

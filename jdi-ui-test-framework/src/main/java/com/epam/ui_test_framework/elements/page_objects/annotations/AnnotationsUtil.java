@@ -1,9 +1,14 @@
 package com.epam.ui_test_framework.elements.page_objects.annotations;
 
+import com.epam.ui_test_framework.elements.page_objects.annotations.functions.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
+
+import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.*;
+import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.NONE;
+import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.POPUP_TEXT;
 
 /**
  * Created by roman.i on 25.09.2014.
@@ -25,11 +30,21 @@ public class AnnotationsUtil {
             return splitCamelCase(field.getName());
         }
     }
-    public static String getFunction(Field field) {
-        return (field.isAnnotationPresent(Function.class))
-            ? field.getAnnotation(Function.class).value()
-            : "";
+
+    public static Functions getFunction(Field field) {
+        if (field.isAnnotationPresent(OkButton.class))
+            return OK_BUTTON;
+        if (field.isAnnotationPresent(SubmitButton.class))
+            return SUBMIT_BUTTON;
+        if (field.isAnnotationPresent(CloseButton.class))
+            return CLOSE_BUTTON;
+        if (field.isAnnotationPresent(CancelButton.class))
+            return CANCEL_BUTTON;
+        if (field.isAnnotationPresent(PopupText.class))
+            return POPUP_TEXT;
+        return NONE;
     }
+
     private static String splitCamelCase(String camel) {
         String result = (camel.charAt(0) + "").toUpperCase();
         for (int i = 1; i < camel.length() - 1; i++)

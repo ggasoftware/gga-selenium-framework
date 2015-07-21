@@ -1,21 +1,20 @@
 package com.epam.page_objects.mct.popup;
 
 import com.epam.ui_test_framework.elements.composite.Popup;
-import com.epam.ui_test_framework.elements.interfaces.common.IButton;
-import com.epam.ui_test_framework.elements.interfaces.common.IText;
-import com.epam.ui_test_framework.elements.page_objects.annotations.Function;
+import com.epam.ui_test_framework.elements.interfaces.common.*;
+import com.epam.ui_test_framework.elements.page_objects.annotations.functions.*;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * Created by Nataliia_Garkusha on 15-Jun-15.
  */
 public class MCTInfo extends Popup {
-    @FindBy(css = ".mct-dialog-text") @Function(value = "text")
+    @FindBy(css = ".mct-dialog-text") @PopupText
     private IText infoText;
 
-    @FindBy(xpath = "//button[contains(text(),'OK')]") @Function(value = "ok")
+    @FindBy(xpath = "//button[contains(text(),'OK')]") @OkButton
     private IButton okButton;
-    @FindBy(xpath = "//button[contains(text(),'Cancel')]") @Function(value = "cancel")
+    @FindBy(xpath = "//button[contains(text(),'Cancel')]") @CancelButton
     private IButton cancelButton;
 
     public String getExperimentId(){

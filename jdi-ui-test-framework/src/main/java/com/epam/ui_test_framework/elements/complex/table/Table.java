@@ -223,10 +223,9 @@ public class Table<T extends IClickableText> extends Text implements ITable<T> {
     }
 
     public Cell<T> cell(String value, Column column) {
-        int colIndex = (column.haveName())
-                ? asList(columns().headers()).indexOf(column.getName()) + 1
-                : column.getNum();
-
+        int colIndex = column.get(
+                name -> asList(columns().headers()).indexOf(name) + 1,
+                num -> num);
         for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
             Cell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
             if (cell.getValue().equals(value)) return cell;

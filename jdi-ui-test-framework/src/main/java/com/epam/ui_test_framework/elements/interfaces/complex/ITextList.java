@@ -22,7 +22,7 @@ public interface ITextList<TEnum extends Enum> extends IBaseElement, IHaveValue,
     @JDIAction
     String getText(String name);
     @JDIAction
-    String getText(int name);
+    String getText(int index);
     @JDIAction
     String getText(TEnum enumName);
     @JDIAction

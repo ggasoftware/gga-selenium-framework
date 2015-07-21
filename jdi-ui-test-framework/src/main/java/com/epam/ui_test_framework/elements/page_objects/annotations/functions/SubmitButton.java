@@ -1,4 +1,4 @@
-package com.epam.ui_test_framework.elements.page_objects.annotations;
+package com.epam.ui_test_framework.elements.page_objects.annotations.functions;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,6 +10,5 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
-public @interface Function {
-    String value() default "";
+public @interface SubmitButton {
 }

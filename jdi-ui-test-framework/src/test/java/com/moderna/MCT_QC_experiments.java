@@ -2,7 +2,6 @@ package com.moderna;
 
 import com.epam.page_objects.dataProviders.ExperimentsProviders;
 import com.epam.page_objects.entities.Experiment;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,7 +12,8 @@ import static com.epam.page_objects.enums.Preconditions.MCT_New_Experiment_Defin
 import static com.epam.page_objects.mct.NewExperimentTab.newExperimentTab;
 import static com.epam.page_objects.mct.ViewExperimentsTab.viewExperimentsTab;
 import static com.epam.page_objects.mct.login.Portal.portal;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.*;
+import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.logger;
+import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.testName;
 import static java.lang.String.format;
 
 /**

@@ -15,6 +15,13 @@ public enum Preconditions {
     CHEMISTRY("chemistry/#smth"),
     INVENTORY("inventory"),
     MCT("mct"),
+    Result("ResultTab"),
+    MCT_ViewExperiments_Search_Experiments("mct/#ViewExperiments/SearchExperiments"),
+    MCT_ViewExperiments_Search_Results("mct/#ViewExperiments/SearchExperiments"),
+    MCT_ViewExperiments_Readout("mct/#ViewExperiments/Readout"),
+    MCT_ViewExperiments_Platemap("mct/#ViewExperiments/Platemap"),
+    MCT_ViewExperiments_Calibration("mct/#ViewExperiments/SearchExperiments"),
+    MCT_ViewExperiments_Results("mct/#ViewExperiments/SearchExperiments"),
     MCT_New_Experiment_Define_Experiment(() -> false,
             () -> {
                 if (!checkUrl("mct/#NewExperiment//DefineExperiment"))

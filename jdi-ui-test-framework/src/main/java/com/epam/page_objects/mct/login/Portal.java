@@ -2,8 +2,7 @@ package com.epam.page_objects.mct.login;
 
 import com.epam.page_objects.enums.Preconditions;
 import com.epam.ui_test_framework.elements.base.Element;
-import com.epam.ui_test_framework.elements.interfaces.common.IButton;
-import com.epam.ui_test_framework.elements.interfaces.common.ILabel;
+import com.epam.ui_test_framework.elements.interfaces.common.*;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 
@@ -25,7 +24,7 @@ public class Portal extends Element {
 
     public static String modernaUrl = "https://portal-auto-test.modernatx.com/";
 
-    @FindBy(css = ".app-user-info")         public  IButton loginInfo;
+    @FindBy(css = ".app-user-info")         public IButton loginInfo;
     @FindBy(css = ".app-logo")              private ILabel homePageLogo;
     @FindBy(css = "a[href='logoutUser']")   private IButton logutLink;
 

@@ -5,7 +5,7 @@ import com.epam.ui_test_framework.elements.apiInteract.GetElementModule;
 import com.epam.ui_test_framework.elements.base.Clickable;
 import com.epam.ui_test_framework.elements.base.Element;
 import com.epam.ui_test_framework.elements.base.ElementsGroup;
-import com.epam.ui_test_framework.elements.base.TextList;
+import com.epam.ui_test_framework.elements.complex.TextList;
 import com.epam.ui_test_framework.elements.complex.*;
 import com.epam.ui_test_framework.elements.complex.table.Table;
 import com.epam.ui_test_framework.elements.interfaces.base.*;
@@ -14,7 +14,9 @@ import com.epam.ui_test_framework.elements.interfaces.common.*;
 import com.epam.ui_test_framework.elements.page_objects.annotations.Frame;
 import com.epam.ui_test_framework.elements.page_objects.annotations.JFindBy;
 import com.epam.ui_test_framework.elements.common.*;
+import com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions;
 import com.epam.ui_test_framework.logger.LogSettings;
+import com.epam.ui_test_framework.utils.common.Timer;
 import com.epam.ui_test_framework.utils.interfaces.IScenario;
 import com.epam.ui_test_framework.utils.interfaces.IScenarioWithResult;
 import com.epam.ui_test_framework.utils.linqInterfaces.*;
@@ -29,6 +31,7 @@ import java.lang.reflect.Field;
 
 import static com.epam.ui_test_framework.elements.base.Element.highlight;
 import static com.epam.ui_test_framework.elements.page_objects.annotations.AnnotationsUtil.*;
+import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.NONE;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.foreach;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.*;
@@ -53,7 +56,7 @@ public abstract class BaseElement implements IBaseElement {
     private String name;
     public String getName() { return name != null ? name : getTypeName(); }
     public void setName(String name) { this.name = name; }
-    public String function = "";
+    public Functions function = NONE;
 
     public boolean haveLocator() { return avatar.haveLocator(); }
     public WebDriver getDriver() { return avatar.getDriver(); }
@@ -87,7 +90,7 @@ public abstract class BaseElement implements IBaseElement {
     }
 
     public static IScenario invocationScenario = (element, actionName, jAction) -> {
-        ignoreException(() -> sleep(100));
+        sleep(100);
         element.logAction(actionName);
         alwaysDoneAction(jAction::invoke);
     };
@@ -96,6 +99,8 @@ public abstract class BaseElement implements IBaseElement {
         public <TResult> TResult invoke(BaseElement element, String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
             sleep(100);
             element.logAction(actionName);
+            Timer timer = new Timer();
+            timer.timePassedInMSec();
             TResult result = getResultAction(jAction::invoke);
             String stringResult = (logResult == null)
                     ? result.toString()

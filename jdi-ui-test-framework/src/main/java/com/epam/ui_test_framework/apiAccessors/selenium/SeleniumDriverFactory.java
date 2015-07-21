@@ -1,5 +1,6 @@
 package com.epam.ui_test_framework.apiAccessors.selenium;
 
+import com.epam.ui_test_framework.apiAccessors.IAPIAvatar;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,7 +15,7 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public class SeleniumDriverFactory/* implements IAPIAvatar<WebElementAvatar>, WebDriver */{
+public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, WebDriver*/ {
     private MapArray<String, WebDriver> drivers = new MapArray<>();
     public void registerDriver(WebDriver driver) {
         registerDriver("Driver" + drivers.size() + 1, driver);

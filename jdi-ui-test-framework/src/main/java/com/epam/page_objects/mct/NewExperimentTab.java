@@ -1,28 +1,27 @@
 package com.epam.page_objects.mct;
 
 import com.epam.page_objects.entities.Experiment;
-import com.epam.page_objects.enums.*;
-import com.epam.page_objects.mct.custom.*;
-import com.epam.ui_test_framework.elements.base.ElementsGroup;
+import com.epam.page_objects.enums.AssayTypes;
+import com.epam.page_objects.enums.MCTTabs;
+import com.epam.page_objects.mct.custom.ModernaTabs;
+import com.epam.page_objects.mct.popup.AmplexRedInfoPopup;
+import com.epam.page_objects.mct.popup.LCMCInfoPopup;
 import com.epam.ui_test_framework.elements.complex.Dropdown;
-import com.epam.ui_test_framework.elements.composite.*;
-import com.epam.ui_test_framework.elements.interfaces.complex.*;
+import com.epam.ui_test_framework.elements.composite.Form;
 import com.epam.ui_test_framework.elements.interfaces.common.*;
-import com.epam.ui_test_framework.elements.common.*;
+import com.epam.ui_test_framework.elements.interfaces.complex.*;
+import com.epam.ui_test_framework.elements.page_objects.annotations.functions.SubmitButton;
 import org.openqa.selenium.By;
-
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 
-import static com.epam.page_objects.enums.ExperimentButtons.*;
-import static com.epam.page_objects.enums.ExperimentInputs.*;
 import static com.epam.page_objects.enums.MCTTabs.*;
-import static com.epam.page_objects.mct.popup.Popups.*;
+import static com.epam.page_objects.mct.popup.Popups.mctInfoPopup;
+import static com.epam.ui_test_framework.utils.common.Timer.sleep;
 import static com.epam.ui_test_framework.utils.common.Timer.waitCondition;
 import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.seleniumFactory;
-import static com.epam.ui_test_framework.utils.usefulUtils.TryCatchUtil.*;
-import static com.epam.ui_test_framework.utils.common.Timer.sleep;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Maksim_Palchevskii on 6/5/2015.
@@ -36,24 +35,28 @@ public class NewExperimentTab extends Form<Experiment> {
     private ITabs<MCTTabs> mctTabs = new ModernaTabs(
             By.xpath("//*[@data-role='tabstrip']//li[*[text()='%s']]"),
             By.xpath("//*[@data-role='tabstrip']//li/a"));
-    private IInput name = new Input(By.cssSelector("input[name=name]")) {
-            @Override
-            protected void inputAction(String text) {
-                ignoreException(() -> sleep(500));
-                super.inputAction(text);
-            }
-        };
-    private IComboBox project = new ModernaCombobox<>(
-            By.xpath("//*[*[@class='k-input' and @placeholder='Select Project...']]/span"),
-            By.xpath("//ul[@aria-hidden='false']/li[text()='%s']"));
-    private IComboBox target = new ModernaCombobox<>(
-            By.xpath("//*[@class='k-input' and @placeholder='Select Target...']"));
+
+    @FindBy(css = "input[name=name]")           private IInput name;
+
+    @FindBy(xpath = "//*[@class='k-input' and @placeholder='Select Project...']")
+    private IComboBox project;
+    @FindBy(xpath = "//*[@class='k-input' and @placeholder='Select Target...']")
+    private IComboBox target;
     private IDropDown<AssayTypes> assayType = new Dropdown<>(
             By.xpath("//*[@class='k-input' and text()='Select Assay Type...']"),
             By.xpath("//ul[@aria-hidden='false']/li[text()='%s']"));
-    private IComboBox source = new ModernaCombobox<>(
-            By.xpath("//*[@class='k-input' and @placeholder='Select Source...']"));
-    private IGroup<ExperimentInputs, Input> expInputs = new ElementsGroup<>(By.cssSelector("input[name=%s]"), Input.class);
+    private AmplexRedInfoPopup amplexRedInfo;
+    private LCMCInfoPopup lcmcInfo;
+    @FindBy(xpath = "//*[@class='k-input' and @placeholder='Select Source...']")
+    private IComboBox source;
+    @FindBy(css = "input[name=cellType_input]")         private IInput cellLine;
+    @FindBy(css = "input[name=cellCountInMillions]")    private IInput cellCount;
+    @FindBy(css = "input[name=transfectedDate]")        private IDatePicker transfectedDate;
+    @FindBy(css = "select[name=transfectedBy]")         private IDropDown transfectionBy;
+
+    @FindBy(xpath = "//*[contains(@data-bind, 'form.comment')")     private ITextArea commentInput;
+    @FindBy(css = "[data-bind='text: experiment.name']")            private ILabel savedExperimentLabel;
+
     @FindBy(css = "input[name=blot_images]")                 private IFileInput blotImage;
     @FindBy(css = "input[name=transfection_control_images]") private IFileInput transfection;
     @FindBy(css = "textarea[name=containersString]")         private ITextArea sampleIdentifiers;
@@ -63,12 +66,12 @@ public class NewExperimentTab extends Form<Experiment> {
 
     @FindBy(css = "input[name=support]")    private IFileInput attachments;
 
-    @FindBy(xpath = "//*[contains(@data-bind, 'form.comment')")     private ITextArea commentInput;
-    @FindBy(css = "select[name=transfectedBy]")                     private IDropDown transfectionBy;
-    @FindBy(css = "select[name=transfectedDate]")                   private IDatePicker transfectedDate;
-    @FindBy(css = "[data-bind='text: experiment.name']")            private ILabel savedExperimentLabel;
-
-    private IGroup<ExperimentButtons, Button> expButtons = new ElementsGroup<>(By.xpath("//button[*[text()='%s']]"), Button.class);
+    @FindBy(xpath = "//button[*[text()='New Experiment']]")     private IButton newExperimentButton;
+    @FindBy(xpath = "//button[*[text()='Save']]")               private IButton saveButton;
+    @FindBy(xpath = "//button[*[text()='Save & Publish']]")     private IButton savePublishButton;
+    @FindBy(xpath = "//button[*[text()='Publish']]")            private IButton publishButton;
+    @SubmitButton
+    @FindBy(xpath = "//button[*[text()='Save & Next']]")        private IButton saveNextButton;
 
     @FindBy(xpath = "//td/a[@class='btn-comment k-state-default']") private IButton commentExpBtn;
 
@@ -77,16 +80,19 @@ public class NewExperimentTab extends Form<Experiment> {
             mctTabs.select(DEFINE_EXPERIMENT);
         else
             seleniumFactory.getDriver().navigate().refresh();
-
         name.waitDisplayed();
     }
 
     // Create Experiment Save and Publish
     @Step
     public void createExperiment(Experiment experiment) {
-        newSaveNextExperiment(experiment);
+        submit(experiment);
         checkExperimentSave(experiment);
         publishExperiment(experiment);
+    }
+
+    public void openMCTTab(MCTTabs mctTab) {
+        mctTabs.select(mctTab);
     }
 
     private void checkExperimentSave(Experiment experiment) {
@@ -102,55 +108,13 @@ public class NewExperimentTab extends Form<Experiment> {
         }
     }
 
-    public void openMCTTab(MCTTabs mctTab) {
-        mctTabs.select(mctTab);
-    }
-
-
-    // Create Experiment SaveNext and Publish
-    @Step
-    public void newSaveNextExperiment(Experiment experiment) {
-        // Mandatory fields
-        name.waitDisplayed();
-        name.newInput(experiment.name);
-        project.select(experiment.project);
-        target.newInput(experiment.target);
-        assayType.select(experiment.assayType);
-        switch(experiment.assayType) {
-            case AMPLEX_RED:
-                amplexRedInfoPopup().submit(experiment);
-                break;
-            case LC_MS:
-                lcmCInfoPopup().submit(experiment);
-                break;
-        }
-        source.newInput(experiment.source);
-
-        platemap.newInput(experiment.platemap);
-        readout.newInput(experiment.readout);
-
-        blotImage.newInput(experiment.blotImage);
-        transfection.newInput(experiment.transfection);
-        sampleIdentifiers.newInput(experiment.sampleIdentifiers);
-
-        expInputs.get(CELL_LINE).newInput(experiment.cellLine);
-        expInputs.get(CELL_COUNT).newInput(experiment.cellCount);
-        expInputs.get(CELL_PASSAGE).newInput(experiment.cellPassage);
-        commentInput.newInput(experiment.comment);
-        transfectionBy.select(experiment.transfectedBy);
-        transfectedDate.newInput(experiment.transfectedDate);
-
-        expButtons.get(SAVE_NEXT).click();
-    }
-
     // Create Experiment Publish
     @Step
     public void publishExperiment(Experiment experiment) {
-        expButtons.get(PUBLISH).click();
+        publishButton.click();
         sleep(500);
         mctInfoPopup().ok();
         experiment.id = mctInfoPopup().getExperimentId();
         mctInfoPopup().ok();
     }
-
 }

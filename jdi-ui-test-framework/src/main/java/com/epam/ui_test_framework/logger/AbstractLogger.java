@@ -5,6 +5,8 @@ import com.epam.ui_test_framework.logger.enums.LogInfoTypes;
 import com.epam.ui_test_framework.logger.enums.LogLevels;
 import com.epam.ui_test_framework.utils.map.MapArray;
 
+import java.util.Objects;
+
 import static com.epam.ui_test_framework.logger.enums.LogInfoTypes.*;
 import static com.epam.ui_test_framework.logger.enums.LogLevels.*;
 import static com.epam.ui_test_framework.logger.enums.BusinessInfoTypes.*;

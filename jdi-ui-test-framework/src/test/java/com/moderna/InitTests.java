@@ -1,7 +1,7 @@
 package com.moderna;
 
-import com.epam.page_objects.mct.custom.ModernaCombobox;
-import com.epam.page_objects.mct.custom.ModernaFileInput;
+import com.epam.page_objects2.mct.custom.ModernaCombobox;
+import com.epam.page_objects2.mct.custom.ModernaFileInput;
 import com.epam.ui_test_framework.elements.interfaces.complex.IComboBox;
 import com.epam.ui_test_framework.elements.interfaces.common.IFileInput;
 import com.epam.ui_test_framework.utils.common.Timer;
@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeSuite;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.epam.page_objects.mct.login.Portal.modernaUrl;
+import static com.epam.page_objects2.mct.login.Portal.modernaUrl;
 import static com.epam.ui_test_framework.elements.BaseElement.getInterfaceMap;
 import static com.epam.ui_test_framework.utils.common.StringUtils.LineBreak;
 import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.logger;

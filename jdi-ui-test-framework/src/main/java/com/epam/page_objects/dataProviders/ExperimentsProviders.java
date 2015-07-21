@@ -1,7 +1,6 @@
 package com.epam.page_objects.dataProviders;
 
 import com.epam.page_objects.entities.Experiment;
-import com.epam.page_objects.enums.AssayTypes;
 import org.testng.annotations.DataProvider;
 
 import static com.epam.page_objects.enums.AssayTypes.*;

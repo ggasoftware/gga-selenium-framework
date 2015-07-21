@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import java.io.File;
 
 import static com.epam.ui_test_framework.utils.usefulUtils.TryCatchUtil.tryGetResult;
-import static java.lang.Thread.sleep;
 import static java.net.URLDecoder.decode;
 
 /**
@@ -17,10 +16,13 @@ public class ModernaFileInput extends FileInput {
     public ModernaFileInput(By byLocator) { super(byLocator); avatar.localElementSearchCriteria = el -> true; }
 
     private String workingDir = tryGetResult(() -> decode(new File(
-            new File(".").getCanonicalPath()) + "\\jdi-ui-test-framework\\src\\main\\resources\\", "UTF-8"));
+            getClass().getResource("").getPath()).getParentFile().getParentFile().getParentFile().getParentFile().getParent().replace("jdi-ui-test-framework", "moderna_common") + "\\", "UTF-8"));
 
     @Override
-    protected void inputAction(String text) { super.inputAction(workingDir + text); }
+    protected void inputAction(String text) {
+        super.inputAction(workingDir + text);
+    }
+
     @Override
     protected void clearAction() { }
 }

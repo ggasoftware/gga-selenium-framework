@@ -19,6 +19,7 @@ import com.epam.ui_test_framework.elements.interfaces.common.IButton;
 import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.common.Text;
+import com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions;
 import com.epam.ui_test_framework.logger.LogSettings;
 import com.epam.ui_test_framework.utils.common.Timer;
 import com.epam.ui_test_framework.utils.settings.HighlightSettings;
@@ -73,12 +74,12 @@ public class Element extends BaseElement implements IElement {
         } catch (Exception ex) { asserter.exception("Can't copy element: " + element); return null; }
     }
 
-    protected Button getButton(String funcName) {
+    protected Button getButton(Functions funcName) {
         List<Field> fields = getFields(this, IButton.class);
         if (fields.size() == 1)
             return (Button) getFieldValue(fields.get(0), this);
         Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
-        Button button = first(buttons, b -> b.function.toLowerCase().equals(funcName.toLowerCase()));
+        Button button = first(buttons, b -> b.function.equals(funcName));
         if (button == null) {
             asserter.exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
             return null;
@@ -87,9 +88,9 @@ public class Element extends BaseElement implements IElement {
     }
 
     protected Text getTextElement() {
-        Field textField = first(getClass().getDeclaredFields(), f -> f.getType() == Text.class);
+        Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
         if (textField!= null) return (Text) getFieldValue(textField, this);
-        asserter.exception(format("Can't find text element for element '%s'", toString()));
+        asserter.exception(format("Can't find Text element '%s'", toString()));
         return null;
     }
 

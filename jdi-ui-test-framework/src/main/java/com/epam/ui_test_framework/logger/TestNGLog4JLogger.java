@@ -12,7 +12,7 @@ import static org.testng.Reporter.log;
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
-public class GGALogger extends AbstractLogger {
+public class TestNGLog4JLogger extends AbstractLogger {
     @Override
     public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
         testNGLogger.inLog(message, logLevel, logInfoType);
@@ -27,8 +27,8 @@ public class GGALogger extends AbstractLogger {
     private Log4JLogger log4J;
     private TestNGLogger testNGLogger;
 
-    public GGALogger() { this(INFO); }
-    public GGALogger(LogLevels logLevel) {
+    public TestNGLog4JLogger() { this(INFO); }
+    public TestNGLog4JLogger(LogLevels logLevel) {
         super(logLevel);
         log4J = new Log4JLogger(logLevel);
         testNGLogger = new TestNGLogger(logLevel);
