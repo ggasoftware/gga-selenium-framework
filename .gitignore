@@ -1,4 +1,6 @@
 *.iml
 .idea/
 target/
-com.moderna/
+moderna/
+page_objects/
+page_objects2/
