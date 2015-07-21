@@ -29,7 +29,7 @@ public class MCT_QC_experiments extends InitTests {
 
     @Test(dataProvider = "assayTypesExperiments", dataProviderClass = ExperimentsProviders.class)
     public void createSavePublish(Experiment experiment) {
-        logger.test(format(" * Jira:  MCT-803, MCT-813, MCT-814, MCT-815, MCT-816, MCT-817\n" +
+        logger.test(format(
                 "     Steps:\n" +
                 "     1) Create new experiment with assayType '%s'" +
                 "     2) Check that experiment created successfully"
