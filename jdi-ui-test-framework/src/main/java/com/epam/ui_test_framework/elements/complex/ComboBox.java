@@ -45,11 +45,11 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
     private SelectElement selector;
 
     protected Input createInputAction(By valueLocator) { return new Input(valueLocator); }
-/*
+
     protected void inputAction(String text) { input.input(text); }
-    protected void inputAction(Object obj) { input.input(obj); }
     protected void clearAction() { input.clear(); }
-    protected void focusAction() { input.focus(); }*/
+    protected void focusAction() { input.focus(); }
+
     @Override
     protected void setValueAction(String value) { newInput(value); }
     @Override

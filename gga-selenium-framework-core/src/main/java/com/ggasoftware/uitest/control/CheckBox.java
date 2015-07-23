@@ -13,12 +13,9 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
-import com.ggasoftware.uitest.utils.ReporterNGExt;
-import com.ggasoftware.uitest.utils.Timer;
-import org.openqa.selenium.WebElement;
-
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
-import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
+import com.ggasoftware.uitest.control.interfaces.common.ICheckBox;
+import com.ggasoftware.uitest.control.new_controls.base.Clickable;
+import org.openqa.selenium.By;
 
 /**
  * Checkbox control implementation
@@ -26,8 +23,9 @@ import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
  * @author Alexeenko Yan
  * @author Belousov Andrey
  */
-public class CheckBox<ParentPanel> extends Element<ParentPanel> {
-
+public class CheckBox<ParentPanel> extends Clickable<ParentPanel> implements ICheckBox<ParentPanel> {
+    public CheckBox() { }
+    public CheckBox(By valueLocator) { super(valueLocator); }
     //constructor
 
     /**
@@ -42,42 +40,38 @@ public class CheckBox<ParentPanel> extends Element<ParentPanel> {
         super(name, locator, parentPanel);
     }
 
-    /**
-     * @return True if the element is currently checked, false otherwise.
-     */
-    public boolean isChecked() {
-        return (Boolean) logGetter(this, getParentClassName(), "Checked", getWebElement().isSelected());
+    protected ParentPanel checkAction() {
+        if (!isCheckedAction())
+            clickAction();
+        return parent;
+    }
+    protected ParentPanel uncheckAction() {
+        if (isCheckedAction())
+            clickAction();
+        return parent;
+    }
+    protected boolean isCheckedAction() { return getWebElement().isSelected(); }
+    protected String getValueAction() { return isChecked() + ""; }
+    protected void setValueAction(String value) {
+        if (value == null) return;
+        if (value.toLowerCase().equals("true") || value.toLowerCase().equals("1"))
+            check();
+        if (value.toLowerCase().equals("false") || value.toLowerCase().equals("0"))
+            uncheck();
     }
 
-    /**
-     * Check if the element is not checked eat, do nothing otherwise.
-     *
-     * @return Parent Panel instance
-     */
-    public ParentPanel check() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Check");
-        alwaysDoneAction(() -> {
-            WebElement webEl = getWebElement();
-            if (!webEl.isSelected())
-                webEl.click();
-        });
-        return super.parent;
+    public final ParentPanel check() {
+        return doJActionResult("Check Checkbox", this::checkAction);
+    }
+    public final ParentPanel uncheck() {
+        return doJActionResult("Uncheck Checkbox", this::uncheckAction);
+    }
+    public final boolean isChecked() {
+        return doJActionResult("IsChecked",
+                this::isCheckedAction,
+                result -> "Checkbox is " + (result ? "checked" : "unchecked"));
     }
 
-    /**
-     * Uncheck if the element is checked, do nothing otherwise.
-     *
-     * @return Parent Panel instance
-     */
-    public ParentPanel uncheck() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Uncheck");
-        alwaysDoneAction(() -> {
-            WebElement webEl = getWebElement();
-            if (webEl.isSelected()) {
-                webEl.click();
-            }
-        });
-        return super.parent;
-    }
-
+    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
+    public final void setValue(String value) { doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction)); }
 }

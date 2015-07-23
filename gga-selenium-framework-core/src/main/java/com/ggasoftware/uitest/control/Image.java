@@ -13,13 +13,18 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.control.interfaces.common.IImage;
+import com.ggasoftware.uitest.control.new_controls.base.Clickable;
+import org.openqa.selenium.By;
+
 /**
  * Image control implementation
  *
  * @author Alexeenko Yan
  */
-public class Image<ParentPanel> extends Element<ParentPanel> {
-
+public class Image<ParentPanel> extends Clickable<ParentPanel> implements IImage<ParentPanel> {
+    public Image() { }
+    public Image(By valueLocator) { super(valueLocator); }
     //constructor
 
     /**
@@ -34,4 +39,10 @@ public class Image<ParentPanel> extends Element<ParentPanel> {
         super(name, locator, parentPanel);
     }
 
+    public String getSource() {
+        return getWebElement().getAttribute("src");
+    }
+    public String getAlt() {
+        return getWebElement().getAttribute("alt");
+    }
 }

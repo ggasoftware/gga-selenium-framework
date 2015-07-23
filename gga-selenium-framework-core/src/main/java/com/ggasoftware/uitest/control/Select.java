@@ -17,10 +17,7 @@ import com.ggasoftware.uitest.utils.LinqUtils;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.Timer;
 import com.ggasoftware.uitest.utils.WebDriverWrapper;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.ArrayList;
@@ -39,10 +36,12 @@ import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
  * @author Belousov Andrey
  */
 public class Select<ParentPanel> extends Element<ParentPanel> {
-
+    public Select() { }
+    public Select(By valueLocator) { super(valueLocator); }
     //constructors
 
     /**
+     * !!! Use Selector instead
      * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
      * to initialize.
      *
@@ -50,6 +49,7 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @param locator     - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
      * @param parentPanel - Panel which contains current button
      */
+    @Deprecated
     public Select(String name, String locator, ParentPanel parentPanel) {
         super(name, locator, parentPanel);
     }
@@ -190,7 +190,7 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
             logTechnical(String.format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isSelected = false;
         }
-        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, String.format("waitForItemAndSelect: select item %s of %s", value, name));
+        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, String.format("waitForItemAndSelect: select item %s of %s", value, getName()));
         return parent;
     }
 

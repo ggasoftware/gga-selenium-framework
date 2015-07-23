@@ -4,6 +4,7 @@ import com.epam.page_objects2.mct.custom.ModernaCombobox;
 import com.epam.page_objects2.mct.custom.ModernaFileInput;
 import com.epam.ui_test_framework.elements.interfaces.complex.IComboBox;
 import com.epam.ui_test_framework.elements.interfaces.common.IFileInput;
+import com.epam.ui_test_framework.settings.FrameworkSettings;
 import com.epam.ui_test_framework.utils.common.Timer;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterSuite;
@@ -14,9 +15,9 @@ import java.util.Date;
 
 import static com.epam.page_objects2.mct.login.Portal.modernaUrl;
 import static com.epam.ui_test_framework.elements.BaseElement.getInterfaceMap;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.logger;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.seleniumFactory;
 import static com.epam.ui_test_framework.utils.common.StringUtils.LineBreak;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.logger;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.seleniumFactory;
 import static com.epam.ui_test_framework.utils.usefulUtils.WebDriverUtils.killAllRunWebDrivers;
 import static java.lang.System.setProperty;
 

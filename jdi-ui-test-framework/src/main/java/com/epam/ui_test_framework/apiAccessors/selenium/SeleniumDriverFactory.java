@@ -1,6 +1,5 @@
 package com.epam.ui_test_framework.apiAccessors.selenium;
 
-import com.epam.ui_test_framework.apiAccessors.IAPIAvatar;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Set;
 
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 import static java.lang.String.format;
 
 /**

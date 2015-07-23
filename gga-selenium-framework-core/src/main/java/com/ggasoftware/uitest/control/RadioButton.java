@@ -15,6 +15,7 @@ package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.Timer;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
@@ -25,7 +26,8 @@ import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
  * @author Alexeenko Yan
  */
 public class RadioButton<ParentPanel> extends Element<ParentPanel> {
-
+    public RadioButton() { }
+    public RadioButton(By valueLocator) { super(valueLocator); }
     //constructor
 
     /**

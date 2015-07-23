@@ -9,8 +9,8 @@ import ru.yandex.qatools.allure.annotations.Step;
 
 import static com.epam.page_objects2.entities.User.DefaultUser;
 import static com.epam.page_objects2.mct.login.LoginPage.loginPage;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.logger;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.logger;
 import static java.lang.String.format;
 
 

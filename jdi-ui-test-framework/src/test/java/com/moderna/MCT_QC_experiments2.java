@@ -13,7 +13,7 @@ import static com.epam.page_objects2.enums.Preconditions.MCT_New_Experiment_Defi
 import static com.epam.page_objects2.mct.NewExperimentTab.newExperimentTab;
 import static com.epam.page_objects2.mct.ViewExperimentsTab.viewExperimentsTab;
 import static com.epam.page_objects2.mct.login.Portal.portal;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.*;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.*;
 import static java.lang.String.format;
 
 /**

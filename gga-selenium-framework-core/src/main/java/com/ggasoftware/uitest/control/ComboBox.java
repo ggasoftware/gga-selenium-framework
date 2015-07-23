@@ -13,6 +13,9 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.control.interfaces.complex.IComboBox;
+import com.ggasoftware.uitest.control.new_controls.base.SelectElement;
+import com.ggasoftware.uitest.control.new_controls.complex.Dropdown;
 import com.ggasoftware.uitest.utils.LinqUtils;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.WebDriverWrapper;
@@ -21,7 +24,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.ggasoftware.uitest.utils.LinqUtils.firstIndex;
@@ -36,7 +38,44 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author Alexeenko Yan
  */
-public class ComboBox<ParentPanel> extends Input<ParentPanel> {
+public class ComboBox<ParentPanel, TEnum extends Enum> extends Dropdown<TEnum, ParentPanel> implements IComboBox<TEnum, ParentPanel> {
+
+    public ComboBox() { }
+    public ComboBox(By valueLocator) {
+        super(valueLocator);
+        input = createInputAction(valueLocator);
+    }
+    public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate) {
+        super(selectorLocator, optionsNamesLocatorTemplate);
+        input = createInputAction(selectorLocator);
+    }
+    public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator) {
+        super(selectorLocator, optionsNamesLocatorTemplate);
+        input = createInputAction(valueLocator);
+    }
+    public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator, By allOptionsNamesLocator) {
+        super(selectorLocator, optionsNamesLocatorTemplate, allOptionsNamesLocator);
+        input = createInputAction(valueLocator);
+    }
+    private Input input;
+    private SelectElement selector;
+
+    protected Input createInputAction(By valueLocator) { return new Input(valueLocator); }
+
+    protected void inputAction(String text) { input.input(text); }
+    protected void clearAction() { input.clear(); }
+    protected void focusAction() { input.focus(); }
+
+    @Override
+    protected void setValueAction(String value) { newInput(value); }
+    @Override
+    protected String getValueAction() {
+        return input.getText();
+    }
+    public final void input(String text) { input.input(text); }
+    public final void newInput(String text) { input.newInput(text); }
+    public final ParentPanel clear() { input.clear(); return parent; }
+    public final ParentPanel focus() { input.focus(); return parent; }
 
     //constructors
 
@@ -55,35 +94,13 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
     private Select select() { return new Select(getWebElement()); }
 
     /**
-     * Select by Index.
-     *
-     * @param index - option index
-     * @return Parent Panel instance
-     */
-    public ParentPanel select(int index) {
-        logAction(this, getParentClassName(), format("Select %s item", index));
-        alwaysDoneAction(() -> select().selectByIndex(index));
-        return this.parent;
-    }
-
-    /**
-     * Select by option text.
-     *
-     * @param value - option text
-     * @return Parent Panel instance
-     */
-    public ParentPanel select(String value) {
-        logAction(this, getParentClassName(), "Select " + value);
-        alwaysDoneAction(() -> select().selectByValue(value));
-        return this.parent;
-    }
-
-    /**
+     * !!! Better do not use. Instead use just select(String name)
      * Select by the visible option text(contains)
      *
      * @param item - visible option text(contains)
      * @return Parent Panel instance
      */
+    @Deprecated
     public ParentPanel selectByTextContains(String item) {
         logAction(this, getParentClassName(), format("select by text contains: %s", item));
         Select select = select();
@@ -161,7 +178,7 @@ public class ComboBox<ParentPanel> extends Input<ParentPanel> {
             ReporterNGExt.logTechnical(format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, currentTimeMillis() / 1000 - start));
             isSelected = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, format("waitForItemAndSelect: select item %s of %s", value, name));
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, format("waitForItemAndSelect: select item %s of %s", value, getName()));
         return parent;
     }
 

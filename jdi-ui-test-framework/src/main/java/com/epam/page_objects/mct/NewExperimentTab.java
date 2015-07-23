@@ -19,7 +19,7 @@ import static com.epam.page_objects.enums.MCTTabs.*;
 import static com.epam.page_objects.mct.popup.Popups.mctInfoPopup;
 import static com.epam.ui_test_framework.utils.common.Timer.sleep;
 import static com.epam.ui_test_framework.utils.common.Timer.waitCondition;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.seleniumFactory;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.seleniumFactory;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 

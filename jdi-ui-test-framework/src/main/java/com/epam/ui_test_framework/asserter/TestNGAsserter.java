@@ -5,7 +5,7 @@ import com.epam.ui_test_framework.utils.linqInterfaces.JFuncT;
 import org.testng.Assert;
 
 import static com.epam.ui_test_framework.logger.enums.LogInfoTypes.FRAMEWORK;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.logger;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.logger;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.

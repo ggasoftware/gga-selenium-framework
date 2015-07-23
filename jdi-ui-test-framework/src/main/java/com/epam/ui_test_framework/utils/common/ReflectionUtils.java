@@ -5,7 +5,7 @@ import java.util.List;
 
 import static com.epam.ui_test_framework.utils.common.LinqUtils.*;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.first;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isStatic;
 

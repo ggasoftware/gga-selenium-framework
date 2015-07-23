@@ -22,7 +22,7 @@ import com.epam.ui_test_framework.elements.common.Text;
 import com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions;
 import com.epam.ui_test_framework.logger.LogSettings;
 import com.epam.ui_test_framework.utils.common.Timer;
-import com.epam.ui_test_framework.utils.settings.HighlightSettings;
+import com.epam.ui_test_framework.settings.HighlightSettings;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
 
@@ -37,9 +37,9 @@ import static com.epam.ui_test_framework.utils.common.LinqUtils.first;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFieldValue;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFields;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.highlightSettings;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.timeouts;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.highlightSettings;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.timeouts;
 import static java.lang.String.format;
 
 /**

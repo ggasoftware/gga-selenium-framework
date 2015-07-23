@@ -16,7 +16,7 @@ package com.epam.ui_test_framework.elements.common;
 import com.epam.ui_test_framework.elements.interfaces.common.IInput;
 import org.openqa.selenium.By;
 
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 
 /**
  * Text Field control implementation
@@ -29,10 +29,7 @@ public class Input extends Text implements IInput {
     public Input() { super(); }
     public Input(By byLocator) { super(byLocator); }
 
-    protected void setValueAction(String value) {
-        if (value == null) return;
-        newInput(value);
-    }
+    protected void setValueAction(String value) { newInput(value); }
     @Override
     protected String getTextAction() { return getWebElement().getAttribute("value"); }
     protected void inputAction(String text) { getWebElement().sendKeys(text); }

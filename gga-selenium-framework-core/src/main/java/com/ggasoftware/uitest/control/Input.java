@@ -13,9 +13,15 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.control.base.asserter.TestNGAsserter;
+import com.ggasoftware.uitest.control.interfaces.common.IInput;
+import com.ggasoftware.uitest.control.new_controls.common.Text;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
+import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
 
 /**
  * Text Field control implementation
@@ -24,7 +30,7 @@ import org.openqa.selenium.WebElement;
  * @author Shubin Konstantin
  * @author Zharov Alexandr
  */
-public class Input<ParentPanel> extends Element<ParentPanel> {
+public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<ParentPanel> {
 
     //constructors
 
@@ -39,30 +45,47 @@ public class Input<ParentPanel> extends Element<ParentPanel> {
     public Input(String name, String locator, ParentPanel parentPanel) {
         super(name, locator, parentPanel);
     }
+    public Input() { super(); }
+    public Input(By byLocator) { super(byLocator); }
 
-    /**
-     * Gets the value of an input field
-     *
-     * @return the value of an input field
-     */
-    public String getValue() {
-        return super.getAttribute("value");
+    protected void setValueAction(String value) { newInput(value); }
+    @Override
+    protected String getTextAction() { return getWebElement().getAttribute("value"); }
+    protected void inputAction(String text) { getWebElement().sendKeys(text); }
+    protected void clearAction() { getWebElement().clear(); }
+    protected void focusAction() { getWebElement().click(); }
+
+    public final void input(String text) {
+        doJAction("Input text '" + text + "' in text field",
+                () -> setValueRule.invoke(text, this::inputAction));
+    }
+    public final void newInput(String text) {
+        asserter.silentException(() -> setValueRule.invoke(text, t -> {
+            clear();
+            input(t);
+        }));
+    }
+
+    public final void setValue(String value) {
+        doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction));
+    }
+    @Override
+    public final ParentPanel focus() {
+        doJAction("Focus on text field", this::focusAction);
+        return parent;
     }
 
 
     /**
+     * !!! Use newInput() instead
      * Type text to the Input field
      *
      * @param text - text for Input field
      * @return Parent instance
      */
+    @Deprecated
     public ParentPanel setText(String text) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("setText - %s", text));
-        WebElement webEl = getWebElement();
-        webEl.click();
-        webEl.clear();
-        webEl.click();
-        super.sendKeys(text);
+        newInput(text);
         return super.parent;
     }
 

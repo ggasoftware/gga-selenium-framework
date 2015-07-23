@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.epam.ui_test_framework.utils.common.PrintUtils.print;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 import static java.lang.String.format;
 
 /**

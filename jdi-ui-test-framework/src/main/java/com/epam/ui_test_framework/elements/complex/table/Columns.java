@@ -3,7 +3,7 @@ package com.epam.ui_test_framework.elements.complex.table;
 import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
 import com.epam.ui_test_framework.utils.common.LinqUtils;
 import com.epam.ui_test_framework.utils.map.MapArray;
-import com.epam.ui_test_framework.utils.settings.FrameworkSettings;
+import com.epam.ui_test_framework.settings.FrameworkSettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

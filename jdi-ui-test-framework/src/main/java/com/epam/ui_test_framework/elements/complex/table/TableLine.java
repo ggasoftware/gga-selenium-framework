@@ -3,14 +3,13 @@ package com.epam.ui_test_framework.elements.complex.table;
 import com.epam.ui_test_framework.elements.base.Element;
 import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
 import com.epam.ui_test_framework.utils.common.ReflectionUtils;
-import com.epam.ui_test_framework.utils.linqInterfaces.JFuncT;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.isClass;
 import static com.epam.ui_test_framework.utils.common.Timer.getResultAction;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 
 /**
  * Created by 12345 on 25.10.2014.

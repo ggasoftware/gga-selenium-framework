@@ -2,7 +2,7 @@ package com.epam.ui_test_framework.elements.complex.table;
 
 import com.epam.ui_test_framework.utils.linqInterfaces.*;
 
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 
 /**
  * Created by Roman_Iovlev on 7/17/2015.

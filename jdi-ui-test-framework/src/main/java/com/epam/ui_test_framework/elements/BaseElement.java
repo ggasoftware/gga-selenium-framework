@@ -39,8 +39,7 @@ import static com.epam.ui_test_framework.utils.common.StringUtils.LineBreak;
 import static com.epam.ui_test_framework.utils.common.Timer.alwaysDoneAction;
 import static com.epam.ui_test_framework.utils.common.Timer.getResultAction;
 import static com.epam.ui_test_framework.utils.common.Timer.sleep;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.*;
-import static com.epam.ui_test_framework.utils.usefulUtils.TryCatchUtil.ignoreException;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.*;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 

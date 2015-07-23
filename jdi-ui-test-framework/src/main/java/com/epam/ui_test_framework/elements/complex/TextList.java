@@ -16,8 +16,8 @@ import static com.epam.ui_test_framework.logger.enums.LogLevels.DEBUG;
 import static com.epam.ui_test_framework.utils.common.EnumUtils.getEnumValue;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.*;
 import static com.epam.ui_test_framework.utils.common.Timer.waitCondition;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.timeouts;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.timeouts;
 import static com.epam.ui_test_framework.utils.common.PrintUtils.print;
 import static java.lang.String.format;
 

@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.Collection;
 
 import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 import static java.lang.String.format;
 
 /**

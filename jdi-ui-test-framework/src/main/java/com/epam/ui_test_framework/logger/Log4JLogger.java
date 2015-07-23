@@ -6,7 +6,7 @@ import com.epam.ui_test_framework.logger.enums.LogInfoTypes;
 import org.apache.log4j.Logger;
 
 import static com.epam.ui_test_framework.utils.common.Timer.nowTimeShort;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.frameworkName;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.frameworkName;
 import static java.lang.String.format;
 import static org.apache.log4j.LogManager.getLogger;
 

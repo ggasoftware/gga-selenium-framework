@@ -10,7 +10,7 @@ import java.awt.datatransfer.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 import static java.lang.Thread.sleep;
 
 public class RobotTest implements ClipboardOwner {

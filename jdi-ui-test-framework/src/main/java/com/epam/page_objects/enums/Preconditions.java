@@ -6,7 +6,7 @@ import com.epam.ui_test_framework.utils.linqInterfaces.JFuncT;
 
 import static com.epam.page_objects.mct.NewExperimentTab.newExperimentTab;
 import static com.epam.page_objects.mct.login.Portal.modernaUrl;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.seleniumFactory;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.seleniumFactory;
 
 /**
  * Created by 12345 on 03.06.2015.

@@ -23,6 +23,9 @@ import ru.yandex.qatools.allure.annotations.Step;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.allure;
+
 /**
  * Utility for level log format.
  *
@@ -353,7 +356,7 @@ public class ReporterNGExt extends ReporterNG{
     public static void logAction(Object element, String parentClassName, String actionName) {
         String className = getClassName(element, parentClassName);
         logAction(getLogLevel(element), className, actionName);
-        if (TestBaseWebDriver.allure) {
+        if (allure) {
             action(className, actionName);
         }
     }

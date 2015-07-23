@@ -29,8 +29,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.Set;
 
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.logger;
-import static com.epam.ui_test_framework.utils.settings.FrameworkSettings.seleniumFactory;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.logger;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.seleniumFactory;
 import static com.epam.ui_test_framework.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;

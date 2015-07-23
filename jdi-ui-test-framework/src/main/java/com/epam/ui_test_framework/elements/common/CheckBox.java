@@ -37,7 +37,7 @@ public class CheckBox extends Clickable implements ICheckBox {
             clickAction();
     }
     protected boolean isCheckedAction() { return getWebElement().isSelected(); }
-    protected String getValueAction() { return isChecked().toString(); }
+    protected String getValueAction() { return isChecked()+""; }
     protected void setValueAction(String value) {
         if (value == null) return;
         if (value.toLowerCase().equals("true") || value.toLowerCase().equals("1"))
@@ -52,7 +52,7 @@ public class CheckBox extends Clickable implements ICheckBox {
     public final void uncheck() {
         doJAction("Uncheck Checkbox", this::uncheckAction);
     }
-    public final Boolean isChecked() {
+    public final boolean isChecked() {
         return doJActionResult("IsChecked",
                 this::isCheckedAction,
                 result -> "Checkbox is " + (result ? "checked" : "unchecked"));
