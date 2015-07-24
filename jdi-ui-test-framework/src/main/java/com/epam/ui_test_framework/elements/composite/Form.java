@@ -66,6 +66,6 @@ public class Form<T> extends Element implements IForm<T> {
         return print(select(getFields(this, IHaveValue.class), field ->
                 ((IHaveValue) getFieldValue(field, this)).getValue()));
     }
-    public final void setValue(String value) { doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction)); }
+    public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
     public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
 }

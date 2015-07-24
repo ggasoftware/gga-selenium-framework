@@ -57,17 +57,17 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
 
     public final void input(String text) {
         doJAction("Input text '" + text + "' in text field",
-                () -> setValueRule.invoke(text, this::inputAction));
+                () -> setValueRule(text, this::inputAction));
     }
     public final void newInput(String text) {
-        asserter.silentException(() -> setValueRule.invoke(text, t -> {
+        setValueRule(text, t -> {
             clear();
             input(t);
-        }));
+        });
     }
 
     public final void setValue(String value) {
-        doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction));
+        doJAction("Set value", () -> setValueRule(value, this::setValueAction));
     }
     @Override
     public final ParentPanel focus() {
@@ -96,12 +96,7 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
      * @return Parent instance
      */
     public ParentPanel setTextSecure(String text) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("setTextSecure - %s", text.replaceAll("[^']", "*")));
-        WebElement webEl = getWebElement();
-        webEl.click();
-        webEl.clear();
-        webEl.click();
-        super.sendKeysSecure(text);
+        newInput(text.replaceAll("[^']", "*"));
         return super.parent;
     }
 
@@ -110,18 +105,19 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
      *
      * @return Parent instance
      */
-    public ParentPanel clear() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Clear");
-        getWebElement().clear();
-        return super.parent;
+    public final ParentPanel clear() {
+        doJAction("Clear text field", this::clearAction);
+        return parent;
     }
 
     /**
+     * !!! better use input(String)
      * Use this method to simulate typing into an element, which may set its value.
      *
      * @param keysToSend - CharSequence to send
      * @return Parent instance
      */
+    @Deprecated
     public ParentPanel sendKeys(CharSequence... keysToSend) {
         return super.sendKeys(keysToSend);
     }

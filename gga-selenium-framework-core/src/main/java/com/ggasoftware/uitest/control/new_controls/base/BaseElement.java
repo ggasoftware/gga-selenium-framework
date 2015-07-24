@@ -14,6 +14,7 @@ import com.ggasoftware.uitest.control.interfaces.complex.*;
 import com.ggasoftware.uitest.control.new_controls.common.*;
 import com.ggasoftware.uitest.control.new_controls.complex.*;
 import com.ggasoftware.uitest.control.new_controls.complex.table.Table;
+import com.ggasoftware.uitest.control.new_controls.composite.Page;
 import com.ggasoftware.uitest.utils.Timer;
 import com.ggasoftware.uitest.utils.linqInterfaces.*;
 import org.openqa.selenium.By;
@@ -181,16 +182,25 @@ public abstract class BaseElement<P> implements IBaseElement {
     // Page Objects init
 
     public static <T> T InitElements(T parent) {
-        asserter.silentException(() -> foreach(getFields(parent, IBaseElement.class), f -> setElement(parent, f)));
+        fillParentPage(parent);
+        asserter.silentException(() -> foreach(getFields(parent, IBaseElement.class),
+                f -> setElement(parent, f)));
         return parent;
     }
 
     public static void setElement(Object parent, Field field) throws Exception {
         try {
             Class<?> type = field.getType();
-            BaseElement instance = createChildFromField(parent, field, type);
+            BaseElement instance;
+            if (isClass(type, Page.class)) {
+                instance = (BaseElement) type.newInstance();
+                instance.fillPage(field, parent);
+            }
+            else {
+                instance = createChildFromField(parent, field, type);
+                instance.function = getFunction(field);
+            }
             instance.setName(getElementName(field));
-            instance.function = getFunction(field);
             instance.setParentName(parent.getClass().getSimpleName());
             field.set(parent, instance);
             if (isInterface(field, IComposite.class))
@@ -223,6 +233,20 @@ public abstract class BaseElement<P> implements IBaseElement {
         }
         return instance;
     }
+
+    public static void fillParentPage(Object parent) {
+        Class<?> parentType = parent.getClass();
+        if (isClass(parentType, Page.class) &&
+                parentType.isAnnotationPresent(JPage.class))
+            fillPageFromAnnotaiton((Page) parent,
+                    parentType.getAnnotation(JPage.class), null);
+    }
+
+    public void fillPage(Field field, Object parent) throws Exception {
+        if (field.isAnnotationPresent(JPage.class))
+            fillPageFromAnnotaiton((Page) this, field.getAnnotation(JPage.class), parent);
+    }
+
     private static boolean isBaseElement(Object obj) {
         return isClass(obj.getClass(), BaseElement.class);
     }
@@ -265,6 +289,9 @@ public abstract class BaseElement<P> implements IBaseElement {
         if (text == null) return;
         action.invoke(text);
     };
+    public static void setValueRule(String text, JActionT<String> action)  {
+        asserter.silentException(() -> setValueRule.invoke(text, action));
+    }
     public static JActionTT<String, JActionT<String>> setValueEmptyAction = (text, action) -> {
         if (text == null || text.equals("")) return;
         action.invoke(text.equals("#CLEAR#") ? "" : text);
@@ -301,9 +328,6 @@ public abstract class BaseElement<P> implements IBaseElement {
             return map;
         } catch (Exception ex) { asserter.exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage()); }
         return null;
-    }
-    public static MapArray<Class, Class> getInterfaceMap() {
-        return map;
     }
 
     /**

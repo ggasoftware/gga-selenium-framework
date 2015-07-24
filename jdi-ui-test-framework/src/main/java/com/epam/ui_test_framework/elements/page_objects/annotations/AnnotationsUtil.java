@@ -1,5 +1,6 @@
 package com.epam.ui_test_framework.elements.page_objects.annotations;
 
+import com.epam.ui_test_framework.elements.composite.Page;
 import com.epam.ui_test_framework.elements.page_objects.annotations.functions.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
@@ -9,6 +10,7 @@ import java.lang.reflect.Field;
 import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.*;
 import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.NONE;
 import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.POPUP_TEXT;
+import static com.epam.ui_test_framework.utils.common.ReflectionUtils.isClass;
 
 /**
  * Created by roman.i on 25.09.2014.
@@ -29,6 +31,21 @@ public class AnnotationsUtil {
         } else {
             return splitCamelCase(field.getName());
         }
+    }
+
+    public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Object parent){
+        String url = pageAnnotation.url();
+        url = (url.contains("://") || parent == null
+                || !parent.getClass().isAnnotationPresent(JSite.class))
+                ? url
+                : getUrlFromDomain(parent, url);
+        String title = pageAnnotation.title();
+        element.updatePageData(url, title);
+    }
+
+    private static String getUrlFromDomain(Object parent, String uri) {
+        String domain = parent.getClass().getAnnotation(JSite.class).domain();
+        return domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
     }
 
     public static Functions getFunction(Field field) {

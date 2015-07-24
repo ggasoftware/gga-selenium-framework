@@ -11,15 +11,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface JFindBy {
-    public String using() default "";
-    public String id() default "";
-    public String name() default "";
-    public String className() default "";
-    public String css() default "";
-    public String tagName() default "";
-    public String linkText() default "";
-    public String partialLinkText() default "";
-    public String xpath() default "";
+    String id() default "";
+    String name() default "";
+    String className() default "";
+    String css() default "";
+    String tagName() default "";
+    String linkText() default "";
+    String partialLinkText() default "";
+    String xpath() default "";
 
-    public String group();
+    String group();
 }

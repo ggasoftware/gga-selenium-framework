@@ -7,12 +7,15 @@ import com.ggasoftware.uitest.control.new_controls.base.BaseElement;
  * Created by Roman_Iovlev on 7/17/2015.
  */
 public class Page extends BaseElement implements IComposite {
-    public String url;
-    public String title;
-    public String uri;
-    public static String domain;
-    public String getUrl() {
-        return url != null ? url : domain + uri;
+    private String url;
+    private String title;
+    public String getUrl() { return url; }
+    public String getTitle() { return title; }
+    public void updatePageData(String url, String title) {
+        if (this.url == null)
+            this.url = url;
+        if (this.title == null)
+            this.title = title;
     }
 
     public Page() {}

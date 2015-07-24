@@ -59,5 +59,5 @@ public class CheckBox extends Clickable implements ICheckBox {
     }
 
     public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
-    public final void setValue(String value) { doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction)); }
+    public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
 }

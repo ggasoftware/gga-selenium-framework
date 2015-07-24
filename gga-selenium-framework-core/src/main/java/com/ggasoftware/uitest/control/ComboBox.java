@@ -102,15 +102,16 @@ public class ComboBox<ParentPanel, TEnum extends Enum> extends Dropdown<TEnum, P
      */
     @Deprecated
     public ParentPanel selectByTextContains(String item) {
-        logAction(this, getParentClassName(), format("select by text contains: %s", item));
-        Select select = select();
-        int firstIndex = getResultAction(() -> firstIndex(
-                select.getOptions(),
-                option -> option.getText().contains(item)));
-        if (firstIndex > -1) {
-            select.selectByIndex(firstIndex);
-            return super.parent; }
-        throw new NoSuchElementException(format("Cannot find item contains this text '%s'", item));
+        return doJActionResult("select by text contains: %s", () -> {
+            int firstIndex = getResultAction(() -> firstIndex(
+                    select().getOptions(),
+                    option -> option.getText().contains(item)));
+            if (firstIndex > -1) {
+                select().selectByIndex(firstIndex);
+                return super.parent;
+            }
+            throw new NoSuchElementException(format("Cannot find item contains this text '%s'", item));
+        });
     }
 
     /**
@@ -119,8 +120,8 @@ public class ComboBox<ParentPanel, TEnum extends Enum> extends Dropdown<TEnum, P
      * @return First Selected option.
      */
     public String getFirstSelectedItem() {
-        logAction(this, getParentClassName(), "Get selected items");
-        return getResultAction(() -> select().getFirstSelectedOption().getText());
+        return doJActionResult("Get selected items", () ->
+                select().getFirstSelectedOption().getText());
     }
 
     /**
@@ -129,56 +130,34 @@ public class ComboBox<ParentPanel, TEnum extends Enum> extends Dropdown<TEnum, P
      * @return All Selected options.
      */
     public List<String> getSelectedItem() {
-        logAction(this, getParentClassName(), "Get selected items");
-        return getResultAction(() -> (List<String>)LinqUtils.select(
+        return doJActionResult("Get selected items",  () -> (List<String>) LinqUtils.select(
                 select().getAllSelectedOptions(),
                 WebElement::getText));
     }
 
     /**
+     * !!! Use getOptions() instead
      * Get all option text.
      *
      * @return List of all options.
      */
+    @Deprecated
     public List<String> getItems() {
-        logAction(this, getParentClassName(), "Get all items");
-        return getResultAction(() -> (List<String>)LinqUtils.select(
+        return doJActionResult("Get all items",  () -> (List<String>) LinqUtils.select(
                 select().getOptions(),
                 WebElement::getText));
     }
 
     /**
+     * !!! Use select(String value) instead
      * Wait until option is selected by value.
      *
      * @param value - option text
      * @return Parent Panel instance
      */
+    @Deprecated
     public ParentPanel waitForItemAndSelect(final String value) {
-        boolean isSelected;
-        logAction(this, getParentClassName(), format("waitForItemAndSelect[%s]: %s", value, locator));
-        long start = currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(WebDriverWrapper.getDriver(), WebDriverWrapper.TIMEOUT)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            isSelected = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            try {
-                                Select select = new Select(getWebElement());
-                                select.selectByValue(value);
-                                return true;
-                            } catch (Exception e) {
-                                return false;
-                            }
-                        }
-                    }
-            );
-        }catch (TimeoutException e){
-            ReporterNGExt.logTechnical(format("waitForItemAndSelect: [ %s ] during: [ %d ] sec ", locator, currentTimeMillis() / 1000 - start));
-            isSelected = false;
-        }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isSelected, format("waitForItemAndSelect: select item %s of %s", value, getName()));
+        select(value);
         return parent;
     }
 

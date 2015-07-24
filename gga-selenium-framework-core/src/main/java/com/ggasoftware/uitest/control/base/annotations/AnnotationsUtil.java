@@ -2,6 +2,7 @@ package com.ggasoftware.uitest.control.base.annotations;
 
 import com.ggasoftware.uitest.control.base.annotations.functions.Functions;
 import com.ggasoftware.uitest.control.base.annotations.functions.*;
+import com.ggasoftware.uitest.control.new_controls.composite.Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
@@ -28,6 +29,20 @@ public class AnnotationsUtil {
         } else {
             return splitCamelCase(field.getName());
         }
+    }
+    public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Object parent){
+        String url = pageAnnotation.url();
+        url = (url.contains("://") || parent == null
+                || !parent.getClass().isAnnotationPresent(JSite.class))
+                ? url
+                : getUrlFromDomain(parent, url);
+        String title = pageAnnotation.title();
+        element.updatePageData(url, title);
+    }
+
+    private static String getUrlFromDomain(Object parent, String uri) {
+        String domain = parent.getClass().getAnnotation(JSite.class).domain();
+        return domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
     }
 
     public static Functions getFunction(Field field) {

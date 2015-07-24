@@ -107,42 +107,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public Element(By byLocator) {
         super(byLocator);
     }
-    /**
-     * Replace each substring of this string "$VALUE" to [value] in [str]
-     *
-     * @param str   - input string for replacement
-     * @param value -The replacement sequence of char values
-     * @return The resulting string
-     */
-    protected String insertValue(String str, String value) {
-        return str.replace("$VALUE", value);
-    }
-
-    /**
-     * Replace each substring of this string "$VALUE0..N" to [value] in [str]
-     *
-     * @param str    - input string for replacement
-     * @param values -The replacement sequence of char values
-     * @return The resulting string
-     */
-    protected String insertValues(String str, String[] values) {
-        int i = 0;
-        String s = str;
-        for (String value : values) {
-            s = s.replace("$VALUE" + (i++), value);
-        }
-        return s;
-    }
-
-    /**
-     * Return new Element instance
-     *
-     * @param locator - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
-     * @return New Element which has the same name, parent, and new locator
-     */
-    protected Element<ParentPanel> getElement(String locator) {
-        return new Element<>(getName(), locator, parent);
-    }
 
     /**
      * Sets locator for the element
@@ -163,18 +127,22 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
     public boolean waitDisplayed() { return waitDisplayed(TIMEOUT); }
     public boolean waitDisplayed(int seconds) {
-        setWaitTimeout(seconds);
-        boolean result = new Timer(seconds*1000).wait(() -> avatar.getElement().isDisplayed());
-        setWaitTimeout(TIMEOUT);
-        return result;
+        return doJActionResult("Wait element appear during '%s' seconds", () -> {
+            setWaitTimeout(seconds);
+            boolean result = new Timer(seconds * 1000).wait(() -> avatar.getElement().isDisplayed());
+            setWaitTimeout(TIMEOUT);
+            return result;
+        });
     }
 
     public boolean waitVanished() { return waitDisplayed(TIMEOUT); }
     public boolean waitVanished(int seconds)  {
-        setWaitTimeout(100);
-        boolean result = new Timer(seconds*1000).wait(() -> !(avatar.getElement().isDisplayed()));
-        setWaitTimeout(TIMEOUT);
-        return result;
+        return doJActionResult("Wait element disappear during '%s' seconds", () -> {
+            setWaitTimeout(100);
+            boolean result = new Timer(seconds*1000).wait(() -> !(avatar.getElement().isDisplayed()));
+            setWaitTimeout(TIMEOUT);
+            return result;
+        });
     }
 
     public static <T extends IElement> T copy(T element, By newLocator) {
@@ -184,26 +152,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             return result;
         } catch (Exception ex) { asserter.exception("Can't copy element: " + element); return null; }
     }
-
-    /**
-     * Get simple element class name
-     *
-     * @return class name string
-     */
-    protected String getSimpleClassName() {
-        return this.getClass().getSimpleName();
-    }
-
-    /**
-     * Find webelement from web page. We use locator for this. Where locator -
-     * start it with locator type "id=", "css=", "xpath=" and etc. Locator
-     * without type is assigned to xpath
-     *
-     * @return WebElement
-     */
-    private TestBaseWebDriver checker = new TestBaseWebDriver();
-    private static final String failedToFindElementMessage = "Can't find element by locator '%s' during %s seconds";
-    private static final String findToMuchElementsMessage = "Find %s elements instead of one by locator '%s' during %s seconds";
 
     public WebElement getWebElement() {
         return getWebElement(TIMEOUT);
@@ -246,8 +194,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel clickBy(int xOffset, int yOffset) {
-        logAction(this, getParentClassName(), format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset));
-        alwaysDoneAction(() -> {
+        doJAction(format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset), () -> {
             Actions builder = new Actions(getDriver());
             Action click = builder.moveToElement(getWebElement(), xOffset, yOffset).click().build();
             click.perform();
@@ -261,8 +208,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel clickJS() {
-        logAction(this, getParentClassName(), "clickJS");
-        alwaysDoneAction(() -> jsExecutor().executeScript("arguments[0].click();", getWebElement()));
+        doJAction("clickJS",  () -> jsExecutor().executeScript("arguments[0].click();", getWebElement()));
         return parent;
     }
 
@@ -272,8 +218,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Serialize result
      */
     public String serializeForm() {
-        logAction(this, getParentClassName(), "serializeForm");
-        return (String) jsExecutor().executeScript("return $(arguments[0]).serialize();", getWebElement());
+        return doJActionResult("serializeForm", () ->
+                (String) jsExecutor().executeScript("return $(arguments[0]).serialize();", getWebElement()));
     }
 
     /**
@@ -282,11 +228,12 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel mouseOverJS() {
-        logAction(this, getParentClassName(), "mouseOverJS");
-        String script = "var evt = document.createEvent('MouseEvents');" +
-                "evt.initMouseEvent('mouseover',true, true, window, 500, 100, 0, 0, 0, false, false, false, false, 0, null);" +
-                "arguments[0].dispatchEvent(evt);";
-        jsExecutor().executeScript(script, getWebElement());
+        doJAction("mouseOverJS", () -> {
+            String script = "var evt = document.createEvent('MouseEvents');" +
+                    "evt.initMouseEvent('mouseover',true, true, window, 500, 100, 0, 0, 0, false, false, false, false, 0, null);" +
+                    "arguments[0].dispatchEvent(evt);";
+            jsExecutor().executeScript(script, getWebElement());
+        });
         return parent;
     }
 
@@ -296,13 +243,12 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel ctrlClick() {
-        logAction(this, getParentClassName(), "ctrlClick");
-        Actions builder = new Actions(getDriver());
-        builder.keyDown(Keys.CONTROL)
-                .moveToElement(getWebElement())
-                .click()
-                .keyUp(Keys.CONTROL)
-                .perform();
+        doJAction("ctrlClick", () ->
+                new Actions(getDriver()).keyDown(Keys.CONTROL)
+                        .moveToElement(getWebElement())
+                        .click()
+                        .keyUp(Keys.CONTROL)
+                        .perform());
         return parent;
     }
 
@@ -457,14 +403,14 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
 
     /**
+     * Use Clickable elements instead of Element type
      * Use this method to simulate typing into an element, which may set its value.
      *
      * @param keysToSend - CharSequence to send
      * @return Parent instance
      */
     public ParentPanel sendKeys(CharSequence... keysToSend) {
-        logAction(this, getParentClassName(), format("sendKeys - %s", new Object[]{keysToSend}));
-        alwaysDoneAction(() -> {
+        doJAction(format("sendKeys - %s", new Object[]{keysToSend}), () -> {
             getDriver().switchTo().activeElement();
             getWebElement().sendKeys(keysToSend);
         });

@@ -3,7 +3,7 @@ package com.epam.ui_test_framework.elements.interfaces.complex;
 import com.epam.ui_test_framework.elements.interfaces.base.IBaseElement;
 import com.epam.ui_test_framework.elements.interfaces.base.IHaveValue;
 import com.epam.ui_test_framework.elements.interfaces.base.IVisible;
-import com.epam.ui_test_framework.utils.JDIAction;
+import com.epam.ui_test_framework.elements.page_objects.annotations.JDIAction;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.WebElement;
 

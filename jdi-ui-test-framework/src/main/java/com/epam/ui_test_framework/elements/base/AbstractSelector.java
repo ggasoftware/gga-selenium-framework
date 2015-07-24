@@ -55,7 +55,7 @@ public abstract class AbstractSelector<TEnum extends Enum> extends TemplatesList
         }
         return names;
     }
-    public final void setValue(String value) { doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction)); }
+    public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
     public final List<String> getOptions() { return allLabels.getLabels(); }
     public final String getOptionsAsText() { return print(getOptions()); }
 

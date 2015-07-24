@@ -30,7 +30,7 @@ public class Selector<TEnum extends Enum, P> extends AbstractSelector<TEnum, P> 
     @Override
     protected void setValueAction(String value) { selectAction(value); }
 
-    public final void select(String name) { doJAction(format("Select '%s'", name), () -> setValueRule.invoke(name, this::selectAction)); }
+    public final void select(String name) { doJAction(format("Select '%s'", name), () -> setValueRule(name, this::selectAction)); }
     public final void select(TEnum name) { select(getEnumValue(name)); }
     public final void select(int index) {
         doJAction(format("Select '%s'", index), () -> selectByIndexAction(index)); }

@@ -37,18 +37,18 @@ public class Input extends Text implements IInput {
     protected void focusAction() { getWebElement().click(); }
 
     public final void setValue(String value) {
-        doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction));
+        doJAction("Set value", () -> setValueRule(value, this::setValueAction));
     }
 
     public final void input(String text) {
         doJAction("Input text '" + text + "' in text field",
-                () -> setValueRule.invoke(text, this::inputAction));
+                () -> setValueRule(text, this::inputAction));
     }
     public final void newInput(String text) {
-        asserter.silentException(() -> setValueRule.invoke(text, t -> {
+        setValueRule(text, t -> {
             clear();
             input(t);
-        }));
+        });
     }
     public final void clear() {
         doJAction("Clear text field", this::clearAction);

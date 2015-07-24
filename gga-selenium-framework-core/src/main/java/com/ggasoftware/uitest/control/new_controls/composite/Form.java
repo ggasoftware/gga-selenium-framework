@@ -38,7 +38,7 @@ public class Form<T, P> extends Element<P> implements IForm<T, P> {
                     namesEqual(name, getElementName(element)));
             if (fieldValue != null) {
                 ISetValue seValueElement = (ISetValue) getFieldValue(element, this);
-                setValueRule.invoke(fieldValue, val -> setValueAction(val, seValueElement));
+                setValueRule(fieldValue, val -> setValueAction(val, seValueElement));
             }
         });
     }
@@ -64,6 +64,6 @@ public class Form<T, P> extends Element<P> implements IForm<T, P> {
         return print(select(getFields(this, IHaveValue.class), field ->
                 ((IHaveValue) getFieldValue(field, this)).getValue()));
     }
-    public final void setValue(String value) { doJAction("Set value", () -> setValueRule.invoke(value, this::setValueAction)); }
+    public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
     public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
 }

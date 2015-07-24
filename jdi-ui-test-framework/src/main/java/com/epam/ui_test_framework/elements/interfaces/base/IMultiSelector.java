@@ -1,6 +1,6 @@
 package com.epam.ui_test_framework.elements.interfaces.base;
 
-import com.epam.ui_test_framework.utils.JDIAction;
+import com.epam.ui_test_framework.elements.page_objects.annotations.JDIAction;
 
 import java.util.List;
 

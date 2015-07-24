@@ -17,6 +17,8 @@ import com.ggasoftware.uitest.control.interfaces.common.IImage;
 import com.ggasoftware.uitest.control.new_controls.base.Clickable;
 import org.openqa.selenium.By;
 
+import static java.lang.String.format;
+
 /**
  * Image control implementation
  *
@@ -40,9 +42,11 @@ public class Image<ParentPanel> extends Clickable<ParentPanel> implements IImage
     }
 
     public String getSource() {
-        return getWebElement().getAttribute("src");
+        return doJActionResult("Get image source for element " + this,
+                () -> getWebElement().getAttribute("src"));
     }
     public String getAlt() {
-        return getWebElement().getAttribute("alt");
+        return doJActionResult("Get image alt for element " + this,
+                () -> getWebElement().getAttribute("alt"));
     }
 }
