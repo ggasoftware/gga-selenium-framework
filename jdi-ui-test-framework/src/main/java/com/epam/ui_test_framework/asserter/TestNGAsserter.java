@@ -25,6 +25,15 @@ public class TestNGAsserter extends Assert implements IAsserter {
         } catch (Exception ex) { exception(ex.getMessage()); }
         return null;
     }
+    public void areEquals(Object obj1, Object obj2) {
+        assertEquals(obj1, obj2);
+    }
+    public void matches(String str, String regEx) {
+        assertTrue(str.matches(regEx));
+    }
+    public void contains(String str, String str2) {
+        assertTrue(str.contains(str2));
+    }
 
 
 }
