@@ -13,17 +13,25 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.control.interfaces.complex.IDropList;
+import com.ggasoftware.uitest.control.new_controls.complex.MultiSelector;
 import com.ggasoftware.uitest.utils.LinqUtils;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.Timer;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.ggasoftware.uitest.utils.LinqUtils.first;
+import static com.ggasoftware.uitest.utils.LinqUtils.toStringArray;
 import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
 import static com.ggasoftware.uitest.utils.Timer.getResultAction;
+import static java.lang.String.format;
 
 /**
  * DropBox control implementation
@@ -31,8 +39,10 @@ import static com.ggasoftware.uitest.utils.Timer.getResultAction;
  * @author Alexeenko Yan
  * @author Belousov Andrey
  */
-public class DropBox<ParentPanel> extends Element<ParentPanel> {
-
+public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnum, ParentPanel>
+        implements IDropList<TEnum> {
+    public DropBox() { }
+    public DropBox(By valueLocator) { super(valueLocator); }
     //constructor
 
     /**
@@ -50,18 +60,20 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
     private Select select() { return new Select(getWebElement()); }
 
     /**
+     * !!! Use select(Strinh... names) instead
      * Select by the visible option text
      *
      * @param sItem - visible option text
      * @return Parent Panel instance
      */
+    @Deprecated
     public ParentPanel selectByText(String sItem) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Set Value (selectByVisibleText): %s", sItem));
-        alwaysDoneAction(() -> select().selectByVisibleText(sItem));
-        return super.parent;
+        select(sItem);
+        return parent;
     }
 
     /**
+     * !!! Better use select(String... names)
      * Select all options that have a value matching the argument. That is, when given "foo" this
      * would select an option like:
      *
@@ -70,63 +82,68 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      * @param value The value to match against
      * @return Parent Panel instance
      */
+    @Deprecated
     public ParentPanel selectByValue(String value) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Set Value (selectByValue): %s", value));
-        alwaysDoneAction(() -> select().selectByValue(value));
-        return super.parent;
+        doJAction(format("Set Value (selectByValue): %s", value),
+                () -> select().selectByValue(value));
+        return parent;
     }
 
     /**
+     * !!! Use select(int... indexes) instead
      * Select the option at the given index
      *
      * @param index - index The option at this index will be selected
      * @return Parent Panel instance
      */
+    @Deprecated
     public ParentPanel selectByIndex(int index) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Set Value by Index: %d", index));
-        alwaysDoneAction(() -> select().selectByIndex(index));
+        select(index);
         return super.parent;
     }
 
     /**
+     * Better do not use this one. Use select(String... names) instead
      * Select by the visible option text(contains)
      *
      * @param sItem - visible option text(contains)
      * @return Parent Panel instance
      */
+    @Deprecated
     public ParentPanel selectByTextContains(String sItem) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Set Value contains: %s", sItem));
-        Select select = select();
-        int firstIndex = getResultAction(() -> LinqUtils.firstIndex(
-                select.getOptions(),
-                option -> option.getText().contains(sItem)));
-        if (firstIndex > -1) {
-            select.selectByIndex(firstIndex);
-            return super.parent;
-        }
-        throw new NoSuchElementException(String.format("Cannot find item contains this text '%s'", sItem));
+        return doJActionResult(format("Set Value contains: %s", sItem), () -> {
+            Select select = select();
+            int firstIndex = getResultAction(() -> LinqUtils.firstIndex(
+                    select.getOptions(),
+                    option -> option.getText().contains(sItem)));
+            if (firstIndex > -1) {
+                select.selectByIndex(firstIndex);
+                return super.parent;
+            }
+            throw new NoSuchElementException(format("Cannot find item contains this text '%s'", sItem));
+        });
     }
 
     /**
+     * !!! Use count() instead
      * Gets count of options in DropBox
      *
      * @return count of options in DropBox
      */
+    @Deprecated
     public int getOptionsCount() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get count of all options");
-        return select().getOptions().size();
+        return count();
     }
 
     /**
+     * !!! Use getOptions() instead
      * Gets all options
      *
      * @return All options belonging to this select tag
      */
+    @Deprecated
     public String[] getAllOptions() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get all options");
-        return getResultAction(() -> (String[])LinqUtils.select(
-                select().getOptions(),
-                WebElement::getText).toArray());
+        return toStringArray(getOptions());
     }
 
     /**
@@ -136,24 +153,26 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      * normal select)
      */
     public String getFirstSelectedOption() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get First Selected Option");
-        return select().getFirstSelectedOption().getText();
+        return doJActionResult("Get first selected option", () -> {
+            List<String> optionsSelected = areSelected();
+            return (optionsSelected.size() > 0) ? optionsSelected.get(0) : null;
+        });
     }
 
     /**
+     * !!! Use areSelected() instead
      * Gets All selected options
      *
      * @return All selected options belonging to this select tag
      */
+    @Deprecated
     public String[] getAllSelectedOptions() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Get All selected options");
-        return getResultAction(() -> (String[])LinqUtils.select(
-                    select().getAllSelectedOptions(),
-                    WebElement::getText).toArray());
+        return toStringArray(areSelected());
     }
 
 
     /**
+     * !!! Use uncheck(String... names) instead
      * Undo selection by option text of Select
      *
      * (That is Deselect all options that display text matching the argument)
@@ -161,13 +180,14 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      * @param sItem - visible option text
      * @return Parent Panel instance
      */
+    @Deprecated
     public ParentPanel deSelectByText(String sItem) {
-        ReporterNGExt.logAction(this, getParentClassName(), String.format("Deselect value%s", sItem));
-        alwaysDoneAction(() -> select().deselectByVisibleText(sItem));
+        uncheck(sItem);
         return super.parent;
     }
 
     /**
+     * !!! use clear() instead
      * Undo the selection for all options. This is only valid when the SELECT supports multiple selections.
      *
      * Check if the Select can be multiple selected
@@ -175,9 +195,9 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      *
      * @return Parent Panel instance
      */
+    @Deprecated
     public ParentPanel deselectAll() {
-        ReporterNGExt.logAction(this, getParentClassName(), "Deselect All values");
-        alwaysDoneAction(() -> select().deselectAll());
+        clear();
         return super.parent;
     }
 
@@ -199,8 +219,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
      * @return true if value exists
      */
     public boolean isOptionExist(String value) {
-        return LinqUtils.first(
-                getAllOptions(),
+        return first(getAllOptions(),
                 option -> option.equals(value)) != null;
     }
 

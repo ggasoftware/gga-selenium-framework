@@ -13,12 +13,18 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
+import com.ggasoftware.uitest.control.interfaces.common.IButton;
+import com.ggasoftware.uitest.control.new_controls.common.ClickableText;
+import org.openqa.selenium.By;
+
 /**
  * Button control implementation
  *
  * @author Alexeenko Yan
  */
-public class Button<ParentPanel> extends Element<ParentPanel> {
+public class Button<ParentPanel> extends ClickableText<ParentPanel> implements IButton<ParentPanel> {
+    public Button() { }
+    public Button(By valueLocator) { super(valueLocator); }
 
     //constructors
 
