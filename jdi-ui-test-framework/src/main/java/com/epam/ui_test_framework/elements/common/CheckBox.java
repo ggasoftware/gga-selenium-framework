@@ -15,6 +15,7 @@ package com.epam.ui_test_framework.elements.common;
 
 import com.epam.ui_test_framework.elements.base.Clickable;
 import com.epam.ui_test_framework.elements.base.Element;
+import com.epam.ui_test_framework.elements.base.SetValue;
 import com.epam.ui_test_framework.elements.interfaces.common.ICheckBox;
 import org.openqa.selenium.By;
 
@@ -28,6 +29,17 @@ public class CheckBox extends Clickable implements ICheckBox {
     public CheckBox() { }
     public CheckBox(By byLocator) { super(byLocator); }
 
+    protected SetValue setValue() { return new SetValue(
+        value -> {
+            switch (value.toLowerCase()) {
+                case "true": case "1": case "check":
+                    check(); break;
+                case "false": case "0": case "uncheck":
+                    uncheck(); break;
+        } },
+        () -> isChecked()+"");
+    }
+
     protected void checkAction() {
         if (!isCheckedAction())
             clickAction();
@@ -37,14 +49,6 @@ public class CheckBox extends Clickable implements ICheckBox {
             clickAction();
     }
     protected boolean isCheckedAction() { return getWebElement().isSelected(); }
-    protected String getValueAction() { return isChecked()+""; }
-    protected void setValueAction(String value) {
-        if (value == null) return;
-        if (value.toLowerCase().equals("true") || value.toLowerCase().equals("1"))
-            check();
-        if (value.toLowerCase().equals("false") || value.toLowerCase().equals("0"))
-            uncheck();
-    }
 
     public final void check() {
         doJAction("Check Checkbox", this::checkAction);
@@ -58,6 +62,6 @@ public class CheckBox extends Clickable implements ICheckBox {
                 result -> "Checkbox is " + (result ? "checked" : "unchecked"));
     }
 
-    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
-    public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
+    public final String getValue() { return setValue().getValue(); }
+    public final void setValue(String value) { setValue().setValue(value); }
 }

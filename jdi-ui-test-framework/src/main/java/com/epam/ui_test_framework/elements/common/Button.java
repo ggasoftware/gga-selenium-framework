@@ -13,6 +13,7 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.common;
 
+import com.epam.ui_test_framework.elements.base.ClickableText;
 import com.epam.ui_test_framework.elements.interfaces.common.IButton;
 import org.openqa.selenium.By;
 
@@ -24,4 +25,12 @@ import org.openqa.selenium.By;
 public class Button extends ClickableText implements IButton {
     public Button() { }
     public Button(By byLocator) { super(byLocator); }
+
+    @Override
+    protected Text text() { return new Text(getLocator()) {
+        @Override
+        protected String getTextAction() { return getWebElement().getAttribute("value"); }
+        };
+    }
+
 }

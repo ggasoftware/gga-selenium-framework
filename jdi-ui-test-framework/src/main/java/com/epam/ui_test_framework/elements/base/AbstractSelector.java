@@ -1,9 +1,7 @@
 package com.epam.ui_test_framework.elements.base;
 
 import com.epam.ui_test_framework.elements.complex.TextList;
-import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -37,10 +35,8 @@ public abstract class AbstractSelector<TEnum extends Enum> extends TemplatesList
     protected boolean waitSelectedAction(String value) {
         return waitCondition(() -> getElement(value).isSelected());
     }
-    protected MapArray<String, WebElement> getElementsAction() {
-        return asserter.silentException(() -> (MapArray<String, WebElement>) new MapArray<>(getNames(), name -> name, this::getWebElement));
-    }
-    protected void setValueAction(String value) { }
+    protected SetValue setValue() { return new SetValue(this::selectAction, this);}
+
     protected List<String> getNames() {
         if (allLabels == null && elementsNames == null) {
             asserter.exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for element '%s'", this.toString()));
@@ -55,10 +51,9 @@ public abstract class AbstractSelector<TEnum extends Enum> extends TemplatesList
         }
         return names;
     }
-    public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
+    public final void setValue(String value) { setValue().setValue(value); }
     public final List<String> getOptions() { return allLabels.getLabels(); }
     public final String getOptionsAsText() { return print(getOptions()); }
 
-    protected String getValueAction() { return format("getValueAction not implemented for '%s'", toString()); }
-    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
+    public final String getValue() { return setValue().getValue(); }
 }

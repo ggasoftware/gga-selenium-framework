@@ -14,6 +14,7 @@
 package com.epam.ui_test_framework.elements.complex;
 
 import com.epam.ui_test_framework.elements.base.SelectElement;
+import com.epam.ui_test_framework.elements.base.SetValue;
 import com.epam.ui_test_framework.elements.common.Input;
 import com.epam.ui_test_framework.elements.interfaces.complex.IComboBox;
 import org.openqa.selenium.*;
@@ -42,7 +43,6 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
         input = createInputAction(valueLocator);
     }
     private Input input;
-    private SelectElement selector;
 
     protected Input createInputAction(By valueLocator) { return new Input(valueLocator); }
 
@@ -51,11 +51,10 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
     protected void focusAction() { input.focus(); }
 
     @Override
-    protected void setValueAction(String value) { newInput(value); }
-    @Override
-    protected String getValueAction() {
-        return input.getText();
+    protected SetValue setValue() {
+        return new SetValue( this::newInput, input::getText);
     }
+
     public final void input(String text) { input.input(text); }
     public final void newInput(String text) { input.newInput(text); }
     public final void clear() { input.clear(); }

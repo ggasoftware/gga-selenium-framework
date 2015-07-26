@@ -1,6 +1,8 @@
 package com.epam.ui_test_framework.elements.common;
 
 import com.epam.ui_test_framework.elements.base.Element;
+import com.epam.ui_test_framework.elements.base.HaveValue;
+import com.epam.ui_test_framework.elements.interfaces.base.IHaveValue;
 import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import org.openqa.selenium.By;
 
@@ -14,10 +16,10 @@ public class Text extends Element implements IText {
     public Text() { }
     public Text(By byLocator) { super(byLocator); }
 
-    protected String getTextAction() { return getWebElement().getText(); }
-    protected String getValueAction() { return getTextAction(); }
+    protected IHaveValue haveValue() { return new HaveValue(this::getTextAction); }
+    public final String getValue() { return haveValue().getValue(); }
 
-    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
+    protected String getTextAction() { return getWebElement().getText(); }
     public final String getText() { return doJActionResult("Get text", this::getTextAction); }
     public final String waitText(String text) { return doJActionResult(format("Wait text contains '%s'", text),
             () -> getByCondition(this::getTextAction, t -> t.contains(text)));

@@ -30,8 +30,8 @@ public class MultiSelector<TEnum extends Enum> extends AbstractSelector<TEnum> i
     protected void selectListAction(int... indexes) { for (int i : indexes) selectByIndexAction(i); }
     protected boolean waitSelectedAction(String value) { return getElement(value).isSelected(); }
     @Override
-    protected void setValueAction(String value) {
-        selectListAction(value.split(", "));
+    protected SetValue setValue() {
+        return new SetValue(value -> selectListAction(value.split(", ")), super.setValue());
     }
     private String separator = ", ";
     public IMultiSelector<TEnum> setValuesSeparator(String separator) { this.separator = separator; return this; }

@@ -16,8 +16,7 @@ import static com.epam.ui_test_framework.logger.enums.LogLevels.DEBUG;
 import static com.epam.ui_test_framework.utils.common.EnumUtils.getEnumValue;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.*;
 import static com.epam.ui_test_framework.utils.common.Timer.waitCondition;
-import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
-import static com.epam.ui_test_framework.settings.FrameworkSettings.timeouts;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.*;
 import static com.epam.ui_test_framework.utils.common.PrintUtils.print;
 import static java.lang.String.format;
 
@@ -29,30 +28,26 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     public TextList(By byLocator) { super(byLocator); }
 
     public List<WebElement> getWebElements() {
-        return getWebElements(timeouts.waitElementSec);
-    }
-
-    public List<WebElement> getWebElements(int timeouInSec) {
-        timeouts.currentTimoutSec = timeouInSec;
-        List<WebElement> element = doJActionResult("Get web elements " + this.toString(), avatar::getElements,
+        return doJActionResult("Get web elements " + this.toString(), avatar::getElements,
                 els -> format("Got %s element(s)", els.size()), new LogSettings(DEBUG, BUSINESS));
-        timeouts.currentTimoutSec = timeouts.waitElementSec;
-        return element;
     }
 
-    public boolean isDisplayed() { return waitDisplayed(0); }
-    public boolean waitDisplayed() { return waitDisplayed(timeouts.waitElementSec); }
-    public boolean waitDisplayed(int seconds) {
-        setWaitTimeout(seconds);
-        boolean result = new Timer(seconds*1000).wait(() -> where(getWebElements(), WebElement::isDisplayed).size() > 0);
-        setWaitTimeout(timeouts.waitElementSec);
-        return result;
+    public boolean waitDisplayed() {
+        return new Timer(timeouts.waitElementSec*1000).wait(
+                () -> where(getWebElements(), WebElement::isDisplayed).size() > 0);
     }
 
-    public boolean waitVanished() { return waitDisplayed(timeouts.waitElementSec); }
-    public boolean waitVanished(int seconds)  {
+    public boolean waitVanished()  {
         setWaitTimeout(timeouts.retryMSec);
-        boolean result = new Timer(seconds*1000).wait(() -> where(getWebElements(), WebElement::isDisplayed).size() == 0);
+        boolean result = new Timer(timeouts.currentTimoutSec*1000).wait(
+                () -> {
+                    List<WebElement> elements = getWebElements();
+                    if (elements == null || elements.size() == 0)
+                        return true;
+                    for (WebElement el : getWebElements())
+                        if (el.isDisplayed()) return false;
+                    return true;
+                });
         setWaitTimeout(timeouts.waitElementSec);
         return result;
     }

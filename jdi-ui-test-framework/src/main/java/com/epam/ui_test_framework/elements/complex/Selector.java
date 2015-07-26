@@ -2,6 +2,7 @@ package com.epam.ui_test_framework.elements.complex;
 
 import com.epam.ui_test_framework.elements.base.AbstractSelector;
 import com.epam.ui_test_framework.elements.base.SelectElement;
+import com.epam.ui_test_framework.elements.base.SetValue;
 import com.epam.ui_test_framework.elements.interfaces.base.ISelector;
 import org.openqa.selenium.By;
 
@@ -25,7 +26,7 @@ public class Selector<TEnum extends Enum> extends AbstractSelector<TEnum> implem
         super(optionsNamesLocatorTemplate, enumMember);
     }
     @Override
-    protected void setValueAction(String value) { selectAction(value); }
+    protected SetValue setValue() { return new SetValue(this::selectAction, this::isSelected); }
 
     public final void select(String name) { doJAction(format("Select '%s'", name), () -> setValueRule(name, this::selectAction)); }
     public final void select(TEnum name) { select(getEnumValue(name)); }
@@ -43,6 +44,5 @@ public class Selector<TEnum extends Enum> extends AbstractSelector<TEnum> implem
     public final boolean waitSelected(String name) {
         return doJActionResult(format("Wait Selected + '%s'", name), () -> waitSelectedAction(name));
     }
-    protected String getValueAction() { return isSelected(); }
 
 }

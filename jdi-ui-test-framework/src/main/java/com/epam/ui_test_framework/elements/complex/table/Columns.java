@@ -1,6 +1,7 @@
 package com.epam.ui_test_framework.elements.complex.table;
 
-import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
+import com.epam.ui_test_framework.elements.interfaces.base.IClickable;
+import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import com.epam.ui_test_framework.utils.common.LinqUtils;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import com.epam.ui_test_framework.settings.FrameworkSettings;
@@ -9,13 +10,12 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
 
-import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
 import static java.lang.String.format;
 
 /**
  * Created by 12345 on 26.10.2014.
  */
-public class Columns<T extends IClickableText> extends TableLine<T> {
+public class Columns<T extends IClickable & IText> extends TableLine<T> {
     public Columns() {
         haveHeader = true;
         elementIndex = ElementIndexType.Nums;
@@ -38,7 +38,7 @@ public class Columns<T extends IClickableText> extends TableLine<T> {
     }
 
     public MapArray<String, Cell<T>> cellsToRow(Collection<Cell<T>> cells) {
-        return FrameworkSettings.asserter.silentException(() -> new MapArray<String, Cell<T>>(cells,
+        return FrameworkSettings.asserter.silent(() -> new MapArray<String, Cell<T>>(cells,
                 cell -> headers()[cell.columnNum - 1],
                 cell -> cell));
     }

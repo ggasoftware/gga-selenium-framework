@@ -14,7 +14,6 @@ import java.util.List;
  */
 public interface ITextList<TEnum extends Enum> extends IBaseElement, IHaveValue, IVisible {
     List<WebElement> getWebElements();
-    List<WebElement> getWebElements(int timeouInSec);
     WebElement getElement(String name);
     WebElement getElement(int index);
     WebElement getElement(TEnum enumName);

@@ -10,8 +10,7 @@ public interface IElement<P> extends IBaseElement, IVisible {
     @JDIAction
     WebElement getWebElement();
     @JDIAction
-    WebElement getWebElement(int timeouInSec);
+    boolean waitAttribute(String name, String value);
     @JDIAction
-    String getAttribute(String attributeName);
     P setAttributeJS(String attributeName, String value);
 }

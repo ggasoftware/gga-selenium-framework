@@ -13,11 +13,12 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.complex;
 
-import com.epam.ui_test_framework.elements.base.Clickable;
-import com.epam.ui_test_framework.elements.base.Element;
+import com.epam.ui_test_framework.elements.base.SetValue;
+import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.interfaces.complex.IDropList;
-import com.epam.ui_test_framework.elements.common.Text;
+import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Select control implementation
@@ -34,21 +35,39 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     }
 
     private By valueLocator;
+    private Button field() { return new Button(valueLocator); }
 
     @Override
-    protected void selectListAction(String... names) { new Clickable(valueLocator).click(); super.selectListAction(names); }
+    protected void selectListAction(String... names) { field().click(); super.selectListAction(names); }
     @Override
-    protected void selectListAction(int... indexes) { new Clickable(valueLocator).click(); super.selectListAction(indexes); }
+    protected void selectListAction(int... indexes) { field().click(); super.selectListAction(indexes); }
     @Override
-    protected boolean waitSelectedAction(String value) { return getValueAction().equals(value); }
+    protected boolean waitSelectedAction(String value) { return field().getText().equals(value); }
     @Override
-    protected String getValueAction() { return new Text(valueLocator).getText(); }
+    protected SetValue setValue() { return new SetValue(() -> field().getText(), super.setValue()); }
+
     @Override
-    public boolean waitDisplayed(int seconds) {
-        return new Element(valueLocator).waitDisplayed(seconds);
+    public boolean waitDisplayed() {  return field().waitDisplayed(); }
+    @Override
+    public boolean waitVanished()  { return field().waitVanished(); }
+
+    public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc) {
+        return field().wait(resultFunc);
     }
-    @Override
-    public boolean waitVanished(int seconds)  {
-        return new Element(valueLocator).waitVanished();
+    public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition) {
+        return field().wait(resultFunc, condition);
     }
+    public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc, int timeoutSec) {
+        return field().wait(resultFunc, timeoutSec);
+    }
+    public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
+        return field().wait(resultFunc, condition, timeoutSec);
+    }
+    public void setAttribute(String attributeName, String value) {
+        field().setAttribute(attributeName, value);
+    }
+    public final String waitText(String text) { return field().waitText(text); }
+    public final String waitMatchText(String regEx) { return field().waitText(regEx); }
+    public WebElement getWebElement() { return field().getWebElement(); }
+    public final String getText() { return field().getText(); }
 }

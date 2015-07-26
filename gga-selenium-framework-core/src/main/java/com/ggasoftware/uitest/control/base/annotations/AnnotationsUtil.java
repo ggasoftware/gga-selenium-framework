@@ -37,7 +37,9 @@ public class AnnotationsUtil {
                 ? url
                 : getUrlFromDomain(parent, url);
         String title = pageAnnotation.title();
-        element.updatePageData(url, title);
+        String urlMatcher = pageAnnotation.urlMatcher();
+        String titleMatcher = pageAnnotation.titleMatcher();
+        element.updatePageData(url, title, urlMatcher, titleMatcher);
     }
 
     private static String getUrlFromDomain(Object parent, String uri) {

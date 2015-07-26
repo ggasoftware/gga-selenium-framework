@@ -4,7 +4,7 @@ import com.epam.ui_test_framework.elements.apiInteract.ContextType;
 import com.epam.ui_test_framework.elements.apiInteract.GetElementModule;
 import com.epam.ui_test_framework.elements.base.Clickable;
 import com.epam.ui_test_framework.elements.base.Element;
-import com.epam.ui_test_framework.elements.base.ElementsGroup;
+import com.epam.ui_test_framework.elements.complex.ElementsGroup;
 import com.epam.ui_test_framework.elements.complex.TextList;
 import com.epam.ui_test_framework.elements.complex.*;
 import com.epam.ui_test_framework.elements.complex.table.Table;
@@ -34,13 +34,13 @@ import java.lang.reflect.Field;
 import static com.epam.ui_test_framework.elements.base.Element.highlight;
 import static com.epam.ui_test_framework.elements.page_objects.annotations.AnnotationsUtil.*;
 import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.NONE;
+import static com.epam.ui_test_framework.reporting.PerformanceStatistic.addStatistic;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.foreach;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.*;
 import static com.epam.ui_test_framework.utils.common.StringUtils.LineBreak;
 import static com.epam.ui_test_framework.utils.common.Timer.alwaysDoneAction;
 import static com.epam.ui_test_framework.utils.common.Timer.getResultAction;
-import static com.epam.ui_test_framework.utils.common.Timer.sleep;
 import static com.epam.ui_test_framework.settings.FrameworkSettings.*;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -90,45 +90,48 @@ public abstract class BaseElement implements IBaseElement {
                 getName(), getTypeName(), getParentName(), avatar);
     }
 
-    public static IScenario invocationScenario = (element, actionName, jAction) -> {
-        sleep(100);
-        element.logAction(actionName);
+    public static IScenario invocationScenario = (element, actionName, jAction, logSettings) -> {
+        element.logAction(actionName, logSettings);
+        Timer timer = new Timer();
         alwaysDoneAction(jAction::invoke);
+        addStatistic(timer.timePassedInMSec());
     };
     public static IScenarioWithResult invocationScenarioWithResult = new IScenarioWithResult() {
         @Override
         public <TResult> TResult invoke(BaseElement element, String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
-            sleep(100);
             element.logAction(actionName);
             Timer timer = new Timer();
-            timer.timePassedInMSec();
             TResult result = getResultAction(jAction::invoke);
             String stringResult = (logResult == null)
                     ? result.toString()
-                    : asserter.silentException(() -> logResult.invoke(result));
-            logger.toLog(stringResult, logSettings);
+                    : asserter.silent(() -> logResult.invoke(result));
+            Long timePassed = timer.timePassedInMSec();
+            addStatistic(timer.timePassedInMSec());
+            logger.toLog(format("Get result '%s' in %s seconds", stringResult,
+                    format("%.2f", (double) timePassed / 1000)), logSettings);
             return result;
         }
     };
 
-    protected void logAction(String actionName) {
-        logger.info(format("Perform action '%s' with element (%s)", actionName, this.toString()));
+    protected void logAction(String actionName, LogSettings logSettings) {
+        logger.toLog(format("Perform action '%s' with element (%s)", actionName, this.toString()), logSettings);
     }
-
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction) {
-        return doJActionResult(actionName, viAction, null, new LogSettings());
+    protected void logAction(String actionName) { logAction(actionName, new LogSettings());
     }
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction, JFuncTT<TResult, String> logResult) {
-        return doJActionResult(actionName, viAction, logResult, new LogSettings());
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action) {
+        return doJActionResult(actionName, action, null, new LogSettings());
     }
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction, LogSettings logSettings) {
-        return doJActionResult(actionName, viAction, null, logSettings);
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action, JFuncTT<TResult, String> logResult) {
+        return doJActionResult(actionName, action, logResult, new LogSettings());
     }
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction,
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action, LogSettings logSettings) {
+        return doJActionResult(actionName, action, null, logSettings);
+    }
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action,
                                                       JFuncTT<TResult, String> logResult, LogSettings logSettings) {
         try {
             processDemoMode();
-            return invocationScenarioWithResult.invoke(this, actionName, viAction, logResult, logSettings);
+            return invocationScenarioWithResult.invoke(this, actionName, action, logResult, logSettings);
         }
         catch (Exception ex) {
             asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
@@ -136,16 +139,19 @@ public abstract class BaseElement implements IBaseElement {
         }
     }
 
-    protected final void doJAction(String actionName, JAction viAction) {
+    protected final void doJAction(String actionName, JAction action) {
+        doJAction(actionName, action);
+    }
+
+    protected final void doJAction(String actionName, JAction action, LogSettings logSettings) {
         try {
             processDemoMode();
-            invocationScenario.invoke(this, actionName, viAction);
+            invocationScenario.invoke(this, actionName, action, logSettings);
         }
         catch (Exception ex) {
             asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
-
     private void processDemoMode() {
         if (isDemoMode)
             if (isClass(getClass(), Element.class))
@@ -156,7 +162,7 @@ public abstract class BaseElement implements IBaseElement {
 
     public static <T> T InitElements(T parent) {
         fillParentPage(parent);
-        asserter.silentException(() -> foreach(getFields(parent, IBaseElement.class),
+        asserter.silent(() -> foreach(getFields(parent, IBaseElement.class),
                 f -> setElement(parent, f)));
         return parent;
     }
@@ -263,7 +269,7 @@ public abstract class BaseElement implements IBaseElement {
         action.invoke(text);
     };
     public static void setValueRule(String text, JActionT<String> action)  {
-        asserter.silentException(() -> action.invoke(text));
+        asserter.silent(() -> action.invoke(text));
     }
     public static JActionTT<String, JActionT<String>> setValueEmptyAction = (text, action) -> {
         if (text == null || text.equals("")) return;
@@ -278,7 +284,6 @@ public abstract class BaseElement implements IBaseElement {
                         {IElement.class, Element.class},
                         {IButton.class, Button.class},
                         {IClickable.class, Clickable.class},
-                        {IClickableText.class, Button.class},
                         {IComboBox.class, ComboBox.class},
                         {ILink.class, Link.class},
                         {ISelector.class, Selector.class},

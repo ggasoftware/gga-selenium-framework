@@ -13,6 +13,7 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.common;
 
+import com.epam.ui_test_framework.elements.base.ClickableText;
 import com.epam.ui_test_framework.elements.interfaces.common.ILabel;
 import org.openqa.selenium.By;
 

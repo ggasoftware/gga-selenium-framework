@@ -23,6 +23,7 @@ import com.epam.ui_test_framework.elements.page_objects.annotations.functions.Fu
 import com.epam.ui_test_framework.logger.LogSettings;
 import com.epam.ui_test_framework.utils.common.Timer;
 import com.epam.ui_test_framework.settings.HighlightSettings;
+import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
 
@@ -56,14 +57,7 @@ public class Element extends BaseElement implements IElement {
     public Element(By byLocator) { super(byLocator); }
 
     public WebElement getWebElement() {
-        return getWebElement(timeouts.waitElementSec);
-    }
-
-    public WebElement getWebElement(int timeouInSec) {
-        timeouts.currentTimoutSec = timeouInSec;
-        WebElement element = doJActionResult("Get web element " + this.toString(), avatar::getElement, new LogSettings(DEBUG, BUSINESS));
-        timeouts.currentTimoutSec = timeouts.waitElementSec;
-        return element;
+        return doJActionResult("Get web element " + this.toString(), avatar::getElement, new LogSettings(DEBUG, BUSINESS));
     }
 
     public static <T extends IElement> T copy(T element, By newLocator) {
@@ -94,19 +88,43 @@ public class Element extends BaseElement implements IElement {
         return null;
     }
 
-    public boolean isDisplayed() { return waitDisplayed(0); }
-    public boolean waitDisplayed() { return waitDisplayed(timeouts.waitElementSec); }
-    public boolean waitDisplayed(int seconds) {
-        setWaitTimeout(seconds);
-        boolean result = new Timer(seconds*1000).wait(() -> avatar.getElement().isDisplayed());
+    public void setAttribute(String attributeName, String value) {
+        doJAction(format("Set Attribute '%s'='%s'", attributeName, value),
+                () -> jsExecutor().executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attributeName),
+                        getWebElement(), value));
+    }
+    public boolean waitDisplayed() {
+        return wait(WebElement::isDisplayed);
+    }
+
+    public boolean waitVanished()  {
+        setWaitTimeout(timeouts.retryMSec);
+        boolean result = new Timer(timeouts.currentTimoutSec*1000).wait(
+                () -> { try { if (getWebElement().isDisplayed()) return false; }
+                        catch (Exception ignore) { }
+                        return false;
+                    });
         setWaitTimeout(timeouts.waitElementSec);
         return result;
     }
 
-    public boolean waitVanished() { return waitDisplayed(timeouts.waitElementSec); }
-    public boolean waitVanished(int seconds)  {
-        setWaitTimeout(timeouts.retryMSec);
-        boolean result = new Timer(seconds*1000).wait(() -> !(avatar.getElement().isDisplayed()));
+    @Override
+    public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc) {
+        return wait(resultFunc, result -> result);
+    }
+    @Override
+    public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition) {
+        return new Timer(timeouts.currentTimoutSec)
+                .getResultByCondition(() -> resultFunc.invoke(getWebElement()), condition::invoke);
+    }
+    @Override
+    public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc, int timeoutSec) {
+        return wait(resultFunc, result -> result, timeoutSec);
+    }
+    @Override
+    public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
+        setWaitTimeout(timeoutSec);
+        T result = new Timer(timeoutSec).getResultByCondition(() -> resultFunc.invoke(getWebElement()), condition::invoke);
         setWaitTimeout(timeouts.waitElementSec);
         return result;
     }
@@ -120,10 +138,6 @@ public class Element extends BaseElement implements IElement {
                 highlightSettings.BgColor));
         try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception ignore) {}
         element.setAttribute("style", orig);
-    }
-    public void setAttribute(String attributeName, String value) {
-        jsExecutor().executeScript("arguments[0].setAttribute(arguments[1], arguments[2])",
-                getWebElement(), attributeName, value);
     }
 
     public void clickWithKeys(Keys... keys) {
@@ -171,17 +185,6 @@ public class Element extends BaseElement implements IElement {
             Dimension size = getWebElement().getSize(); //for scroll to object
             new Actions(getDriver()).moveToElement(getWebElement(), size.width / 2, size.height / 2).build().perform();
         });
-    }
-
-    public String getAttribute(String attributeName) {
-        return doJActionResult(format("Get Attribute '%s'", attributeName),
-            () -> getWebElement().getAttribute(attributeName));
-    }
-
-    public void setAttributeJS(String attributeName, String value) {
-        doJAction(format("Set Attribute '%s'='%s'", attributeName, value),
-                () -> jsExecutor().executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attributeName),
-                        getWebElement(), value));
     }
 
     public void selectArea(int x1, int y1, int x2, int y2) {

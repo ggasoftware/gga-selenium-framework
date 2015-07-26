@@ -1,7 +1,7 @@
 package com.epam.ui_test_framework.elements.interfaces.complex;
 
 import com.epam.ui_test_framework.elements.complex.table.*;
-import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
+import com.epam.ui_test_framework.elements.interfaces.base.IClickable;
 import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import com.epam.ui_test_framework.elements.page_objects.annotations.JDIAction;
 import com.epam.ui_test_framework.utils.map.MapArray;
@@ -12,7 +12,7 @@ import java.util.List;
  * Created by roman.i on 20.10.2014.
  */
 
-public interface ITable<T extends IClickableText> extends IText {
+public interface ITable<T extends IClickable & IText> extends IText {
     @JDIAction
     Cell<T> cell(Column column, Row row);
     @JDIAction

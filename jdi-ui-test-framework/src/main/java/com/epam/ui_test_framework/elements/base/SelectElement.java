@@ -1,7 +1,6 @@
 package com.epam.ui_test_framework.elements.base;
 
 import com.epam.ui_test_framework.elements.interfaces.base.ISelect;
-import com.epam.ui_test_framework.elements.common.ClickableText;
 import org.openqa.selenium.By;
 
 /**

@@ -16,11 +16,11 @@ public class TestNGAsserter extends Assert implements IAsserter {
         assertTrue(false, message);
         return new Exception(message);
     }
-    public void silentException(JAction action) {
+    public void silent(JAction action) {
         try { action.invoke();
         } catch (Exception ex) { exception(ex.getMessage()); }
     }
-    public <TResult> TResult silentException(JFuncT<TResult> func) {
+    public <TResult> TResult silent(JFuncT<TResult> func) {
         try { return func.invoke();
         } catch (Exception ex) { exception(ex.getMessage()); }
         return null;

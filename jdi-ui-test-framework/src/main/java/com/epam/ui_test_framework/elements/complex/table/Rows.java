@@ -1,6 +1,7 @@
 package com.epam.ui_test_framework.elements.complex.table;
 
-import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
+import com.epam.ui_test_framework.elements.interfaces.base.IClickable;
+import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,7 +15,7 @@ import static java.lang.String.format;
 /**
  * Created by 12345 on 26.10.2014.
  */
-public class Rows<T extends IClickableText> extends TableLine<T> {
+public class Rows<T extends IClickable & IText> extends TableLine<T> {
     public Rows() {
         haveHeader = false;
         elementIndex = ElementIndexType.Nums;
@@ -35,7 +36,7 @@ public class Rows<T extends IClickableText> extends TableLine<T> {
     }
 
     public MapArray<String, Cell<T>> cellsToColumn(Collection<Cell<T>> cells) {
-        return asserter.silentException(() -> new MapArray<String, Cell<T>>(cells,
+        return asserter.silent(() -> new MapArray<String, Cell<T>>(cells,
                 cell -> headers()[cell.rowNum - 1],
                 cell -> cell));
     }

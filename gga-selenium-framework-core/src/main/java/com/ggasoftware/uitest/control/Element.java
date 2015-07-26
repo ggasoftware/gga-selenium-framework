@@ -42,6 +42,7 @@ import static com.ggasoftware.uitest.utils.ReflectionUtils.*;
 import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.*;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.logFindElementLocator;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.takePassedScreenshot;
 import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
 import static com.ggasoftware.uitest.utils.Timer.getResultAction;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.*;
@@ -154,15 +155,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
 
     public WebElement getWebElement() {
-        return getWebElement(TIMEOUT);
-    }
-
-    public WebElement getWebElement(int timeouInSec) {
-        setTimeout(timeouInSec);
-        WebElement element = doJActionResult("Get web element " + this.toString(), avatar::getElement,
+        return doJActionResult("Get web element " + this.toString(), avatar::getElement,
                 new LogSettings(DEBUG, BUSINESS));
-        setTimeout(TIMEOUT);
-        return element;
     }
 
     protected Button getButton(Functions funcName) {
@@ -478,7 +472,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return true if element not exists or not displayed at the page
      */
     public boolean isVanished() {
-        return !isExists(0) || !(getWebElement(0).isDisplayed());
+        setTimeout(0);
+        boolean result = !isExists(0) || !(getWebElement().isDisplayed());;
+        setTimeout(TIMEOUT);
+        return result;
     }
 
     /**
@@ -500,7 +497,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Whether or not the element is displayed
      */
     public boolean isDisplayed(int seconds) {
-        return isExists(seconds) && getWebElement(seconds).isDisplayed();
+        setTimeout(seconds);
+        boolean result = isExists(seconds) && getWebElement().isDisplayed();
+        setTimeout(TIMEOUT);
+        return result;
     }
 
     /**
@@ -521,7 +521,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return True if the element is enabled, false otherwise.
      */
     public boolean isEnabled(int seconds) {
-        return isExists(seconds) && getWebElement(seconds).isEnabled();
+        setTimeout(seconds);
+        boolean result = isExists(seconds) && getWebElement().isEnabled();
+        setTimeout(TIMEOUT);
+        return result;
     }
 
     /**
@@ -551,16 +554,21 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
 
     /**
+     * !!! Use waitAttribute(String name, String value) instead
      * Get the value of a the given attribute of the element. Will return the current value, even if
      * this has been modified after the page has been loaded.
      *
      * @param sName The name of the attribute.
      * @return The attribute's current value or null if the value is not set.
      */
+    @Deprecated
     public String getAttribute(String sName) {
         return (String) logGetter(this, getParentClassName(), sName, getWebElement().getAttribute(sName));
     }
-
+    public boolean waitAttribute(String name, String value) {
+        return doJActionResult(format("Wait attribute %s='%s'", name, value),
+                () -> getWebElement().getAttribute(name).equals(value));
+    }
     /**
      * Set the value of a the given attribute of the element by JS.
      *
@@ -742,8 +750,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
         setTimeout(TIMEOUT);
         if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists,
-                    format("waitForExists - '%s' should exist", getName()), TestBaseWebDriver.takePassedScreenshot);
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists,
+                    format("waitForExists - '%s' should exist", getName()), takePassedScreenshot);
         }
         return parent;
     }
@@ -798,8 +806,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
         setTimeout(TIMEOUT);
         if (checkCondition) {
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed,
-                    format("waitForDisplayed - '%s' should be displayed", getName()), TestBaseWebDriver.takePassedScreenshot);
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed,
+                    format("waitForDisplayed - '%s' should be displayed", getName()), takePassedScreenshot);
         }
         return parent;
     }
@@ -881,8 +889,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
         setTimeout(TIMEOUT);
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished,
-                    format("waitForElementToVanish - '%s' should be vanished", getName()), TestBaseWebDriver.takePassedScreenshot);
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished,
+                    format("waitForElementToVanish - '%s' should be vanished", getName()), takePassedScreenshot);
         }
         return parent;
     }
@@ -938,8 +946,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isPresent = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForText - '%s' should has a text '%s'", getName(), text), TestBaseWebDriver.takePassedScreenshot);
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
+                    format("waitForText - '%s' should has a text '%s'", getName(), text), takePassedScreenshot);
         }
         return parent;
     }
@@ -984,8 +992,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isPresent = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForTextContains - '%s' should has a text contains '%s'", getName(), text), TestBaseWebDriver.takePassedScreenshot);
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
+                    format("waitForTextContains - '%s' should has a text contains '%s'", getName(), text), takePassedScreenshot);
         }
         return parent;
     }
@@ -1032,8 +1040,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isChanged = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged,
-                    format("waitForTextChanged - '%s' text '%s' should be changed", getName(), text), TestBaseWebDriver.takePassedScreenshot);
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged,
+                    format("waitForTextChanged - '%s' text '%s' should be changed", getName(), text), takePassedScreenshot);
         }
         return parent;
     }
@@ -1080,13 +1088,14 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isPresent = false;
         }
         if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForValueAttribute - '%s' should has a value attribute '%s'", getName(), value), TestBaseWebDriver.takePassedScreenshot);
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
+                    format("waitForValueAttribute - '%s' should has a value attribute '%s'", getName(), value), takePassedScreenshot);
         }
         return parent;
     }
 
     /**
+     * !!! Use waitAttribute(String name, String value)*
      * Wait until element is changed the attribute.
      *
      * @param attribute  for watching
@@ -1094,11 +1103,16 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param timeoutSec seconds to wait until element is changed attribute
      * @return Parent instance
      */
+    @Deprecated
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
-        return waitForAttributeChanged(attribute, value, timeoutSec, CHECKCONDITION);
+        boolean result = waitAttribute(attribute, value);
+        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
+                format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), takePassedScreenshot);
+        return parent;
     }
 
     /**
+     * !!! Use waitAttribute(String name, String value)
      * Wait until element is changed the attribute.
      *
      * @param attribute  for watching
@@ -1107,30 +1121,11 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
+    @Deprecated
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, final boolean checkCondition) {
-        boolean isChanged;
-        logAction(this, getParentClassName(), format("waitForAttributeChanged[%s]: %s", value, locator));
-        long start = System.currentTimeMillis() / 1000;
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
-                .ignoring(StaleElementReferenceException.class);
-        try {
-            getAttribute(attribute);
-            isChanged = wait.until(
-                    new ExpectedCondition<Boolean>() {
-                        @Override
-                        public Boolean apply(WebDriver driver) {
-                            return !getDriver().findElement(avatar.byLocator).getAttribute(attribute).equals(value);
-                        }
-                    }
-            );
-        } catch (TimeoutException e) {
-            logTechnical(format("waitForAttributeChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
-            isChanged = false;
-        }
-        if (checkCondition){
-            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged,
-                    format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), TestBaseWebDriver.takePassedScreenshot);
-        }
+        boolean result = waitAttribute(attribute, value);
+        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
+                format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), takePassedScreenshot);
         return parent;
     }
 
@@ -1188,7 +1183,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
                         @Override
                         public Boolean apply(WebDriver driver) {
                             try {
-                                getWebElement(timeoutSec).click();
+                                setTimeout(timeoutSec);
+                                getWebElement().click();
+                                setTimeout(TIMEOUT);
                                 return true;
                             } catch (Exception e) {
                                 return false;
@@ -1200,8 +1197,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             logTechnical(format("waitForClickable: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isClicked = false;
         }
-        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked,
-                format("waitForClickableAndClick: '%s' was clickable and click at it", getName()), TestBaseWebDriver.takePassedScreenshot);
+        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked,
+                format("waitForClickableAndClick: '%s' was clickable and click at it", getName()), takePassedScreenshot);
         return parent;
     }
 
@@ -1251,7 +1248,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         setTimeout(TIMEOUT);
         if (checkCondition){
             ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue,
-                    format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
+                    format("waitForExpectedCondition - '%s'", condition), takePassedScreenshot);
         }
         return parent;
     }

@@ -13,15 +13,14 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.complex;
 
-import com.epam.ui_test_framework.elements.base.Clickable;
-import com.epam.ui_test_framework.elements.base.Element;
+import com.epam.ui_test_framework.elements.base.SetValue;
+import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.interfaces.base.IElement;
 import com.epam.ui_test_framework.elements.interfaces.complex.IDropDown;
-import com.epam.ui_test_framework.elements.common.Text;
+import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.epam.ui_test_framework.utils.common.Timer.getByCondition;
 import static java.lang.String.format;
 
 /**
@@ -37,45 +36,48 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
         super(optionsNamesLocatorTemplate, allOptionsNamesLocator); this.selectLocator = selectLocator;
     }
     private By selectLocator;
+    private Button field() { return new Button(selectLocator); }
 
     @Override
-    protected void selectAction(String name) { new Clickable(selectLocator).click(); super.selectAction(name); }
+    protected void selectAction(String name) { field().click(); super.selectAction(name); }
     @Override
-    protected void selectByIndexAction(int index) { new Clickable(selectLocator).click(); super.selectByIndexAction(index); }
+    protected void selectByIndexAction(int index) { field().click(); super.selectByIndexAction(index); }
     @Override
-    protected String getValueAction() { return new Text(selectLocator).getText(); }
+    protected SetValue setValue() { return  new SetValue(() -> field().getText(), super.setValue()); }
     @Override
-    protected boolean waitSelectedAction(String value) { return getValueAction().equals(value); }
-    protected String getTextAction() { return getValueAction(); }
+    protected boolean waitSelectedAction(String value) { return field().waitText(value).equals(value); }
 
     @Override
-    public boolean waitDisplayed(int seconds) {
-        return new Element(selectLocator).waitDisplayed(seconds);
+    public boolean waitDisplayed() {  return field().waitDisplayed(); }
+    @Override
+    public boolean waitVanished()  { return field().waitVanished(); }
+
+    @Override
+    public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc) {
+        return field().wait(resultFunc);
     }
     @Override
-    public boolean waitVanished(int seconds)  {
-        return new Element(selectLocator).waitVanished();
+    public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition) {
+        return field().wait(resultFunc, condition);
     }
-
-    public final String getText() { return getTextAction(); }
-    public final String waitText(String text) { return doJActionResult(format("Wait text contains '%s'", text),
-            () -> getByCondition(this::getTextAction, t -> t.contains(text)));
+    @Override
+    public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc, int timeoutSec) {
+        return field().wait(resultFunc, timeoutSec);
     }
-    public final String waitMatchText(String regEx) { return doJActionResult(format("Wait text match regex '%s'", regEx),
-            () -> getByCondition(this::getTextAction, t -> t.matches(regEx)));
+    @Override
+    public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
+        return field().wait(resultFunc, condition, timeoutSec);
     }
+    
+    public final String getText() { return field().getText(); }
+    public final String waitText(String text) { return field().waitText(text); }
+    public final String waitMatchText(String regEx) { return field().waitText(regEx); }
 
     public void setAttribute(String attributeName, String value) {
-        jsExecutor().executeScript("arguments[0].setAttribute(arguments[1], arguments[2])",
-                getWebElement(), attributeName, value);
+        field().setAttribute(attributeName, value);
     }
+    public WebElement getWebElement() { return field().getWebElement(); }
 
-    public String getAttribute(String attributeName) {
-        return doJActionResult(format("Get Attribute '%s'", attributeName),
-                () -> getWebElement().getAttribute(attributeName));
-    }
-    public WebElement getWebElement() { return new Element(selectLocator).getWebElement(); }
-    public WebElement getWebElement(int timeouInSec) { return new Element(selectLocator).getWebElement(); }
     @Deprecated    // Not relevant
     public IElement copy(By newLocator) { return this; }
 }

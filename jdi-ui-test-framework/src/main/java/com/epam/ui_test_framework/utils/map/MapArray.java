@@ -13,6 +13,7 @@ import static com.epam.ui_test_framework.utils.common.LinqUtils.first;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.firstIndex;
 import static com.epam.ui_test_framework.utils.common.PrintUtils.print;
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by Roman_Iovlev on 6/3/2015.
@@ -39,7 +40,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     }
     public MapArray(MapArray<K, V> mapArray) {
         this();
-        addAll(mapArray.stream().collect(Collectors.toList()));
+        addAll(mapArray.stream().collect(toList()));
     }
     public MapArray(Object[][] objects) throws Exception {
         this();
@@ -54,9 +55,23 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
         return mapArray;
     }
     public static <T> MapArray<Integer, T> toMapArray(T[] array) {
-        Set<T> mySet = new HashSet<T>();
+        Set<T> mySet = new HashSet<>();
         Collections.addAll(mySet, array);
         return toMapArray(mySet);
+    }
+    public <KResult, VResult> MapArray<KResult, VResult> toMapArray(
+            JFuncTT<Pair<K, V>, KResult> key, JFuncTT<Pair<K, V>, VResult> value) throws Exception {
+        MapArray<KResult, VResult> result = new MapArray<>();
+        for (Pair<K,V> pair : pairs)
+            result.add(key.invoke(pair), value.invoke(pair));
+        return result;
+    }
+    public <VResult> MapArray<K, VResult> toMapArray(
+            JFuncTT<V, VResult> value) throws Exception {
+        MapArray<K, VResult> result = new MapArray<>();
+        for(Pair<K,V> pair : pairs)
+            result.add(pair.key, value.invoke(pair.value));
+        return result;
     }
     public boolean add(K key, V value) {
         if (haveKey(key)) return false;

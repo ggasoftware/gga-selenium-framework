@@ -15,12 +15,12 @@ public abstract class RowColumn {
     public String getName() { return name; }
 
     public <T> T get(JFuncTT<RowColumn, T> action) {
-        return asserter.silentException(() -> action.invoke(this));
+        return asserter.silent(() -> action.invoke(this));
     }
     public <T> T get(JFuncTT<String, T> nameAction, JFuncTT<Integer, T> numAction) {
-        return asserter.silentException(() -> haveName()
-                ? nameAction.invoke(name)
-                : numAction.invoke(num)
+        return asserter.silent(() -> haveName()
+                        ? nameAction.invoke(name)
+                        : numAction.invoke(num)
         );
     }
 

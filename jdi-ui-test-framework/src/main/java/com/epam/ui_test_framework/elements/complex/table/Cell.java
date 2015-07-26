@@ -1,13 +1,15 @@
 package com.epam.ui_test_framework.elements.complex.table;
 
-import com.epam.ui_test_framework.elements.common.ClickableText;
-import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
+import com.epam.ui_test_framework.elements.base.ClickableText;
+import com.epam.ui_test_framework.elements.common.Text;
+import com.epam.ui_test_framework.elements.interfaces.base.IClickable;
+import com.epam.ui_test_framework.elements.interfaces.common.IText;
 
 /**
  * Created by 12345 on 25.10.2014.
  */
 
-public class Cell<T extends IClickableText> extends ClickableText implements IClickableText {
+public class Cell<T extends IClickable & IText> extends ClickableText implements IClickable, IText {
     private T element;
     public int columnNum;
     public int rowNum;
@@ -15,7 +17,13 @@ public class Cell<T extends IClickableText> extends ClickableText implements ICl
     public String rowName;
 
     @Override
-    protected String getTextAction() { return element.getText(); }
+    protected Text text() {
+        return new Text(getLocator()) {
+            @Override
+            protected String getTextAction() {
+                return element.getText();
+    }   };
+    }
     @Override
     protected void clickAction() { element.click(); }
     public void select() { click(); }

@@ -1,8 +1,11 @@
 package com.epam.ui_test_framework.elements.complex.table;
 
 import com.epam.ui_test_framework.elements.apiInteract.ContextType;
+import com.epam.ui_test_framework.elements.base.HaveValue;
 import com.epam.ui_test_framework.elements.interfaces.base.IBaseElement;
-import com.epam.ui_test_framework.elements.interfaces.base.IClickableText;
+import com.epam.ui_test_framework.elements.interfaces.base.IClickable;
+import com.epam.ui_test_framework.elements.interfaces.base.IHaveValue;
+import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import com.epam.ui_test_framework.elements.interfaces.complex.ITable;
 import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.common.Text;
@@ -32,7 +35,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 /**
  * Created by Roman_Iovlev on 6/2/2015.
  */
-public class Table<T extends IClickableText> extends Text implements ITable<T> {
+public class Table<T extends IClickable & IText> extends Text implements ITable<T> {
     public Table() {
         this(null);
         //GetFooterFunc = t => t.FindElements(By.xpath("//tfoot/tr/td")).Select(el => el.Text).ToArray();
@@ -273,16 +276,15 @@ public class Table<T extends IClickableText> extends Text implements ITable<T> {
                 : ("Available RowHeaders: " + print(headers, ", ", "'{0}'") + ")")));
         return nameIndex + rows().startIndex;
     }
-
     @Override
-    protected String getValueAction() {
-        return "||X|" + print(columns().headers(), "|") + "||" + LineBreak +
+    protected IHaveValue haveValue() { return new HaveValue(() ->
+        "||X|" + print(columns().headers(), "|") + "||" + LineBreak +
                 print(new ArrayList<>(select(rows().headers(),
                         rowName -> "||" + rowName + "||" +
                                 print(new ArrayList<>(select(where(getCells(),
                                                 cell -> cell.rowName.equals(rowName)),
-                                        Cell::getValue)), "|") + "||")), LineBreak);
-    }
+                                        Cell::getValue)), "|") + "||")), LineBreak)
+    ); }
 
     private Cell<T> addCell(int colIndex, int rowIndex, int colNum, int rowNum, String colName, String rowName) {
         Cell<T> cell = first(_allCells, c -> c.columnNum == colNum && c.rowNum == rowNum);

@@ -13,6 +13,7 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.common;
 
+import com.epam.ui_test_framework.elements.base.SetValue;
 import com.epam.ui_test_framework.elements.interfaces.common.IInput;
 import org.openqa.selenium.By;
 
@@ -29,16 +30,14 @@ public class Input extends Text implements IInput {
     public Input() { super(); }
     public Input(By byLocator) { super(byLocator); }
 
-    protected void setValueAction(String value) { newInput(value); }
+    protected SetValue setValue() { return new SetValue(this::newInput, this::getTextAction); }
     @Override
     protected String getTextAction() { return getWebElement().getAttribute("value"); }
     protected void inputAction(String text) { getWebElement().sendKeys(text); }
     protected void clearAction() { getWebElement().clear(); }
     protected void focusAction() { getWebElement().click(); }
 
-    public final void setValue(String value) {
-        doJAction("Set value", () -> setValueRule(value, this::setValueAction));
-    }
+    public final void setValue(String value) { setValue().setValue(value); }
 
     public final void input(String text) {
         doJAction("Input text '" + text + "' in text field",

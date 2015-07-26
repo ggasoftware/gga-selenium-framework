@@ -78,10 +78,9 @@ public class Dropdown<TEnum extends Enum, P> extends Selector<TEnum, P> implemen
                 getWebElement(), attributeName, value);
         return parent;
     }
-
-    public String getAttribute(String attributeName) {
-        return doJActionResult(format("Get Attribute '%s'", attributeName),
-                () -> getWebElement().getAttribute(attributeName));
+    public boolean waitAttribute(String name, String value) {
+        return doJActionResult(format("Wait attribute %s='%s'", name, value),
+                () -> getWebElement().getAttribute(name).equals(value));
     }
     public WebElement getWebElement() { return new Element(selectLocator).getWebElement(); }
     public WebElement getWebElement(int timeouInSec) { return new Element(selectLocator).getWebElement(); }
