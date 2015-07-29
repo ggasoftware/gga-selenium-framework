@@ -13,6 +13,7 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.complex;
 
+import com.epam.ui_test_framework.elements.interfaces.complex.IMenu;
 import com.epam.ui_test_framework.elements.interfaces.complex.IRadioButtons;
 import org.openqa.selenium.By;
 
@@ -21,7 +22,7 @@ import org.openqa.selenium.By;
  *
  * @author Alexeenko Yan
  */
-public class Menu<TEnum extends Enum> extends Selector<TEnum> implements IRadioButtons<TEnum> {
+public class Menu<TEnum extends Enum> extends Selector<TEnum> implements IMenu<TEnum> {
     public Menu() { super(); }
     public Menu(By optionsNamesLocatorTemplate) { super(optionsNamesLocatorTemplate); }
     public Menu(By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {

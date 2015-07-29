@@ -138,7 +138,7 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
 
     /**
      * Finds Rows in table matches specified criteria
-     * @param colNameValues - list of search criteria in format <columnName>=<columnValue>
+     * @param colNameValues - list of search criteria in format columnName=columnValue
      * (e.g. rows("Name=Roman", "Profession=QA") )
      * @return List of Rows (dictionary: rowName:row)
      * Each Row is dictionary: columnName:cell)
@@ -165,7 +165,7 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
 
     /**
      * Finds Columns in table matches specified criteria
-     * @param rowNameValues - list of search criteria in format <rowName>=<rowValue>
+     * @param rowNameValues - list of search criteria in format rowName=rowValue
      * (e.g. columns("Name=Roman", "Profession=QA") )
      * @return List of Columns (dictionary: columnName:column)
      * Each Column is dictionary: rowName:cell)

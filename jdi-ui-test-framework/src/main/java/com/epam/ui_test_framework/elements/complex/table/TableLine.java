@@ -1,8 +1,7 @@
 package com.epam.ui_test_framework.elements.complex.table;
 
 import com.epam.ui_test_framework.elements.base.Element;
-import com.epam.ui_test_framework.elements.interfaces.base.IClickable;
-import com.epam.ui_test_framework.elements.interfaces.common.IText;
+import com.epam.ui_test_framework.elements.base.SelectElement;
 import com.epam.ui_test_framework.utils.common.ReflectionUtils;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 /**
  * Created by 12345 on 25.10.2014.
  */
-public abstract class TableLine<T extends IClickable & IText> extends Element {
+public abstract class TableLine<T extends SelectElement> extends Element implements ITableLine<T> {
     public int startIndex = 1;
     public boolean haveHeader;
     public ElementIndexType elementIndex;

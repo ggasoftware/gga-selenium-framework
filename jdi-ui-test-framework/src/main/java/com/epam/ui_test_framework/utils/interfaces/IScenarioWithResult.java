@@ -1,6 +1,6 @@
 package com.epam.ui_test_framework.utils.interfaces;
 
-import com.epam.ui_test_framework.logger.LogSettings;
+import com.epam.ui_test_framework.logger.base.LogSettings;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncT;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import com.epam.ui_test_framework.elements.BaseElement;

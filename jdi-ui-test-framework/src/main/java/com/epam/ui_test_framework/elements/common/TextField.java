@@ -14,10 +14,8 @@
 package com.epam.ui_test_framework.elements.common;
 
 import com.epam.ui_test_framework.elements.base.SetValue;
-import com.epam.ui_test_framework.elements.interfaces.common.IInput;
+import com.epam.ui_test_framework.elements.interfaces.common.ITextfield;
 import org.openqa.selenium.By;
-
-import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 
 /**
  * Text Field control implementation
@@ -26,9 +24,9 @@ import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
  * @author Shubin Konstantin
  * @author Zharov Alexandr
  */
-public class Input extends Text implements IInput {
-    public Input() { super(); }
-    public Input(By byLocator) { super(byLocator); }
+public class TextField extends Text implements ITextfield {
+    public TextField() { super(); }
+    public TextField(By byLocator) { super(byLocator); }
 
     protected SetValue setValue() { return new SetValue(this::newInput, this::getTextAction); }
     @Override

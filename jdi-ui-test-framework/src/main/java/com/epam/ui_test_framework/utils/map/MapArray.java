@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.first;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.firstIndex;
 import static com.epam.ui_test_framework.utils.common.PrintUtils.print;
+import static com.epam.ui_test_framework.utils.usefulUtils.TryCatchUtil.ignoreException;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
@@ -42,9 +43,9 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
         this();
         addAll(mapArray.stream().collect(toList()));
     }
-    public MapArray(Object[][] objects) throws Exception {
+    public MapArray(Object[][] objects) {
         this();
-        add(objects);
+        ignoreException(() -> add(objects));
     }
 
     public static <T> MapArray<Integer, T> toMapArray(Collection<T> collection) {

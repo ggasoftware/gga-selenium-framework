@@ -1,7 +1,6 @@
 package com.epam.ui_test_framework.elements.complex.table;
 
-import com.epam.ui_test_framework.elements.interfaces.base.IClickable;
-import com.epam.ui_test_framework.elements.interfaces.common.IText;
+import com.epam.ui_test_framework.elements.base.SelectElement;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -15,7 +14,7 @@ import static java.lang.String.format;
 /**
  * Created by 12345 on 26.10.2014.
  */
-public class Rows<T extends IClickable & IText> extends TableLine<T> {
+public class Rows<T extends SelectElement> extends TableLine<T> {
     public Rows() {
         haveHeader = false;
         elementIndex = ElementIndexType.Nums;
@@ -30,18 +29,18 @@ public class Rows<T extends IClickable & IText> extends TableLine<T> {
         asserter.exception(format("Can't Get Rows '%s'. Exception: %s", rowName, ex));
     }
 
-    public final MapArray<String, Cell<T>> getColumn(String colName) {
+    public final MapArray<String, ICell<T>> getColumn(String colName) {
         try { return cellsToColumn(select(headers(), rowName -> table.cell(new Column(colName), new Row(rowName)))); }
         catch (Exception ex) { throwRowsException(colName, ex); return null; }
     }
 
-    public MapArray<String, Cell<T>> cellsToColumn(Collection<Cell<T>> cells) {
-        return asserter.silent(() -> new MapArray<String, Cell<T>>(cells,
-                cell -> headers()[cell.rowNum - 1],
+    public MapArray<String, ICell<T>> cellsToColumn(Collection<ICell<T>> cells) {
+        return asserter.silent(() -> new MapArray<String, ICell<T>>(cells,
+                cell -> headers()[cell.rowNum() - 1],
                 cell -> cell));
     }
 
-    public final MapArray<String, Cell<T>> getColumn(int colNum) {
+    public final MapArray<String, ICell<T>> getColumn(int colNum) {
         int rowsCount = -1;
         if (count > 0)
             rowsCount = count;
@@ -57,10 +56,10 @@ public class Rows<T extends IClickable & IText> extends TableLine<T> {
         catch (Exception ex) { throwRowsException(colNum + "", ex); return null; }
     }
 
-    public MapArray<String, MapArray<String, Cell<T>>> get() {
-        MapArray<String, MapArray<String, Cell<T>>> rows = new MapArray<>();
+    public MapArray<String, MapArray<String, ICell<T>>> get() {
+        MapArray<String, MapArray<String, ICell<T>>> rows = new MapArray<>();
         for(String rowName : headers()) {
-            MapArray<String, Cell<T>> column = new MapArray<>();
+            MapArray<String, ICell<T>> column = new MapArray<>();
             for (String columnName : table.columns().headers())
                 column.add(columnName, table.cell(new Column(columnName), new Row(rowName)));
             rows.add(rowName, column);

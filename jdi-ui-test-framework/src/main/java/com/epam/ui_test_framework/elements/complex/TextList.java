@@ -2,7 +2,7 @@ package com.epam.ui_test_framework.elements.complex;
 
 import com.epam.ui_test_framework.elements.interfaces.complex.ITextList;
 import com.epam.ui_test_framework.elements.BaseElement;
-import com.epam.ui_test_framework.logger.LogSettings;
+import com.epam.ui_test_framework.logger.base.LogSettings;
 import com.epam.ui_test_framework.utils.common.PrintUtils;
 import com.epam.ui_test_framework.utils.common.Timer;
 import com.epam.ui_test_framework.utils.map.MapArray;
@@ -33,14 +33,12 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     }
 
     public boolean waitDisplayed() {
-        return new Timer(timeouts.waitElementSec*1000).wait(
-                () -> where(getWebElements(), WebElement::isDisplayed).size() > 0);
+        return timer().wait(() -> where(getWebElements(), WebElement::isDisplayed).size() > 0);
     }
 
     public boolean waitVanished()  {
         setWaitTimeout(timeouts.retryMSec);
-        boolean result = new Timer(timeouts.currentTimoutSec*1000).wait(
-                () -> {
+        boolean result = timer().wait(() -> {
                     List<WebElement> elements = getWebElements();
                     if (elements == null || elements.size() == 0)
                         return true;

@@ -1,46 +1,35 @@
 package com.epam.ui_test_framework.elements;
 
-import com.epam.ui_test_framework.elements.apiInteract.ContextType;
-import com.epam.ui_test_framework.elements.apiInteract.GetElementModule;
-import com.epam.ui_test_framework.elements.base.Clickable;
-import com.epam.ui_test_framework.elements.base.Element;
-import com.epam.ui_test_framework.elements.complex.ElementsGroup;
-import com.epam.ui_test_framework.elements.complex.TextList;
+import com.epam.ui_test_framework.elements.apiInteract.*;
+import com.epam.ui_test_framework.elements.base.*;
 import com.epam.ui_test_framework.elements.complex.*;
 import com.epam.ui_test_framework.elements.complex.table.Table;
-import com.epam.ui_test_framework.elements.composite.Page;
+import com.epam.ui_test_framework.elements.composite.*;
 import com.epam.ui_test_framework.elements.interfaces.base.*;
 import com.epam.ui_test_framework.elements.interfaces.complex.*;
 import com.epam.ui_test_framework.elements.interfaces.common.*;
-import com.epam.ui_test_framework.elements.page_objects.annotations.Frame;
-import com.epam.ui_test_framework.elements.page_objects.annotations.JFindBy;
+import com.epam.ui_test_framework.elements.page_objects.annotations.*;
 import com.epam.ui_test_framework.elements.common.*;
-import com.epam.ui_test_framework.elements.page_objects.annotations.JPage;
 import com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions;
-import com.epam.ui_test_framework.logger.LogSettings;
+import com.epam.ui_test_framework.logger.base.LogSettings;
 import com.epam.ui_test_framework.utils.common.Timer;
-import com.epam.ui_test_framework.utils.interfaces.IScenario;
-import com.epam.ui_test_framework.utils.interfaces.IScenarioWithResult;
+import com.epam.ui_test_framework.utils.interfaces.*;
 import com.epam.ui_test_framework.utils.linqInterfaces.*;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import com.epam.ui_test_framework.utils.pairs.Pairs;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 
-import static com.epam.ui_test_framework.elements.base.Element.highlight;
 import static com.epam.ui_test_framework.elements.page_objects.annotations.AnnotationsUtil.*;
 import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.NONE;
 import static com.epam.ui_test_framework.reporting.PerformanceStatistic.addStatistic;
+import static com.epam.ui_test_framework.settings.FrameworkData.applicationVersion;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.foreach;
-import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.*;
 import static com.epam.ui_test_framework.utils.common.StringUtils.LineBreak;
-import static com.epam.ui_test_framework.utils.common.Timer.alwaysDoneAction;
-import static com.epam.ui_test_framework.utils.common.Timer.getResultAction;
+import static com.epam.ui_test_framework.utils.common.Timer.*;
 import static com.epam.ui_test_framework.settings.FrameworkSettings.*;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -96,6 +85,7 @@ public abstract class BaseElement implements IBaseElement {
         alwaysDoneAction(jAction::invoke);
         addStatistic(timer.timePassedInMSec());
     };
+    protected Timer timer() { return avatar.timer(); }
     public static IScenarioWithResult invocationScenarioWithResult = new IScenarioWithResult() {
         @Override
         public <TResult> TResult invoke(BaseElement element, String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
@@ -130,7 +120,7 @@ public abstract class BaseElement implements IBaseElement {
     protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action,
                                                       JFuncTT<TResult, String> logResult, LogSettings logSettings) {
         try {
-            processDemoMode();
+            driverFactory.processDemoMode(this);
             return invocationScenarioWithResult.invoke(this, actionName, action, logResult, logSettings);
         }
         catch (Exception ex) {
@@ -145,17 +135,12 @@ public abstract class BaseElement implements IBaseElement {
 
     protected final void doJAction(String actionName, JAction action, LogSettings logSettings) {
         try {
-            processDemoMode();
+            driverFactory.processDemoMode(this);
             invocationScenario.invoke(this, actionName, action, logSettings);
         }
         catch (Exception ex) {
             asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
-    }
-    private void processDemoMode() {
-        if (isDemoMode)
-            if (isClass(getClass(), Element.class))
-                highlight((Element)this, highlightSettings);
     }
 
     // Page Objects init
@@ -289,7 +274,7 @@ public abstract class BaseElement implements IBaseElement {
                         {ISelector.class, Selector.class},
                         {IText.class, Text.class},
                         {ITextArea.class, TextArea.class},
-                        {IInput.class, Input.class},
+                        {ITextfield.class, TextField.class},
                         {ILabel.class, Label.class},
                         {IDropDown.class, Dropdown.class},
                         {IDropList.class, DropList.class},
@@ -300,6 +285,7 @@ public abstract class BaseElement implements IBaseElement {
                         {ICheckList.class, CheckList.class},
                         {ITextList.class, TextList.class},
                         {ITabs.class, Tabs.class},
+                        {IMenu.class, Menu.class},
                         {IFileInput.class, FileInput.class},
                         {IDatePicker.class, DatePicker.class},
                 });

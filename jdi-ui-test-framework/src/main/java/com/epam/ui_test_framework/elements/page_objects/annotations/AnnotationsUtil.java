@@ -8,9 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import java.lang.reflect.Field;
 
 import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.*;
-import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.NONE;
-import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.POPUP_TEXT;
-import static com.epam.ui_test_framework.utils.common.ReflectionUtils.isClass;
 
 /**
  * Created by roman.i on 25.09.2014.
@@ -53,14 +50,10 @@ public class AnnotationsUtil {
     public static Functions getFunction(Field field) {
         if (field.isAnnotationPresent(OkButton.class))
             return OK_BUTTON;
-        if (field.isAnnotationPresent(SubmitButton.class))
-            return SUBMIT_BUTTON;
         if (field.isAnnotationPresent(CloseButton.class))
             return CLOSE_BUTTON;
         if (field.isAnnotationPresent(CancelButton.class))
             return CANCEL_BUTTON;
-        if (field.isAnnotationPresent(PopupText.class))
-            return POPUP_TEXT;
         return NONE;
     }
 

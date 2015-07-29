@@ -16,6 +16,8 @@ package com.epam.ui_test_framework.elements.common;
 import com.epam.ui_test_framework.elements.interfaces.common.ITextArea;
 import org.openqa.selenium.By;
 
+import static java.lang.String.join;
+
 /**
  * Text Field control implementation
  *
@@ -23,7 +25,7 @@ import org.openqa.selenium.By;
  * @author Shubin Konstantin
  * @author Zharov Alexandr
  */
-public class TextArea extends Input implements ITextArea {
+public class TextArea extends TextField implements ITextArea {
     public TextArea() { }
     public TextArea(By byLocator) { super(byLocator); }
 
@@ -32,6 +34,14 @@ public class TextArea extends Input implements ITextArea {
         return getWebElement().getText();
     }
 
+    public final void inputLines(String... textLines) {
+        doJAction("Input several lines of text in textarea",
+                () -> {clearAction(); inputAction(join("\n", textLines));});
+    }
+    public final void addNewLine(String textLine) {
+        doJAction("Add text from new line in textarea",
+                () -> inputAction("\n" + textLine));
+    }
     public final String[] getLines() {
         return doJActionResult("Get text as lines", () -> getTextAction().split("\\n"));
     }

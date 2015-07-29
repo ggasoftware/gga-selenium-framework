@@ -30,7 +30,7 @@ import java.net.URL;
 import java.util.Set;
 
 import static com.epam.ui_test_framework.settings.FrameworkSettings.logger;
-import static com.epam.ui_test_framework.settings.FrameworkSettings.seleniumFactory;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.driverFactory;
 import static com.epam.ui_test_framework.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -56,8 +56,8 @@ public final class WebDriverWrapper {
      */
     public static void initRemoteWebDriver(String remoteUrl, Capabilities capabilities) {
         logger.debug(format("Initialization Remote Web Driver at url '%s'", remoteUrl));
-        seleniumFactory.registerDriver(new RemoteWebDriver(tryGetResult(() -> new URL(remoteUrl)), capabilities));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new RemoteWebDriver(tryGetResult(() -> new URL(remoteUrl)), capabilities));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
     /**
@@ -67,8 +67,8 @@ public final class WebDriverWrapper {
      */
     public static void initFirefoxDriver(Capabilities capabilities) {
         logger.debug("Initialization Firefox Driver");
-        seleniumFactory.registerDriver(new FirefoxDriver(capabilities));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new FirefoxDriver(capabilities));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
     /**
@@ -78,8 +78,8 @@ public final class WebDriverWrapper {
      */
     public static void initChromeDriver(Capabilities capabilities) {
         logger.debug("Initialization Chrome Driver");
-        seleniumFactory.registerDriver(new ChromeDriver(capabilities));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new ChromeDriver(capabilities));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
     /**
@@ -89,8 +89,8 @@ public final class WebDriverWrapper {
      */
     public static void initSafariDriver(Capabilities capabilities) {
         logger.debug("Initialization Safari Driver");
-        seleniumFactory.registerDriver(new SafariDriver(capabilities));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new SafariDriver(capabilities));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
     /**
@@ -100,8 +100,8 @@ public final class WebDriverWrapper {
      */
     public static void initInternetExplorerDriver(Capabilities capabilities) {
         logger.debug("Initialization Internet Explorer Driver");
-        seleniumFactory.registerDriver(new InternetExplorerDriver(capabilities));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new InternetExplorerDriver(capabilities));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
     /**
@@ -111,8 +111,8 @@ public final class WebDriverWrapper {
      */
     public static void initHtmlUnitDriver(Capabilities capabilities) {
         logger.debug("Initialization Html Unit Driver");
-        seleniumFactory.registerDriver(new HtmlUnitDriver(capabilities));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new HtmlUnitDriver(capabilities));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
     /**
@@ -126,8 +126,8 @@ public final class WebDriverWrapper {
         File profileDir = new File(path);
         FirefoxProfile ffprofile = new FirefoxProfile(profileDir);
         ffprofile.setEnableNativeEvents(true);
-        seleniumFactory.registerDriver(new FirefoxDriver(ffprofile));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new FirefoxDriver(ffprofile));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
      /**
@@ -142,8 +142,8 @@ public final class WebDriverWrapper {
         profile.setPreference("javascript.enabled", true);
         profile.setPreference("dom.max_script_run_time", 0);
         profile.setPreference("dom.max_chrome_script_run_time", 0);
-        seleniumFactory.registerDriver(new FirefoxDriver(profile));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new FirefoxDriver(profile));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
      /**
@@ -159,8 +159,8 @@ public final class WebDriverWrapper {
         capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         capabilities.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
         capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
-        seleniumFactory.registerDriver(new InternetExplorerDriver(capabilities));
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new InternetExplorerDriver(capabilities));
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
      /**
@@ -171,7 +171,7 @@ public final class WebDriverWrapper {
         logger.debug("Initialization Chrome Driver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments(asList("--start-maximized", "--test-type", "--ignore-certificate-errors", "--disable-popup-blocking", "--allow-running-insecure-content", "--disable-translate", "--always-authorize-plugins"));
-        seleniumFactory.registerDriver(new ChromeDriver(options));
+        driverFactory.registerDriver(new ChromeDriver(options));
     }
 
      /**
@@ -179,8 +179,8 @@ public final class WebDriverWrapper {
      */
     public static void initSafariDriver() {
         logger.debug("Initialization Safari Driver");
-        seleniumFactory.registerDriver(new SafariDriver());
-        // seleniumFactory.getDriver().manage().window().maximize();
+        driverFactory.registerDriver(new SafariDriver());
+        // driverFactory.getDriver().manage().window().maximize();
     }
 
     /**
@@ -188,7 +188,7 @@ public final class WebDriverWrapper {
      */
     public static void deleteAllCookies() {
         logger.debug("Remove all cookies");
-        seleniumFactory.getDriver().manage().deleteAllCookies();
+        driverFactory.getDriver().manage().deleteAllCookies();
     }
 
     /**
@@ -200,7 +200,7 @@ public final class WebDriverWrapper {
     public static void deleteCookieNamed(String cookieName){
         logger.debug(format("Remove cookie: %s", cookieName));
         getCookieNamed(cookieName);
-        seleniumFactory.getDriver().manage().deleteCookieNamed(cookieName);
+        driverFactory.getDriver().manage().deleteCookieNamed(cookieName);
         getCookieNamed(cookieName);
     }
 
@@ -211,8 +211,8 @@ public final class WebDriverWrapper {
      */
     public static void getCookieNamed(String cookieName){
         logger.debug(format("getCookieNamed: %s", cookieName));
-        if((seleniumFactory.getDriver().manage().getCookieNamed(cookieName))!=null) {
-            logger.debug(format(" cookie: %s%s", cookieName, seleniumFactory.getDriver().manage().getCookieNamed(cookieName)));
+        if((driverFactory.getDriver().manage().getCookieNamed(cookieName))!=null) {
+            logger.debug(format(" cookie: %s%s", cookieName, driverFactory.getDriver().manage().getCookieNamed(cookieName)));
         }
         else{
             logger.debug(format(" cookie: [ %s ] = null !!! )", cookieName));
@@ -227,16 +227,16 @@ public final class WebDriverWrapper {
      */
     public static void open(String page) {
         logger.debug(format("Navigate to page: %s", page));
-        seleniumFactory.getDriver().get(page);
+        driverFactory.getDriver().get(page);
     }
 
     /**
      * Quit from WebDriver (Closes all browser windows and safely ends the session).
      */
     public static void quit() {
-        if (seleniumFactory.getDriver() != null) {
+        if (driverFactory.getDriver() != null) {
             logger.debug("WebDriver Quit");
-            seleniumFactory.getDriver().quit();
+            driverFactory.getDriver().quit();
         }
     }
 
@@ -245,9 +245,9 @@ public final class WebDriverWrapper {
      *  Close the WebDriver (Close the browser window that the driver has focus of).
      */
     public static void close() {
-        if (seleniumFactory.getDriver() != null) {
+        if (driverFactory.getDriver() != null) {
             logger.debug("WebDriver Close");
-            seleniumFactory.getDriver().close();
+            driverFactory.getDriver().close();
         }
     }
 
@@ -259,7 +259,7 @@ public final class WebDriverWrapper {
      */
     public static Object executeScript(String script) {
         logger.debug(format("Execute Script - %s", script));
-        return ((JavascriptExecutor) seleniumFactory.getDriver()).executeScript(script);
+        return ((JavascriptExecutor) driverFactory.getDriver()).executeScript(script);
     }
 
     /**
@@ -269,7 +269,7 @@ public final class WebDriverWrapper {
      */
     public static void switchToFrame(String frame) {
         logger.debug(format("Switch To Frame - %s", frame));
-        seleniumFactory.getDriver().switchTo().frame(frame);
+        driverFactory.getDriver().switchTo().frame(frame);
     }
 
     /**
@@ -279,7 +279,7 @@ public final class WebDriverWrapper {
      */
     public static void switchToWindow(String window) {
         logger.debug(format("Switch To Window - %s", window));
-        seleniumFactory.getDriver().switchTo().window(window);
+        driverFactory.getDriver().switchTo().window(window);
     }
 
     /**
@@ -289,7 +289,7 @@ public final class WebDriverWrapper {
      */
     public static WebElement switchToActive() {
         logger.debug("Switch To Active");
-        return seleniumFactory.getDriver().switchTo().activeElement();
+        return driverFactory.getDriver().switchTo().activeElement();
     }
 
     /**
@@ -297,16 +297,16 @@ public final class WebDriverWrapper {
      */
     public static void switchWindow() {
         logger.debug("Switch Window");
-        Set<String> handles = seleniumFactory.getDriver().getWindowHandles();
+        Set<String> handles = driverFactory.getDriver().getWindowHandles();
         if (handles.size() > 1 ){
-            String current = seleniumFactory.getDriver().getWindowHandle();
+            String current = driverFactory.getDriver().getWindowHandle();
             handles.remove(current);
         }
         else{
             logger.debug("SwitchWindow: only one windows is available");
         }
         String newTab = handles.iterator().next();
-        seleniumFactory.getDriver().switchTo().window(newTab);
+        driverFactory.getDriver().switchTo().window(newTab);
     }
 
     /**
@@ -314,7 +314,7 @@ public final class WebDriverWrapper {
      */
     public static void switchToDefault() {
         logger.debug("Switch To Default");
-        seleniumFactory.getDriver().switchTo().defaultContent();
+        driverFactory.getDriver().switchTo().defaultContent();
     }
 
     /**
@@ -325,9 +325,9 @@ public final class WebDriverWrapper {
      */
     public static boolean switchToWindowUsingTitle(String title) {
         logger.debug(format("Switch To Window Using Title '%s'", title));
-        Set<String> availableWindows = seleniumFactory.getDriver().getWindowHandles();
+        Set<String> availableWindows = driverFactory.getDriver().getWindowHandles();
         if (!availableWindows.isEmpty() && availableWindows.contains(title)) {
-            seleniumFactory.getDriver().switchTo().window(title);
+            driverFactory.getDriver().switchTo().window(title);
             return true;
         }
         return false;
@@ -340,7 +340,7 @@ public final class WebDriverWrapper {
      */
     public static String getWindowHandle() {
         logger.debug("Get Window Handle");
-        return seleniumFactory.getDriver().getWindowHandle();
+        return driverFactory.getDriver().getWindowHandle();
     }
 
     /**
@@ -350,7 +350,7 @@ public final class WebDriverWrapper {
      */
     public static Set<String> getWindowHandles() {
         logger.debug("Get Windows Handles");
-        return seleniumFactory.getDriver().getWindowHandles();
+        return driverFactory.getDriver().getWindowHandles();
     }
 
     /**
@@ -360,7 +360,7 @@ public final class WebDriverWrapper {
      */
     public static String getWindowTitle() {
         logger.debug("Get Window Title");
-        return seleniumFactory.getDriver().getTitle();
+        return driverFactory.getDriver().getTitle();
     }
 
     /**
@@ -368,7 +368,7 @@ public final class WebDriverWrapper {
      */
     public static void goBack() {
         logger.debug("Go Back");
-        seleniumFactory.getDriver().navigate().back();
+        driverFactory.getDriver().navigate().back();
     }
 
     /**
@@ -376,7 +376,7 @@ public final class WebDriverWrapper {
      */
     public static void goForward() {
         logger.debug("Go Forward");
-        seleniumFactory.getDriver().navigate().forward();
+        driverFactory.getDriver().navigate().forward();
     }
 
     /**
@@ -384,7 +384,7 @@ public final class WebDriverWrapper {
      */
     public static void refresh() {
         logger.debug("Refresh");
-        seleniumFactory.getDriver().navigate().refresh();
+        driverFactory.getDriver().navigate().refresh();
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.epam.ui_test_framework.logger;
+package com.epam.ui_test_framework.logger.base;
 
 import com.epam.ui_test_framework.logger.enums.LogInfoTypes;
 import com.epam.ui_test_framework.logger.enums.LogLevels;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.ui_test_framework.logger.enums.LogInfoTypes.*;
+import static com.epam.ui_test_framework.logger.enums.LogLevels.*;
 
 /**
  * Created by Roman_Iovlev on 7/13/2015.
@@ -17,11 +18,18 @@ public class LogSettings {
     public LogInfoTypes logInfoType;
 
     public LogSettings() {
-        this.logLevel = LogLevels.INFO;
-        logInfoTypes = BUSINESS.type + FRAMEWORK.type + TECHNICAL.type;
+        this(INFO);
     }
     public LogSettings(LogLevels logLevel, LogInfoTypes... logInfoTypes) {
         this.logLevel = logLevel;
+        switch(logInfoTypes.length) {
+            case 0:
+                this.logInfoTypes = BUSINESS.type + FRAMEWORK.type + TECHNICAL.type;
+                return;
+            case 1:
+                this.logInfoType = logInfoTypes[0];
+                return;
+        }
         List<LogInfoTypes> usedTypes = new ArrayList<>();
         this.logInfoTypes = 0;
         for (LogInfoTypes logInfoType : logInfoTypes)
@@ -29,9 +37,5 @@ public class LogSettings {
                 usedTypes.add(logInfoType);
                 this.logInfoTypes += logInfoType.type;
             }
-    }
-    public LogSettings(LogLevels logLevel, LogInfoTypes logInfoType) {
-        this.logLevel = logLevel;
-        this.logInfoType = logInfoType;
     }
 }

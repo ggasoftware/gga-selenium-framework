@@ -13,9 +13,8 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.complex;
 
-import com.epam.ui_test_framework.elements.base.SelectElement;
 import com.epam.ui_test_framework.elements.base.SetValue;
-import com.epam.ui_test_framework.elements.common.Input;
+import com.epam.ui_test_framework.elements.common.TextField;
 import com.epam.ui_test_framework.elements.interfaces.complex.IComboBox;
 import org.openqa.selenium.*;
 
@@ -28,36 +27,36 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
     public ComboBox() { super(); }
     public ComboBox(By valueLocator) {
         super(valueLocator);
-        input = createInputAction(valueLocator);
+        textField = getTextField(valueLocator);
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate) {
         super(selectorLocator, optionsNamesLocatorTemplate);
-        input = createInputAction(selectorLocator);
+        textField = getTextField(selectorLocator);
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator) {
         super(selectorLocator, optionsNamesLocatorTemplate);
-        input = createInputAction(valueLocator);
+        textField = getTextField(valueLocator);
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator, By allOptionsNamesLocator) {
         super(selectorLocator, optionsNamesLocatorTemplate, allOptionsNamesLocator);
-        input = createInputAction(valueLocator);
+        textField = getTextField(valueLocator);
     }
-    private Input input;
+    private TextField textField;
 
-    protected Input createInputAction(By valueLocator) { return new Input(valueLocator); }
+    protected TextField getTextField(By valueLocator) { return new TextField(valueLocator); }
 
-    protected void inputAction(String text) { input.input(text); }
-    protected void clearAction() { input.clear(); }
-    protected void focusAction() { input.focus(); }
+    protected void inputAction(String text) { textField.input(text); }
+    protected void clearAction() { textField.clear(); }
+    protected void focusAction() { textField.focus(); }
 
     @Override
     protected SetValue setValue() {
-        return new SetValue( this::newInput, input::getText);
+        return new SetValue( this::newInput, textField::getText);
     }
 
-    public final void input(String text) { input.input(text); }
-    public final void newInput(String text) { input.newInput(text); }
-    public final void clear() { input.clear(); }
-    public final void focus() { input.focus(); }
+    public final void input(String text) { textField.input(text); }
+    public final void newInput(String text) { textField.newInput(text); }
+    public final void clear() { textField.clear(); }
+    public final void focus() { textField.focus(); }
 
 }

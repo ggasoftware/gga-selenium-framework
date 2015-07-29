@@ -23,10 +23,10 @@ public class PrintUtils {
     public static String print(Iterable<String> list) { return print(list, ", ", "%s"); }
     public static String print(Iterable<String> list, String separator) { return print(list, separator, "%s"); }
     public static <T extends Enum> String printEnum(List<T> enums) {
-        return (enums != null) ? String.join(", ", LinqUtils.select(enums, el -> format("%s", el))) : "";
+        return (enums != null) ? join(", ", select(enums, el -> format("%s", el))) : "";
     }
     public static String print(Iterable<String> list, String separator, String format) {
-        return (list != null) ? String.join(separator, LinqUtils.select(list, el -> format(format, el))) : "";
+        return (list != null) ? join(separator, select(list, el -> format(format, el))) : "";
     }
     public static String print(String[] list) { return print(list, ", ", "%s"); }
     public static String print(String[] list, String separator) { return print(list, separator, "%s"); }

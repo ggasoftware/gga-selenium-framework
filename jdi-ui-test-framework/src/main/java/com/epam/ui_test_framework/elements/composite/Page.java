@@ -1,9 +1,11 @@
 package com.epam.ui_test_framework.elements.composite;
 
 import com.epam.ui_test_framework.elements.BaseElement;
+import com.epam.ui_test_framework.elements.page_objects.annotations.JDIAction;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
+import static java.lang.String.format;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -52,29 +54,54 @@ public class Page extends BaseElement {
             this.driver = driver;
         }
 
+        /** Check that current page url/title equals to expected url/title */
+        @JDIAction
         public void check() { assertEquals(driver.getTitle(), string); }
+        /** Check that current page url/title matches to expected url/title-matcher */
+        @JDIAction
         public void match() { assertTrue(driver.getTitle().matches(matcher)); }
+        /** Check that current page url/title contains expected url/title-matcher */
+        @JDIAction
         public void contains() { assertTrue(driver.getTitle().contains(matcher)); }
     }
 
-    public void open() { getDriver().navigate().to(url); }
+    /** Opens url specified for page */
+    @JDIAction
+    public void open() {
+        doJAction(format("Open page %s by url %s", getName(), url),
+            () -> getDriver().navigate().to(url));
+    }
     public static void openUrl(String url) {
         new Page(url).open();
     }
+    /** Refresh current page */
+    @JDIAction
     public void refresh() {
-        getDriver().navigate().refresh();
+        doJAction("Refresh page " + getName(),
+                () -> getDriver().navigate().refresh());
     }
-
+    /** Go back to previous page */
+    @JDIAction
     public void back() {
-        getDriver().navigate().back();
+        doJAction("Go back to previous page",
+                () -> getDriver().navigate().back());
     }
+    /** Go forward to next page */
+    @JDIAction
     public void forward() {
-        getDriver().navigate().forward();
+        doJAction("Go forward to next page",
+                () -> getDriver().navigate().forward());
     }
+    /** Add cookie in browser */
+    @JDIAction
     public void addCookie(Cookie cookie) {
-        getDriver().manage().addCookie(cookie);
+        doJAction("Go forward to next page",
+                () -> getDriver().manage().addCookie(cookie));
     }
+    /** Clear browsers cache */
+    @JDIAction
     public void clearCache() {
-        getDriver().manage().deleteAllCookies();
+        doJAction("Go forward to next page",
+                () -> getDriver().manage().deleteAllCookies());
     }
 }

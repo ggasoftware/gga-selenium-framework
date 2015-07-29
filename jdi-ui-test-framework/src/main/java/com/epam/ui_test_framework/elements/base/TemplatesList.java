@@ -22,7 +22,7 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 7/3/2015.
  */
-public abstract class TemplatesList<TType extends IElement, TEnum extends Enum> extends BaseElement implements IVisible{
+public abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends BaseElement implements IVisible{
     public TemplatesList() { }
     public TemplatesList(By byLocator, TType templateElement) {
         super(byLocator);
@@ -41,19 +41,17 @@ public abstract class TemplatesList<TType extends IElement, TEnum extends Enum> 
     private TType templateElement;
 
     public boolean waitDisplayed() {
-        return new Timer(timeouts.currentTimoutSec*1000).wait(
-                () -> first(getElementsList(), el -> el.getWebElement().isDisplayed()) != null);
+        return timer().wait(() -> first(getElementsList(), el -> el.getWebElement().isDisplayed()) != null);
     }
 
     public boolean waitVanished()  {
         setWaitTimeout(timeouts.retryMSec);
-        boolean result = new Timer(timeouts.currentTimoutSec*1000).wait(
-                () -> {
-                    for (TType el : getElementsList())
-                        try { if (el.getWebElement().isDisplayed()) return false;
-                        } catch (Exception ignore) { }
-                    return true;
-                });
+        boolean result = timer().wait(() -> {
+                for (TType el : getElementsList())
+                    try { if (el.getWebElement().isDisplayed()) return false;
+                    } catch (Exception ignore) { }
+                return true;
+            });
         setWaitTimeout(timeouts.waitElementSec);
         return result;
     }

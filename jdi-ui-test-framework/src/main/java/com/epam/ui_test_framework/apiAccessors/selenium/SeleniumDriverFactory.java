@@ -1,5 +1,10 @@
 package com.epam.ui_test_framework.apiAccessors.selenium;
 
+import com.epam.ui_test_framework.elements.BaseElement;
+import com.epam.ui_test_framework.elements.base.Element;
+import com.epam.ui_test_framework.elements.interfaces.base.IElement;
+import com.epam.ui_test_framework.settings.HighlightSettings;
+import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,12 +14,35 @@ import java.util.List;
 import java.util.Set;
 
 import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.driverFactory;
+import static com.epam.ui_test_framework.utils.common.ReflectionUtils.isClass;
 import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, WebDriver*/ {
+    public SeleniumDriverFactory() {
+        this(false, new HighlightSettings(), WebElement::isDisplayed);
+    }
+    public SeleniumDriverFactory(boolean isDemoMode) {
+        this(isDemoMode, new HighlightSettings(), WebElement::isDisplayed);
+    }
+    public SeleniumDriverFactory(HighlightSettings highlightSettings) {
+        this(false, highlightSettings, WebElement::isDisplayed);
+    }
+    public SeleniumDriverFactory(JFuncTT<WebElement, Boolean> elementSearchCriteria) {
+        this(false, new HighlightSettings(), elementSearchCriteria);
+    }
+    public SeleniumDriverFactory(boolean isDemoMode, HighlightSettings highlightSettings,
+             JFuncTT<WebElement, Boolean> elementSearchCriteria) {
+        this.isDemoMode = isDemoMode;
+        this.highlightSettings = highlightSettings;
+        this.elementSearchCriteria = elementSearchCriteria;
+    }
+
+    public JFuncTT<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
+
     private MapArray<String, WebDriver> drivers = new MapArray<>();
     public void registerDriver(WebDriver driver) {
         registerDriver("Driver" + drivers.size() + 1, driver);
@@ -43,6 +71,26 @@ public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, We
             asserter.exception(format("Can't switch to Webdriver '%s'. This Driver name not registered", driverName));
     }
     public String currentDriverName = "";
+
+    public boolean isDemoMode = false;
+    public void processDemoMode(BaseElement element) {
+        if (isDemoMode)
+            if (isClass(element.getClass(), Element.class))
+                highlight((Element)element, highlightSettings);
+    }
+
+    public HighlightSettings highlightSettings = new HighlightSettings();
+
+    public void highlight(IElement element) { highlight(element, highlightSettings); }
+    public void highlight(IElement element, HighlightSettings highlightSettings) {
+        if (highlightSettings == null)
+            highlightSettings = new HighlightSettings();
+        String orig = element.getWebElement().getAttribute("style");
+        element.setAttribute("style", format("border: 3px solid %s; background-color: %s;", highlightSettings.FrameColor,
+                highlightSettings.BgColor));
+        try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception ignore) {}
+        element.setAttribute("style", orig);
+    }
 
     public void runApplication() {
 

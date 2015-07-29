@@ -1,26 +1,32 @@
 package com.epam.ui_test_framework.elements.interfaces.base;
 
 import com.epam.ui_test_framework.elements.page_objects.annotations.JDIAction;
-import com.epam.ui_test_framework.utils.common.Timer;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.WebElement;
-
-import static com.epam.ui_test_framework.settings.FrameworkSettings.timeouts;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface IElement extends IBaseElement, IVisible {
+    /** Returns Selenium webElement for this Element */
     @JDIAction
     WebElement getWebElement();
+    /** Waits while attribute gets expected value. Return false if this not happens */
+    @JDIAction
+    boolean waitAttribute(String name, String value);
+    /** Sets attribute value for element */
     @JDIAction
     void setAttribute(String attributeName, String value);
+    /** Waits while condition with WebElement and returns wait result */
     @JDIAction
     Boolean wait(JFuncTT<WebElement, Boolean> resultFunc);
+    /** Waits while condition with WebElement happens and returns result using resultFunc */
     @JDIAction
     <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition);
+    /** Waits while condition with WebElement happens during specified timeout and returns wait result */
     @JDIAction
     Boolean wait(JFuncTT<WebElement, Boolean> resultFunc, int timeoutSec) ;
+    /** Waits while condition with WebElement happens during specified timeout and returns result using resultFunc */
     @JDIAction
     <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec);
 }

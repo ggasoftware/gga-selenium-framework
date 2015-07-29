@@ -9,10 +9,9 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fw.version>1.0.5</fw.version>
         <selenium.version>2.45.0</selenium.version>
-        <allure.version>1.4.5</allure.version>
-        <aspectj.version>1.7.4</aspectj.version>
+        <testng.version>6.8.1</testng.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencies>
@@ -22,29 +21,14 @@
             <version>${selenium.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ggasoftware.uitest</groupId>
-            <artifactId>gga-selenium-framework-core</artifactId>
-            <version>${fw.version}</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
         </dependency>
         <dependency>
-            <groupId>ru.yandex.qatools.allure</groupId>
-            <artifactId>allure-testng-adaptor</artifactId>
-            <version>${allure.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>9.0.0.RC2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>9.0.0.RC2</version>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 

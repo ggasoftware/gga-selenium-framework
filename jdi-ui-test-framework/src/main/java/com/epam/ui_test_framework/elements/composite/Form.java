@@ -1,20 +1,22 @@
 package com.epam.ui_test_framework.elements.composite;
 
-import com.epam.ui_test_framework.elements.base.Element;
-import com.epam.ui_test_framework.elements.base.SetValue;
-import com.epam.ui_test_framework.elements.interfaces.base.IHaveValue;
+import com.epam.ui_test_framework.elements.base.*;
+import com.epam.ui_test_framework.elements.common.Button;
+import com.epam.ui_test_framework.elements.interfaces.base.*;
+import com.epam.ui_test_framework.elements.interfaces.common.IButton;
 import com.epam.ui_test_framework.elements.interfaces.complex.IForm;
-import com.epam.ui_test_framework.elements.interfaces.base.ISetValue;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
 import static com.epam.ui_test_framework.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.SUBMIT_BUTTON;
-import static com.epam.ui_test_framework.utils.common.LinqUtils.foreach;
-import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
+import static com.epam.ui_test_framework.utils.common.LinqUtils.*;
 import static com.epam.ui_test_framework.utils.common.PrintUtils.*;
-import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFieldValue;
-import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFields;
+import static com.epam.ui_test_framework.utils.common.ReflectionUtils.*;
+import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.
@@ -47,13 +49,33 @@ public class Form<T> extends Element implements IForm<T> {
         return name1.toLowerCase().replace(" ", "").equals(name2.toLowerCase().replace(" ", ""));
     }
 
+    private Button getSubmitButton() {
+        List<Field> fields = getFields(this, IButton.class);
+        switch (fields.size()) {
+            case 0:
+                asserter.exception(format("Can't find any buttons on form '%s.", toString()));
+                return null;
+            case 1:
+                return (Button) getFieldValue(fields.get(0), this);
+            default:
+                asserter.exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
+                return null;
+        }
+    }
     protected void submit(MapArray<String, String> objStrings) {
         fill(objStrings);
-        getButton(SUBMIT_BUTTON).click();
+        getSubmitButton().click();
     }
     public void submit(T entity) { submit(objToSetValue(entity)); }
-
-   protected SetValue setValue() { return new SetValue(
+    public void submit(T entity, String buttonName) {
+        fill(objToSetValue(entity));
+        getButton(buttonName).click();
+    }
+    public void submit(T entity, Enum buttonName) {
+        fill(objToSetValue(entity));
+        getButton(buttonName.toString().toLowerCase()).click();
+    }
+    protected SetValue setValue() { return new SetValue(
             value -> submit(parseObjectAsString(value)),
             () -> print(select(getFields(this, IHaveValue.class), field ->
                     ((IHaveValue) getFieldValue(field, this)).getValue())));

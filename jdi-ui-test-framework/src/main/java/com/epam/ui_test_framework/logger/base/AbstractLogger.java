@@ -1,11 +1,9 @@
-package com.epam.ui_test_framework.logger;
+package com.epam.ui_test_framework.logger.base;
 
 import com.epam.ui_test_framework.logger.enums.BusinessInfoTypes;
 import com.epam.ui_test_framework.logger.enums.LogInfoTypes;
 import com.epam.ui_test_framework.logger.enums.LogLevels;
 import com.epam.ui_test_framework.utils.map.MapArray;
-
-import java.util.Objects;
 
 import static com.epam.ui_test_framework.logger.enums.LogInfoTypes.*;
 import static com.epam.ui_test_framework.logger.enums.LogLevels.*;
@@ -87,10 +85,15 @@ public abstract class AbstractLogger implements ILogger {
         messagesMap.addOrReplace(lineId, message);
         return false;
     }
+
     private boolean preventDuplicates = true;
+    public ILogger forbidDuplicatedLines() {
+        preventDuplicates = false;
+        return this;
+    }
     private MapArray<String, String> messagesMap = new MapArray<>();
 
-    public void toLog(String message, LogSettings settings, Object... args) {
+    public final void toLog(String message, LogSettings settings, Object... args) {
         switch (settings.logLevel) {
             case FATAL: fatal(message, args); break;
             case ERROR: error(settings.logInfoType, message, args); break;
@@ -109,7 +112,10 @@ public abstract class AbstractLogger implements ILogger {
 
     public AbstractLogger() { this(INFO); }
     public AbstractLogger(LogLevels logLevel) {
-        this.logSettings = new LogSettings();
+        this(new LogSettings(logLevel));
+    }
+    public AbstractLogger(LogSettings logSettings) {
+        this.logSettings = logSettings;
     }
 
     private LogSettings logSettings;

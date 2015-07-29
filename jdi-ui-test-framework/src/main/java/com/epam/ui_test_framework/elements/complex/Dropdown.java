@@ -15,13 +15,10 @@ package com.epam.ui_test_framework.elements.complex;
 
 import com.epam.ui_test_framework.elements.base.SetValue;
 import com.epam.ui_test_framework.elements.common.Button;
-import com.epam.ui_test_framework.elements.interfaces.base.IElement;
 import com.epam.ui_test_framework.elements.interfaces.complex.IDropDown;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import static java.lang.String.format;
 
 /**
  * RadioButtons control implementation
@@ -78,6 +75,8 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     }
     public WebElement getWebElement() { return field().getWebElement(); }
 
-    @Deprecated    // Not relevant
-    public IElement copy(By newLocator) { return this; }
+    public boolean waitAttribute(String name, String value) {
+        return field().waitAttribute(name, value);
+    }
+
 }

@@ -33,7 +33,7 @@ public class GetElementModule {
 
     public GetElementModule(IBaseElement element) {
         this.element = element;
-        driverName = seleniumFactory.currentDriverName;
+        driverName = driverFactory.currentDriverName;
     }
     public GetElementModule(By byLocator, IBaseElement element) {
         this(element);
@@ -45,11 +45,11 @@ public class GetElementModule {
         this.context = context;
     }
 
-    public WebDriver getDriver() { return tryGetResult(() -> seleniumFactory.getDriver(driverName)); }
+    public WebDriver getDriver() { return tryGetResult(() -> driverFactory.getDriver(driverName)); }
 
     public WebElement getElement() {
         logger.info("Get Web element: " + element);
-        WebElement element = getByCondition(() -> getElementAction(), el -> el != null);
+        WebElement element = getByCondition(this::getElementAction, el -> el != null);
         logger.debug("One element found");
         return element;
     }
@@ -61,8 +61,9 @@ public class GetElementModule {
         return elements;
     }
 
+    public Timer timer() { return new Timer(timeouts.currentTimoutSec * 1000); }
     private List<WebElement> getElementsAction() {
-        List<WebElement> result = new Timer(timeouts.currentTimoutSec * 1000).getResultByCondition(
+        List<WebElement> result = timer().getResultByCondition(
                 this::searchElements,
                 els -> where(els, getSearchCriteria()::invoke).size() > 0);
         timeouts.dropTimeouts();
@@ -70,7 +71,7 @@ public class GetElementModule {
     }
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
     private JFuncTT<WebElement, Boolean> getSearchCriteria() {
-        return localElementSearchCriteria != null ? localElementSearchCriteria : elementSearchCriteria;
+        return localElementSearchCriteria != null ? localElementSearchCriteria : driverFactory.elementSearchCriteria;
     }
 
     private WebElement getElementAction() {

@@ -1,5 +1,6 @@
 package com.epam.ui_test_framework.logger;
 
+import com.epam.ui_test_framework.logger.base.AbstractLogger;
 import com.epam.ui_test_framework.logger.enums.BusinessInfoTypes;
 import com.epam.ui_test_framework.logger.enums.LogInfoTypes;
 import com.epam.ui_test_framework.logger.enums.LogLevels;

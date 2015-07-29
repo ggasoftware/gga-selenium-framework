@@ -70,4 +70,7 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     public final String waitMatchText(String regEx) { return field().waitText(regEx); }
     public WebElement getWebElement() { return field().getWebElement(); }
     public final String getText() { return field().getText(); }
+    public boolean waitAttribute(String name, String value) {
+        return field().waitAttribute(name, value);
+    }
 }

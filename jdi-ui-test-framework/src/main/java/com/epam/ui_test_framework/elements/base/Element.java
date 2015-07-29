@@ -20,7 +20,7 @@ import com.epam.ui_test_framework.elements.interfaces.common.IText;
 import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.common.Text;
 import com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions;
-import com.epam.ui_test_framework.logger.LogSettings;
+import com.epam.ui_test_framework.logger.base.LogSettings;
 import com.epam.ui_test_framework.utils.common.Timer;
 import com.epam.ui_test_framework.settings.HighlightSettings;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
@@ -32,14 +32,15 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.epam.ui_test_framework.elements.page_objects.annotations.AnnotationsUtil.getElementName;
+import static com.epam.ui_test_framework.elements.page_objects.annotations.AnnotationsUtil.getFindByLocator;
 import static com.epam.ui_test_framework.logger.enums.LogInfoTypes.BUSINESS;
 import static com.epam.ui_test_framework.logger.enums.LogLevels.DEBUG;
+import static com.epam.ui_test_framework.settings.FrameworkSettings.driverFactory;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.first;
 import static com.epam.ui_test_framework.utils.common.LinqUtils.select;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFieldValue;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.getFields;
 import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
-import static com.epam.ui_test_framework.settings.FrameworkSettings.highlightSettings;
 import static com.epam.ui_test_framework.settings.FrameworkSettings.timeouts;
 import static java.lang.String.format;
 
@@ -60,12 +61,25 @@ public class Element extends BaseElement implements IElement {
         return doJActionResult("Get web element " + this.toString(), avatar::getElement, new LogSettings(DEBUG, BUSINESS));
     }
 
-    public static <T extends IElement> T copy(T element, By newLocator) {
+    public static <T extends Element> T copy(T element, By newLocator) {
         try {
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
         } catch (Exception ex) { asserter.exception("Can't copy element: " + element); return null; }
+    }
+
+    protected Button getButton(String buttonName) {
+        List<Field> fields = getFields(this, IButton.class);
+        if (fields.size() == 1)
+            return (Button) getFieldValue(fields.get(0), this);
+        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
+        Button button = first(buttons, b -> b.getName().equals(getElementName(buttonName.toLowerCase() + "Button")));
+        if (button == null) {
+            asserter.exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
+            return null;
+        }
+        return button;
     }
 
     protected Button getButton(Functions funcName) {
@@ -88,6 +102,9 @@ public class Element extends BaseElement implements IElement {
         return null;
     }
 
+    public boolean waitAttribute(String name, String value) {
+        return wait(el -> el.getAttribute(name).equals(value));
+    }
     public void setAttribute(String attributeName, String value) {
         doJAction(format("Set Attribute '%s'='%s'", attributeName, value),
                 () -> jsExecutor().executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attributeName),
@@ -99,11 +116,11 @@ public class Element extends BaseElement implements IElement {
 
     public boolean waitVanished()  {
         setWaitTimeout(timeouts.retryMSec);
-        boolean result = new Timer(timeouts.currentTimoutSec*1000).wait(
-                () -> { try { if (getWebElement().isDisplayed()) return false; }
-                        catch (Exception ignore) { }
-                        return false;
-                    });
+        boolean result = timer().wait(() -> {
+                try { if (getWebElement().isDisplayed()) return false; }
+                catch (Exception ignore) { }
+                return false;
+            });
         setWaitTimeout(timeouts.waitElementSec);
         return result;
     }
@@ -114,9 +131,9 @@ public class Element extends BaseElement implements IElement {
     }
     @Override
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition) {
-        return new Timer(timeouts.currentTimoutSec)
-                .getResultByCondition(() -> resultFunc.invoke(getWebElement()), condition::invoke);
+        return timer().getResultByCondition(() -> resultFunc.invoke(getWebElement()), condition::invoke);
     }
+
     @Override
     public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc, int timeoutSec) {
         return wait(resultFunc, result -> result, timeoutSec);
@@ -129,15 +146,9 @@ public class Element extends BaseElement implements IElement {
         return result;
     }
 
-    public static void highlight(IElement element) { highlight(element, highlightSettings); }
-    public static void highlight(IElement element, HighlightSettings highlightSettings) {
-        if (highlightSettings == null)
-            highlightSettings = new HighlightSettings();
-        String orig = element.getWebElement().getAttribute("style");
-        element.setAttribute("style", format("border: 3px solid %s; background-color: %s;", highlightSettings.FrameColor,
-                highlightSettings.BgColor));
-        try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception ignore) {}
-        element.setAttribute("style", orig);
+    public void highlight() { driverFactory.highlight(this); }
+    public void highlight(HighlightSettings highlightSettings) {
+        driverFactory.highlight(this, highlightSettings);
     }
 
     public void clickWithKeys(Keys... keys) {

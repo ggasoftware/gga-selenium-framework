@@ -2,16 +2,29 @@ package com.epam.ui_test_framework.asserter;
 
 import com.epam.ui_test_framework.utils.linqInterfaces.JAction;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncT;
+import com.epam.ui_test_framework.utils.usefulUtils.ScreenshotMaker;
 import org.testng.Assert;
 
 import static com.epam.ui_test_framework.logger.enums.LogInfoTypes.FRAMEWORK;
 import static com.epam.ui_test_framework.settings.FrameworkSettings.logger;
+import static com.epam.ui_test_framework.utils.common.StringUtils.LineBreak;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class TestNGAsserter extends Assert implements IAsserter {
+    private boolean doScreenshots;
+
+    public TestNGAsserter() { this(false); }
+    public TestNGAsserter(boolean doScreenshots) {
+        this.doScreenshots = doScreenshots;
+    }
+
     public Exception exception(String message) {
+        if (doScreenshots) {
+            String resultMessage = ScreenshotMaker.doScreenshotGetMessage();
+            message = LineBreak + resultMessage + LineBreak + message;
+        }
         logger.error(FRAMEWORK, message);
         assertTrue(false, message);
         return new Exception(message);

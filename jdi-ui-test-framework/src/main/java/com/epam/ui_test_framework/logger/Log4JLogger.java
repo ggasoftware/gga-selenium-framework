@@ -1,12 +1,13 @@
 package com.epam.ui_test_framework.logger;
 
+import com.epam.ui_test_framework.logger.base.AbstractLogger;
 import com.epam.ui_test_framework.logger.enums.LogLevels;
 import com.epam.ui_test_framework.logger.enums.BusinessInfoTypes;
 import com.epam.ui_test_framework.logger.enums.LogInfoTypes;
 import org.apache.log4j.Logger;
 
 import static com.epam.ui_test_framework.utils.common.Timer.nowTimeShort;
-import static com.epam.ui_test_framework.settings.FrameworkSettings.frameworkName;
+import static com.epam.ui_test_framework.settings.FrameworkData.frameworkName;
 import static java.lang.String.format;
 import static org.apache.log4j.LogManager.getLogger;
 

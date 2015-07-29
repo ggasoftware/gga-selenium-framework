@@ -44,5 +44,4 @@ public class Selector<TEnum extends Enum> extends AbstractSelector<TEnum> implem
     public final boolean waitSelected(String name) {
         return doJActionResult(format("Wait Selected + '%s'", name), () -> waitSelectedAction(name));
     }
-
 }
