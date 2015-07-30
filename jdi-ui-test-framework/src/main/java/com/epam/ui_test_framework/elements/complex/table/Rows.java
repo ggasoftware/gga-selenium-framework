@@ -14,7 +14,7 @@ import static java.lang.String.format;
 /**
  * Created by 12345 on 26.10.2014.
  */
-public class Rows<T extends SelectElement> extends TableLine<T> {
+class Rows<T extends SelectElement> extends TableLine<T> {
     public Rows() {
         haveHeader = false;
         elementIndex = ElementIndexType.Nums;

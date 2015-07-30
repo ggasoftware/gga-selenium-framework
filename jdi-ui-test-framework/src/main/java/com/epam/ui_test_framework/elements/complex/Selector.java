@@ -1,6 +1,5 @@
 package com.epam.ui_test_framework.elements.complex;
 
-import com.epam.ui_test_framework.elements.base.AbstractSelector;
 import com.epam.ui_test_framework.elements.base.SelectElement;
 import com.epam.ui_test_framework.elements.base.SetValue;
 import com.epam.ui_test_framework.elements.interfaces.base.ISelector;
@@ -16,7 +15,7 @@ import static java.lang.String.format;
  * Created by roman.i on 03.10.2014.
  */
 
-public class Selector<TEnum extends Enum> extends AbstractSelector<TEnum> implements ISelector<TEnum> {
+public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements ISelector<TEnum> {
     public Selector() { super(); }
     public Selector(By optionsNamesLocatorTemplate) { super(optionsNamesLocatorTemplate); }
     public Selector(By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {

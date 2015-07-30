@@ -249,13 +249,13 @@ public abstract class BaseElement implements IBaseElement {
                     LineBreak + ex.getMessage()); return null; }
     }
 
+    public static void setValueRule(String text, JActionT<String> action)  {
+        asserter.silent(() -> setValueRule.invoke(text, action));
+    }
     public static JActionTT<String, JActionT<String>> setValueRule = (text, action) -> {
         if (text == null) return;
         action.invoke(text);
     };
-    public static void setValueRule(String text, JActionT<String> action)  {
-        asserter.silent(() -> action.invoke(text));
-    }
     public static JActionTT<String, JActionT<String>> setValueEmptyAction = (text, action) -> {
         if (text == null || text.equals("")) return;
         action.invoke(text.equals("#CLEAR#") ? "" : text);

@@ -13,12 +13,14 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.complex;
 
+import com.epam.ui_test_framework.elements.base.Element;
 import com.epam.ui_test_framework.elements.base.SetValue;
 import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.interfaces.complex.IDropList;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * Select control implementation
@@ -38,9 +40,25 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     private Button field() { return new Button(valueLocator); }
 
     @Override
-    protected void selectListAction(String... names) { field().click(); super.selectListAction(names); }
+    protected void selectListAction(String... names) {
+        if (getLocator() != null) {
+            field().click();
+            super.selectListAction(names);
+        }
+        else
+            for(String name : names)
+                new Select(new Element(valueLocator).getWebElement()).selectByValue(name);
+    }
     @Override
-    protected void selectListAction(int... indexes) { field().click(); super.selectListAction(indexes); }
+    protected void selectListAction(int... indexes) {
+        if (getLocator() != null) {
+            field().click();
+            super.selectListAction(indexes);
+        }
+        else
+            for(int index : indexes)
+                new Select(new Element(valueLocator).getWebElement()).selectByIndex(index);
+    }
     @Override
     protected boolean waitSelectedAction(String value) { return field().getText().equals(value); }
     @Override

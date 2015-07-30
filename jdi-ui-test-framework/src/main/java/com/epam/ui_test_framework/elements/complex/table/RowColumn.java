@@ -7,7 +7,7 @@ import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 /**
  * Created by Roman_Iovlev on 7/17/2015.
  */
-public abstract class RowColumn {
+abstract class RowColumn {
     private int num;
     private String name;
     public boolean haveName() { return name != null; }

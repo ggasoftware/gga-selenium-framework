@@ -13,7 +13,7 @@ import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 /**
  * Created by 12345 on 25.10.2014.
  */
-public abstract class TableLine<T extends SelectElement> extends Element implements ITableLine<T> {
+abstract class TableLine<T extends SelectElement> extends Element implements ITableLine<T> {
     public int startIndex = 1;
     public boolean haveHeader;
     public ElementIndexType elementIndex;

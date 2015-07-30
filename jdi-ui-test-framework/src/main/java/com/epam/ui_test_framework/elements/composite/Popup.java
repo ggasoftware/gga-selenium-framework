@@ -4,7 +4,6 @@ import com.epam.ui_test_framework.elements.interfaces.complex.IPopup;
 import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.common.Text;
 import com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions;
-import com.epam.ui_test_framework.settings.FrameworkSettings;
 import org.openqa.selenium.By;
 
 import static com.epam.ui_test_framework.elements.page_objects.annotations.functions.Functions.*;

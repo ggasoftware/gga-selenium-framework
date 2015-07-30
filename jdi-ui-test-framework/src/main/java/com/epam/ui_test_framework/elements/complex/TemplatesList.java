@@ -23,7 +23,7 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 7/3/2015.
  */
-public abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends BaseElement implements IVisible{
+abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends BaseElement implements IVisible{
     public TemplatesList() { }
     public TemplatesList(By byLocator, TType templateElement) {
         super(byLocator);

@@ -13,12 +13,14 @@
  ***************************************************************************/
 package com.epam.ui_test_framework.elements.complex;
 
+import com.epam.ui_test_framework.elements.base.Element;
 import com.epam.ui_test_framework.elements.base.SetValue;
 import com.epam.ui_test_framework.elements.common.Button;
 import com.epam.ui_test_framework.elements.interfaces.complex.IDropDown;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * RadioButtons control implementation
@@ -36,9 +38,23 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     private Button field() { return new Button(selectLocator); }
 
     @Override
-    protected void selectAction(String name) { field().click(); super.selectAction(name); }
+    protected void selectAction(String name) {
+        if (getLocator() != null) {
+            field().click();
+            super.selectAction(name);
+        }
+        else
+            new Select(new Element(selectLocator).getWebElement()).selectByValue(name);
+    }
     @Override
-    protected void selectByIndexAction(int index) { field().click(); super.selectByIndexAction(index); }
+    protected void selectByIndexAction(int index) {
+        if (getLocator() != null) {
+            field().click();
+            super.selectByIndexAction(index);
+        }
+        else
+            new Select(new Element(selectLocator).getWebElement()).selectByIndex(index);
+    }
     @Override
     protected SetValue setValue() { return  new SetValue(() -> field().getText(), super.setValue()); }
     @Override
