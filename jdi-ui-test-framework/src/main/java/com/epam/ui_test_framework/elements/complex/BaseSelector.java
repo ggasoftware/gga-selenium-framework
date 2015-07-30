@@ -1,6 +1,7 @@
-package com.epam.ui_test_framework.elements.base;
+package com.epam.ui_test_framework.elements.complex;
 
-import com.epam.ui_test_framework.elements.complex.TextList;
+import com.epam.ui_test_framework.elements.base.SelectElement;
+import com.epam.ui_test_framework.elements.base.SetValue;
 import org.openqa.selenium.By;
 
 import java.util.List;
@@ -13,16 +14,16 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 7/9/2015.
  */
-public abstract class AbstractSelector<TEnum extends Enum> extends TemplatesList<SelectElement, TEnum>{
-    public AbstractSelector() { super(); }
-    public AbstractSelector(By optionsNamesLocatorTemplate) {
+abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElement, TEnum> {
+    public BaseSelector() { super(); }
+    public BaseSelector(By optionsNamesLocatorTemplate) {
         super(optionsNamesLocatorTemplate, new SelectElement(optionsNamesLocatorTemplate));
     }
-    public AbstractSelector(By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {
+    public BaseSelector(By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {
         super(optionsNamesLocatorTemplate, new SelectElement(optionsNamesLocatorTemplate));
         allLabels = new TextList<>(allOptionsNamesLocator);
     }
-    public AbstractSelector(By optionsNamesLocatorTemplate, TEnum enumMember) {
+    public BaseSelector(By optionsNamesLocatorTemplate, TEnum enumMember) {
         super(optionsNamesLocatorTemplate, new SelectElement(optionsNamesLocatorTemplate), enumMember);
     }
     private TextList<TEnum> allLabels;

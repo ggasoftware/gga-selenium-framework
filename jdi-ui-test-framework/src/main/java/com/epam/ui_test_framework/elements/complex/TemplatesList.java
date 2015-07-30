@@ -1,6 +1,7 @@
-package com.epam.ui_test_framework.elements.base;
+package com.epam.ui_test_framework.elements.complex;
 
 import com.epam.ui_test_framework.elements.BaseElement;
+import com.epam.ui_test_framework.elements.base.Element;
 import com.epam.ui_test_framework.elements.interfaces.base.IElement;
 import com.epam.ui_test_framework.elements.interfaces.base.IVisible;
 import com.epam.ui_test_framework.utils.common.EnumUtils;
