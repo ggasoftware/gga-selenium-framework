@@ -41,6 +41,6 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
     }
     public final boolean waitSelected(TEnum name) { return waitSelected(getEnumValue(name)); }
     public final boolean waitSelected(String name) {
-        return doJActionResult(format("Wait Selected + '%s'", name), () -> waitSelectedAction(name));
+        return doJActionResult(format("Wait is '%s' selected", name), () -> waitSelectedAction(name));
     }
 }

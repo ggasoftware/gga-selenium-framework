@@ -32,7 +32,7 @@ public class Popup extends Text implements IPopup {
         return null;
     }
 
-    public void ok()       { getButtonBy(CANCEL_BUTTON, "ok").click();}
+    public void ok()       { getButtonBy(OK_BUTTON, "ok").click();}
     public void cancel()   { getButtonBy(CANCEL_BUTTON, "cancel").click();}
     public void close()    { getButtonBy(CLOSE_BUTTON,  "close").click();}
 

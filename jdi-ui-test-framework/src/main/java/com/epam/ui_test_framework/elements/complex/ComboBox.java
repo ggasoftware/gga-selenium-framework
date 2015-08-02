@@ -27,36 +27,36 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
     public ComboBox() { super(); }
     public ComboBox(By valueLocator) {
         super(valueLocator);
-        textField = getTextField(valueLocator);
+        textFieldLocator = valueLocator;
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate) {
         super(selectorLocator, optionsNamesLocatorTemplate);
-        textField = getTextField(selectorLocator);
+        textFieldLocator = selectorLocator;
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator) {
         super(selectorLocator, optionsNamesLocatorTemplate);
-        textField = getTextField(valueLocator);
+        textFieldLocator = valueLocator;
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator, By allOptionsNamesLocator) {
         super(selectorLocator, optionsNamesLocatorTemplate, allOptionsNamesLocator);
-        textField = getTextField(valueLocator);
+        textFieldLocator = valueLocator;
     }
-    private TextField textField;
+    protected By textFieldLocator;
+    protected TextField textField() { return new TextField(textFieldLocator); }
 
-    protected TextField getTextField(By valueLocator) { return new TextField(valueLocator); }
-
-    protected void inputAction(String text) { textField.input(text); }
-    protected void clearAction() { textField.clear(); }
-    protected void focusAction() { textField.focus(); }
+    protected void inputAction(String text) { textField().input(text); }
+    protected void clearAction() { textField().clear(); }
+    protected void focusAction() { textField().focus(); }
 
     @Override
     protected SetValue setValue() {
-        return new SetValue( this::newInput, textField::getText);
+        return new SetValue( this::newInput, textField()::getText);
     }
 
-    public final void input(String text) { textField.input(text); }
-    public final void newInput(String text) { textField.newInput(text); }
-    public final void clear() { textField.clear(); }
-    public final void focus() { textField.focus(); }
+    public final void input(String text) { textField().input(text); }
+    public final void sendKeys(String text) { input(text); }
+    public final void newInput(String text) { textField().newInput(text); }
+    public final void clear() { textField().clear(); }
+    public final void focus() { textField().focus(); }
 
 }

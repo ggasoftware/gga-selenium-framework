@@ -10,7 +10,9 @@ import com.epam.ui_test_framework.logger.ListLogger;
 import com.epam.ui_test_framework.testRunner.ITestRunner;
 import com.epam.ui_test_framework.testRunner.TestNGRunner;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
@@ -22,4 +24,8 @@ public class FrameworkSettings {
     public static SeleniumDriverFactory driverFactory = new SeleniumDriverFactory();
 
     public static TimeoutSettings timeouts = new TimeoutSettings();
+
+    public static void useDriver(WebDriver driver) { driverFactory.registerDriver(driver); }
+    public static void useDriver(Drivers driver) { driverFactory.registerDriver(driver); }
+
 }

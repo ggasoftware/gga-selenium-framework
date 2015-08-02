@@ -98,7 +98,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
     public ICell<T> cell(Column column, Row row) {
         int colIndex = column.get(this::getColumnIndex, num -> num + getColumns().startIndex - 1);
         int rowIndex = row.get(this::getRowIndex, num -> num + getRows().startIndex - 1);
-        return (ICell<T>) addCell(colIndex, rowIndex,
+        return addCell(colIndex, rowIndex,
                 column.get(name -> asList(columns().headers()).indexOf(name) + 1, num -> num),
                 row.get(name -> asList(rows().headers()).indexOf(name) + 1, num -> num),
                 column.get(name -> name, num -> ""),
@@ -273,7 +273,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         if (cell != null)
             return cell.updateData(colName, rowName);
         cell = createCell(colIndex, rowIndex, colNum, rowNum, colName, rowName);
-        _allCells.add((ICell<T>)cell);
+        _allCells.add(cell);
         return cell;
     }
 

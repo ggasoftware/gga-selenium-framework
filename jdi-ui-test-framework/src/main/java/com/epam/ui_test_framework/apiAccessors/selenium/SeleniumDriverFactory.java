@@ -3,16 +3,21 @@ package com.epam.ui_test_framework.apiAccessors.selenium;
 import com.epam.ui_test_framework.elements.BaseElement;
 import com.epam.ui_test_framework.elements.base.Element;
 import com.epam.ui_test_framework.elements.interfaces.base.IElement;
+import com.epam.ui_test_framework.settings.Drivers;
 import com.epam.ui_test_framework.settings.HighlightSettings;
 import com.epam.ui_test_framework.utils.linqInterfaces.JFuncTT;
 import com.epam.ui_test_framework.utils.map.MapArray;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import java.util.List;
 import java.util.Set;
 
+import static com.epam.ui_test_framework.settings.Drivers.CHROME;
 import static com.epam.ui_test_framework.settings.FrameworkSettings.asserter;
 import static com.epam.ui_test_framework.settings.FrameworkSettings.driverFactory;
 import static com.epam.ui_test_framework.utils.common.ReflectionUtils.isClass;
@@ -47,6 +52,21 @@ public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, We
     public void registerDriver(WebDriver driver) {
         registerDriver("Driver" + drivers.size() + 1, driver);
     }
+    public void registerDriver(Drivers drivers) {
+        switch (drivers) {
+            case CHROME:
+                registerDriver(new ChromeDriver());
+                return;
+            case FIREFOX:
+                registerDriver(new FirefoxDriver());
+                return;
+            case IE:
+                registerDriver(new InternetExplorerDriver());
+                return;
+        }
+        asserter.exception("Unknown driver");
+    }
+
     public void registerDriver(String driverName, WebDriver driver) {
         if (!drivers.add(driverName, driver))
             asserter.exception(format("Can't register Webdriver '%s'. Driver with same name already registered", driverName));

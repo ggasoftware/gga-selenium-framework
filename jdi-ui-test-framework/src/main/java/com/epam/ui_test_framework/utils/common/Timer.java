@@ -56,7 +56,7 @@ public class Timer {
     public boolean wait(JFuncT<Boolean> waitCase) {
         while (!timeoutPassed())
             try {
-                if (tryGetResult(waitCase) != null)
+                if (tryGetResult(waitCase))
                     return true;
                 sleep(_retryTimeoutInMSec);
             } catch (Exception ignore) { }

@@ -14,7 +14,8 @@
 package com.epam.ui_test_framework.elements.common;
 
 import com.epam.ui_test_framework.elements.base.SetValue;
-import com.epam.ui_test_framework.elements.interfaces.common.ITextfield;
+import com.epam.ui_test_framework.elements.interfaces.common.ITextField;
+import com.epam.ui_test_framework.elements.page_objects.annotations.JDIAction;
 import org.openqa.selenium.By;
 
 /**
@@ -24,7 +25,7 @@ import org.openqa.selenium.By;
  * @author Shubin Konstantin
  * @author Zharov Alexandr
  */
-public class TextField extends Text implements ITextfield {
+public class TextField extends Text implements ITextField {
     public TextField() { super(); }
     public TextField(By byLocator) { super(byLocator); }
 
@@ -41,6 +42,8 @@ public class TextField extends Text implements ITextfield {
         doJAction("Input text '" + text + "' in text field",
                 () -> setValueRule(text, this::inputAction));
     }
+
+    public final void sendKeys(String text) { input(text); }
     public final void newInput(String text) {
         setValueRule(text, t -> {
             clear();
