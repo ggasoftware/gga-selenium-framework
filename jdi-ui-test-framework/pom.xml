@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>jdi-ui-tests</groupId>
+    <groupId>com.epam.jdi-ui-tests</groupId>
     <artifactId>jdi-ui-test-framework</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <name>jdi-ui-test-framework</name>

@@ -1,0 +1,10 @@
+package com.epam.jdi_ui_tests.elements.interfaces.complex;
+
+import com.epam.jdi_ui_tests.elements.interfaces.base.IMultiSelector;
+
+/**
+ * Created by Roman_Iovlev on 6/10/2015.
+ */
+public interface ICheckList<TEnum extends Enum> extends IMultiSelector<TEnum> {
+
+}
