@@ -362,6 +362,7 @@ public class Elements<ParentPanel> {
      *
      * @param expectedElements - expected Elements
      * @param elementIndex     - index of WebElement
+     * @param tryCount        - number ot click attempts
      * @return Parent instance
      */
     public ParentPanel clickByWhileObjectNotDisplayed(int elementIndex, Elements expectedElements, int tryCount) {
@@ -530,9 +531,8 @@ public class Elements<ParentPanel> {
 
     /**
      * Get text of WebElement by index
-     * <p/>
-     * * @param elementIndex - index of the element in the List of WebElements
      *
+     * @param elementIndex - index of the element in the List of WebElements
      * @return text of WebElement
      */
     public String getText(int elementIndex) {

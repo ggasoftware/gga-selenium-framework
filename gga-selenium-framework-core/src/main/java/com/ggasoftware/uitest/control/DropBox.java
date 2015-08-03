@@ -59,7 +59,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
     /**
      * Select all options that have a value matching the argument. That is, when given "foo" this
      * would select an option like:
-     * <p/>
+     * 
      * &lt;option value="foo"&gt;Bar&lt;/option&gt;
      *
      * @param value The value to match against
@@ -169,7 +169,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
 
     /**
      * Undo selection by option text of Select
-     * <p/>
+     * 
      * (That is Deselect all options that display text matching the argument)
      *
      * @param sItem - visible option text
@@ -184,7 +184,7 @@ public class DropBox<ParentPanel> extends Element<ParentPanel> {
 
     /**
      * Undo the selection for all options. This is only valid when the SELECT supports multiple selections.
-     * <p/>
+     * 
      * Check if the Select can be multiple selected
      * boolean isMultiple = select.isMultiple();
      *

@@ -23,6 +23,9 @@ import ru.yandex.qatools.allure.annotations.Step;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.allure;
+
 /**
  * Utility for level log format.
  *
@@ -94,6 +97,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Match Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param value - analyzed text
      * @param regExp - regular expression
      * @param message - log message text
@@ -107,6 +111,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Not Intersect Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param firstArray - first text array 
      * @param secondArray - second text array
      * @param message - log message text
@@ -120,6 +125,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Equals Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param value - actual object
      * @param expectedValue - expected object
      * @param message - log message text
@@ -133,6 +139,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Not Equals Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param value - actual object
      * @param notExpectedValue - not expected object
      * @param message - log message text
@@ -146,6 +153,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Array List of String Equals Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param value - actual Array List of String
      * @param expectedValue - expected Array List of String
      * @param message - log message text
@@ -159,6 +167,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Array Equals Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param value - actual text array
      * @param expectedValue - expected text array
      * @param message - log message text
@@ -190,6 +199,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log True Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param what - expression
      * @param message - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
@@ -202,6 +212,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log False Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param what - expression
      * @param message - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
@@ -214,6 +225,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Empty Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param what - analyzed text
      * @param message - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
@@ -226,6 +238,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Text Contains Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param toSearchIn - text search in
      * @param whatToSearch - text to search
      * @param message - log message text
@@ -239,6 +252,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Text Not Contains Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param toSearchIn - text search in
      * @param whatToSearch - text to search
      * @param message - log message text
@@ -252,6 +266,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Null Object Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param what - analyzed object
      * @param message - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
@@ -264,6 +279,7 @@ public class ReporterNGExt extends ReporterNG{
     /**
      * Log Not Null Object Assertion.
      *
+     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      * @param what - analyzed object
      * @param message - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
@@ -340,7 +356,7 @@ public class ReporterNGExt extends ReporterNG{
     public static void logAction(Object element, String parentClassName, String actionName) {
         String className = getClassName(element, parentClassName);
         logAction(getLogLevel(element), className, actionName);
-        if (TestBaseWebDriver.allure) {
+        if (allure) {
             action(className, actionName);
         }
     }

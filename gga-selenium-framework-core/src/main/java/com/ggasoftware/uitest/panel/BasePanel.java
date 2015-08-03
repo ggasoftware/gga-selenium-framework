@@ -34,6 +34,7 @@ public class BasePanel<T extends BasePanel> extends Element<T> {
 
     /**
      * Sleep in msec
+     * @param msec - timeout in msec
      * @return BasePanel instance
      */
     public T sleep(long msec) {
