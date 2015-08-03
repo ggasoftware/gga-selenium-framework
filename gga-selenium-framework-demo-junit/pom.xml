@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fw.version>1.0.5</fw.version>
+        <fw.version>1.0.5-SNAPSHOT</fw.version>
     </properties>
 
     <dependencies>
