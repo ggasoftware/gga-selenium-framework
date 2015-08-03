@@ -13,18 +13,13 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
-import com.ggasoftware.uitest.control.interfaces.common.ILabel;
-import com.ggasoftware.uitest.control.new_controls.common.ClickableText;
-import org.openqa.selenium.By;
-
 /**
  * Text Label control implementation
  *
  * @author Alexeenko Yan
  */
-public class Label<ParentPanel> extends ClickableText implements ILabel {
-    public Label() { }
-    public Label(By valueLocator) { super(valueLocator); }
+public class Label<ParentPanel> extends Element<ParentPanel> {
+
     //constructor
 
     /**

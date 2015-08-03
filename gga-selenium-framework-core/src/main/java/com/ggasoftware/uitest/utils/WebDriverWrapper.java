@@ -85,7 +85,6 @@ public final class WebDriverWrapper {
      *
      * @param remoteUrl - remote host
      * @param capabilities - desired capabilities
-     * @throws MalformedURLException - exception
      */
     public static void initRemoteWebDriver(String remoteUrl, Capabilities capabilities) throws MalformedURLException {
         ReporterNGExt.logTechnical(String.format("Initialization Remote Web Driver at url '%s'", remoteUrl));
@@ -157,7 +156,7 @@ public final class WebDriverWrapper {
     /**
      * initialization FF with some profile
      * Use it if you want to use your profile for FF. It doesn't work remotely.
-     * Before running create your profile. Use cmd : firefox.exe -ProfileManager -no-remote
+     * Before running create your profile. Use cmd >> firefox.exe -ProfileManager -no-remote
      * @param path - profile path
      */
     public static void initFFProfile(String path) {
@@ -536,8 +535,6 @@ public final class WebDriverWrapper {
     }
     /**
      * Scroll page down by JS
-     *
-     * @param iHeight - height
      */
     public static void scrollPageDown(int iHeight) {
         ReporterNGExt.logTechnical("Scroll Page To Top");
@@ -545,8 +542,6 @@ public final class WebDriverWrapper {
     }
     /**
      * Scroll page up by JS
-     *
-     * @param iHeight - height
      */
     public static void scrollPageUp(int iHeight) {
         ReporterNGExt.logTechnical("Scroll Page To Top");
@@ -602,7 +597,6 @@ public final class WebDriverWrapper {
      *
      * @param timeoutSec to wait until windows title contains text.
      * @param title - Expected window title contains text.
-     * @param checkCondition - log assert for expected conditions.
      */
     public static void waitForTitleContains(String title, int timeoutSec, boolean checkCondition) {
         ReporterNGExt.logAction(getDriver(), "", String.format("waitForTitleContains: %s", title));
@@ -662,7 +656,6 @@ public final class WebDriverWrapper {
      *
      * @param title before change
      * @param timeoutSec seconds to wait until element is changed text
-     * @param checkCondition - log assert for expected conditions.
      */
     public static void waitForTitleChanged(final String title, int timeoutSec, boolean checkCondition) {
         boolean isChanged;
@@ -902,7 +895,7 @@ public final class WebDriverWrapper {
     /**
      * Wait until JavaScript Condition.
      *
-     * @param javaScript - JavaScript Condition e.g. return (xmlhttp.readyState==4) or (xmlhttp.status==200)
+     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
      */
     public static void waitForJavaScriptCondition(final String javaScript) {
         waitForJavaScriptCondition(javaScript, TIMEOUT, false);
@@ -911,7 +904,7 @@ public final class WebDriverWrapper {
     /**
      * Wait until JavaScript Condition.
      *
-     * @param javaScript - JavaScript Condition e.g. return (xmlhttp.readyState==4) or (xmlhttp.status==200)
+     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
      * @param timeoutSec - the maximum time to wait in seconds
      */
     public static void waitForJavaScriptCondition(final String javaScript, final int timeoutSec) {
@@ -921,7 +914,7 @@ public final class WebDriverWrapper {
     /**
      * Wait until JavaScript Condition.
      *
-     * @param javaScript - JavaScript Condition e.g. return (xmlhttp.readyState==4) or (xmlhttp.status==200)
+     * @param javaScript - JavaScript Condition e.g. [return (xmlhttp.readyState==4 && xmlhttp.status==200)]
      * @param timeoutSec - the maximum time to wait in seconds
      * @param checkCondition log assert for expected conditions.
      */

@@ -71,7 +71,6 @@ public final class FileUtil {
      *
      * @param downloadUrl     - url of file to download
      * @param outputFilePath  - file path for output
-     * @throws  Exception - exception
      */
     public static void downloadFile(String downloadUrl, String outputFilePath) throws Exception {
 

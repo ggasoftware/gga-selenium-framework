@@ -13,15 +13,9 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
-import com.ggasoftware.uitest.control.base.annotations.functions.Functions;
-import com.ggasoftware.uitest.control.base.apiInteract.GetElementModule;
-import com.ggasoftware.uitest.control.base.logger.LogSettings;
-import com.ggasoftware.uitest.control.interfaces.common.IButton;
-import com.ggasoftware.uitest.control.interfaces.common.IText;
-import com.ggasoftware.uitest.control.new_controls.base.BaseElement;
-import com.ggasoftware.uitest.control.interfaces.base.IElement;
-import com.ggasoftware.uitest.control.new_controls.common.Text;
-import com.ggasoftware.uitest.utils.*;
+import com.ggasoftware.uitest.utils.PropertyReader;
+import com.ggasoftware.uitest.utils.ReporterNGExt;
+import com.ggasoftware.uitest.utils.TestBaseWebDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -29,24 +23,10 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
-import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.BUSINESS;
-import static com.ggasoftware.uitest.control.base.logger.enums.LogLevels.DEBUG;
-import static com.ggasoftware.uitest.utils.LinqUtils.*;
-import static com.ggasoftware.uitest.utils.ReflectionUtils.*;
-import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
-import static com.ggasoftware.uitest.utils.ReporterNGExt.*;
-import static com.ggasoftware.uitest.utils.TestBaseWebDriver.logFindElementLocator;
-import static com.ggasoftware.uitest.utils.TestBaseWebDriver.takePassedScreenshot;
-import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
-import static com.ggasoftware.uitest.utils.Timer.getResultAction;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.*;
-import static java.lang.String.format;
 
 /**
  * Base Element control implementation
@@ -57,8 +37,21 @@ import static java.lang.String.format;
  * @author Shubin Konstantin
  * @author Zharov Alexandr
  */
-public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IElement<ParentPanel> {
+public class Element<ParentPanel> {
 
+    /**
+     * Name of the element for Report
+     */
+    protected String name;
+
+    /**
+     * Locator of the element if applicable
+     */
+    protected String locator;
+    /**
+     * Locator of the element if applicable
+     */
+    protected By bylocator;
 
     /**
      * Contains name of the element used for locating its parameters in properties file
@@ -70,7 +63,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         String panelLocator = getProperty("main");
         if (panelLocator != null) {
             this.locator = panelLocator;
-            avatar = new GetElementModule(getByLocator(), this);
+            this.bylocator = getByLocator();
         }
     }
 
@@ -87,6 +80,13 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         return properties.getProperty(key);
     }
 
+
+    /**
+     * Parent panel which contains current element
+     */
+    protected ParentPanel parent;
+
+
     protected Element() {
 
     }
@@ -100,13 +100,47 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param panel   - Parent panel instance
      */
     public Element(String name, String locator, ParentPanel panel) {
-        super(name, locator, panel);
+        this.name = name;
+        this.locator = locator;
+        this.bylocator = getByLocator();
+        this.parent = panel;
     }
-    public Element(String name, By byLocator) {
-        super(name, byLocator);
+
+    /**
+     * Replace each substring of this string "$VALUE" to [value] in [str]
+     *
+     * @param str   - input string for replacement
+     * @param value -The replacement sequence of char values
+     * @return The resulting string
+     */
+    protected String insertValue(String str, String value) {
+        return str.replace("$VALUE", value);
     }
-    public Element(By byLocator) {
-        super(byLocator);
+
+    /**
+     * Replace each substring of this string "$VALUE0..N" to [value] in [str]
+     *
+     * @param str    - input string for replacement
+     * @param values -The replacement sequence of char values
+     * @return The resulting string
+     */
+    protected String insertValues(String str, String[] values) {
+        int i = 0;
+        String s = str;
+        for (String value : values) {
+            s = s.replace("$VALUE" + (i++), value);
+        }
+        return s;
+    }
+
+    /**
+     * Return new Element instance
+     *
+     * @param locator - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
+     * @return New Element which has the same name, parent, and new locator
+     */
+    protected Element<ParentPanel> getElement(String locator) {
+        return new Element<>(getName(), locator, parent);
     }
 
     /**
@@ -126,59 +160,108 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     protected void setParent(ParentPanel parentPanel) {
         this.parent = parentPanel;
     }
-    public boolean waitDisplayed() { return waitDisplayed(TIMEOUT); }
-    public boolean waitDisplayed(int seconds) {
-        return doJActionResult("Wait element appear during '%s' seconds", () -> {
-            setWaitTimeout(seconds);
-            boolean result = new Timer(seconds * 1000).wait(() -> avatar.getElement().isDisplayed());
-            setWaitTimeout(TIMEOUT);
-            return result;
-        });
+
+    /**
+     * Gets element's locator
+     *
+     * @return Locator of the element
+     */
+    public String getLocator() {
+        return locator;
     }
 
-    public boolean waitVanished() { return waitDisplayed(TIMEOUT); }
-    public boolean waitVanished(int seconds)  {
-        return doJActionResult("Wait element disappear during '%s' seconds", () -> {
-            setWaitTimeout(100);
-            boolean result = new Timer(seconds*1000).wait(() -> !(avatar.getElement().isDisplayed()));
-            setWaitTimeout(TIMEOUT);
-            return result;
-        });
-    }
-
-    public static <T extends IElement> T copy(T element, By newLocator) {
-        try {
-            T result = (T) element.getClass().newInstance();
-            result.setAvatar(newLocator, element.getAvatar());
-            return result;
-        } catch (Exception ex) { asserter.exception("Can't copy element: " + element); return null; }
-    }
-
-    public WebElement getWebElement() {
-        return doJActionResult("Get web element " + this.toString(), avatar::getElement,
-                new LogSettings(DEBUG, BUSINESS));
-    }
-
-    protected Button getButton(Functions funcName) {
-        List<Field> fields = getFields(this, IButton.class);
-        if (fields.size() == 1)
-            return (Button) getFieldValue(fields.get(0), this);
-        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
-        Button button = first(buttons, b -> b.function.equals(funcName));
-        if (button == null) {
-            asserter.exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
-            return null;
+    /**
+     * Gets element's By locator
+     *
+     * @return By Locator of the element
+     */
+    public By getByLocator() {
+        String locator_body = locator.replaceAll("[\\w\\s]*=(.*)", "$1").trim();
+        String type = locator.replaceAll("([\\w\\s]*)=.*", "$1").trim();
+        switch (type) {
+            case "css":
+                return By.cssSelector(locator_body);
+            case "id":
+                return By.id(locator_body);
+            case "link":
+                return By.linkText(locator_body);
+            case "xpath":
+                return By.xpath(locator_body);
+            case "text":
+                return By.xpath(String.format("//*[contains(text(), '%s')]", locator_body));
+            case "name":
+                return By.name(locator_body);
+            default:
+                return By.xpath(locator);
         }
-        return button;
     }
 
-    protected Text getTextElement() {
-        Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
-        if (textField!= null) return (Text) getFieldValue(textField, this);
-        asserter.exception(format("Can't find Text element '%s'", toString()));
-        return null;
+    /**
+     * Get simple element class name
+     *
+     * @return class name string
+     */
+    protected String getSimpleClassName() {
+        return this.getClass().getSimpleName();
     }
+
+    /**
+     * Get Parent Class Name
+     *
+     * @return Parent Canonical Class Name
+     */
+    protected String getParentClassName() {
+        if (parent == null) {
+            return "";
+        }
+        if (TestBaseWebDriver.simpleClassName) {
+            return parent.getClass().getSimpleName();
+        }
+        return parent.getClass().getCanonicalName();
+    }
+
+    /**
+     * Find webelement from web page. We use locator for this. Where locator -
+     * start it with locator type "id=", "css=", "xpath=" and etc. Locator
+     * without type is assigned to xpath
+     *
+     * @return WebElement
+     */
+    public WebElement getWebElement() {
+        if (TestBaseWebDriver.logFindElementLocator) {
+            ReporterNGExt.logTechnical(String.format("Get Web Element '%s'", locator));
+        }
+        waitForElement();
+        return getDriver().findElement(bylocator);
+    }
+
+    /**
+     * Find webelement from web page. We use locator for this. Where locator -
+     * start it with locator type "id=", "css=", "xpath=" and etc. Locator
+     * without type is assigned to xpath
+     *
+     * @param seconds to wait until element found.
+     * @return WebElement
+     */
+    public WebElement getWebElement(int seconds) {
+        setTimeout(seconds);
+        WebElement webElement = getWebElement();
+        setTimeout(TIMEOUT);
+        return webElement;
+    }
+
     //  Common functions
+
+    /**
+     * Click on the Element(WebElement)
+     *
+     * @return Parent instance
+     */
+    public ParentPanel click() {
+        ReporterNGExt.logAction(this, getParentClassName(), "click");
+        getWebElement().click();
+        return parent;
+    }
 
     /**
      * A convenience method that performs click at the location of the source element
@@ -188,13 +271,13 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel clickBy(int xOffset, int yOffset) {
-        doJAction(format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset), () -> {
-            Actions builder = new Actions(getDriver());
-            Action click = builder.moveToElement(getWebElement(), xOffset, yOffset).click().build();
-            click.perform();
-        });
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("click element:  horizontal move offset- %dpx; vertical move offset- %dpx", xOffset, yOffset));
+        Actions builder = new Actions(getDriver());
+        Action click = builder.moveToElement(getWebElement(), xOffset, yOffset).click().build();
+        click.perform();
         return parent;
     }
+
 
     /**
      * Click on the Element(WebElement) by JS
@@ -202,7 +285,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel clickJS() {
-        doJAction("clickJS",  () -> jsExecutor().executeScript("arguments[0].click();", getWebElement()));
+        ReporterNGExt.logAction(this, getParentClassName(), "clickJS");
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", getWebElement());
         return parent;
     }
 
@@ -212,8 +297,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Serialize result
      */
     public String serializeForm() {
-        return doJActionResult("serializeForm", () ->
-                (String) jsExecutor().executeScript("return $(arguments[0]).serialize();", getWebElement()));
+        ReporterNGExt.logAction(this, getParentClassName(), "serializeForm");
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        return (String) executor.executeScript("return $(arguments[0]).serialize();", getWebElement());
     }
 
     /**
@@ -222,12 +308,12 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel mouseOverJS() {
-        doJAction("mouseOverJS", () -> {
-            String script = "var evt = document.createEvent('MouseEvents');" +
-                    "evt.initMouseEvent('mouseover',true, true, window, 500, 100, 0, 0, 0, false, false, false, false, 0, null);" +
-                    "arguments[0].dispatchEvent(evt);";
-            jsExecutor().executeScript(script, getWebElement());
-        });
+        ReporterNGExt.logAction(this, getParentClassName(), "mouseOverJS");
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        String script = "var evt = document.createEvent('MouseEvents');" +
+                "evt.initMouseEvent('mouseover',true, true, window, 500, 100, 0, 0, 0, false, false, false, false, 0, null);" +
+                "arguments[0].dispatchEvent(evt);";
+        executor.executeScript(script, getWebElement());
         return parent;
     }
 
@@ -237,12 +323,13 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel ctrlClick() {
-        doJAction("ctrlClick", () ->
-                new Actions(getDriver()).keyDown(Keys.CONTROL)
-                        .moveToElement(getWebElement())
-                        .click()
-                        .keyUp(Keys.CONTROL)
-                        .perform());
+        ReporterNGExt.logAction(this, getParentClassName(), "ctrlClick");
+        Actions builder = new Actions(getDriver());
+        builder.keyDown(Keys.CONTROL)
+                .moveToElement(getWebElement())
+                .click()
+                .keyUp(Keys.CONTROL)
+                .perform();
         return parent;
     }
 
@@ -252,7 +339,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel focusWindowAndClick() {
-        logAction(this, getParentClassName(), "focusWindowAndClick");
+        ReporterNGExt.logAction(this, getParentClassName(), "focusWindowAndClick");
         getDriver().switchTo().window("");
         getWebElement().click();
         return parent;
@@ -265,11 +352,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel doubleClick() {
         getWebElement().getSize(); //for scroll to object
-        logAction(this, getParentClassName(), "doubleClick");
-        alwaysDoneAction(() -> {
-            Actions builder = new Actions(getDriver());
-            builder.doubleClick();
-        });
+        ReporterNGExt.logAction(this, getParentClassName(), "doubleClick");
+        Actions builder = new Actions(getDriver());
+        builder.doubleClick();
         return parent;
     }
 
@@ -281,7 +366,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel rightClick() {
         getWebElement().getSize(); //for scroll to object
-        logAction(this, getParentClassName(), "rightClick");
+        ReporterNGExt.logAction(this, getParentClassName(), "rightClick");
         Actions builder = new Actions(getDriver());
         builder.contextClick(getWebElement()).perform();
         return parent;
@@ -295,11 +380,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel clickAction() {
         getWebElement().getSize(); //for scroll to object
-        logAction(this, getParentClassName(), "clickAction");
-        alwaysDoneAction(() -> {
-            Actions builder = new Actions(getDriver());
-            builder.click(getWebElement()).perform();
-        });
+        ReporterNGExt.logAction(this, getParentClassName(), "clickAction");
+        Actions builder = new Actions(getDriver());
+        builder.click(getWebElement()).perform();
         return parent;
     }
 
@@ -310,7 +393,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel mouseOver() {
         getWebElement().getSize(); //for scroll to object
-        logAction(this, getParentClassName(), "mouseOver");
+        ReporterNGExt.logAction(this, getParentClassName(), "mouseOver");
         Actions builder = new Actions(getDriver());
         builder.moveToElement(getWebElement()).build().perform();
         return parent;
@@ -323,7 +406,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel focus() {
         Dimension size = getWebElement().getSize(); //for scroll to object
-        logAction(this, getParentClassName(), "focus");
+        ReporterNGExt.logAction(this, getParentClassName(), "focus");
         Actions builder = new Actions(getDriver());
         org.openqa.selenium.interactions.Action focus = builder.moveToElement(getWebElement(), size.width / 2, size.height / 2).build();
         focus.perform();
@@ -334,11 +417,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * Click on the Element(WebElement) until expectedElement is NOT DISPLAYED
      *
      * @param expectedElement - expected Element
-     * @param tryCount - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotDisplayed(Element expectedElement, int tryCount) {
-        logAction(this, getParentClassName(), format("clickWhileObjectNotDisplayed: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.getName()));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectNotDisplayed: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while (!(expectedElement.isDisplayed())) {
             if (isDisplayed()) {
@@ -358,12 +440,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * Click on the Element(WebElement) until expectedElement exists
      *
      * @param expectedElement - expected Element
-     * @param tryCount - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotExist(Element expectedElement, int tryCount) {
-        logAction(this, getParentClassName(),
-                format("clickWhileObjectNotExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.getName()));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectNotExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while (!(expectedElement.isExists())) {
             getWebElement().click();
@@ -379,12 +459,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * Click on the Element(WebElement) until expectedElement is displayed
      *
      * @param expectedElement - expected Element
-     * @param tryCount - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectIsDisplayed(Element expectedElement, int tryCount) {
-        logAction(this, getParentClassName(),
-                format("clickWhileObjectExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.getName()));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("clickWhileObjectExist: element locator '%s', element name '%s'", expectedElement.locator, expectedElement.name));
         int i = 0;
         while ((expectedElement.isDisplayed())) {
             getWebElement().click();
@@ -397,17 +475,15 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
 
     /**
-     * Use Clickable elements instead of Element type
      * Use this method to simulate typing into an element, which may set its value.
      *
      * @param keysToSend - CharSequence to send
      * @return Parent instance
      */
     public ParentPanel sendKeys(CharSequence... keysToSend) {
-        doJAction(format("sendKeys - %s", new Object[]{keysToSend}), () -> {
-            getDriver().switchTo().activeElement();
-            getWebElement().sendKeys(keysToSend);
-        });
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("sendKeys - %s", keysToSend));
+        getDriver().switchTo().activeElement();
+        getWebElement().sendKeys(keysToSend);
         return parent;
     }
 
@@ -418,11 +494,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel sendKeysSecure(CharSequence... keysToSend) {
-        logAction(this, getParentClassName(), "sendKeysSecure");
-        alwaysDoneAction(() -> {
-            getDriver().switchTo().activeElement();
-            getWebElement().sendKeys(keysToSend);
-        });
+        ReporterNGExt.logAction(this, getParentClassName(), "sendKeysSecure");
+        getDriver().switchTo().activeElement();
+        getWebElement().sendKeys(keysToSend);
         return parent;
     }
 
@@ -433,11 +507,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     protected ParentPanel sendKeys(Keys sendKeys) {
-        logAction(this, getParentClassName(), format("sendKeys - %s", sendKeys));
-        alwaysDoneAction(() -> {
-            getDriver().switchTo().activeElement();
-            getWebElement().sendKeys(sendKeys);
-        });
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("sendKeys - %s", sendKeys));
+        getDriver().switchTo().activeElement();
+        getWebElement().sendKeys(sendKeys);
         return parent;
     }
 
@@ -447,10 +519,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return true if we can find Element on the web page, otherwise false
      */
     public boolean isExists() {
-        if (logFindElementLocator) {
-            logTechnical(format("Find Elements '%s'", locator));
+        if (TestBaseWebDriver.logFindElementLocator) {
+            ReporterNGExt.logTechnical(String.format("Find Elements '%s'", locator));
         }
-        return !getDriver().findElements(avatar.byLocator).isEmpty();
+        return !getDriver().findElements(bylocator).isEmpty();
     }
 
     /**
@@ -472,10 +544,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return true if element not exists or not displayed at the page
      */
     public boolean isVanished() {
-        setTimeout(0);
-        boolean result = !isExists(0) || !(getWebElement().isDisplayed());;
-        setTimeout(TIMEOUT);
-        return result;
+        return !isExists(0) || !(getWebElement(0).isDisplayed());
     }
 
     /**
@@ -497,10 +566,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Whether or not the element is displayed
      */
     public boolean isDisplayed(int seconds) {
-        setTimeout(seconds);
-        boolean result = isExists(seconds) && getWebElement().isDisplayed();
-        setTimeout(TIMEOUT);
-        return result;
+        return isExists(seconds) && getWebElement(seconds).isDisplayed();
     }
 
     /**
@@ -521,10 +587,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return True if the element is enabled, false otherwise.
      */
     public boolean isEnabled(int seconds) {
-        setTimeout(seconds);
-        boolean result = isExists(seconds) && getWebElement().isEnabled();
-        setTimeout(TIMEOUT);
-        return result;
+        return isExists(seconds) && getWebElement(seconds).isEnabled();
     }
 
     /**
@@ -534,9 +597,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return The innerText of this element.
      */
     public String getText() {
-        String result = getResultAction(() -> getWebElement().getText());
-        logAction(this, getParentClassName(), format("got ext : %s", result));
-        return result;
+        return (String) ReporterNGExt.logGetter(this, getParentClassName(), "text", getWebElement().getText());
     }
 
     /**
@@ -550,35 +611,29 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         for(WebElement webElement:getChild()){
             l=+webElement.getText().length();
         }
-        return (String) logGetter(this, getParentClassName(), "element text", getWebElement().getText().substring(l));
+        return (String) ReporterNGExt.logGetter(this, getParentClassName(), "element text", getWebElement().getText().substring(l));
     }
 
     /**
-     * !!! Use waitAttribute(String name, String value) instead
      * Get the value of a the given attribute of the element. Will return the current value, even if
      * this has been modified after the page has been loaded.
      *
      * @param sName The name of the attribute.
      * @return The attribute's current value or null if the value is not set.
      */
-    @Deprecated
     public String getAttribute(String sName) {
-        return (String) logGetter(this, getParentClassName(), sName, getWebElement().getAttribute(sName));
+        return (String) ReporterNGExt.logGetter(this, getParentClassName(), sName, getWebElement().getAttribute(sName));
     }
-    public boolean waitAttribute(String name, String value) {
-        return doJActionResult(format("Wait attribute %s='%s'", name, value),
-                () -> getWebElement().getAttribute(name).equals(value));
-    }
+
     /**
      * Set the value of a the given attribute of the element by JS.
      *
      * @param attribute The name of the attribute.
-     * @param value value The value of the attribute.
      * @return Parent instance
-     *
+     * @value value The value of the attribute.
      */
     public ParentPanel setAttributeJS(String attribute, String value) {
-        ((JavascriptExecutor) getDriver()).executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attribute),
+        ((JavascriptExecutor) getDriver()).executeScript(String.format("arguments[0].setAttribute('%s',arguments[1]);", attribute),
                 getWebElement(),
                 value);
         return parent;
@@ -591,11 +646,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * hex strings, so, for example if the "background-color" property is set as "green" in the HTML
      * source, the returned value will be "#008000"
      *
-     * @param name - css name
      * @return The current, computed value of the property.
      */
-    public String getCssValue(String name) {
-        return (String) logGetter(this, getParentClassName(), name, getWebElement().getCssValue(name));
+    public String getCssValue(String sName) {
+        return (String) ReporterNGExt.logGetter(this, getParentClassName(), sName, getWebElement().getCssValue(sName));
     }
 
     /**
@@ -607,7 +661,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return A point, containing the location of the top left-hand corner of the element
      */
     public Point getLocation() {
-        return (Point) logGetter(this, getParentClassName(), "Location", getWebElement().getLocation());
+        return (Point) ReporterNGExt.logGetter(this, getParentClassName(), "Location", getWebElement().getLocation());
     }
 
     /**
@@ -619,7 +673,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return The size of the element on the page.
      */
     public Dimension getSize() {
-        return (Dimension) logGetter(this, getParentClassName(), "Dimension", getWebElement().getSize());
+        return (Dimension) ReporterNGExt.logGetter(this, getParentClassName(), "Dimension", getWebElement().getSize());
     }
 
     /**
@@ -629,7 +683,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return The tag name of this element.
      */
     public String getTagName() {
-        return (String) logGetter(this, getParentClassName(), "TagName", getWebElement().getTagName());
+        return (String) ReporterNGExt.logGetter(this, getParentClassName(), "TagName", getWebElement().getTagName());
     }
 
     /**
@@ -639,7 +693,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Has child or not
      */
     public boolean hasChildByTag(String tagName) {
-        return (Boolean) logGetter(this, getParentClassName(), "HasChildByTag", !getWebElement().findElements(By.tagName(tagName)).isEmpty());
+        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChildByTag", !getWebElement().findElements(By.tagName(tagName)).isEmpty());
     }
 
     /**
@@ -648,7 +702,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Has child or not
      */
     public boolean hasChild() {
-        return (Boolean) logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.xpath(".//*")).isEmpty());
+        return (Boolean) ReporterNGExt.logGetter(this, getParentClassName(), "HasChild", !getWebElement().findElements(By.xpath(".//*")).isEmpty());
     }
 
     /**
@@ -657,8 +711,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Has child or not
      */
     public List<WebElement> getChild() {
-        if (logFindElementLocator) {
-            logTechnical(format("Get Child Web Elements '%s'", locator));
+        if (TestBaseWebDriver.logFindElementLocator) {
+            ReporterNGExt.logTechnical(String.format("Get Child Web Elements '%s'", locator));
         }
         return getWebElement().findElements(By.xpath(".//*"));
     }
@@ -675,15 +729,15 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             case "css":
                 return "";
             case "id":
-                return format("//*[@id=\"%s\"]", sLocator);
+                return String.format("//*[@id=\"%s\"]", sLocator);
             case "link":
-                return format("//*[@link=\"%s\"]", sLocator);
+                return String.format("//*[@link=\"%s\"]", sLocator);
             case "xpath":
-                return format("%s", sLocator);
+                return String.format("%s", sLocator);
             case "text":
-                return format("//*[contains(text(), '%s')]", sLocator);
+                return String.format("//*[contains(text(), '%s')]", sLocator);
             case "name":
-                return format("//*[@name=\"%s\"]", sLocator);
+                return String.format("//*[@name=\"%s\"]", sLocator);
             default:
                 return locator;
         }
@@ -699,7 +753,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel selectArea(int x1, int y1, int x2, int y2) {
-        logAction(this, getParentClassName(), format("Select area: from %d,%d;to %d,%d", x1, y1, x2, y2));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("Select area: from %d,%d;to %d,%d", x1, y1, x2, y2));
         WebElement element = getWebElement();
         new Actions(getDriver()).moveToElement(element, x1, y1)
                 .clickAndHold()
@@ -718,12 +772,36 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel dragAndDropBy(int xOffset, int yOffset) {
-        logAction(this, getParentClassName(), format("Drag and drop element: horizontal move offset - %dpx; vertical move offset - %dpx", xOffset, yOffset));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("Drag and drop element: horizontal move offset - %dpx; vertical move offset - %dpx", xOffset, yOffset));
 
         Actions builder = new Actions(getDriver());
 
         Action dragAndDropBy = builder.dragAndDropBy(getWebElement(), xOffset, yOffset).build();
         dragAndDropBy.perform();
+        return parent;
+    }
+
+    /**
+     * Get Control Name
+     *
+     * @return Control Name
+     */
+    public String getName() {
+        return name;
+    }
+
+
+    protected ParentPanel waitForElement() {
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), TIMEOUT)
+                .ignoring(StaleElementReferenceException.class);
+        setTimeout(1);
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(bylocator));
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForElement: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+        }
+        setTimeout(TIMEOUT);
         return parent;
     }
 
@@ -736,22 +814,21 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForExists(int timeoutSec, boolean checkCondition) {
         boolean isExists;
-        logAction(this, getParentClassName(), format("waitForExists: %s", locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExists: %s", locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         setTimeout(1);
         try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(avatar.byLocator));
+            wait.until(ExpectedConditions.presenceOfElementLocated(bylocator));
             isExists = true;
         } catch (TimeoutException e) {
-            logTechnical(format("waitForExists: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForExists: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isExists = false;
         }
         setTimeout(TIMEOUT);
         if (checkCondition) {
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists,
-                    format("waitForExists - '%s' should exist", getName()), takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists, String.format("waitForExists - '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -792,22 +869,21 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     private ParentPanel waitForDisplayed(int timeoutSec, boolean checkCondition) {
         boolean isDisplayed;
-        logAction(this, getParentClassName(), format("waitForDisplayed: %s", locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForDisplayed: %s", locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         setTimeout(1);
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(avatar.byLocator));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(bylocator));
             isDisplayed = true;
         } catch (TimeoutException e) {
-            logTechnical(format("waitForDisplayed: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForDisplayed: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isDisplayed = false;
         }
         setTimeout(TIMEOUT);
         if (checkCondition) {
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed,
-                    format("waitForDisplayed - '%s' should be displayed", getName()), takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed, String.format("waitForDisplayed - '%s' should be displayed", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -876,21 +952,20 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForElementToVanish(int timeoutSec, boolean checkCondition) {
         boolean isVanished;
-        logAction(this, getParentClassName(), format("waitForElementToVanish: %s", locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForElementToVanish: %s", locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class, NoSuchElementException.class);
         setTimeout(1);
         try {
-            isVanished = wait.until(ExpectedConditions.invisibilityOfElementLocated(avatar.byLocator));
+            isVanished = wait.until(ExpectedConditions.invisibilityOfElementLocated(bylocator));
         } catch (TimeoutException e) {
-            logTechnical(format("waitForElementToVanish: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForElementToVanish: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isVanished = false;
         }
         setTimeout(TIMEOUT);
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished,
-                    format("waitForElementToVanish - '%s' should be vanished", getName()), takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished, String.format("waitForElementToVanish - '%s' should be vanished", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -926,28 +1001,27 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForText(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
-        logAction(this, getParentClassName(), format("waitForText[%s]: %s", text, locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForText[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(avatar.byLocator, text));
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(bylocator, text));
             getText();
             isPresent = wait.until(
                     new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
-                            return getDriver().findElement(avatar.byLocator).getText().equals(text);
+                            return getDriver().findElement(bylocator).getText().equals(text);
                         }
                     }
             );
         } catch (TimeoutException e) {
-            logTechnical(format("waitForText: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForText: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForText - '%s' should has a text '%s'", getName(), text), takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForText - '%s' should has a text '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -981,19 +1055,18 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForTextContains(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
-        logAction(this, getParentClassName(), format("waitForTextContains[%s]: %s", text, locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForTextContains[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
         final WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
-            isPresent = wait.until(ExpectedConditions.textToBePresentInElementLocated(avatar.byLocator, text));
+            isPresent = wait.until(ExpectedConditions.textToBePresentInElementLocated(bylocator, text));
         } catch (TimeoutException e) {
-            logTechnical(format("waitForTextContains: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForTextContains: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForTextContains - '%s' should has a text contains '%s'", getName(), text), takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForTextContains - '%s' should has a text contains '%s'", name, text), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -1029,19 +1102,18 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForTextChanged(final String text, final int timeoutSec, final boolean checkCondition) {
         boolean isChanged;
-        logAction(this, getParentClassName(), format("waitForTextChanged[%s]: %s", text, locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForTextChanged[%s]: %s", text, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
-            isChanged = wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(avatar.byLocator, text)));
+            isChanged = wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(bylocator, text)));
         } catch (TimeoutException e) {
-            logTechnical(format("waitForTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged,
-                    format("waitForTextChanged - '%s' text '%s' should be changed", getName(), text), takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForTextChanged - '%s' text '%s' should be changed", name, text), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
@@ -1077,25 +1149,23 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForValue(final String value, final int timeoutSec, final boolean checkCondition) {
         boolean isPresent;
-        logAction(this, getParentClassName(), format("waitForValueAttribute[%s]: %s", value, locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForValueAttribute[%s]: %s", value, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
-            isPresent = wait.until(ExpectedConditions.textToBePresentInElementValue(avatar.byLocator, value));
+            isPresent = wait.until(ExpectedConditions.textToBePresentInElementValue(bylocator, value));
         } catch (TimeoutException e) {
-            logTechnical(format("waitForValueAttribute: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForValueAttribute: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
-                    format("waitForValueAttribute - '%s' should has a value attribute '%s'", getName(), value), takePassedScreenshot);
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent, String.format("waitForValueAttribute - '%s' should has a value attribute '%s'", name, value), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }
 
     /**
-     * !!! Use waitAttribute(String name, String value)*
      * Wait until element is changed the attribute.
      *
      * @param attribute  for watching
@@ -1103,16 +1173,11 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param timeoutSec seconds to wait until element is changed attribute
      * @return Parent instance
      */
-    @Deprecated
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
-        boolean result = waitAttribute(attribute, value);
-        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
-                format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), takePassedScreenshot);
-        return parent;
+        return waitForAttributeChanged(attribute, value, timeoutSec, CHECKCONDITION);
     }
 
     /**
-     * !!! Use waitAttribute(String name, String value)
      * Wait until element is changed the attribute.
      *
      * @param attribute  for watching
@@ -1121,11 +1186,29 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    @Deprecated
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, final boolean checkCondition) {
-        boolean result = waitAttribute(attribute, value);
-        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
-                format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), takePassedScreenshot);
+        boolean isChanged;
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAttributeChanged[%s]: %s", value, locator));
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
+                .ignoring(StaleElementReferenceException.class);
+        try {
+            getAttribute(attribute);
+            isChanged = wait.until(
+                    new ExpectedCondition<Boolean>() {
+                        @Override
+                        public Boolean apply(WebDriver driver) {
+                            return !getDriver().findElement(bylocator).getAttribute(attribute).equals(value);
+                        }
+                    }
+            );
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForAttributeChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            isChanged = false;
+        }
+        if (checkCondition){
+            ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, String.format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value), TestBaseWebDriver.takePassedScreenshot);
+        }
         return parent;
     }
 
@@ -1136,7 +1219,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel waitForExistsThenVanish(final boolean checkCondition) {
-        logAction(this, getParentClassName(), format("waitForExistsThenVanish:%s", locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExistsThenVanish:%s", locator));
         waitForExists(checkCondition);
         waitForElementToVanish(checkCondition);
         return parent;
@@ -1148,7 +1231,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel waitForExistsThenVanish() {
-        logAction(this, getParentClassName(), format("waitForExistsThenVanish:%s", locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExistsThenVanish:%s", locator));
         waitForExists();
         waitForElementToVanish();
         return parent;
@@ -1160,7 +1243,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return WebElement
      */
     public WebElement getVisibleWebElement() {
-        Elements elements = new Elements<>(getName(), locator, parent);
+        Elements elements = new Elements<>(name, locator, parent);
         return elements.getVisibleWebElement();
     }
 
@@ -1172,20 +1255,18 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForClickableAndClick(final int timeoutSec) {
         boolean isClicked;
-        logAction(this, getParentClassName(), format("waitForClickable: %s", locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForClickable: %s", locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
         try {
-            wait.until(ExpectedConditions.elementToBeClickable(avatar.byLocator));
+            wait.until(ExpectedConditions.elementToBeClickable(bylocator));
             isClicked = wait.until(
                     new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
                             try {
-                                setTimeout(timeoutSec);
-                                getWebElement().click();
-                                setTimeout(TIMEOUT);
+                                getWebElement(timeoutSec).click();
                                 return true;
                             } catch (Exception e) {
                                 return false;
@@ -1194,11 +1275,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
                     }
             );
         } catch (TimeoutException e) {
-            logTechnical(format("waitForClickable: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForClickable: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isClicked = false;
         }
-        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked,
-                format("waitForClickableAndClick: '%s' was clickable and click at it", getName()), takePassedScreenshot);
+        ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked, String.format("waitForClickableAndClick: '%s' was clickable and click at it", name), TestBaseWebDriver.takePassedScreenshot);
         return parent;
     }
 
@@ -1233,7 +1313,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForExpectedConditions(final ExpectedCondition<Boolean> condition, final int timeoutSec, final boolean checkCondition) {
         boolean isTrue;
-        logAction(this, getParentClassName(), format("waitForExpectedCondition[%s}: %s", condition, locator));
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForExpectedCondition[%s}: %s",condition, locator));
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
                 .ignoring(StaleElementReferenceException.class);
@@ -1242,13 +1322,12 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             wait.until(condition);
             isTrue = false;
         } catch (TimeoutException e) {
-            logTechnical(format("waitForExpectedCondition: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            ReporterNGExt.logTechnical(String.format("waitForExpectedCondition: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isTrue = true;
         }
         setTimeout(TIMEOUT);
         if (checkCondition){
-            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue,
-                    format("waitForExpectedCondition - '%s'", condition), takePassedScreenshot);
+            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue, String.format("waitForExpectedCondition - '%s'", condition), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
     }

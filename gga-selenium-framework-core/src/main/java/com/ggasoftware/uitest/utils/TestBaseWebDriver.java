@@ -44,8 +44,6 @@ public class TestBaseWebDriver extends TestBase {
     public static boolean logFindElementLocator = true;
     public static boolean allure = false;
     public static boolean reportportal = false;
-    public static String testName = "Undefined Test Name";
-    public static String applicationVersion;
 
     /**
      * Set Browser for WebDriver.
