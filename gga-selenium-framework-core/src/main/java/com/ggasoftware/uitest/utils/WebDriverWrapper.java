@@ -360,6 +360,13 @@ public final class WebDriverWrapper {
      */
     public static void switchWindow() {
         ReporterNGExt.logTechnical("Switch Window");
+        new WebDriverWait(getDriver(), TIMEOUT) {
+        }.until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver wDriver) {
+                return (wDriver.getWindowHandles().size() > 1);
+            }
+        });
         Set<String> handles = getDriver().getWindowHandles();
         if (handles.size() > 1 ){
             String current = getDriver().getWindowHandle();
