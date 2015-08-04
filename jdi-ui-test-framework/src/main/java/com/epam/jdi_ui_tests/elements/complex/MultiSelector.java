@@ -16,7 +16,7 @@ import static java.lang.String.format;
  * Created by roman.i on 03.10.2014.
  */
 
-public class MultiSelector<TEnum extends Enum> extends BaseSelector<TEnum> implements IMultiSelector<TEnum> {
+public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEnum> implements IMultiSelector<TEnum> {
     public MultiSelector() { super(); }
     public MultiSelector(By optionsNamesLocatorTemplate) { super(optionsNamesLocatorTemplate); }
     public MultiSelector(By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {
