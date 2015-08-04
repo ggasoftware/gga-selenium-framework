@@ -810,7 +810,6 @@ public class Element<ParentPanel> {
         return name;
     }
 
-
     protected ParentPanel waitForElement() {
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), TIMEOUT)

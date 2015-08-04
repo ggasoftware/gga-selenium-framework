@@ -141,6 +141,7 @@ public class Elements<ParentPanel> {
         if (TestBaseWebDriver.logFindElementLocator) {
             ReporterNGExt.logTechnical(String.format("Get Web Elements '%s'", locator));
         }
+        waitForElements();
         return getDriver().findElements(bylocator);
     }
 
@@ -160,13 +161,30 @@ public class Elements<ParentPanel> {
         return webElementList;
     }
 
+    protected ParentPanel waitForElements() {
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), TIMEOUT)
+                .ignoring(StaleElementReferenceException.class);
+        setTimeout(1);
+        try {
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(bylocator));
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForElements: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+        }
+        setTimeout(TIMEOUT);
+        return parent;
+    }
+
     /**
      * Is at least one of elements exists (on the web page) or not?
      *
      * @return true if we can find at least one of elements on the web page, otherwise false
      */
     public boolean isExists() {
-        return !getWebElements().isEmpty();
+        if (TestBaseWebDriver.logFindElementLocator) {
+            ReporterNGExt.logTechnical(String.format("Find Elements '%s'", locator));
+        }
+        return !getDriver().findElements(bylocator).isEmpty();
     }
 
     /**
@@ -176,7 +194,10 @@ public class Elements<ParentPanel> {
      * @return true if we can find at least one of elements on the web page, otherwise false
      */
     public boolean isExists(int seconds) {
-        return !getWebElements(seconds).isEmpty();
+        setTimeout(seconds);
+        boolean found = isExists();
+        setTimeout(TIMEOUT);
+        return found;
     }
 
     /**
@@ -701,6 +722,52 @@ public class Elements<ParentPanel> {
      */
     public ParentPanel waitForAllElementsExist(final int timeoutSec) {
         return waitForAllElementsExist(timeoutSec, CHECKCONDITION);
+    }
+
+
+    /**
+     * Wait until all elements are not exists.
+     *
+     * @param timeoutSec seconds to wait until all elements become not exists.
+     * @param checkCondition log assert for expected conditions.
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsNotExists(final int timeoutSec, final boolean checkCondition) {
+        ReporterNGExt.logAction(this, getParentClassName(), String.format("waitForAllElementsNotExists: %s", locator));
+        boolean exist;
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), timeoutSec)
+                .ignoring(StaleElementReferenceException.class);
+        setTimeout(1);
+        try {
+            wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(bylocator)));
+            exist = false;
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForAllElementsNotExists: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+            exist = true;
+        }
+        setTimeout(TIMEOUT);
+        if (checkCondition){
+            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, exist, String.format("waitForAllElementsNotExists - all elements of '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
+        }
+        return parent;
+    }
+
+    /**
+     * Wait until all elements are not exists.
+     *
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsNotExists() {
+        return waitForAllElementsNotExists(TIMEOUT, CHECKCONDITION);
+    }
+    /**
+     * Wait until all elements are not exists.
+     * @param timeoutSec seconds to wait until all elements become not exists.
+     * @return Parent instance
+     */
+    public ParentPanel waitForAllElementsNotExists(final int timeoutSec) {
+        return waitForAllElementsNotExists(timeoutSec, CHECKCONDITION);
     }
 
     /**
