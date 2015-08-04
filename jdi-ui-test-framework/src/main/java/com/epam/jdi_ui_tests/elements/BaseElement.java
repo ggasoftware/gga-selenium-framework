@@ -16,12 +16,21 @@ import com.epam.jdi_ui_tests.utils.linqInterfaces.*;
 import com.epam.jdi_ui_tests.utils.map.MapArray;
 import org.openqa.selenium.*;
 
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.List;
+
 import static com.epam.jdi_ui_tests.elements.CascadeInit.InitElements;
+import static com.epam.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.epam.jdi_ui_tests.elements.page_objects.annotations.functions.Functions.NONE;
 import static com.epam.jdi_ui_tests.reporting.PerformanceStatistic.addStatistic;
+import static com.epam.jdi_ui_tests.utils.common.LinqUtils.first;
+import static com.epam.jdi_ui_tests.utils.common.LinqUtils.select;
+import static com.epam.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
+import static com.epam.jdi_ui_tests.utils.common.ReflectionUtils.getFields;
 import static com.epam.jdi_ui_tests.utils.common.StringUtils.LineBreak;
 import static com.epam.jdi_ui_tests.utils.common.Timer.*;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.*;
+import static com.epam.jdi_ui_tests.settings.JDISettings.*;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -182,6 +191,40 @@ public abstract class BaseElement implements IBaseElement {
                 });
             return map;
         } catch (Exception ex) { asserter.exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage()); }
+        return null;
+    }
+
+
+    protected Button getButton(String buttonName) {
+        List<Field> fields = getFields(this, IButton.class);
+        if (fields.size() == 1)
+            return (Button) getFieldValue(fields.get(0), this);
+        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
+        Button button = first(buttons, b -> b.getName().equals(getElementName(buttonName.toLowerCase() + "Button")));
+        if (button == null) {
+            asserter.exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
+            return null;
+        }
+        return button;
+    }
+
+    protected Button getButton(Functions funcName) {
+        List<Field> fields = getFields(this, IButton.class);
+        if (fields.size() == 1)
+            return (Button) getFieldValue(fields.get(0), this);
+        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
+        Button button = first(buttons, b -> b.function.equals(funcName));
+        if (button == null) {
+            asserter.exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
+            return null;
+        }
+        return button;
+    }
+
+    protected Text getTextElement() {
+        Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
+        if (textField!= null) return (Text) getFieldValue(textField, this);
+        asserter.exception(format("Can't find Text element '%s'", toString()));
         return null;
     }
 }

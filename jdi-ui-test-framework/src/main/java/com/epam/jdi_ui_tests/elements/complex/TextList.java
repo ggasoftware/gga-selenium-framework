@@ -15,7 +15,7 @@ import static com.epam.jdi_ui_tests.logger.enums.LogLevels.DEBUG;
 import static com.epam.jdi_ui_tests.utils.common.EnumUtils.getEnumValue;
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.*;
 import static com.epam.jdi_ui_tests.utils.common.Timer.waitCondition;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.*;
+import static com.epam.jdi_ui_tests.settings.JDISettings.*;
 import static com.epam.jdi_ui_tests.utils.common.PrintUtils.print;
 import static java.lang.String.format;
 

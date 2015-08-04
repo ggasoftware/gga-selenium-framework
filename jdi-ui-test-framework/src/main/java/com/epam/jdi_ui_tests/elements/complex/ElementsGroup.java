@@ -5,7 +5,7 @@ import com.epam.jdi_ui_tests.elements.base.Element;
 import com.epam.jdi_ui_tests.elements.interfaces.complex.IGroup;
 import org.openqa.selenium.By;
 
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.epam.jdi_ui_tests.utils.common.EnumUtils.getEnumValue;
 import static com.epam.jdi_ui_tests.utils.common.WebDriverByUtils.fillByTemplateSilent;
 import static com.epam.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.tryGetResult;

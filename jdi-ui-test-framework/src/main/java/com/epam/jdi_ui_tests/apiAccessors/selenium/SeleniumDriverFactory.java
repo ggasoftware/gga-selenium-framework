@@ -3,27 +3,25 @@ package com.epam.jdi_ui_tests.apiAccessors.selenium;
 import com.epam.jdi_ui_tests.elements.BaseElement;
 import com.epam.jdi_ui_tests.elements.base.Element;
 import com.epam.jdi_ui_tests.elements.interfaces.base.IElement;
-import com.epam.jdi_ui_tests.settings.Drivers;
 import com.epam.jdi_ui_tests.settings.HighlightSettings;
-import com.epam.jdi_ui_tests.utils.linqInterfaces.JFuncT;
-import com.epam.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
+import com.epam.jdi_ui_tests.utils.linqInterfaces.*;
 import com.epam.jdi_ui_tests.utils.map.MapArray;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import static com.epam.jdi_ui_tests.settings.Drivers.*;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.timeouts;
+import static com.epam.jdi_ui_tests.apiAccessors.selenium.DriverTypes.*;
+import static com.epam.jdi_ui_tests.apiAccessors.selenium.RunTypes.*;
+import static com.epam.jdi_ui_tests.apiAccessors.selenium.SauceLabRunner.*;
+import static com.epam.jdi_ui_tests.settings.JDISettings.*;
 import static com.epam.jdi_ui_tests.utils.common.ReflectionUtils.isClass;
 import static com.epam.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.String.format;
@@ -39,19 +37,15 @@ public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, We
     public SeleniumDriverFactory() {
         this(false, new HighlightSettings(), WebElement::isDisplayed);
     }
-
     public SeleniumDriverFactory(boolean isDemoMode) {
         this(isDemoMode, new HighlightSettings(), WebElement::isDisplayed);
     }
-
     public SeleniumDriverFactory(HighlightSettings highlightSettings) {
         this(false, highlightSettings, WebElement::isDisplayed);
     }
-
     public SeleniumDriverFactory(JFuncTT<WebElement, Boolean> elementSearchCriteria) {
         this(false, new HighlightSettings(), elementSearchCriteria);
     }
-
     public SeleniumDriverFactory(boolean isDemoMode, HighlightSettings highlightSettings,
                                  JFuncTT<WebElement, Boolean> elementSearchCriteria) {
         this.isDemoMode = isDemoMode;
@@ -59,41 +53,78 @@ public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, We
         this.elementSearchCriteria = elementSearchCriteria;
     }
 
-    public JFuncTT<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
-
-    private String getDriversPath() throws IOException {
-        return new File("src\\main\\resources").getCanonicalPath() + "\\";
-    }
-
     private MapArray<String, JFuncT<WebDriver>> drivers = new MapArray<>();
     private MapArray<String, WebDriver> runDrivers = new MapArray<>();
-
     public void registerDriver(JFuncT<WebDriver> driver) {
         registerDriver("Driver" + drivers.size() + 1, driver);
     }
-
-    public void registerDriver(WebDriver driver) {
-        registerDriver(() -> driver);
+    public JFuncTT<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
+    public RunTypes runType = LOCAL;
+    public void setRunType(String runType){
+        switch (runType.toLowerCase()) {
+            case "local":
+                this.runType = LOCAL; break;
+            case "sauce lab": case "saucelab": case "sauce_lab":
+                this.runType = SAUCE_LAB; break;
+        }
     }
-    public void registerDriver(Drivers driver)  {
-        try {
-            switch (driver) {
-                case CHROME:
-                    setProperty("webdriver.chrome.driver", getDriversPath() + "chromedriver.exe");
-                    registerDriver(CHROME.toString(), ChromeDriver::new);
-                    return;
-                case FIREFOX:
-                    registerDriver(FIREFOX.toString(), FirefoxDriver::new);
-                    return;
-                case IE:
-                    DesiredCapabilities capabilities = internetExplorer();
-                    capabilities.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-                    setProperty("webdriver.ie.driver", getDriversPath() + "IEDriverServer.exe");
-                    registerDriver(IE.toString(), () -> new InternetExplorerDriver(capabilities));
-                    return;
-            }
-            asserter.exception("Unknown driver");
-        } catch (Exception ex) { asserter.exception("Can't register web driver " + driver); }
+
+    private String getDriversPath() {
+        return asserter.silent(() -> new File("src\\main\\resources").getCanonicalPath() + "\\");
+    }
+
+    // REGISTER DRIVER
+
+    public void registerDriver(String driverName) {
+        switch (driverName.toLowerCase()) {
+            case "chrome":
+                registerDriver(CHROME); return;
+            case "firefox":
+                registerDriver(FIREFOX); return;
+            case "ie": case "internetexplorer":
+                registerDriver(IE); return;
+            default:
+                asserter.exception("Unknown driver: " + driverName);
+        }
+    }
+
+    public void registerDriver(DriverTypes driverType)  {
+        switch (runType) {
+            case LOCAL:
+                registerLocalDriver(driverType); return;
+            case SAUCE_LAB:
+                registerDriver("SauceLab " + driverType,
+                        () -> new RemoteWebDriver(getSauceUrl(), getSauceDesiredCapabilities(driverType)));
+                return;
+        }
+        asserter.exception("Unknown driver: " + driverType);
+    }
+
+    private void registerLocalDriver(DriverTypes driverType)  {
+        switch (driverType) {
+            case CHROME:
+                setProperty("webdriver.chrome.driver", getDriversPath() + "chromedriver.exe");
+                registerDriver(getDriverName(CHROME), ChromeDriver::new);
+                return;
+            case FIREFOX:
+                registerDriver(getDriverName(FIREFOX), FirefoxDriver::new);
+                return;
+            case IE:
+                DesiredCapabilities capabilities = internetExplorer();
+                capabilities.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+                setProperty("webdriver.ie.driver", getDriversPath() + "IEDriverServer.exe");
+                registerDriver(getDriverName(IE), () -> new InternetExplorerDriver(capabilities));
+                return;
+        }
+        asserter.exception("Unknown driver: " + driverType);
+    }
+
+    private String getDriverName(DriverTypes driverType) {
+        int numerator = 2;
+        String driverName = driverType.toString();
+        while (drivers.keys().contains(driverName))
+            driverName = driverName + numerator++;
+        return driverName;
     }
 
     public void registerDriver(String driverName, JFuncT<WebDriver> driver) {
@@ -102,19 +133,11 @@ public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, We
         currentDriverName = driverName;
     }
 
+    // GET DRIVER
+
     public WebDriver getDriver() {
         return getDriver(currentDriverName);
     }
-
-    public void reopenDriver() {
-        if (runDrivers.keys().contains(currentDriverName)) {
-            runDrivers.get(currentDriverName).close();
-            runDrivers.removeByKey(currentDriverName);
-        }
-        if (drivers.keys().contains(currentDriverName))
-            getDriver();
-    }
-
     public WebDriver getDriver(String driverName) {
         try {
             if (runDrivers.keys().contains(driverName))
@@ -128,45 +151,42 @@ public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, We
             resultDriver.manage().window().maximize();
             resultDriver.manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
             return resultDriver;
-        } catch (Exception ex) {
-            asserter.exception("Can't get driver");
-            return null;
-        }
+        } catch (Exception ex) { asserter.exception("Can't get driver"); return null; }
     }
-
+    public void reopenDriver() {
+        if (runDrivers.keys().contains(currentDriverName)) {
+            runDrivers.get(currentDriverName).close();
+            runDrivers.removeByKey(currentDriverName);
+        }
+        if (drivers.keys().contains(currentDriverName))
+            getDriver();
+    }
     public void switchToDriver(String driverName) {
         if (drivers.keys().contains(driverName))
             currentDriverName = driverName;
         else
             asserter.exception(format("Can't switch to Webdriver '%s'. This Driver name not registered", driverName));
     }
-
     public String currentDriverName = "";
 
-    public boolean isDemoMode = false;
 
+    public boolean isDemoMode = false;
     public void processDemoMode(BaseElement element) {
         if (isDemoMode)
             if (isClass(element.getClass(), Element.class))
-                highlight((Element) element, highlightSettings);
+                highlight((Element)element, highlightSettings);
     }
 
     public HighlightSettings highlightSettings = new HighlightSettings();
 
-    public void highlight(IElement element) {
-        highlight(element, highlightSettings);
-    }
-
+    public void highlight(IElement element) { highlight(element, highlightSettings); }
     public void highlight(IElement element, HighlightSettings highlightSettings) {
         if (highlightSettings == null)
             highlightSettings = new HighlightSettings();
         String orig = element.getWebElement().getAttribute("style");
         element.setAttribute("style", format("border: 3px solid %s; background-color: %s;", highlightSettings.FrameColor,
                 highlightSettings.BgColor));
-        try {
-            Thread.sleep(highlightSettings.TimeoutInSec * 1000);
-        } catch (Exception ignore) {
-        }
+        try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception ignore) {}
         element.setAttribute("style", orig);
     }
 

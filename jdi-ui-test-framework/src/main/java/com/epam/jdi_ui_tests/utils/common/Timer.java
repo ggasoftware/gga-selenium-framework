@@ -7,7 +7,7 @@ import com.epam.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.timeouts;
+import static com.epam.jdi_ui_tests.settings.JDISettings.timeouts;
 import static com.epam.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.ignoreException;
 import static com.epam.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.System.currentTimeMillis;

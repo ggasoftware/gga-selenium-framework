@@ -6,13 +6,12 @@ import com.epam.jdi_ui_tests.elements.interfaces.base.*;
 import com.epam.jdi_ui_tests.elements.interfaces.common.IButton;
 import com.epam.jdi_ui_tests.elements.interfaces.complex.IForm;
 import com.epam.jdi_ui_tests.utils.map.MapArray;
-import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.epam.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.*;
 import static com.epam.jdi_ui_tests.utils.common.PrintUtils.*;
 import static com.epam.jdi_ui_tests.utils.common.ReflectionUtils.*;
@@ -22,8 +21,6 @@ import static java.lang.String.format;
  * Created by Roman_Iovlev on 7/8/2015.
  */
 public class Form<T> extends Element implements IForm<T> {
-    public Form() { }
-    public Form(By byLocator) { super(byLocator); }
     private boolean fillEmptyValue = false;
     public Form fillEmptyValue() { fillEmptyValue = true; return this; }
 
@@ -36,8 +33,8 @@ public class Form<T> extends Element implements IForm<T> {
             String fieldValue = objStrings.first(name ->
                     namesEqual(name, getElementName(element)));
             if (fieldValue != null) {
-                ISetValue seValueElement = (ISetValue) getFieldValue(element, this);
-                setValueRule.invoke(fieldValue, val -> setValueAction(val, seValueElement));
+                ISetValue setValueElement = (ISetValue) getFieldValue(element, this);
+                setValueRule.invoke(fieldValue, val -> setValueAction(val, setValueElement));
             }
         });
     }

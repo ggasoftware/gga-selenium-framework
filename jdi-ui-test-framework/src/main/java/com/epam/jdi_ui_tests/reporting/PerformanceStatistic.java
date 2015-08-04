@@ -5,7 +5,7 @@ import com.epam.jdi_ui_tests.utils.map.MapArray;
 import java.util.List;
 
 import static com.epam.jdi_ui_tests.reporting.ActionsType.JDI_ACTION;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.epam.jdi_ui_tests.utils.common.CalculationUtils.average;
 
 /**

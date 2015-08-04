@@ -15,7 +15,7 @@ import java.util.List;
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.*;
 import static com.epam.jdi_ui_tests.utils.common.Timer.*;
 import static com.epam.jdi_ui_tests.utils.common.WebDriverByUtils.*;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.*;
+import static com.epam.jdi_ui_tests.settings.JDISettings.*;
 import static com.epam.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.*;
 import static java.lang.String.format;
 

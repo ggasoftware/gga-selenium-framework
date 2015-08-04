@@ -5,7 +5,7 @@ import com.epam.jdi_ui_tests.utils.usefulUtils.ScreenshotMaker;
 import org.junit.Assert;
 
 import static com.epam.jdi_ui_tests.logger.enums.LogInfoTypes.FRAMEWORK;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.logger;
+import static com.epam.jdi_ui_tests.settings.JDISettings.logger;
 import static com.epam.jdi_ui_tests.utils.common.StringUtils.LineBreak;
 
 /**

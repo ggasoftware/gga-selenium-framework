@@ -5,7 +5,7 @@ import java.util.List;
 
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.*;
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.first;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isStatic;
 

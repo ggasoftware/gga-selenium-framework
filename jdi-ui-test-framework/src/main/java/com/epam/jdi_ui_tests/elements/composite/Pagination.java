@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.epam.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.*;
+import static com.epam.jdi_ui_tests.settings.JDISettings.*;
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.select;
 import static com.epam.jdi_ui_tests.utils.common.ReflectionUtils.*;
 import static com.epam.jdi_ui_tests.utils.common.WebDriverByUtils.fillByTemplate;

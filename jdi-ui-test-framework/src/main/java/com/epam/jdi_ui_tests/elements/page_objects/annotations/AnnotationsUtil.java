@@ -2,12 +2,15 @@ package com.epam.jdi_ui_tests.elements.page_objects.annotations;
 
 import com.epam.jdi_ui_tests.elements.composite.Page;
 import com.epam.jdi_ui_tests.elements.page_objects.annotations.functions.*;
+import com.epam.jdi_ui_tests.settings.JDISettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 
 import static com.epam.jdi_ui_tests.elements.page_objects.annotations.functions.Functions.*;
+import static com.epam.jdi_ui_tests.settings.JDISettings.domain;
+import static com.epam.jdi_ui_tests.settings.JDISettings.hasDomain;
 
 /**
  * Created by roman.i on 25.09.2014.
@@ -32,10 +35,11 @@ public class AnnotationsUtil {
 
     public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Object parent){
         String url = pageAnnotation.url();
-        url = (url.contains("://") || parent == null
-                || !parent.getClass().isAnnotationPresent(JSite.class))
+        if (!hasDomain() && parent.getClass().isAnnotationPresent(JSite.class))
+            domain = parent.getClass().getAnnotation(JSite.class).domain();
+        url = (url.contains("://") || parent == null || !hasDomain())
                 ? url
-                : getUrlFromDomain(parent, url);
+                : domain.replaceAll("/*$", "") + "/" + url.replaceAll("^/*", "");
         String title = pageAnnotation.title();
         String urlMatcher = pageAnnotation.urlMatcher();
         String titleMatcher = pageAnnotation.titleMatcher();

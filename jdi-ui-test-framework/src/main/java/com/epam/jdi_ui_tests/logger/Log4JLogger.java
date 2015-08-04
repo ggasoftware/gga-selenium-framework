@@ -7,7 +7,7 @@ import com.epam.jdi_ui_tests.logger.enums.LogInfoTypes;
 import org.apache.log4j.Logger;
 
 import static com.epam.jdi_ui_tests.utils.common.Timer.nowTimeShort;
-import static com.epam.jdi_ui_tests.settings.FrameworkData.frameworkName;
+import static com.epam.jdi_ui_tests.settings.JDIData.frameworkName;
 import static java.lang.String.format;
 import static org.apache.log4j.LogManager.getLogger;
 

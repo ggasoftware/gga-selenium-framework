@@ -4,10 +4,9 @@ import com.epam.jdi_ui_tests.elements.interfaces.complex.IPopup;
 import com.epam.jdi_ui_tests.elements.common.Button;
 import com.epam.jdi_ui_tests.elements.common.Text;
 import com.epam.jdi_ui_tests.elements.page_objects.annotations.functions.Functions;
-import org.openqa.selenium.By;
 
 import static com.epam.jdi_ui_tests.elements.page_objects.annotations.functions.Functions.*;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.epam.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.String.format;
 
@@ -15,8 +14,6 @@ import static java.lang.String.format;
  * Created by Roman_Iovlev on 7/8/2015.
  */
 public class Popup extends Text implements IPopup {
-    public Popup() { }
-    public Popup(By byLocator) { super(byLocator); }
 
     @Override
     protected String getTextAction() { return getTextElement().getText(); }

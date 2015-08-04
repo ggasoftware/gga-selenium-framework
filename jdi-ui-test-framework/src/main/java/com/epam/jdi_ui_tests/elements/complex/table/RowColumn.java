@@ -2,7 +2,7 @@ package com.epam.jdi_ui_tests.elements.complex.table;
 
 import com.epam.jdi_ui_tests.utils.linqInterfaces.*;
 
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 
 /**
  * Created by Roman_Iovlev on 7/17/2015.

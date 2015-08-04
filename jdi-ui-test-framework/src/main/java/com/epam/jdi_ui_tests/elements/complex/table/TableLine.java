@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.jdi_ui_tests.utils.common.Timer.getResultAction;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 
 /**
  * Created by 12345 on 25.10.2014.

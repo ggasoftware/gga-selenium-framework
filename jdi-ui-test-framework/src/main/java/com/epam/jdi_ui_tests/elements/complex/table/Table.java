@@ -20,7 +20,7 @@ import static com.epam.jdi_ui_tests.utils.common.PrintUtils.print;
 import static com.epam.jdi_ui_tests.utils.common.StringUtils.LineBreak;
 import static com.epam.jdi_ui_tests.utils.common.Timer.waitCondition;
 import static com.epam.jdi_ui_tests.utils.common.WebDriverByUtils.fillByTemplateSilent;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.*;
+import static com.epam.jdi_ui_tests.settings.JDISettings.*;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.*;

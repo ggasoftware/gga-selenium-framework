@@ -15,11 +15,6 @@ package com.epam.jdi_ui_tests.elements.base;
 
 import com.epam.jdi_ui_tests.elements.interfaces.base.IElement;
 import com.epam.jdi_ui_tests.elements.BaseElement;
-import com.epam.jdi_ui_tests.elements.interfaces.common.IButton;
-import com.epam.jdi_ui_tests.elements.interfaces.common.IText;
-import com.epam.jdi_ui_tests.elements.common.Button;
-import com.epam.jdi_ui_tests.elements.common.Text;
-import com.epam.jdi_ui_tests.elements.page_objects.annotations.functions.Functions;
 import com.epam.jdi_ui_tests.logger.base.LogSettings;
 import com.epam.jdi_ui_tests.utils.common.Timer;
 import com.epam.jdi_ui_tests.settings.HighlightSettings;
@@ -27,21 +22,15 @@ import com.epam.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
 
-import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.List;
-
 import static com.epam.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.epam.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getFindByLocator;
 import static com.epam.jdi_ui_tests.logger.enums.LogInfoTypes.BUSINESS;
 import static com.epam.jdi_ui_tests.logger.enums.LogLevels.DEBUG;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.driverFactory;
+import static com.epam.jdi_ui_tests.settings.JDISettings.driverFactory;
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.select;
-import static com.epam.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
-import static com.epam.jdi_ui_tests.utils.common.ReflectionUtils.getFields;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.timeouts;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.timeouts;
 import static java.lang.String.format;
 
 /**
@@ -67,39 +56,6 @@ public class Element extends BaseElement implements IElement {
             result.setAvatar(newLocator, element.getAvatar());
             return result;
         } catch (Exception ex) { asserter.exception("Can't copy element: " + element); return null; }
-    }
-
-    protected Button getButton(String buttonName) {
-        List<Field> fields = getFields(this, IButton.class);
-        if (fields.size() == 1)
-            return (Button) getFieldValue(fields.get(0), this);
-        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
-        Button button = first(buttons, b -> b.getName().equals(getElementName(buttonName.toLowerCase() + "Button")));
-        if (button == null) {
-            asserter.exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
-            return null;
-        }
-        return button;
-    }
-
-    protected Button getButton(Functions funcName) {
-        List<Field> fields = getFields(this, IButton.class);
-        if (fields.size() == 1)
-            return (Button) getFieldValue(fields.get(0), this);
-        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
-        Button button = first(buttons, b -> b.function.equals(funcName));
-        if (button == null) {
-            asserter.exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
-            return null;
-        }
-        return button;
-    }
-
-    protected Text getTextElement() {
-        Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
-        if (textField!= null) return (Text) getFieldValue(textField, this);
-        asserter.exception(format("Can't find Text element '%s'", toString()));
-        return null;
     }
 
     public boolean waitAttribute(String name, String value) {

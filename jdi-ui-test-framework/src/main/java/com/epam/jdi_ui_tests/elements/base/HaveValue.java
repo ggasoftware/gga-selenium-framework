@@ -4,7 +4,7 @@ import com.epam.jdi_ui_tests.elements.BaseElement;
 import com.epam.jdi_ui_tests.elements.interfaces.base.IHaveValue;
 import com.epam.jdi_ui_tests.utils.linqInterfaces.JFuncT;
 
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 import static java.lang.String.format;
 
 /**

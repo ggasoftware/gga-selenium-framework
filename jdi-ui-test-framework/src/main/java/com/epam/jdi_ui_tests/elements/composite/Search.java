@@ -10,7 +10,7 @@ import org.openqa.selenium.By;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.*;
+import static com.epam.jdi_ui_tests.settings.JDISettings.*;
 import static com.epam.jdi_ui_tests.utils.common.ReflectionUtils.*;
 import static com.epam.jdi_ui_tests.utils.common.WebDriverByUtils.fillByTemplateSilent;
 import static java.lang.String.format;

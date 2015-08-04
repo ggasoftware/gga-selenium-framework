@@ -5,8 +5,8 @@ import org.openqa.selenium.TakesScreenshot;
 import java.io.File;
 import java.io.IOException;
 
-import static com.epam.jdi_ui_tests.settings.FrameworkData.testName;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.driverFactory;
+import static com.epam.jdi_ui_tests.settings.JDIData.testName;
+import static com.epam.jdi_ui_tests.settings.JDISettings.driverFactory;
 import static com.epam.jdi_ui_tests.utils.common.StringUtils.LineBreak;
 import static com.epam.jdi_ui_tests.utils.common.Timer.nowDate;
 import static org.apache.commons.io.FileUtils.copyFile;

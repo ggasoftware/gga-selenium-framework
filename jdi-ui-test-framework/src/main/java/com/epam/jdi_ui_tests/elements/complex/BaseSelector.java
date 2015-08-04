@@ -8,7 +8,7 @@ import java.util.List;
 
 import static com.epam.jdi_ui_tests.utils.common.PrintUtils.print;
 import static com.epam.jdi_ui_tests.utils.common.Timer.waitCondition;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
 import static java.lang.String.format;
 
 /**

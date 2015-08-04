@@ -15,8 +15,8 @@ import static com.epam.jdi_ui_tests.elements.base.Element.copy;
 import static com.epam.jdi_ui_tests.utils.common.EnumUtils.getEnumValue;
 import static com.epam.jdi_ui_tests.utils.common.LinqUtils.*;
 import static com.epam.jdi_ui_tests.utils.common.WebDriverByUtils.fillByTemplateSilent;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.asserter;
-import static com.epam.jdi_ui_tests.settings.FrameworkSettings.timeouts;
+import static com.epam.jdi_ui_tests.settings.JDISettings.asserter;
+import static com.epam.jdi_ui_tests.settings.JDISettings.timeouts;
 import static java.lang.String.format;
 
 /**

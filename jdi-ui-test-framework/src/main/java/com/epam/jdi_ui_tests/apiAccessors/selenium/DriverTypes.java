@@ -1,14 +1,14 @@
-package com.epam.jdi_ui_tests.settings;
+package com.epam.jdi_ui_tests.apiAccessors.selenium;
 
 /**
  * Created by Roman_Iovlev on 7/31/2015.
  */
-public enum Drivers {
+public enum DriverTypes {
     CHROME("chrome"),
     FIREFOX("firefox"),
     IE("ie");
 
     public String name;
-    Drivers(String name) { this.name = name; }
+    DriverTypes(String name) { this.name = name; }
 
 }
