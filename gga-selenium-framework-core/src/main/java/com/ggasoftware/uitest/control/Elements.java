@@ -155,12 +155,27 @@ public class Elements<ParentPanel> {
      */
 
     public List<WebElement> getWebElements(int seconds) {
+        if (TestBaseWebDriver.logFindElementLocator) {
+            ReporterNGExt.logTechnical(String.format("Get Web Elements '%s'", locator));
+        }
         setTimeout(seconds);
-        List<WebElement> webElementList = getWebElements();
+        waitForElements(seconds);
+        List<WebElement> webElementList = getDriver().findElements(bylocator);
         setTimeout(TIMEOUT);
         return webElementList;
     }
 
+    protected ParentPanel waitForElements(int seconds) {
+        long start = System.currentTimeMillis() / 1000;
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), seconds)
+                .ignoring(StaleElementReferenceException.class);
+        try {
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(bylocator));
+        } catch (TimeoutException e) {
+            ReporterNGExt.logTechnical(String.format("waitForElements: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
+        }
+        return parent;
+    }
     protected ParentPanel waitForElements() {
         long start = System.currentTimeMillis() / 1000;
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), TIMEOUT)
