@@ -549,8 +549,8 @@ public class Elements<ParentPanel> {
      * @param attributeName - name of attribute for getting value
      * @return List of WebElement attributes
      */
-    public List<String> getAttributeList(String attributeName) {
-        return (List<String>) select(getWebElements(),
+    public ArrayList<String> getAttributeList(String attributeName) {
+        return (ArrayList<String>) select(getWebElements(),
                 el -> el.getAttribute(attributeName));
     }
 

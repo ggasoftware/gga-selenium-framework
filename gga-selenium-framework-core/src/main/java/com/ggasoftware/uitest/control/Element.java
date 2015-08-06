@@ -307,6 +307,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         return parent;
     }
 
+    public String getSimpleClassName() { return getClass().getSimpleName(); }
+
     /**
      * Mouse Over on the the given element.
      *
