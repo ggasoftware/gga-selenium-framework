@@ -15,7 +15,7 @@ package com.ggasoftware.jdi_ui_tests.elements.base;
 
 import com.ggasoftware.jdi_ui_tests.elements.common.Text;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IClickable;
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IHaveValue;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IHasValue;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.IText;
 import org.openqa.selenium.By;
 
@@ -24,7 +24,7 @@ import org.openqa.selenium.By;
  *
  * @author Alexeenko Yan
  */
-public class ClickableText extends Clickable implements IHaveValue, IClickable, IText {
+public class ClickableText extends Clickable implements IHasValue, IClickable, IText {
     public ClickableText() { }
     public ClickableText(By byLocator) { super(byLocator); }
 

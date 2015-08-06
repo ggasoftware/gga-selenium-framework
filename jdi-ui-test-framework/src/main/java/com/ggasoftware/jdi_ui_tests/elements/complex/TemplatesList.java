@@ -17,6 +17,7 @@ import static com.ggasoftware.jdi_ui_tests.elements.base.Element.copy;
 import static com.ggasoftware.jdi_ui_tests.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
+import static com.ggasoftware.jdi_ui_tests.utils.common.WebDriverByUtils.fillByTemplateSilent;
 import static java.lang.String.format;
 
 /**
@@ -60,7 +61,7 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
     public WebElement getWebElement(TEnum enumName) { return getElement(enumName).getWebElement(); }
 
     public TType getElement(String name) {
-        return copy(templateElement, WebDriverByUtils.fillByTemplateSilent(getLocator(), name));
+        return copy(templateElement, fillByTemplateSilent(getLocator(), name));
     }
     public TType getElement(TEnum enumName) {
         return getElement(getEnumValue(enumName));

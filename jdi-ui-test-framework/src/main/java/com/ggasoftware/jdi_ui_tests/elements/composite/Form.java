@@ -75,8 +75,8 @@ public class Form<T> extends Element implements IForm<T> {
     }
     protected SetValue setValue() { return new SetValue(
             value -> submit(parseObjectAsString(value)),
-            () -> print(select(getFields(this, IHaveValue.class), field ->
-                    ((IHaveValue) getFieldValue(field, this)).getValue())));
+            () -> print(select(getFields(this, IHasValue.class), field ->
+                    ((IHasValue) getFieldValue(field, this)).getValue())));
     }
 
     public final String getValue() { return setValue().getValue(); }

@@ -1,10 +1,10 @@
 package com.ggasoftware.jdi_ui_tests.elements.complex.table;
 
 import com.ggasoftware.jdi_ui_tests.elements.apiInteract.ContextType;
-import com.ggasoftware.jdi_ui_tests.elements.base.HaveValue;
+import com.ggasoftware.jdi_ui_tests.elements.base.HasValue;
 import com.ggasoftware.jdi_ui_tests.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.elements.common.Text;
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IHaveValue;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IHasValue;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.complex.ITable;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
@@ -259,7 +259,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         return nameIndex + getRows().startIndex;
     }
     @Override
-    protected IHaveValue haveValue() { return new HaveValue(() ->
+    protected IHasValue hasValue() { return new HasValue(() ->
         "||X|" + print(columns().headers(), "|") + "||" + StringUtils.LineBreak +
                 print(new ArrayList<>(select(rows().headers(),
                         rowName -> "||" + rowName + "||" +

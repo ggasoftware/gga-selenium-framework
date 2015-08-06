@@ -27,14 +27,14 @@ import static java.lang.String.format;
  * @author Alexeenko Yan
  * @author Belousov Andrey
  */
-public class SetValue extends HaveValue implements ISetValue {
+public class SetValue extends HasValue implements ISetValue {
     private JActionT<String> setValueAction;
     public SetValue(JActionT<String> setValueAction, JFuncT<String> getValueFunc) {
         super(getValueFunc);
         this.setValueAction = setValueAction;
     }
-    public SetValue(JActionT<String> setValueAction, HaveValue haveValue) {
-        super(haveValue::getValue);
+    public SetValue(JActionT<String> setValueAction, HasValue hasValue) {
+        super(hasValue::getValue);
         this.setValueAction = setValueAction;
     }
     public SetValue(JFuncT<String> getValueFunc, SetValue setValue) {

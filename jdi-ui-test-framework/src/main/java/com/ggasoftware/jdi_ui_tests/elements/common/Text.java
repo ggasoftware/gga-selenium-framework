@@ -1,8 +1,8 @@
 package com.ggasoftware.jdi_ui_tests.elements.common;
 
 import com.ggasoftware.jdi_ui_tests.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.elements.base.HaveValue;
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IHaveValue;
+import com.ggasoftware.jdi_ui_tests.elements.base.HasValue;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IHasValue;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
 import org.openqa.selenium.By;
@@ -16,8 +16,8 @@ public class Text extends Element implements IText {
     public Text() { }
     public Text(By byLocator) { super(byLocator); }
 
-    protected IHaveValue haveValue() { return new HaveValue(this::getTextAction); }
-    public final String getValue() { return haveValue().getValue(); }
+    protected IHasValue hasValue() { return new HasValue(this::getTextAction); }
+    public final String getValue() { return hasValue().getValue(); }
 
     protected String getTextAction() { return getWebElement().getText(); }
 
