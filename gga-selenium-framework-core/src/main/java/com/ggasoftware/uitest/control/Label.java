@@ -22,7 +22,7 @@ import org.openqa.selenium.By;
  *
  * @author Alexeenko Yan
  */
-public class Label<ParentPanel> extends ClickableText implements ILabel {
+public class Label<ParentPanel> extends ClickableText<ParentPanel> implements ILabel<ParentPanel> {
     public Label() { }
     public Label(By valueLocator) { super(valueLocator); }
     //constructor

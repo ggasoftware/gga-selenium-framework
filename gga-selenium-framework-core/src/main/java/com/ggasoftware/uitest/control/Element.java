@@ -140,7 +140,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public boolean waitVanished(int seconds)  {
         return doJActionResult("Wait element disappear during '%s' seconds", () -> {
             setWaitTimeout(100);
-            boolean result = new Timer(seconds*1000).wait(() -> !(avatar.getElement().isDisplayed()));
+            boolean result = new Timer(seconds * 1000).wait(() -> !(avatar.getElement().isDisplayed()));
             setWaitTimeout(TIMEOUT);
             return result;
         });
@@ -158,7 +158,13 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         return doJActionResult("Get web element " + this.toString(), avatar::getElement,
                 new LogSettings(DEBUG, BUSINESS));
     }
-
+    public WebElement getWebElement(int seconds) {
+        setTimeout(seconds);
+        WebElement result = doJActionResult("Get web element " + this.toString(), avatar::getElement,
+                new LogSettings(DEBUG, BUSINESS));
+        setTimeout(TIMEOUT);
+        return result;
+    }
     protected Button getButton(Functions funcName) {
         List<Field> fields = getFields(this, IButton.class);
         if (fields.size() == 1)
@@ -276,7 +282,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         });
         return parent;
     }
-
 
     /**
      * Performs a right-click at the current mouse location.

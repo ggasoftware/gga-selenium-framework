@@ -1,5 +1,6 @@
 package com.ggasoftware.uitest.control.new_controls.base;
 
+import com.ggasoftware.uitest.control.Element;
 import com.ggasoftware.uitest.control.interfaces.base.IElement;
 import com.ggasoftware.uitest.control.interfaces.base.IVisible;
 import com.ggasoftware.uitest.utils.EnumUtils;
@@ -22,7 +23,7 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 7/3/2015.
  */
-public class TemplatesList<TType extends IElement, TEnum extends Enum, P> extends BaseElement<P> implements IVisible {
+public class TemplatesList<TType extends IElement, TEnum extends Enum, P> extends Element<P> implements IVisible {
     public TemplatesList() { }
     public TemplatesList(By byLocator, TType templateElement) {
         super(byLocator);
@@ -42,7 +43,8 @@ public class TemplatesList<TType extends IElement, TEnum extends Enum, P> extend
             (List<String>) select(enumMember.getClass().getEnumConstants(), EnumUtils::getEnumValue); }
     protected List<String> elementsNames;
     private TType templateElement;
-    protected WebElement getWebElement() { return templateElement.getWebElement(); }
+    @Override
+    public WebElement getWebElement() { return templateElement.getWebElement(); }
 
     public boolean isDisplayed() { return waitDisplayed(0); }
     public boolean waitDisplayed() { return waitDisplayed(TIMEOUT); }
