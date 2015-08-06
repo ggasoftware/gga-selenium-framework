@@ -84,6 +84,6 @@ public class Dropdown<TEnum extends Enum, P> extends Selector<TEnum, P> implemen
     }
     public WebElement getWebElement() { return new Element(selectLocator).getWebElement(); }
     public WebElement getWebElement(int timeouInSec) { return new Element(selectLocator).getWebElement(); }
-    @Deprecated    // Not relevant
+    // Not relevant
     public IElement copy(By newLocator) { return this; }
 }

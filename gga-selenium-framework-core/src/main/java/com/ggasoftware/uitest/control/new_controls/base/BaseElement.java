@@ -43,6 +43,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public abstract class BaseElement<P> implements IBaseElement {
     public BaseElement() { this(null); }
     public BaseElement(By byLocator) {
+        name = getTypeName();
         avatar = new GetElementModule(byLocator, this);
     }
     public BaseElement(String name, String locator, P panel) {
@@ -62,7 +63,7 @@ public abstract class BaseElement<P> implements IBaseElement {
      */
     protected String locator;
 
-    private String name;
+    protected String name;
     public String getName() { return name != null ? name : getTypeName(); }
     public void setName(String name) { this.name = name; }
     public Functions function = NONE;

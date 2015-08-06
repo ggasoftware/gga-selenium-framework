@@ -39,8 +39,7 @@ import static java.lang.String.format;
  * @author Alexeenko Yan
  * @author Belousov Andrey
  */
-public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnum, ParentPanel>
-        implements IDropList<TEnum> {
+public class DropBox<ParentPanel> extends MultiSelector<Enum, ParentPanel> implements IDropList<Enum> {
     public DropBox() { }
     public DropBox(By valueLocator) { super(valueLocator); }
     //constructor
@@ -66,7 +65,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      * @param sItem - visible option text
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel selectByText(String sItem) {
         select(sItem);
         return parent;
@@ -82,7 +80,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      * @param value The value to match against
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel selectByValue(String value) {
         doJAction(format("Set Value (selectByValue): %s", value),
                 () -> select().selectByValue(value));
@@ -96,7 +93,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      * @param index - index The option at this index will be selected
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel selectByIndex(int index) {
         select(index);
         return super.parent;
@@ -109,7 +105,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      * @param sItem - visible option text(contains)
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel selectByTextContains(String sItem) {
         return doJActionResult(format("Set Value contains: %s", sItem), () -> {
             Select select = select();
@@ -130,7 +125,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      *
      * @return count of options in DropBox
      */
-    @Deprecated
     public int getOptionsCount() {
         return count();
     }
@@ -141,7 +135,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      *
      * @return All options belonging to this select tag
      */
-    @Deprecated
     public String[] getAllOptions() {
         return toStringArray(getOptions());
     }
@@ -165,7 +158,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      *
      * @return All selected options belonging to this select tag
      */
-    @Deprecated
     public String[] getAllSelectedOptions() {
         return toStringArray(areSelected());
     }
@@ -180,7 +172,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      * @param sItem - visible option text
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel deSelectByText(String sItem) {
         uncheck(sItem);
         return super.parent;
@@ -195,7 +186,6 @@ public class DropBox<ParentPanel, TEnum extends Enum> extends MultiSelector<TEnu
      *
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel deselectAll() {
         clear();
         return super.parent;

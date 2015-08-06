@@ -21,6 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -538,8 +539,8 @@ public class Elements<ParentPanel> {
      *
      * @return ArrayList
      */
-    public List<String> getTextList() {
-        return (List<String>) select(getWebElements(), WebElement::getText);
+    public ArrayList<String> getTextList() {
+        return (ArrayList<String>) select(getWebElements(), WebElement::getText);
     }
 
     /**

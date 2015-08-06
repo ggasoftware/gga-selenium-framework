@@ -180,6 +180,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     }
     //  Common functions
 
+
+    protected void clickActionM() { getWebElement().click(); }
+    public ParentPanel click() { doJAction("Click on element", this::clickActionM); return parent; }
+
     /**
      * A convenience method that performs click at the location of the source element
      *
@@ -202,7 +206,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel clickJS() {
-        doJAction("clickJS",  () -> jsExecutor().executeScript("arguments[0].click();", getWebElement()));
+        doJAction("clickJS", () -> jsExecutor().executeScript("arguments[0].click();", getWebElement()));
         return parent;
     }
 
@@ -561,7 +565,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param sName The name of the attribute.
      * @return The attribute's current value or null if the value is not set.
      */
-    @Deprecated
     public String getAttribute(String sName) {
         return (String) logGetter(this, getParentClassName(), sName, getWebElement().getAttribute(sName));
     }
@@ -1103,7 +1106,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param timeoutSec seconds to wait until element is changed attribute
      * @return Parent instance
      */
-    @Deprecated
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
         boolean result = waitAttribute(attribute, value);
         logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
@@ -1121,7 +1123,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
-    @Deprecated
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, final boolean checkCondition) {
         boolean result = waitAttribute(attribute, value);
         logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,

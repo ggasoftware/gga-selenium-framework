@@ -51,7 +51,6 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @param locator     - start it with locator type "id=", "css=", "xpath=" and etc. Locator without type is assigned to xpath
      * @param parentPanel - Panel which contains current button
      */
-    @Deprecated
     public Select(String name, String locator, ParentPanel parentPanel) {
         super(name, locator, parentPanel);
     }
@@ -156,7 +155,6 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      * @param value - item text
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel waitForItemAndSelect(final String value) {
         select(value);
         return parent;

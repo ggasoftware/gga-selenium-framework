@@ -83,7 +83,6 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
      * @param text - text for Input field
      * @return Parent instance
      */
-    @Deprecated
     public ParentPanel setText(String text) {
         newInput(text);
         return super.parent;
@@ -117,7 +116,6 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
      * @param keysToSend - CharSequence to send
      * @return Parent instance
      */
-    @Deprecated
     public ParentPanel sendKeys(CharSequence... keysToSend) {
         return super.sendKeys(keysToSend);
     }

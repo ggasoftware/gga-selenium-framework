@@ -38,7 +38,7 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author Alexeenko Yan
  */
-public class ComboBox<ParentPanel, TEnum extends Enum> extends Dropdown<TEnum, ParentPanel> implements IComboBox<TEnum, ParentPanel> {
+public class ComboBox<ParentPanel> extends Dropdown<Enum, ParentPanel> implements IComboBox<Enum, ParentPanel> {
 
     public ComboBox() { }
     public ComboBox(By valueLocator) {
@@ -100,7 +100,6 @@ public class ComboBox<ParentPanel, TEnum extends Enum> extends Dropdown<TEnum, P
      * @param item - visible option text(contains)
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel selectByTextContains(String item) {
         return doJActionResult("select by text contains: %s", () -> {
             int firstIndex = getResultAction(() -> firstIndex(
@@ -141,7 +140,6 @@ public class ComboBox<ParentPanel, TEnum extends Enum> extends Dropdown<TEnum, P
      *
      * @return List of all options.
      */
-    @Deprecated
     public List<String> getItems() {
         return doJActionResult("Get all items",  () -> (List<String>) LinqUtils.select(
                 select().getOptions(),
@@ -155,7 +153,6 @@ public class ComboBox<ParentPanel, TEnum extends Enum> extends Dropdown<TEnum, P
      * @param value - option text
      * @return Parent Panel instance
      */
-    @Deprecated
     public ParentPanel waitForItemAndSelect(final String value) {
         select(value);
         return parent;
