@@ -34,6 +34,7 @@ import static com.ggasoftware.jdi_ui_tests.reporting.PerformanceStatistic.addSta
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
+import static com.ggasoftware.jdi_ui_tests.utils.common.Timer.sleep;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -88,6 +89,7 @@ public abstract class BaseElement implements IBaseElement {
     }
 
     public static IScenario invocationScenario = (element, actionName, jAction, logSettings) -> {
+        sleep(100);
         element.logAction(actionName, logSettings);
         Timer timer = new Timer();
         Timer.alwaysDoneAction(jAction::invoke);
@@ -97,6 +99,7 @@ public abstract class BaseElement implements IBaseElement {
     public static IScenarioWithResult invocationScenarioWithResult = new IScenarioWithResult() {
         @Override
         public <TResult> TResult invoke(BaseElement element, String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
+            sleep(100);
             element.logAction(actionName);
             Timer timer = new Timer();
             TResult result = Timer.getResultAction(jAction::invoke);

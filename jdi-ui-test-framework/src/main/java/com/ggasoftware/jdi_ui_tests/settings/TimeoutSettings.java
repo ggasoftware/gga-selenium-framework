@@ -6,7 +6,7 @@ package com.ggasoftware.jdi_ui_tests.settings;
 public class TimeoutSettings {
     public int currentTimoutSec;
 
-    public int waitElementSec = 3;
+    public int waitElementSec = 20;
     public int waitPageLoadSec = 20;
     public int retryMSec = 100;
 
