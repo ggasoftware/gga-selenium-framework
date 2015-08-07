@@ -33,6 +33,7 @@ import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.Ann
 import static com.ggasoftware.jdi_ui_tests.reporting.PerformanceStatistic.addStatistic;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
+import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -196,13 +197,12 @@ public abstract class BaseElement implements IBaseElement {
         return null;
     }
 
-
     protected Button getButton(String buttonName) {
         List<Field> fields = ReflectionUtils.getFields(this, IButton.class);
         if (fields.size() == 1)
-            return (Button) ReflectionUtils.getFieldValue(fields.get(0), this);
-        Collection<Button> buttons = select(fields, f -> (Button) ReflectionUtils.getFieldValue(f, this));
-        Button button = first(buttons, b -> b.getName().equals(getElementName(buttonName.toLowerCase() + "Button")));
+            return (Button) getFieldValue(fields.get(0), this);
+        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
+        Button button = first(buttons, b -> namesEqual(b.getName(), buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button"));
         if (button == null) {
             JDISettings.asserter.exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
             return null;
@@ -210,11 +210,15 @@ public abstract class BaseElement implements IBaseElement {
         return button;
     }
 
+    protected boolean namesEqual(String name1, String name2) {
+        return name1.toLowerCase().replace(" ", "").equals(name2.toLowerCase().replace(" ", ""));
+    }
+
     protected Button getButton(Functions funcName) {
         List<Field> fields = ReflectionUtils.getFields(this, IButton.class);
         if (fields.size() == 1)
-            return (Button) ReflectionUtils.getFieldValue(fields.get(0), this);
-        Collection<Button> buttons = select(fields, f -> (Button) ReflectionUtils.getFieldValue(f, this));
+            return (Button) getFieldValue(fields.get(0), this);
+        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
         Button button = first(buttons, b -> b.function.equals(funcName));
         if (button == null) {
             JDISettings.asserter.exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
@@ -225,7 +229,7 @@ public abstract class BaseElement implements IBaseElement {
 
     protected Text getTextElement() {
         Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
-        if (textField!= null) return (Text) ReflectionUtils.getFieldValue(textField, this);
+        if (textField!= null) return (Text) getFieldValue(textField, this);
         JDISettings.asserter.exception(format("Can't find Text element '%s'", toString()));
         return null;
     }

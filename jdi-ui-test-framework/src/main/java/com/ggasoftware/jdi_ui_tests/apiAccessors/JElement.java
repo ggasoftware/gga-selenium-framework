@@ -3,7 +3,7 @@ package com.ggasoftware.jdi_ui_tests.apiAccessors;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public interface IElementAvatar {
+public interface JElement {
     void click();                           // Operate with element
     String getText();                       // Get text from element
     void clear(String text);                // clear value of element

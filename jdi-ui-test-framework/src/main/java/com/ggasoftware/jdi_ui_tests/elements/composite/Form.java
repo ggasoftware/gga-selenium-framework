@@ -43,9 +43,6 @@ public class Form<T> extends Element implements IForm<T> {
         fill(objToSetValue(entity));
     }
 
-    private boolean namesEqual(String name1, String name2) {
-        return name1.toLowerCase().replace(" ", "").equals(name2.toLowerCase().replace(" ", ""));
-    }
 
     private Button getSubmitButton() {
         List<Field> fields = getFields(this, IButton.class);

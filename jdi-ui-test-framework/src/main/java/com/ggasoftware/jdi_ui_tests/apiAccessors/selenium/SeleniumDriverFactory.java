@@ -33,7 +33,7 @@ import static org.openqa.selenium.remote.DesiredCapabilities.internetExplorer;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public class SeleniumDriverFactory /*implements IAPIAvatar<WebElementAvatar>, WebDriver*/ {
+public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDriver*/ {
     public SeleniumDriverFactory() {
         this(false, new HighlightSettings(), WebElement::isDisplayed);
     }

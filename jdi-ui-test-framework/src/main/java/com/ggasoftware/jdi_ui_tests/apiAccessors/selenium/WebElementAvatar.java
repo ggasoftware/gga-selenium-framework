@@ -1,6 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.apiAccessors.selenium;
 
-import com.ggasoftware.jdi_ui_tests.apiAccessors.IElementAvatar;
+import com.ggasoftware.jdi_ui_tests.apiAccessors.JElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public class WebElementAvatar implements IElementAvatar, WebElement {
+public class WebElementAvatar implements JElement, WebElement {
     private WebElement element;
     public WebElementAvatar(WebElement element) {
         this.element = element;
