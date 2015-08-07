@@ -51,10 +51,6 @@ public class PageForm<T> extends Page implements IPageForm<T> {
         getButton(buttonName).click();
     }
 
-    private boolean namesEqual(String name1, String name2) {
-        return name1.toLowerCase().replace(" ", "").equals(name2.toLowerCase().replace(" ", ""));
-    }
-
     private Button getSubmitButton() {
         List<Field> fields = ReflectionUtils.getFields(this, IButton.class);
         switch (fields.size()) {
