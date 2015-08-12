@@ -1,6 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.utils.common;
 
-import com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.Complex;
+import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.Complex;
 import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 
 import java.lang.reflect.Field;

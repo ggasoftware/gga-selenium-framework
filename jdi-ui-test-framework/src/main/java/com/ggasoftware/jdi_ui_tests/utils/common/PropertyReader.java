@@ -33,7 +33,7 @@ public class PropertyReader {
 		return loadProperties().getProperty(propertyName);
 	}
 
-	public static void fillAction(JActionT<String> action, String name) throws Exception {
+	public static void fillAction(String name, JActionT<String> action) throws Exception {
 		Object prop = properties.get(name);
 		if (prop != null && !prop.equals(""))
 			action.invoke(prop+"");

@@ -26,7 +26,6 @@ public class JUnitAsserter extends Assert implements IAsserter {
             message = LineBreak + resultMessage + LineBreak + message;
         }
         logger.error(FRAMEWORK, message);
-        assertTrue(message, false);
         return new Exception(message);
     }
     public void silent(JAction action) {

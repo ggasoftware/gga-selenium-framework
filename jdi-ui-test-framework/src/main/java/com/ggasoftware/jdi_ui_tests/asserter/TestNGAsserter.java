@@ -26,7 +26,6 @@ public class TestNGAsserter extends Assert implements IAsserter {
             message = LineBreak + resultMessage + LineBreak + message;
         }
         logger.error(FRAMEWORK, message);
-        assertTrue(false, message);
         return new Exception(message);
     }
     public void silent(JAction action) {
