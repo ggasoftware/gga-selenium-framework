@@ -36,8 +36,8 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
         super(optionsNamesLocator, allOptionsNamesLocator); this.valueLocator = valueLocator;
     }
 
-    private By valueLocator;
-    private Button field() { return new Button(valueLocator); }
+    protected By valueLocator;
+    protected Button field() { return new Button(valueLocator); }
 
     @Override
     protected void selectListAction(String... names) {
