@@ -14,6 +14,7 @@ import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.common.*;
 import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.complex.*;
 import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.functions.Functions;
 import com.ggasoftware.jdi_ui_tests.logger.base.LogSettings;
+import com.ggasoftware.jdi_ui_tests.selenium.elements.annotations.JFindBy;
 import com.ggasoftware.jdi_ui_tests.selenium.elements.base.ByContext;
 import com.ggasoftware.jdi_ui_tests.selenium.elements.base.SlmLocationInfo;
 import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
@@ -25,15 +26,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.selenium.elements.annotations.SlmAnnotationsUtil.getFindByLocator;
+import static com.ggasoftware.jdi_ui_tests.settings.JDIData.applicationVersion;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
+import static com.ggasoftware.jdi_ui_tests.utils.common.StringUtils.LineBreak;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -41,8 +46,34 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public class SlmBaseElement extends BaseElement<WebDriver, WebElement, By, ByContext> {
-    public SlmBaseElement() { super(); }
-    public SlmBaseElement(By byLocator) { super(byLocator); }
+    public SlmBaseElement() { this(null); }
+    public SlmBaseElement(By byLocator) {
+        super(byLocator);
+        updateInterfacesMap(new Object[][]{
+                {IElement.class, Element.class},
+                {IButton.class, Button.class},
+                {IClickable.class, Clickable.class},
+                {IComboBox.class, ComboBox.class},
+                {ILink.class, Link.class},
+                {ISelector.class, Selector.class},
+                {IText.class, Text.class},
+                {ITextArea.class, TextArea.class},
+                {ITextField.class, TextField.class},
+                {ILabel.class, Label.class},
+                {IDropDown.class, Dropdown.class},
+                {IDropList.class, DropList.class},
+                {IGroup.class, ElementsGroup.class},
+                {ITable.class, Table.class},
+                {ICheckBox.class, CheckBox.class},
+                {IRadioButtons.class, RadioButtons.class},
+                {ICheckList.class, CheckList.class},
+                {ITextList.class, TextList.class},
+                {ITabs.class, Tabs.class},
+                {IMenu.class, Menu.class},
+                {IFileInput.class, FileInput.class},
+                {IDatePicker.class, DatePicker.class},
+        });
+    }
 
     protected SlmLocationInfo locationInfo;
 
@@ -67,6 +98,7 @@ public class SlmBaseElement extends BaseElement<WebDriver, WebElement, By, ByCon
     protected String getTypeName() { return (typeName != null) ? typeName : getClass().getSimpleName(); }
     protected String getParentName() { return parentTypeName; }
     protected void setParentName(String parrentName) { parentTypeName = parrentName; }
+    protected JavascriptExecutor jsExecutor() { return (JavascriptExecutor) getDriver(); }
 
     @Override
     public String toString() {
@@ -201,5 +233,22 @@ public class SlmBaseElement extends BaseElement<WebDriver, WebElement, By, ByCon
         if (textField!= null) return (Text) getFieldValue(textField, this);
         asserter.exception(format("Can't find Text element '%s'", toString()));
         return null;
+    }
+
+    protected By getNewLocator(Field field) {
+        try {
+            By byLocator = null;
+            String locatorGroup = applicationVersion;
+            if (locatorGroup != null) {
+                JFindBy jFindBy = field.getAnnotation(JFindBy.class);
+                if (jFindBy != null && locatorGroup.equals(jFindBy.group()))
+                    byLocator = getFindByLocator(jFindBy);
+            }
+            return (byLocator != null)
+                    ? byLocator
+                    : getFindByLocator(field.getAnnotation(FindBy.class));
+        } catch (Exception ex) {
+            asserter.exception(format("Error in get locator for type '%s'", field.getType().getName()) +
+                    LineBreak + ex.getMessage()); return null; }
     }
 }

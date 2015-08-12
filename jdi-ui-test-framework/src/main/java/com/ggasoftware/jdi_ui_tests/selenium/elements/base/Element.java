@@ -50,7 +50,7 @@ public class Element extends BaseElement implements IElement {
     public static <T extends Element> T copy(T element, By newLocator) {
         try {
             T result = (T) element.getClass().newInstance();
-            result.setAvatar(newLocator, element.getLocationInfo());
+            result.locationInfo.init(newLocator, element.getLocationInfo(), result);
             return result;
         } catch (Exception ex) { JDISettings.asserter.exception("Can't copy element: " + element); return null; }
     }

@@ -24,7 +24,7 @@ import org.openqa.selenium.By;
  *
  * @author Alexeenko Yan
  */
-public class ClickableText extends Clickable implements IHasValue, IClickable, IText {
+public abstract class ClickableText extends Clickable implements IHasValue, IClickable, IText {
     public ClickableText() { }
     public ClickableText(By byLocator) { super(byLocator); }
 

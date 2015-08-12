@@ -4,21 +4,14 @@ import com.ggasoftware.jdi_ui_tests.core.elements.composite.Page;
 import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IComposite;
 import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.JPage;
-import com.ggasoftware.jdi_ui_tests.selenium.ContextType;
-import com.ggasoftware.jdi_ui_tests.selenium.elements.annotations.Frame;
-import com.ggasoftware.jdi_ui_tests.selenium.elements.annotations.JFindBy;
-import com.ggasoftware.jdi_ui_tests.utils.pairs.Pairs;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.FindBy;
+import com.ggasoftware.jdi_ui_tests.selenium.elements.base.ByContext;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import static com.ggasoftware.jdi_ui_tests.core.elements.BaseElement.createFreeInstance;
-import static com.ggasoftware.jdi_ui_tests.core.elements.BaseElement.getInterfacesMap;
+import static com.ggasoftware.jdi_ui_tests.core.elements.BaseElement.getClassFromInterface;
 import static com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.AnnotationsUtil.*;
-import static com.ggasoftware.jdi_ui_tests.selenium.elements.annotations.SlmAnnotationsUtil.getFindByLocator;
-import static com.ggasoftware.jdi_ui_tests.selenium.elements.annotations.SlmAnnotationsUtil.getFrame;
-import static com.ggasoftware.jdi_ui_tests.settings.JDIData.applicationVersion;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.*;
@@ -96,64 +89,37 @@ abstract class CascadeInit implements IBaseElement {
     private static BaseElement createChildFromField(Object parentInstance, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
         if (instance == null)
-            try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
+            try { instance = getElementInstance(type, field); }
             catch (Exception ex) { asserter.exception(
                     format("Can't create child for parent '%s' with type '%s'",
                             parentInstance.getClass().getSimpleName(), field.getType().getSimpleName())); return null; }
         else if (instance.getLocator() == null)
-            instance.locationInfo.byLocator = getNewLocator(field);
-        instance.locationInfo.context = (isBaseElement(parentInstance))
-                ? ((BaseElement) parentInstance).locationInfo.context.copy()
-                : new Pairs<>();
-        if (instance.driverType() == SELENIUM) {
-            if (type != null) {
-                By frameBy = getFrame(type.getDeclaredAnnotation(Frame.class));
-                if (frameBy != null)
-                    instance.locationInfo.context.add(ContextType.Frame, frameBy);
-            }
-            if (isBaseElement(parentInstance)) {
-                By parentLocator = ((BaseElement) parentInstance).getLocator();
-                if (parentLocator != null)
-                    instance.locationInfo.context.add(ContextType.Locator, parentLocator);
-            }
-        }
+            instance.locationInfo.setLocatorFromField(field);
+        instance.locationInfo.setContext((isBaseElement(parentInstance))
+                ? ((BaseElement) parentInstance).locationInfo.getContext()
+                : new ArrayList<ByContext>());
+        instance.updateContextParent(parentInstance);
         return instance;
     }
-    private static boolean isBaseElement(Object obj) {
-        return isClass(obj.getClass(), BaseElement.class);
-    }
-    private static BaseElement getElementInstance(Class<?> type, String fieldName, By newLocator) throws Exception {
+
+    private static BaseElement getElementInstance(Class<?> type, Field field) throws Exception {
+        String fieldName = field.getName();
         try {
-            if (!type.isInterface()) {
-                BaseElement instance = (BaseElement) type.newInstance();
-                instance.locationInfo.byLocator = newLocator;
-                return instance;
-            }
-            Class classType = getInterfacesMap().first(clType -> clType == type);
-            if (classType != null)
-                return (BaseElement) classType.getDeclaredConstructor(By.class).newInstance(newLocator);
-            throw asserter.exception("Unknown interface: " + type +
-                    ". Add relation interface -> class in VIElement.InterfaceTypeMap");
+            if (type.isInterface())
+                type = getClassFromInterface(type);
+            if (type == null)
+                throw asserter.exception("Unknown interface: " + type +
+                        ". Add relation interface -> class in VIElement.InterfaceTypeMap");
+            BaseElement instance = (BaseElement) type.newInstance();
+            instance.locationInfo.setLocatorFromField(field);
+            return instance;
         } catch (Exception ex) {
             throw asserter.exception(format("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getSimpleName()) +
                     LineBreak + ex.getMessage()); }
     }
 
-    private static By getNewLocator(Field field) {
-        try {
-            By byLocator = null;
-            String locatorGroup = applicationVersion;
-            if (locatorGroup != null) {
-                JFindBy jFindBy = field.getAnnotation(JFindBy.class);
-                if (jFindBy != null && locatorGroup.equals(jFindBy.group()))
-                    byLocator = getFindByLocator(jFindBy);
-            }
-            return (byLocator != null)
-                    ? byLocator
-                    : getFindByLocator(field.getAnnotation(FindBy.class));
-        } catch (Exception ex) {
-            asserter.exception(format("Error in get locator for type '%s'", field.getType().getName()) +
-                    LineBreak + ex.getMessage()); return null; }
+    private static boolean isBaseElement(Object obj) {
+        return isClass(obj.getClass(), BaseElement.class);
     }
 
 }

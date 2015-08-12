@@ -1,13 +1,14 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base;
 
 import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdi_ui_tests.settings.HighlightSettings;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.WebElement;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public interface IElement<TElement> extends IBaseElement, IVisible {
+public interface IElement<TDriver, TElement, TLocator> extends IBaseElement<TDriver, TLocator>, IVisible {
     /** Returns Selenium webElement for this Element */
     @JDIAction
     TElement getElement();
@@ -29,4 +30,6 @@ public interface IElement<TElement> extends IBaseElement, IVisible {
     /** Waits while condition with WebElement happens during specified timeout and returns result using resultFunc */
     @JDIAction
     <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec);
+    void highlight();
+    void highlight(HighlightSettings highlightSettings);
 }

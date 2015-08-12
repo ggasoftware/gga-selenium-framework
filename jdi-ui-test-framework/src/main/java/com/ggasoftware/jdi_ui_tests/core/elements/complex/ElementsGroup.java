@@ -32,7 +32,7 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
             JDISettings.asserter.exception(format("Can't get instace of '%s' element from Elements Group '%s'", name, toString()));
             return null;
         }
-        instance.setAvatar(fillByTemplateSilent(getLocator(), name), getLocationInfo());
+        instance.locationInfo.init(fillByTemplateSilent(getLocator(), name), getLocationInfo(), instance);
         return instance;
     }
 }

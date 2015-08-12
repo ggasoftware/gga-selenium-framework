@@ -16,9 +16,11 @@ import static java.lang.String.format;
  */
 public class ActionScenrios {
     private BaseElement element;
-    public ActionScenrios(BaseElement element) {
+    public ActionScenrios setElement(BaseElement element) {
         this.element = element;
+        return this;
     }
+
     public void actionScenario(String actionName , JAction jAction, LogSettings logSettings) {
         sleep(100);
         element.logAction(actionName, logSettings);

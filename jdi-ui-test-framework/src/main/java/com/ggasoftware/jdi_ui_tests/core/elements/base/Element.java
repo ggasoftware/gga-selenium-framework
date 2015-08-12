@@ -13,22 +13,23 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.core.elements.base;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.core.elements.BaseElement;
+import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.logger.base.LogSettings;
-import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
-import com.ggasoftware.jdi_ui_tests.settings.HighlightSettings;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdi_ui_tests.logger.enums.LogLevels;
+import com.ggasoftware.jdi_ui_tests.settings.HighlightSettings;
 import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.*;
+import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
-import static com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.AnnotationsUtil.getFindByLocator;
-import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
-import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
+import java.lang.reflect.Field;
+
 import static java.lang.String.format;
 
 /**
@@ -40,20 +41,29 @@ import static java.lang.String.format;
  * @author Shubin Konstantin
  * @author Zharov Alexandr
  */
-public class Element extends BaseElement implements IElement {
+public class Element<TDriver, TElement, TLocator, TContext> /* extends BaseElement<TDriver, TElement, TLocator, TContext> implements IElement<TDriver, TElement, TLocator> */{
     public Element() { super(); }
-    public Element(By byLocator) { super(byLocator); }
+    public Element(TLocator byLocator) { super(byLocator); }
 
-    public WebElement getWebElement() {
-        return doJActionResult("Get web element " + this.toString(), locationInfo::getElement, new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
+    public TElement getWebElement() {
+        return null;
+    }
+    protected TLocator getNewLocator(Field field) { return null; }
+
+    protected void updateContextParent(Object parentInstance) {
+
     }
 
     public static <T extends Element> T copy(T element, By newLocator) {
         try {
             T result = (T) element.getClass().newInstance();
-            result.setAvatar(newLocator, element.getLocationInfo());
+            result.locationInfo.init(newLocator, element.getLocationInfo(), result);
             return result;
         } catch (Exception ex) { JDISettings.asserter.exception("Can't copy element: " + element); return null; }
+    }
+
+    public TElement getElement() {
+        return null;
     }
 
     public boolean waitAttribute(String name, String value) {

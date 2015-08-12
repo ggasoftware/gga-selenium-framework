@@ -2,7 +2,9 @@ package com.ggasoftware.jdi_ui_tests.core.drivers;
 
 import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.*;
@@ -15,15 +17,23 @@ public interface JLocationInfo<TDriver, TElement, TLocator, TContext> {
     boolean haveLocator();
     TDriver getDriver();
     TLocator getLocator();
+    void setLocator(TLocator locator);
+    void setLocatorFromField(Field field);
     List<TContext> getContext();
+    void setContext(List<TContext> context);
+    void addToContext(TContext contextElement);
 
     void init(IBaseElement<TDriver, TLocator> element);
     void init(TLocator locator, IBaseElement<TDriver, TLocator> element);
-    void init(TLocator locator, List<TContext> context, IBaseElement<TDriver, TLocator> element);
+    void init(TLocator locator, JLocationInfo<TDriver, TElement, TLocator, TContext> locationInfo, IBaseElement<TDriver, TLocator> element);
+    //localElementSearchCriteria + List<TContext> context
 
     List<TElement> getElementsAction();
     String printElement();
-    // void fillElementLocator(IBaseElement<TDriver, TLocator> element);
+    JFuncTT<TElement, Boolean> localElementSearchCriteria();
+    void setLocalElementSearchCriteria(JFuncTT<TElement, Boolean> localElementSearchCriteria);
+
+    // TODO void fillElementLocator(IBaseElement<TDriver, TLocator> element);
 
     default Timer timer() { return new Timer(timeouts.currentTimoutSec * 1000); }
     default TElement getElement() {
