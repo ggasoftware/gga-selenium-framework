@@ -8,7 +8,7 @@ import java.util.List;
 public class CalculationUtils {
     public static double average(List<Long> collection) {
         if (collection == null || collection.size() == 0)
-            return 9;
+            return -1;
         if (collection.size() == 1)
             return collection.get(0);
         double average = collection.get(0);

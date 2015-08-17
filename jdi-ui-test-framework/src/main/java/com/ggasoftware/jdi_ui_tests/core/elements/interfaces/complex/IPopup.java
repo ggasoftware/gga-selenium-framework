@@ -1,13 +1,13 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.interfaces.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IComposite;
-import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IHasValue;
+import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.JDIAction;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.
  */
-public interface IPopup extends IHasValue, IComposite {
+public interface IPopup extends IText, IComposite {
     /** Click on Button marked with annotation @OkButton or named "okButton" */
     @JDIAction
     void ok();

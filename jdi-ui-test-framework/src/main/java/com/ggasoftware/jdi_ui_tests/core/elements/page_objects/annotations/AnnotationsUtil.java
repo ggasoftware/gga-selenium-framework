@@ -1,8 +1,10 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.composite.Page;
-import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.functions.*;
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.complex.IPage;
+import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.functions.CancelButton;
+import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.functions.CloseButton;
+import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.functions.Functions;
+import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.functions.OkButton;
 
 import java.lang.reflect.Field;
 
@@ -25,24 +27,6 @@ public class AnnotationsUtil {
         } else {
             return splitCamelCase(field.getName());
         }
-    }
-
-    public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Object parent){
-        String url = pageAnnotation.url();
-        if (!JDISettings.hasDomain() && parent.getClass().isAnnotationPresent(JSite.class))
-            JDISettings.domain = parent.getClass().getAnnotation(JSite.class).domain();
-        url = (url.contains("://") || parent == null || !JDISettings.hasDomain())
-                ? url
-                : JDISettings.domain.replaceAll("/*$", "") + "/" + url.replaceAll("^/*", "");
-        String title = pageAnnotation.title();
-        String urlMatcher = pageAnnotation.urlMatcher();
-        String titleMatcher = pageAnnotation.titleMatcher();
-        element.updatePageData(url, title, urlMatcher, titleMatcher);
-    }
-
-    private static String getUrlFromDomain(Object parent, String uri) {
-        String domain = parent.getClass().getAnnotation(JSite.class).domain();
-        return domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
     }
 
     public static Functions getFunction(Field field) {

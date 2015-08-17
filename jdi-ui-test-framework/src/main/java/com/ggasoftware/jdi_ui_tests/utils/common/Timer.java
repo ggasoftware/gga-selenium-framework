@@ -7,7 +7,7 @@ import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.timeouts;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.ignoreException;
 import static com.ggasoftware.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.System.currentTimeMillis;

@@ -1,7 +1,7 @@
 package com.ggasoftware.jdi_ui_tests.utils.usefulUtils;
 
-import com.ggasoftware.jdi_ui_tests.settings.JDIData;
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDIData;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.utils.common.StringUtils;
 import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
 import org.openqa.selenium.TakesScreenshot;

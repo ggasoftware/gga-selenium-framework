@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
-import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static java.lang.String.format;
 
 /**
@@ -23,17 +22,12 @@ public class WebDriverByUtils {
         return "Bad locator template '" + byLocator + "'. Args: " + print(LinqUtils.select(args, Object::toString), ", ", "'%s'") + ".";
     }
 
-    public static By fillByTemplate(By by, Object... args) throws Exception {
+    public static By fillByTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
         try { byLocator = format(byLocator, args); }
         catch(Exception ex) {
-            throw new Exception(getBadLocatorMsg(byLocator, args)); }
+            throw new RuntimeException(getBadLocatorMsg(byLocator, args)); }
         return getByFunc(by).invoke(byLocator);
-    }
-
-    public static By fillByTemplateSilent(By by, Object... args) {
-        try { return fillByTemplate(by, args);
-        } catch (Exception ex) { asserter.exception(ex.getMessage()); return null; }
     }
     public static By copyBy(By by) {
         String byLocator = getByLocator(by);

@@ -6,5 +6,6 @@ package com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base;
 public interface IBaseElement {
     /** Get Element’s name */
     String getName();
-
+    /** Prints’s locator */
+    String printLocator();
 }

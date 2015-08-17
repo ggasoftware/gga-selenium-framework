@@ -8,8 +8,14 @@ import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.JDIAc
 public interface IVisible {
     /** Waits while element becomes visible */
     @JDIAction
+    boolean waitVisible();
+    @JDIAction
     boolean waitDisplayed();
     /** Waits while element becomes invisible */
+    @JDIAction
+    boolean waitInvisible();
+    @JDIAction
+    boolean waitDisappear();
     @JDIAction
     boolean waitVanished();
 }

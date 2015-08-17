@@ -1,13 +1,13 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.core.elements.base.ASelectElement;
 import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.JDIAction;
 import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 
 /**
  * Created by Roman_Iovlev on 7/28/2015.
  */
-public interface ITableLine<T extends SelectElement> {
+public interface ITableLine<T extends ASelectElement> {
     /** Get Columns/Rows count*/
     @JDIAction
     int count();

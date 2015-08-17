@@ -16,4 +16,5 @@ public interface IText extends IHasValue, IElement {
     /** Wait while element’s text matches regEx. Returns element’s text */
     @JDIAction
     String waitMatchText(String regEx);
+
 }

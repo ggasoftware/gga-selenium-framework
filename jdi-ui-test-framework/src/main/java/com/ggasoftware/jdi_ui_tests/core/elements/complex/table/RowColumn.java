@@ -1,6 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 
 /**
@@ -22,7 +22,6 @@ abstract class RowColumn {
                         : numAction.invoke(num)
         );
     }
-
     RowColumn(int num) { this.num = num; }
     RowColumn(String name) { this.name = name; }
 

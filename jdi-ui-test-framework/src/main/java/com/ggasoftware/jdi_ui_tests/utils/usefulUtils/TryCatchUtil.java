@@ -1,18 +1,18 @@
 package com.ggasoftware.jdi_ui_tests.utils.usefulUtils;
 
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JActionEx;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncExT;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class TryCatchUtil {
-    public static <T> T tryGetResult(JFuncT<T> waitCase)
+    public static <T> T tryGetResult(JFuncExT<T> waitCase)
     {
-        try { return waitCase.invoke(); }
-        catch(Exception ex) { return null; }
+        try { return waitCase.invoke();
+        } catch (Exception ignore) { return null; }
     }
-    public static void ignoreException(JAction action) {
+    public static void ignoreException(JActionEx action) {
         try { action.invoke();
         } catch (Exception ignore) { }
     }

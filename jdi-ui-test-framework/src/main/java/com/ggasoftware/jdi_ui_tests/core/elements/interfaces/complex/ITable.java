@@ -1,6 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.interfaces.complex;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.core.elements.base.ASelectElement;
 import com.ggasoftware.jdi_ui_tests.core.elements.complex.table.Column;
 import com.ggasoftware.jdi_ui_tests.core.elements.complex.table.ICell;
 import com.ggasoftware.jdi_ui_tests.core.elements.complex.table.ITableLine;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by roman.i on 20.10.2014.
  */
 
-public interface ITable<T extends SelectElement> extends IText {
+public interface ITable<T extends ASelectElement> extends IText {
     /** Get Cell by column/row index (Int) or name(String) */
     @JDIAction
     ICell<T> cell(Column column, Row row);
@@ -124,6 +124,9 @@ public interface ITable<T extends SelectElement> extends IText {
      *  */
     @JDIAction
     MapArray<String, ICell<T>> column(String colName);
+    /** Get Table Headers */
+    @JDIAction
+    String[] header();
     /** Get Footer */
     @JDIAction
     String[] footer();

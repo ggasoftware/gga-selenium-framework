@@ -1,7 +1,7 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.base.SelectElement;
-import com.ggasoftware.jdi_ui_tests.core.elements.common.Text;
+import com.ggasoftware.jdi_ui_tests.core.elements.base.ASelectElement;
+import com.ggasoftware.jdi_ui_tests.core.elements.common.AText;
 import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.ISelect;
 
 /**
@@ -14,7 +14,7 @@ import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.ISelect;
  * Click, Select, getText, waitText, waitMatchText<br>
  * Also you can use get() method to get element of specified for table Type and do any possible action with it<br>
  * */
-class Cell<T extends SelectElement> extends SelectElement implements ISelect, ICell<T> {
+class Cell<T extends ASelectElement> extends ASelectElement implements ISelect, ICell<T> {
     private T element;
     private int columnNum;
     public int columnNum() { return columnNum; }
@@ -26,8 +26,8 @@ class Cell<T extends SelectElement> extends SelectElement implements ISelect, IC
     public String rowName() { return rowName; }
 
     @Override
-    protected Text text() {
-        return new Text(getLocator()) {
+    protected AText text() {
+        return new AText(getLocator()) {
             @Override
             protected String getTextAction() {
                 return element.getText();

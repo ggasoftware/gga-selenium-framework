@@ -1,19 +1,19 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.core.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.core.elements.base.ABaseElement;
+import com.ggasoftware.jdi_ui_tests.core.elements.base.ASelectElement;
 import com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils;
 import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 
 /**
  * Created by 12345 on 25.10.2014.
  */
-abstract class TableLine<T extends SelectElement> extends Element implements ITableLine<T> {
+abstract class TableLine<T extends ASelectElement> extends ABaseElement implements ITableLine<T> {
     public int startIndex = 1;
     public boolean haveHeader;
     public ElementIndexType elementIndex;
@@ -39,7 +39,7 @@ abstract class TableLine<T extends SelectElement> extends Element implements ITa
             ? localHeaders
             : getNumList(localHeaders.length));
         if (headers == null || headers.length == 0)
-            asserter.exception("Can't get headers for Table");
+            throw asserter.exception("Can't get headers for Table");
         setCount(headers.length);
         return headers;
     }

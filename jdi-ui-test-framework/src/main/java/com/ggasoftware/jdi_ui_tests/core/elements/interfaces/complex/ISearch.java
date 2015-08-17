@@ -21,5 +21,5 @@ public interface ISearch extends ITextField, IComposite {
     void search(String text);
     /** Select all suggestions for text */
     @JDIAction
-    List<String> getSuggesions(String text);
+    List getSuggesions(String text);
 }
