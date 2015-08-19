@@ -1,10 +1,10 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.interfaces.complex;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.base.ASelectElement;
-import com.ggasoftware.jdi_ui_tests.core.elements.complex.table.Column;
-import com.ggasoftware.jdi_ui_tests.core.elements.complex.table.ICell;
-import com.ggasoftware.jdi_ui_tests.core.elements.complex.table.ITableLine;
-import com.ggasoftware.jdi_ui_tests.core.elements.complex.table.Row;
+import com.ggasoftware.jdi_ui_tests.core.elements.template.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.core.elements.template.complex.table.Column;
+import com.ggasoftware.jdi_ui_tests.core.elements.template.complex.table.ICell;
+import com.ggasoftware.jdi_ui_tests.core.elements.template.complex.table.ITableLine;
+import com.ggasoftware.jdi_ui_tests.core.elements.template.complex.table.Row;
 import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.JDIAction;
 import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by roman.i on 20.10.2014.
  */
 
-public interface ITable<T extends ASelectElement> extends IText {
+public interface ITable<T extends SelectElement> extends IText {
     /** Get Cell by column/row index (Int) or name(String) */
     @JDIAction
     ICell<T> cell(Column column, Row row);

@@ -1,6 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.interfaces.complex;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.composite.APage;
+import com.ggasoftware.jdi_ui_tests.core.elements.template.composite.Page;
 import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IComposite;
 import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.JDIAction;
 
@@ -10,5 +10,5 @@ import com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.JDIAc
 public interface IPage extends IComposite {
     /** Check that current page title equals/matches/contains expected title */
     @JDIAction
-    APage.StringCheckType title();
+    Page.StringCheckType title();
 }

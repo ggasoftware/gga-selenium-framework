@@ -1,17 +1,15 @@
 package com.ggasoftware.jdi_ui_tests.core.settings;
 
 import com.ggasoftware.jdi_ui_tests.core.asserter.IAsserter;
-import com.ggasoftware.jdi_ui_tests.core.elements.base.IDriverElement;
 import com.ggasoftware.jdi_ui_tests.core.logger.ILogger;
 import com.ggasoftware.jdi_ui_tests.core.logger.ListLogger;
 import com.ggasoftware.jdi_ui_tests.core.testRunner.ITestRunner;
 import com.ggasoftware.jdi_ui_tests.implementations.asserter.TestNGAsserter;
+import com.ggasoftware.jdi_ui_tests.implementations.elements.selenium.DriverTypes;
+import com.ggasoftware.jdi_ui_tests.implementations.elements.selenium.base.SlmDriver;
 import com.ggasoftware.jdi_ui_tests.implementations.logger.Log4JLogger;
 import com.ggasoftware.jdi_ui_tests.implementations.logger.TestNGLogger;
 import com.ggasoftware.jdi_ui_tests.implementations.testRunner.TestNGRunner;
-import com.ggasoftware.jdi_ui_tests.implementations.elements.selenium.DriverTypes;
-import com.ggasoftware.jdi_ui_tests.implementations.elements.selenium.base.SlmDriver;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.WebDriver;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.DriverFactory.registerDriver;
@@ -35,7 +33,6 @@ public class JDISettings {
     private static String jdiSettingsPath = "test.properties";
     public static boolean isDemoMode = false;
     public static HighlightSettings highlightSettings = new HighlightSettings();
-    public static JFuncTT<IDriverElement, Boolean> elementSearchCriteria = IDriverElement::isDisplayed;
 
     public void setJDISettingsPath(String jdiSettingsPath) { JDISettings.jdiSettingsPath = jdiSettingsPath; }
     public void runInDemoMode() { isDemoMode = true; }

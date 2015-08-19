@@ -1,15 +1,14 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.base;
 
-import com.ggasoftware.jdi_ui_tests.core.elements.composite.APage;
-import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IBaseElement;
-import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.IComposite;
+import com.ggasoftware.jdi_ui_tests.core.elements.interfaces.base.*;
+import com.ggasoftware.jdi_ui_tests.core.elements.template.base.BaseElement;
+import com.ggasoftware.jdi_ui_tests.core.elements.template.composite.Page;
 
 import java.lang.reflect.Field;
 
-import static com.ggasoftware.jdi_ui_tests.core.elements.base.ABase.createFreeInstance;
-import static com.ggasoftware.jdi_ui_tests.core.elements.base.ABase.getClassFromInterface;
-import static com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.AnnotationsUtil.getFunction;
+import static com.ggasoftware.jdi_ui_tests.core.elements.page_objects.annotations.AnnotationsUtil.*;
+import static com.ggasoftware.jdi_ui_tests.core.elements.template.base.BaseElement.createFreeInstance;
+import static com.ggasoftware.jdi_ui_tests.core.elements.base.MapInterfaceToElement.getClassFromInterface;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.*;
@@ -20,7 +19,7 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-public abstract class CascadeInit implements IBaseElement {
+public class CascadeInit  {
     private static boolean firstInstance = true;
     public static void InitElements(Object parent) {
         if (parent.getClass().getName().contains("$")) return;
@@ -31,8 +30,8 @@ public abstract class CascadeInit implements IBaseElement {
             : parent;
         initSubElements(parent, parentInstance);
 
-        if (isClass(parentType, APage.class))
-            ((APage) parentInstance).fillPageFromAnnotation();
+        if (isClass(parentType, Page.class))
+            ((Page) parentInstance).fillPageFromAnnotation();
 
         firstInstance = true;
     }
@@ -52,12 +51,12 @@ public abstract class CascadeInit implements IBaseElement {
     private static void setElement(Object parent, Object parentInstance, Field field) {
         try {
             Class<?> type = field.getType();
-            ABase instance;
-            if (isClass(type, APage.class)) {
-                instance = (ABase) getFieldValue(field, parentInstance);
+            BaseElement instance;
+            if (isClass(type, Page.class)) {
+                instance = (BaseElement) getFieldValue(field, parentInstance);
                 if (instance == null)
-                    instance = (ABase) type.newInstance();
-                ((APage) instance).fillPageFromAnnotation(field, parent);
+                    instance = (BaseElement) type.newInstance();
+                ((Page) instance).fillPageFromAnnotation(field, parent);
             }
             else {
                 instance = createChildFromField(parentInstance, field, type);
@@ -75,13 +74,13 @@ public abstract class CascadeInit implements IBaseElement {
                     field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
     }
 
-    private static ABase createChildFromField(Object parentInstance, Field field, Class<?> type) {
-        ABase instance = (ABase) getFieldValue(field, parentInstance);
+    private static BaseElement createChildFromField(Object parentInstance, Field field, Class<?> type) {
+        BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
         if (instance == null)
             try {
                 if (type.isInterface())
                     type = getClassFromInterface(type);
-                instance = (ABase) type.newInstance();
+                instance = (BaseElement) type.newInstance();
             } catch (Exception ex) {
                 throw asserter.exception(format("Can't create child for parent '%s' with type '%s'",
                     parentInstance.getClass().getSimpleName(), field.getType().getSimpleName()));

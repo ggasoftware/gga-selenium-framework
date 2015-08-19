@@ -1,24 +1,21 @@
 package com.ggasoftware.jdi_ui_tests.core.elements.base;
 
+import com.ggasoftware.jdi_ui_tests.core.elements.template.base.BaseElement;
 import com.ggasoftware.jdi_ui_tests.core.logger.LogSettings;
 import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncT;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.*;
 
 import static com.ggasoftware.jdi_ui_tests.core.reporting.PerformanceStatistic.addStatistic;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
-import static com.ggasoftware.jdi_ui_tests.utils.common.Timer.alwaysDoneAction;
-import static com.ggasoftware.jdi_ui_tests.utils.common.Timer.sleep;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
+import static com.ggasoftware.jdi_ui_tests.utils.common.Timer.*;
 import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 8/10/2015.
  */
 public class ActionScenrios {
-    private ABase element;
-    public ActionScenrios setElement(ABase element) {
+    private BaseElement element;
+    public ActionScenrios setElement(BaseElement element) {
         this.element = element;
         return this;
     }

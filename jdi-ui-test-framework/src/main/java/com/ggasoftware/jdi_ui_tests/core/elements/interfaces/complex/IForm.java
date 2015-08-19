@@ -15,13 +15,13 @@ public interface IForm<T> extends ISetValue, IBaseElement {
     @JDIAction
     void fill(MapArray<String, String> objStrings);
     /** Fill all SetValue elements and click on Button “submit” <br>
-     *  To use this option AForm pageObject should have only one IButton element */
+     *  To use this option Form pageObject should have only one IButton element */
     @JDIAction
     void submit(T entity);
     @JDIAction
     void submit(MapArray<String, String> objStrings);
     /** Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
-     *  To use this option AForm pageObject should have button names in specific format <br>
+     *  To use this option Form pageObject should have button names in specific format <br>
      *  e.g. if you call submit(user, "Publish") then you should have element 'publishButton'. <br>
      *  * Letters case in button name  no matters
      *  */
