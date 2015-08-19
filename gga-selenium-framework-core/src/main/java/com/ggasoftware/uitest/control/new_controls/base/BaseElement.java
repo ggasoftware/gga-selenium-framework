@@ -1,10 +1,14 @@
 package com.ggasoftware.uitest.control.new_controls.base;
 
 import com.ggasoftware.uitest.control.*;
-import com.ggasoftware.uitest.control.base.annotations.*;
+import com.ggasoftware.uitest.control.base.annotations.Frame;
+import com.ggasoftware.uitest.control.base.annotations.JFindBy;
+import com.ggasoftware.uitest.control.base.annotations.JPage;
 import com.ggasoftware.uitest.control.base.annotations.functions.Functions;
-import com.ggasoftware.uitest.control.base.apiInteract.*;
-import com.ggasoftware.uitest.control.base.interfaces.*;
+import com.ggasoftware.uitest.control.base.apiInteract.ContextType;
+import com.ggasoftware.uitest.control.base.apiInteract.GetElementModule;
+import com.ggasoftware.uitest.control.base.interfaces.IScenario;
+import com.ggasoftware.uitest.control.base.interfaces.IScenarioWithResult;
 import com.ggasoftware.uitest.control.base.logger.LogSettings;
 import com.ggasoftware.uitest.control.base.map.MapArray;
 import com.ggasoftware.uitest.control.base.pairs.Pairs;
@@ -31,8 +35,7 @@ import static com.ggasoftware.uitest.control.base.logger.TestNGLog4JLogger.logge
 import static com.ggasoftware.uitest.utils.LinqUtils.foreach;
 import static com.ggasoftware.uitest.utils.ReflectionUtils.*;
 import static com.ggasoftware.uitest.utils.StringUtils.LineBreak;
-import static com.ggasoftware.uitest.utils.TestBaseWebDriver.applicationVersion;
-import static com.ggasoftware.uitest.utils.TestBaseWebDriver.simpleClassName;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.*;
 import static com.ggasoftware.uitest.utils.Timer.*;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -128,22 +131,31 @@ public abstract class BaseElement<P> implements IBaseElement {
         @Override
         public <TResult> TResult invoke(BaseElement element, String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
             sleep(100);
-            element.defaultLogAction(actionName);
+            if (!simpleLogformat)
+                element.defaultLogAction(actionName);
             Timer timer = new Timer();
             timer.timePassedInMSec();
             TResult result = getResultAction(jAction::invoke);
             String stringResult = (logResult == null)
                     ? result.toString()
                     : asserter.silentException(() -> logResult.invoke(result));
-            logger.toLog(stringResult, logSettings);
+            element.defaultLogResultAction(actionName, stringResult, logSettings);
+
             return result;
         }
     };
 
     protected void defaultLogAction(String actionName) {
-        logger.info(format("Perform action '%s' with element (%s)", actionName, this.toString()));
+        logger.info((simpleLogformat)
+                ? format("%s at %s %s.%s", actionName, getTypeName(), getParentName(), getName())
+                : format("Perform action '%s' with element (%s)", actionName, this.toString()));
     }
-
+    protected void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
+        if (simpleLogformat)
+            logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), stringResult));
+        else
+            logger.toLog(stringResult, logSettings);
+    }
     protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction) {
         return doJActionResult(actionName, viAction, null, new LogSettings());
     }

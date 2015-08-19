@@ -35,7 +35,6 @@ import java.util.Collections;
  * @author Zhukov Anatoliy
  */
 public class TestBaseWebDriver extends TestBase {
-
     public static WebDriver driver;
     public static String browserType = "chrome";
     public static boolean grid = false;
@@ -50,6 +49,7 @@ public class TestBaseWebDriver extends TestBase {
     public static String applicationVersion;
     public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = WebElement::isDisplayed;
     public static boolean selectFirstElementIfMultipleFound = false;
+    public static boolean simpleLogformat = true;
 
     /**
      * Set Browser for WebDriver.
