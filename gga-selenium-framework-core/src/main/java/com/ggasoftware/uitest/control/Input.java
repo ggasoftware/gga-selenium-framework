@@ -13,15 +13,10 @@
  ***************************************************************************/
 package com.ggasoftware.uitest.control;
 
-import com.ggasoftware.uitest.control.base.asserter.TestNGAsserter;
 import com.ggasoftware.uitest.control.interfaces.common.IInput;
 import com.ggasoftware.uitest.control.new_controls.common.Text;
-import com.ggasoftware.uitest.utils.ReporterNGExt;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
 
 /**
  * Text Field control implementation
@@ -56,14 +51,11 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
     protected void focusAction() { getWebElement().click(); }
 
     public final void input(String text) {
-        doJAction("Input text '" + text + "' in text field",
-                () -> setValueRule(text, this::inputAction));
+        doJAction("Input text '" + text + "' in text field", () -> inputAction(text));
     }
     public final void newInput(String text) {
-        setValueRule(text, t -> {
-            clear();
-            input(t);
-        });
+        clear();
+        input(text);
     }
 
     public final void setValue(String value) {
@@ -95,8 +87,9 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
      * @return Parent instance
      */
     public ParentPanel setTextSecure(String text) {
-        newInput(text.replaceAll("[^']", "*"));
-        return super.parent;
+        clear();
+        doJAction("Input text secure'" + text.replaceAll("[^']", "*") + "' in text field", () -> inputAction(text));
+        return parent;
     }
 
     /**
