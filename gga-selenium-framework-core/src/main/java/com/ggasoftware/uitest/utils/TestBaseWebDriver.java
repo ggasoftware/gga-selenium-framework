@@ -49,7 +49,7 @@ public class TestBaseWebDriver extends TestBase {
     public static String testName = "Undefined Test Name";
     public static String applicationVersion;
     public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = WebElement::isDisplayed;
-    public static boolean selectFirstElementIfMultiplefound = false;
+    public static boolean selectFirstElementIfMultipleFound = false;
 
     /**
      * Set Browser for WebDriver.

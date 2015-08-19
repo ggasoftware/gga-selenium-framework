@@ -26,6 +26,7 @@ public class JDISettings {
 
     public static void useDriver(WebDriver driver) { driverFactory.registerDriver(() -> driver); }
     public static void useDriver(DriverTypes driver)  { driverFactory.registerDriver(driver); }
+    public static void useDriver(String driverName)  { driverFactory.registerDriver(driverName); }
 
     public static String jdiSettingsPath = "test.properties";
     public static void initJDIFromProperties() throws Exception {

@@ -18,7 +18,7 @@ import static com.ggasoftware.uitest.control.base.logger.TestNGLog4JLogger.logge
 import static com.ggasoftware.uitest.control.base.usefulUtils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.uitest.utils.LinqUtils.where;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.defaultSearchCriteria;
-import static com.ggasoftware.uitest.utils.TestBaseWebDriver.selectFirstElementIfMultiplefound;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.selectFirstElementIfMultipleFound;
 import static com.ggasoftware.uitest.utils.Timer.getByCondition;
 import static com.ggasoftware.uitest.utils.WebDriverByUtils.getByFunc;
 import static com.ggasoftware.uitest.utils.WebDriverByUtils.getByLocator;
@@ -82,7 +82,7 @@ public class GetElementModule {
             asserter.exception(format(failedToFindElementMessage, element, timeout));
             return null;
         }
-        if (!selectFirstElementIfMultiplefound && result.size() > 1) {
+        if (!selectFirstElementIfMultipleFound && result.size() > 1) {
             asserter.exception(format(findToMuchElementsMessage, result.size(), element, timeout));
             return null;
         }
