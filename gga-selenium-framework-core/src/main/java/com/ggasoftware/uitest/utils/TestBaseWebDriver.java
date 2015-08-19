@@ -15,8 +15,10 @@
  */
 package com.ggasoftware.uitest.utils;
 
+import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
@@ -46,6 +48,8 @@ public class TestBaseWebDriver extends TestBase {
     public static boolean reportportal = false;
     public static String testName = "Undefined Test Name";
     public static String applicationVersion;
+    public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = WebElement::isDisplayed;
+    public static boolean selectFirstElementIfMultiplefound = false;
 
     /**
      * Set Browser for WebDriver.

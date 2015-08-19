@@ -126,6 +126,9 @@ public interface ITable<T extends SelectElement> extends IText {
     MapArray<String, ICell<T>> column(String colName);
     /** Get Footer */
     @JDIAction
+    String[] header();
+    /** Get Footer */
+    @JDIAction
     String[] footer();
     /** Get All Cells */
     @JDIAction

@@ -1,36 +1,37 @@
 package com.ggasoftware.jdi_ui_tests.elements;
 
-import com.ggasoftware.jdi_ui_tests.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.elements.complex.table.Table;
-import com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.functions.Functions;
-import com.ggasoftware.jdi_ui_tests.logger.base.LogSettings;
-import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.*;
-import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.elements.apiInteract.GetElementModule;
 import com.ggasoftware.jdi_ui_tests.elements.base.Clickable;
+import com.ggasoftware.jdi_ui_tests.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.elements.common.*;
 import com.ggasoftware.jdi_ui_tests.elements.complex.*;
+import com.ggasoftware.jdi_ui_tests.elements.complex.table.Table;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IClickable;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.ISelector;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.*;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.complex.*;
+import com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.functions.Functions;
+import com.ggasoftware.jdi_ui_tests.logger.base.LogSettings;
 import com.ggasoftware.jdi_ui_tests.reporting.PerformanceStatistic;
 import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils;
 import com.ggasoftware.jdi_ui_tests.utils.common.StringUtils;
+import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.utils.interfaces.IScenario;
 import com.ggasoftware.jdi_ui_tests.utils.interfaces.IScenarioWithResult;
-import org.openqa.selenium.*;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.*;
+import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.ggasoftware.jdi_ui_tests.reporting.PerformanceStatistic.addStatistic;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
@@ -105,7 +106,7 @@ public abstract class BaseElement implements IBaseElement {
             TResult result = Timer.getResultAction(jAction::invoke);
             String stringResult = (logResult == null)
                     ? result.toString()
-                    : JDISettings.asserter.silent(() -> logResult.invoke(result));
+                    : asserter.silent(() -> logResult.invoke(result));
             Long timePassed = timer.timePassedInMSec();
             PerformanceStatistic.addStatistic(timer.timePassedInMSec());
             JDISettings.logger.toLog(format("Get result '%s' in %s seconds", stringResult,
@@ -135,7 +136,7 @@ public abstract class BaseElement implements IBaseElement {
             return invocationScenarioWithResult.invoke(this, actionName, action, logResult, logSettings);
         }
         catch (Exception ex) {
-            JDISettings.asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+            asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
             return null;
         }
     }
@@ -150,12 +151,12 @@ public abstract class BaseElement implements IBaseElement {
             invocationScenario.invoke(this, actionName, action, logSettings);
         }
         catch (Exception ex) {
-            JDISettings.asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+            asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
 
     public static void setValueRule(String text, JActionT<String> action)  {
-        JDISettings.asserter.silent(() -> setValueRule.invoke(text, action));
+        asserter.silent(() -> setValueRule.invoke(text, action));
     }
     public static JActionTT<String, JActionT<String>> setValueRule = (text, action) -> {
         if (text == null) return;
@@ -196,7 +197,7 @@ public abstract class BaseElement implements IBaseElement {
                         {IDatePicker.class, DatePicker.class},
                 });
             return map;
-        } catch (Exception ex) { JDISettings.asserter.exception("Error in getInterfaceTypeMap" + StringUtils.LineBreak + ex.getMessage()); }
+        } catch (Exception ex) { asserter.exception("Error in getInterfaceTypeMap" + StringUtils.LineBreak + ex.getMessage()); }
         return null;
     }
 
@@ -207,7 +208,7 @@ public abstract class BaseElement implements IBaseElement {
         Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
         Button button = first(buttons, b -> namesEqual(b.getName(), buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button"));
         if (button == null) {
-            JDISettings.asserter.exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
+            asserter.exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
             return null;
         }
         return button;
@@ -224,8 +225,11 @@ public abstract class BaseElement implements IBaseElement {
         Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
         Button button = first(buttons, b -> b.function.equals(funcName));
         if (button == null) {
-            JDISettings.asserter.exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
-            return null;
+            String name = funcName.name;
+            String buttonName = name.toLowerCase().contains("button") ? name : name + "button";
+            button = first(buttons, b -> namesEqual(b.getName(), buttonName));
+            if (button == null)
+                asserter.exception(format("Can't find button '%s' for element '%s'", name, toString()));
         }
         return button;
     }
@@ -233,7 +237,7 @@ public abstract class BaseElement implements IBaseElement {
     protected Text getTextElement() {
         Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
         if (textField!= null) return (Text) getFieldValue(textField, this);
-        JDISettings.asserter.exception(format("Can't find Text element '%s'", toString()));
+        asserter.exception(format("Can't find Text element '%s'", toString()));
         return null;
     }
 }

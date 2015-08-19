@@ -5,7 +5,7 @@ import com.ggasoftware.uitest.control.base.pairs.Pairs;
 import com.ggasoftware.uitest.control.interfaces.base.IBaseElement;
 import com.ggasoftware.uitest.utils.Timer;
 import com.ggasoftware.uitest.utils.WebDriverWrapper;
-import com.ggasoftware.uitest.utils.linqInterfaces.*;
+import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +17,8 @@ import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.assert
 import static com.ggasoftware.uitest.control.base.logger.TestNGLog4JLogger.logger;
 import static com.ggasoftware.uitest.control.base.usefulUtils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.uitest.utils.LinqUtils.where;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.defaultSearchCriteria;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.selectFirstElementIfMultiplefound;
 import static com.ggasoftware.uitest.utils.Timer.getByCondition;
 import static com.ggasoftware.uitest.utils.WebDriverByUtils.getByFunc;
 import static com.ggasoftware.uitest.utils.WebDriverByUtils.getByLocator;
@@ -51,7 +53,7 @@ public class GetElementModule {
 
     public WebElement getElement() {
         logger.info("Get Web element: " + element);
-        WebElement element = getByCondition(() -> getElementAction(), el -> el != null);
+        WebElement element = getByCondition(this::getElementAction, el -> el != null);
         logger.debug("One element found");
         return element;
     }
@@ -70,7 +72,7 @@ public class GetElementModule {
     }
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
     private JFuncTT<WebElement, Boolean> getSearchCriteria() {
-        return localElementSearchCriteria != null ? localElementSearchCriteria : WebElement::isDisplayed;
+        return localElementSearchCriteria != null ? localElementSearchCriteria : defaultSearchCriteria;
     }
 
     private WebElement getElementAction() {
@@ -80,7 +82,7 @@ public class GetElementModule {
             asserter.exception(format(failedToFindElementMessage, element, timeout));
             return null;
         }
-        if (result.size() > 1) {
+        if (!selectFirstElementIfMultiplefound && result.size() > 1) {
             asserter.exception(format(findToMuchElementsMessage, result.size(), element, timeout));
             return null;
         }
