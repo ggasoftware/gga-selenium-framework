@@ -213,8 +213,15 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @param value -The replacement sequence of char values
      * @return The resulting string
      */
-    public String insertValues(String str, String value) {
+    protected String insertValue(String str, String value) {
         return str.replace("$VALUE", value);
+    }
+    protected String insertValues(String str, String[] values) {
+        int i = 0;
+        String result = str;
+        for (String value : values)
+            result = result.replace("$VALUE" + i++, value);
+        return result;
     }
     /**
      * Click on the Element(WebElement) by JS

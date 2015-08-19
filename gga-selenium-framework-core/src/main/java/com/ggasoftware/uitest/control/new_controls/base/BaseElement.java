@@ -152,15 +152,12 @@ public abstract class BaseElement<P> implements IBaseElement {
     }
     protected void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
         if (simpleLogformat)
-            logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), stringResult));
+            logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), stringResult.substring(0,255)));
         else
             logger.toLog(stringResult, logSettings);
     }
     protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction) {
         return doJActionResult(actionName, viAction, null, new LogSettings());
-    }
-    private void test() {
-        Boolean b = doJActionResult("", () -> true);
     }
     protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction, JFuncTT<TResult, String> logResult) {
         return doJActionResult(actionName, viAction, logResult, new LogSettings());
