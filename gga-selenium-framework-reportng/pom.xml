@@ -6,11 +6,11 @@
     <parent>
         <groupId>com.ggasoftware.uitest</groupId>
         <artifactId>gga-selenium-framework</artifactId>
-        <version>1.0.9-SNAPSHOT</version>
+        <version>1.0.10-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>gga-selenium-framework-reportng</artifactId>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.0.10-SNAPSHOT</version>
     <name>gga-selenium-framework-reportng</name>
     <packaging>jar</packaging>
 
