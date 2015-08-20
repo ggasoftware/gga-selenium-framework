@@ -39,6 +39,7 @@ import static com.ggasoftware.uitest.utils.TestBaseWebDriver.*;
 import static com.ggasoftware.uitest.utils.Timer.*;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.apache.commons.lang.StringUtils.substring;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.
@@ -152,7 +153,7 @@ public abstract class BaseElement<P> implements IBaseElement {
     }
     protected void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
         if (simpleLogformat)
-            logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), stringResult.substring(0,255)));
+            logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), substring(stringResult,0,255)));
         else
             logger.toLog(stringResult, logSettings);
     }
