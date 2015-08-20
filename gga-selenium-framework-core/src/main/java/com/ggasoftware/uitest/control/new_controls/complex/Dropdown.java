@@ -54,7 +54,7 @@ public class Dropdown<TEnum extends Enum, P> extends Selector<TEnum, P> implemen
             super.selectAction(name);
         }
         else
-            new Select(templateElement.getWebElement()).selectByValue(name);
+            new Select(getTemplateElement().getWebElement()).selectByValue(name);
     }
     @Override
     protected void selectByIndexAction(int index) { new Clickable(selectLocator).click(); super.selectByIndexAction(index); }

@@ -29,6 +29,7 @@ abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElem
         super(optionsNamesLocatorTemplate, new SelectElement(optionsNamesLocatorTemplate), enumMember);
     }
     private TextList<TEnum> allLabels;
+    protected SelectElement getDefaultElement(By locator) { return new SelectElement(locator); }
 
     protected void selectAction(String name) {
     if (haveLocator() && getLocator().toString().contains("%s"))
