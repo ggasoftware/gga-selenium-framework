@@ -1,14 +1,16 @@
 package com.ggasoftware.jdi_ui_tests.elements.complex;
 
+import com.ggasoftware.jdi_ui_tests.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.elements.base.SetValue;
 import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
 import static java.lang.String.format;
 
 /**
@@ -28,7 +30,12 @@ abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElem
     }
     private TextList<TEnum> allLabels;
 
-    protected void selectAction(String name) { getElement(name).click(); }
+    protected void selectAction(String name) {
+    if (haveLocator() && getLocator().toString().contains("%s"))
+        getElement(name).click();
+    else
+        new Select(new Element(getLocator()).getWebElement()).selectByValue(name);
+    }
     protected void selectByIndexAction(int index) {
         if (index >= 0)
             getElement(getNames().get(index)).click();

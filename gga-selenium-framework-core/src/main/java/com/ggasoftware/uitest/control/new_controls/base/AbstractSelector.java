@@ -1,5 +1,6 @@
 package com.ggasoftware.uitest.control.new_controls.base;
 
+import com.ggasoftware.uitest.control.Element;
 import com.ggasoftware.uitest.control.base.map.MapArray;
 import com.ggasoftware.uitest.control.new_controls.complex.TextList;
 import org.openqa.selenium.By;
@@ -33,13 +34,14 @@ public abstract class AbstractSelector<TEnum extends Enum, P> extends TemplatesL
     }
 
     private TextList<TEnum, P> allLabels;
+    protected SelectElement<P> getDefaultElement(By locator) { return new SelectElement<>(locator); }
 
     protected void selectAction(String name) {
         if (haveLocator() && getLocator().toString().contains("%s"))
             getElement(name).click();
         else
-            new Select(templateElement.getWebElement()).selectByValue(name);
-        }
+            new Select(new Element(getLocator()).getWebElement()).selectByValue(name);
+    }
     protected void selectByIndexAction(int index) {
         if (index >= 0)
             getElement(getNames().get(index)).click();

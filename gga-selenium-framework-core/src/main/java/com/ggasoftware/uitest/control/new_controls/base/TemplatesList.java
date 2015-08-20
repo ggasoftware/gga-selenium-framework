@@ -22,7 +22,7 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 7/3/2015.
  */
-public class TemplatesList<TType extends IElement, TEnum extends Enum, P> extends Element<P> implements IVisible {
+public abstract class TemplatesList<TType extends IElement, TEnum extends Enum, P> extends Element<P> implements IVisible {
     public TemplatesList() { }
     public TemplatesList(By byLocator, TType templateElement) {
         super(byLocator);
@@ -41,9 +41,16 @@ public class TemplatesList<TType extends IElement, TEnum extends Enum, P> extend
     public void setListOfElements(TEnum enumMember) { this.elementsNames =
             (List<String>) select(enumMember.getClass().getEnumConstants(), EnumUtils::getEnumValue); }
     protected List<String> elementsNames;
-    protected TType templateElement;
+    private TType templateElement;
+    protected TType getTemplateElement() {
+        if (templateElement == null)
+            templateElement = getDefaultElement(getByLocator());
+        return templateElement;
+    }
+    protected abstract TType getDefaultElement(By locator);
+
     @Override
-    public WebElement getWebElement() { return templateElement.getWebElement(); }
+    public WebElement getWebElement() { return getTemplateElement().getWebElement(); }
 
     public boolean isDisplayed() { return waitDisplayed(0); }
     public boolean waitDisplayed() { return waitDisplayed(TIMEOUT); }
@@ -65,7 +72,7 @@ public class TemplatesList<TType extends IElement, TEnum extends Enum, P> extend
     public WebElement getWebElement(TEnum enumName) { return getElement(enumName).getWebElement(); }
 
     public TType getElement(String name) {
-        return copy(templateElement, fillByTemplateSilent(getLocator(), name));
+        return copy(getTemplateElement(), fillByTemplateSilent(getLocator(), name));
     }
     public TType getElement(TEnum enumName) {
         return getElement(getEnumValue(enumName));

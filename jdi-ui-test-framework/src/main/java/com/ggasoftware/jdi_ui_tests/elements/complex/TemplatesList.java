@@ -4,9 +4,8 @@ import com.ggasoftware.jdi_ui_tests.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IVisible;
-import com.ggasoftware.jdi_ui_tests.utils.common.EnumUtils;
 import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
-import com.ggasoftware.jdi_ui_tests.utils.common.WebDriverByUtils;
+import com.ggasoftware.jdi_ui_tests.utils.common.EnumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -40,6 +39,12 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
             (List<String>) select(enumMember.getClass().getEnumConstants(), EnumUtils::getEnumValue); }
     protected List<String> elementsNames;
     private TType templateElement;
+    protected TType getTemplateElement() {
+        if (templateElement == null)
+            templateElement = getDefaultElement(getLocator());
+        return templateElement;
+    }
+    protected abstract TType getDefaultElement(By locator);
 
     public boolean waitDisplayed() {
         return timer().wait(() -> first(getElementsList(), el -> el.getWebElement().isDisplayed()) != null);
@@ -61,7 +66,7 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
     public WebElement getWebElement(TEnum enumName) { return getElement(enumName).getWebElement(); }
 
     public TType getElement(String name) {
-        return copy(templateElement, fillByTemplateSilent(getLocator(), name));
+        return copy(getTemplateElement() , fillByTemplateSilent(getLocator(), name));
     }
     public TType getElement(TEnum enumName) {
         return getElement(getEnumValue(enumName));
