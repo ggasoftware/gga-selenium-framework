@@ -34,7 +34,7 @@ public class AnnotationsUtil {
 
     public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Object parent){
         String url = pageAnnotation.url();
-        if (!JDISettings.hasDomain() && parent.getClass().isAnnotationPresent(JSite.class))
+        if (!JDISettings.hasDomain() && parent != null && parent.getClass().isAnnotationPresent(JSite.class))
             JDISettings.domain = parent.getClass().getAnnotation(JSite.class).domain();
         url = (url.contains("://") || parent == null || !JDISettings.hasDomain())
                 ? url

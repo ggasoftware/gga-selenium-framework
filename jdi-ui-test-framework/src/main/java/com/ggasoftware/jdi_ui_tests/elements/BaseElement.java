@@ -31,6 +31,8 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.elements.CascadeInit.InitElements;
+import static com.ggasoftware.jdi_ui_tests.elements.CascadeInit.firstInstance;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
@@ -47,8 +49,8 @@ public abstract class BaseElement implements IBaseElement {
     public static boolean createFreeInstance = false;
     public BaseElement(By byLocator) {
         avatar = new GetElementModule(byLocator, this);
-        if (!createFreeInstance)
-            CascadeInit.InitElements(this);
+        if (!createFreeInstance && firstInstance)
+            InitElements(this);
     }
 
     private String name;

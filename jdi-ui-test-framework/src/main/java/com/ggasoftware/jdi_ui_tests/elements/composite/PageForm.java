@@ -1,17 +1,15 @@
 package com.ggasoftware.jdi_ui_tests.elements.composite;
 
+import com.ggasoftware.jdi_ui_tests.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.elements.common.Button;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.ISetValue;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.IButton;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.complex.IPageForm;
-import com.ggasoftware.jdi_ui_tests.elements.BaseElement;
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.elements.BaseElement.setValueRule;
 import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;

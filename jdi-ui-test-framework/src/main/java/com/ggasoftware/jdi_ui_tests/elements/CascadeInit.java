@@ -29,7 +29,7 @@ import static java.lang.String.format;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 abstract class CascadeInit implements IBaseElement {
-    private static boolean firstInstance = true;
+    public static boolean firstInstance = true;
     public static void InitElements(Object parent) {
         if (parent.getClass().getName().contains("$")) return;
         Object parentInstance = null;
