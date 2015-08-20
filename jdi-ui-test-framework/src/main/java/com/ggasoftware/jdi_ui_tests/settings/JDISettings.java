@@ -13,6 +13,8 @@ import com.ggasoftware.jdi_ui_tests.testRunner.TestNGRunner;
 import com.ggasoftware.jdi_ui_tests.utils.common.PropertyReader;
 import org.openqa.selenium.WebDriver;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
@@ -33,6 +35,8 @@ public class JDISettings {
         PropertyReader.fillAction(driverFactory::registerDriver, "driver");
         PropertyReader.fillAction(driverFactory::setRunType, "run.type");
         PropertyReader.fillAction(p -> domain = p, "domain");
+        PropertyReader.fillAction(p -> timeouts.waitElementSec = parseInt(p), "timeout.wait.element");
+        PropertyReader.fillAction(p -> timeouts.waitPageLoadSec = parseInt(p), "timeout.wait.pageLoad");
     }
     public static void initJDIFromProperties(String propertyPath) throws Exception {
         jdiSettingsPath = propertyPath;

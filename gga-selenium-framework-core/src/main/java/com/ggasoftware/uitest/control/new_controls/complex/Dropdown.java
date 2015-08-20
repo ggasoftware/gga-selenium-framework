@@ -20,6 +20,7 @@ import com.ggasoftware.uitest.control.new_controls.base.Clickable;
 import com.ggasoftware.uitest.control.new_controls.common.Text;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import static com.ggasoftware.uitest.utils.Timer.getByCondition;
 import static java.lang.String.format;
@@ -47,7 +48,14 @@ public class Dropdown<TEnum extends Enum, P> extends Selector<TEnum, P> implemen
     protected P parent;
 
     @Override
-    protected void selectAction(String name) { new Clickable(selectLocator).click(); super.selectAction(name); }
+    protected void selectAction(String name) {
+        if (getLocator() != null && getLocator().toString().contains("%s")) {
+            new Clickable(selectLocator).click();
+            super.selectAction(name);
+        }
+        else
+            new Select(templateElement.getWebElement()).selectByValue(name);
+    }
     @Override
     protected void selectByIndexAction(int index) { new Clickable(selectLocator).click(); super.selectByIndexAction(index); }
     @Override

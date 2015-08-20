@@ -11,7 +11,6 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ggasoftware.uitest.control.Element.copy;
 import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
 import static com.ggasoftware.uitest.utils.EnumUtils.getEnumValue;
 import static com.ggasoftware.uitest.utils.LinqUtils.select;
@@ -42,7 +41,7 @@ public class TemplatesList<TType extends IElement, TEnum extends Enum, P> extend
     public void setListOfElements(TEnum enumMember) { this.elementsNames =
             (List<String>) select(enumMember.getClass().getEnumConstants(), EnumUtils::getEnumValue); }
     protected List<String> elementsNames;
-    private TType templateElement;
+    protected TType templateElement;
     @Override
     public WebElement getWebElement() { return templateElement.getWebElement(); }
 

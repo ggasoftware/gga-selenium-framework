@@ -146,12 +146,12 @@ public abstract class BaseElement<P> implements IBaseElement {
         }
     };
 
-    protected void defaultLogAction(String actionName) {
+    public void defaultLogAction(String actionName) {
         logger.info((simpleLogformat)
                 ? format("%s at %s %s.%s", actionName, getTypeName(), getParentName(), getName())
                 : format("Perform action '%s' with element (%s)", actionName, this.toString()));
     }
-    protected void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
+    public void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
         if (simpleLogformat)
             logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), substring(stringResult,0,255)));
         else
