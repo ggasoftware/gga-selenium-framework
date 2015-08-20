@@ -60,7 +60,7 @@ public class GetElementModule {
         return elements;
     }
 
-    public Timer timer() { return new Timer(timeouts.currentTimoutSec * 1000); }
+    public Timer timer() { return new Timer(timeouts.currentTimeoutSec * 1000); }
     private List<WebElement> getElementsAction() {
         List<WebElement> result = timer().getResultByCondition(
                 this::searchElements,
@@ -74,7 +74,7 @@ public class GetElementModule {
     }
 
     private WebElement getElementAction() {
-        int timeout = timeouts.currentTimoutSec;
+        int timeout = timeouts.currentTimeoutSec;
         List<WebElement> result = getElementsAction();
         if (result == null) {
             asserter.exception(format(failedToFindElementMessage, element, timeout));

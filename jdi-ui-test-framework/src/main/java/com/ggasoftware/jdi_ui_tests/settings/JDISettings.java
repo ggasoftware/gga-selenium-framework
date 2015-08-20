@@ -21,7 +21,6 @@ public class JDISettings {
     public static IAsserter asserter = new TestNGAsserter(true);
     public static ITestRunner testRunner = new TestNGRunner();
     public static SeleniumDriverFactory driverFactory = new SeleniumDriverFactory();
-
     public static TimeoutSettings timeouts = new TimeoutSettings();
 
     public static void useDriver(WebDriver driver) { driverFactory.registerDriver(() -> driver); }
