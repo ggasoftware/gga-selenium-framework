@@ -432,7 +432,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel sendKeys(CharSequence... keysToSend) {
-        doJAction(format("sendKeys - %s", new Object[]{keysToSend}), () -> {
+        doJAction(format("sendKeys: %s", keysToSend), () -> {
             getDriver().switchTo().activeElement();
             getWebElement().sendKeys(keysToSend);
         });

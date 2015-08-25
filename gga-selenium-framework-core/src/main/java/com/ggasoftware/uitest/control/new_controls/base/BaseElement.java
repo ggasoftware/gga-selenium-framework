@@ -110,9 +110,12 @@ public abstract class BaseElement<P> implements IBaseElement {
         return parent.getClass().getCanonicalName();
     }
 
-    protected String parentTypeName = "";
+    protected String parentTypeName;
     protected String getTypeName() { return getClass().getSimpleName(); }
-    protected String getParentName() { return parentTypeName; }
+    protected String getParentName() {
+        if (parentTypeName == null)
+            parentTypeName = parent.getClass().getSimpleName();
+        return parentTypeName; }
     protected void setParentName(String parrentName) { parentTypeName = parrentName; }
 
     protected JavascriptExecutor jsExecutor() { return (JavascriptExecutor) getDriver(); }
@@ -132,7 +135,7 @@ public abstract class BaseElement<P> implements IBaseElement {
         @Override
         public <TResult> TResult invoke(BaseElement element, String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
             sleep(100);
-            if (!simpleLogformat)
+            if (!simpleLogFormat)
                 element.defaultLogAction(actionName);
             Timer timer = new Timer();
             timer.timePassedInMSec();
@@ -147,12 +150,12 @@ public abstract class BaseElement<P> implements IBaseElement {
     };
 
     public void defaultLogAction(String actionName) {
-        logger.info((simpleLogformat)
+        logger.info((simpleLogFormat)
                 ? format("%s at %s %s.%s", actionName, getTypeName(), getParentName(), getName())
                 : format("Perform action '%s' with element (%s)", actionName, this.toString()));
     }
     public void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
-        if (simpleLogformat)
+        if (simpleLogFormat)
             logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), substring(stringResult,0,255)));
         else
             logger.toLog(stringResult, logSettings);
