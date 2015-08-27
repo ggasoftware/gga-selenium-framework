@@ -16,7 +16,8 @@ import static org.openqa.selenium.OutputType.FILE;
  * Created by Roman_Iovlev on 7/21/2015.
  */
 public class ScreenshotMaker {
-    public String pathSuffix = "/.logs/images/";
+    public String pathSuffix = screensPath;
+    public static String screensPath = "/.logs/images/";
     public ScreenshotMaker() {}
     public ScreenshotMaker(String pathSuffix) { this.pathSuffix = pathSuffix; }
 

@@ -114,7 +114,7 @@ public abstract class BaseElement<P> implements IBaseElement {
     protected String getTypeName() { return getClass().getSimpleName(); }
     protected String getParentName() {
         if (parentTypeName == null)
-            parentTypeName = parent.getClass().getSimpleName();
+            parentTypeName = (parent != null) ? parent.getClass().getSimpleName() : "No Parent";
         return parentTypeName; }
     protected void setParentName(String parrentName) { parentTypeName = parrentName; }
 
