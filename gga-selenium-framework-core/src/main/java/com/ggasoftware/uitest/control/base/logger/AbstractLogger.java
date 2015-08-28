@@ -105,9 +105,10 @@ public abstract class AbstractLogger implements ILogger {
         inLog(message, FATAL, BUSINESS);
     }
 
+    public void setLogLevel(LogLevels logLevel) { this.logSettings.logLevel = logLevel; }
     public AbstractLogger() { this(INFO); }
     public AbstractLogger(LogLevels logLevel) {
-        this.logSettings = new LogSettings();
+        this.logSettings = new LogSettings(logLevel);
     }
 
     private LogSettings logSettings;

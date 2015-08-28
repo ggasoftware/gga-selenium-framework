@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.*;
+import static com.ggasoftware.uitest.control.base.logger.enums.LogLevels.INFO;
 
 /**
  * Created by Roman_Iovlev on 7/13/2015.
@@ -17,7 +18,7 @@ public class LogSettings {
     public LogInfoTypes logInfoType;
 
     public LogSettings() {
-        this.logLevel = LogLevels.INFO;
+        this.logLevel = INFO;
         logInfoTypes = BUSINESS.type + FRAMEWORK.type + TECHNICAL.type;
     }
     public LogSettings(LogLevels logLevel, LogInfoTypes... logInfoTypes) {
