@@ -15,6 +15,8 @@
  */
 package com.ggasoftware.uitest.utils;
 
+import com.ggasoftware.uitest.control.base.logger.ILogger;
+import com.ggasoftware.uitest.control.base.logger.TestNGLog4JLogger;
 import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -50,6 +52,7 @@ public class TestBaseWebDriver extends TestBase {
     public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = WebElement::isDisplayed;
     public static boolean selectFirstElementIfMultipleFound = false;
     public static boolean simpleLogFormat = true;
+    public static ILogger logger = TestNGLog4JLogger.logger;
 
     /**
      * Set Browser for WebDriver.
