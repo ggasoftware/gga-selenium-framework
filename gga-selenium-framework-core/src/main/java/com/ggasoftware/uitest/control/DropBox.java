@@ -17,19 +17,14 @@ import com.ggasoftware.uitest.control.interfaces.complex.IDropList;
 import com.ggasoftware.uitest.control.new_controls.complex.MultiSelector;
 import com.ggasoftware.uitest.utils.LinqUtils;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
-import com.ggasoftware.uitest.utils.Timer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.ggasoftware.uitest.utils.LinqUtils.first;
 import static com.ggasoftware.uitest.utils.LinqUtils.toStringArray;
-import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
 import static com.ggasoftware.uitest.utils.Timer.getResultAction;
 import static java.lang.String.format;
 
@@ -147,6 +142,10 @@ public class DropBox<ParentPanel> extends MultiSelector<Enum, ParentPanel> imple
      */
     public String getFirstSelectedOption() {
         return doJActionResult("Get first selected option", () -> {
+            if (allLabels == null && elementsNames == null && !getLocator().toString().contains("%s")) {
+                Select select = new Select(getWebElement());
+                return select.getFirstSelectedOption().getText();
+            }
             List<String> optionsSelected = areSelected();
             return (optionsSelected.size() > 0) ? optionsSelected.get(0) : null;
         });

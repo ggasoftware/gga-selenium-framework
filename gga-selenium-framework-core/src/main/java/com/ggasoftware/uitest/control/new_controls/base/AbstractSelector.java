@@ -3,6 +3,7 @@ package com.ggasoftware.uitest.control.new_controls.base;
 import com.ggasoftware.uitest.control.Element;
 import com.ggasoftware.uitest.control.base.map.MapArray;
 import com.ggasoftware.uitest.control.new_controls.complex.TextList;
+import com.ggasoftware.uitest.utils.LinqUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -33,7 +34,7 @@ public abstract class AbstractSelector<TEnum extends Enum, P> extends TemplatesL
         super(name, locator, parentPanel);
     }
 
-    private TextList<TEnum, P> allLabels;
+    protected TextList<TEnum, P> allLabels;
     protected SelectElement<P> getDefaultElement(By locator) { return new SelectElement<>(locator); }
 
     protected void selectAction(String name) {
@@ -68,7 +69,13 @@ public abstract class AbstractSelector<TEnum extends Enum, P> extends TemplatesL
         return names;
     }
     public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
-    public final List<String> getOptions() { return allLabels.getLabels(); }
+    public final List<String> getOptions() {
+        if (allLabels == null && elementsNames == null && !getLocator().toString().contains("%s")) {
+            Select select = new Select(getWebElement());
+            return (List<String>) LinqUtils.select(select.getOptions(), WebElement::getText);
+        }
+        else return getNames();
+    }
     public final String getOptionsAsText() { return print(getOptions()); }
 
     protected String getValueAction() { return format("getValueAction not implemented for '%s'", toString()); }
