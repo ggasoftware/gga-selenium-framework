@@ -14,6 +14,12 @@ import static java.util.Arrays.asList;
  * Created by roman.i on 30.09.2014.
  */
 public class LinqUtils {
+    public static <T> Collection<T> copyList(Iterable<T> list) {
+        List<T> result = new ArrayList<>();
+        for (T el : list)
+            result.add(el);
+        return result;
+    }
     public static <T, T1> Collection<T1> select(Iterable<T> list, JFuncTT<T, T1> func) {
         try {
             List<T1> result = new ArrayList<>();
@@ -22,8 +28,8 @@ public class LinqUtils {
             return result;
         } catch (Exception ignore) { return new ArrayList<>(); }
     }
-    public static <T, T1> Collection<T1> select(T[] list, JFuncTT<T, T1> func){
-        return select(asList(list), func);
+    public static <T, T1> Collection<T1> select(T[] array, JFuncTT<T, T1> func){
+        return select(asList(array), func);
     }
     public static <T, T1, T2> Collection<T2> selectMap(Map<T, T1> map, JFuncTT<Map.Entry<T, T1>, T2> func) {
         try {

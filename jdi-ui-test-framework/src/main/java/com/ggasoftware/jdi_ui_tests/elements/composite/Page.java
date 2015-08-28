@@ -54,13 +54,13 @@ public class Page extends BaseElement {
             this.driver = driver;
         }
 
-        /** Check that current page url/title equals to expected url/title */
+        /** BaseChecker that current page url/title equals to expected url/title */
         @JDIAction
         public void check() { assertEquals(driver.getTitle(), string); }
-        /** Check that current page url/title matches to expected url/title-matcher */
+        /** BaseChecker that current page url/title matches to expected url/title-matcher */
         @JDIAction
         public void match() { assertTrue(driver.getTitle().matches(matcher)); }
-        /** Check that current page url/title contains expected url/title-matcher */
+        /** BaseChecker that current page url/title contains expected url/title-matcher */
         @JDIAction
         public void contains() { assertTrue(driver.getTitle().contains(matcher)); }
     }

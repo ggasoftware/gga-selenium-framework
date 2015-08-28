@@ -50,7 +50,7 @@ public class CheckBox extends Clickable implements ICheckBox {
     protected boolean isCheckedAction() { return getWebElement().isSelected(); }
 
     public final void check() {
-        doJAction("Check Checkbox", this::checkAction);
+        doJAction("BaseChecker Checkbox", this::checkAction);
     }
     public final void uncheck() {
         doJAction("Uncheck Checkbox", this::uncheckAction);

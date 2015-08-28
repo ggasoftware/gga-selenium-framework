@@ -55,7 +55,7 @@ public interface ITable<T extends SelectElement> extends IText {
      */
     @JDIAction
     boolean waitValue(String value, Column column);
-    /** Indicates are any rows in table. Check immediately */
+    /** Indicates are any rows in table. BaseChecker immediately */
     @JDIAction
     boolean isEmpty();
     /** Wait while at least one row appear in table */

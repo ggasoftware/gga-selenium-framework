@@ -2,11 +2,11 @@ package com.ggasoftware.jdi_ui_tests.settings;
 
 import com.ggasoftware.jdi_ui_tests.apiAccessors.selenium.DriverTypes;
 import com.ggasoftware.jdi_ui_tests.apiAccessors.selenium.SeleniumDriverFactory;
+import com.ggasoftware.jdi_ui_tests.asserter.BaseChecker;
 import com.ggasoftware.jdi_ui_tests.asserter.IAsserter;
 import com.ggasoftware.jdi_ui_tests.logger.ListLogger;
 import com.ggasoftware.jdi_ui_tests.logger.Log4JLogger;
 import com.ggasoftware.jdi_ui_tests.logger.base.ILogger;
-import com.ggasoftware.jdi_ui_tests.asserter.TestNGAsserter;
 import com.ggasoftware.jdi_ui_tests.logger.TestNGLogger;
 import com.ggasoftware.jdi_ui_tests.testRunner.ITestRunner;
 import com.ggasoftware.jdi_ui_tests.testRunner.TestNGRunner;
@@ -20,7 +20,7 @@ import static java.lang.Integer.parseInt;
  */
 public class JDISettings {
     public static ILogger logger = new ListLogger(new TestNGLogger(), new Log4JLogger());
-    public static IAsserter asserter = new TestNGAsserter(true);
+    public static IAsserter asserter = new BaseChecker(true);
     public static ITestRunner testRunner = new TestNGRunner();
     public static SeleniumDriverFactory driverFactory = new SeleniumDriverFactory();
     public static TimeoutSettings timeouts = new TimeoutSettings();

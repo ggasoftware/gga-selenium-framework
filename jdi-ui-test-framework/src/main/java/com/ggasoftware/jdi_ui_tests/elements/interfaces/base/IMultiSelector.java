@@ -17,13 +17,13 @@ public interface IMultiSelector<TEnum extends Enum> extends IBaseElement, ISetVa
     /** Select options with name (use index) from list (change their state selected/deselected) */
     @JDIAction
     void select(int... indexes);
-    /** Check only specified options (use text) from list (all other options unchecked) */
+    /** BaseChecker only specified options (use text) from list (all other options unchecked) */
     @JDIAction
     void check(String... names);
-    /** Check only specified options (use enum) from list (all other options unchecked) */
+    /** BaseChecker only specified options (use enum) from list (all other options unchecked) */
     @JDIAction
     void check(TEnum... names);
-    /** Check only specified options (use index) from list (all other options unchecked) */
+    /** BaseChecker only specified options (use index) from list (all other options unchecked) */
     @JDIAction
     void check(int... indexes);
     /** Uncheck only specified options (use text) from list (all other options checked) */

@@ -17,6 +17,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <fw.version>1.0.7-SNAPSHOT</fw.version>
         <selenium.version>2.45.0</selenium.version>
         <testng.version>6.8.1</testng.version>
         <log4j.version>1.2.17</log4j.version>
@@ -43,6 +44,11 @@
             <groupId>com.saucelabs</groupId>
             <artifactId>sauce_junit</artifactId>
             <version>${saucelab.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ggasoftware.uitest</groupId>
+            <artifactId>gga-selenium-framework-reportng</artifactId>
+            <version>${fw.version}</version>
         </dependency>
     </dependencies>
 

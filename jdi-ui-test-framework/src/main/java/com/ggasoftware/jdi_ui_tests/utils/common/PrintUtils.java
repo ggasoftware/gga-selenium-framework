@@ -14,6 +14,8 @@ import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.isClass;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 import static java.lang.String.join;
+import static java.lang.reflect.Array.get;
+import static java.lang.reflect.Array.getLength;
 import static java.util.Arrays.asList;
 
 /**
@@ -102,5 +104,12 @@ public class PrintUtils {
                 result.add(splitedField[0], processValue(splitedField[1], values));
         }
         return result;
+    }
+
+    public static String printObjectAsArray(Object array) {
+        List<String> elements = new ArrayList<>();
+        for(int i = 0; i <= getLength(array); i++)
+            elements.add(get(array, i).toString());
+        return print(elements);
     }
 }
