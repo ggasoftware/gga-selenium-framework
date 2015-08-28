@@ -10,10 +10,11 @@ import com.ggasoftware.jdi_ui_tests.logger.TestNGLogger;
 import com.ggasoftware.jdi_ui_tests.logger.base.ILogger;
 import com.ggasoftware.jdi_ui_tests.testRunner.ITestRunner;
 import com.ggasoftware.jdi_ui_tests.testRunner.TestNGRunner;
-import com.ggasoftware.jdi_ui_tests.utils.common.PropertyReader;
 import org.openqa.selenium.WebDriver;
 
 import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.SCREEN_ON_FAIL;
+import static com.ggasoftware.jdi_ui_tests.utils.common.PropertyReader.fillAction;
+import static com.ggasoftware.jdi_ui_tests.utils.common.PropertyReader.getProperties;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -32,12 +33,12 @@ public class JDISettings {
 
     public static String jdiSettingsPath = "test.properties";
     public static void initJDIFromProperties() throws Exception {
-        PropertyReader.getProperties(jdiSettingsPath);
-        PropertyReader.fillAction(driverFactory::registerDriver, "driver");
-        PropertyReader.fillAction(driverFactory::setRunType, "run.type");
-        PropertyReader.fillAction(p -> domain = p, "domain");
-        PropertyReader.fillAction(p -> timeouts.waitElementSec = parseInt(p), "timeout.wait.element");
-        PropertyReader.fillAction(p -> timeouts.waitPageLoadSec = parseInt(p), "timeout.wait.pageLoad");
+        getProperties(jdiSettingsPath);
+        fillAction(driverFactory::registerDriver, "driver");
+        fillAction(driverFactory::setRunType, "run.type");
+        fillAction(p -> domain = p, "domain");
+        fillAction(p -> timeouts.waitElementSec = parseInt(p), "timeout.wait.element");
+        fillAction(p -> timeouts.waitPageLoadSec = parseInt(p), "timeout.wait.pageLoad");
     }
     public static void initJDIFromProperties(String propertyPath) throws Exception {
         jdiSettingsPath = propertyPath;

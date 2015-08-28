@@ -4,21 +4,29 @@ import com.ggasoftware.jdi_ui_tests.asserter.BaseChecker;
 
 import java.util.Collection;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.*;
+import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.NO_SCREEN;
+import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.SCREEN_ON_FAIL;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
-public class Assert {
+public class Assert  {
+    private static BaseChecker getAssert() { return new Check(doScreenOnFail ? SCREEN_ON_FAIL : NO_SCREEN); }
+
     private static boolean doScreenOnFail = false;
     public static void doScreenOnFail() { doScreenOnFail = true; }
-    private static BaseChecker getAssert() { return new Check(doScreenOnFail ? SCREEN_ON_FAIL : NO_SCREEN); }
 
     public static void areEquals(Object obj, Object obj2, String message) {
         getAssert().areEquals(obj, obj2, message);
     }
     public static void areEquals(Object obj, Object obj2) {
         getAssert().areEquals(obj, obj2);
+    }
+    public static void assertEquals(Object obj, Object obj2, String message) {
+        areEquals(obj, obj2, message);
+    }
+    public static void assertEquals(Object obj, Object obj2) {
+        areEquals(obj, obj2);
     }
     public static void matches(String str, String regEx, String message) {
         getAssert().matches(str, regEx, message);
@@ -38,12 +46,23 @@ public class Assert {
     public static void isTrue(Boolean condition) {
         getAssert().isTrue(condition);
     }
-
+    public static void assertTrue(Boolean condition, String message) {
+        isTrue(condition, message);
+    }
+    public static void assertTrue(Boolean condition) {
+        isTrue(condition);
+    }
     public static void isFalse(Boolean condition, String message) {
         getAssert().isFalse(condition, message);
     }
     public static void isFalse(Boolean condition) {
         getAssert().isFalse(condition);
+    }
+    public static void assertFalse(Boolean condition, String message) {
+        isFalse(condition, message);
+    }
+    public static void assertFalse(Boolean condition) {
+        isFalse(condition);
     }
     public static void isEmpty(Object obj, String message) {
         getAssert().isEmpty(obj, message);
@@ -63,11 +82,23 @@ public class Assert {
     public static void areSame(Object obj, Object obj2) {
         getAssert().areSame(obj, obj2);
     }
+    public static void assertSame(Object obj, Object obj2, String message) {
+        areSame(obj, obj2, message);
+    }
+    public static void assertSame(Object obj, Object obj2) {
+        areSame(obj, obj2);
+    }
     public static void areDifferent(Object obj, Object obj2, String message) {
         getAssert().areDifferent(obj, obj2, message);
     }
     public static void areDifferent(Object obj, Object obj2) {
         getAssert().areDifferent(obj, obj2);
+    }
+    public static void assertNotSame(Object obj, Object obj2, String message) {
+        areDifferent(obj, obj2, message);
+    }
+    public static void assertNotSame(Object obj, Object obj2) {
+        areDifferent(obj, obj2);
     }
 
     public <T> void listContains(Collection<T> collection, T actual, String message) {
@@ -94,4 +125,5 @@ public class Assert {
     public static void arrayContains(Object array, Object actual) {
         getAssert().arrayContains(array, actual);
     }
+
 }

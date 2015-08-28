@@ -52,14 +52,14 @@ public class GetElementModule {
     public WebDriver getDriver() { return tryGetResult(WebDriverWrapper::getDriver); }
 
     public WebElement getElement() {
-        logger.info("Get Web element: " + element);
+        logger.debug("Get Web element: " + element);
         WebElement element = getByCondition(this::getElementAction, el -> el != null);
         logger.debug("One element found");
         return element;
     }
 
     public List<WebElement> getElements() {
-        logger.info("Get Web elements: " + element);
+        logger.debug("Get Web elements: " + element);
         List<WebElement> elements = getElementsAction();
         logger.debug(format("Found %s elements", elements.size()));
         return elements;

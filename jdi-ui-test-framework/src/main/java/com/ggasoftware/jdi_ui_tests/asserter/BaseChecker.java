@@ -24,7 +24,7 @@ import static java.lang.reflect.Array.getLength;
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
-public abstract class BaseChecker implements IAsserter {
+public abstract class BaseChecker implements IAsserter, IChecker {
     private JActionTR<String> throwFail;
     public BaseChecker setFailMethod(JActionTR<String> throwFail) { this.throwFail = throwFail; return this; }
 
@@ -181,7 +181,7 @@ public abstract class BaseChecker implements IAsserter {
     public <T> void listEquals(Collection<T> collection, Collection<T> collection2) {
         listEquals(collection, collection2, null);
     }
-    public void arrayEquals(Object array, Object array2, String failMessage) {
+    public <T> void arrayEquals(T array, T array2, String failMessage) {
         assertAction("BaseChecker that Collections are equal",
                 () -> array != null && array2 != null && array.getClass().isArray() && array2.getClass().isArray()
                         && getLength(array) == getLength(array2)
@@ -197,7 +197,7 @@ public abstract class BaseChecker implements IAsserter {
         }, failMessage);
     }
 
-    public void arrayEquals(Object array, Object array2) {
+    public <T> void arrayEquals(T array, T array2) {
         arrayEquals(array, array2, null);
     }
     public void arrayContains(Object array, Object actual, String failMessage) {

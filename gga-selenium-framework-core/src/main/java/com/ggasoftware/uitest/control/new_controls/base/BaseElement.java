@@ -122,8 +122,10 @@ public abstract class BaseElement<P> implements IBaseElement {
 
     @Override
     public String toString() {
-        return format("Name: '%s', Type: '%s' In: '%s', %s",
-                getName(), getTypeName(), getParentName(), avatar);
+        return (simpleLogFormat)
+                ? format("%s %s.%s", getTypeName(), getParentName(), getName())
+                : format("Name: '%s', Type: '%s' In: '%s', %s",
+                    getName(), getTypeName(), getParentName(), avatar);
     }
 
     public static IScenario invocationScenario = (element, actionName, jAction) -> {
@@ -150,9 +152,10 @@ public abstract class BaseElement<P> implements IBaseElement {
     };
 
     public void defaultLogAction(String actionName) {
-        logger.info((simpleLogFormat)
-                ? format("%s at %s %s.%s", actionName, getTypeName(), getParentName(), getName())
-                : format("Perform action '%s' with element (%s)", actionName, this.toString()));
+        logger.info(format((simpleLogFormat)
+                ? "%s at %s"
+                : "Perform action '%s' with element (%s)" ,
+            actionName, this.toString()));
     }
     public void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
         if (simpleLogFormat)
