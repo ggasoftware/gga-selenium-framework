@@ -11,7 +11,7 @@ import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.NO_SCREEN;
  */
 public class Check extends BaseChecker {
     public Check() { }
-    public Check(DoScreen doScreenshot) { this(null, doScreenshot); }
+    public Check(DoScreen doScreenshot) { this("", doScreenshot); }
     public Check(String checkMessage) { this(checkMessage, NO_SCREEN); }
     public Check(String checkMessage, DoScreen doScreenshot) {
         super(checkMessage, doScreenshot);

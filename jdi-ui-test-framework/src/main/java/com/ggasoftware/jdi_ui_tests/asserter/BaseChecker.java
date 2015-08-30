@@ -29,10 +29,10 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public BaseChecker setFailMethod(JActionTR<String> throwFail) { this.throwFail = throwFail; return this; }
 
     private DoScreen doScreenshot = NO_SCREEN;
-    private String checkMessage;
+    private String checkMessage = "";
 
     public BaseChecker() { }
-    public BaseChecker(DoScreen doScreenshot) { this(null, doScreenshot); }
+    public BaseChecker(DoScreen doScreenshot) { this("", doScreenshot); }
     public BaseChecker(String checkMessage) { this(checkMessage, NO_SCREEN); }
     public BaseChecker(String checkMessage, DoScreen doScreenshot) {
         this.checkMessage = getCheckMessage(checkMessage);
@@ -40,6 +40,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     private String getCheckMessage(String checkMessage) {
+        if (checkMessage == null) checkMessage = "";
         String firstWord = checkMessage.split(" ")[0];
         return  (!firstWord.toLowerCase().equals("check") || firstWord.toLowerCase().equals("verify"))
             ? "Check that " + checkMessage
@@ -47,7 +48,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     private void assertAction(String defaultMessage, Boolean result, String failMessage) {
-        assertAction(defaultMessage, () -> result ? null : "BaseChecker failed", failMessage);
+        assertAction(defaultMessage, () -> result ? null : "Check failed", failMessage);
     }
     private void assertAction(String defaultMessage, JFuncTR<String> result, String failMessage) {
         if (defaultMessage != null)
@@ -84,29 +85,29 @@ public abstract class BaseChecker implements IAsserter, IChecker {
 
     // Asserts
     public void areEquals(Object obj, Object obj2, String failMessage) {
-        assertAction(format("BaseChecker that '%s' equals to '%s'", obj, obj2), obj.equals(obj2), failMessage);
+        assertAction(format("Check that '%s' equals to '%s'", obj, obj2), obj.equals(obj2), failMessage);
     }
     public void areEquals(Object obj, Object obj2) { areEquals(obj, obj2, null); }
 
     public void matches(String str, String regEx, String failMessage) {
-        assertAction(format("BaseChecker that '%s' matches to regEx '%s", str, regEx), str.matches(regEx), failMessage);
+        assertAction(format("Check that '%s' matches to regEx '%s", str, regEx), str.matches(regEx), failMessage);
     }
     public void matches(String str, String regEx) { matches(str, regEx, null);
     }
 
     public void contains(String str, String str2, String failMessage) {
-        assertAction(format("BaseChecker that '%s' not contains '%s'", str, str2), str.contains(str2), failMessage);
+        assertAction(format("Check that '%s' not contains '%s'", str, str2), str.contains(str2), failMessage);
     }
     public void contains(String str, String str2) { contains(str, str2, null);
     }
 
     public void isTrue(Boolean condition, String failMessage) {
-        assertAction(format("BaseChecker that condition '%s' is True", condition), condition, failMessage);
+        assertAction(format("Check that condition '%s' is True", condition), condition, failMessage);
     }
     public void isTrue(Boolean condition) { isTrue(condition, null); }
 
     public void isFalse(Boolean condition, String failMessage) {
-        assertAction(format("BaseChecker that condition '%s' is False", condition), !condition, failMessage);
+        assertAction(format("Check that condition '%s' is False", condition), !condition, failMessage);
     }
     public void isFalse(Boolean condition) { isFalse(condition, null); }
 
@@ -121,35 +122,35 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         return false;
     }
     public void isEmpty(Object obj, String failMessage) {
-        assertAction("BaseChecker that Object is empty", isObjEmpty(obj), failMessage);
+        assertAction("Check that Object is empty", isObjEmpty(obj), failMessage);
     }
 
     public void isEmpty(Object obj) { isEmpty(obj, null);
     }
 
     public void isNotEmpty(Object obj, String failMessage) {
-        assertAction("BaseChecker that Object is NOT empty", !isObjEmpty(obj), failMessage);
+        assertAction("Check that Object is NOT empty", !isObjEmpty(obj), failMessage);
     }
 
     public void isNotEmpty(Object obj) { isNotEmpty(obj, null);
     }
 
     public void areSame(Object obj, Object obj2, String failMessage) {
-        assertAction("BaseChecker that Objects are the same", obj == obj2, failMessage);
+        assertAction("Check that Objects are the same", obj == obj2, failMessage);
     }
 
     public void areSame(Object obj, Object obj2) { areSame(obj, obj2, null);
     }
 
     public void areDifferent(Object obj, Object obj2, String failMessage) {
-        assertAction("BaseChecker that Objects are different", obj != obj2, failMessage);
+        assertAction("Check that Objects are different", obj != obj2, failMessage);
     }
 
     public void areDifferent(Object obj, Object obj2) { areDifferent(obj, obj2, null);
     }
 
     public <T> void listContains(Collection<T> collection, T actual, String failMessage) {
-        assertAction(format("BaseChecker that list contains element '%s'", actual),
+        assertAction(format("Check that list contains element '%s'", actual),
                 () -> collection != null && collection.size() > 0
                         ? null
                         : "listContains failed because Collection is null or empty",
@@ -165,7 +166,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     public <T> void listEquals(Collection<T> collection, Collection<T> collection2, String failMessage) {
-        assertAction("BaseChecker that Collections are equal",
+        assertAction("Check that Collections are equal",
             () -> collection != null && collection2 != null && collection.size() == collection2.size()
                 ? null
                 : "listEquals failed because one of the Collections is null or empty",
@@ -182,7 +183,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         listEquals(collection, collection2, null);
     }
     public <T> void arrayEquals(T array, T array2, String failMessage) {
-        assertAction("BaseChecker that Collections are equal",
+        assertAction("Check that Collections are equal",
                 () -> array != null && array2 != null && array.getClass().isArray() && array2.getClass().isArray()
                         && getLength(array) == getLength(array2)
                         ? null
@@ -201,7 +202,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         arrayEquals(array, array2, null);
     }
     public void arrayContains(Object array, Object actual, String failMessage) {
-        assertAction("BaseChecker that Collections are equal",
+        assertAction("Check that Collections are equal",
             () -> array != null && array.getClass().isArray() && getLength(array) > 0
                 ? null
                 : "arrayContains failed because Object is not Array or empty",
