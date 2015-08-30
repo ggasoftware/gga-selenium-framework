@@ -10,7 +10,7 @@ import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class ScreenAssert {
-    private static BaseChecker getAssert() { return new Check(DO_SCREEN); }
+    private static BaseChecker getAssert() { return new Check().setFailMethod(DO_SCREEN); }
 
     public static void areEquals(Object obj, Object obj2, String message) {
         getAssert().areEquals(obj, obj2, message);

@@ -11,7 +11,7 @@ import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.SCREEN_ON_FAIL;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class Assert {
-    private static BaseChecker getAssert() { return new Check(doScreenOnFail ? SCREEN_ON_FAIL : NO_SCREEN); }
+    private static BaseChecker getAssert() { return new Check().setFailMethod(doScreenOnFail ? SCREEN_ON_FAIL : NO_SCREEN); }
     private static boolean doScreenOnFail = false;
     public static void doScreenOnFail() { doScreenOnFail = true; }
 

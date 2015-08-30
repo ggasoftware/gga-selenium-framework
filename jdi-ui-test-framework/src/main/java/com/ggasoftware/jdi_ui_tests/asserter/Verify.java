@@ -3,7 +3,6 @@ package com.ggasoftware.jdi_ui_tests.asserter;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.NO_SCREEN;
 import static java.util.stream.Collectors.toCollection;
 
 /**
@@ -18,10 +17,5 @@ public class Verify extends BaseChecker {
     }
 
     public Verify() { }
-    public Verify(DoScreen doScreenshot) { this(null, doScreenshot); }
-    public Verify(String checkMessage) { this(checkMessage, NO_SCREEN); }
-    public Verify(String checkMessage, DoScreen doScreenshot) {
-        super(checkMessage, doScreenshot);
-        setFailMethod(fails::add);
-    }
+    public Verify(String checkMessage) { super(checkMessage); }
 }

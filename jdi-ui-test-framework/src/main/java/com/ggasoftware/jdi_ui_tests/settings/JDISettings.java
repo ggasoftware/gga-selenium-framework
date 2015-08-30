@@ -22,7 +22,7 @@ import static java.lang.Integer.parseInt;
  */
 public class JDISettings {
     public static ILogger logger = new ListLogger(new TestNGLogger(), new Log4JLogger());
-    public static IAsserter asserter = new Check(SCREEN_ON_FAIL);
+    public static IAsserter asserter = new Check().setFailMethod(SCREEN_ON_FAIL);
     public static ITestRunner testRunner = new TestNGRunner();
     public static SeleniumDriverFactory driverFactory = new SeleniumDriverFactory();
     public static TimeoutSettings timeouts = new TimeoutSettings();
