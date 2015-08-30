@@ -82,33 +82,34 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         return null;
     }
 
-    private String processCase(String str) {
-        str = (ignoreCase) ? str.toLowerCase() : str;
-        return str;
-    }
-
     // Asserts
     public void areEquals(Object obj, Object obj2, String failMessage) {
         assertAction(format("Check that '%s' equals to '%s'", obj, obj2), obj.equals(obj2), failMessage);
     }
     public void areEquals(Object obj, Object obj2) { areEquals(obj, obj2, null); }
     public void areEquals(String actual, String expected, String failMessage) {
-        processCase(actual);
-        processCase(expected);
+        if (ignoreCase) {
+            actual = actual.toLowerCase();
+            expected = expected.toLowerCase();
+        }
         assertAction(format("Check that '%s' equals to '%s'", actual, expected), actual.equals(expected), failMessage);
     }
     public void areEquals(String actual, String expected) { areEquals(actual, expected, null); }
     public void matches(String actual, String regEx, String failMessage) {
-        processCase(actual);
-        processCase(regEx);
+        if (ignoreCase) {
+            actual = actual.toLowerCase();
+            regEx = regEx.toLowerCase();
+        }
         assertAction(format("Check that '%s' matches to regEx '%s", actual, regEx), actual.matches(regEx), failMessage);
     }
     public void matches(String actual, String regEx) { matches(actual, regEx, null);
     }
 
     public void contains(String actual, String expected, String failMessage) {
-        processCase(actual);
-        processCase(expected);
+        if (ignoreCase) {
+            actual = actual.toLowerCase();
+            expected = expected.toLowerCase();
+        }
         assertAction(format("Check that '%s' not contains '%s'", actual, expected), actual.contains(expected), failMessage);
     }
     public void contains(String actual, String expected) { contains(actual, expected, null);
@@ -168,30 +169,38 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                         ? null
                         : "listContains failed because Collection is null or empty",
                 failMessage);
-        assertAction(null, () ->
-                !collection.contains(actual)
-                        ? format("Collection '%s' not contains element '%s'", print(select(collection, Object::toString)), actual)
-                        : null
+        Boolean found = (ignoreCase && actual.getClass() == String.class)
+            ? LinqUtils.select(collection, el -> ((String)el).toLowerCase()).contains(((String)actual).toLowerCase())
+            : collection.contains(actual);
+        assertAction(null, () -> !found
+                ? format("Collection '%s' not contains element '%s'", print(select(collection, Object::toString)), actual)
+                : null
                 , failMessage);
     }
-    public void listContains(Collection<String> collection, String actual, String failMessage) {
+    public void eachListItemContains(Collection<String> collection, String actual) {
+        eachListItemContains(collection, actual, null);
+    }
+    public void eachListItemContains(Collection<String> collection, String actual, String failMessage) {
         assertAction(format("Check that list contains element '%s'", actual),
                 () -> collection != null && collection.size() > 0
                         ? null
                         : "listContains failed because Collection is null or empty",
                 failMessage);
-        processCase(actual);
-        Collection<String> collectionModified = LinqUtils.select(collection, this::processCase);
-        assertAction(null, () ->
-                !collectionModified.contains(actual)
-                        ? format("Collection '%s' not contains element '%s'", print(select(collection, Object::toString)), actual)
-                        : null
+        String actualModified = (ignoreCase)
+                ? actual.toLowerCase()
+                : actual;
+        assertAction(null, () -> {
+                    for (String el : collection) {
+                        if (ignoreCase)
+                            el = el.toLowerCase();
+                        if (!el.contains(actualModified))
+                            return format("Item '%s' in Collection '%s' not contains element '%s'", el, print(select(collection, Object::toString)), actual);
+                    }
+                    return null;
+                }
                 , failMessage);
     }
     public <T> void listContains(Collection<T> collection, T actual) {
-        listContains(collection, actual, null);
-    }
-    public void listContains(Collection<String> collection, String actual) {
         listContains(collection, actual, null);
     }
 
