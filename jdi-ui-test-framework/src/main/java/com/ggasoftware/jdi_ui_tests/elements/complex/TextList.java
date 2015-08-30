@@ -79,7 +79,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
 
     public final String getText(String name) {
         return doJActionResult(String.format("Get text for element '%s' with name '%s'", this.toString(), name),
-            () -> getTextAction(getElement(name)));
+                () -> getTextAction(getElement(name)));
     }
 
     public final String getText(int index) {
@@ -106,5 +106,10 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
         return (results != null && results.size() > 0)
             ? results.get(results.size() - 1)
             : null;
+    }
+
+    public List<String> getTexts() {
+        return doJActionResult("Get list of texts", () -> (List<String>) select(getWebElements(), WebElement::getText),
+                PrintUtils::print);
     }
 }
