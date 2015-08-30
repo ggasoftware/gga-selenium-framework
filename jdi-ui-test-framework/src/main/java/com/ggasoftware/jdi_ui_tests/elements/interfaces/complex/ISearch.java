@@ -18,7 +18,7 @@ public interface ISearch extends ITextField, IComposite {
     void chooseSuggestion(String text, int selectIndex);
     /** Input text in search field and press search button */
     @JDIAction
-    void search(String text);
+    void find(String text);
     /** Select all suggestions for text */
     @JDIAction
     List<String> getSuggesions(String text);
