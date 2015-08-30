@@ -28,8 +28,9 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
-abstract class CascadeInit implements IBaseElement {
+public abstract class CascadeInit implements IBaseElement {
     public static boolean firstInstance = true;
+
     public static void InitElements(Object parent) {
         if (parent.getClass().getName().contains("$")) return;
         Object parentInstance = null;
@@ -59,8 +60,37 @@ abstract class CascadeInit implements IBaseElement {
     }
     private static void initSubElements(Object parent, Object parentInstance) {
         asserter.silent(() -> foreach(getFields(parent, IBaseElement.class),
-                f -> setElement(parent, parentInstance, f)));
+                field -> setElement(parent, parentInstance, field)));
     }
+
+    public static void InitPages(Class<?> parent) {
+        if (parent.getName().contains("$")) return;
+        initPages(parent);
+    }
+
+    private static void initPages(Class<?> parent) {
+        asserter.silent(() -> foreach(getStaticFields(parent, Page.class),
+                field -> setPage(parent, field)));
+    }
+
+    private static void setPage(Class<?> parent, Field field) throws Exception {
+        try {
+            Class<?> type = field.getType();
+            BaseElement instance = (BaseElement) getFieldValue(field, null);
+            if (instance == null)
+                instance = (BaseElement) type.newInstance();
+            fillPage(instance, field, parent);
+            instance.setName(getElementName(field));
+            if (instance.getClass().getSimpleName().equals(""))
+                instance.setTypeName(type.getSimpleName());
+            instance.setParentName(parent.getClass().getSimpleName());
+            field.set(parent, instance);
+            InitElements(instance);
+        } catch (Exception ex) {
+            throw asserter.exception(format("Error in setPage for field '%s' with parent '%s'", field.getName(),
+                    parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
+    }
+
 
     public static void setElement(Object parent, Object parentInstance, Field field) throws Exception {
         try {

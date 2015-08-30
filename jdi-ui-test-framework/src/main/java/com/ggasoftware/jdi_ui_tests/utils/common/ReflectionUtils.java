@@ -44,6 +44,9 @@ public class ReflectionUtils {
         return (List<Field>) where(obj.getClass().getDeclaredFields(), field -> !isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
     }
 
+    public static List<Field> getStaticFields(Object obj, Class<?> type)  {
+        return (List<Field>) where(obj.getClass().getDeclaredFields(), field -> isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
+    }
     public static <T> T getFirstField(Object obj, Class<T> type)  {
         return (T) getFieldValue(first(obj.getClass().getDeclaredFields(), field -> isClass(field, type) || isInterface(field, type)), obj);
     }
