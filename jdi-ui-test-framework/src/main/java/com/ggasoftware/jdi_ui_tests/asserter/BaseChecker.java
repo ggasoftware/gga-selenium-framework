@@ -191,6 +191,9 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void listContains(Collection<T> collection, T actual) {
         listContains(collection, actual, null);
     }
+    public void listContains(Collection<String> collection, String actual) {
+        listContains(collection, actual, null);
+    }
 
     public <T> void listEquals(Collection<T> collection, Collection<T> collection2, String failMessage) {
         assertAction("Check that Collections are equal",
