@@ -47,6 +47,6 @@ public class JDISettings {
 
     public static String domain;
     public static boolean hasDomain() {
-        return domain != null && !domain.contains("://");
+        return domain != null && domain.contains("://");
     }
 }
