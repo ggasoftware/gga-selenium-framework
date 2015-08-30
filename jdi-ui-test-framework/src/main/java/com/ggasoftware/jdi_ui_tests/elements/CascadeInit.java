@@ -73,22 +73,22 @@ public abstract class CascadeInit implements IBaseElement {
                 field -> setPage(parent, field)));
     }
 
-    private static void setPage(Class<?> parent, Field field) throws Exception {
+    private static void setPage(Class<?> parentClass, Field field) throws Exception {
         try {
             Class<?> type = field.getType();
             BaseElement instance = (BaseElement) getFieldValue(field, null);
             if (instance == null)
                 instance = (BaseElement) type.newInstance();
-            fillPage(instance, field, parent);
+            fillPage(instance, field, parentClass);
             instance.setName(getElementName(field));
             if (instance.getClass().getSimpleName().equals(""))
                 instance.setTypeName(type.getSimpleName());
-            instance.setParentName(parent.getClass().getSimpleName());
-            field.set(parent, instance);
+            instance.setParentName(parentClass.getSimpleName());
+            field.set(parentClass, instance);
             InitElements(instance);
         } catch (Exception ex) {
             throw asserter.exception(format("Error in setPage for field '%s' with parent '%s'", field.getName(),
-                    parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
+                    parentClass.getSimpleName()) + LineBreak + ex.getMessage()); }
     }
 
 
@@ -120,7 +120,22 @@ public abstract class CascadeInit implements IBaseElement {
 
     private static void fillPage(BaseElement instance, Field field, Object parent) throws Exception {
         if (field.isAnnotationPresent(JPage.class))
-            fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), parent);
+            fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), (parent != null) ? parent.getClass() : null);
+    }
+    private static void fillPage(BaseElement instance, Field field, Class<?> parentClass) throws Exception {
+        if (field.isAnnotationPresent(JPage.class))
+            fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), parentClass);
+    }
+    private static BaseElement createChildPage(Class<?> parentClass, Field field, Class<?> type) {
+        BaseElement instance = (BaseElement) getFieldValue(field, null);
+        if (instance == null)
+            try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
+            catch (Exception ex) { asserter.exception(
+                    format("Can't create child for parent '%s' with type '%s'",
+                            parentClass.getSimpleName(), field.getType().getSimpleName())); return null; }
+        else if (instance.getLocator() == null)
+            instance.avatar.byLocator = getNewLocator(field);
+        return instance;
     }
     private static BaseElement createChildFromField(Object parentInstance, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
@@ -146,6 +161,7 @@ public abstract class CascadeInit implements IBaseElement {
         }
         return instance;
     }
+
     private static boolean isBaseElement(Object obj) {
         return isClass(obj.getClass(), BaseElement.class);
     }

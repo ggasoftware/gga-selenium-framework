@@ -32,11 +32,11 @@ public class AnnotationsUtil {
         }
     }
 
-    public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Object parent){
+    public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Class<?> parentClass){
         String url = pageAnnotation.url();
-        if (!JDISettings.hasDomain() && parent != null && parent.getClass().isAnnotationPresent(JSite.class))
-            JDISettings.domain = parent.getClass().getAnnotation(JSite.class).domain();
-        url = (url.contains("://") || parent == null || !JDISettings.hasDomain())
+        if (!JDISettings.hasDomain() && parentClass != null && parentClass.isAnnotationPresent(JSite.class))
+            JDISettings.domain = parentClass.getAnnotation(JSite.class).domain();
+        url = (url.contains("://") || parentClass == null || !JDISettings.hasDomain())
                 ? url
                 : JDISettings.domain.replaceAll("/*$", "") + "/" + url.replaceAll("^/*", "");
         String title = pageAnnotation.title();
