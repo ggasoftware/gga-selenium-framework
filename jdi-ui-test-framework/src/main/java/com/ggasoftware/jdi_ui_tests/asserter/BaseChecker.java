@@ -41,7 +41,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public BaseChecker(String checkMessage) {  this.checkMessage = getCheckMessage(checkMessage); }
 
     private String getCheckMessage(String checkMessage) {
-        if (checkMessage == null) checkMessage = "";
+        if (checkMessage == null || checkMessage.equals("")) return "";
         String firstWord = checkMessage.split(" ")[0];
         return  (!firstWord.toLowerCase().equals("check") || firstWord.toLowerCase().equals("verify"))
             ? "Check " + checkMessage
@@ -222,7 +222,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         }
 
         private void beforeListCheck(String defaultMessage, String expected, String failMessage) {
-            assertAction(format(defaultMessage, expected),
+            assertAction(format(defaultMessage, print(select(list, Object::toString)), expected),
                 () -> list != null && list.size() > 0
                         ? null
                         : "list check failed because list is null or empty",
@@ -234,27 +234,27 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             isListCheck = true;
         }
         public void areEquals(Object expected, String failMessage) {
-            beforeListCheck("Check that each list element equals to '%s'", expected.toString(), failMessage);
+            beforeListCheck("Check that each item of list '%s' equals to '%s'", expected.toString(), failMessage);
             for (Object el : list)
                 BaseChecker.this.areEquals(el, expected, failMessage);
         }
         public void areEquals(Object expected) { areEquals(expected, null); }
         public void matches(String regEx, String failMessage) {
-            beforeListCheck("Check that each list element matches to regEx '%s'", regEx, failMessage);
+            beforeListCheck("Check that each item of list '%s' matches to regEx '%s'", regEx, failMessage);
             for (Object el : list)
                 BaseChecker.this.matches((String) el, regEx, failMessage);
         }
         public void matches(String regEx) { matches(regEx, null); }
 
         public void contains(String expected, String failMessage) {
-            beforeListCheck("Check that each list element contains '%s'", expected, failMessage);
+            beforeListCheck("Check that each item of list '%s' contains '%s'", expected, failMessage);
             for (Object el : list)
                 BaseChecker.this.contains((String)el, expected, failMessage);
         }
         public void contains(String expected) { contains(expected, null); }
 
         public void areSame(Object expected, String failMessage) {
-            beforeListCheck("Check that all list element are same with '%s'", expected.toString(), failMessage);
+            beforeListCheck("Check that all items of list '%s' are same with '%s'", expected.toString(), failMessage);
             for (Object el : list)
                 BaseChecker.this.areSame(el, expected, failMessage);
         }
@@ -264,7 +264,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         }
 
         public void areDifferent(Object expected, String failMessage) {
-            beforeListCheck("Check that all list element are different with '%s'", expected.toString(), failMessage);
+            beforeListCheck("Check that all items of list '%s' are different with '%s'", expected.toString(), failMessage);
             for (Object el : list)
                 BaseChecker.this.areDifferent(el, expected, failMessage);
         }
