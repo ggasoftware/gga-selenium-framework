@@ -34,7 +34,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     private DoScreen doScreenshot = NO_SCREEN;
     private String checkMessage = "";
     private boolean ignoreCase = false;
-    private boolean hasBeforeMessages = true;
+    private boolean isListCheck = false;
 
 
     public BaseChecker() { }
@@ -44,7 +44,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         if (checkMessage == null) checkMessage = "";
         String firstWord = checkMessage.split(" ")[0];
         return  (!firstWord.toLowerCase().equals("check") || firstWord.toLowerCase().equals("verify"))
-            ? "Check that " + checkMessage
+            ? "Check " + checkMessage
             : checkMessage;
     }
 
@@ -52,13 +52,13 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction(defaultMessage, () -> result ? null : "Check failed", failMessage);
     }
     private void assertAction(String defaultMessage, JFuncTR<String> result, String failMessage) {
-        if (hasBeforeMessages && defaultMessage != null)
+        if (!isListCheck && defaultMessage != null)
             logger.info(getBeforeMessage(defaultMessage));
-        if (hasBeforeMessages && doScreenshot == DO_SCREEN) {
+        if (!isListCheck && doScreenshot == DO_SCREEN) {
             String screenMessage = doScreenshotGetMessage();
             logger.info("Create screenshot in: ", screenMessage);
         }
-        if (!hasBeforeMessages && failMessage == null)
+        if (isListCheck && failMessage == null)
             failMessage = getBeforeMessage(defaultMessage) + " failed";
         String resultMessage = result.invoke();
         if (resultMessage != null)
@@ -212,13 +212,14 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     // ListProcessor
-    public <T> ListChecker forEach(Collection<T> list) { return new ListChecker<>(list); }
-    public <T> ListChecker forEach(T[] array) { return new ListChecker<>(asList(array)); }
+    public <T> ListChecker eachElementOf(Collection<T> list) { return new ListChecker<>(list); }
+    public <T> ListChecker eachElementOf(T[] array) { return new ListChecker<>(asList(array)); }
 
     public class ListChecker<T> {
         Collection<T> list;
         private ListChecker(Collection<T> list) {
             this.list = list;
+            isListCheck = true;
         }
 
         private void beforeListCheck(String defaultMessage, String expected, String failMessage) {
@@ -227,9 +228,11 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                         ? null
                         : "list check failed because list is null or empty",
                 failMessage);
+            if (doScreenshot == DO_SCREEN) {
+                String screenMessage = doScreenshotGetMessage();
+                logger.info("Create screenshot in: ", screenMessage);
+            }
         }
-
-
         public void areEquals(Object expected, String failMessage) {
             beforeListCheck("Check that each list element equals to '%s'", expected.toString(), failMessage);
             for (Object el : list)

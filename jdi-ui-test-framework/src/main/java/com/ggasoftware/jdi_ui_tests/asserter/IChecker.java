@@ -28,7 +28,7 @@ public interface IChecker {
     <T> void listEquals(Collection<T> collection, Collection<T> collection2);
     <T> void arrayEquals(T array, T array2, String failMessage);
     <T> void arrayEquals(T array, T array2);
-    <T> BaseChecker.ListChecker forEach(Collection<T> list);
-    <T> BaseChecker.ListChecker forEach(T[] array);
+    <T> BaseChecker.ListChecker eachElementOf(Collection<T> list);
+    <T> BaseChecker.ListChecker eachElementOf(T[] array);
 
 }
