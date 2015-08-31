@@ -59,7 +59,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             logger.info("Create screenshot in: ", screenMessage);
         }
         if (isListCheck && failMessage == null)
-            failMessage = getBeforeMessage(defaultMessage) + " failed";
+            failMessage = defaultMessage + " failed";
         String resultMessage = result.invoke();
         if (resultMessage != null)
             throwFail.invoke(failMessage != null
@@ -115,7 +115,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             actual = actual.toLowerCase();
             expected = expected.toLowerCase();
         }
-        assertAction(format("Check that '%s' not contains '%s'", actual, expected), actual.contains(expected), failMessage);
+        assertAction(format("Check that '%s' contains '%s'", actual, expected), actual.contains(expected), failMessage);
     }
     public void contains(String actual, String expected) { contains(actual, expected, null);
     }
@@ -219,7 +219,6 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         Collection<T> list;
         private ListChecker(Collection<T> list) {
             this.list = list;
-            isListCheck = true;
         }
 
         private void beforeListCheck(String defaultMessage, String expected, String failMessage) {
@@ -232,6 +231,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                 String screenMessage = doScreenshotGetMessage();
                 logger.info("Create screenshot in: ", screenMessage);
             }
+            isListCheck = true;
         }
         public void areEquals(Object expected, String failMessage) {
             beforeListCheck("Check that each list element equals to '%s'", expected.toString(), failMessage);

@@ -7,7 +7,7 @@ import org.testng.Assert;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class Check extends BaseChecker {
-    public Check() { }
+    public Check() { this(""); }
     public Check(String checkMessage) {
         super(checkMessage);
         setThrowFail(Assert::fail);

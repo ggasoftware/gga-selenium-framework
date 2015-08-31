@@ -96,9 +96,9 @@ public class ScreenAssert {
     public static void assertNotSame(Object obj, Object obj2) {
         areDifferent(obj, obj2);
     }
-    public static BaseChecker.ListChecker forEach(List<Object> list) { return getAssert().eachElementOf(list); }
-    public static BaseChecker.ListChecker forEach(Object[] array) { return getAssert().eachElementOf(array); }
-    public static BaseChecker.ListChecker assertEach(List<Object> list) { return forEach(list); }
-    public static BaseChecker.ListChecker assertEach(Object[] array) { return forEach(array); }
+    public static BaseChecker.ListChecker eachElementOf(List<Object> list) { return getAssert().eachElementOf(list); }
+    public static BaseChecker.ListChecker eachElementOf(Object[] array) { return getAssert().eachElementOf(array); }
+    public static BaseChecker.ListChecker assertEach(List<Object> list) { return eachElementOf(list); }
+    public static BaseChecker.ListChecker assertEach(Object[] array) { return eachElementOf(array); }
 
 }
