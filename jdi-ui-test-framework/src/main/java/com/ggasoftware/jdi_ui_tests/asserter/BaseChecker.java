@@ -211,74 +211,13 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         arrayEquals(array, array2, null);
     }
 
-/*
-    public <T> void listContains(Collection<T> collection, T actual, String failMessage) {
-        assertAction(format("Check that list contains element '%s'", actual),
-                () -> collection != null && collection.size() > 0
-                        ? null
-                        : "listContains failed because Collection is null or empty",
-                failMessage);
-        Boolean found = (ignoreCase && actual.getClass() == String.class)
-            ? LinqUtils.select(collection, el -> ((String)el).toLowerCase()).contains(((String)actual).toLowerCase())
-            : collection.contains(actual);
-        assertAction(null, () -> !found
-                ? format("Collection '%s' not contains element '%s'", print(select(collection, Object::toString)), actual)
-                : null
-                , failMessage);
-    }
-    public void eachListItemContains(Collection<String> collection, String actual) {
-        eachListItemContains(collection, actual, null);
-    }
-    public void eachListItemContains(Collection<String> collection, String actual, String failMessage) {
-        assertAction(format("Check that list contains element '%s'", actual),
-                () -> collection != null && collection.size() > 0
-                        ? null
-                        : "listContains failed because Collection is null or empty",
-                failMessage);
-        String actualModified = (ignoreCase)
-                ? actual.toLowerCase()
-                : actual;
-        assertAction(null, () -> {
-            for (String el : collection) {
-                if (ignoreCase)
-                    el = el.toLowerCase();
-                if (!el.contains(actualModified))
-                    return format("Item '%s' in Collection '%s' not contains element '%s'", el, print(select(collection, Object::toString)), actual);
-            }
-            return null;
-        }
-                , failMessage);
-    }
-    public <T> void listContains(Collection<T> collection, T actual) {
-        listContains(collection, actual, null);
-    }
-
-    public void arrayContains(Object array, Object actual, String failMessage) {
-        assertAction("Check that Collections are equal",
-            () -> array != null && array.getClass().isArray() && getLength(array) > 0
-                ? null
-                : "arrayContains failed because Object is not Array or empty",
-            failMessage);
-        assertAction(null, () -> {
-            for (int i = 0; i <= getLength(array); i++)
-                if (get(array, i).equals(actual))
-                    return null;
-            return format("Array '%s' not contains element '%s'",
-                    printObjectAsArray(array), actual);
-        }, failMessage);
-    }
-    public void arrayContains(Object array, Object actual) {
-        arrayContains(array, actual, null);
-    }
-*/
     // ListProcessor
+    public <T> ListChecker forEach(Collection<T> list) { return new ListChecker<>(list); }
+    public <T> ListChecker forEach(T[] array) { return new ListChecker<>(asList(array)); }
 
-    public ListChecker forEach(Collection<Object> list) { return new ListChecker(list); }
-    public ListChecker forEach(Object[] array) { return new ListChecker(asList(array)); }
-
-    public class ListChecker {
-        Collection<Object> list;
-        private ListChecker(Collection<Object> list) {
+    public class ListChecker<T> {
+        Collection<T> list;
+        private ListChecker(Collection<T> list) {
             this.list = list;
         }
 
