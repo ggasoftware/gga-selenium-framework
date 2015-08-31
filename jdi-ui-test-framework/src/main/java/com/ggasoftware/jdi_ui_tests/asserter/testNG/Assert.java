@@ -1,6 +1,7 @@
 package com.ggasoftware.jdi_ui_tests.asserter.testNG;
 
 import com.ggasoftware.jdi_ui_tests.asserter.BaseChecker;
+import com.ggasoftware.jdi_ui_tests.asserter.DoScreen;
 
 import java.util.List;
 
@@ -15,6 +16,10 @@ public class Assert  {
 
     private static boolean doScreenOnFail = false;
     public static void doScreenOnFail() { doScreenOnFail = true; }
+
+    public static BaseChecker doScreenshot(DoScreen doScreenshot) { return getAssert().doScreenshot(doScreenshot); }
+    public static BaseChecker doScreenshot() { return getAssert().doScreenshot(); }
+    public static BaseChecker ignoreCase() { return getAssert().ignoreCase(); }
 
     public static void areEquals(Object obj, Object obj2, String message) {
         getAssert().areEquals(obj, obj2, message);
