@@ -28,6 +28,7 @@ import static java.lang.reflect.Array.getLength;
 public abstract class BaseChecker implements IAsserter, IChecker {
     private JActionTR<String> throwFail;
     public BaseChecker doScreenshot(DoScreen doScreenshot) { this.doScreenshot = doScreenshot; return this; }
+    public BaseChecker doScreenshot() { return doScreenshot(DO_SCREEN_ALWAYS); }
     public BaseChecker setThrowFail(JActionTR<String> throwFail) { this.throwFail = throwFail; return this; }
     public BaseChecker ignoreCase() { this.ignoreCase = true; return this; }
 
