@@ -6,5 +6,5 @@ package com.ggasoftware.jdi_ui_tests.asserter;
 public enum DoScreen {
     NO_SCREEN,
     SCREEN_ON_FAIL,
-    DO_SCREEN
+    DO_SCREEN_ALWAYS
 }

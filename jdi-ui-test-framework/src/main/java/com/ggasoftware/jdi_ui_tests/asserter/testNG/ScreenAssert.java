@@ -4,13 +4,13 @@ import com.ggasoftware.jdi_ui_tests.asserter.BaseChecker;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN;
+import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN_ALWAYS;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class ScreenAssert {
-    private static BaseChecker getAssert() { return new Check().doScreenshot(DO_SCREEN); }
+    private static BaseChecker getAssert() { return new Check().doScreenshot(DO_SCREEN_ALWAYS); }
 
     public static void areEquals(Object obj, Object obj2, String message) {
         getAssert().areEquals(obj, obj2, message);

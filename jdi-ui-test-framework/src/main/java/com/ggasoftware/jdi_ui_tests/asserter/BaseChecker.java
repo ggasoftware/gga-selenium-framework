@@ -7,7 +7,7 @@ import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTR;
 
 import java.util.Collection;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN;
+import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN_ALWAYS;
 import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.NO_SCREEN;
 import static com.ggasoftware.jdi_ui_tests.logger.enums.LogInfoTypes.FRAMEWORK;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.logger;
@@ -54,7 +54,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     private void assertAction(String defaultMessage, JFuncTR<String> result, String failMessage) {
         if (!isListCheck && defaultMessage != null)
             logger.info(getBeforeMessage(defaultMessage));
-        if (!isListCheck && doScreenshot == DO_SCREEN) {
+        if (!isListCheck && doScreenshot == DO_SCREEN_ALWAYS) {
             String screenMessage = doScreenshotGetMessage();
             logger.info("Create screenshot in: ", screenMessage);
         }
@@ -227,10 +227,6 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                         ? null
                         : "list check failed because list is null or empty",
                 failMessage);
-            if (doScreenshot == DO_SCREEN) {
-                String screenMessage = doScreenshotGetMessage();
-                logger.info("Create screenshot in: ", screenMessage);
-            }
             isListCheck = true;
         }
         public void areEquals(Object expected, String failMessage) {

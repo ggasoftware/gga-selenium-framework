@@ -24,7 +24,7 @@ public class ScreenshotMaker {
     public static String takeScreen() throws IOException { return new ScreenshotMaker().takeScreenshot(); }
     public String takeScreenshot() throws IOException {
         String path = new File(".").getCanonicalPath() + getValidUrl(pathSuffix);
-        String screensFilePath = getFileName(path + JDIData.testName + Timer.nowDate().replace(":", "-"));
+        String screensFilePath = getFileName(path + (JDIData.testName != null ? JDIData.testName : "screen") + Timer.nowDate().replace(":", "-"));
         new File(screensFilePath).getParentFile().mkdirs();
         File screensFile = ((TakesScreenshot) JDISettings.driverFactory.getDriver()).getScreenshotAs(FILE);
         copyFile(screensFile, new File(screensFilePath));
