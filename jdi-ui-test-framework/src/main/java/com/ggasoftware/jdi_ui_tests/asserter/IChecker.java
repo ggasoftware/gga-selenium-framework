@@ -24,13 +24,11 @@ public interface IChecker {
     <T> void areSame(T obj, T obj2);
     <T> void areDifferent(T obj, T obj2, String failMessage);
     <T> void areDifferent(T obj, T obj2);
-    <T> void listContains(Collection<T> collection, T actual, String failMessage);
-    <T> void listContains(Collection<T> collection, T actual);
     <T> void listEquals(Collection<T> collection, Collection<T> collection2, String failMessage);
     <T> void listEquals(Collection<T> collection, Collection<T> collection2);
     <T> void arrayEquals(T array, T array2, String failMessage);
     <T> void arrayEquals(T array, T array2);
-    void arrayContains(Object array, Object actual, String failMessage);
-    void arrayContains(Object array, Object actual);
+    BaseChecker.ListChecker forEach(Collection<Object> list);
+    BaseChecker.ListChecker forEach(Object[] array);
 
 }

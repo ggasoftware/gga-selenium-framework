@@ -1,6 +1,5 @@
 package com.ggasoftware.jdi_ui_tests.asserter;
 
-import com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JActionTR;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncT;
@@ -18,6 +17,7 @@ import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.printObjectAsArray;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.jdi_ui_tests.utils.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
+import static edu.emory.mathcs.backport.java.util.Arrays.asList;
 import static java.lang.String.format;
 import static java.lang.reflect.Array.get;
 import static java.lang.reflect.Array.getLength;
@@ -27,13 +27,15 @@ import static java.lang.reflect.Array.getLength;
  */
 public abstract class BaseChecker implements IAsserter, IChecker {
     private JActionTR<String> throwFail;
-    public BaseChecker setFailMethod(DoScreen doScreenshot) { this.doScreenshot = doScreenshot; return this; }
-    public BaseChecker doScreenshot(JActionTR<String> throwFail) { this.throwFail = throwFail; return this; }
+    public BaseChecker doScreenshot(DoScreen doScreenshot) { this.doScreenshot = doScreenshot; return this; }
+    public BaseChecker setThrowFail(JActionTR<String> throwFail) { this.throwFail = throwFail; return this; }
     public BaseChecker ignoreCase() { this.ignoreCase = true; return this; }
 
     private DoScreen doScreenshot = NO_SCREEN;
     private String checkMessage = "";
     private boolean ignoreCase = false;
+    private boolean hasBeforeMessages = true;
+
 
     public BaseChecker() { }
     public BaseChecker(String checkMessage) {  this.checkMessage = getCheckMessage(checkMessage); }
@@ -50,15 +52,19 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction(defaultMessage, () -> result ? null : "Check failed", failMessage);
     }
     private void assertAction(String defaultMessage, JFuncTR<String> result, String failMessage) {
-        if (defaultMessage != null)
+        if (hasBeforeMessages && defaultMessage != null)
             logger.info(getBeforeMessage(defaultMessage));
-        if (doScreenshot == DO_SCREEN) {
+        if (hasBeforeMessages && doScreenshot == DO_SCREEN) {
             String screenMessage = doScreenshotGetMessage();
             logger.info("Create screenshot in: ", screenMessage);
         }
+        if (!hasBeforeMessages && failMessage == null)
+            failMessage = getBeforeMessage(defaultMessage) + " failed";
         String resultMessage = result.invoke();
         if (resultMessage != null)
-            throwFail.invoke(failMessage != null ? failMessage : resultMessage);
+            throwFail.invoke(failMessage != null
+                        ? failMessage
+                        : resultMessage);
     }
     private String getBeforeMessage(String defaultMessage) {
         return  (checkMessage != null && !checkMessage.equals(""))
@@ -83,18 +89,16 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     // Asserts
-    public void areEquals(Object obj, Object obj2, String failMessage) {
-        assertAction(format("Check that '%s' equals to '%s'", obj, obj2), obj.equals(obj2), failMessage);
-    }
-    public void areEquals(Object obj, Object obj2) { areEquals(obj, obj2, null); }
-    public void areEquals(String actual, String expected, String failMessage) {
-        if (ignoreCase) {
-            actual = actual.toLowerCase();
-            expected = expected.toLowerCase();
+    public void areEquals(Object actual, Object expected, String failMessage) {
+        if (ignoreCase && actual.getClass() == String.class) {
+            actual = ((String)actual).toLowerCase();
+            expected = ((String)expected).toLowerCase();
         }
         assertAction(format("Check that '%s' equals to '%s'", actual, expected), actual.equals(expected), failMessage);
     }
-    public void areEquals(String actual, String expected) { areEquals(actual, expected, null); }
+    public void areEquals(Object actual, Object expected) {
+        areEquals(actual, expected, null);
+    }
     public void matches(String actual, String regEx, String failMessage) {
         if (ignoreCase) {
             actual = actual.toLowerCase();
@@ -102,7 +106,8 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         }
         assertAction(format("Check that '%s' matches to regEx '%s", actual, regEx), actual.matches(regEx), failMessage);
     }
-    public void matches(String actual, String regEx) { matches(actual, regEx, null);
+    public void matches(String actual, String regEx) {
+        matches(actual, regEx, null);
     }
 
     public void contains(String actual, String expected, String failMessage) {
@@ -118,12 +123,16 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public void isTrue(Boolean condition, String failMessage) {
         assertAction(format("Check that condition '%s' is True", condition), condition, failMessage);
     }
-    public void isTrue(Boolean condition) { isTrue(condition, null); }
+    public void isTrue(Boolean condition) {
+        isTrue(condition, null);
+    }
 
     public void isFalse(Boolean condition, String failMessage) {
         assertAction(format("Check that condition '%s' is False", condition), !condition, failMessage);
     }
-    public void isFalse(Boolean condition) { isFalse(condition, null); }
+    public void isFalse(Boolean condition) {
+        isFalse(condition, null);
+    }
 
     private boolean isObjEmpty(Object obj) {
         if (obj == null) return true;
@@ -146,70 +155,31 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction("Check that Object is NOT empty", !isObjEmpty(obj), failMessage);
     }
 
-    public void isNotEmpty(Object obj) { isNotEmpty(obj, null);
+    public void isNotEmpty(Object obj) {
+        isNotEmpty(obj, null);
     }
 
-    public void areSame(Object obj, Object obj2, String failMessage) {
-        assertAction("Check that Objects are the same", obj == obj2, failMessage);
+    public void areSame(Object actual, Object expected, String failMessage) {
+        assertAction("Check that Objects are the same", actual == expected, failMessage);
     }
 
-    public void areSame(Object obj, Object obj2) { areSame(obj, obj2, null);
+    public void areSame(Object actual, Object expected) {
+        areSame(actual, expected, null);
     }
 
-    public void areDifferent(Object obj, Object obj2, String failMessage) {
-        assertAction("Check that Objects are different", obj != obj2, failMessage);
+    public void areDifferent(Object actual, Object expected, String failMessage) {
+        assertAction("Check that Objects are different", actual != expected, failMessage);
     }
 
-    public void areDifferent(Object obj, Object obj2) { areDifferent(obj, obj2, null);
+    public void areDifferent(Object actual, Object expected) {
+        areDifferent(actual, expected, null);
     }
-
-    public <T> void listContains(Collection<T> collection, T actual, String failMessage) {
-        assertAction(format("Check that list contains element '%s'", actual),
-                () -> collection != null && collection.size() > 0
-                        ? null
-                        : "listContains failed because Collection is null or empty",
-                failMessage);
-        Boolean found = (ignoreCase && actual.getClass() == String.class)
-            ? LinqUtils.select(collection, el -> ((String)el).toLowerCase()).contains(((String)actual).toLowerCase())
-            : collection.contains(actual);
-        assertAction(null, () -> !found
-                ? format("Collection '%s' not contains element '%s'", print(select(collection, Object::toString)), actual)
-                : null
-                , failMessage);
-    }
-    public void eachListItemContains(Collection<String> collection, String actual) {
-        eachListItemContains(collection, actual, null);
-    }
-    public void eachListItemContains(Collection<String> collection, String actual, String failMessage) {
-        assertAction(format("Check that list contains element '%s'", actual),
-                () -> collection != null && collection.size() > 0
-                        ? null
-                        : "listContains failed because Collection is null or empty",
-                failMessage);
-        String actualModified = (ignoreCase)
-                ? actual.toLowerCase()
-                : actual;
-        assertAction(null, () -> {
-                    for (String el : collection) {
-                        if (ignoreCase)
-                            el = el.toLowerCase();
-                        if (!el.contains(actualModified))
-                            return format("Item '%s' in Collection '%s' not contains element '%s'", el, print(select(collection, Object::toString)), actual);
-                    }
-                    return null;
-                }
-                , failMessage);
-    }
-    public <T> void listContains(Collection<T> collection, T actual) {
-        listContains(collection, actual, null);
-    }
-
     public <T> void listEquals(Collection<T> collection, Collection<T> collection2, String failMessage) {
         assertAction("Check that Collections are equal",
-            () -> collection != null && collection2 != null && collection.size() == collection2.size()
-                ? null
-                : "listEquals failed because one of the Collections is null or empty",
-            failMessage);
+                () -> collection != null && collection2 != null && collection.size() == collection2.size()
+                        ? null
+                        : "listEquals failed because one of the Collections is null or empty",
+                failMessage);
         assertAction(null, () -> {
             T notEqualElement = first(collection, el -> !collection2.contains(el));
             return (notEqualElement != null)
@@ -240,6 +210,49 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void arrayEquals(T array, T array2) {
         arrayEquals(array, array2, null);
     }
+
+/*
+    public <T> void listContains(Collection<T> collection, T actual, String failMessage) {
+        assertAction(format("Check that list contains element '%s'", actual),
+                () -> collection != null && collection.size() > 0
+                        ? null
+                        : "listContains failed because Collection is null or empty",
+                failMessage);
+        Boolean found = (ignoreCase && actual.getClass() == String.class)
+            ? LinqUtils.select(collection, el -> ((String)el).toLowerCase()).contains(((String)actual).toLowerCase())
+            : collection.contains(actual);
+        assertAction(null, () -> !found
+                ? format("Collection '%s' not contains element '%s'", print(select(collection, Object::toString)), actual)
+                : null
+                , failMessage);
+    }
+    public void eachListItemContains(Collection<String> collection, String actual) {
+        eachListItemContains(collection, actual, null);
+    }
+    public void eachListItemContains(Collection<String> collection, String actual, String failMessage) {
+        assertAction(format("Check that list contains element '%s'", actual),
+                () -> collection != null && collection.size() > 0
+                        ? null
+                        : "listContains failed because Collection is null or empty",
+                failMessage);
+        String actualModified = (ignoreCase)
+                ? actual.toLowerCase()
+                : actual;
+        assertAction(null, () -> {
+            for (String el : collection) {
+                if (ignoreCase)
+                    el = el.toLowerCase();
+                if (!el.contains(actualModified))
+                    return format("Item '%s' in Collection '%s' not contains element '%s'", el, print(select(collection, Object::toString)), actual);
+            }
+            return null;
+        }
+                , failMessage);
+    }
+    public <T> void listContains(Collection<T> collection, T actual) {
+        listContains(collection, actual, null);
+    }
+
     public void arrayContains(Object array, Object actual, String failMessage) {
         assertAction("Check that Collections are equal",
             () -> array != null && array.getClass().isArray() && getLength(array) > 0
@@ -257,4 +270,66 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public void arrayContains(Object array, Object actual) {
         arrayContains(array, actual, null);
     }
+*/
+    // ListProcessor
+
+    public ListChecker forEach(Collection<Object> list) { return new ListChecker(list); }
+    public ListChecker forEach(Object[] array) { return new ListChecker(asList(array)); }
+
+    public class ListChecker {
+        Collection<Object> list;
+        private ListChecker(Collection<Object> list) {
+            this.list = list;
+        }
+
+        private void beforeListCheck(String defaultMessage, String expected, String failMessage) {
+            assertAction(format(defaultMessage, expected),
+                () -> list != null && list.size() > 0
+                        ? null
+                        : "list check failed because list is null or empty",
+                failMessage);
+        }
+
+
+        public void areEquals(Object expected, String failMessage) {
+            beforeListCheck("Check that each list element equals to '%s'", expected.toString(), failMessage);
+            for (Object el : list)
+                BaseChecker.this.areEquals(el, expected, failMessage);
+        }
+        public void areEquals(Object expected) { areEquals(expected, null); }
+        public void matches(String regEx, String failMessage) {
+            beforeListCheck("Check that each list element matches to regEx '%s'", regEx, failMessage);
+            for (Object el : list)
+                BaseChecker.this.matches((String) el, regEx, failMessage);
+        }
+        public void matches(String regEx) { matches(regEx, null); }
+
+        public void contains(String expected, String failMessage) {
+            beforeListCheck("Check that each list element contains '%s'", expected, failMessage);
+            for (Object el : list)
+                BaseChecker.this.contains((String)el, expected, failMessage);
+        }
+        public void contains(String expected) { contains(expected, null); }
+
+        public void areSame(Object expected, String failMessage) {
+            beforeListCheck("Check that all list element are same with '%s'", expected.toString(), failMessage);
+            for (Object el : list)
+                BaseChecker.this.areSame(el, expected, failMessage);
+        }
+
+        public void areSame(Object actual, Object expected) {
+            areSame(expected, null);
+        }
+
+        public void areDifferent(Object expected, String failMessage) {
+            beforeListCheck("Check that all list element are different with '%s'", expected.toString(), failMessage);
+            for (Object el : list)
+                BaseChecker.this.areDifferent(el, expected, failMessage);
+        }
+
+        public void areDifferent(Object actual, Object expected) {
+            areDifferent(expected, null);
+        }
+    }
+
 }

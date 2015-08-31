@@ -2,7 +2,7 @@ package com.ggasoftware.jdi_ui_tests.asserter.testNG;
 
 import com.ggasoftware.jdi_ui_tests.asserter.BaseChecker;
 
-import java.util.Collection;
+import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN;
 
@@ -10,7 +10,7 @@ import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class ScreenAssert {
-    private static BaseChecker getAssert() { return new Check().setFailMethod(DO_SCREEN); }
+    private static BaseChecker getAssert() { return new Check().doScreenshot(DO_SCREEN); }
 
     public static void areEquals(Object obj, Object obj2, String message) {
         getAssert().areEquals(obj, obj2, message);
@@ -96,29 +96,9 @@ public class ScreenAssert {
     public static void assertNotSame(Object obj, Object obj2) {
         areDifferent(obj, obj2);
     }
+    public static BaseChecker.ListChecker forEach(List<Object> list) { return getAssert().forEach(list); }
+    public static BaseChecker.ListChecker forEach(Object[] array) { return getAssert().forEach(array); }
+    public static BaseChecker.ListChecker assertEach(List<Object> list) { return forEach(list); }
+    public static BaseChecker.ListChecker assertEach(Object[] array) { return forEach(array); }
 
-    public <T> void listContains(Collection<T> collection, T actual, String message) {
-        getAssert().listContains(collection, actual, message);
-    }
-    public <T> void listContains(Collection<T> collection, T actual) {
-        getAssert().listContains(collection, actual);
-    }
-    public <T> void listEquals(Collection<T> collection, Collection<T> collection2, String message) {
-        getAssert().listEquals(collection, collection2, message);
-    }
-    public <T> void listEquals(Collection<T> collection, Collection<T> collection2) {
-        getAssert().listEquals(collection, collection2);
-    }
-    public static void arrayEquals(Object array, Object array2, String message) {
-        getAssert().arrayEquals(array, array2, message);
-    }
-    public static void arrayEquals(Object array, Object array2) {
-        getAssert().arrayEquals(array, array2);
-    }
-    public static void arrayContains(Object array, Object actual, String message) {
-        getAssert().arrayContains(array, actual, message);
-    }
-    public static void arrayContains(Object array, Object actual) {
-        getAssert().arrayContains(array, actual);
-    }
 }
