@@ -596,6 +596,10 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         return doJActionResult(format("Wait attribute %s='%s'", name, value),
                 () -> getWebElement().getAttribute(name).equals(value));
     }
+    public boolean waitAttributeChanged(String name, String value) {
+        return doJActionResult(format("Wait attribute %s='%s' changed", name, value),
+                () -> !getWebElement().getAttribute(name).equals(value));
+    }
     /**
      * Set the value of a the given attribute of the element by JS.
      *
@@ -777,7 +781,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
         setTimeout(TIMEOUT);
         if (checkCondition) {
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isExists,
+            logAssertTrue(BUSINESS_LEVEL, isExists,
                     format("waitForExists - '%s' should exist", getName()), takePassedScreenshot);
         }
         return parent;
@@ -833,7 +837,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
         setTimeout(TIMEOUT);
         if (checkCondition) {
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isDisplayed,
+            logAssertTrue(BUSINESS_LEVEL, isDisplayed,
                     format("waitForDisplayed - '%s' should be displayed", getName()), takePassedScreenshot);
         }
         return parent;
@@ -916,7 +920,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
         setTimeout(TIMEOUT);
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVanished,
+            logAssertTrue(BUSINESS_LEVEL, isVanished,
                     format("waitForElementToVanish - '%s' should be vanished", getName()), takePassedScreenshot);
         }
         return parent;
@@ -973,7 +977,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isPresent = false;
         }
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
+            logAssertTrue(BUSINESS_LEVEL, isPresent,
                     format("waitForText - '%s' should has a text '%s'", getName(), text), takePassedScreenshot);
         }
         return parent;
@@ -1019,7 +1023,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isPresent = false;
         }
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
+            logAssertTrue(BUSINESS_LEVEL, isPresent,
                     format("waitForTextContains - '%s' should has a text contains '%s'", getName(), text), takePassedScreenshot);
         }
         return parent;
@@ -1067,7 +1071,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isChanged = false;
         }
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged,
+            logAssertTrue(BUSINESS_LEVEL, isChanged,
                     format("waitForTextChanged - '%s' text '%s' should be changed", getName(), text), takePassedScreenshot);
         }
         return parent;
@@ -1115,7 +1119,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isPresent = false;
         }
         if (checkCondition){
-            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isPresent,
+            logAssertTrue(BUSINESS_LEVEL, isPresent,
                     format("waitForValueAttribute - '%s' should has a value attribute '%s'", getName(), value), takePassedScreenshot);
         }
         return parent;
@@ -1131,10 +1135,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec) {
-        boolean result = waitAttribute(attribute, value);
-        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
-                format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), takePassedScreenshot);
-        return parent;
+        return waitForAttributeChanged(attribute, value, timeoutSec, true);
     }
 
     /**
@@ -1148,9 +1149,17 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * @return Parent instance
      */
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, final boolean checkCondition) {
+        setTimeout(timeoutSec);
         boolean result = waitAttribute(attribute, value);
-        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
+        logAssertTrue(BUSINESS_LEVEL, result,
                 format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), takePassedScreenshot);
+        setTimeout(TIMEOUT);
+
+        if (checkCondition){
+            logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
+                format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value),
+                    takePassedScreenshot);
+        }
         return parent;
     }
 
@@ -1222,7 +1231,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             logTechnical(format("waitForClickable: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isClicked = false;
         }
-        logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isClicked,
+        logAssertTrue(BUSINESS_LEVEL, isClicked,
                 format("waitForClickableAndClick: '%s' was clickable and click at it", getName()), takePassedScreenshot);
         return parent;
     }
@@ -1272,7 +1281,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
         setTimeout(TIMEOUT);
         if (checkCondition){
-            ReporterNGExt.logAssertFalse(ReporterNGExt.BUSINESS_LEVEL, isTrue,
+            logAssertFalse(BUSINESS_LEVEL, isTrue,
                     format("waitForExpectedCondition - '%s'", condition), takePassedScreenshot);
         }
         return parent;
