@@ -2,7 +2,6 @@ package com.ggasoftware.uitest.utils.asserter.junit;
 
 
 import com.ggasoftware.uitest.utils.asserter.BaseChecker;
-import com.ggasoftware.uitest.utils.asserter.DoScreen;
 
 import java.util.List;
 
@@ -12,12 +11,9 @@ import static com.ggasoftware.uitest.utils.asserter.DoScreen.*;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class Assert {
-    private static BaseChecker getAssert() { return new Check().doScreenshot(doScreenOnFail ? SCREEN_ON_FAIL : NO_SCREEN); }
-    private static boolean doScreenOnFail = false;
-    public static void doScreenOnFail() { doScreenOnFail = true; }
+    private static BaseChecker getAssert() { return new Check().doScreenshot(NO_SCREEN); }
 
-    public static BaseChecker doScreenshot(DoScreen doScreenshot) { return getAssert().doScreenshot(doScreenshot); }
-    public static BaseChecker doScreenshot() { return getAssert().doScreenshot(); }
+    public static BaseChecker doScreenOnFail() { return new Check().doScreenshot(SCREEN_ON_FAIL); }
     public static BaseChecker ignoreCase() { return getAssert().ignoreCase(); }
 
     public static void areEquals(Object obj, Object obj2, String message) {

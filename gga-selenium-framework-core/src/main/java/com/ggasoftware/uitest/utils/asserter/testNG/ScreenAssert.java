@@ -1,11 +1,10 @@
 package com.ggasoftware.uitest.utils.asserter.testNG;
 
 import com.ggasoftware.uitest.utils.asserter.BaseChecker;
-import com.ggasoftware.uitest.utils.asserter.DoScreen;
 
 import java.util.List;
 
-import static com.ggasoftware.uitest.utils.asserter.DoScreen.*;
+import static com.ggasoftware.uitest.utils.asserter.DoScreen.DO_SCREEN_ALWAYS;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.
@@ -13,8 +12,6 @@ import static com.ggasoftware.uitest.utils.asserter.DoScreen.*;
 public class ScreenAssert {
     private static BaseChecker getAssert() { return new Check().doScreenshot(DO_SCREEN_ALWAYS); }
 
-    public static BaseChecker doScreenshot(DoScreen doScreenshot) { return getAssert().doScreenshot(doScreenshot); }
-    public static BaseChecker doScreenshot() { return getAssert().doScreenshot(); }
     public static BaseChecker ignoreCase() { return getAssert().ignoreCase(); }
 
     public static void areEquals(Object obj, Object obj2, String message) {
