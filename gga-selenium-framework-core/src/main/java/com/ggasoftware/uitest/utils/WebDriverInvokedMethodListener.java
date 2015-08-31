@@ -16,6 +16,8 @@ package com.ggasoftware.uitest.utils;
 import org.testng.IInvokedMethod;
 import org.testng.ITestResult;
 
+import static com.ggasoftware.uitest.utils.ReporterNGExt.logBusinessScreenshot;
+
 /**
  * InvokedMethodListener with Screenshots.
  *
@@ -31,14 +33,11 @@ public class WebDriverInvokedMethodListener extends InvokedMethodListener {
         super.afterInvocation(method, result);
         if (method.isTestMethod()) {
             if (!TestBase.getPassed()) {
-                boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-                ScreenShotMaker.hasTake(true);
-                ReporterNGExt.logBusinessScreenshot("Error Occurred!");
-                ScreenShotMaker.hasTake(hasOldValue);
+                logBusinessScreenshot("Error Occurred!");
             }
             else {
                 if (TestBaseWebDriver.takePassedScreenshot) {
-                    ReporterNGExt.logBusinessScreenshot("Test Passed");
+                    logBusinessScreenshot("Test Passed");
                 }
             }
         }

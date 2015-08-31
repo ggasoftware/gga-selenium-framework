@@ -1,20 +1,21 @@
-package com.ggasoftware.jdi_ui_tests.asserter;
+package com.ggasoftware.uitest.utils.asserter;
 
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.*;
+import com.ggasoftware.uitest.utils.linqInterfaces.JAction;
+import com.ggasoftware.uitest.utils.linqInterfaces.JActionTR;
+import com.ggasoftware.uitest.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTR;
 
 import java.util.Collection;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN_ALWAYS;
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.NO_SCREEN;
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.SCREEN_ON_FAIL;
-import static com.ggasoftware.jdi_ui_tests.logger.enums.LogInfoTypes.FRAMEWORK;
-import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.logger;
-import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
-import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
-import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
-import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.printObjectAsArray;
-import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.isInterface;
-import static com.ggasoftware.jdi_ui_tests.utils.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
+import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.FRAMEWORK;
+import static com.ggasoftware.uitest.control.base.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
+import static com.ggasoftware.uitest.utils.LinqUtils.first;
+import static com.ggasoftware.uitest.utils.LinqUtils.select;
+import static com.ggasoftware.uitest.utils.PrintUtils.print;
+import static com.ggasoftware.uitest.utils.PrintUtils.printObjectAsArray;
+import static com.ggasoftware.uitest.utils.ReflectionUtils.isInterface;
+import static com.ggasoftware.uitest.utils.TestBaseWebDriver.logger;
+import static com.ggasoftware.uitest.utils.asserter.DoScreen.*;
 import static edu.emory.mathcs.backport.java.util.Arrays.asList;
 import static java.lang.String.format;
 import static java.lang.reflect.Array.get;

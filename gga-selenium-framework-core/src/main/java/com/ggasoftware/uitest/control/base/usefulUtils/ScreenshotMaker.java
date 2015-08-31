@@ -5,6 +5,7 @@ import org.openqa.selenium.TakesScreenshot;
 import java.io.File;
 import java.io.IOException;
 
+import static com.ggasoftware.uitest.utils.StringUtils.LineBreak;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.testName;
 import static com.ggasoftware.uitest.utils.Timer.nowDate;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.getDriver;
@@ -50,5 +51,14 @@ public class ScreenshotMaker {
         return (result.charAt(result.length() - 1) == '\\')
                 ? result
                 : result + "\\";
+    }
+
+    public static String doScreenshotGetMessage() {
+        String screenshotPath = "";
+        try { screenshotPath = takeScreen(); }
+        catch (IOException ignore) { }
+        return (screenshotPath.equals(""))
+                ? "Failed to do Screenshot"
+                : LineBreak + "Add screenshot to: " + screenshotPath;
     }
 }

@@ -23,7 +23,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
+import static com.ggasoftware.uitest.utils.ScreenShotMaker.*;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.allure;
 
 /**
@@ -47,7 +47,7 @@ public class ReporterNGExt extends ReporterNG{
      * @param name the name of screenshot. User alphanumeric and _
      */
     public static void logBusinessScreenshot(String name) {
-        ReporterNGExt.logBusiness(ScreenShotMaker.takeScreenshotRemote(name));
+        ReporterNGExt.logBusiness(takeScreenshotRemote(name));
     }
 
     /**
@@ -55,7 +55,7 @@ public class ReporterNGExt extends ReporterNG{
      * @param name the name of screenshot. User alphanumeric and _
      */
     public static void logComponentScreenshot(String name) {
-        ReporterNGExt.logComponent(ScreenShotMaker.takeScreenshotRemote(name));
+        ReporterNGExt.logComponent(takeScreenshotRemote(name));
     }
 
     /**
@@ -83,13 +83,13 @@ public class ReporterNGExt extends ReporterNG{
      */
     private static void logReport(char logLevel, String status, String message, boolean takePassedScreenshot) {
         if (status.equals(ReporterNG.FAILED)) {
-            boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-            ScreenShotMaker.hasTake(true);
-            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
-            ScreenShotMaker.hasTake(hasOldValue);
+            boolean hasOldValue = getHasScreenshot();
+            hasTake(true);
+            Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), takeScreenshotRemote(String.format("%s: %s", message, status))));
+            hasTake(hasOldValue);
         }else {
             if (takePassedScreenshot) {
-                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: %s", message, status))));
+                Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), takeScreenshotRemote(String.format("%s: %s", message, status))));
             }
         }
     }
@@ -371,10 +371,10 @@ public class ReporterNGExt extends ReporterNG{
      * @param str - log message text
      */
     public static void logTechnicalScreenshot(String str) {
-        boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-        ScreenShotMaker.hasTake(true);
-        ReporterNGExt.logTechnical(ScreenShotMaker.takeScreenshotRemote(str));
-        ScreenShotMaker.hasTake(hasOldValue);
+        boolean hasOldValue = getHasScreenshot();
+        hasTake(true);
+        ReporterNGExt.logTechnical(takeScreenshotRemote(str));
+        hasTake(hasOldValue);
     }
 
     /**
@@ -385,10 +385,10 @@ public class ReporterNGExt extends ReporterNG{
      */
     public static void logFailedScreenshot(char logLevel, String message) {
         logFailed(logLevel, message);
-        boolean hasOldValue = ScreenShotMaker.getHasScreenshot();
-        ScreenShotMaker.hasTake(true);
-        Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), ScreenShotMaker.takeScreenshotRemote(String.format("%s: Failed", message))));
-        ScreenShotMaker.hasTake(hasOldValue);
+        boolean hasOldValue = getHasScreenshot();
+        hasTake(true);
+        Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), takeScreenshotRemote(String.format("%s: Failed", message))));
+        hasTake(hasOldValue);
     }
     
 
