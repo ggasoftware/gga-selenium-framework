@@ -49,8 +49,10 @@ public class TestBaseWebDriver extends TestBase {
     public static boolean reportportal = false;
     public static String testName = "Undefined Test Name";
     public static String applicationVersion;
-    public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = WebElement::isDisplayed;
-    public static boolean selectFirstElementIfMultipleFound = false;
+    public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = el -> el != null;
+    public static boolean selectFirstElementIfMultipleFound = true;
+//    public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = WebElement::isDisplayed;
+//    public static boolean selectFirstElementIfMultipleFound = false;
     public static boolean simpleLogFormat = true;
     public static ILogger logger = TestNGLog4JLogger.logger;
 
