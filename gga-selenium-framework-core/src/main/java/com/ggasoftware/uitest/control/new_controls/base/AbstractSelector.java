@@ -41,7 +41,7 @@ public abstract class AbstractSelector<TEnum extends Enum, P> extends TemplatesL
         if (haveLocator() && getLocator().toString().contains("%s"))
             getElement(name).click();
         else
-            new Select(new Element(getLocator()).getWebElement()).selectByValue(name);
+            new Select(new Element(getLocator()).getWebElement()).selectByVisibleText(name);
     }
     protected void selectByIndexAction(int index) {
         if (index >= 0)
