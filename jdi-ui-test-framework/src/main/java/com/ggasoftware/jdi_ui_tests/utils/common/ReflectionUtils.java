@@ -1,11 +1,11 @@
 package com.ggasoftware.jdi_ui_tests.utils.common;
 
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
-
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.*;
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
+import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
+import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.where;
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isStatic;
 
@@ -55,7 +55,6 @@ public class ReflectionUtils {
         field.setAccessible(true);
         try { return field.get(obj); }
         catch (Exception ex) {
-            JDISettings.asserter.exception(format("Can't get field '%s' value", field.getName())); }
-        return null;
+            throw exception(format("Can't get field '%s' value", field.getName())); }
     }
 }

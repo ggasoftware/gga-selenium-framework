@@ -49,4 +49,5 @@ public class JDISettings {
     public static boolean hasDomain() {
         return domain != null && domain.contains("://");
     }
+    public static WebDriver getDriver() { return driverFactory.getDriver(); }
 }

@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
 
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static java.lang.String.format;
 
 /**
@@ -25,14 +26,14 @@ class Columns<T extends SelectElement> extends TableLine<T> {
                 .toArray(new String[1]);
     }
 
-    private void throwColsException(String colName, Exception ex) {
-        JDISettings.asserter.exception(format("Can't Get Column '%s'. Exception: %s", colName, ex));
+    private RuntimeException throwColsException(String colName, Exception ex) {
+        return exception(format("Can't Get Column '%s'. Exception: %s", colName, ex));
     }
     public final MapArray<String, ICell<T>> getRow(String rowName) {
         try {
             return cellsToRow(LinqUtils.select(headers(), colName -> table.cell(new Column(colName), new Row(rowName))));
         }
-        catch (Exception ex) { throwColsException(rowName, ex); return null; }
+        catch (Exception ex) { throw throwColsException(rowName, ex); }
     }
 
     public MapArray<String, ICell<T>> cellsToRow(Collection<ICell<T>> cells) {
@@ -54,7 +55,7 @@ class Columns<T extends SelectElement> extends TableLine<T> {
                     colNum -> headers()[colNum],
                     colNum -> table.cell(new Column(colNum), new Row(rowNum)));
         }
-        catch (Exception ex) { throwColsException(rowNum + "", ex); return null; }
+        catch (Exception ex) { throw throwColsException(rowNum + "", ex); }
     }
 
     public MapArray<String, MapArray<String, ICell<T>>> get() {

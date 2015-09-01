@@ -1,11 +1,10 @@
-package com.ggasoftware.uitest.utils.asserter.junit;
+package com.ggasoftware.uitest.control.base.asserter.testNG;
 
-
-import com.ggasoftware.uitest.utils.asserter.BaseChecker;
+import com.ggasoftware.uitest.control.base.asserter.BaseChecker;
 
 import java.util.List;
 
-import static com.ggasoftware.uitest.utils.asserter.DoScreen.DO_SCREEN_ALWAYS;
+import static com.ggasoftware.uitest.control.base.asserter.DoScreen.DO_SCREEN_ALWAYS;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.

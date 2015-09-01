@@ -13,6 +13,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.*;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.elements.BaseElement.createFreeInstance;
@@ -130,9 +131,9 @@ public abstract class CascadeInit implements IBaseElement {
         BaseElement instance = (BaseElement) getFieldValue(field, null);
         if (instance == null)
             try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Exception ex) { asserter.exception(
+            catch (Exception ex) { throw exception(
                     format("Can't create child for parent '%s' with type '%s'",
-                            parentClass.getSimpleName(), field.getType().getSimpleName())); return null; }
+                            parentClass.getSimpleName(), field.getType().getSimpleName()));  }
         else if (instance.getLocator() == null)
             instance.avatar.byLocator = getNewLocator(field);
         return instance;
@@ -141,9 +142,9 @@ public abstract class CascadeInit implements IBaseElement {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
         if (instance == null)
             try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Exception ex) { asserter.exception(
+            catch (Exception ex) { throw exception(
                     format("Can't create child for parent '%s' with type '%s'",
-                            parentInstance.getClass().getSimpleName(), field.getType().getSimpleName())); return null; }
+                            parentInstance.getClass().getSimpleName(), field.getType().getSimpleName())); }
         else if (instance.getLocator() == null)
             instance.avatar.byLocator = getNewLocator(field);
         instance.avatar.context = (isBaseElement(parentInstance))
@@ -195,8 +196,8 @@ public abstract class CascadeInit implements IBaseElement {
                     ? byLocator
                     : getFindByLocator(field.getAnnotation(FindBy.class));
         } catch (Exception ex) {
-            asserter.exception(format("Error in get locator for type '%s'", field.getType().getName()) +
-                    LineBreak + ex.getMessage()); return null; }
+            throw exception(format("Error in get locator for type '%s'", field.getType().getName()) +
+                    LineBreak + ex.getMessage()); }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.ggasoftware.uitest.utils.asserter;
+package com.ggasoftware.uitest.control.base.asserter;
 
 import java.util.Collection;
 

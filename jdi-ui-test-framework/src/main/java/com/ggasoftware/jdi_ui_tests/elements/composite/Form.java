@@ -3,7 +3,8 @@ package com.ggasoftware.jdi_ui_tests.elements.composite;
 import com.ggasoftware.jdi_ui_tests.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.elements.base.SetValue;
 import com.ggasoftware.jdi_ui_tests.elements.common.Button;
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.*;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IHasValue;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.ISetValue;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.IButton;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.complex.IForm;
 import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
@@ -11,11 +12,13 @@ import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.*;
+import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.foreach;
+import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.*;
-import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.*;
+import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
+import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFields;
 import static java.lang.String.format;
 
 /**
@@ -48,13 +51,11 @@ public class Form<T> extends Element implements IForm<T> {
         List<Field> fields = getFields(this, IButton.class);
         switch (fields.size()) {
             case 0:
-                asserter.exception(format("Can't find any buttons on form '%s.", toString()));
-                return null;
+                throw exception(format("Can't find any buttons on form '%s.", toString()));
             case 1:
                 return (Button) getFieldValue(fields.get(0), this);
             default:
-                asserter.exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
-                return null;
+                throw exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
         }
     }
     protected void submit(MapArray<String, String> objStrings) {

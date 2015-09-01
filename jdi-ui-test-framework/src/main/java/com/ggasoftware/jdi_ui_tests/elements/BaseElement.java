@@ -31,6 +31,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.elements.CascadeInit.InitElements;
 import static com.ggasoftware.jdi_ui_tests.elements.CascadeInit.firstInstance;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
@@ -138,8 +139,7 @@ public abstract class BaseElement implements IBaseElement {
             return invocationScenarioWithResult.invoke(this, actionName, action, logResult, logSettings);
         }
         catch (Exception ex) {
-            asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
-            return null;
+            throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
 
@@ -199,8 +199,7 @@ public abstract class BaseElement implements IBaseElement {
                         {IDatePicker.class, DatePicker.class},
                 });
             return map;
-        } catch (Exception ex) { asserter.exception("Error in getInterfaceTypeMap" + StringUtils.LineBreak + ex.getMessage()); }
-        return null;
+        } catch (Exception ex) { throw exception("Error in getInterfaceTypeMap" + StringUtils.LineBreak + ex.getMessage()); }
     }
 
     protected Button getButton(String buttonName) {
@@ -209,10 +208,8 @@ public abstract class BaseElement implements IBaseElement {
             return (Button) getFieldValue(fields.get(0), this);
         Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
         Button button = first(buttons, b -> namesEqual(b.getName(), buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button"));
-        if (button == null) {
-            asserter.exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
-            return null;
-        }
+        if (button == null)
+            throw exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
         return button;
     }
 
@@ -231,7 +228,7 @@ public abstract class BaseElement implements IBaseElement {
             String buttonName = name.toLowerCase().contains("button") ? name : name + "button";
             button = first(buttons, b -> namesEqual(b.getName(), buttonName));
             if (button == null)
-                asserter.exception(format("Can't find button '%s' for element '%s'", name, toString()));
+                throw exception(format("Can't find button '%s' for element '%s'", name, toString()));
         }
         return button;
     }

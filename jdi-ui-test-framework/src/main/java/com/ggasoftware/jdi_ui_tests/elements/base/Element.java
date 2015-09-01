@@ -13,22 +13,22 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.elements.base;
 
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.elements.BaseElement;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.logger.base.LogSettings;
-import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
-import com.ggasoftware.jdi_ui_tests.settings.HighlightSettings;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdi_ui_tests.logger.enums.LogLevels;
+import com.ggasoftware.jdi_ui_tests.settings.HighlightSettings;
 import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.*;
+import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
-import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getFindByLocator;
-import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
-import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static java.lang.String.format;
 
 /**
@@ -53,7 +53,7 @@ public class Element extends BaseElement implements IElement {
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Exception ex) { JDISettings.asserter.exception("Can't copy element: " + element); return null; }
+        } catch (Exception ex) { throw exception("Can't copy element: " + element); }
     }
 
     public boolean waitAttribute(String name, String value) {

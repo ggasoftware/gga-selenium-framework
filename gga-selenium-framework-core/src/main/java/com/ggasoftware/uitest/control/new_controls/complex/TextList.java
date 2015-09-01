@@ -1,7 +1,6 @@
 package com.ggasoftware.uitest.control.new_controls.complex;
 
 import com.ggasoftware.uitest.control.base.logger.LogSettings;
-import com.ggasoftware.uitest.control.base.logger.enums.LogLevels;
 import com.ggasoftware.uitest.control.base.map.MapArray;
 import com.ggasoftware.uitest.control.interfaces.complex.ITextList;
 import com.ggasoftware.uitest.control.new_controls.base.BaseElement;
@@ -10,16 +9,13 @@ import com.ggasoftware.uitest.utils.Timer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
-import static com.ggasoftware.uitest.control.base.logger.enums.LogLevels.*;
-import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.*;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
+import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.BUSINESS;
+import static com.ggasoftware.uitest.control.base.logger.enums.LogLevels.DEBUG;
 import static com.ggasoftware.uitest.utils.EnumUtils.getEnumValue;
-import static com.ggasoftware.uitest.utils.LinqUtils.first;
-import static com.ggasoftware.uitest.utils.LinqUtils.select;
-import static com.ggasoftware.uitest.utils.LinqUtils.where;
+import static com.ggasoftware.uitest.utils.LinqUtils.*;
 import static com.ggasoftware.uitest.utils.PrintUtils.print;
 import static com.ggasoftware.uitest.utils.Timer.waitCondition;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
@@ -74,7 +70,7 @@ public class TextList<TEnum extends Enum, P> extends BaseElement<P> implements I
 
     protected MapArray<String, WebElement> getElementsAction() {
         try { return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
-        } catch (Exception ex) { asserter.exception(ex.getMessage()); return null; }
+        } catch (Exception ex) { throw exception(ex.getMessage()); }
     }
     protected List<String> getLabelsAction() {
         return (List<String>) getElementsAction().keys();
@@ -108,7 +104,7 @@ public class TextList<TEnum extends Enum, P> extends BaseElement<P> implements I
     public final List<String> waitText(String str) {
         if (waitCondition(() -> select(getWebElements(), WebElement::getText).contains(str)))
             return getLabels();
-        else { asserter.exception("Wait Text Failed"); return null; }
+        else { throw exception("Wait Text Failed"); }
     }
 
     public String getLastText() {

@@ -16,6 +16,7 @@ public class Assert  {
     public static BaseChecker doScreenOnFail() { return new Check().doScreenshot(SCREEN_ON_FAIL); }
     public static BaseChecker ignoreCase() { return getAssert().ignoreCase(); }
 
+    public static RuntimeException exception(String message) { return getAssert().exception(message); }
     public static void areEquals(Object obj, Object obj2, String message) {
         getAssert().areEquals(obj, obj2, message);
     }

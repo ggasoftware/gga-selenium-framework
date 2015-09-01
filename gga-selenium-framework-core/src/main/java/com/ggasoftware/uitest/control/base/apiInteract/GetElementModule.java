@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.control.base.logger.TestNGLog4JLogger.logger;
 import static com.ggasoftware.uitest.control.base.usefulUtils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.uitest.utils.LinqUtils.where;
@@ -79,12 +79,10 @@ public class GetElementModule {
         int timeout = TIMEOUT;
         List<WebElement> result = getElementsAction();
         if (result == null) {
-            asserter.exception(format(failedToFindElementMessage, element, timeout));
-            return null;
+            throw exception(format(failedToFindElementMessage, element, timeout));
         }
         if (!selectFirstElementIfMultipleFound && result.size() > 1) {
-            asserter.exception(format(findToMuchElementsMessage, result.size(), element, timeout));
-            return null;
+            throw exception(format(findToMuchElementsMessage, result.size(), element, timeout));
         }
         return result.get(0);
     }

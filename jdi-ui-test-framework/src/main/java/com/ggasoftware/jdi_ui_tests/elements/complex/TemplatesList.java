@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.elements.base.Element.copy;
 import static com.ggasoftware.jdi_ui_tests.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
@@ -76,7 +77,7 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
         return (List<WebElement>) select(getElementsList(), IElement::getWebElement); }
     protected List<TType> getElementsListAction() {
         try { return elementsNames.stream().map(this::getElement).collect(Collectors.toList());
-        } catch (Exception ex) { JDISettings.asserter.exception(ex.getMessage()); return null; }
+        } catch (Exception ex) { throw exception(ex.getMessage()); }
     }
     public final List<TType> getElementsList() {
         if (elementsNames == null || elementsNames.size() == 0)

@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.utils.PrintUtils.print;
 import static com.ggasoftware.uitest.utils.Timer.waitCondition;
 import static java.lang.String.format;
@@ -51,19 +51,19 @@ public abstract class AbstractSelector<TEnum extends Enum, P> extends TemplatesL
         return waitCondition(() -> getElement(value).isSelected());
     }
     protected MapArray<String, WebElement> getElementsAction() {
-        return asserter.silentException(() -> (MapArray<String, WebElement>) new MapArray<>(getNames(), name -> name, this::getWebElement));
+        return new MapArray<>(getNames(), name -> name, this::getWebElement);
     }
     protected void setValueAction(String value) { }
     protected List<String> getNames() {
         if (allLabels == null && elementsNames == null) {
-            asserter.exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for element '%s'", this.toString()));
+            exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for element '%s'", this.toString()));
             return null;
         }
         List<String> names = (elementsNames != null)
                 ? elementsNames
                 : allLabels.getLabels();
         if (names == null || names.size() == 0) {
-            asserter.exception(format("No labels found for element '%s'", this.toString()));
+            exception(format("No labels found for element '%s'", this.toString()));
             return null;
         }
         return names;

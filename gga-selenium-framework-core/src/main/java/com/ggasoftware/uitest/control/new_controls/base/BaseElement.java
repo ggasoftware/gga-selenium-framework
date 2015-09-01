@@ -30,7 +30,7 @@ import java.lang.reflect.Field;
 
 import static com.ggasoftware.uitest.control.base.annotations.AnnotationsUtil.*;
 import static com.ggasoftware.uitest.control.base.annotations.functions.Functions.NONE;
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.control.base.logger.TestNGLog4JLogger.logger;
 import static com.ggasoftware.uitest.utils.LinqUtils.foreach;
 import static com.ggasoftware.uitest.utils.ReflectionUtils.*;
@@ -144,7 +144,7 @@ public abstract class BaseElement<P> implements IBaseElement {
             TResult result = getResultAction(jAction::invoke);
             String stringResult = (logResult == null)
                     ? result.toString()
-                    : asserter.silentException(() -> logResult.invoke(result));
+                    : logResult.invoke(result);
             element.defaultLogResultAction(actionName, stringResult, logSettings);
 
             return result;
@@ -179,8 +179,7 @@ public abstract class BaseElement<P> implements IBaseElement {
             return invocationScenarioWithResult.invoke(this, actionName, viAction, logResult, logSettings);
         }
         catch (Exception ex) {
-            asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
-            return null;
+            throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
 
@@ -190,7 +189,7 @@ public abstract class BaseElement<P> implements IBaseElement {
             invocationScenario.invoke(this, actionName, viAction);
         }
         catch (Exception ex) {
-            asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+            throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
 
@@ -200,12 +199,11 @@ public abstract class BaseElement<P> implements IBaseElement {
 
     public static <T> T InitElements(T parent) {
         fillParentPage(parent);
-        asserter.silentException(() -> foreach(getFields(parent, IBaseElement.class),
-                f -> setElement(parent, f)));
+        foreach(getFields(parent, IBaseElement.class), f -> setElement(parent, f));
         return parent;
     }
 
-    public static void setElement(Object parent, Field field) throws Exception {
+    public static void setElement(Object parent, Field field) throws RuntimeException {
         try {
             Class<?> type = field.getType();
             BaseElement instance;
@@ -223,16 +221,16 @@ public abstract class BaseElement<P> implements IBaseElement {
             if (isInterface(field, IComposite.class))
                 InitElements(instance);
         } catch (Exception ex) {
-            throw asserter.exception(format("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
+            throw exception(format("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
     }
 
     public static BaseElement createChildFromField(Object parent, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, parent);
         if (instance == null)
             try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Exception ignore) { asserter.exception(
+            catch (Exception ignore) { throw exception(
                     format("Can't create child for parent '%s' with type '%s'",
-                            parent.getClass().getSimpleName(), field.getType().getName())); return null; }
+                            parent.getClass().getSimpleName(), field.getType().getName())); }
         else if (instance.getLocator() == null)
             instance.avatar.byLocator = getNewLocator(field);
         instance.avatar.context = (isBaseElement(parent))
@@ -278,10 +276,10 @@ public abstract class BaseElement<P> implements IBaseElement {
             Class classType = getInterfacesMap().first(clType -> clType == type);
             if (classType != null)
                 return (BaseElement) classType.getDeclaredConstructor(By.class).newInstance(newLocator);
-            throw asserter.exception("Unknown interface: " + type +
+            throw exception("Unknown interface: " + type +
                     ". Add relation interface -> class in VIElement.InterfaceTypeMap");
         } catch (Exception ex) {
-            throw asserter.exception(format("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getName()) +
+            throw exception(format("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getName()) +
                     LineBreak + ex.getMessage()); }
     }
 
@@ -298,8 +296,8 @@ public abstract class BaseElement<P> implements IBaseElement {
                     ? byLocator
                     : getFindByLocator(field.getAnnotation(FindBy.class));
         } catch (Exception ex) {
-            asserter.exception(format("Error in get locator for type '%s'", field.getType().getName()) +
-                    LineBreak + ex.getMessage()); return null; }
+            throw exception(format("Error in get locator for type '%s'", field.getType().getName()) +
+                    LineBreak + ex.getMessage()); }
     }
 
     public static JActionTT<String, JActionT<String>> setValueRule = (text, action) -> {
@@ -307,7 +305,7 @@ public abstract class BaseElement<P> implements IBaseElement {
         action.invoke(text);
     };
     public static void setValueRule(String text, JActionT<String> action)  {
-        asserter.silentException(() -> setValueRule.invoke(text, action));
+        setValueRule.invoke(text, action);
     }
     public static JActionTT<String, JActionT<String>> setValueEmptyAction = (text, action) -> {
         if (text == null || text.equals("")) return;
@@ -343,8 +341,7 @@ public abstract class BaseElement<P> implements IBaseElement {
                         {IDatePicker.class, DatePicker.class},
                 });
             return map;
-        } catch (Exception ex) { asserter.exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage()); }
-        return null;
+        } catch (Exception ex) { throw exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage()); }
     }
 
     /**

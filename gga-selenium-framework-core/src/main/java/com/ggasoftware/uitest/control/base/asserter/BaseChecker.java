@@ -1,12 +1,10 @@
-package com.ggasoftware.uitest.utils.asserter;
+package com.ggasoftware.uitest.control.base.asserter;
 
-import com.ggasoftware.uitest.utils.linqInterfaces.JAction;
-import com.ggasoftware.uitest.utils.linqInterfaces.JActionTR;
-import com.ggasoftware.uitest.utils.linqInterfaces.JFuncT;
-import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTR;
+import com.ggasoftware.uitest.utils.linqInterfaces.*;
 
 import java.util.Collection;
 
+import static com.ggasoftware.uitest.control.base.asserter.DoScreen.*;
 import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.FRAMEWORK;
 import static com.ggasoftware.uitest.control.base.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
 import static com.ggasoftware.uitest.utils.LinqUtils.first;
@@ -15,7 +13,6 @@ import static com.ggasoftware.uitest.utils.PrintUtils.print;
 import static com.ggasoftware.uitest.utils.PrintUtils.printObjectAsArray;
 import static com.ggasoftware.uitest.utils.ReflectionUtils.isInterface;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.logger;
-import static com.ggasoftware.uitest.utils.asserter.DoScreen.*;
 import static edu.emory.mathcs.backport.java.util.Arrays.asList;
 import static java.lang.String.format;
 import static java.lang.reflect.Array.get;
@@ -26,10 +23,10 @@ import static java.lang.reflect.Array.getLength;
  */
 public abstract class BaseChecker implements IAsserter, IChecker {
     public static DoScreen defaultDoScreenType = NO_SCREEN;
-    private JActionTR<String> throwFail;
+    private JActionT<String> throwFail;
     public BaseChecker doScreenshot(DoScreen doScreenshot) { this.doScreenshot = doScreenshot; return this; }
     public BaseChecker doScreenshot() { return doScreenshot(DO_SCREEN_ALWAYS); }
-    public BaseChecker setThrowFail(JActionTR<String> throwFail) { this.throwFail = throwFail; return this; }
+    public BaseChecker setThrowFail(JActionT<String> throwFail) { this.throwFail = throwFail; return this; }
     public BaseChecker ignoreCase() { this.ignoreCase = true; return this; }
 
     private DoScreen doScreenshot = defaultDoScreenType;
@@ -52,7 +49,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     private void assertAction(String defaultMessage, Boolean result, String failMessage) {
         assertAction(defaultMessage, () -> result ? null : "Check failed", failMessage);
     }
-    private void assertAction(String defaultMessage, JFuncTR<String> result, String failMessage) {
+    private void assertAction(String defaultMessage, JFuncT<String> result, String failMessage) {
         if (!isListCheck && defaultMessage != null)
             logger.info(getBeforeMessage(defaultMessage));
         if (!isListCheck && doScreenshot == DO_SCREEN_ALWAYS)
@@ -81,19 +78,10 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     // For Framework
-    public Exception exception(String failMessage) {
+    public RuntimeException exception(String failMessage) {
         logger.error(FRAMEWORK, failMessage);
         assertAction(null, false, failMessage);
-        return new Exception(failMessage);
-    }
-    public void silent(JAction action) {
-        try { action.invoke();
-        } catch (Exception ex) { exception(ex.getMessage()); }
-    }
-    public <TResult> TResult silent(JFuncT<TResult> func) {
-        try { return func.invoke();
-        } catch (Exception ex) { exception(ex.getMessage()); }
-        return null;
+        return new RuntimeException(failMessage);
     }
 
     // Asserts

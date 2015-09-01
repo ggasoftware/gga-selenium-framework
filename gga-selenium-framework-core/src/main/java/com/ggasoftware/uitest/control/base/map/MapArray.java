@@ -22,23 +22,23 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
         this();
         add(key, value);
     }
-    public <T> MapArray(Collection<T> collection, JFuncTT<T, K> key, JFuncTT<T, V> value) throws Exception {
+    public <T> MapArray(Collection<T> collection, JFuncTT<T, K> key, JFuncTT<T, V> value) throws RuntimeException {
         this();
         try { for (T t : collection)
             add(key.invoke(t), value.invoke(t));
-        } catch (Exception ex) { throw new Exception("Can't init MapArray from collection"); }
+        } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
     }
-    public MapArray(int count, JFuncTT<Integer, K> key, JFuncTT<Integer, V> value) throws Exception {
+    public MapArray(int count, JFuncTT<Integer, K> key, JFuncTT<Integer, V> value) throws RuntimeException {
         this();
         try { for (int i = 0; i < count; i++)
             add(key.invoke(i), value.invoke(i));
-        } catch (Exception ex) { throw new Exception(format("Can't init MapArray with generator (count=%s)", count)); }
+        } catch (Exception ex) { throw new RuntimeException(format("Can't init MapArray with generator (count=%s)", count)); }
     }
     public MapArray(MapArray<K, V> mapArray) {
         this();
         addAll(mapArray.stream().collect(Collectors.toList()));
     }
-    public MapArray(Object[][] objects) throws Exception {
+    public MapArray(Object[][] objects) throws RuntimeException {
         this();
         add(objects);
     }
@@ -60,12 +60,12 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
         pairs.add(new Pair<>(key, value));
         return true;
     }
-    public void add(Object[][] pairs) throws Exception {
+    public void add(Object[][] pairs) throws RuntimeException {
         try {
             for (Object[] pair : pairs)
                 if (pair.length == 2)
                     add((K) pair[0], (V) pair[1]);
-        } catch (Exception ex) { throw new Exception("Can't add objects to MapArray"); }
+        } catch (Exception ex) { throw new RuntimeException("Can't add objects to MapArray"); }
     }
     public void addOrReplace(K key, V value) {
         if (haveKey(key))
@@ -73,12 +73,12 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
         add(key, value);
     }
 
-    public void addOrReplace(Object[][] pairs) throws Exception {
+    public void addOrReplace(Object[][] pairs) throws RuntimeException {
         try {
             for (Object[] pair : pairs)
                 if (pair.length == 2)
                     addOrReplace((K) pair[0], (V) pair[1]);
-        } catch (Exception ex) { throw new Exception("Can't addOrReplace objects to MapArray"); }
+        } catch (Exception ex) { throw new RuntimeException("Can't addOrReplace objects to MapArray"); }
     }
     private boolean haveKey(K key) {
         return keys().contains(key);

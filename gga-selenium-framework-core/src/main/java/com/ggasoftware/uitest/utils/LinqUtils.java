@@ -64,10 +64,8 @@ public class LinqUtils {
     }
 
     public static <T> void foreach(Iterable<T> list, JActionT<T> action) {
-        try {
-            for(T el : list)
-                action.invoke(el);
-        } catch (Exception ignore) { }
+        for(T el : list)
+            action.invoke(el);
     }
     public static <T> void foreach(T[] list, JActionT<T> action) {
         foreach(asList(list), action);

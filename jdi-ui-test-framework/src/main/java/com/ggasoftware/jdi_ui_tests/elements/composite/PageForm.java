@@ -10,8 +10,8 @@ import com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.foreach;
 import static java.lang.String.format;
@@ -55,13 +55,11 @@ public class PageForm<T> extends Page implements IPageForm<T> {
         List<Field> fields = ReflectionUtils.getFields(this, IButton.class);
         switch (fields.size()) {
             case 0:
-                asserter.exception(format("Can't find any buttons on form '%s.", toString()));
-                return null;
+                throw exception(format("Can't find any buttons on form '%s.", toString()));
             case 1:
                 return (Button) ReflectionUtils.getFieldValue(fields.get(0), this);
             default:
-                asserter.exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
-                return null;
+                throw exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
         }
     }
 }

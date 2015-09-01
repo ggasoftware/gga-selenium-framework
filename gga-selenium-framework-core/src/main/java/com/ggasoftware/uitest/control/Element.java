@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.BUSINESS;
 import static com.ggasoftware.uitest.control.base.logger.enums.LogLevels.DEBUG;
 import static com.ggasoftware.uitest.utils.LinqUtils.*;
@@ -151,7 +151,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Exception ex) { asserter.exception("Can't copy element: " + element); return null; }
+        } catch (Exception ex) { throw exception("Can't copy element: " + element); }
     }
 
     public WebElement getWebElement() {
@@ -172,17 +172,16 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
         Button button = first(buttons, b -> b.function.equals(funcName));
         if (button == null) {
-            asserter.exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
-            return null;
+            throw exception(format("Can't find button '%s' for element '%s'", funcName, toString()));
         }
         return button;
     }
 
     protected Text getTextElement() {
         Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
-        if (textField!= null) return (Text) getFieldValue(textField, this);
-        asserter.exception(format("Can't find Text element '%s'", toString()));
-        return null;
+        if (textField!= null)
+            return (Text) getFieldValue(textField, this);
+        throw exception(format("Can't find Text element '%s'", toString()));
     }
     //  Common functions
 

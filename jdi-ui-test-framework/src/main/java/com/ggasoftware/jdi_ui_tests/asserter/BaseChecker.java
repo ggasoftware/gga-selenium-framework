@@ -80,19 +80,18 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     // For Framework
-    public Exception exception(String failMessage) {
+    public RuntimeException exception(String failMessage) {
         logger.error(FRAMEWORK, failMessage);
         assertAction(null, false, failMessage);
-        return new Exception(failMessage);
+        return new RuntimeException(failMessage);
     }
     public void silent(JAction action) {
         try { action.invoke();
-        } catch (Exception ex) { exception(ex.getMessage()); }
+        } catch (Exception ex) { throw exception(ex.getMessage()); }
     }
     public <TResult> TResult silent(JFuncT<TResult> func) {
         try { return func.invoke();
-        } catch (Exception ex) { exception(ex.getMessage()); }
-        return null;
+        } catch (Exception ex) { throw exception(ex.getMessage()); }
     }
 
     // Asserts

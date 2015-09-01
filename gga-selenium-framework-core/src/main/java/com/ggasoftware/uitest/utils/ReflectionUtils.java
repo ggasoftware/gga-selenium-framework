@@ -3,7 +3,7 @@ package com.ggasoftware.uitest.utils;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.utils.LinqUtils.first;
 import static com.ggasoftware.uitest.utils.LinqUtils.where;
 import static java.lang.String.format;
@@ -52,7 +52,6 @@ public class ReflectionUtils {
         field.setAccessible(true);
         try { return field.get(obj); }
         catch (Exception ex) {
-            asserter.exception(format("Can't get field '%s' value", field.getName())); }
-        return null;
+            throw exception(format("Can't get field '%s' value", field.getName())); }
     }
 }

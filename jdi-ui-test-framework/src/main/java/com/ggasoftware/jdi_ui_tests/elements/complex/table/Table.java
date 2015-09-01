@@ -16,6 +16,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.*;
 
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.elements.apiInteract.ContextType.Locator;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.*;
@@ -297,18 +298,18 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
                 cell.getAvatar().context.add(Locator, getLocator());
             } else
                 cell = (T) createCellInstance(clazz, WebDriverByUtils.fillByTemplateSilent(_cellLocatorTemplate, rowIndex, colIndex));
-        } catch (Exception ex) { asserter.exception("Can't init Cell"); return null; }
+        } catch (Exception ex) { throw exception("Can't init Cell"); }
         if (cell == null)
-            asserter.exception("Can't init Cell");
+            throw exception("Can't init Cell");
         return cell;
     }
 
     public <TChild extends SelectElement> TChild createCellInstance(Class<TChild> childClass, By newLocator) {
         TChild element;
         try { element = childClass.newInstance(); }
-        catch (Exception ignore) { asserter.exception(
+        catch (Exception ignore) { throw exception(
                 format("Can't create child for parent '%s' with type '%s' and new locator '%s'",
-                        toString(), childClass.getName(), newLocator)); return null; }
+                        toString(), childClass.getName(), newLocator)); }
         element.getAvatar().byLocator = newLocator;
         element.getAvatar().context.add(ContextType.Locator, getLocator());
         return element;

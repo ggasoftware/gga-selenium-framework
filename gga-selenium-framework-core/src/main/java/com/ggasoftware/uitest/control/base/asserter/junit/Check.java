@@ -1,7 +1,7 @@
-package com.ggasoftware.uitest.utils.asserter.testNG;
+package com.ggasoftware.uitest.control.base.asserter.junit;
 
-import com.ggasoftware.uitest.utils.asserter.BaseChecker;
-import org.testng.Assert;
+import com.ggasoftware.uitest.control.base.asserter.BaseChecker;
+import org.junit.Assert;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.

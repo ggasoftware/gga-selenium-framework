@@ -1,4 +1,4 @@
-package com.ggasoftware.uitest.utils.asserter;
+package com.ggasoftware.uitest.control.base.asserter;
 
 /**
  * Created by Roman_Iovlev on 8/28/2015.

@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.ggasoftware.uitest.control.base.apiInteract.ContextType.Locator;
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.utils.LinqUtils.*;
 import static com.ggasoftware.uitest.utils.PrintUtils.print;
 import static com.ggasoftware.uitest.utils.StringUtils.LineBreak;
@@ -149,10 +149,10 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
             boolean matches = true;
             for (String colNameValue : colNameValues) {
                 if (!colNameValue.matches("[^=]+=[^=]*"))
-                    asserter.exception("Wrong searchCriteria for Cells: " + colNameValue);
-                String[] splitted = colNameValue.split("=");
-                String colName = splitted[0];
-                String colValue = splitted[1];
+                    throw exception("Wrong searchCriteria for Cells: " + colNameValue);
+                String[] splited = colNameValue.split("=");
+                String colName = splited[0];
+                String colValue = splited[1];
                 if (!row.value.get(colName).getValue().equals(colValue)) {
                     matches = false;
                     break;
@@ -176,7 +176,7 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
             boolean matches = true;
             for (String rowNameValue : rowNameValues) {
                 if (!rowNameValue.matches("[^=]+=[^=]*"))
-                    asserter.exception("Wrong searchCritaria for Cells: " + rowNameValue);
+                    exception("Wrong searchCritaria for Cells: " + rowNameValue);
                 String[] splitted = rowNameValue.split("=");
                 String rowName = splitted[0];
                 String rowValue = splitted[1];
@@ -256,7 +256,7 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
         String[] headers = columns().headers();
         if (headers != null && asList(headers).contains(name))
             nameIndex = asList(headers).indexOf(name);
-        else asserter.exception("Can't Get Column: '" + name + "'. " + ((headers == null)
+        else exception("Can't Get Column: '" + name + "'. " + ((headers == null)
                 ? "ColumnHeaders is Null"
                 : ("Available ColumnHeaders: " + print(headers, ", ", "'{0}'") + ")")));
         return nameIndex + columns().startIndex;
@@ -267,7 +267,7 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
         String[] headers = rows().headers();
         if (headers != null && asList(headers).contains(name))
             nameIndex = asList(headers).indexOf(name);
-        else asserter.exception("Can't Get Row: '" + name + "'. " + ((headers == null)
+        else exception("Can't Get Row: '" + name + "'. " + ((headers == null)
                 ? "RowHeaders is Null"
                 : ("Available RowHeaders: " + print(headers, ", ", "'{0}'") + ")")));
         return nameIndex + rows().startIndex;
@@ -312,18 +312,18 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
                 cell.getAvatar().context.add(Locator, getLocator());
             } else
                 cell = (T) createCellInstance(clazz, fillByTemplateSilent(_cellLocatorTemplate, rowIndex, colIndex));
-        } catch (Exception ex) { asserter.exception("Can't init Cell"); return null; }
+        } catch (Exception ex) { throw exception("Can't init Cell"); }
         if (cell == null)
-            asserter.exception("Can't init Cell");
+            throw exception("Can't init Cell");
         return cell;
     }
 
     public <TChild extends IBaseElement> TChild createCellInstance(Class<TChild> childClass, By newLocator) {
         TChild element;
         try { element = childClass.newInstance(); }
-        catch (Exception ignore) { asserter.exception(
+        catch (Exception ignore) { throw exception(
                 format("Can't create child for parent '%s' with type '%s' and new locator '%s'",
-                        toString(), childClass.getName(), newLocator)); return null; }
+                        toString(), childClass.getName(), newLocator));  }
         element.getAvatar().byLocator = newLocator;
         element.getAvatar().context.add(Locator, getLocator());
         return element;

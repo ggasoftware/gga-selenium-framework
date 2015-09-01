@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static java.lang.String.format;
 import static jdk.nashorn.internal.objects.Global.print;
 
@@ -23,17 +23,17 @@ public class WebDriverByUtils {
         return "Bad locator template '" + byLocator + "'. Args: " + print(LinqUtils.select(args, Object::toString), ", ", "'%s'") + ".";
     }
 
-    public static By fillByTemplate(By by, Object... args) throws Exception {
+    public static By fillByTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
         try { byLocator = format(byLocator, args); }
         catch(Exception ex) {
-            throw new Exception(getBadLocatorMsg(byLocator, args)); }
+            throw new RuntimeException(getBadLocatorMsg(byLocator, args)); }
         return getByFunc(by).invoke(byLocator);
     }
 
     public static By fillByTemplateSilent(By by, Object... args) {
         try { return fillByTemplate(by, args);
-        } catch (Exception ex) { asserter.exception(ex.getMessage()); return null; }
+        } catch (Exception ex) { throw exception(ex.getMessage());  }
     }
     public static By copyBy(By by) {
         String byLocator = getByLocator(by);

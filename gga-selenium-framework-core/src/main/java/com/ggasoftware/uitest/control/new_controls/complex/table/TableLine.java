@@ -7,7 +7,7 @@ import com.ggasoftware.uitest.control.interfaces.base.IClickableText;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.utils.ReflectionUtils.isClass;
 import static com.ggasoftware.uitest.utils.Timer.getResultAction;
 
@@ -41,7 +41,7 @@ public abstract class TableLine<T extends IClickableText, P> extends Element {
                 ? localHeaders
                 : getNumList(localHeaders.length));
         if (headers == null || headers.length == 0)
-            asserter.exception("Can't get headers for Table");
+            throw exception("Can't get headers for Table");
         setCount(headers.length);
         return headers;
     }

@@ -7,8 +7,8 @@ import org.openqa.selenium.By;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
-import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static java.lang.String.format;
 
 /**
@@ -33,7 +33,7 @@ public class WebDriverByUtils {
 
     public static By fillByTemplateSilent(By by, Object... args) {
         try { return fillByTemplate(by, args);
-        } catch (Exception ex) { asserter.exception(ex.getMessage()); return null; }
+        } catch (Exception ex) { throw exception(ex.getMessage()); }
     }
     public static By copyBy(By by) {
         String byLocator = getByLocator(by);

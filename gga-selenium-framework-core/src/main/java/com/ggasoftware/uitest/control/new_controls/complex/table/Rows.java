@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
 
-import static com.ggasoftware.uitest.control.base.asserter.TestNGAsserter.asserter;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.utils.LinqUtils.select;
 import static java.lang.String.format;
 
@@ -25,19 +25,19 @@ public class Rows<T extends IClickableText, P> extends TableLine<T, P> {
                 .toArray(new String[1]);
     }
 
-    private void throwRowsException(String rowName, Exception ex) {
-        asserter.exception(format("Can't Get Rows '%s'. Exception: %s", rowName, ex));
+    private RuntimeException throwRowsException(String rowName, Exception ex) {
+        return exception(format("Can't Get Rows '%s'. Exception: %s", rowName, ex));
     }
 
     public final MapArray<String, Cell<T,P>> getColumn(String colName) {
         try { return cellsToColumn(select(headers(), rowName -> table.cell(new Column(colName), new Row(rowName)))); }
-        catch (Exception ex) { throwRowsException(colName, ex); return null; }
+        catch (Exception ex) { throw throwRowsException(colName, ex); }
     }
 
     public MapArray<String, Cell<T,P>> cellsToColumn(Collection<Cell<T,P>> cells) {
-        return asserter.silentException(() -> new MapArray<String, Cell<T,P>>(cells,
+        return new MapArray<>(cells,
                 cell -> headers()[cell.rowNum - 1],
-                cell -> cell));
+                cell -> cell);
     }
 
     public final MapArray<String, Cell<T,P>> getColumn(int colNum) {
@@ -47,13 +47,13 @@ public class Rows<T extends IClickableText, P> extends TableLine<T, P> {
         else if (headers != null && (headers.length > 0))
             rowsCount = headers.length;
         if (rowsCount > 0 && rowsCount < colNum)
-            asserter.exception(format("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, rowsCount));
+            throw exception(format("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, rowsCount));
         try {
             return new MapArray<>(count(),
                     rowNum -> headers()[rowNum],
                     rowNum -> table.cell(new Column(colNum), new Row(rowNum)));
         }
-        catch (Exception ex) { throwRowsException(colNum + "", ex); return null; }
+        catch (Exception ex) { throw throwRowsException(colNum + "", ex); }
     }
 
     public MapArray<String, MapArray<String, Cell<T,P>>> get() {
