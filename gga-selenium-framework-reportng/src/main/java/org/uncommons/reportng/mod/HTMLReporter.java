@@ -132,8 +132,7 @@ public class HTMLReporter extends AbstractReporter
      * Create the index file that sets up the frameset.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createFrameset(File outputDirectory) throws Exception
-    {
+    private void createFrameset(File outputDirectory) throws IOException {
         VelocityContext context = createContext();
         generateFile(new File(outputDirectory, INDEX_FILE),
                      INDEX_FILE + TEMPLATE_EXTENSION,
@@ -144,8 +143,7 @@ public class HTMLReporter extends AbstractReporter
     private void createOverview(List<ISuite> suites,
                                 File outputDirectory,
                                 boolean isIndex,
-                                boolean onlyFailures) throws Exception
-    {
+                                boolean onlyFailures) throws IOException {
         VelocityContext context = createContext();
         context.put(SUITES_KEY, suites);
         context.put(ONLY_FAILURES_KEY, onlyFailures);
@@ -188,8 +186,7 @@ public class HTMLReporter extends AbstractReporter
      */
     private void createSuiteList(List<ISuite> suites,
                                  File outputDirectory,
-                                 boolean onlyFailures) throws Exception
-    {
+                                 boolean onlyFailures) throws IOException {
         VelocityContext context = createContext();
         context.put(SUITES_KEY, suites);
         context.put(ONLY_FAILURES_KEY, onlyFailures);
@@ -205,8 +202,7 @@ public class HTMLReporter extends AbstractReporter
      */
     private void createResults(List<ISuite> suites,
                                File outputDirectory,
-                               boolean onlyShowFailures) throws Exception
-    {
+                               boolean onlyShowFailures) throws IOException {
         int index = 1;
         for (ISuite suite : suites)
         {
@@ -253,7 +249,7 @@ public class HTMLReporter extends AbstractReporter
         Collections.sort(collection, RESULT_COMPARATOR);
     }
 
-    public void createTestResults(List<ISuite> suites, File outputDirectory) throws Exception {
+    public void createTestResults(List<ISuite> suites, File outputDirectory) throws IOException {
         for (ISuite suite : suites) {
             for (ISuiteResult result : suite.getResults().values()) {
                 HashMap<String, String> testsResult = new HashMap<>();
@@ -347,7 +343,7 @@ public class HTMLReporter extends AbstractReporter
         }
     }
 
-    public void createChronology(List<ISuite> suites, File outputDirectory) throws Exception {
+    public void createChronology(List<ISuite> suites, File outputDirectory) throws IOException {
         int index = 1;
         for (ISuite suite : suites) {
             List<IInvokedMethod> methods = suite.getAllInvokedMethods();
@@ -396,8 +392,7 @@ public class HTMLReporter extends AbstractReporter
      * @param outputDirectory The target directory for the generated file(s).
      */
     private void createGroups(List<ISuite> suites,
-                              File outputDirectory) throws Exception
-    {
+                              File outputDirectory) throws IOException {
         int index = 1;
         for (ISuite suite : suites)
         {
@@ -421,8 +416,7 @@ public class HTMLReporter extends AbstractReporter
      * Generate a groups list for each suite.
      * @param outputDirectory The target directory for the generated file(s).
      */
-    private void createLog(File outputDirectory, boolean onlyFailures) throws Exception
-    {
+    private void createLog(File outputDirectory, boolean onlyFailures) throws IOException {
         if (!Reporter.getOutput().isEmpty())
         {
             VelocityContext context = createContext();

@@ -36,9 +36,9 @@ class Rows<T extends SelectElement> extends TableLine<T> {
     }
 
     public MapArray<String, ICell<T>> cellsToColumn(Collection<ICell<T>> cells) {
-        return JDISettings.asserter.silent(() -> new MapArray<String, ICell<T>>(cells,
+        return new MapArray<>(cells,
                 cell -> headers()[cell.rowNum() - 1],
-                cell -> cell));
+                cell -> cell);
     }
 
     public final MapArray<String, ICell<T>> getColumn(int colNum) {

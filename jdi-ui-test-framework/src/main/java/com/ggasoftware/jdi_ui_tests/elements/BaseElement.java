@@ -109,7 +109,7 @@ public abstract class BaseElement implements IBaseElement {
             TResult result = Timer.getResultAction(jAction::invoke);
             String stringResult = (logResult == null)
                     ? result.toString()
-                    : asserter.silent(() -> logResult.invoke(result));
+                    : logResult.invoke(result);
             Long timePassed = timer.timePassedInMSec();
             PerformanceStatistic.addStatistic(timer.timePassedInMSec());
             JDISettings.logger.toLog(format("Get result '%s' in %s seconds", stringResult,
@@ -158,7 +158,7 @@ public abstract class BaseElement implements IBaseElement {
     }
 
     public static void setValueRule(String text, JActionT<String> action)  {
-        asserter.silent(() -> setValueRule.invoke(text, action));
+        setValueRule.invoke(text, action);
     }
     public static JActionTT<String, JActionT<String>> setValueRule = (text, action) -> {
         if (text == null) return;

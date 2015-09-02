@@ -1,13 +1,15 @@
 package com.ggasoftware.jdi_ui_tests.apiAccessors.selenium;
 
-import com.saucelabs.common.*;
+import com.saucelabs.common.SauceOnDemandAuthentication;
+import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import org.junit.Rule;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static java.lang.System.getenv;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM;
 
@@ -38,10 +40,10 @@ public class SauceLabRunner implements SauceOnDemandSessionIdProvider {
         return capabilities;
     }
 
-    public static URL getSauceUrl() throws MalformedURLException {
-        return new URL("http://"
+    public static URL getSauceUrl() {
+        return asserter.silent( () -> new URL("http://"
                 + authentication.getUsername() + ":"
                 + authentication.getAccessKey()
-                + "@ondemand.saucelabs.com:80/wd/hub");
+                + "@ondemand.saucelabs.com:80/wd/hub"));
     }
 }

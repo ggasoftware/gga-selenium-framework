@@ -32,7 +32,7 @@ public class Pairs<TValue1, TValue2> extends ArrayList<Pair<TValue1, TValue2>> {
     }
 
     public Pairs<TValue1, TValue2> add(TValue1 value1, TValue2 value2) { this.add(new Pair(value1, value2)); return this;}
-    public Pairs<TValue1, TValue2> add(Pairs<TValue1, TValue2> pairs) throws Exception { pairs.foreach(this::add); return this; }
+    public Pairs<TValue1, TValue2> add(Pairs<TValue1, TValue2> pairs) { pairs.foreach(this::add); return this; }
 
     public void addNew(TValue1 value1, TValue2 value2) {
         clear();
@@ -40,13 +40,13 @@ public class Pairs<TValue1, TValue2> extends ArrayList<Pair<TValue1, TValue2>> {
     }
 
 
-    public void foreach(JActionT<Pair<TValue1, TValue2>> action) throws Exception {
+    public void foreach(JActionT<Pair<TValue1, TValue2>> action) {
         for (Pair<TValue1, TValue2> element : this)
             action.invoke(element);
     }
 
 
-    public static <T, TValue1, TValue2> Pairs<TValue1, TValue2> toPairs(Iterable<T> list, JFuncTT<T, TValue1> selectorValue1, JFuncTT<T, TValue2> selectorValue2) throws Exception {
+    public static <T, TValue1, TValue2> Pairs<TValue1, TValue2> toPairs(Iterable<T> list, JFuncTT<T, TValue1> selectorValue1, JFuncTT<T, TValue2> selectorValue2) {
         Pairs<TValue1, TValue2> Pairs = new Pairs<>();
         for (T element : list)
             Pairs.add(selectorValue1.invoke(element), selectorValue2.invoke(element));

@@ -25,10 +25,10 @@ import static java.lang.reflect.Array.getLength;
  */
 public abstract class BaseChecker implements IAsserter, IChecker {
     public static DoScreen defaultDoScreenType = NO_SCREEN;
-    private JActionTR<String> throwFail;
+    private JActionT<String> throwFail;
     public BaseChecker doScreenshot(DoScreen doScreenshot) { this.doScreenshot = doScreenshot; return this; }
     public BaseChecker doScreenshot() { return doScreenshot(DO_SCREEN_ALWAYS); }
-    public BaseChecker setThrowFail(JActionTR<String> throwFail) { this.throwFail = throwFail; return this; }
+    public BaseChecker setThrowFail(JActionT<String> throwFail) { this.throwFail = throwFail; return this; }
     public BaseChecker ignoreCase() { this.ignoreCase = true; return this; }
 
     private DoScreen doScreenshot = defaultDoScreenType;
@@ -51,7 +51,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     private void assertAction(String defaultMessage, Boolean result, String failMessage) {
         assertAction(defaultMessage, () -> result ? null : "Check failed", failMessage);
     }
-    private void assertAction(String defaultMessage, JFuncTR<String> result, String failMessage) {
+    private void assertAction(String defaultMessage, JFuncT<String> result, String failMessage) {
         if (!isListCheck && defaultMessage != null)
             logger.info(getBeforeMessage(defaultMessage));
         if (!isListCheck && doScreenshot == DO_SCREEN_ALWAYS)
@@ -85,11 +85,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction(null, false, failMessage);
         return new RuntimeException(failMessage);
     }
-    public void silent(JAction action) {
-        try { action.invoke();
-        } catch (Exception ex) { throw exception(ex.getMessage()); }
-    }
-    public <TResult> TResult silent(JFuncT<TResult> func) {
+    public <TResult> TResult silent(JFuncTEx<TResult> func) {
         try { return func.invoke();
         } catch (Exception ex) { throw exception(ex.getMessage()); }
     }

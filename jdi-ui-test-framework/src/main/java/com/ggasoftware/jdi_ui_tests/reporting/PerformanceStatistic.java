@@ -5,7 +5,6 @@ import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.reporting.ActionsType.JDI_ACTION;
-import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.CalculationUtils.average;
 
 /**
@@ -23,8 +22,7 @@ public class PerformanceStatistic {
     }
 
     public static String printStatistic() {
-        return "Average Actions Time: " +
-                asserter.silent(() -> statistic.toMapArray(value -> average(value) + ""));
+        return "Average Actions Time: " + statistic.toMapArray(value -> average(value) + "");
     }
 
 }

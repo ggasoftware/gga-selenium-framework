@@ -1,7 +1,7 @@
 package com.ggasoftware.jdi_ui_tests.utils.common;
 
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTEx;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 
 import java.text.SimpleDateFormat;
@@ -11,7 +11,6 @@ import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.ignoreException;
 import static com.ggasoftware.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.System.currentTimeMillis;
-import static java.lang.Thread.sleep;
 
 /**
  * Created by 12345 on 28.09.2014.
@@ -53,7 +52,7 @@ public class Timer {
         return timePassedInMSec() >  _timeoutInMSec;
     }
 
-    public boolean wait(JFuncT<Boolean> waitCase) {
+    public boolean wait(JFuncTEx<Boolean> waitCase) {
         while (!timeoutPassed())
             try {
                 if (tryGetResult(waitCase))
@@ -63,10 +62,10 @@ public class Timer {
         return false;
     }
 
-    public <T> T getResult(JFuncT<T> getFunc) {
+    public <T> T getResult(JFuncTEx<T> getFunc) {
         return getResultByCondition(getFunc, result -> true);
     }
-    public <T> T getResultByCondition(JFuncT<T> getFunc, JFuncTT<T, Boolean> conditionFunc) {
+    public <T> T getResultByCondition(JFuncTEx<T> getFunc, JFuncTT<T, Boolean> conditionFunc) {
         while (!timeoutPassed()) {
             try {
                 T result = tryGetResult(getFunc);
@@ -77,11 +76,11 @@ public class Timer {
         }
         return null;
     }
-    public static <T> T getByCondition(JFuncT<T> getFunc, JFuncTT<T, Boolean> conditionFunc) {
+    public static <T> T getByCondition(JFuncTEx<T> getFunc, JFuncTT<T, Boolean> conditionFunc) {
         return new Timer().getResultByCondition(getFunc, conditionFunc);
     }
 
-    public static <T> T getResultAction(JFuncT<T> getFunc) {
+    public static <T> T getResultAction(JFuncTEx<T> getFunc) {
         return new Timer().getResultByCondition(getFunc, result -> true);
     }
     public static boolean alwaysDoneAction(JAction action) {
@@ -91,7 +90,7 @@ public class Timer {
         });
     }
 
-    public static boolean waitCondition(JFuncT<Boolean> condition) {
+    public static boolean waitCondition(JFuncTEx<Boolean> condition) {
         return new Timer().wait(condition);
     }
 

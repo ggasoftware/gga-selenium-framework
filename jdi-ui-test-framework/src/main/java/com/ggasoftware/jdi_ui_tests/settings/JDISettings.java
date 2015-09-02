@@ -40,7 +40,7 @@ public class JDISettings {
         fillAction(p -> timeouts.waitElementSec = parseInt(p), "timeout.wait.element");
         fillAction(p -> timeouts.waitPageLoadSec = parseInt(p), "timeout.wait.pageLoad");
     }
-    public static void initJDIFromProperties(String propertyPath) throws Exception {
+    public static void initJDIFromProperties(String propertyPath) throws Exception{
         jdiSettingsPath = propertyPath;
         initJDIFromProperties();
     }

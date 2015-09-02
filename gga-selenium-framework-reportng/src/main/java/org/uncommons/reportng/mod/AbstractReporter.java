@@ -96,8 +96,7 @@ public abstract class AbstractReporter implements IReporter
      */
     protected void generateFile(File file,
                                 String templateName,
-                                VelocityContext context) throws Exception
-    {
+                                VelocityContext context) throws IOException {
         try (Writer writer = new BufferedWriter(new FileWriter(file))) {
             Velocity.mergeTemplate(classpathPrefix + templateName,
                     ENCODING,

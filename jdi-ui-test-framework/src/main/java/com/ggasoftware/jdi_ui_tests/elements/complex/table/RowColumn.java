@@ -1,6 +1,5 @@
 package com.ggasoftware.jdi_ui_tests.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTT;
 
 /**
@@ -14,13 +13,10 @@ abstract class RowColumn {
     public String getName() { return name; }
 
     public <T> T get(JFuncTT<RowColumn, T> action) {
-        return JDISettings.asserter.silent(() -> action.invoke(this));
+        return action.invoke(this);
     }
     public <T> T get(JFuncTT<String, T> nameAction, JFuncTT<Integer, T> numAction) {
-        return JDISettings.asserter.silent(() -> haveName()
-                        ? nameAction.invoke(name)
-                        : numAction.invoke(num)
-        );
+        return haveName() ? nameAction.invoke(name) : numAction.invoke(num) ;
     }
 
     RowColumn(int num) { this.num = num; }

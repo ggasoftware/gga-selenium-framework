@@ -29,7 +29,7 @@ public abstract class TestNGBase {
         logger.init("Run Tests");
     }
     @AfterSuite(alwaysRun = true)
-    public static void tearDown() throws Exception {
+    public static void tearDown() {
         logger.info("Test run finished. " + LineBreak + "Tests time spent: " +
                 new SimpleDateFormat("HH:mm:ss.S").format(new Date(21 * 3600000 + timer.timePassedInMSec())));
         killAllRunWebDrivers();

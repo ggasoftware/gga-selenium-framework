@@ -55,13 +55,13 @@ public abstract class CascadeInit implements IBaseElement {
     private static Object getParentInstance(Class<?> parentType) {
         firstInstance = false;
         createFreeInstance = true;
-        Object parentInstance = tryGetResult(parentType::newInstance);
+        Object parentInstance = tryGetResult(() -> parentType.newInstance());
         createFreeInstance = false;
         return parentInstance;
     }
     private static void initSubElements(Object parent, Object parentInstance) {
-        asserter.silent(() -> foreach(getFields(parent, IBaseElement.class),
-                field -> setElement(parent, parentInstance, field)));
+        foreach(getFields(parent, IBaseElement.class),
+                field -> setElement(parent, parentInstance, field));
     }
 
     public static void InitPages(Class<?> parent) {
@@ -70,11 +70,11 @@ public abstract class CascadeInit implements IBaseElement {
     }
 
     private static void initPages(Class<?> parent) {
-        asserter.silent(() -> foreach(getStaticFields(parent, BaseElement.class),
-                field -> setPage(parent, field)));
+        foreach(getStaticFields(parent, BaseElement.class),
+                field -> setPage(parent, field));
     }
 
-    private static void setPage(Class<?> parentClass, Field field) throws Exception {
+    private static void setPage(Class<?> parentClass, Field field) {
         try {
             Class<?> type = field.getType();
             BaseElement instance = (BaseElement) getFieldValue(field, null);
@@ -93,7 +93,7 @@ public abstract class CascadeInit implements IBaseElement {
     }
 
 
-    public static void setElement(Object parent, Object parentInstance, Field field) throws Exception {
+    public static void setElement(Object parent, Object parentInstance, Field field) {
         try {
             Class<?> type = field.getType();
             parentInstance = (parentInstance != null) ? parentInstance : parent;
@@ -119,11 +119,11 @@ public abstract class CascadeInit implements IBaseElement {
             throw asserter.exception(format("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
     }
 
-    private static void fillPage(BaseElement instance, Field field, Object parent) throws Exception {
+    private static void fillPage(BaseElement instance, Field field, Object parent) {
         if (field.isAnnotationPresent(JPage.class))
             fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), (parent != null) ? parent.getClass() : null);
     }
-    private static void fillPage(BaseElement instance, Field field, Class<?> parentClass) throws Exception {
+    private static void fillPage(BaseElement instance, Field field, Class<?> parentClass) {
         if (field.isAnnotationPresent(JPage.class))
             fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), parentClass);
     }
@@ -166,7 +166,7 @@ public abstract class CascadeInit implements IBaseElement {
     private static boolean isBaseElement(Object obj) {
         return isClass(obj.getClass(), BaseElement.class);
     }
-    private static BaseElement getElementInstance(Class<?> type, String fieldName, By newLocator) throws Exception {
+    private static BaseElement getElementInstance(Class<?> type, String fieldName, By newLocator) {
         try {
             if (!type.isInterface()) {
                 BaseElement instance = (BaseElement) type.newInstance();

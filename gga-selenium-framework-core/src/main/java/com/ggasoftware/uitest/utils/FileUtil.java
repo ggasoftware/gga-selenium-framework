@@ -24,6 +24,7 @@ import org.openqa.selenium.Cookie;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 
@@ -73,7 +74,7 @@ public final class FileUtil {
      * @param outputFilePath  - file path for output
      * @throws  Exception - exception
      */
-    public static void downloadFile(String downloadUrl, String outputFilePath) throws Exception {
+    public static void downloadFile(String downloadUrl, String outputFilePath) throws IOException {
 
         ReporterNGExt.logAction("","", String.format("Download file form url: %s", downloadUrl));
 

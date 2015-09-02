@@ -110,7 +110,7 @@ public class AnnotationsUtil {
             return By.tagName(locator.tagName());
         return null;
     }
-    public static By getFindByLocator(JFindBy locator) throws Exception {
+    public static By getFindByLocator(JFindBy locator) {
         if (locator == null) return null;
         if (!"".equals(locator.id()))
             return By.id(locator.id());

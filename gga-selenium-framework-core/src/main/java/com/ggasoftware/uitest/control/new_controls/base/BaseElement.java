@@ -257,7 +257,7 @@ public abstract class BaseElement<P> implements IBaseElement {
                     parentType.getAnnotation(JPage.class), null);
     }
 
-    public void fillPage(Field field, Object parent) throws Exception {
+    public void fillPage(Field field, Object parent) {
         if (field.isAnnotationPresent(JPage.class))
             fillPageFromAnnotaiton((Page) this, field.getAnnotation(JPage.class), parent);
     }
@@ -266,7 +266,7 @@ public abstract class BaseElement<P> implements IBaseElement {
         return isClass(obj.getClass(), BaseElement.class);
     }
 
-    private static BaseElement getElementInstance(Class<?> type, String fieldName, By newLocator) throws Exception {
+    private static BaseElement getElementInstance(Class<?> type, String fieldName, By newLocator) {
         try {
             if (!type.isInterface()) {
                 BaseElement instance = (BaseElement) type.newInstance();
