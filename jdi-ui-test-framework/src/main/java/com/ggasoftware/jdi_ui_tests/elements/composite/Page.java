@@ -2,6 +2,7 @@ package com.ggasoftware.jdi_ui_tests.elements.composite;
 
 import com.ggasoftware.jdi_ui_tests.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
@@ -73,6 +74,13 @@ public class Page extends BaseElement {
     }
     public static void openUrl(String url) {
         new Page(url).open();
+    }
+
+    public static String getUrl() {
+        return JDISettings.getDriver().getCurrentUrl();
+    }
+    public static String gettitle() {
+        return JDISettings.getDriver().getTitle();
     }
     /** Refresh current page */
     @JDIAction
