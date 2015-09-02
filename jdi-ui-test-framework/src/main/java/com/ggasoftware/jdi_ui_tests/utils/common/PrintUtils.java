@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFields;
@@ -72,7 +73,7 @@ public class PrintUtils {
             else if (field.isAnnotationPresent(Complex.class))
                 strValue = "#(#" + printObject(value) + "#)#";
             if (strValue != null)
-                result.add(format("%s#:#%s", field.getName(), strValue));
+                result.add(format("%s#:#%s", getElementName(field), strValue));
         }
         return print(result, "#;#", "%s");
     }
