@@ -1,9 +1,10 @@
 package com.ggasoftware.jdi_ui_tests.elements.complex.table;
 
 import com.ggasoftware.jdi_ui_tests.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.IText;
+import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -35,6 +36,9 @@ class Columns<T extends SelectElement> extends TableLine<T> {
         }
         catch (Exception ex) { throw throwColsException(rowName, ex); }
     }
+    public final MapArray<String, String> getRowAsText(String rowName) {
+        return getRow(rowName).toMapArray(IText::getText);
+    }
 
     public MapArray<String, ICell<T>> cellsToRow(Collection<ICell<T>> cells) {
         return new MapArray<>(cells,
@@ -56,6 +60,9 @@ class Columns<T extends SelectElement> extends TableLine<T> {
                     colNum -> table.cell(new Column(colNum), new Row(rowNum)));
         }
         catch (Exception ex) { throw throwColsException(rowNum + "", ex); }
+    }
+    public final MapArray<String, String> getRowAsText(int rowNum) {
+        return getRow(rowNum).toMapArray(IText::getText);
     }
 
     public MapArray<String, MapArray<String, ICell<T>>> get() {

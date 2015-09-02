@@ -56,7 +56,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
     }
 
     private Columns<T> _columns = new Columns<>();
-    public ITableLine columns() { return _columns; }
+    public ITableLine<T> columns() { return _columns; }
     private Columns<T> getColumns() { return _columns; }
     public MapArray<String, ICell<T>> column(int colNum) { return getRows().getColumn(colNum); }
     public MapArray<String, ICell<T>> column(String colName) { return getRows().getColumn(colName); }
@@ -66,7 +66,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
     public void setColumns(Columns<T> value) { _columns.update(value); }
 
     private Rows<T> _rows = new Rows<>();
-    public ITableLine rows() { return _rows; }
+    public ITableLine<T> rows() { return _rows; }
     public Rows<T> getRows() { return _rows; }
     public MapArray<String, ICell<T>> row(int rowNum) { return getColumns().getRow(rowNum); }
     public MapArray<String, ICell<T>> row(String rowName) { return getColumns().getRow(rowName); }

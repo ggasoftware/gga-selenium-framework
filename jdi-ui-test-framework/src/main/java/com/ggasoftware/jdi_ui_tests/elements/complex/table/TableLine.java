@@ -2,8 +2,10 @@ package com.ggasoftware.jdi_ui_tests.elements.complex.table;
 
 import com.ggasoftware.jdi_ui_tests.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils;
 import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,5 +68,9 @@ abstract class TableLine<T extends SelectElement> extends Element implements ITa
             haveHeader = tableLine.haveHeader;
         if (tableLine.elementIndex != ElementIndexType.Nums)
         elementIndex = tableLine.elementIndex;
+    }
+
+    public final MapArray<String, MapArray<String, String>> getAsText() {
+        return get().toMapArray(line -> line.toMapArray(IText::getText));
     }
 }

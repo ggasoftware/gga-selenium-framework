@@ -21,5 +21,4 @@ abstract class RowColumn {
 
     RowColumn(int num) { this.num = num; }
     RowColumn(String name) { this.name = name; }
-
 }
