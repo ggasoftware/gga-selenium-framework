@@ -102,7 +102,7 @@ public interface ITable<T extends SelectElement> extends IText {
      *  */
     @JDIAction
     MapArray<String, ICell<T>> column(String value, Row row);
-    ITableLine rows();
+    ITableLine<T> rows();
     /** Get Row with index <br>
      *  Each Row is map: columnName:cell
      *  */
@@ -113,7 +113,7 @@ public interface ITable<T extends SelectElement> extends IText {
      *  */
     @JDIAction
     MapArray<String, ICell<T>> row(String rowName);
-    ITableLine columns();
+    ITableLine<T> columns();
     /** Get Column with index <br>
      *  Each Column is map: rowName:cell
      *  */
