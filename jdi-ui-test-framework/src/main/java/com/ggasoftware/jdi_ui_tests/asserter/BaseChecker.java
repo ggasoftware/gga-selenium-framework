@@ -1,16 +1,18 @@
 package com.ggasoftware.jdi_ui_tests.asserter;
 
-import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.*;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JActionT;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTEx;
+import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 
 import java.util.Collection;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.DO_SCREEN_ALWAYS;
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.NO_SCREEN;
-import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.SCREEN_ON_FAIL;
+import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.*;
 import static com.ggasoftware.jdi_ui_tests.logger.enums.LogInfoTypes.FRAMEWORK;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
+import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.objToSetValue;
 import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.printObjectAsArray;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.isInterface;
@@ -193,6 +195,12 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void listEquals(Collection<T> collection, Collection<T> collection2) {
         listEquals(collection, collection2, null);
     }
+    public <T> void mapEqualsEntity(MapArray<String, String> map, T entity, String failMessage) {
+        listEquals(map.pairs, objToSetValue(entity).pairs, failMessage);
+    }
+    public <T> void mapEqualsEntity(MapArray<String, String> map, T entity) {
+        mapEqualsEntity(map, entity, null);
+    }
     public <T> void arrayEquals(T array, T array2, String failMessage) {
         assertAction("Check that Collections are equal",
                 () -> array != null && array2 != null && array.getClass().isArray() && array2.getClass().isArray()
@@ -208,7 +216,6 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             return null;
         }, failMessage);
     }
-
     public <T> void arrayEquals(T array, T array2) {
         arrayEquals(array, array2, null);
     }
