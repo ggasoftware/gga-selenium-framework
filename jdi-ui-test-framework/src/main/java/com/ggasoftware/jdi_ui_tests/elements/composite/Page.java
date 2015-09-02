@@ -4,7 +4,6 @@ import com.ggasoftware.jdi_ui_tests.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.JDIAction;
 import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
 
 import static java.lang.String.format;
 import static org.testng.Assert.assertEquals;
@@ -38,32 +37,44 @@ public class Page extends BaseElement {
         this.title = title;
     }
     public StringCheckType url() {
-        return new StringCheckType(url, urlMatcher, getDriver());
+        return new StringCheckType(getUrl(), url, urlMatcher);
     }
-    public StringCheckType title() {
-        return new StringCheckType(title, titleMatcher, getDriver());
+    public StringCheckType title() { return new StringCheckType(geTtitle(), title, titleMatcher); }
+    public void checkOpened() {
+        if (urlMatcher != null) {
+            try { url().match();
+            } catch (Exception ex) { url().contains(); }
+        }
+        else
+            url().check();
+        if (titleMatcher != null) {
+            try { title().match();
+            } catch (Exception ex) { title().contains(); }
+        }
+        else
+            title().check();
     }
 
     public class StringCheckType {
-        private String string;
+        private String actual;
+        private String expected;
         private String matcher;
-        private WebDriver driver;
 
-        public StringCheckType(String string, String matcher, WebDriver driver) {
-            this.string = string;
-            this.matcher = (matcher != null) ? matcher : string;
-            this.driver = driver;
+        public StringCheckType(String actual, String expected, String matcher) {
+            this.actual = actual;
+            this.expected = expected;
+            this.matcher = (matcher != null) ? matcher : expected;
         }
 
         /** BaseChecker that current page url/title equals to expected url/title */
         @JDIAction
-        public void check() { assertEquals(driver.getTitle(), string); }
+        public void check() { assertEquals(actual, expected); }
         /** BaseChecker that current page url/title matches to expected url/title-matcher */
         @JDIAction
-        public void match() { assertTrue(driver.getTitle().matches(matcher)); }
+        public void match() { assertTrue(actual.matches(matcher)); }
         /** BaseChecker that current page url/title contains expected url/title-matcher */
         @JDIAction
-        public void contains() { assertTrue(driver.getTitle().contains(matcher)); }
+        public void contains() { assertTrue(actual.contains(matcher)); }
     }
 
     /** Opens url specified for page */
@@ -79,7 +90,7 @@ public class Page extends BaseElement {
     public static String getUrl() {
         return JDISettings.getDriver().getCurrentUrl();
     }
-    public static String gettitle() {
+    public static String geTtitle() {
         return JDISettings.getDriver().getTitle();
     }
     /** Refresh current page */

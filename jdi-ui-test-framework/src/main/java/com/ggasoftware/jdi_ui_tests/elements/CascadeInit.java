@@ -70,7 +70,7 @@ public abstract class CascadeInit implements IBaseElement {
     }
 
     private static void initPages(Class<?> parent) {
-        asserter.silent(() -> foreach(getStaticFields(parent, Page.class),
+        asserter.silent(() -> foreach(getStaticFields(parent, BaseElement.class),
                 field -> setPage(parent, field)));
     }
 
