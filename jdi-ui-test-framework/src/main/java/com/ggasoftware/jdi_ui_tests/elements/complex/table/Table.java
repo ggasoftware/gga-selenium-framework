@@ -56,28 +56,26 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
     }
 
     private Columns<T> _columns = new Columns<>();
-    public ITableLine<T> columns() { return _columns; }
-    private Columns<T> getColumns() { return _columns; }
-    public MapArray<String, ICell<T>> column(int colNum) { return getRows().getColumn(colNum); }
-    public MapArray<String, ICell<T>> column(String colName) { return getRows().getColumn(colName); }
+    public Columns<T> columns() { return _columns; }
+    public MapArray<String, ICell<T>> column(int colNum) { return rows().getColumn(colNum); }
+    public MapArray<String, ICell<T>> column(String colName) { return rows().getColumn(colName); }
 
     private MapArray<String, ICell<T>> column(Column column) { return column.get(this::column, this::column); }
 
     public void setColumns(Columns<T> value) { _columns.update(value); }
 
     private Rows<T> _rows = new Rows<>();
-    public ITableLine<T> rows() { return _rows; }
-    public Rows<T> getRows() { return _rows; }
-    public MapArray<String, ICell<T>> row(int rowNum) { return getColumns().getRow(rowNum); }
-    public MapArray<String, ICell<T>> row(String rowName) { return getColumns().getRow(rowName); }
+    public Rows<T> rows() { return _rows; }
+    public MapArray<String, ICell<T>> row(int rowNum) { return columns().getRow(rowNum); }
+    public MapArray<String, ICell<T>> row(String rowName) { return columns().getRow(rowName); }
 
     private MapArray<String, ICell<T>> row(Row row) { return row.get(this::row, this::row); }
     public void setRows(Rows<T> value) { _rows.update(value); }
 
-    public void setColumnHeaders(String[] value) { getColumns().setHeaders(value); }
-    public void setRowHeaders(String[] value) { getRows().setHeaders(value); }
-    public void setColCount(int value) { getColumns().setCount(value); }
-    public void setRowCount(int value) { getRows().setCount(value); }
+    public void setColumnHeaders(String[] value) { columns().setHeaders(value); }
+    public void setRowHeaders(String[] value) { rows().setHeaders(value); }
+    public void setColCount(int value) { columns().setCount(value); }
+    public void setRowCount(int value) { rows().setCount(value); }
 
     protected String[] getFooterAction() {
         return select(getWebElement().findElements(By.xpath("//tfoot/tr/td[1]")), WebElement::getText)
@@ -92,13 +90,13 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         _footer = doJActionResult("Get Footer", this::getFooterAction);
         if (_footer == null || _footer.length == 0)
             return null;
-        getColumns().setCount(_footer.length);
+        columns().setCount(_footer.length);
         return _footer;
     }
 
     public ICell<T> cell(Column column, Row row) {
-        int colIndex = column.get(this::getColumnIndex, num -> num + getColumns().startIndex - 1);
-        int rowIndex = row.get(this::getRowIndex, num -> num + getRows().startIndex - 1);
+        int colIndex = column.get(this::getColumnIndex, num -> num + columns().startIndex - 1);
+        int rowIndex = row.get(this::getRowIndex, num -> num + rows().startIndex - 1);
         return addCell(colIndex, rowIndex,
                 column.get(name -> asList(columns().headers()).indexOf(name) + 1, num -> num),
                 row.get(name -> asList(rows().headers()).indexOf(name) + 1, num -> num),
@@ -138,7 +136,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
 
     public MapArray<String, MapArray<String, ICell<T>>> rows(String... colNameValues) {
         MapArray<String, MapArray<String, ICell<T>>> result = new MapArray<>();
-        for (Pair<String, MapArray<String, ICell<T>>> row : getRows().get()) {
+        for (Pair<String, MapArray<String, ICell<T>>> row : rows().get()) {
             boolean matches = true;
             for (String colNameValue : colNameValues) {
                 if (!colNameValue.matches("[^=]+=[^=]*"))
@@ -158,7 +156,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
 
     public MapArray<String, MapArray<String, ICell<T>>> columns(String... rowNameValues) {
         MapArray<String, MapArray<String, ICell<T>>> result = new MapArray<>();
-        for (Pair<String, MapArray<String, ICell<T>>> column : getColumns().get()) {
+        for (Pair<String, MapArray<String, ICell<T>>> column : columns().get()) {
             boolean matches = true;
             for (String rowNameValue : rowNameValues) {
                 if (!rowNameValue.matches("[^=]+=[^=]*"))
@@ -231,11 +229,11 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
 
     public MapArray<String, ICell<T>> column(String value, Row row) {
         ICell<T> columnCell = cell(value, row);
-        return columnCell != null ? getColumns().getRow(columnCell.columnNum()) : null;
+        return columnCell != null ? columns().getRow(columnCell.columnNum()) : null;
     }
     public MapArray<String, ICell<T>> row(String value, Column column) {
         ICell<T> rowCell = cell(value, column);
-        return rowCell != null ? getRows().getColumn(rowCell.rowNum()) : null;
+        return rowCell != null ? rows().getColumn(rowCell.rowNum()) : null;
     }
 
     private int getColumnIndex(String name) {
@@ -246,7 +244,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         else asserter.exception("Can't Get Column: '" + name + "'. " + ((headers == null)
                 ? "ColumnHeaders is Null"
                 : ("Available ColumnHeaders: " + print(headers, ", ", "'{0}'") + ")")));
-        return nameIndex + getColumns().startIndex;
+        return nameIndex + columns().startIndex;
     }
 
     private int getRowIndex(String name) {
@@ -257,7 +255,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         else asserter.exception("Can't Get Row: '" + name + "'. " + ((headers == null)
                 ? "RowHeaders is Null"
                 : ("Available RowHeaders: " + print(headers, ", ", "'{0}'") + ")")));
-        return nameIndex + getRows().startIndex;
+        return nameIndex + rows().startIndex;
     }
     @Override
     protected IHasValue hasValue() { return new HasValue(() ->

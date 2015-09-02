@@ -25,4 +25,6 @@ public interface ITableLine<T extends SelectElement> {
      *  */
     @JDIAction
     MapArray<String, MapArray<String, ICell<T>>> get();
+    @JDIAction
+    MapArray<String, MapArray<String, String>> getAsText();
 }
