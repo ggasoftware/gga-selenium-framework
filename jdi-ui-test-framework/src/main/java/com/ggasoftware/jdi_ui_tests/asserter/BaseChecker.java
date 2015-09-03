@@ -1,5 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.asserter;
 
+import com.ggasoftware.jdi_ui_tests.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JActionT;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.utils.linqInterfaces.JFuncTEx;
@@ -9,12 +10,11 @@ import java.util.Collection;
 
 import static com.ggasoftware.jdi_ui_tests.asserter.DoScreen.*;
 import static com.ggasoftware.jdi_ui_tests.logger.enums.LogInfoTypes.FRAMEWORK;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
-import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.objToSetValue;
-import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
-import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.printObjectAsArray;
+import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.*;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.jdi_ui_tests.utils.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
 import static edu.emory.mathcs.backport.java.util.Arrays.asList;
@@ -26,18 +26,21 @@ import static java.lang.reflect.Array.getLength;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public abstract class BaseChecker implements IAsserter, IChecker {
+    public static Integer defaultWaitTimeout = 0;
     public static DoScreen defaultDoScreenType = NO_SCREEN;
+
     private JActionT<String> throwFail;
     public BaseChecker doScreenshot(DoScreen doScreenshot) { this.doScreenshot = doScreenshot; return this; }
     public BaseChecker doScreenshot() { return doScreenshot(DO_SCREEN_ALWAYS); }
     public BaseChecker setThrowFail(JActionT<String> throwFail) { this.throwFail = throwFail; return this; }
     public BaseChecker ignoreCase() { this.ignoreCase = true; return this; }
+    public BaseChecker setWait(int timeoutSec) { this.timeout = timeoutSec; return this; }
 
     private DoScreen doScreenshot = defaultDoScreenType;
     private String checkMessage = "";
     private boolean ignoreCase = false;
     private boolean isListCheck = false;
-
+    private Integer timeout = defaultWaitTimeout;
 
     public BaseChecker() { }
     public BaseChecker(String checkMessage) {  this.checkMessage = getCheckMessage(checkMessage); }
@@ -60,7 +63,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             makeScreenshot();
         if (isListCheck && failMessage == null)
             failMessage = defaultMessage + " failed";
-        String resultMessage = result.invoke();
+        String resultMessage = new Timer(timeout).getResultByCondition(result::invoke, r -> r == null || r.equals(""));
         if (resultMessage != null) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 makeScreenshot();
@@ -89,7 +92,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
     public <TResult> TResult silent(JFuncTEx<TResult> func) {
         try { return func.invoke();
-        } catch (Exception ex) { throw exception(ex.getMessage()); }
+        } catch (Exception ex) { throw asserter.exception(ex.getMessage()); }
     }
 
     // Asserts

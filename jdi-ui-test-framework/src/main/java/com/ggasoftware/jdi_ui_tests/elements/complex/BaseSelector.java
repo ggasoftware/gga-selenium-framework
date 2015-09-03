@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.print;
 import static java.lang.String.format;
 
@@ -48,13 +48,13 @@ abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElem
 
     protected List<String> getNames() {
         if (allLabels == null && elementsNames == null)
-            throw exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for element '%s'"
+            throw asserter.exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for element '%s'"
                     , this.toString()));
         List<String> names = (elementsNames != null)
                 ? elementsNames
                 : allLabels.getLabels();
         if (names == null || names.size() == 0)
-            throw exception(format("No labels found for element '%s'", this.toString()));
+            throw asserter.exception(format("No labels found for element '%s'", this.toString()));
         return names;
     }
     public final void setValue(String value) { setValue().setValue(value); }

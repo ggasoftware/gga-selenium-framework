@@ -2,6 +2,7 @@ package com.ggasoftware.jdi_ui_tests.settings;
 
 import com.ggasoftware.jdi_ui_tests.apiAccessors.selenium.DriverTypes;
 import com.ggasoftware.jdi_ui_tests.apiAccessors.selenium.SeleniumDriverFactory;
+import com.ggasoftware.jdi_ui_tests.asserter.BaseChecker;
 import com.ggasoftware.jdi_ui_tests.asserter.IAsserter;
 import com.ggasoftware.jdi_ui_tests.asserter.testNG.Check;
 import com.ggasoftware.jdi_ui_tests.logger.ListLogger;
@@ -39,7 +40,9 @@ public class JDISettings {
         fillAction(p -> domain = p, "domain");
         fillAction(p -> timeouts.waitElementSec = parseInt(p), "timeout.wait.element");
         fillAction(p -> timeouts.waitPageLoadSec = parseInt(p), "timeout.wait.pageLoad");
+        BaseChecker.defaultDoScreenType = SCREEN_ON_FAIL;
     }
+
     public static void initJDIFromProperties(String propertyPath) throws Exception{
         jdiSettingsPath = propertyPath;
         initJDIFromProperties();

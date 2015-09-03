@@ -6,7 +6,7 @@ import com.ggasoftware.jdi_ui_tests.elements.interfaces.complex.IGroup;
 import com.ggasoftware.jdi_ui_tests.utils.usefulUtils.TryCatchUtil;
 import org.openqa.selenium.By;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.utils.common.WebDriverByUtils.fillByTemplateSilent;
 import static java.lang.String.format;
@@ -29,7 +29,7 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
     public TType get(String name) {
         TType instance = TryCatchUtil.tryGetResult(clazz::newInstance);
         if (instance == null)
-            throw exception(format("Can't get instace of '%s' element from Elements Group '%s'", name, toString()));
+            throw asserter.exception(format("Can't get instace of '%s' element from Elements Group '%s'", name, toString()));
         instance.setAvatar(fillByTemplateSilent(getLocator(), name), getAvatar());
         return instance;
     }

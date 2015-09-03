@@ -4,7 +4,6 @@ import com.ggasoftware.jdi_ui_tests.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IVisible;
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.utils.common.EnumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -12,8 +11,9 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.elements.base.Element.copy;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
@@ -52,14 +52,14 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
     }
 
     public boolean waitVanished()  {
-        setWaitTimeout(JDISettings.timeouts.retryMSec);
+        setWaitTimeout(timeouts.retryMSec);
         boolean result = timer().wait(() -> {
                 for (TType el : getElementsList())
                     try { if (el.getWebElement().isDisplayed()) return false;
                     } catch (Exception ignore) { }
                 return true;
             });
-        setWaitTimeout(JDISettings.timeouts.waitElementSec);
+        setWaitTimeout(timeouts.waitElementSec);
         return result;
     }
 
@@ -77,11 +77,11 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
         return (List<WebElement>) select(getElementsList(), IElement::getWebElement); }
     protected List<TType> getElementsListAction() {
         try { return elementsNames.stream().map(this::getElement).collect(Collectors.toList());
-        } catch (Exception ex) { throw exception(ex.getMessage()); }
+        } catch (Exception ex) { throw asserter.exception(ex.getMessage()); }
     }
     public final List<TType> getElementsList() {
         if (elementsNames == null || elementsNames.size() == 0)
-            JDISettings.asserter.exception(format("Please specify elements names for list element '%s'", toString()));
+            asserter.exception(format("Please specify elements names for list element '%s'", toString()));
         return doJActionResult("Get elements", this::getElementsListAction);
     }
     public int count() {

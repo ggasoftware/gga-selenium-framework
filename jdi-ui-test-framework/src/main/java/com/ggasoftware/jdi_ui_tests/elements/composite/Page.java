@@ -1,13 +1,12 @@
 package com.ggasoftware.jdi_ui_tests.elements.composite;
 
+import com.ggasoftware.jdi_ui_tests.asserter.testNG.Check;
 import com.ggasoftware.jdi_ui_tests.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.JDIAction;
 import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import org.openqa.selenium.Cookie;
 
 import static java.lang.String.format;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Roman_Iovlev on 7/17/2015.
@@ -68,13 +67,13 @@ public class Page extends BaseElement {
 
         /** BaseChecker that current page url/title equals to expected url/title */
         @JDIAction
-        public void check() { assertEquals(actual, expected); }
+        public void check() { new Check("Page url equals to " + expected).areEquals(actual, expected); }
         /** BaseChecker that current page url/title matches to expected url/title-matcher */
         @JDIAction
-        public void match() { assertTrue(actual.matches(matcher)); }
+        public void match() { new Check("Page url matches to " + matcher).isTrue(actual.matches(matcher)); }
         /** BaseChecker that current page url/title contains expected url/title-matcher */
         @JDIAction
-        public void contains() { assertTrue(actual.contains(matcher)); }
+        public void contains() { new Check("Page url contains " + matcher).isTrue(actual.contains(matcher)); }
     }
 
     /** Opens url specified for page */

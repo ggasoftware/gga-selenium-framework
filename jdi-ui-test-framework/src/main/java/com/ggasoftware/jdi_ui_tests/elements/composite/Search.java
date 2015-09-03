@@ -11,7 +11,7 @@ import org.openqa.selenium.By;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.utils.common.ReflectionUtils.getFields;
@@ -62,35 +62,35 @@ public class Search extends TextField implements ISearch {
         if (suggestions != null)
             return suggestions;
         else
-            throw exception("Suggestions list locator not specified for search. Use accordance constructor");
+            throw asserter.exception("Suggestions list locator not specified for search. Use accordance constructor");
     }
 
     private Clickable getElement(String name) {
         if (select != null)
             return copy(select, fillByTemplateSilent(getLocator(), name));
         else
-            throw exception("Select locator not specified for search. Use accordance constructor");
+            throw asserter.exception("Select locator not specified for search. Use accordance constructor");
     }
     private ITextField getSearchField() {
         List<Field> fields = getFields(this, ITextField.class);
         switch (fields.size()) {
             case 0:
-                throw exception(format("Can't find any buttons on form '%s.", toString()));
+                throw asserter.exception(format("Can't find any buttons on form '%s.", toString()));
             case 1:
                 return (ITextField) getFieldValue(fields.get(0), this);
             default:
-                throw exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
+                throw asserter.exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
         }
     }
     private IButton getSearchButton() {
         List<Field> fields = getFields(this, IButton.class);
         switch (fields.size()) {
             case 0:
-                throw exception(format("Can't find any buttons on form '%s.", toString()));
+                throw asserter.exception(format("Can't find any buttons on form '%s.", toString()));
             case 1:
                 return (IButton) getFieldValue(fields.get(0), this);
             default:
-                throw exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
+                throw asserter.exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
         }
     }
 }

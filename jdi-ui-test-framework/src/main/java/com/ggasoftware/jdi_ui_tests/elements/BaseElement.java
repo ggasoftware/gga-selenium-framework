@@ -6,10 +6,7 @@ import com.ggasoftware.jdi_ui_tests.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.elements.common.*;
 import com.ggasoftware.jdi_ui_tests.elements.complex.*;
 import com.ggasoftware.jdi_ui_tests.elements.complex.table.Table;
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IBaseElement;
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IClickable;
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.IElement;
-import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.ISelector;
+import com.ggasoftware.jdi_ui_tests.elements.interfaces.base.*;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.*;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.complex.*;
 import com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.functions.Functions;
@@ -31,7 +28,6 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.elements.CascadeInit.InitElements;
 import static com.ggasoftware.jdi_ui_tests.elements.CascadeInit.firstInstance;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
@@ -139,7 +135,7 @@ public abstract class BaseElement implements IBaseElement {
             return invocationScenarioWithResult.invoke(this, actionName, action, logResult, logSettings);
         }
         catch (Exception ex) {
-            throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+            throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
 
@@ -199,7 +195,7 @@ public abstract class BaseElement implements IBaseElement {
                         {IDatePicker.class, DatePicker.class},
                 });
             return map;
-        } catch (Exception ex) { throw exception("Error in getInterfaceTypeMap" + StringUtils.LineBreak + ex.getMessage()); }
+        } catch (Exception ex) { throw asserter.exception("Error in getInterfaceTypeMap" + StringUtils.LineBreak + ex.getMessage()); }
     }
 
     protected Button getButton(String buttonName) {
@@ -209,7 +205,7 @@ public abstract class BaseElement implements IBaseElement {
         Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, this));
         Button button = first(buttons, b -> namesEqual(b.getName(), buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button"));
         if (button == null)
-            throw exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
+            throw asserter.exception(format("Can't find button '%s' for element '%s'", buttonName, toString()));
         return button;
     }
 
@@ -228,7 +224,7 @@ public abstract class BaseElement implements IBaseElement {
             String buttonName = name.toLowerCase().contains("button") ? name : name + "button";
             button = first(buttons, b -> namesEqual(b.getName(), buttonName));
             if (button == null)
-                throw exception(format("Can't find button '%s' for element '%s'", name, toString()));
+                throw asserter.exception(format("Can't find button '%s' for element '%s'", name, toString()));
         }
         return button;
     }

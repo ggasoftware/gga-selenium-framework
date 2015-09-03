@@ -3,7 +3,6 @@ package com.ggasoftware.jdi_ui_tests.utils.common;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.where;
 import static java.lang.String.format;
@@ -55,6 +54,6 @@ public class ReflectionUtils {
         field.setAccessible(true);
         try { return field.get(obj); }
         catch (Exception ex) {
-            throw exception(format("Can't get field '%s' value", field.getName())); }
+            throw new RuntimeException(format("Can't get field '%s' value", field.getName())); }
     }
 }

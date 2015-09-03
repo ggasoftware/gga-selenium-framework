@@ -1,5 +1,7 @@
 package com.ggasoftware.jdi_ui_tests.settings;
 
+import com.ggasoftware.jdi_ui_tests.asserter.BaseChecker;
+
 /**
  * Created by 12345 on 04.07.2015.
  */
@@ -10,8 +12,13 @@ public class TimeoutSettings {
     public int waitPageLoadSec = 20;
     public int retryMSec = 100;
 
-    public TimeoutSettings() { currentTimeoutSec = waitPageLoadSec; }
+    public void setCurrentTimeoutSec(int timeoutSec) {
+        waitPageLoadSec = timeoutSec;
+        BaseChecker.defaultWaitTimeout = timeoutSec;
+    }
+
+    public TimeoutSettings() { setCurrentTimeoutSec(waitPageLoadSec); }
     public void dropTimeouts() {
-        currentTimeoutSec = waitElementSec;
+        setCurrentTimeoutSec(waitElementSec);
     }
 }

@@ -14,7 +14,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
@@ -64,7 +64,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
 
     protected MapArray<String, WebElement> getElementsAction() {
         try { return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
-        } catch (Exception ex) { throw exception(ex.getMessage()); }
+        } catch (Exception ex) { throw asserter.exception(ex.getMessage()); }
     }
     protected List<String> getLabelsAction() {
         return (List<String>) getElementsAction().keys();
@@ -98,7 +98,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     public final List<String> waitText(String str) {
         if (Timer.waitCondition(() -> select(getWebElements(), WebElement::getText).contains(str)))
             return getLabels();
-        else { throw exception("Wait Text Failed"); }
+        else { throw asserter.exception("Wait Text Failed"); }
     }
 
     public String getLastText() {

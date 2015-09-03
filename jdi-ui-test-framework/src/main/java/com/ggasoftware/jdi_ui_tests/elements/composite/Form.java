@@ -12,8 +12,8 @@ import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.elements.page_objects.annotations.AnnotationsUtil.getElementName;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.utils.common.PrintUtils.*;
@@ -51,11 +51,11 @@ public class Form<T> extends Element implements IForm<T> {
         List<Field> fields = getFields(this, IButton.class);
         switch (fields.size()) {
             case 0:
-                throw exception(format("Can't find any buttons on form '%s.", toString()));
+                throw asserter.exception(format("Can't find any buttons on form '%s.", toString()));
             case 1:
                 return (Button) getFieldValue(fields.get(0), this);
             default:
-                throw exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
+                throw asserter.exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
         }
     }
     protected void submit(MapArray<String, String> objStrings) {

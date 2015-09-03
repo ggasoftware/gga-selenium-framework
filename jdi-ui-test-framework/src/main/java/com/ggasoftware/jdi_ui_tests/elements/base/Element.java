@@ -28,7 +28,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static java.lang.String.format;
 
 /**
@@ -53,7 +53,7 @@ public class Element extends BaseElement implements IElement {
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Exception ex) { throw exception("Can't copy element: " + element); }
+        } catch (Exception ex) { throw asserter.exception("Can't copy element: " + element); }
     }
 
     public boolean waitAttribute(String name, String value) {

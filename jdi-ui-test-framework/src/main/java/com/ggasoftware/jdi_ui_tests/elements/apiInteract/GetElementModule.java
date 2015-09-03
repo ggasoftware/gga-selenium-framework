@@ -13,7 +13,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
 import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdi_ui_tests.utils.usefulUtils.TryCatchUtil.tryGetResult;
@@ -78,9 +77,9 @@ public class GetElementModule {
         int timeout = timeouts.currentTimeoutSec;
         List<WebElement> result = getElementsAction();
         if (result == null)
-            throw exception(format(failedToFindElementMessage, element, timeout));
+            throw asserter.exception(format(failedToFindElementMessage, element, timeout));
         if (result.size() > 1)
-            throw exception(format(findToMuchElementsMessage, result.size(), element, timeout));
+            throw asserter.exception(format(findToMuchElementsMessage, result.size(), element, timeout));
         return result.get(0);
     }
 

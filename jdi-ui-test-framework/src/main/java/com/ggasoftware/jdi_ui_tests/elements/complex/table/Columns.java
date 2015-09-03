@@ -2,7 +2,6 @@ package com.ggasoftware.jdi_ui_tests.elements.complex.table;
 
 import com.ggasoftware.jdi_ui_tests.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.elements.interfaces.common.IText;
-import com.ggasoftware.jdi_ui_tests.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.utils.map.MapArray;
 import org.openqa.selenium.By;
@@ -10,7 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
 
-import static com.ggasoftware.jdi_ui_tests.asserter.testNG.Assert.exception;
+import static com.ggasoftware.jdi_ui_tests.settings.JDISettings.asserter;
 import static java.lang.String.format;
 
 /**
@@ -28,7 +27,7 @@ class Columns<T extends SelectElement> extends TableLine<T> {
     }
 
     private RuntimeException throwColsException(String colName, Exception ex) {
-        return exception(format("Can't Get Column '%s'. Exception: %s", colName, ex));
+        return asserter.exception(format("Can't Get Column '%s'. Exception: %s", colName, ex));
     }
     public final MapArray<String, ICell<T>> getRow(String rowName) {
         try {
@@ -53,7 +52,7 @@ class Columns<T extends SelectElement> extends TableLine<T> {
         else if (headers != null && (headers.length > 0))
         colsCount = headers.length;
         if (colsCount > 0 && colsCount < rowNum)
-            JDISettings.asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, colsCount));
+            asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, colsCount));
         try {
             return new MapArray<>(count(),
                     colNum -> headers()[colNum],

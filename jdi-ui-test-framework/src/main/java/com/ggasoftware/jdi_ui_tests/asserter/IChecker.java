@@ -30,5 +30,4 @@ public interface IChecker {
     <T> void arrayEquals(T array, T array2);
     <T> BaseChecker.ListChecker eachElementOf(Collection<T> list);
     <T> BaseChecker.ListChecker eachElementOf(T[] array);
-
 }
