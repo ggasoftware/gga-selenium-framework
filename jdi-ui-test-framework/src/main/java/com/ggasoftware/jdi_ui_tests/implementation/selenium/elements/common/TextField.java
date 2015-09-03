@@ -13,7 +13,6 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextField;
 import org.openqa.selenium.By;
 
@@ -28,32 +27,29 @@ public class TextField extends Text implements ITextField {
     public TextField() { super(); }
     public TextField(By byLocator) { super(byLocator); }
 
-    protected SetValue setValue() { return new SetValue(this::newInput, this::getTextAction); }
     @Override
     protected String getTextAction() { return getWebElement().getAttribute("value"); }
+    protected void setValueAction(String value) { newInput(value); }
     protected void inputAction(String text) { getWebElement().sendKeys(text); }
     protected void clearAction() { getWebElement().clear(); }
     protected void focusAction() { getWebElement().click(); }
 
-    public final void setValue(String value) { setValue().setValue(value); }
+    public final void setValue(String value) { actions.setValue(value, this::setValueAction); }
 
     public final void input(String text) {
-        doJAction("Input text '" + text + "' in text field",
-                () -> setValueRule(text, this::inputAction));
+        actions.input(text, this::inputAction);
     }
 
-    public final void sendKeys(String text) { input(text); }
-    public final void newInput(String text) {
-        setValueRule(text, t -> {
-            clear();
-            input(t);
-        });
+    public void sendKeys(String text) { input(text); }
+    public void newInput(String text) {
+        clear();
+        input(text);
     }
     public final void clear() {
-        doJAction("Clear text field", this::clearAction);
+        actions.clear(this::clearAction);
     }
     public final void focus() {
-        doJAction("Focus on text field", this::focusAction);
+        actions.focus(this::focusAction);
     }
 
 }

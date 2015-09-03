@@ -13,11 +13,10 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Button;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropList;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -35,14 +34,13 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     public DropList(By valueLocator, By optionsNamesLocator, By allOptionsNamesLocator) {
         super(optionsNamesLocator, allOptionsNamesLocator); this.valueLocator = valueLocator;
     }
-
-    protected By valueLocator;
+    public By valueLocator;
     protected Button field() { return new Button(valueLocator); }
 
     @Override
     protected void selectListAction(String... names) {
         if (getLocator() != null) {
-            field().click();
+            getWebElement().click();
             super.selectListAction(names);
         }
         else
@@ -52,7 +50,7 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     @Override
     protected void selectListAction(int... indexes) {
         if (getLocator() != null) {
-            field().click();
+            getWebElement().click();
             super.selectListAction(indexes);
         }
         else
@@ -60,10 +58,10 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
                 new Select(new Element(valueLocator).getWebElement()).selectByIndex(index);
     }
     @Override
-    protected boolean waitSelectedAction(String value) { return field().getText().equals(value); }
+    protected boolean waitSelectedAction(String value) { return getTextAction().equals(value); }
     @Override
-    protected SetValue setValue() { return new SetValue(() -> field().getText(), super.setValue()); }
-
+    protected String getValueAction() { return getTextAction(); }
+    protected String getTextAction() { return getWebElement().getAttribute("value"); }
     @Override
     public boolean waitDisplayed() {  return field().waitDisplayed(); }
     @Override
@@ -84,10 +82,12 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     public void setAttribute(String attributeName, String value) {
         field().setAttribute(attributeName, value);
     }
-    public final String waitText(String text) { return field().waitText(text); }
-    public final String waitMatchText(String regEx) { return field().waitText(regEx); }
+
+    public final String getText() { return actions.getText(this::getTextAction); }
+    public final String waitText(String text) { return actions.waitText(text, this::getTextAction); }
+    public final String waitMatchText(String regEx) { return actions.waitMatchText(regEx, this::getTextAction); }
+
     public WebElement getWebElement() { return field().getWebElement(); }
-    public final String getText() { return field().getText(); }
     public boolean waitAttribute(String name, String value) {
         return field().waitAttribute(name, value);
     }

@@ -4,6 +4,6 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces
  * Created by Roman_Iovlev on 7/6/2015.
  */
 public interface ISetValue extends IHasValue {
-    /** Set value to element */
+    /** Set value to webElement */
     void setValue(String value);
 }

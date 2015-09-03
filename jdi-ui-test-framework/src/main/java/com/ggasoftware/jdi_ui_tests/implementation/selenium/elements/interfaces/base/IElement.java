@@ -14,7 +14,7 @@ public interface IElement extends IBaseElement, IVisible {
     /** Waits while attribute gets expected value. Return false if this not happens */
     @JDIAction
     boolean waitAttribute(String name, String value);
-    /** Sets attribute value for element */
+    /** Sets attribute value for webElement */
     @JDIAction
     void setAttribute(String attributeName, String value);
     /** Waits while condition with WebElement and returns wait result */

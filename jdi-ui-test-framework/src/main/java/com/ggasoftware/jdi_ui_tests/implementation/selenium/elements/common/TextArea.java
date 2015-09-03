@@ -16,8 +16,6 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextArea;
 import org.openqa.selenium.By;
 
-import static java.lang.String.join;
-
 /**
  * Text Field control implementation
  *
@@ -35,14 +33,12 @@ public class TextArea extends TextField implements ITextArea {
     }
 
     public final void inputLines(String... textLines) {
-        doJAction("Input several lines of text in textarea",
-                () -> {clearAction(); inputAction(join("\n", textLines));});
+        actions.inputLines(this::clearAction, this::inputAction, textLines);
     }
     public final void addNewLine(String textLine) {
-        doJAction("Add text from new line in textarea",
-                () -> inputAction("\n" + textLine));
+        actions.addNewLine(textLine, this::inputAction);
     }
     public final String[] getLines() {
-        return doJActionResult("Get text as lines", () -> getTextAction().split("\\n"));
+        return actions.getLines(this::getTextAction);
     }
 }

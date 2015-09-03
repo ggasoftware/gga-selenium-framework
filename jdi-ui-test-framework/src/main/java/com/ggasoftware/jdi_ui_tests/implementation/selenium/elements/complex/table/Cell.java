@@ -1,7 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelect;
 
 /**
@@ -12,7 +11,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
  * ColumnName, RowName, ColumnIndex, RowIndex<br>
  * You can do some actions with Cell:<br>
  * Click, Select, getText, waitText, waitMatchText<br>
- * Also you can use get() method to get element of specified for table Type and do any possible action with it<br>
+ * Also you can use get() method to get webElement of specified for table Type and do any possible action with it<br>
  * */
 class Cell<T extends SelectElement> extends SelectElement implements ISelect, ICell<T> {
     private T element;
@@ -26,13 +25,10 @@ class Cell<T extends SelectElement> extends SelectElement implements ISelect, IC
     public String rowName() { return rowName; }
 
     @Override
-    protected Text text() {
-        return new Text(getLocator()) {
-            @Override
-            protected String getTextAction() {
+    protected String getTextAction() {
                 return element.getText();
-    }   };
     }
+
     @Override
     protected void clickAction() { element.click(); }
     public T get() { return element; }

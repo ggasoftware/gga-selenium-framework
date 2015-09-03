@@ -1,24 +1,25 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite;
 
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionTT;
+import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Button;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IHasValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IForm;
-import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static java.lang.String.format;
 
 /**
@@ -31,21 +32,22 @@ public class Form<T> extends Element implements IForm<T> {
     protected void setValueAction(String text, ISetValue element) {
         element.setValue(text);
     }
-
-    protected void fill(MapArray<String, String> objStrings) {
+    protected String getValueAction(IHasValue element) {
+        return element.getValue();
+    }
+    public void fill(MapArray<String, String> objStrings) {
         foreach(getFields(this, ISetValue.class), element -> {
             String fieldValue = objStrings.first(name ->
-                    namesEqual(name, getElementName(element)));
+                    GetElement.namesEqual(name, getElementName(element)));
             if (fieldValue != null) {
                 ISetValue setValueElement = (ISetValue) getFieldValue(element, this);
-                setValueRule.invoke(fieldValue, val -> setValueAction(val, setValueElement));
+                doActionRule.invoke(fieldValue, val -> setValueAction(val, setValueElement));
             }
         });
     }
     public void fill(T entity) {
         fill(objToSetValue(entity));
     }
-
 
     private Button getSubmitButton() {
         List<Field> fields = getFields(this, IButton.class);
@@ -58,26 +60,38 @@ public class Form<T> extends Element implements IForm<T> {
                 throw asserter.exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
         }
     }
-    protected void submit(MapArray<String, String> objStrings) {
+    public void submit(MapArray<String, String> objStrings) {
         fill(objStrings);
         getSubmitButton().click();
     }
     public void submit(T entity) { submit(objToSetValue(entity)); }
     public void submit(T entity, String buttonName) {
         fill(objToSetValue(entity));
-        getButton(buttonName).click();
+        getElement.getButton(buttonName).click();
     }
     public void submit(T entity, Enum buttonName) {
         fill(objToSetValue(entity));
-        getButton(buttonName.toString().toLowerCase()).click();
+        getElement.getButton(buttonName.toString().toLowerCase()).click();
     }
-    protected SetValue setValue() { return new SetValue(
-            value -> submit(parseObjectAsString(value)),
-            () -> print(select(getFields(this, IHasValue.class), field ->
-                    ((IHasValue) getFieldValue(field, this)).getValue())));
+    public void verify(MapArray<String, String> objStrings, JActionTT<String, String> compare) {
+        foreach(getFields(this, IHasValue.class), element -> {
+            String fieldValue = objStrings.first(name ->
+                    GetElement.namesEqual(name, getElementName(element)));
+            if (fieldValue != null) {
+                IHasValue getValueElement = (IHasValue) getFieldValue(element, this);
+                doActionRule.invoke(fieldValue, val -> compare.invoke(getValueAction(getValueElement).trim(), val));
+            }
+        });
+    }
+    public void verify(T entity) {
+        verify(objToSetValue(entity), asserter::areEquals);
     }
 
-    public final String getValue() { return setValue().getValue(); }
-    public final void setValue(String value) { setValue().setValue(value); }
+    protected void setValueAction(String value) { submit(parseObjectAsString(value)); }
+    protected String getValueAction() { return print(select(getFields(this, IHasValue.class), field ->
+            ((IHasValue) getFieldValue(field, this)).getValue())); }
+
+    public final String getValue() { return actions.getValue(this::getValueAction); }
+    public final void setValue(String value) { actions.setValue(value, this::setValueAction); }
 
 }

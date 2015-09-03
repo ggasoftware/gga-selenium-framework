@@ -48,23 +48,23 @@ public class Pagination extends BaseElement implements IPagination {
     private By lastLocator;
 
     public void next() {
-        doJAction("Choose Next page", () -> nextAction().click());
+        invoker.doJAction("Choose Next page", () -> nextAction().click());
     }
 
     public void previous() {
-        doJAction("Choose Previous page", () -> previousAction().click());
+        invoker.doJAction("Choose Previous page", () -> previousAction().click());
     }
 
     public void first() {
-        doJAction("Choose First page", () -> firstAction().click());
+        invoker.doJAction("Choose First page", () -> firstAction().click());
     }
 
     public void last() {
-        doJAction("Choose Last page", () -> lastAction().click());
+        invoker.doJAction("Choose Last page", () -> lastAction().click());
     }
 
     public void selectPage(int index) {
-        doJAction(format("Choose '%s' page", index), () -> pageAction(index).click());
+        invoker.doJAction(format("Choose '%s' page", index), () -> pageAction(index).click());
     }
 
     private Clickable getClickable(String name) {
@@ -72,7 +72,7 @@ public class Pagination extends BaseElement implements IPagination {
         Collection<Clickable> clickables = select(fields, f -> (Clickable) ReflectionUtils.getFieldValue(f, this));
         Clickable clickable = LinqUtils.first(clickables, cl -> cl.getName().contains(getElementName(name.toLowerCase())));
         if (clickable == null)
-            throw asserter.exception(format("Can't find clickable element '%s' for element '%s'", name, toString()));
+            throw asserter.exception(format("Can't find clickable webElement '%s' for webElement '%s'", name, toString()));
         return clickable;
     }
 
@@ -87,8 +87,8 @@ public class Pagination extends BaseElement implements IPagination {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
             return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), "next")));
 
-        throw asserter.exception(format("Can't choose Next page for element '%s'. " +
-                "Please specify locator for this action using constructor or add Clickable element " +
+        throw asserter.exception(format("Can't choose Next page for webElement '%s'. " +
+                "Please specify locator for this action using constructor or add Clickable webElement " +
                 "on pageObject with name 'nextLink' or 'nextButton' or use locator template with parameter 'next'" +
                 "or override nextAction() in class", toString()));
     }
@@ -103,8 +103,8 @@ public class Pagination extends BaseElement implements IPagination {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
             return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), "prev")));
 
-        throw asserter.exception(format("Can't choose Previous page for element '%s'. " +
-                "Please specify locator for this action using constructor or add Clickable element " +
+        throw asserter.exception(format("Can't choose Previous page for webElement '%s'. " +
+                "Please specify locator for this action using constructor or add Clickable webElement " +
                 "on pageObject with name 'prevLink' or 'prevButton' or use locator template with parameter 'prev'" +
                 "or override previousAction() in class", toString()));
     }
@@ -119,8 +119,8 @@ public class Pagination extends BaseElement implements IPagination {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
             return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), "first")));
 
-        throw asserter.exception(format("Can't choose First page for element '%s'. " +
-                "Please specify locator for this action using constructor or add Clickable element " +
+        throw asserter.exception(format("Can't choose First page for webElement '%s'. " +
+                "Please specify locator for this action using constructor or add Clickable webElement " +
                 "on pageObject with name 'firstLink' or 'firstButton' or use locator template with parameter 'first'" +
                 "or override firstAction() in class", toString()));
     }
@@ -135,8 +135,8 @@ public class Pagination extends BaseElement implements IPagination {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
             return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), "last")));
 
-        throw asserter.exception(format("Can't choose Last page for element '%s'. " +
-                "Please specify locator for this action using constructor or add Clickable element " +
+        throw asserter.exception(format("Can't choose Last page for webElement '%s'. " +
+                "Please specify locator for this action using constructor or add Clickable webElement " +
                 "on pageObject with name 'lastLink' or 'lastButton' or use locator template with parameter 'last'" +
                 "or override lastAction() in class", toString()));
     }
@@ -148,8 +148,8 @@ public class Pagination extends BaseElement implements IPagination {
         if (pageLink != null)
             return pageLink;
 
-        throw asserter.exception(format("Can't choose page '%s' for element '%s'. " +
-                "Please specify locator for this action using constructor or add Clickable element " +
+        throw asserter.exception(format("Can't choose page '%s' for webElement '%s'. " +
+                "Please specify locator for this action using constructor or add Clickable webElement " +
                 "on pageObject with name 'pageLink' or 'pageButton'" +
                 "or override pageAction() in class", index, toString()));
     }

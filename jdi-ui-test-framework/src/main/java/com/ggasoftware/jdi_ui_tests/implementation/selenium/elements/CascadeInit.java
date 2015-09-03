@@ -13,10 +13,10 @@ import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.getClassFromInterface;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.*;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement.createFreeInstance;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement.getInterfacesMap;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.fillPageFromAnnotaiton;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.applicationVersion;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
@@ -172,7 +172,7 @@ public abstract class CascadeInit implements IBaseElement {
                 instance.avatar.byLocator = newLocator;
                 return instance;
             }
-            Class classType = getInterfacesMap().first(clType -> clType == type);
+            Class classType = getClassFromInterface(type);
             if (classType != null)
                 return (BaseElement) classType.getDeclaredConstructor(By.class).newInstance(newLocator);
             throw asserter.exception("Unknown interface: " + type +

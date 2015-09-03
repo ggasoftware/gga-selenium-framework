@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface IBaseElement {
-    /** Get WebDriver associated with element
+    /** Get WebDriver associated with webElement
      *
      * @return
      */

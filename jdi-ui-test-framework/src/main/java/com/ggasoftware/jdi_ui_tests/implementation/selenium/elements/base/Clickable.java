@@ -15,11 +15,11 @@ public class Clickable extends Element implements IClickable {
 
     protected void clickJSAction() { jsExecutor().executeScript("arguments[0].click();", getWebElement()); }
     protected void clickAction() { getWebElement().click(); }
-    public final void click() { doJAction("Click on element", this::clickAction); }
+    public final void click() { actions.click(this::clickAction); }
 
     public void clickByXY(int x, int y) {
-        doJAction(format("Click on element with coordinates (x,y) = (%s, %s)", x, y),
-            () -> new Actions(getDriver())
-                .moveToElement(getWebElement(), x, y).click().build().perform());
+        invoker.doJAction(format("Click on webElement with coordinates (x,y) = (%s, %s)", x, y),
+                () -> new Actions(getDriver())
+                        .moveToElement(getWebElement(), x, y).click().build().perform());
     }
 }

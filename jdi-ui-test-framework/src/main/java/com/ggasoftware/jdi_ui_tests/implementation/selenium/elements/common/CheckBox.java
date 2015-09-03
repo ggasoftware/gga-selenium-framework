@@ -14,7 +14,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ICheckBox;
 import org.openqa.selenium.By;
 
@@ -28,17 +27,15 @@ public class CheckBox extends Clickable implements ICheckBox {
     public CheckBox() { }
     public CheckBox(By byLocator) { super(byLocator); }
 
-    protected SetValue setValue() { return new SetValue(
-        value -> {
-            switch (value.toLowerCase()) {
-                case "true": case "1": case "check":
-                    check(); break;
-                case "false": case "0": case "uncheck":
-                    uncheck(); break;
-        } },
-        () -> isChecked()+"");
+    protected void setValueAction(String value) {
+        switch (value.toLowerCase()) {
+            case "true": case "1": case "check":
+                check(); break;
+            case "false": case "0": case "uncheck":
+                uncheck(); break;
+            }
     }
-
+    protected String getValueAction() { return isChecked()+""; }
     protected void checkAction() {
         if (!isCheckedAction())
             clickAction();
@@ -50,17 +47,15 @@ public class CheckBox extends Clickable implements ICheckBox {
     protected boolean isCheckedAction() { return getWebElement().isSelected(); }
 
     public final void check() {
-        doJAction("BaseChecker Checkbox", this::checkAction);
+        actions.check(this::checkAction);
     }
     public final void uncheck() {
-        doJAction("Uncheck Checkbox", this::uncheckAction);
+        actions.uncheck(this::uncheckAction);
     }
     public final boolean isChecked() {
-        return doJActionResult("IsChecked",
-                this::isCheckedAction,
-                result -> "Checkbox is " + (result ? "checked" : "unchecked"));
+        return actions.isChecked(this::isCheckedAction);
     }
 
-    public final String getValue() { return setValue().getValue(); }
-    public final void setValue(String value) { setValue().setValue(value); }
+    public final String getValue() { return actions.getValue(this::getValueAction); }
+    public final void setValue(String value) { actions.setValue(value, this::setValueAction); }
 }

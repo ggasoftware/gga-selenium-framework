@@ -1,18 +1,14 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SetValue;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IMultiSelector;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IMultiSelector;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.foreach;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.toStringArray;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
-import static java.lang.String.format;
 
 /**
  * Created by roman.i on 03.10.2014.
@@ -32,20 +28,20 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     protected void selectListAction(int... indexes) { for (int i : indexes) selectByIndexAction(i); }
     protected boolean waitSelectedAction(String value) { return getElement(value).isSelected(); }
     @Override
-    protected SetValue setValue() {
-        return new SetValue(value -> selectListAction(value.split(", ")), super.setValue());
-    }
+    protected void setValueAction(String value) { selectListAction(value.split(", ")); }
+    protected String getValueAction() { return print(areSelected()); }
+
     private String separator = ", ";
     public IMultiSelector<TEnum> setValuesSeparator(String separator) { this.separator = separator; return this; }
 
     public final void select(String... names) {
-        doJAction(format("Select '%s'", print(names)), () -> selectListAction(names));
+        actions.select(this::selectListAction, names);
     }
     public final void select(TEnum... names) {
         select(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final void select(int... indexes) {
-        doJAction(format("Select '%s'", print(indexes)), () -> selectListAction(indexes));
+        actions.select(this::selectListAction, indexes);
     }
     public final void check(String... names) { clear(); select(names); }
     public final void check(TEnum... names) { clear(); select(names); }
@@ -54,34 +50,22 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     public final void uncheck(TEnum... names) { checkAll(); select(names); }
     public final void uncheck(int... indexes) { checkAll(); select(indexes); }
     public final List<String> areSelected() {
-        return doJActionResult("Are selected", () ->
-                (List<String>) where(getNames(), this::waitSelectedAction));
+        return actions.areSelected(this::getNames, this::waitSelectedAction);
     }
     public final boolean waitSelected(TEnum... names) {
         return waitSelected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final boolean waitSelected(String... names) {
-        return doJActionResult(format("Are deselected '%s'", print(names)), () -> {
-            for (String name : names)
-                if (!waitSelectedAction(name))
-                    return false;
-            return true;
-        });
+        return actions.waitSelected(this::waitSelectedAction, names);
     }
     public final List<String> areDeselected() {
-        return doJActionResult("Are deselected", () ->
-                (List<String>) where(getNames(), name -> !waitSelectedAction(name)));
+        return actions.areDeselected(this::getNames, this::waitSelectedAction);
     }
     public final boolean waitDeselected(TEnum... names) {
         return waitDeselected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final boolean waitDeselected(String... names) {
-        return doJActionResult(format("Are deselected '%s'", print(names)), () -> {
-            for (String name : names)
-                if (waitSelectedAction(name))
-                    return false;
-            return true;
-        });
+        return actions.waitDeselected(this::waitSelectedAction, names);
     }
 
     public void clear() {
@@ -92,5 +76,6 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     public void checkAll() {
         foreach(where(getOptions(), label -> !waitSelectedAction(label)), this::selectAction);
     }
+    public final String getValue() { return actions.getValue(this::getValueAction); }
 
 }

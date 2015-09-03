@@ -10,9 +10,10 @@ public class SelectElement extends ClickableText implements ISelect {
     public SelectElement() { }
     public SelectElement(By byLocator) { super(byLocator); }
 
-    public void select() { click(); }
     protected boolean isSelectedAction() { return getWebElement().isSelected(); }
-    public final boolean isSelected() {
-        return doJActionResult("Is Selected", this::isSelectedAction);
+
+    public void select() { click(); }
+    public boolean isSelected() {
+        return actions.isSelected(this::isSelectedAction);
     }
 }

@@ -167,4 +167,7 @@ public class LinqUtils {
     public static String[] toStringArray(Collection<String> collection) {
         return collection.toArray(new String[collection.size()]);
     }
+    public static Integer[] toIntArray(Collection<Integer> collection) {
+        return collection.toArray(new Integer[collection.size()]);
+    }
 }

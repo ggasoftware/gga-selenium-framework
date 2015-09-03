@@ -8,12 +8,12 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_object
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface IText extends IHasValue, IElement {
-    /** Get element’s text */
+    /** Get webElement’s text */
     String getText();
-    /** Wait while element’s text contains expected text. Returns element’s text */
+    /** Wait while webElement’s text contains expected text. Returns webElement’s text */
     @JDIAction
     String waitText(String text);
-    /** Wait while element’s text matches regEx. Returns element’s text */
+    /** Wait while webElement’s text matches regEx. Returns webElement’s text */
     @JDIAction
     String waitMatchText(String regEx);
 }

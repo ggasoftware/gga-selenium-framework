@@ -27,6 +27,8 @@ public class JDISettings {
     public static ITestRunner testRunner = new TestNGRunner();
     public static SeleniumDriverFactory driverFactory = new SeleniumDriverFactory();
     public static TimeoutSettings timeouts = new TimeoutSettings();
+    public static boolean isDemoMode = false;
+    public static HighlightSettings highlightSettings = new HighlightSettings();
 
     public static void useDriver(WebDriver driver) { driverFactory.registerDriver(() -> driver); }
     public static void useDriver(DriverTypes driver)  { driverFactory.registerDriver(driver); }
@@ -38,7 +40,7 @@ public class JDISettings {
         fillAction(driverFactory::registerDriver, "driver");
         fillAction(driverFactory::setRunType, "run.type");
         fillAction(p -> domain = p, "domain");
-        fillAction(p -> timeouts.waitElementSec = parseInt(p), "timeout.wait.element");
+        fillAction(p -> timeouts.waitElementSec = parseInt(p), "timeout.wait.webElement");
         fillAction(p -> timeouts.waitPageLoadSec = parseInt(p), "timeout.wait.pageLoad");
         BaseChecker.defaultDoScreenType = SCREEN_ON_FAIL;
     }

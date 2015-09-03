@@ -45,7 +45,7 @@ public class Element extends BaseElement implements IElement {
     public Element(By byLocator) { super(byLocator); }
 
     public WebElement getWebElement() {
-        return doJActionResult("Get web element " + this.toString(), avatar::getElement, new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
+        return invoker.doJActionResult("Get web webElement " + this.toString(), avatar::getElement, new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
     }
 
     public static <T extends Element> T copy(T element, By newLocator) {
@@ -53,14 +53,14 @@ public class Element extends BaseElement implements IElement {
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Exception ex) { throw asserter.exception("Can't copy element: " + element); }
+        } catch (Exception ex) { throw asserter.exception("Can't copy webElement: " + element); }
     }
 
     public boolean waitAttribute(String name, String value) {
         return wait(el -> el.getAttribute(name).equals(value));
     }
     public void setAttribute(String attributeName, String value) {
-        doJAction(format("Set Attribute '%s'='%s'", attributeName, value),
+        invoker.doJAction(format("Set Attribute '%s'='%s'", attributeName, value),
                 () -> jsExecutor().executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attributeName),
                         getWebElement(), value));
     }
@@ -106,7 +106,7 @@ public class Element extends BaseElement implements IElement {
     }
 
     public void clickWithKeys(Keys... keys) {
-        doJAction("Ctrl click on element",
+        invoker.doJAction("Ctrl click on webElement",
                 () -> {
                     Actions action = new Actions(getDriver());
                     for (Keys key : keys)
@@ -118,50 +118,50 @@ public class Element extends BaseElement implements IElement {
                 });
     }
     public void doubleClick() {
-        doJAction("Couble click on element", () -> {
+        invoker.doJAction("Couble click on webElement", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
             builder.doubleClick();
         });
     }
     public void rightClick() {
-        doJAction("Right click on element", () -> {
+        invoker.doJAction("Right click on webElement", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
             builder.contextClick(getWebElement()).perform();
         });
     }
     public void clickCenter() {
-        doJAction("Click in Center of element", () -> {
+        invoker.doJAction("Click in Center of webElement", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
             builder.click(getWebElement()).perform();
         });
     }
     public void mouseOver() {
-        doJAction("Move mouse over element", () -> {
+        invoker.doJAction("Move mouse over webElement", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
             builder.moveToElement(getWebElement()).build().perform();
         });
     }
     public void focus() {
-        doJAction("Focus on element", () -> {
+        invoker.doJAction("Focus on webElement", () -> {
             Dimension size = getWebElement().getSize(); //for scroll to object
             new Actions(getDriver()).moveToElement(getWebElement(), size.width / 2, size.height / 2).build().perform();
         });
     }
 
     public void selectArea(int x1, int y1, int x2, int y2) {
-        doJAction(format("Select area: from %d,%d;to %d,%d", x1, y1, x2, y2), () -> {
+        invoker.doJAction(format("Select area: from %d,%d;to %d,%d", x1, y1, x2, y2), () -> {
             WebElement element = getWebElement();
             new Actions(getDriver()).moveToElement(element, x1, y1).clickAndHold()
                     .moveToElement(element, x2, y2).release().build().perform();
         });
     }
     public void dragAndDropBy(int x, int y) {
-        doJAction(format("Drag and drop element: (x,y)=(%s,%s)", x, y), () ->
-            new Actions(getDriver()).dragAndDropBy(getWebElement(), x, y).build().perform());
+        invoker.doJAction(format("Drag and drop webElement: (x,y)=(%s,%s)", x, y), () ->
+                new Actions(getDriver()).dragAndDropBy(getWebElement(), x, y).build().perform());
     }
 
 }

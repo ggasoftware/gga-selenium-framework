@@ -6,10 +6,10 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_object
  * Created by Roman_Iovlev on 7/26/2015.
  */
 public interface IVisible {
-    /** Waits while element becomes visible */
+    /** Waits while webElement becomes visible */
     @JDIAction
     boolean waitDisplayed();
-    /** Waits while element becomes invisible */
+    /** Waits while webElement becomes invisible */
     @JDIAction
     boolean waitVanished();
 }

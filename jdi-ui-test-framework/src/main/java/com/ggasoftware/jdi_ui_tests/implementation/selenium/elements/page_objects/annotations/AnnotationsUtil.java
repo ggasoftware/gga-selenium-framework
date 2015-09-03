@@ -40,9 +40,11 @@ public class AnnotationsUtil {
                 ? url
                 : JDISettings.domain.replaceAll("/*$", "") + "/" + url.replaceAll("^/*", "");
         String title = pageAnnotation.title();
-        String urlMatcher = pageAnnotation.urlMatcher();
-        String titleMatcher = pageAnnotation.titleMatcher();
-        element.updatePageData(url, title, urlMatcher, titleMatcher);
+        String urlContains = pageAnnotation.urlContains();
+        String titleContains = pageAnnotation.titleContains();
+        String urlMatchs = pageAnnotation.urlMatchs();
+        String titleMatchs = pageAnnotation.titleMatchs();
+        element.updatePageData(url, title, urlContains, titleContains, urlMatchs, titleMatchs);
     }
 
     private static String getUrlFromDomain(Object parent, String uri) {

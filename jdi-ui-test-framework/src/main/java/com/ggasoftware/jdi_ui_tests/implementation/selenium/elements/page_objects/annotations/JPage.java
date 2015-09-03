@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 public @interface JPage {
     String url() default "";
     String title() default "";
-    String urlMatcher() default "";
-    String titleMatcher() default "";
+    String urlContains() default "";
+    String titleContains() default "";
+    String urlMatchs() default "";
+    String titleMatchs() default "";
 }

@@ -31,14 +31,14 @@ public class Link extends ClickableText implements ILink {
 
     protected String getReferenceAction() { return getWebElement().getAttribute("href"); }
     public final String getReference() {
-        return doJActionResult("Get Reference", this::getReferenceAction, href -> "Get href of link '" + href + "'");
+        return invoker.doJActionResult("Get Reference", this::getReferenceAction, href -> "Get href of link '" + href + "'");
     }
     public final String waitReference(String text) {
-        return doJActionResult(format("Wait link contains '%s'", text),
+        return invoker.doJActionResult(format("Wait link contains '%s'", text),
                 () -> getByCondition(this::getReferenceAction, t -> t.contains(text)));
     }
     public final String waitMatchReference(String regEx) {
-        return doJActionResult(format("Wait link match regex '%s'", regEx),
+        return invoker.doJActionResult(format("Wait link match regex '%s'", regEx),
                 () -> getByCondition(this::getReferenceAction, t -> t.matches(regEx)));
     }
 }

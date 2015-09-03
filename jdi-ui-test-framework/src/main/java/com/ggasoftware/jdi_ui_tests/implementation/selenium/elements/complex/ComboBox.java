@@ -13,7 +13,6 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.TextField;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IComboBox;
 import org.openqa.selenium.*;
@@ -41,22 +40,30 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
         super(selectorLocator, optionsNamesLocatorTemplate, allOptionsNamesLocator);
         textFieldLocator = valueLocator;
     }
-    protected By textFieldLocator;
+    public By textFieldLocator;
     protected TextField textField() { return new TextField(textFieldLocator); }
 
-    protected void inputAction(String text) { textField().input(text); }
+    @Override
+    protected void setValueAction(String value){ newInput(value);}
+    @Override
+    protected String getTextAction() { return textField().getText(); }
+    protected void inputAction(String text) { textField().sendKeys(text); }
     protected void clearAction() { textField().clear(); }
     protected void focusAction() { textField().focus(); }
 
-    @Override
-    protected SetValue setValue() {
-        return new SetValue( this::newInput, textField()::getText);
+    public final void input(String text) {
+        actions.input(text, this::inputAction);
     }
-
-    public final void input(String text) { textField().input(text); }
-    public final void sendKeys(String text) { input(text); }
-    public final void newInput(String text) { textField().newInput(text); }
-    public final void clear() { textField().clear(); }
-    public final void focus() { textField().focus(); }
+    public void sendKeys(String text) { input(text); }
+    public void newInput(String text) {
+        clear();
+        input(text);
+    }
+    public final void clear() {
+        actions.clear(this::clearAction);
+    }
+    public final void focus() {
+        actions.focus(this::focusAction);
+    }
 
 }

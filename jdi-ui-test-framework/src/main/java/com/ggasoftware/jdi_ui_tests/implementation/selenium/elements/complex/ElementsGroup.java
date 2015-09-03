@@ -29,7 +29,7 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
     public TType get(String name) {
         TType instance = TryCatchUtil.tryGetResult(clazz::newInstance);
         if (instance == null)
-            throw asserter.exception(format("Can't get instace of '%s' element from Elements Group '%s'", name, toString()));
+            throw asserter.exception(format("Can't get instace of '%s' webElement from Elements Group '%s'", name, toString()));
         instance.setAvatar(fillByTemplateSilent(getLocator(), name), getAvatar());
         return instance;
     }

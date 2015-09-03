@@ -1,29 +1,32 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.HasValue;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IHasValue;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.ITable;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.StringUtils;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.*;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.ITable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType.Locator;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplateSilent;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType.Locator;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Created by Roman_Iovlev on 6/2/2015.
@@ -86,7 +89,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
     public String[] footer() {
         if (_footer != null)
             return _footer;
-        _footer = doJActionResult("Get Footer", this::getFooterAction);
+        _footer = invoker.doJActionResult("Get Footer", this::getFooterAction);
         if (_footer == null || _footer.length == 0)
             return null;
         columns().setCount(_footer.length);
@@ -257,14 +260,14 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         return nameIndex + rows().startIndex;
     }
     @Override
-    protected IHasValue hasValue() { return new HasValue(() ->
+    protected String getValueAction() { return
         "||X|" + print(columns().headers(), "|") + "||" + StringUtils.LineBreak +
                 print(new ArrayList<>(select(rows().headers(),
                         rowName -> "||" + rowName + "||" +
                                 print(new ArrayList<>(select(where(getCells(),
                                                 cell -> cell.rowName().equals(rowName)),
-                                        ICell::getValue)), "|") + "||")), StringUtils.LineBreak)
-    ); }
+                                        ICell::getValue)), "|") + "||")), StringUtils.LineBreak);
+    }
 
     private Cell<T> addCell(int colIndex, int rowIndex, int colNum, int rowNum, String colName, String rowName) {
         Cell<T> cell = (Cell<T>) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);

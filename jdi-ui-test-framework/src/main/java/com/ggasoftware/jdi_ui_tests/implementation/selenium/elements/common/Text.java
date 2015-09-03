@@ -1,13 +1,8 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.HasValue;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IHasValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import org.openqa.selenium.By;
-
-import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 7/6/2015.
@@ -16,20 +11,17 @@ public class Text extends Element implements IText {
     public Text() { }
     public Text(By byLocator) { super(byLocator); }
 
-    protected IHasValue hasValue() { return new HasValue(this::getTextAction); }
-    public final String getValue() { return hasValue().getValue(); }
-
     protected String getTextAction() { return getWebElement().getText(); }
+    protected String getValueAction() { return getTextAction(); }
 
+    public final String getValue() { return actions.getValue(this::getValueAction); }
     public final String getText() {
-        return doJActionResult("Get text", this::getTextAction);
+        return actions.getText(this::getTextAction);
     }
     public final String waitText(String text) {
-        return doJActionResult(format("Wait text contains '%s'", text),
-            () -> Timer.getByCondition(this::getTextAction, t -> t.contains(text)));
+        return actions.waitText(text, this::getTextAction);
     }
     public final String waitMatchText(String regEx) {
-        return doJActionResult(format("Wait text match regex '%s'", regEx),
-            () -> Timer.getByCondition(this::getTextAction, t -> t.matches(regEx)));
+        return actions.waitMatchText(regEx, this::getTextAction);
     }
 }

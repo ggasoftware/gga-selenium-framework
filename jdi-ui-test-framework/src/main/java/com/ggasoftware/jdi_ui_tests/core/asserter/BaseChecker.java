@@ -190,7 +190,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction(null, () -> {
             T notEqualElement = first(collection, el -> !collection2.contains(el));
             return (notEqualElement != null)
-                    ? format("Collections '%s' and '%s' not equals at element '%s'",
+                    ? format("Collections '%s' and '%s' not equals at webElement '%s'",
                     print(select(collection, Object::toString)), print(select(collection2, Object::toString)), notEqualElement)
                     : null;
         }, failMessage);

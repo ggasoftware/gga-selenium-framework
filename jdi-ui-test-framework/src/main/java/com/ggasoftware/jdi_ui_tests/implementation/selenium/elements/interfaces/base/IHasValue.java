@@ -4,6 +4,6 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface IHasValue {
-    /** Get value of element */
+    /** Get value of webElement */
     String getValue();
 }

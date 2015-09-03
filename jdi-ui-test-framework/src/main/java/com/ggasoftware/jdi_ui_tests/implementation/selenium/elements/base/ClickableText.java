@@ -13,7 +13,6 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IHasValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
@@ -28,10 +27,16 @@ public class ClickableText extends Clickable implements IHasValue, IClickable, I
     public ClickableText() { }
     public ClickableText(By byLocator) { super(byLocator); }
 
-    protected Text text() { return new Text(getLocator()); }
+    protected String getTextAction() { return getWebElement().getText(); }
 
-    public final String getText() { return text().getText(); }
-    public final String getValue() { return text().getValue(); }
-    public final String waitText(String text) { return text().waitText(text); }
-    public final String waitMatchText(String regEx) { return text().waitMatchText(regEx); }
+    public final String getValue() { return actions.getValue(this::getTextAction); }
+    public final String getText() {
+        return actions.getText(this::getTextAction);
+    }
+    public final String waitText(String text) {
+        return actions.waitText(text, this::getTextAction);
+    }
+    public final String waitMatchText(String regEx) {
+        return actions.waitMatchText(regEx, this::getTextAction);
+    }
 }

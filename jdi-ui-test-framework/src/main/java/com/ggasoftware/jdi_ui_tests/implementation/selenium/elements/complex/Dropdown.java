@@ -13,11 +13,9 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SetValue;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Button;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropDown;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropDown;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -34,13 +32,13 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     public Dropdown(By selectLocator, By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {
         super(optionsNamesLocatorTemplate, allOptionsNamesLocator); this.selectLocator = selectLocator;
     }
-    protected By selectLocator;
-    protected Button field() { return new Button(selectLocator); }
+    public By selectLocator;
+    protected Element element() { return new Element(selectLocator); }
 
     @Override
     protected void selectAction(String name) {
         if (getLocator() != null) {
-            field().click();
+            getWebElement().click();
             super.selectAction(name);
         }
         else
@@ -49,50 +47,54 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     @Override
     protected void selectByIndexAction(int index) {
         if (getLocator() != null) {
-            field().click();
+            getWebElement().click();
             super.selectByIndexAction(index);
         }
         else
             new Select(new Element(selectLocator).getWebElement()).selectByIndex(index);
     }
     @Override
-    protected SetValue setValue() { return  new SetValue(() -> field().getText(), super.setValue()); }
+    protected String getValueAction() { return getTextAction(); }
     @Override
-    protected boolean waitSelectedAction(String value) { return field().waitText(value).equals(value); }
+    protected boolean waitSelectedAction(String value) { return waitText(value).equals(value); }
 
     @Override
-    public boolean waitDisplayed() {  return field().waitDisplayed(); }
+    public boolean waitDisplayed() {  return element().waitDisplayed(); }
     @Override
-    public boolean waitVanished()  { return field().waitVanished(); }
+    public boolean waitVanished()  { return element().waitVanished(); }
 
     @Override
     public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc) {
-        return field().wait(resultFunc);
+        return element().wait(resultFunc);
     }
     @Override
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition) {
-        return field().wait(resultFunc, condition);
+        return element().wait(resultFunc, condition);
     }
     @Override
     public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc, int timeoutSec) {
-        return field().wait(resultFunc, timeoutSec);
+        return element().wait(resultFunc, timeoutSec);
     }
     @Override
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
-        return field().wait(resultFunc, condition, timeoutSec);
+        return element().wait(resultFunc, condition, timeoutSec);
     }
-    
-    public final String getText() { return field().getText(); }
-    public final String waitText(String text) { return field().waitText(text); }
-    public final String waitMatchText(String regEx) { return field().waitText(regEx); }
+    protected String getTextAction() { return getWebElement().getAttribute("value"); }
+    public final String getText() { return actions.getText(this::getTextAction); }
+    public final String waitText(String text) {
+        return actions.waitText(text, this::getTextAction);
+    }
+    public final String waitMatchText(String regEx) {
+        return actions.waitMatchText(regEx, this::getTextAction);
+    }
 
     public void setAttribute(String attributeName, String value) {
-        field().setAttribute(attributeName, value);
+        element().setAttribute(attributeName, value);
     }
-    public WebElement getWebElement() { return field().getWebElement(); }
+    public WebElement getWebElement() { return element().getWebElement(); }
 
     public boolean waitAttribute(String name, String value) {
-        return field().waitAttribute(name, value);
+        return element().waitAttribute(name, value);
     }
 
 }

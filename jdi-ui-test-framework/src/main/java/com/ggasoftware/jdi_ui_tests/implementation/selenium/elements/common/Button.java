@@ -27,10 +27,6 @@ public class Button extends ClickableText implements IButton {
     public Button(By byLocator) { super(byLocator); }
 
     @Override
-    protected Text text() { return new Text(getLocator()) {
-        @Override
-        protected String getTextAction() { return getWebElement().getAttribute("value"); }
-        };
-    }
+    protected String getTextAction() { return getWebElement().getAttribute("value"); }
 
 }

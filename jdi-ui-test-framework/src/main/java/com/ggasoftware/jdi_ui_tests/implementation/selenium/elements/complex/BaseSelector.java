@@ -2,7 +2,6 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SetValue;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
@@ -44,22 +43,20 @@ abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElem
     protected boolean waitSelectedAction(String value) {
         return Timer.waitCondition(() -> getElement(value).isSelected());
     }
-    protected SetValue setValue() { return new SetValue(this::selectAction, this);}
+    protected void setValueAction(String value) { selectAction(value); }
 
     protected List<String> getNames() {
         if (allLabels == null && elementsNames == null)
-            throw asserter.exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for element '%s'"
+            throw asserter.exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for webElement '%s'"
                     , this.toString()));
         List<String> names = (elementsNames != null)
                 ? elementsNames
                 : allLabels.getLabels();
         if (names == null || names.size() == 0)
-            throw asserter.exception(format("No labels found for element '%s'", this.toString()));
+            throw asserter.exception(format("No labels found for webElement '%s'", this.toString()));
         return names;
     }
-    public final void setValue(String value) { setValue().setValue(value); }
+    public final void setValue(String value) { actions.setValue(value, this::setValueAction); }
     public final List<String> getOptions() { return allLabels.getLabels(); }
     public final String getOptionsAsText() { return print(getOptions()); }
-
-    public final String getValue() { return setValue().getValue(); }
 }
