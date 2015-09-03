@@ -13,7 +13,7 @@ public class TimeoutSettings {
     public int retryMSec = 100;
 
     public void setCurrentTimeoutSec(int timeoutSec) {
-        waitPageLoadSec = timeoutSec;
+        currentTimeoutSec = timeoutSec;
         BaseChecker.defaultWaitTimeout = timeoutSec;
     }
 
