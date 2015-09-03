@@ -17,7 +17,7 @@ public class TimeoutSettings {
         BaseChecker.defaultWaitTimeout = timeoutSec;
     }
 
-    public TimeoutSettings() { setCurrentTimeoutSec(waitPageLoadSec); }
+    public TimeoutSettings() { setCurrentTimeoutSec(20); }
     public void dropTimeouts() {
         setCurrentTimeoutSec(waitElementSec);
     }
