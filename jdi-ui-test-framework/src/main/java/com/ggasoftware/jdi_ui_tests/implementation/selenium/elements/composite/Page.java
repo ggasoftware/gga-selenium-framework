@@ -1,6 +1,7 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite;
 
 import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IPage;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;
@@ -44,9 +45,9 @@ public class Page extends BaseElement implements IPage {
         this.title = title;
     }
     public StringCheckType url() {
-        return new StringCheckType(getUrl(), url, urlContains, urlMatchs);
+        return new StringCheckType(() -> getUrl(), url, urlContains, urlMatchs);
     }
-    public StringCheckType title() { return new StringCheckType(geTtitle(), title, titleContains, titleMatchs); }
+    public StringCheckType title() { return new StringCheckType(() -> geTtitle(), title, titleContains, titleMatchs); }
 
     public static boolean checkAfterOpen = false;
     public void checkOpened() {
@@ -67,12 +68,12 @@ public class Page extends BaseElement implements IPage {
     }
 
     public class StringCheckType {
-        private String actual;
+        private JFuncT<String> actual;
         private String equals;
         private String contains;
         private String matches;
 
-        public StringCheckType(String actual, String equals, String contains, String matches) {
+        public StringCheckType(JFuncT<String> actual, String equals, String contains, String matches) {
             this.actual = actual;
             this.equals = equals;
             this.contains = contains;
@@ -84,10 +85,10 @@ public class Page extends BaseElement implements IPage {
         public void check() { new Check("Page url equals to " + equals).areEquals(actual, equals); }
         /** BaseChecker that current page url/title matches to expected url/title-matcher */
         @JDIAction
-        public void match() { new Check("Page url matches to " + matches).isTrue(actual.matches(matches)); }
+        public void match() { new Check("Page url matches to " + matches).matches(actual, matches); }
         /** BaseChecker that current page url/title contains expected url/title-matcher */
         @JDIAction
-        public void contains() { new Check("Page url contains " + contains).isTrue(actual.contains(contains)); }
+        public void contains() { new Check("Page url contains " + contains).contains(actual, contains); }
     }
 
     public void open() {
