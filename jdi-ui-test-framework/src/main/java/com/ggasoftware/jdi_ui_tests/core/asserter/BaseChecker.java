@@ -53,8 +53,9 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             : checkMessage;
     }
 
+    private static String FOUND = "FOUND";
     private void assertAction(String defaultMessage, Boolean result, String failMessage) {
-        assertAction(defaultMessage, () -> result ? null : "Check failed", failMessage);
+        assertAction(defaultMessage, () -> result ? FOUND : "Check failed", failMessage);
     }
     private void assertAction(String defaultMessage, JFuncT<String> result, String failMessage) {
         if (!isListCheck && defaultMessage != null)
@@ -63,10 +64,10 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             makeScreenshot();
         if (isListCheck && failMessage == null)
             failMessage = defaultMessage + " failed";
-        String resultMessage = new Timer(timeout).getResultByCondition(result::invoke, r -> r == null || r.equals(""));
+        String resultMessage = new Timer(timeout).getResultByCondition(result::invoke, r -> r != null && r.equals(FOUND));
         if (resultMessage == null)
             resultMessage = result.invoke();
-        if (resultMessage != null) {
+        if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 makeScreenshot();
             throwFail.invoke(failMessage != null
@@ -186,7 +187,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void listEquals(Collection<T> collection, Collection<T> collection2, String failMessage) {
         assertAction("Check that Collections are equal",
                 () -> collection != null && collection2 != null && collection.size() == collection2.size()
-                        ? null
+                        ? FOUND
                         : "listEquals failed because one of the Collections is null or empty",
                 failMessage);
         assertAction(null, () -> {
@@ -194,7 +195,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             return (notEqualElement != null)
                     ? format("Collections '%s' and '%s' not equals at webElement '%s'",
                     print(select(collection, Object::toString)), print(select(collection2, Object::toString)), notEqualElement)
-                    : null;
+                    : FOUND;
         }, failMessage);
     }
     public <T> void listEquals(Collection<T> collection, Collection<T> collection2) {
@@ -210,7 +211,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction("Check that Collections are equal",
                 () -> array != null && array2 != null && array.getClass().isArray() && array2.getClass().isArray()
                         && getLength(array) == getLength(array2)
-                        ? null
+                        ? FOUND
                         : "arrayEquals failed because one of the Objects is not Array or empty",
                 failMessage);
         assertAction(null, () -> {
@@ -218,7 +219,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                 if (!get(array, i).equals(get(array2, i)))
                     return format("Arrays not equals at index '%s'. '%s' != '%s'. Arrays: '%s' and '%s'",
                             i, get(array, i), get(array2, i), printObjectAsArray(array), printObjectAsArray(array2));
-            return null;
+            return FOUND;
         }, failMessage);
     }
     public <T> void arrayEquals(T array, T array2) {
@@ -238,7 +239,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         private void beforeListCheck(String defaultMessage, String expected, String failMessage) {
             assertAction(format(defaultMessage, print(select(list, Object::toString)), expected),
                 () -> list != null && list.size() > 0
-                        ? null
+                        ? FOUND
                         : "list check failed because list is null or empty",
                 failMessage);
             isListCheck = true;
