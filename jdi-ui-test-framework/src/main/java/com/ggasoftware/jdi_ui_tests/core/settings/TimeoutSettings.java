@@ -14,7 +14,7 @@ public class TimeoutSettings {
 
     public void setCurrentTimeoutSec(int timeoutSec) {
         currentTimeoutSec = timeoutSec;
-        BaseChecker.defaultWaitTimeout = timeoutSec;
+        BaseChecker.defaultWaitTimeout = timeoutSec * 1000;
     }
 
     public TimeoutSettings() { setCurrentTimeoutSec(20); }

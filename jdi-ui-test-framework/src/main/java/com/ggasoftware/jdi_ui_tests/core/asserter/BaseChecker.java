@@ -26,7 +26,7 @@ import static java.lang.reflect.Array.getLength;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public abstract class BaseChecker implements IAsserter, IChecker {
-    public static Integer defaultWaitTimeout = 0;
+    public static long defaultWaitTimeout = 0;
     public static DoScreen defaultDoScreenType = NO_SCREEN;
 
     private JActionT<String> throwFail;
@@ -40,7 +40,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     private String checkMessage = "";
     private boolean ignoreCase = false;
     private boolean isListCheck = false;
-    private Integer timeout = defaultWaitTimeout;
+    private long timeout = defaultWaitTimeout;
 
     public BaseChecker() { }
     public BaseChecker(String checkMessage) {  this.checkMessage = getCheckMessage(checkMessage); }
