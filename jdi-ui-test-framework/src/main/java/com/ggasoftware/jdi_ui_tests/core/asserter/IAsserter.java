@@ -8,7 +8,7 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTEx;
 public interface IAsserter {
     RuntimeException exception(String message);
     <TResult> TResult silent(JFuncTEx<TResult> func);
-    void areEquals(Object obj1, Object obj2);
+    <T> void areEquals(T obj1, T obj2);
     void matches(String str, String regEx);
     void contains(String str1, String str2);
 }

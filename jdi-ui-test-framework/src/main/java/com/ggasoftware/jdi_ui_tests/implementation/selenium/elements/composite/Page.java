@@ -70,13 +70,13 @@ public class Page extends BaseElement implements IPage {
         private String actual;
         private String equals;
         private String contains;
-        private String matchs;
+        private String matches;
 
-        public StringCheckType(String actual, String equals, String contains, String matchs) {
+        public StringCheckType(String actual, String equals, String contains, String matches) {
             this.actual = actual;
             this.equals = equals;
             this.contains = contains;
-            this.matchs = matchs;
+            this.matches = matches;
         }
 
         /** BaseChecker that current page url/title equals to expected url/title */
@@ -84,7 +84,7 @@ public class Page extends BaseElement implements IPage {
         public void check() { new Check("Page url equals to " + equals).areEquals(actual, equals); }
         /** BaseChecker that current page url/title matches to expected url/title-matcher */
         @JDIAction
-        public void match() { new Check("Page url matches to " + matchs).isTrue(actual.matches(matchs)); }
+        public void match() { new Check("Page url matches to " + matches).isTrue(actual.matches(matches)); }
         /** BaseChecker that current page url/title contains expected url/title-matcher */
         @JDIAction
         public void contains() { new Check("Page url contains " + contains).isTrue(actual.contains(contains)); }
