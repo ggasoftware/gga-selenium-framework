@@ -64,6 +64,8 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         if (isListCheck && failMessage == null)
             failMessage = defaultMessage + " failed";
         String resultMessage = new Timer(timeout).getResultByCondition(result::invoke, r -> r == null || r.equals(""));
+        if (resultMessage == null)
+            resultMessage = result.invoke();
         if (resultMessage != null) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 makeScreenshot();

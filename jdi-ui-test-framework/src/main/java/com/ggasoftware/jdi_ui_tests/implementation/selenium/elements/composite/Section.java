@@ -7,5 +7,4 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
  * Created by Roman_Iovlev on 7/10/2015.
  */
 public class Section extends Element implements IComposite {
-
 }
