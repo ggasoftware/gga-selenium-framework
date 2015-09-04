@@ -34,7 +34,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public BaseChecker doScreenshot() { return doScreenshot(DO_SCREEN_ALWAYS); }
     public BaseChecker setThrowFail(JActionT<String> throwFail) { this.throwFail = throwFail; return this; }
     public BaseChecker ignoreCase() { this.ignoreCase = true; return this; }
-    public BaseChecker setWait(int timeoutSec) { this.timeout = timeoutSec; return this; }
+    public BaseChecker setWait(int timeoutSec) { this.timeout = timeoutSec*1000; return this; }
 
     private DoScreen doScreenshot = defaultDoScreenType;
     private String checkMessage = "";
