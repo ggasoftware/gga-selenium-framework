@@ -50,12 +50,14 @@ class Rows<T extends SelectElement> extends TableLine<T> {
             rowsCount = count;
         else if (headers != null && (headers.length > 0))
             rowsCount = headers.length;
+        if (rowsCount == -1)
+            rowsCount = headers().length;
         if (rowsCount > 0 && rowsCount < colNum)
-            asserter.exception(format("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, rowsCount));
+            throw asserter.exception(format("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, rowsCount));
         try {
             return new MapArray<>(count(),
                     rowNum -> headers()[rowNum],
-                    rowNum -> table.cell(new Column(colNum), new Row(rowNum)));
+                    rowNum -> table.cell(new Column(colNum), new Row(rowNum+1)));
         }
         catch (Exception ex) { throw throwRowsException(colNum + "", ex); }
     }

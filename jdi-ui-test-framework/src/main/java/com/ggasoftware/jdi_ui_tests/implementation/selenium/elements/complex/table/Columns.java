@@ -48,15 +48,17 @@ class Columns<T extends SelectElement> extends TableLine<T> {
     public MapArray<String, ICell<T>> getRow(int rowNum) {
         int colsCount = -1;
         if (count > 0)
-        colsCount = count;
+            colsCount = count;
         else if (headers != null && (headers.length > 0))
-        colsCount = headers.length;
+            colsCount = headers.length;
+        if (colsCount == -1)
+            colsCount = headers().length;
         if (colsCount > 0 && colsCount < rowNum)
-            asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, colsCount));
+            throw asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, colsCount));
         try {
             return new MapArray<>(count(),
                     colNum -> headers()[colNum],
-                    colNum -> table.cell(new Column(colNum), new Row(rowNum)));
+                    colNum -> table.cell(new Column(colNum+1), new Row(rowNum)));
         }
         catch (Exception ex) { throw throwColsException(rowNum + "", ex); }
     }
