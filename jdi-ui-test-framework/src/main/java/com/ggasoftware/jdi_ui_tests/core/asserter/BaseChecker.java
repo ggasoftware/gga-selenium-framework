@@ -83,7 +83,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
 
     private void makeScreenshot() {
         String screenMessage = doScreenshotGetMessage();
-        logger.info("Create screenshot in: ", screenMessage);
+        logger.info("Create screenshot in: " + screenMessage);
     }
 
     private String getBeforeMessage(String defaultMessage) {

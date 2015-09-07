@@ -1,11 +1,11 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pairs;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -66,7 +66,7 @@ public class GetElementModule {
                 this::searchElements,
                 els -> where(els, getSearchCriteria()::invoke).size() > 0);
         timeouts.dropTimeouts();
-        return result;
+        return (List<WebElement>) where(result, getSearchCriteria()::invoke);
     }
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
     private JFuncTT<WebElement, Boolean> getSearchCriteria() {

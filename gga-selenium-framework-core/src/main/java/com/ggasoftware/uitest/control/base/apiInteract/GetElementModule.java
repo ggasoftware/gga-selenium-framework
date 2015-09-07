@@ -66,9 +66,10 @@ public class GetElementModule {
     }
 
     private List<WebElement> getElementsAction() {
-        return new Timer(TIMEOUT * 1000).getResultByCondition(
+        List<WebElement> result = new Timer(TIMEOUT * 1000).getResultByCondition(
                 this::searchElements,
                 els -> where(els, getSearchCriteria()::invoke).size() > 0);
+        return (List<WebElement>) where(result, getSearchCriteria()::invoke);
     }
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
     private JFuncTT<WebElement, Boolean> getSearchCriteria() {
