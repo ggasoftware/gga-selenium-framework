@@ -14,6 +14,7 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
@@ -204,7 +205,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         listEquals(actual, expected, null);
     }
     public <T> void mapEqualsEntity(MapArray<String, String> map, T entity, String failMessage) {
-        listEquals(map.pairs, objToSetValue(entity).pairs, failMessage);
+        listEquals(map.pairs, where(objToSetValue(entity).pairs, el -> el.value != null), failMessage);
     }
     public <T> void mapEqualsEntity(MapArray<String, String> map, T entity) {
         mapEqualsEntity(map, entity, null);
