@@ -56,14 +56,16 @@ public class Page extends BaseElement implements IPage {
         else {
             if (urlMatchs != null)
                 url().match();
-            else url().check();
+            else if (url != null && !url.equals(""))
+                url().check();
         }
         if (titleContains != null)
             title().contains();
         else {
             if (titleMatchs != null)
                 title().match();
-            else title().check();
+            else if (title != null && !title.equals(""))
+                title().check();
         }
     }
 
