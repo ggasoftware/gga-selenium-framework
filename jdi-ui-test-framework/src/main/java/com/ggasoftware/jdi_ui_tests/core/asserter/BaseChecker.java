@@ -188,7 +188,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         areDifferent(actual, expected, null);
     }
 
-    private  <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage, boolean equalSize) {
+    private  <T> void collectionEquals(Collection<T> actual, Collection<T> expected, String failMessage, boolean equalSize) {
         assertAction("Check that Collections are equal",
                 () -> actual != null && expected != null && (!equalSize || (actual.size() == expected.size()))
                         ? FOUND
@@ -204,13 +204,13 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     public  <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage) {
-        listEquals(actual, expected, failMessage, true);
+        collectionEquals(actual, expected, failMessage, true);
     }
     public <T> void listEquals(Collection<T> actual, Collection<T> expected) {
         listEquals(actual, expected, null);
     }
     public <T> void mapEqualsEntity(MapArray<String, String> map, T entity, String failMessage) {
-        listEquals(map.pairs, where(objToSetValue(entity).pairs, el -> el.value != null), failMessage, false);
+        collectionEquals(map.pairs, where(objToSetValue(entity).pairs, el -> el.value != null), failMessage, false);
     }
     public <T> void mapEqualsEntity(MapArray<String, String> map, T entity) {
         mapEqualsEntity(map, entity, null);
@@ -433,9 +433,9 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void areDifferent(JFuncT<T> actual, T expected) {
         areDifferent(actual, expected, null);
     }
-    public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage) {
+    public <T> void collectionEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage, boolean equalSize) {
         assertAction("Check that Collections are equal",
-                () -> actual.invoke() != null && expected != null && actual.invoke().size() == expected.size()
+                () -> actual.invoke() != null && expected != null && (!equalSize || (actual.invoke().size() == expected.size()))
                         ? FOUND
                         : "listEquals failed because one of the Collections is null or empty",
                 failMessage, true);
@@ -447,11 +447,14 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                     : FOUND;
         }, failMessage, true);
     }
+    public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage) {
+        collectionEquals(actual, expected, failMessage, true);
+    }
     public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected) {
         listEquals(actual, expected, null);
     }
     public <T> void mapEqualsEntity(JFuncT<MapArray<String, String>> map, T entity, String failMessage) {
-        listEquals(() -> map.invoke().pairs, objToSetValue(entity).pairs, failMessage);
+        collectionEquals(() -> map.invoke().pairs, objToSetValue(entity).pairs, failMessage, false);
     }
     public <T> void mapEqualsEntity(JFuncT<MapArray<String, String>> map, T entity) {
         mapEqualsEntity(map, entity, null);
