@@ -187,25 +187,30 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void areDifferent(T actual, T expected) {
         areDifferent(actual, expected, null);
     }
-    public <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage) {
+
+    private  <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage, boolean equalSize) {
         assertAction("Check that Collections are equal",
-                () -> actual != null && expected != null && actual.size() == expected.size()
+                () -> actual != null && expected != null && (!equalSize || (actual.size() == expected.size()))
                         ? FOUND
                         : "listEquals failed because one of the Collections is null or empty",
                 failMessage, false);
         assertAction(null, () -> {
-            T notEqualElement = first(actual, el -> !expected.contains(el));
+            T notEqualElement = first(expected, el -> el != null && !actual.contains(el));
             return (notEqualElement != null)
                     ? format("Collections '%s' and '%s' not equals at webElement '%s'",
                     print(select(actual, Object::toString)), print(select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, false);
     }
+
+    public  <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage) {
+        listEquals(actual, expected, failMessage, true);
+    }
     public <T> void listEquals(Collection<T> actual, Collection<T> expected) {
         listEquals(actual, expected, null);
     }
     public <T> void mapEqualsEntity(MapArray<String, String> map, T entity, String failMessage) {
-        listEquals(map.pairs, where(objToSetValue(entity).pairs, el -> el.value != null), failMessage);
+        listEquals(map.pairs, where(objToSetValue(entity).pairs, el -> el.value != null), failMessage, false);
     }
     public <T> void mapEqualsEntity(MapArray<String, String> map, T entity) {
         mapEqualsEntity(map, entity, null);
