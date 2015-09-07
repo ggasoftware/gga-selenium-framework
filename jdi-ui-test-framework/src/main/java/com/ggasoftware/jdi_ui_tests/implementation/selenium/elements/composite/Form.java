@@ -8,7 +8,6 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IForm;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -20,6 +19,7 @@ import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement.namesEqual;
 import static java.lang.String.format;
 
 /**
@@ -37,8 +37,8 @@ public class Form<T> extends Element implements IForm<T> {
     }
     public void fill(MapArray<String, String> objStrings) {
         foreach(getFields(this, ISetValue.class), element -> {
-            String fieldValue = objStrings.first(name ->
-                    GetElement.namesEqual(name, getElementName(element)));
+            String fieldValue = objStrings.first((name, value) ->
+                    namesEqual(name, getElementName(element)));
             if (fieldValue != null) {
                 ISetValue setValueElement = (ISetValue) getFieldValue(element, this);
                 doActionRule.invoke(fieldValue, val -> setValueAction(val, setValueElement));
@@ -75,8 +75,8 @@ public class Form<T> extends Element implements IForm<T> {
     }
     public void verify(MapArray<String, String> objStrings, JActionTT<String, String> compare) {
         foreach(getFields(this, IHasValue.class), element -> {
-            String fieldValue = objStrings.first(name ->
-                    GetElement.namesEqual(name, getElementName(element)));
+            String fieldValue = objStrings.first((name, value) ->
+                    namesEqual(name, getElementName(element)));
             if (fieldValue != null) {
                 IHasValue getValueElement = (IHasValue) getFieldValue(element, this);
                 doActionRule.invoke(fieldValue, val -> compare.invoke(getValueAction(getValueElement).trim(), val));

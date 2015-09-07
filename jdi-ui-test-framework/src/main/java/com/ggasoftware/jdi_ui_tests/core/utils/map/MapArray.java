@@ -4,12 +4,12 @@ package com.ggasoftware.jdi_ui_tests.core.utils.map;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTTT;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
 import com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil;
 
 import java.util.*;
 
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.firstIndex;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static java.lang.String.format;
@@ -260,10 +260,10 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             return result;
         } catch (Exception ignore) { return null; }
     }
-    public V first(JFuncTT<K, Boolean> func) {
+    public V first(JFuncTTT<K,V, Boolean> func) {
         try {
             for(Pair<K,V> pair : pairs)
-                if (func.invoke(pair.key))
+                if (func.invoke(pair.key, pair.value))
                     return pair.value;
             return null;
         } catch (Exception ignore) { return null; }

@@ -14,7 +14,6 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
@@ -187,33 +186,40 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void areDifferent(T actual, T expected) {
         areDifferent(actual, expected, null);
     }
-
-    private  <T> void collectionEquals(Collection<T> actual, Collection<T> expected, String failMessage, boolean equalSize) {
+    public <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage) {
         assertAction("Check that Collections are equal",
-                () -> actual != null && expected != null && (!equalSize || (actual.size() == expected.size()))
+                () -> actual != null && expected != null && actual.size() == expected.size()
                         ? FOUND
                         : "listEquals failed because one of the Collections is null or empty",
                 failMessage, false);
         assertAction(null, () -> {
-            T notEqualElement = first(expected, el -> el != null && !actual.contains(el));
+            T notEqualElement = first(actual, el -> !expected.contains(el));
             return (notEqualElement != null)
                     ? format("Collections '%s' and '%s' not equals at webElement '%s'",
                     print(select(actual, Object::toString)), print(select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, false);
     }
-
-    public  <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage) {
-        collectionEquals(actual, expected, failMessage, true);
-    }
     public <T> void listEquals(Collection<T> actual, Collection<T> expected) {
         listEquals(actual, expected, null);
     }
-    public <T> void mapEqualsEntity(MapArray<String, String> map, T entity, String failMessage) {
-        collectionEquals(map.pairs, where(objToSetValue(entity).pairs, el -> el.value != null), failMessage, false);
+    public <T> void mapEqualsEntity(MapArray<String, String> actual, T entity, String failMessage) {
+        MapArray<String, String> expected = objToSetValue(entity).where(el -> el.value != null);
+        assertAction("Check that Collections are equal",
+                () -> actual != null && expected != null
+                        ? FOUND
+                        : "listEquals failed because one of the Collections is null or empty",
+                failMessage, false);
+        assertAction(null, () -> {
+            String notEqualElement = expected.first((name, value) -> actual.get(name).equals(value));
+            return (notEqualElement != null)
+                    ? format("Collections '%s' and '%s' not equals at webElement '%s'",
+                    print(select(actual, Object::toString)), print(select(expected, Object::toString)), notEqualElement)
+                    : FOUND;
+        }, failMessage, false);
     }
-    public <T> void mapEqualsEntity(MapArray<String, String> map, T entity) {
-        mapEqualsEntity(map, entity, null);
+    public <T> void mapEqualsEntity(MapArray<String, String> actual, T entity) {
+        mapEqualsEntity(actual, entity, null);
     }
     public <T> void arrayEquals(T actual, T expected, String failMessage) {
         assertAction("Check that Collections are equal",
@@ -433,9 +439,9 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void areDifferent(JFuncT<T> actual, T expected) {
         areDifferent(actual, expected, null);
     }
-    public <T> void collectionEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage, boolean equalSize) {
+    public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage) {
         assertAction("Check that Collections are equal",
-                () -> actual.invoke() != null && expected != null && (!equalSize || (actual.invoke().size() == expected.size()))
+                () -> actual.invoke() != null && expected != null && actual.invoke().size() == expected.size()
                         ? FOUND
                         : "listEquals failed because one of the Collections is null or empty",
                 failMessage, true);
@@ -447,17 +453,26 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                     : FOUND;
         }, failMessage, true);
     }
-    public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage) {
-        collectionEquals(actual, expected, failMessage, true);
-    }
     public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected) {
         listEquals(actual, expected, null);
     }
-    public <T> void mapEqualsEntity(JFuncT<MapArray<String, String>> map, T entity, String failMessage) {
-        collectionEquals(() -> map.invoke().pairs, objToSetValue(entity).pairs, failMessage, false);
+    public <T> void mapEqualsEntity(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+        MapArray<String, String> expected = objToSetValue(entity).where(el -> el.value != null);
+        assertAction("Check that Collections are equal",
+                () -> actual.invoke() != null && expected != null
+                        ? FOUND
+                        : "listEquals failed because one of the Collections is null or empty",
+                failMessage, false);
+        assertAction(null, () -> {
+            String notEqualElement = expected.first((name, value) -> actual.invoke().get(name).equals(value));
+            return (notEqualElement != null)
+                    ? format("Collections '%s' and '%s' not equals at webElement '%s'",
+                    print(select(actual.invoke(), Object::toString)), print(select(expected, Object::toString)), notEqualElement)
+                    : FOUND;
+        }, failMessage, false);
     }
-    public <T> void mapEqualsEntity(JFuncT<MapArray<String, String>> map, T entity) {
-        mapEqualsEntity(map, entity, null);
+    public <T> void mapEqualsEntity(JFuncT<MapArray<String, String>> actual, T entity) {
+        mapEqualsEntity(actual, entity, null);
     }
     public <T> void arrayEquals(JFuncT<T> actual, T expected, String failMessage) {
         assertAction("Check that Collections are equal",

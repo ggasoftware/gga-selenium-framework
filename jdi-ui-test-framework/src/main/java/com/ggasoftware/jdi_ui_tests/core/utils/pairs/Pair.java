@@ -28,4 +28,9 @@ public class Pair<TValue1, TValue2> {
         return this.key.equals(pairo.key) &&
                 this.value.equals(pairo.value);
     }
+
+    @Override
+    public String toString() {
+        return key + ":" + value;
+    }
 }
