@@ -31,9 +31,7 @@
     </properties>
 
     <modules>
-        <module>gga-selenium-framework-logging</module>
         <module>gga-selenium-framework-core</module>
-        <module>gga-selenium-framework-reportng</module>
 		<module>jdi-ui-test-framework</module>
         <!--<module>gga-selenium-framework-demo</module>-->
         <!--<module>gga-selenium-framework-demo-allure</module>-->
