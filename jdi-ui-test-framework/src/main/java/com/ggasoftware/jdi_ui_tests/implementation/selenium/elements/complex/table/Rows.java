@@ -57,19 +57,13 @@ public class Rows extends TableLine {
     }
 
     public final MapArray<String, ICell> getColumn(int colNum) {
-        int rowsCount = -1;
-        if (count > 0)
-            rowsCount = count;
-        else if (headers != null && (headers.length > 0))
-            rowsCount = headers.length;
-        if (rowsCount == -1)
-            rowsCount = headers().length;
-        if (rowsCount > 0 && rowsCount < colNum)
-            throw asserter.exception(format("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, rowsCount));
+        if (count() < 0 || count() < colNum || colNum <= 0)
+            throw asserter.exception(format("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, count()));
         try {
+            List<WebElement> webColumn = getColumnAction(colNum);
             return new MapArray<>(count(),
-                    rowNum -> headers()[rowNum],
-                    rowNum -> table.cell(new Column(colNum), new Row(rowNum + 1)));
+                    key -> headers()[key],
+                    value -> table.cell(webColumn.get(value), new Column(colNum), new Row(value + 1)));
         }
         catch (Exception ex) { throw throwRowsException(colNum + "", ex); }
     }

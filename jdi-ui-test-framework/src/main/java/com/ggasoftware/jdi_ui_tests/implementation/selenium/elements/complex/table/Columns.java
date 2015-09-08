@@ -63,12 +63,13 @@ public class Columns extends TableLine {
             colsCount = headers.length;
         if (colsCount == -1)
             colsCount = headers().length;
-        if (colsCount > 0 && colsCount < rowNum)
+        if (count() < 0 || count() < rowNum || rowNum <= 0)
             throw asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, colsCount));
         try {
+            List<WebElement> webRow = getRowAction(rowNum);
             return new MapArray<>(count(),
-                    colNum -> headers()[colNum],
-                    colNum -> table.cell(new Column(colNum+1), new Row(rowNum)));
+                    key -> headers()[key],
+                    value -> table.cell(webRow.get(value), new Column(value+1), new Row(rowNum)));
         }
         catch (Exception ex) { throw throwColsException(rowNum + "", ex); }
     }

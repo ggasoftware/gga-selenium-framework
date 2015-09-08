@@ -51,9 +51,10 @@ class Cell extends SelectElement implements ISelect, ICell {
 
     @Override
     protected void clickAction() { get().click(); }
-    public SelectElement get() { return (webElement != null)
-        ? new SelectElement(webElement)
-        : new SelectElement(fillByMsgTemplate(cellLocatorTemplate, columnIndex, rowIndex));
+    public SelectElement get() {
+        return (webElement != null)
+            ? new SelectElement(webElement)
+            : new SelectElement(fillByMsgTemplate(cellLocatorTemplate, columnIndex, rowIndex));
     }
     public <T extends BaseElement> T get(Class<?> clazz) {
         T instance;
