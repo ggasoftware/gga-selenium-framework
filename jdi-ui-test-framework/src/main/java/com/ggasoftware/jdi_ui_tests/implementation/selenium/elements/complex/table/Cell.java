@@ -2,9 +2,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.ta
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Button;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelect;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 import org.openqa.selenium.By;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
@@ -73,7 +71,8 @@ class Cell extends SelectElement implements ISelect, ICell {
         this.rowNum = rowNum;
         this.columnName = colName;
         this.rowName = rowName;
-        this.cellLocatorTemplate = cellLocatorTemplate;
+        if (cellLocatorTemplate != null)
+            this.cellLocatorTemplate = cellLocatorTemplate;
         this.columnsTemplate = columnsTemplate;
     }
 
