@@ -204,7 +204,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         listEquals(actual, expected, null);
     }
     private  <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage, boolean shouldEqual) {
-        MapArray<String, String> expected = objToSetValue(entity).where(el -> el.value != null);
+        MapArray<String, String> expected = objToSetValue(entity).where((k,value) -> value != null);
         assertAction("Check that Collections are equal",
                 () -> actual != null && expected != null && (!shouldEqual || actual.size() == expected.size())
                         ? FOUND
@@ -467,7 +467,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     public <T> void entityIncludeMap(JFuncT<MapArray<String, String>> actual, T entity, String failMessage, boolean shouldEqual) {
-        MapArray<String, String> expected = objToSetValue(entity).where(el -> el.value != null);
+        MapArray<String, String> expected = objToSetValue(entity).where((k,value) -> value != null);
         assertAction("Check that Collections are equal",
                 () -> {
                     MapArray<String, String> actualMap = actual.invoke();

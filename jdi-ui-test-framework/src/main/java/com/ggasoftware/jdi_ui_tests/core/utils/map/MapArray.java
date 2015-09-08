@@ -2,13 +2,12 @@ package com.ggasoftware.jdi_ui_tests.core.utils.map;
 
 
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionT;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTTT;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.*;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
 import com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.firstIndex;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
@@ -79,10 +78,10 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
         return toMapArray(mySet);
     }
     public <KResult, VResult> MapArray<KResult, VResult> toMapArray(
-            JFuncTT<Pair<K, V>, KResult> key, JFuncTT<Pair<K, V>, VResult> value) {
+            JFuncTTT<K, V, KResult> key, JFuncTTT<K, V, VResult> value) {
         MapArray<KResult, VResult> result = new MapArray<>();
         for (Pair<K,V> pair : pairs)
-            result.add(key.invoke(pair), value.invoke(pair));
+            result.add(key.invoke(pair.key, pair.value), value.invoke(pair.key, pair.value));
         return result;
     }
     public <VResult> MapArray<K, VResult> toMapArray(
@@ -261,20 +260,19 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     }
     public MapArray<K, V> copy() { return clone(); }
 
-    public <T1> Collection<T1> select(JFuncTT<Pair<K,V>, T1> func) {
+    public <T1> Collection<T1> select(JFuncTTT<K,V, T1> func) {
         try {
-            List<T1> result = new ArrayList<>();
-            for (Pair<K,V> pair : pairs)
-                result.add(func.invoke(pair));
-            return result;
+            return pairs.stream()
+                    .map(pair -> func.invoke(pair.key, pair.value))
+                    .collect(Collectors.toList());
         } catch (Exception ignore) { return new ArrayList<>(); }
     }
 
-    public MapArray<K, V> where(JFuncTT<Pair<K, V>, Boolean> func) {
+    public MapArray<K, V> where(JFuncTTT<K, V, Boolean> func) {
         try {
             MapArray<K, V> result = new MapArray<>();
             for(Pair<K,V> pair : pairs)
-                if (func.invoke(pair))
+                if (func.invoke(pair.key, pair.value))
                     result.add(pair);
             return result;
         } catch (Exception ignore) { return null; }
@@ -287,10 +285,10 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             return null;
         } catch (Exception ignore) { return null; }
     }
-    public void foreach(JActionT<Pair<K, V>> action) {
+    public void foreach(JActionTT<K, V> action) {
         try {
             for(Pair<K,V> pair : pairs)
-                action.invoke(pair);
+                action.invoke(pair.key, pair.value);
         } catch (Exception ignore) { }
     }
 }
