@@ -1,7 +1,17 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Button;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelect;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
+import org.openqa.selenium.By;
+
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.last;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByMsgTemplate;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.getClassFromInterface;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType.Locator;
 
 /**
  * Created by 12345 on 25.10.2014.
@@ -13,8 +23,9 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
  * Click, Select, getText, waitText, waitMatchText<br>
  * Also you can use get() method to get webElement of specified for table Type and do any possible action with it<br>
  * */
-class Cell<T extends SelectElement> extends SelectElement implements ISelect, ICell<T> {
-    private T element;
+class Cell extends SelectElement implements ISelect, ICell {
+    private int rowIndex;
+    private int columnIndex;
     private int columnNum;
     public int columnNum() { return columnNum; }
     private int rowNum;
@@ -25,23 +36,48 @@ class Cell<T extends SelectElement> extends SelectElement implements ISelect, IC
     public String rowName() { return rowName; }
 
     @Override
-    protected String getTextAction() {
-                return element.getText();
-    }
+    protected String getTextAction() {return get().getText(); }
+
+    private By cellLocatorTemplate = By.xpath(".//tr[{1}]/td[{0}]");
+    private Class<?>[] columnsTemplate;
 
     @Override
-    protected void clickAction() { element.click(); }
-    public T get() { return element; }
+    protected void clickAction() { get().click(); }
+    public SelectElement get() { return new SelectElement(fillByMsgTemplate(cellLocatorTemplate, columnIndex, rowIndex)); }
+    public <T extends BaseElement> T get(Class<?> clazz) {
+        T instance;
+        try {
+            instance = (clazz.isInterface())
+                    ? (T) getClassFromInterface(clazz).newInstance()
+                    : (T) clazz.newInstance();
+        } catch (Exception ex) { throw asserter.exception("Can't get Cell from interface/class: " + last((clazz + "").split("\\."))); }
+        return get(instance);
+    }
+    public <T extends BaseElement> T get(T cell) {
+        By locator = cell.getLocator();
+        if (locator == null || locator.toString().equals(""))
+            locator = cellLocatorTemplate;
+        if (!locator.toString().contains("{0}") || !locator.toString().contains("{1}"))
+            throw asserter.exception("Can't create cell with locator template " + cell.getLocator() +
+                    ". Template for Cell should contains '{0}' - for column and '{1}' - for row indexes.");
+        cell.getAvatar().byLocator = fillByMsgTemplate(cell.getLocator(), rowIndex, columnIndex);
+        cell.getAvatar().context.add(Locator, getLocator());
+        return cell;
+    }
 
-    public Cell(T element, int columnNum, int rowNum, String colName, String rowName) {
-        this.element = element;
+    public Cell(int columnIndex, int rowIndex, int columnNum, int rowNum, String colName, String rowName,
+                By cellLocatorTemplate, Class<?>[] columnsTemplate) {
+        this.columnIndex = columnIndex;
+        this.rowIndex = rowIndex;
         this.columnNum = columnNum;
         this.rowNum = rowNum;
         this.columnName = colName;
         this.rowName = rowName;
+        this.cellLocatorTemplate = cellLocatorTemplate;
+        this.columnsTemplate = columnsTemplate;
     }
 
-    public Cell<T> updateData(String colName, String rowName) {
+    public Cell updateData(String colName, String rowName) {
         if ((columnName == null || columnName.equals("")) && !(colName == null || colName.equals("")))
             columnName = colName;
         if ((this.rowName == null || this.rowName.equals("")) && !(rowName == null || rowName.equals("")))

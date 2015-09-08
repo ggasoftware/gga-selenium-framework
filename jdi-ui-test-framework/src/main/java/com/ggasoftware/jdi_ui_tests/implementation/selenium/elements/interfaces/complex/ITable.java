@@ -18,31 +18,31 @@ import java.util.List;
 public interface ITable<T extends SelectElement> extends IText {
     /** Get Cell by column/row index (Int) or name(String) */
     @JDIAction
-    ICell<T> cell(Column column, Row row);
+    ICell cell(Column column, Row row);
     /** Get all Cells with values equals to searched value */
     @JDIAction
-    List<ICell<T>> cells(String value);
+    List<ICell> cells(String value);
     /** Get all Cells with values matches to searched regex */
     @JDIAction
-    List<ICell<T>> cellsMatch(String regex);
+    List<ICell> cellsMatch(String regex);
     /** Get first Cell with equals to searched value  */
     @JDIAction
-    ICell<T> cell(String value);
+    ICell cell(String value);
     /** Get first Cell with matches to searched regex  */
     @JDIAction
-    ICell<T> cellMatch(String regex);
+    ICell cellMatch(String regex);
     /** Searches Rows in table matches specified criteria colNameValues - list of search criteria in format columnName=columnValue<br>
      *  e.g. rows("Name=Roman", "Profession=QA") <br>
      *  Each Row is map: columnName:cell
      */
     @JDIAction
-    MapArray<String, MapArray<String, ICell<T>>> rows(String... colNameValues);
+    MapArray<String, MapArray<String, ICell>> rows(String... colNameValues);
     /** Searches Columns in table matches specified criteria rowNameValues - list of search criteria in format rowName=rowValue<br>
      *  e.g. columns("Total=100", "Count=10") <br>
      *  Each Column is map: rowName:cell
      */
     @JDIAction
-    MapArray<String, MapArray<String, ICell<T>>> columns(String... rowNameValues);
+    MapArray<String, MapArray<String, ICell>> columns(String... rowNameValues);
     /** Waits while value appear in Row <br>
      *  e.g. waitValue("100", row("Total")) <br>
      *  or   waitValue("100", row(5))
@@ -69,61 +69,61 @@ public interface ITable<T extends SelectElement> extends IText {
      *  or   cell("100", row(5))
      *  */
     @JDIAction
-    ICell<T> cell(String value, Row row);
+    ICell cell(String value, Row row);
     /** Get first Cell with searched value in column by index (Int) or name(String)<br>
      *  e.g. cell("Roman", column("Name")) <br>
      *  or   cell("Roman", column(3))
      *  */
     @JDIAction
-    ICell<T> cell(String value, Column column);
+    ICell cell(String value, Column column);
     /** Get all Cells with values matches to searched in Row by index (Int) or name(String) <br>
      *  e.g. cellsMatch(".*uccess.*", row("Result")) <br>
      *  or   cellsMatch(".*uccess.*", row(5))
      *  */
     @JDIAction
-    List<ICell<T>> cellsMatch(String regex, Row row);
+    List<ICell> cellsMatch(String regex, Row row);
     /** Get all Cells with values matches to searched in Column by index (Int) or name(String) <br>
      *  e.g. cellsMatch("Roma.*", column("Name")) <br>
      *  or   cellsMatch("Roma.*", column(3))
      *  */
     @JDIAction
-    List<ICell<T>> cellsMatch(String regex, Column column);
+    List<ICell> cellsMatch(String regex, Column column);
     /** Get Row cells for Cell with searched value in Column by index(Int) or name(String) <br>
      *  e.g. row("Roman", column("Name")) <br>
      *  or   row("Roman", column(3)) <br>
      *  Each Row is map: columnName:cell
      *  */
     @JDIAction
-    MapArray<String, ICell<T>> row(String value, Column column);
+    MapArray<String, ICell> row(String value, Column column);
     /** Get Column cells for Cell with searched value in Row by index(Int) or name(String) <br>
      *  e.g. column("100", row("Total") <br>
      *  or   column("100", row(5)) <br>
      *  Each Column is map: rowName:cell
      *  */
     @JDIAction
-    MapArray<String, ICell<T>> column(String value, Row row);
-    ITableLine<T> rows();
+    MapArray<String, ICell> column(String value, Row row);
+    ITableLine rows();
     /** Get Row with index <br>
      *  Each Row is map: columnName:cell
      *  */
     @JDIAction
-    MapArray<String, ICell<T>> row(int rowNum);
+    MapArray<String, ICell> row(int rowNum);
     /** Get Row with name <br>
      *  Each Row is map: columnName:cell
      *  */
     @JDIAction
-    MapArray<String, ICell<T>> row(String rowName);
-    ITableLine<T> columns();
+    MapArray<String, ICell> row(String rowName);
+    ITableLine columns();
     /** Get Column with index <br>
      *  Each Column is map: rowName:cell
      *  */
     @JDIAction
-    MapArray<String, ICell<T>> column(int colNum);
+    MapArray<String, ICell> column(int colNum);
     /** Get Column with name <br>
      *  Each Column is map: rowName:cell
      *  */
     @JDIAction
-    MapArray<String, ICell<T>> column(String colName);
+    MapArray<String, ICell> column(String colName);
     /** Get Footer */
     @JDIAction
     String[] header();
@@ -132,5 +132,5 @@ public interface ITable<T extends SelectElement> extends IText {
     String[] footer();
     /** Get All Cells */
     @JDIAction
-    List<ICell<T>> getCells();
+    List<ICell> getCells();
 }

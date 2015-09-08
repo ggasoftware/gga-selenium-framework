@@ -1,13 +1,12 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 
 /**
  * Created by Roman_Iovlev on 7/28/2015.
  */
-public interface ITableLine<T extends SelectElement> {
+public interface ITableLine {
     /** Get Columns/Rows count*/
     @JDIAction
     int count();
@@ -24,7 +23,7 @@ public interface ITableLine<T extends SelectElement> {
      *      myTable.columns().count()
      *  */
     @JDIAction
-    MapArray<String, MapArray<String, ICell<T>>> get();
+    MapArray<String, MapArray<String, ICell>> get();
     @JDIAction
     MapArray<String, MapArray<String, String>> getAsText();
 }

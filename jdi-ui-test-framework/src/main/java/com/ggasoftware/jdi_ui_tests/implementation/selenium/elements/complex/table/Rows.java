@@ -1,13 +1,13 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
+import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static java.lang.String.format;
@@ -15,22 +15,21 @@ import static java.lang.String.format;
 /**
  * Created by 12345 on 26.10.2014.
  */
-class Rows<T extends SelectElement> extends TableLine<T> {
+class Rows extends TableLine {
     public Rows() {
         haveHeader = false;
         elementIndex = ElementIndexType.Nums;
     }
 
-    protected String[] getHeadersAction() {
-        return LinqUtils.select(table.getWebElement().findElements(By.xpath(".//tr/td[1]")), WebElement::getText)
-                .toArray(new String[1]);
+    protected List<WebElement> getHeadersAction() {
+        return table.getWebElement().findElements(By.xpath(".//tr/td[1]"));
     }
 
     private RuntimeException throwRowsException(String rowName, Exception ex) {
         return asserter.exception(format("Can't Get Rows '%s'. Exception: %s", rowName, ex));
     }
 
-    public final MapArray<String, ICell<T>> getColumn(String colName) {
+    public final MapArray<String, ICell> getColumn(String colName) {
         try { return cellsToColumn(LinqUtils.select(headers(), rowName -> table.cell(new Column(colName), new Row(rowName)))); }
         catch (Exception ex) { throw throwRowsException(colName, ex); }
     }
@@ -38,13 +37,13 @@ class Rows<T extends SelectElement> extends TableLine<T> {
         return getColumn(colName).toMapArray(IText::getText);
     }
 
-    public MapArray<String, ICell<T>> cellsToColumn(Collection<ICell<T>> cells) {
+    public MapArray<String, ICell> cellsToColumn(Collection<ICell> cells) {
         return new MapArray<>(cells,
                 cell -> headers()[cell.rowNum() - 1],
                 cell -> cell);
     }
 
-    public final MapArray<String, ICell<T>> getColumn(int colNum) {
+    public final MapArray<String, ICell> getColumn(int colNum) {
         int rowsCount = -1;
         if (count > 0)
             rowsCount = count;
@@ -65,10 +64,10 @@ class Rows<T extends SelectElement> extends TableLine<T> {
         return getColumn(colNum).toMapArray(IText::getText);
     }
 
-    public MapArray<String, MapArray<String, ICell<T>>> get() {
-        MapArray<String, MapArray<String, ICell<T>>> rows = new MapArray<>();
+    public MapArray<String, MapArray<String, ICell>> get() {
+        MapArray<String, MapArray<String, ICell>> rows = new MapArray<>();
         for(String rowName : headers()) {
-            MapArray<String, ICell<T>> column = new MapArray<>();
+            MapArray<String, ICell> column = new MapArray<>();
             for (String columnName : table.columns().headers())
                 column.add(columnName, table.cell(new Column(columnName), new Row(rowName)));
             rows.add(rowName, column);

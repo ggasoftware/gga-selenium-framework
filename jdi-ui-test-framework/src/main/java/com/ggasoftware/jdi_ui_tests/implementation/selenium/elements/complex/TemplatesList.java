@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplateSilent;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element.copy;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
@@ -67,7 +67,7 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
     public WebElement getWebElement(TEnum enumName) { return getElement(enumName).getWebElement(); }
 
     public TType getElement(String name) {
-        return copy(getTemplateElement() , fillByTemplateSilent(getLocator(), name));
+        return copy(getTemplateElement() , fillByTemplate(getLocator(), name));
     }
     public TType getElement(TEnum enumName) {
         return getElement(getEnumValue(enumName));

@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils.getEnumValue;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplateSilent;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 import static java.lang.String.format;
 
 
@@ -30,7 +30,7 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
         TType instance = TryCatchUtil.tryGetResult(clazz::newInstance);
         if (instance == null)
             throw asserter.exception(format("Can't get instace of '%s' webElement from Elements Group '%s'", name, toString()));
-        instance.setAvatar(fillByTemplateSilent(getLocator(), name), getAvatar());
+        instance.setAvatar(fillByTemplate(getLocator(), name), getAvatar());
         return instance;
     }
 }

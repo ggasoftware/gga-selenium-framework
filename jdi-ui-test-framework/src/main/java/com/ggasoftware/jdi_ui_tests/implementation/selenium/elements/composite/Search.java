@@ -15,7 +15,7 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplateSilent;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 import static java.lang.String.format;
 
 /**
@@ -67,7 +67,7 @@ public class Search extends TextField implements ISearch {
 
     private Clickable getElement(String name) {
         if (select != null)
-            return copy(select, fillByTemplateSilent(getLocator(), name));
+            return copy(select, fillByTemplate(getLocator(), name));
         else
             throw asserter.exception("Select locator not specified for search. Use accordance constructor");
     }

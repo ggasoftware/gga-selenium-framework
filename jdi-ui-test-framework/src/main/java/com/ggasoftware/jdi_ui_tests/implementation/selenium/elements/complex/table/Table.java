@@ -2,12 +2,8 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.ta
 
 import com.ggasoftware.jdi_ui_tests.core.utils.common.StringUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.ITable;
 import org.openqa.selenium.By;
@@ -21,9 +17,6 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplateSilent;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType.Locator;
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -31,7 +24,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 /**
  * Created by Roman_Iovlev on 6/2/2015.
  */
-public class Table<T extends SelectElement> extends Text implements ITable<T> {
+public class Table extends Text implements ITable {
     public Table() {
         this(null);
         //GetFooterFunc = t => t.FindElements(By.xpath("//tfoot/tr/td")).Select(el => el.Text).ToArray();
@@ -40,42 +33,50 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         super(tableLocator);
         _columns.table = this;
         _rows.table = this;
-        clazz = SelectElement.class;
     }
     public Table(By tableLocator, By cellLocatorTemplate) {
         this(tableLocator);
-        _cellLocatorTemplate = cellLocatorTemplate;
+        this.cellLocatorTemplate = cellLocatorTemplate;
     }
+    public Table(By tableLocator, Class<?>... columnsTemplate) {
+        this(tableLocator);
+        this.columnsTemplate = columnsTemplate;
+    }
+
+    private By cellLocatorTemplate;
+    private Class<?>[] columnsTemplate;
 
     // ------------------------------------------ //
 
-    private List<ICell<T>> _allCells = new ArrayList<>();
-    public List<ICell<T>> getCells() {
+    private List<ICell> _allCells = new ArrayList<>();
+    public List<ICell> getCells() {
         for(String columnName : columns().headers())
             for(String rowName : rows().headers())
                 _allCells.add(cell(new Column(columnName), new Row(rowName)));
         return _allCells;
     }
 
-    private Columns<T> _columns = new Columns<>();
-    public Columns<T> columns() { return _columns; }
-    public MapArray<String, ICell<T>> column(int colNum) { return rows().getColumn(colNum); }
-    public MapArray<String, ICell<T>> column(String colName) { return rows().getColumn(colName); }
+    private Columns _columns = new Columns();
+    public Columns columns() { return _columns; }
+    public MapArray<String, ICell> column(int colNum) { return rows().getColumn(colNum); }
+    public MapArray<String, ICell> column(String colName) { return rows().getColumn(colName); }
 
-    private MapArray<String, ICell<T>> column(Column column) { return column.get(this::column, this::column); }
+    private MapArray<String, ICell> column(Column column) { return column.get(this::column, this::column); }
 
-    public void setColumns(Columns<T> value) { _columns.update(value); }
+    public void setColumns(Columns value) { _columns.update(value); }
 
-    private Rows<T> _rows = new Rows<>();
-    public Rows<T> rows() { return _rows; }
-    public MapArray<String, ICell<T>> row(int rowNum) { return columns().getRow(rowNum); }
-    public MapArray<String, ICell<T>> row(String rowName) { return columns().getRow(rowName); }
+    private Rows _rows = new Rows();
+    public Rows rows() { return _rows; }
+    public MapArray<String, ICell> row(int rowNum) { return columns().getRow(rowNum); }
+    public MapArray<String, ICell> row(String rowName) { return columns().getRow(rowName); }
 
-    private MapArray<String, ICell<T>> row(Row row) { return row.get(this::row, this::row); }
-    public void setRows(Rows<T> value) { _rows.update(value); }
+    private MapArray<String, ICell> row(Row row) { return row.get(this::row, this::row); }
+    public void setRows(Rows value) {
+        _rows.update(value); }
 
     public void setColumnHeaders(String[] value) { columns().setHeaders(value); }
-    public void setRowHeaders(String[] value) { rows().setHeaders(value); }
+    public void setRowHeaders(String[] value) {
+        rows().setHeaders(value); }
     public void setColCount(int value) { columns().setCount(value); }
     public void setRowCount(int value) { rows().setCount(value); }
 
@@ -96,7 +97,7 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         return _footer;
     }
 
-    public ICell<T> cell(Column column, Row row) {
+    public ICell cell(Column column, Row row) {
         int colIndex = column.get(this::getColumnIndex, num -> num + columns().startIndex - 1);
         int rowIndex = row.get(this::getRowIndex, num -> num + rows().startIndex - 1);
         return addCell(colIndex, rowIndex,
@@ -106,39 +107,39 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
                 row.get(name -> name, num -> ""));
     }
 
-    private List<ICell<T>> matches(Collection<ICell<T>> list, String regex) {
+    private List<ICell> matches(Collection<ICell> list, String regex) {
         return new ArrayList<>(where(list, cell -> cell.getValue().matches(regex)));
     }
 
-    public List<ICell<T>> cells(String value) {
+    public List<ICell> cells(String value) {
         return new ArrayList<>(where(getCells(), cell -> cell.getValue().equals(value)));
     }
 
-    public List<ICell<T>> cellsMatch(String regex) {
+    public List<ICell> cellsMatch(String regex) {
         return matches(getCells(), regex);
     }
 
-    public ICell<T> cell(String value) {
+    public ICell cell(String value) {
         for (int colIndex = 1; colIndex <= columns().count(); colIndex++)
             for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-                ICell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
+                ICell cell = cell(new Column(colIndex), new Row(rowIndex));
                 if (cell.getValue().equals(value)) return cell;
             }
         return null;
     }
 
-    public ICell<T> cellMatch(String regex) {
+    public ICell cellMatch(String regex) {
         for (int colIndex = 1; colIndex <= columns().count(); colIndex++)
             for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-                ICell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
+                ICell cell = cell(new Column(colIndex), new Row(rowIndex));
                 if (cell.getValue().matches(regex)) return cell;
             }
         return null;
     }
 
-    public MapArray<String, MapArray<String, ICell<T>>> rows(String... colNameValues) {
-        MapArray<String, MapArray<String, ICell<T>>> result = new MapArray<>();
-        for (Pair<String, MapArray<String, ICell<T>>> row : rows().get()) {
+    public MapArray<String, MapArray<String, ICell>> rows(String... colNameValues) {
+        MapArray<String, MapArray<String, ICell>> result = new MapArray<>();
+        for (Pair<String, MapArray<String, ICell>> row : rows().get()) {
             boolean matches = true;
             for (String colNameValue : colNameValues) {
                 if (!colNameValue.matches("[^=]+=[^=]*"))
@@ -156,9 +157,9 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         return result;
     }
 
-    public MapArray<String, MapArray<String, ICell<T>>> columns(String... rowNameValues) {
-        MapArray<String, MapArray<String, ICell<T>>> result = new MapArray<>();
-        for (Pair<String, MapArray<String, ICell<T>>> column : columns().get()) {
+    public MapArray<String, MapArray<String, ICell>> columns(String... rowNameValues) {
+        MapArray<String, MapArray<String, ICell>> result = new MapArray<>();
+        for (Pair<String, MapArray<String, ICell>> column : columns().get()) {
             boolean matches = true;
             for (String rowNameValue : rowNameValues) {
                 if (!rowNameValue.matches("[^=]+=[^=]*"))
@@ -196,45 +197,45 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
         return Timer.waitCondition(() -> rows().count() >= count);
     }
 
-    public ICell<T> cell(String value, Row row) {
+    public ICell cell(String value, Row row) {
         int rowIndex = (row.haveName())
             ? asList(rows().headers()).indexOf(row.getName()) + 1
             : row.getNum();
 
         for (int colIndex = 1; colIndex <= columns().count(); colIndex++) {
-            ICell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
+            ICell cell = cell(new Column(colIndex), new Row(rowIndex));
             if (cell.getValue().equals(value)) return cell;
         }
         return null;
     }
 
-    public ICell<T> cell(String value, Column column) {
+    public ICell cell(String value, Column column) {
         int colIndex = column.get(
                 name -> asList(columns().headers()).indexOf(name) + 1,
                 num -> num);
         for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-            ICell<T> cell = cell(new Column(colIndex), new Row(rowIndex));
+            ICell cell = cell(new Column(colIndex), new Row(rowIndex));
             if (cell.getValue().equals(value)) return cell;
         }
         return null;
     }
 
-    public List<ICell<T>> cellsMatch(String regex, Column column) {
-        MapArray<String, ICell<T>> columnLine = column(column);
+    public List<ICell> cellsMatch(String regex, Column column) {
+        MapArray<String, ICell> columnLine = column(column);
         return matches(columnLine.values(), regex);
     }
 
-    public List<ICell<T>> cellsMatch(String regex, Row row) {
-        MapArray<String, ICell<T>> rowLine = row(row);
+    public List<ICell> cellsMatch(String regex, Row row) {
+        MapArray<String, ICell> rowLine = row(row);
         return matches(rowLine.values(), regex);
     }
 
-    public MapArray<String, ICell<T>> column(String value, Row row) {
-        ICell<T> columnCell = cell(value, row);
+    public MapArray<String, ICell> column(String value, Row row) {
+        ICell columnCell = cell(value, row);
         return columnCell != null ? columns().getRow(columnCell.columnNum()) : null;
     }
-    public MapArray<String, ICell<T>> row(String value, Column column) {
-        ICell<T> rowCell = cell(value, column);
+    public MapArray<String, ICell> row(String value, Column column) {
+        ICell rowCell = cell(value, column);
         return rowCell != null ? rows().getColumn(rowCell.rowNum()) : null;
     }
 
@@ -269,49 +270,12 @@ public class Table<T extends SelectElement> extends Text implements ITable<T> {
                                         ICell::getValue)), "|") + "||")), StringUtils.LineBreak);
     }
 
-    private Cell<T> addCell(int colIndex, int rowIndex, int colNum, int rowNum, String colName, String rowName) {
-        Cell<T> cell = (Cell<T>) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
+    private Cell addCell(int colIndex, int rowIndex, int colNum, int rowNum, String colName, String rowName) {
+        Cell cell = (Cell) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
         if (cell != null)
             return cell.updateData(colName, rowName);
-        cell = createCell(colIndex, rowIndex, colNum, rowNum, colName, rowName);
+        cell = new Cell(colIndex, rowIndex, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate);
         _allCells.add(cell);
         return cell;
-    }
-
-    private Cell<T> createCell(int colIndex, int rowIndex, int colNum, int rowNum, String colName, String rowName) {
-        T cell = createCell(colIndex, rowIndex);
-        return new Cell<>(cell, colNum, rowNum, colName, rowName);
-    }
-
-    private Class<SelectElement> clazz;
-
-    private By _cellLocatorTemplate = By.xpath(".//tr[%s]/td[%s]");
-
-    public JFuncT<T> cellCreateTemplate;
-
-    private T createCell(int colIndex, int rowIndex) {
-        T cell;
-        try {
-            if (cellCreateTemplate != null) {
-                cell = cellCreateTemplate.invoke();
-                cell.getAvatar().byLocator = fillByTemplateSilent(cell.getLocator(), rowIndex, colIndex);
-                cell.getAvatar().context.add(Locator, getLocator());
-            } else
-                cell = (T) createCellInstance(clazz, WebDriverByUtils.fillByTemplateSilent(_cellLocatorTemplate, rowIndex, colIndex));
-        } catch (Exception ex) { throw asserter.exception("Can't init Cell"); }
-        if (cell == null)
-            throw asserter.exception("Can't init Cell");
-        return cell;
-    }
-
-    public <TChild extends SelectElement> TChild createCellInstance(Class<TChild> childClass, By newLocator) {
-        TChild element;
-        try { element = childClass.newInstance(); }
-        catch (Exception ignore) { throw asserter.exception(
-                format("Can't create child for parent '%s' with type '%s' and new locator '%s'",
-                        toString(), childClass.getName(), newLocator)); }
-        element.getAvatar().byLocator = newLocator;
-        element.getAvatar().context.add(ContextType.Locator, getLocator());
-        return element;
     }
 }

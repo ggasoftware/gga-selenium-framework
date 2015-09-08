@@ -1,11 +1,12 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
+import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,12 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 /**
  * Created by 12345 on 25.10.2014.
  */
-abstract class TableLine<T extends SelectElement> extends Element implements ITableLine<T> {
+abstract class TableLine extends Element implements ITableLine {
     public int startIndex = 1;
     public boolean haveHeader;
     public ElementIndexType elementIndex;
 
-    public Table<T> table;
+    public Table table;
 
     protected int count = -1;
     public void setCount(int value) { count = value; }
@@ -32,16 +33,21 @@ abstract class TableLine<T extends SelectElement> extends Element implements ITa
 
     protected String[] headers;
     public void setHeaders(String[] value) { headers = value; }
-    protected abstract String[] getHeadersAction() ;
+    protected String[] getHeadersTextAction() {
+        return LinqUtils.select(getHeadersAction(), WebElement::getText)
+                .toArray(new String[1]);
+    }
+    protected abstract List<WebElement> getHeadersAction();
+    public final List<WebElement> header() { return getHeadersAction(); }
     public final String[] headers() {
         if (headers != null)
             return headers;
-        String[] localHeaders = Timer.getResultAction(this::getHeadersAction);
+        String[] localHeaders = Timer.getResultAction(this::getHeadersTextAction);
         setHeaders((haveHeader)
             ? localHeaders
             : getNumList(localHeaders.length));
         if (headers == null || headers.length == 0)
-            asserter.exception("Can't get headers for Table");
+            throw asserter.exception("Can't get headers for Table");
         setCount(headers.length);
         return headers;
     }
@@ -56,7 +62,7 @@ abstract class TableLine<T extends SelectElement> extends Element implements ITa
         return result.toArray(new String[count]);
     }
 
-    public final void update(TableLine<T> tableLine) {
+    public final void update(TableLine tableLine) {
         if (tableLine.count > 0)
             setCount(tableLine.count());
         if (tableLine.startIndex != 1)

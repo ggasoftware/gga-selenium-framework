@@ -4,6 +4,7 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil;
 import org.openqa.selenium.By;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +30,12 @@ public class WebDriverByUtils {
             throw new RuntimeException(getBadLocatorMsg(byLocator, args)); }
         return getByFunc(by).invoke(byLocator);
     }
-
-    public static By fillByTemplateSilent(By by, Object... args) {
-        try { return fillByTemplate(by, args);
-        } catch (Exception ex) { throw new RuntimeException(ex.getMessage()); }
+    public static By fillByMsgTemplate(By by, Object... args) {
+        String byLocator = getByLocator(by);
+        try { byLocator = MessageFormat.format(byLocator, args); }
+        catch(Exception ex) {
+            throw new RuntimeException(getBadLocatorMsg(byLocator, args)); }
+        return getByFunc(by).invoke(byLocator);
     }
     public static By copyBy(By by) {
         String byLocator = getByLocator(by);

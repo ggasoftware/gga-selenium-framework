@@ -195,7 +195,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction(null, () -> {
             T notEqualElement = first(actual, el -> !expected.contains(el));
             return (notEqualElement != null)
-                    ? format("Collections '%s' and '%s' not equals at webElement '%s'",
+                    ? format("Collections '%s' and '%s' not equals at element '%s'",
                     print(select(actual, Object::toString)), print(select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, false);
@@ -213,7 +213,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction(null, () -> {
             String notEqualElement = expected.first((name, value) -> actual.get(name).equals(value));
             return (notEqualElement != null)
-                    ? format("Collections '%s' and '%s' not equals at webElement '%s'",
+                    ? format("Collections '%s' and '%s' not equals at element '%s'",
                     print(select(actual, Object::toString)), print(select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, false);
@@ -448,7 +448,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction(null, () -> {
             T notEqualElement = first(actual.invoke(), el -> !expected.contains(el));
             return (notEqualElement != null)
-                    ? format("Collections '%s' and '%s' not equals at webElement '%s'",
+                    ? format("Collections '%s' and '%s' not equals at element '%s'",
                     print(select(actual.invoke(), Object::toString)), print(select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, true);
@@ -466,7 +466,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         assertAction(null, () -> {
             String notEqualElement = expected.first((name, value) -> actual.invoke().get(name).equals(value));
             return (notEqualElement != null)
-                    ? format("Collections '%s' and '%s' not equals at webElement '%s'",
+                    ? format("Collections '%s' and '%s' not equals at element '%s'",
                     print(select(actual.invoke(), Object::toString)), print(select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, false);
