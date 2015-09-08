@@ -19,7 +19,7 @@ import static java.lang.String.format;
  */
 public class Columns extends TableLine {
     public Columns() {
-        haveHeader = true;
+        hasHeader = true;
         elementIndex = ElementIndexType.Nums;
     }
 
@@ -56,15 +56,8 @@ public class Columns extends TableLine {
     }
 
     public MapArray<String, ICell> getRow(int rowNum) {
-        int colsCount = -1;
-        if (count > 0)
-            colsCount = count;
-        else if (headers != null && (headers.length > 0))
-            colsCount = headers.length;
-        if (colsCount == -1)
-            colsCount = headers().length;
         if (count() < 0 || count() < rowNum || rowNum <= 0)
-            throw asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, colsCount));
+            throw asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, count()));
         try {
             List<WebElement> webRow = getRowAction(rowNum);
             return new MapArray<>(count(),

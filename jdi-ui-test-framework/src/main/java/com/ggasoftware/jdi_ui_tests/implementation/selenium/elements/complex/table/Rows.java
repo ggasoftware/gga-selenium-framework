@@ -19,12 +19,12 @@ import static java.lang.String.format;
  */
 public class Rows extends TableLine {
     public Rows() {
-        haveHeader = false;
+        hasHeader = false;
         elementIndex = ElementIndexType.Nums;
     }
 
     protected By columnTemplate = By.xpath(".//tr/td[%s]");
-    protected By rowsHeadersTemplate = By.xpath(".//th");
+    protected By rowsHeadersTemplate = By.xpath(".//tr/td[1]");
     protected List<WebElement> getHeadersAction() {
         return table.getWebElement().findElements(rowsHeadersTemplate);
     }

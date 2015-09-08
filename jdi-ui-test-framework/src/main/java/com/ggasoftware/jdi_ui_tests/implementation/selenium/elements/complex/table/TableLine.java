@@ -19,7 +19,7 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
  */
 abstract class TableLine extends Element implements ITableLine {
     public int startIndex = 1;
-    public boolean haveHeader;
+    public boolean hasHeader;
     public ElementIndexType elementIndex;
 
     public Table table;
@@ -44,7 +44,7 @@ abstract class TableLine extends Element implements ITableLine {
         if (headers != null)
             return headers;
         String[] localHeaders = Timer.getResultAction(this::getHeadersTextAction);
-        setHeaders((haveHeader)
+        setHeaders((hasHeader)
             ? localHeaders
             : getNumList(localHeaders.length));
         if (headers == null || headers.length == 0)
@@ -70,9 +70,9 @@ abstract class TableLine extends Element implements ITableLine {
             startIndex = tableLine.startIndex;
         if (tableLine.headers != null && tableLine.headers.length > 0)
             setHeaders(tableLine.headers());
-        if ((ReflectionUtils.isClass(tableLine.getClass(), Columns.class) && !tableLine.haveHeader)
-                || (ReflectionUtils.isClass(tableLine.getClass(), Rows.class) && tableLine.haveHeader))
-            haveHeader = tableLine.haveHeader;
+        if ((ReflectionUtils.isClass(tableLine.getClass(), Columns.class) && !tableLine.hasHeader)
+                || (ReflectionUtils.isClass(tableLine.getClass(), Rows.class) && tableLine.hasHeader))
+            hasHeader = tableLine.hasHeader;
         if (tableLine.elementIndex != ElementIndexType.Nums)
         elementIndex = tableLine.elementIndex;
     }
