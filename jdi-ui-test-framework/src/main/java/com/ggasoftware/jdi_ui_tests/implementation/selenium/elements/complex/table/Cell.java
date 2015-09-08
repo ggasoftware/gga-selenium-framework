@@ -27,14 +27,21 @@ class Cell extends SelectElement implements ISelect, ICell {
     private int rowIndex;
     private int columnIndex;
     private WebElement webElement;
+    private Table table;
     private int columnNum;
     public int columnNum() { return columnNum; }
     private int rowNum;
     public int rowNum() { return rowNum; }
     private String columnName;
-    public String columnName() { return columnName; }
+    public String columnName() {
+        return (columnName != null && !columnName.equals(""))
+            ? columnName
+            : table.columns().headers()[columnNum]; }
     private String rowName;
-    public String rowName() { return rowName; }
+    public String rowName() {
+        return (rowName != null && !rowName.equals(""))
+                ? rowName
+                : table.rows().headers()[rowNum]; }
 
     @Override
     protected String getTextAction() {return get().getText(); }
@@ -70,7 +77,7 @@ class Cell extends SelectElement implements ISelect, ICell {
     }
 
     public Cell(WebElement webElement, int columnNum, int rowNum, String colName, String rowName,
-                By cellLocatorTemplate, Class<?>[] columnsTemplate) {
+                By cellLocatorTemplate, Class<?>[] columnsTemplate, Table table) {
         this.webElement = webElement;
         this.columnNum = columnNum;
         this.rowNum = rowNum;
@@ -81,7 +88,7 @@ class Cell extends SelectElement implements ISelect, ICell {
         this.columnsTemplate = columnsTemplate;
     }
     public Cell(int columnIndex, int rowIndex, int columnNum, int rowNum, String colName, String rowName,
-                By cellLocatorTemplate, Class<?>[] columnsTemplate) {
+                By cellLocatorTemplate, Class<?>[] columnsTemplate, Table table) {
         this.columnIndex = columnIndex;
         this.rowIndex = rowIndex;
         this.columnNum = columnNum;

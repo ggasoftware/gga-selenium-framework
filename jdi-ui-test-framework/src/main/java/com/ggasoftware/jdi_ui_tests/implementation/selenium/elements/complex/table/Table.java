@@ -1,7 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.common.StringUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
@@ -18,6 +17,7 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.waitCondition;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -51,9 +51,10 @@ public class Table extends Text implements ITable {
 
     private List<ICell> _allCells = new ArrayList<>();
     public List<ICell> getCells() {
+        MapArray<String, MapArray<String, ICell>> rows = rows().get();
         for(String columnName : columns().headers())
             for(String rowName : rows().headers())
-                _allCells.add(cell(new Column(columnName), new Row(rowName)));
+                _allCells.add(rows.get(rowName).get(columnName));
         return _allCells;
     }
 
@@ -72,8 +73,7 @@ public class Table extends Text implements ITable {
     public MapArray<String, ICell> row(String rowName) { return columns().getRow(rowName); }
 
     private MapArray<String, ICell> row(Row row) { return row.get(this::row, this::row); }
-    public void setRows(Rows value) {
-        _rows.update(value); }
+    public void setRows(Rows value) { _rows.update(value); }
 
     public void setColumnHeaders(String[] value) { columns().setHeaders(value); }
     public void setRowHeaders(String[] value) {
@@ -128,20 +128,22 @@ public class Table extends Text implements ITable {
     }
 
     public ICell cell(String value) {
-        for (int colIndex = 1; colIndex <= columns().count(); colIndex++)
-            for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-                ICell cell = cell(new Column(colIndex), new Row(rowIndex));
-                if (cell.getValue().equals(value)) return cell;
-            }
+        ICell result;
+        for (Pair<String, MapArray<String,ICell>> row : rows().get()) {
+            result = row.value.first((cName, cValue) -> cValue.getText().equals(value));
+            if (result != null)
+                return result;
+        }
         return null;
     }
 
     public ICell cellMatch(String regex) {
-        for (int colIndex = 1; colIndex <= columns().count(); colIndex++)
-            for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-                ICell cell = cell(new Column(colIndex), new Row(rowIndex));
-                if (cell.getValue().matches(regex)) return cell;
-            }
+        ICell result;
+        for (Pair<String, MapArray<String,ICell>> row : rows().get()) {
+            result = row.value.first((cName, cValue) -> cValue.getText().matches(regex));
+            if (result != null)
+                return result;
+        }
         return null;
     }
 
@@ -189,7 +191,7 @@ public class Table extends Text implements ITable {
     }
 
     public boolean waitValue(String value, Column column) {
-        return com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.waitCondition(() -> row(value, column) != null);
+        return waitCondition(() -> row(value, column) != null);
     }
 
     public boolean isEmpty() {
@@ -202,30 +204,21 @@ public class Table extends Text implements ITable {
         return waitRows(1);
     }
     public boolean waitRows(int count) {
-        return Timer.waitCondition(() -> rows().count() >= count);
+        return waitCondition(() -> rows().count() >= count);
     }
 
     public ICell cell(String value, Row row) {
-        int rowIndex = (row.haveName())
+        int rowNum = (row.haveName())
             ? asList(rows().headers()).indexOf(row.getName()) + 1
             : row.getNum();
-
-        for (int colIndex = 1; colIndex <= columns().count(); colIndex++) {
-            ICell cell = cell(new Column(colIndex), new Row(rowIndex));
-            if (cell.getValue().equals(value)) return cell;
-        }
-        return null;
+        return columns().getRow(rowNum).first((name, cell) -> cell.getValue().equals(value));
     }
 
     public ICell cell(String value, Column column) {
         int colIndex = column.get(
                 name -> asList(columns().headers()).indexOf(name) + 1,
                 num -> num);
-        for (int rowIndex = 1; rowIndex <= rows().count(); rowIndex++) {
-            ICell cell = cell(new Column(colIndex), new Row(rowIndex));
-            if (cell.getValue().equals(value)) return cell;
-        }
-        return null;
+        return rows().getColumn(colIndex).first((name, cell) -> cell.getValue().equals(value));
     }
 
     public List<ICell> cellsMatch(String regex, Column column) {
@@ -284,7 +277,7 @@ public class Table extends Text implements ITable {
         Cell cell = (Cell) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
         if (cell != null)
             return cell.updateData(colName, rowName);
-        cell = new Cell(colIndex, rowIndex, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate);
+        cell = new Cell(colIndex, rowIndex, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate, this);
         _allCells.add(cell);
         return cell;
     }
@@ -292,7 +285,7 @@ public class Table extends Text implements ITable {
         Cell cell = (Cell) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
         if (cell != null)
             return cell.updateData(colName, rowName);
-        cell = new Cell(webElement, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate);
+        cell = new Cell(webElement, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate, this);
         _allCells.add(cell);
         return cell;
     }
