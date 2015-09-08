@@ -464,7 +464,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                         : "listEquals failed because one of the Collections is null or empty",
                 failMessage, false);
         assertAction(null, () -> {
-            String notEqualElement = expected.first((name, value) -> actual.invoke().get(name).equals(value));
+            String notEqualElement = expected.first((name, value) -> !actual.invoke().get(name).equals(value));
             return (notEqualElement != null)
                     ? format("Collections '%s' and '%s' not equals at element '%s'",
                     print(select(actual.invoke(), Object::toString)), print(select(expected, Object::toString)), notEqualElement)
