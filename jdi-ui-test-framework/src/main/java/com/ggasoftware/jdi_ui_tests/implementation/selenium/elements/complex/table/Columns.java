@@ -17,7 +17,7 @@ import static java.lang.String.format;
 /**
  * Created by 12345 on 26.10.2014.
  */
-class Columns extends TableLine {
+public class Columns extends TableLine {
     public Columns() {
         haveHeader = true;
         elementIndex = ElementIndexType.Nums;

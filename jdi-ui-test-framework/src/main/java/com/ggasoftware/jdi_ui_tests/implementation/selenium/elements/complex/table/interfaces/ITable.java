@@ -1,11 +1,13 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces;
 
+import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Columns;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Rows;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;
-import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 
 import java.util.List;
 
@@ -100,7 +102,7 @@ public interface ITable<T extends SelectElement> extends IText {
      *  */
     @JDIAction
     MapArray<String, ICell> column(String value, Row row);
-    ITableLine rows();
+    Rows rows();
     /** Get Row with index <br>
      *  Each Row is map: columnName:cell
      *  */
@@ -111,7 +113,7 @@ public interface ITable<T extends SelectElement> extends IText {
      *  */
     @JDIAction
     MapArray<String, ICell> row(String rowName);
-    ITableLine columns();
+    Columns columns();
     /** Get Column with index <br>
      *  Each Column is map: rowName:cell
      *  */
