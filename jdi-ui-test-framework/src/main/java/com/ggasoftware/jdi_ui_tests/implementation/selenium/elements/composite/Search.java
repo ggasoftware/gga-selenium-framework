@@ -12,7 +12,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
@@ -33,32 +32,43 @@ public class Search extends TextField implements ISearch {
         this.suggestions = new TextList(suggestionsListLocator);
     }
 
-    private Clickable select;
-    private TextList suggestions;
+    protected Clickable select;
+    protected TextList<Enum> suggestions;
 
-    public void find(String text) {
-        logger.info(format("Search text '%s'", text));
+    protected void findAction(String text) {
         getSearchField().newInput(text);
         getSearchButton().click();
     }
-    public void chooseSuggestion(String text, String selectValue) {
-        logger.info(format("Search for text '%s' and choose suggestion '%s", text, selectValue));
+    protected void chooseSuggestionAction(String text, String selectValue) {
         getSearchField().input(text);
         getElement(selectValue).click();
     }
-
-    public void chooseSuggestion(String text, int selectIndex) {
-        logger.info(format("Search for text '%s' and choose suggestion '%s", text, selectIndex));
+    protected void chooseSuggestionAction(String text, int selectIndex) {
         getSearchField().input(text);
         getSuggestions().getElement(selectIndex).click();
     }
-
-    public List<String> getSuggesions(String text) {
-        logger.info(format("Get all suggestions for input '%s'", text));
+    protected List<String> getSuggesionsAction(String text) {
+        getSearchField().input(text);
         return getSuggestions().getLabels();
     }
 
-    private TextList getSuggestions() {
+    public final void find(String text) {
+        invoker.doJAction(format("Search text '%s'", text), () -> findAction(text));
+    }
+    public final void chooseSuggestion(String text, String selectValue) {
+        invoker.doJAction(format("Search for text '%s' and choose suggestion '%s'", text, selectValue),
+                () -> chooseSuggestionAction(text, selectValue));
+    }
+    public final void chooseSuggestion(String text, int selectIndex) {
+        invoker.doJAction(format("Search for text '%s' and choose suggestion '%s'", text, selectIndex),
+                () -> chooseSuggestionAction(text, selectIndex));
+    }
+    public final List<String> getSuggesions(String text) {
+        return invoker.doJActionResult(format("Get all suggestions for input '%s'", text),
+                () -> getSuggesionsAction(text));
+    }
+
+    private TextList<Enum> getSuggestions() {
         if (suggestions != null)
             return suggestions;
         else
