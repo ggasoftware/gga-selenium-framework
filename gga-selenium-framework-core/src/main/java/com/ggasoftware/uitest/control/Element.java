@@ -16,12 +16,14 @@ package com.ggasoftware.uitest.control;
 import com.ggasoftware.uitest.control.base.annotations.functions.Functions;
 import com.ggasoftware.uitest.control.base.apiInteract.GetElementModule;
 import com.ggasoftware.uitest.control.base.logger.LogSettings;
+import com.ggasoftware.uitest.control.interfaces.base.IElement;
 import com.ggasoftware.uitest.control.interfaces.common.IButton;
 import com.ggasoftware.uitest.control.interfaces.common.IText;
 import com.ggasoftware.uitest.control.new_controls.base.BaseElement;
-import com.ggasoftware.uitest.control.interfaces.base.IElement;
 import com.ggasoftware.uitest.control.new_controls.common.Text;
-import com.ggasoftware.uitest.utils.*;
+import com.ggasoftware.uitest.utils.PropertyReader;
+import com.ggasoftware.uitest.utils.ReporterNGExt;
+import com.ggasoftware.uitest.utils.Timer;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -37,8 +39,10 @@ import java.util.Properties;
 import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.BUSINESS;
 import static com.ggasoftware.uitest.control.base.logger.enums.LogLevels.DEBUG;
-import static com.ggasoftware.uitest.utils.LinqUtils.*;
-import static com.ggasoftware.uitest.utils.ReflectionUtils.*;
+import static com.ggasoftware.uitest.utils.LinqUtils.first;
+import static com.ggasoftware.uitest.utils.LinqUtils.select;
+import static com.ggasoftware.uitest.utils.ReflectionUtils.getFieldValue;
+import static com.ggasoftware.uitest.utils.ReflectionUtils.getFields;
 import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.*;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.logFindElementLocator;
@@ -1149,7 +1153,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public ParentPanel waitForAttributeChanged(final String attribute, final String value, final int timeoutSec, final boolean checkCondition) {
         setTimeout(timeoutSec);
-        boolean result = waitAttribute(attribute, value);
+        boolean result = new Timer(timeoutSec).wait(() -> !getWebElement(timeoutSec).getAttribute(attribute).equals(value));
         logAssertTrue(BUSINESS_LEVEL, result,
                 format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), takePassedScreenshot);
         setTimeout(TIMEOUT);

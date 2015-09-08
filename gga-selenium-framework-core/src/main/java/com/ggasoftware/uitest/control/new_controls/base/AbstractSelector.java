@@ -55,17 +55,13 @@ public abstract class AbstractSelector<TEnum extends Enum, P> extends TemplatesL
     }
     protected void setValueAction(String value) { }
     protected List<String> getNames() {
-        if (allLabels == null && elementsNames == null) {
-            exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for element '%s'", this.toString()));
-            return null;
-        }
+        if (allLabels == null && elementsNames == null)
+            throw exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for element '%s'", this.toString()));
         List<String> names = (elementsNames != null)
                 ? elementsNames
                 : allLabels.getLabels();
-        if (names == null || names.size() == 0) {
-            exception(format("No labels found for element '%s'", this.toString()));
-            return null;
-        }
+        if (names == null || names.size() == 0)
+            throw exception(format("No labels found for element '%s'", this.toString()));
         return names;
     }
     public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
@@ -80,4 +76,10 @@ public abstract class AbstractSelector<TEnum extends Enum, P> extends TemplatesL
 
     protected String getValueAction() { return format("getValueAction not implemented for '%s'", toString()); }
     public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
+    @Override
+    public int count() {
+        if (getOptions().size() > 0)
+            return getOptions().size();
+        return getElementsList().size();
+    }
 }
