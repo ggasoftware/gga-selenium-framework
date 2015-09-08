@@ -15,6 +15,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextField;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Text Field control implementation
@@ -26,6 +27,7 @@ import org.openqa.selenium.By;
 public class TextField extends Text implements ITextField {
     public TextField() { super(); }
     public TextField(By byLocator) { super(byLocator); }
+    public TextField(WebElement webElement) { super(webElement); }
 
     @Override
     protected String getTextAction() { return getWebElement().getAttribute("value"); }

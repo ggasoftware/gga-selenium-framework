@@ -16,6 +16,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.ClickableText;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ILink;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.getByCondition;
 import static java.lang.String.format;
@@ -28,6 +29,7 @@ import static java.lang.String.format;
 public class Link extends ClickableText implements ILink {
     public Link() { }
     public Link(By byLocator) { super(byLocator); }
+    public Link(WebElement webElement) { super(webElement); }
 
     protected String getReferenceAction() { return getWebElement().getAttribute("href"); }
     public final String getReference() {

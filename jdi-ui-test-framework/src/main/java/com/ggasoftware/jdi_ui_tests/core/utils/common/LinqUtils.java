@@ -170,4 +170,10 @@ public class LinqUtils {
     public static Integer[] toIntArray(Collection<Integer> collection) {
         return collection.toArray(new Integer[collection.size()]);
     }
+    public static int index(String[] array, String value) {
+        for (int i = 0; i < array.length; i++)
+            if (array[i].equals(value))
+                return i;
+        return -1;
+    }
 }

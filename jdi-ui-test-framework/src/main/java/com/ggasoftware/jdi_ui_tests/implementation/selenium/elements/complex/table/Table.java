@@ -5,7 +5,8 @@ import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.ITable;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -106,6 +107,13 @@ public class Table extends Text implements ITable {
                 column.get(name -> name, num -> ""),
                 row.get(name -> name, num -> ""));
     }
+    public ICell cell(WebElement webElement, Column column, Row row) {
+        return addCell(webElement,
+                column.get(name -> asList(columns().headers()).indexOf(name) + 1, num -> num),
+                row.get(name -> asList(rows().headers()).indexOf(name) + 1, num -> num),
+                column.get(name -> name, num -> ""),
+                row.get(name -> name, num -> ""));
+    }
 
     private List<ICell> matches(Collection<ICell> list, String regex) {
         return new ArrayList<>(where(list, cell -> cell.getValue().matches(regex)));
@@ -143,7 +151,7 @@ public class Table extends Text implements ITable {
             boolean matches = true;
             for (String colNameValue : colNameValues) {
                 if (!colNameValue.matches("[^=]+=[^=]*"))
-                    asserter.exception("Wrong searchCriteria for Cells: " + colNameValue);
+                    throw asserter.exception("Wrong searchCriteria for Cells: " + colNameValue);
                 String[] splitted = colNameValue.split("=");
                 String colName = splitted[0];
                 String colValue = splitted[1];
@@ -163,7 +171,7 @@ public class Table extends Text implements ITable {
             boolean matches = true;
             for (String rowNameValue : rowNameValues) {
                 if (!rowNameValue.matches("[^=]+=[^=]*"))
-                    asserter.exception("Wrong searchCritaria for Cells: " + rowNameValue);
+                    throw asserter.exception("Wrong searchCritaria for Cells: " + rowNameValue);
                 String[] splitted = rowNameValue.split("=");
                 String rowName = splitted[0];
                 String rowValue = splitted[1];
@@ -240,22 +248,24 @@ public class Table extends Text implements ITable {
     }
 
     private int getColumnIndex(String name) {
-        int nameIndex = -1;
+        int nameIndex;
         String[] headers = columns().headers();
         if (headers != null && asList(headers).contains(name))
             nameIndex = asList(headers).indexOf(name);
-        else asserter.exception("Can't Get Column: '" + name + "'. " + ((headers == null)
+        else
+            throw asserter.exception("Can't Get Column: '" + name + "'. " + ((headers == null)
                 ? "ColumnHeaders is Null"
                 : ("Available ColumnHeaders: " + print(headers, ", ", "'{0}'") + ")")));
         return nameIndex + columns().startIndex;
     }
 
     private int getRowIndex(String name) {
-        int nameIndex = -1;
+        int nameIndex;
         String[] headers = rows().headers();
         if (headers != null && asList(headers).contains(name))
             nameIndex = asList(headers).indexOf(name);
-        else asserter.exception("Can't Get Row: '" + name + "'. " + ((headers == null)
+        else
+            throw asserter.exception("Can't Get Row: '" + name + "'. " + ((headers == null)
                 ? "RowHeaders is Null"
                 : ("Available RowHeaders: " + print(headers, ", ", "'{0}'") + ")")));
         return nameIndex + rows().startIndex;
@@ -275,6 +285,14 @@ public class Table extends Text implements ITable {
         if (cell != null)
             return cell.updateData(colName, rowName);
         cell = new Cell(colIndex, rowIndex, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate);
+        _allCells.add(cell);
+        return cell;
+    }
+    private Cell addCell(WebElement webElement, int colNum, int rowNum, String colName, String rowName) {
+        Cell cell = (Cell) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
+        if (cell != null)
+            return cell.updateData(colName, rowName);
+        cell = new Cell(webElement, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate);
         _allCells.add(cell);
         return cell;
     }

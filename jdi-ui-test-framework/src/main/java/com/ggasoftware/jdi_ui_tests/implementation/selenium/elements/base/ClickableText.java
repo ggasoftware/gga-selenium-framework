@@ -17,6 +17,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IHasValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Button control implementation
@@ -26,6 +27,7 @@ import org.openqa.selenium.By;
 public class ClickableText extends Clickable implements IHasValue, IClickable, IText {
     public ClickableText() { }
     public ClickableText(By byLocator) { super(byLocator); }
+    public ClickableText(WebElement webElement) { super(webElement); }
 
     protected String getTextAction() { return getWebElement().getText(); }
 

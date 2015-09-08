@@ -15,6 +15,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextArea;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Text Field control implementation
@@ -26,6 +27,7 @@ import org.openqa.selenium.By;
 public class TextArea extends TextField implements ITextArea {
     public TextArea() { }
     public TextArea(By byLocator) { super(byLocator); }
+    public TextArea(WebElement webElement) { super(webElement); }
 
     @Override
     public String getTextAction() {

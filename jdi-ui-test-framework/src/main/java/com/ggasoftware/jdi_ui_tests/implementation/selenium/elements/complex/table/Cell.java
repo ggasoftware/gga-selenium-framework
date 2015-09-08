@@ -2,8 +2,10 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.ta
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelect;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.last;
@@ -24,6 +26,7 @@ import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiI
 class Cell extends SelectElement implements ISelect, ICell {
     private int rowIndex;
     private int columnIndex;
+    private WebElement webElement;
     private int columnNum;
     public int columnNum() { return columnNum; }
     private int rowNum;
@@ -41,7 +44,10 @@ class Cell extends SelectElement implements ISelect, ICell {
 
     @Override
     protected void clickAction() { get().click(); }
-    public SelectElement get() { return new SelectElement(fillByMsgTemplate(cellLocatorTemplate, columnIndex, rowIndex)); }
+    public SelectElement get() { return (webElement != null)
+        ? new SelectElement(webElement)
+        : new SelectElement(fillByMsgTemplate(cellLocatorTemplate, columnIndex, rowIndex));
+    }
     public <T extends BaseElement> T get(Class<?> clazz) {
         T instance;
         try {
@@ -63,6 +69,17 @@ class Cell extends SelectElement implements ISelect, ICell {
         return cell;
     }
 
+    public Cell(WebElement webElement, int columnNum, int rowNum, String colName, String rowName,
+                By cellLocatorTemplate, Class<?>[] columnsTemplate) {
+        this.webElement = webElement;
+        this.columnNum = columnNum;
+        this.rowNum = rowNum;
+        this.columnName = colName;
+        this.rowName = rowName;
+        if (cellLocatorTemplate != null)
+            this.cellLocatorTemplate = cellLocatorTemplate;
+        this.columnsTemplate = columnsTemplate;
+    }
     public Cell(int columnIndex, int rowIndex, int columnNum, int rowNum, String colName, String rowName,
                 By cellLocatorTemplate, Class<?>[] columnsTemplate) {
         this.columnIndex = columnIndex;

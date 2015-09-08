@@ -75,9 +75,9 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 makeScreenshot();
-            throwFail.invoke(failMessage != null
+            throwFail.invoke((failMessage != null
                     ? failMessage
-                    : resultMessage);
+                    : resultMessage));
         }
     }
 
@@ -203,10 +203,10 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void listEquals(Collection<T> actual, Collection<T> expected) {
         listEquals(actual, expected, null);
     }
-    public <T> void mapEqualsEntity(MapArray<String, String> actual, T entity, String failMessage) {
+    private  <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage, boolean shouldEqual) {
         MapArray<String, String> expected = objToSetValue(entity).where(el -> el.value != null);
         assertAction("Check that Collections are equal",
-                () -> actual != null && expected != null
+                () -> actual != null && expected != null && (!shouldEqual || actual.size() == expected.size())
                         ? FOUND
                         : "listEquals failed because one of the Collections is null or empty",
                 failMessage, false);
@@ -218,8 +218,17 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                     : FOUND;
         }, failMessage, false);
     }
-    public <T> void mapEqualsEntity(MapArray<String, String> actual, T entity) {
-        mapEqualsEntity(actual, entity, null);
+    public <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage) {
+        entityIncludeMap(actual, entity, failMessage, false);
+    }
+    public <T> void entityIncludeMap(MapArray<String, String> actual, T entity) {
+        entityIncludeMap(actual, entity, null, false);
+    }
+    public <T> void entityEqualsToMap(MapArray<String, String> actual, T entity, String failMessage) {
+        entityIncludeMap(actual, entity, failMessage, true);
+    }
+    public <T> void entityEqualsToMap(MapArray<String, String> actual, T entity) {
+        entityIncludeMap(actual, entity, null, true);
     }
     public <T> void arrayEquals(T actual, T expected, String failMessage) {
         assertAction("Check that Collections are equal",
@@ -456,23 +465,37 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected) {
         listEquals(actual, expected, null);
     }
-    public <T> void mapEqualsEntity(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+
+    public <T> void entityIncludeMap(JFuncT<MapArray<String, String>> actual, T entity, String failMessage, boolean shouldEqual) {
         MapArray<String, String> expected = objToSetValue(entity).where(el -> el.value != null);
         assertAction("Check that Collections are equal",
-                () -> actual.invoke() != null && expected != null
-                        ? FOUND
-                        : "listEquals failed because one of the Collections is null or empty",
+                () -> {
+                    MapArray<String, String> actualMap = actual.invoke();
+                    return actualMap != null && expected != null && (!shouldEqual || actualMap.size() == expected.size())
+                            ? FOUND
+                            : "listEquals failed because one of the Collections is null or empty";
+                },
                 failMessage, false);
         assertAction(null, () -> {
-            String notEqualElement = expected.first((name, value) -> !actual.invoke().get(name).equals(value));
+            MapArray<String, String> actualMap = actual.invoke();
+            String notEqualElement = expected.first((name, value) -> !actualMap.get(name).equals(value));
             return (notEqualElement != null)
                     ? format("Collections '%s' and '%s' not equals at element '%s'",
-                    print(select(actual.invoke(), Object::toString)), print(select(expected, Object::toString)), notEqualElement)
+                    print(select(actualMap, Object::toString)), print(select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, false);
     }
-    public <T> void mapEqualsEntity(JFuncT<MapArray<String, String>> actual, T entity) {
-        mapEqualsEntity(actual, entity, null);
+    public <T> void entityIncludeMap(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+        entityIncludeMap(actual, entity, failMessage, false);
+    }
+    public <T> void entityIncludeMap(JFuncT<MapArray<String, String>> actual, T entity) {
+        entityIncludeMap(actual, entity, null, false);
+    }
+    public <T> void entityEqualsToMap(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+        entityIncludeMap(actual, entity, failMessage, true);
+    }
+    public <T> void entityEqualsToMap(JFuncT<MapArray<String, String>> actual, T entity) {
+        entityIncludeMap(actual, entity, null, true);
     }
     public <T> void arrayEquals(JFuncT<T> actual, T expected, String failMessage) {
         assertAction("Check that Collections are equal",

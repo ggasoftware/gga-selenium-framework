@@ -32,12 +32,31 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             add(key.invoke(t), value.invoke(t));
         } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
     }
+    public MapArray(Collection<K> collection, JFuncTT<K, V> value) {
+        this();
+        try { for (K k : collection)
+            add(k, value.invoke(k));
+        } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
+    }
+    public <T> MapArray(T[] array, JFuncTT<T, K> key, JFuncTT<T, V> value) {
+        this();
+        try { for (T t : array)
+            add(key.invoke(t), value.invoke(t));
+        } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
+    }
+    public MapArray(K[] array, JFuncTT<K, V> value) {
+        this();
+        try { for (K k : array)
+            add(k, value.invoke(k));
+        } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
+    }
     public MapArray(int count, JFuncTT<Integer, K> key, JFuncTT<Integer, V> value) {
         this();
         try { for (int i = 0; i < count; i++)
             add(key.invoke(i), value.invoke(i));
         } catch (Exception ex) { throw new RuntimeException(format("Can't init MapArray with generator (count=%s)", count)); }
     }
+
     public MapArray(MapArray<K, V> mapArray) {
         this();
         addAll(mapArray.stream().collect(toList()));

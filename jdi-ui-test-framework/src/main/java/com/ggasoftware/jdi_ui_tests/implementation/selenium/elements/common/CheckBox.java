@@ -16,6 +16,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ICheckBox;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Checkbox control implementation
@@ -26,6 +27,7 @@ import org.openqa.selenium.By;
 public class CheckBox extends Clickable implements ICheckBox {
     public CheckBox() { }
     public CheckBox(By byLocator) { super(byLocator); }
+    public CheckBox(WebElement webElement) { super(webElement); }
 
     protected void setValueAction(String value) {
         switch (value.toLowerCase()) {

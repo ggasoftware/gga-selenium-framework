@@ -1,9 +1,7 @@
-package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex;
+package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.ICell;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.ITableLine;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;

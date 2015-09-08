@@ -56,7 +56,6 @@ public class TestExample extends TestBaseWebDriver {
 
     @Test
     public void Google_Page() {
-
         assertTrue(TestPanel.get().logo.isDisplayed(), "check logo", true);
         assertTrue(TestPanel.get().searchBtn.isDisplayed(), "check search button is visible");
     }

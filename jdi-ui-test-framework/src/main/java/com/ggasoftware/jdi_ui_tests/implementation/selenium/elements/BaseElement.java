@@ -13,6 +13,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clicka
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.*;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;

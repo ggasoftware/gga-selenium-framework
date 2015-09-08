@@ -16,6 +16,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IImage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Image control implementation
@@ -25,6 +26,7 @@ import org.openqa.selenium.By;
 public class Image extends Clickable implements IImage {
     public Image() { }
     public Image(By byLocator) { super(byLocator); }
+    public Image(WebElement webElement) { super(webElement); }
 
     public String getSource() {
         return invoker.doJActionResult("Get image source for webElement " + this,

@@ -88,7 +88,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
             case "ie": case "internetexplorer":
                 registerDriver(IE); return;
             default:
-                asserter.exception("Unknown driver: " + driverName);
+                throw asserter.exception("Unknown driver: " + driverName);
         }
     }
 
@@ -101,7 +101,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
                         () -> new RemoteWebDriver(getSauceUrl(), getSauceDesiredCapabilities(driverType)));
                 return;
         }
-        asserter.exception("Unknown driver: " + driverType);
+        throw asserter.exception("Unknown driver: " + driverType);
     }
 
     private void registerLocalDriver(DriverTypes driverType)  {
@@ -120,7 +120,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
                 registerDriver(getDriverName(IE), () -> new InternetExplorerDriver(capabilities));
                 return;
         }
-        asserter.exception("Unknown driver: " + driverType);
+        throw asserter.exception("Unknown driver: " + driverType);
     }
 
     private String getDriverName(DriverTypes driverType) {
@@ -133,7 +133,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
 
     public void registerDriver(String driverName, JFuncT<WebDriver> driver) {
         if (!drivers.add(driverName, driver))
-            asserter.exception(format("Can't register Webdriver '%s'. Driver with same name already registered", driverName));
+            throw asserter.exception(format("Can't register Webdriver '%s'. Driver with same name already registered", driverName));
         currentDriverName = driverName;
     }
 
@@ -151,10 +151,8 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
                 return runDrivers.get(driverName);
             WebDriver resultDriver = tryGetResult(() -> drivers.get(driverName).invoke());
             runDrivers.add(driverName, resultDriver);
-            if (resultDriver == null) {
-                asserter.exception(format("Can't get Webdriver '%s'. This Driver name not registered", driverName));
-                return null;
-            }
+            if (resultDriver == null)
+                throw asserter.exception(format("Can't get Webdriver '%s'. This Driver name not registered", driverName));
             resultDriver.manage().window().maximize();
             resultDriver.manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
             return resultDriver;
@@ -172,7 +170,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         if (drivers.keys().contains(driverName))
             currentDriverName = driverName;
         else
-            asserter.exception(format("Can't switch to Webdriver '%s'. This Driver name not registered", driverName));
+            throw asserter.exception(format("Can't switch to Webdriver '%s'. This Driver name not registered", driverName));
     }
     public String currentDriverName = "";
 

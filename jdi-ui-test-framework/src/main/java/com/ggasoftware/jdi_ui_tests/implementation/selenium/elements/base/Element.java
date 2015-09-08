@@ -43,9 +43,14 @@ import static java.lang.String.format;
 public class Element extends BaseElement implements IElement {
     public Element() { super(); }
     public Element(By byLocator) { super(byLocator); }
+    public Element(WebElement webElement) { this.webElement = webElement; }
+
+    private WebElement webElement;
 
     public WebElement getWebElement() {
-        return invoker.doJActionResult("Get web webElement " + this.toString(), avatar::getElement, new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
+        return invoker.doJActionResult("Get web webElement " + this.toString(),
+                () -> webElement != null ? webElement : avatar.getElement(),
+                new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
     }
 
     public static <T extends Element> T copy(T element, By newLocator) {

@@ -3,6 +3,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Created by Roman_Iovlev on 7/6/2015.
@@ -10,6 +11,7 @@ import org.openqa.selenium.By;
 public class Text extends Element implements IText {
     public Text() { }
     public Text(By byLocator) { super(byLocator); }
+    public Text(WebElement webElement) { super(webElement); }
 
     protected String getTextAction() { return getWebElement().getText(); }
     protected String getValueAction() { return getTextAction(); }

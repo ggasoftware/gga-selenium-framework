@@ -2,6 +2,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import static java.lang.String.format;
@@ -12,6 +13,7 @@ import static java.lang.String.format;
 public class Clickable extends Element implements IClickable {
     public Clickable() { }
     public Clickable(By byLocator) { super(byLocator); }
+    public Clickable(WebElement webElement) { super(webElement); }
 
     protected void clickJSAction() { jsExecutor().executeScript("arguments[0].click();", getWebElement()); }
     protected void clickAction() { getWebElement().click(); }

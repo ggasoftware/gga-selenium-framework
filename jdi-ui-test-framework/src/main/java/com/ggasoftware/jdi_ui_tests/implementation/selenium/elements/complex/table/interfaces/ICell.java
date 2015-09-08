@@ -1,4 +1,4 @@
-package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
+package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;

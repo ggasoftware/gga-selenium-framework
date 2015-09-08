@@ -16,6 +16,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.ClickableText;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ILabel;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Text Label control implementation
@@ -25,5 +26,6 @@ import org.openqa.selenium.By;
 public class Label extends ClickableText implements ILabel {
     public Label() { }
     public Label(By byLocator) { super(byLocator); }
+    public Label(WebElement webElement) { super(webElement); }
 
 }

@@ -16,6 +16,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.ClickableText;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Button control implementation
@@ -25,6 +26,7 @@ import org.openqa.selenium.By;
 public class Button extends ClickableText implements IButton {
     public Button() { }
     public Button(By byLocator) { super(byLocator); }
+    public Button(WebElement webElement) { super(webElement); }
 
     @Override
     protected String getTextAction() { return getWebElement().getAttribute("value"); }
