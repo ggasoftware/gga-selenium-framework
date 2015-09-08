@@ -176,7 +176,7 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
             boolean matches = true;
             for (String rowNameValue : rowNameValues) {
                 if (!rowNameValue.matches("[^=]+=[^=]*"))
-                    exception("Wrong searchCritaria for Cells: " + rowNameValue);
+                    throw exception("Wrong searchCritaria for Cells: " + rowNameValue);
                 String[] splitted = rowNameValue.split("=");
                 String rowName = splitted[0];
                 String rowValue = splitted[1];

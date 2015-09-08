@@ -44,8 +44,13 @@ public abstract class AbstractSelector<TEnum extends Enum, P> extends TemplatesL
             new Select(new Element(getLocator()).getWebElement()).selectByVisibleText(name);
     }
     protected void selectByIndexAction(int index) {
-        if (index >= 0)
+        if (index < 0)
+            throw exception("Failed to do selectByIndex for '%s'. Index should be greater than 0");
+        if (allLabels != null || elementsNames != null)
             getElement(getNames().get(index)).click();
+        else
+            new Select(getWebElement()).selectByIndex(index);
+
     }
     protected boolean waitSelectedAction(String value) {
         return waitCondition(() -> getElement(value).isSelected());

@@ -86,7 +86,7 @@ public abstract class TemplatesList<TType extends IElement, TEnum extends Enum, 
     }
     public final List<TType> getElementsList() {
         if (elementsNames == null)
-            exception(format("Please specify elements names for list element '%s'", toString()));
+            throw exception(format("Please specify elements names for list element '%s'", toString()));
         return doJActionResult("Get elements", this::getElementsListAction);
     }
     public int count() {
