@@ -30,6 +30,7 @@ public class RobotF {
             robotInstance.keyPress(VK_V);
             robotInstance.keyRelease(VK_CONTROL);
             robotInstance.keyPress(VK_ENTER);
+            robotInstance.keyRelease(VK_ENTER);
         } catch (Exception ex) {
             throw asserter.exception("Robot Input exception");
         }
