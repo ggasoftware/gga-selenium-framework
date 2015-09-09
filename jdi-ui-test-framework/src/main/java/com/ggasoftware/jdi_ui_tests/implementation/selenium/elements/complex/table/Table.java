@@ -58,6 +58,8 @@ public class Table extends Text implements ITable {
         return _allCells;
     }
 
+    public void clean() { _allCells = null; }
+    public void clear() { _allCells = null; }
     private Columns _columns = new Columns();
     public Columns columns() { return _columns; }
     public MapArray<String, ICell> column(int colNum) { return rows().getColumn(colNum); }
@@ -283,8 +285,10 @@ public class Table extends Text implements ITable {
     }
     private Cell addCell(WebElement webElement, int colNum, int rowNum, String colName, String rowName) {
         Cell cell = (Cell) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
-        if (cell != null)
+        if (cell != null) {
+            cell.setWebElement(webElement);
             return cell.updateData(colName, rowName);
+        }
         cell = new Cell(webElement, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate, this);
         _allCells.add(cell);
         return cell;

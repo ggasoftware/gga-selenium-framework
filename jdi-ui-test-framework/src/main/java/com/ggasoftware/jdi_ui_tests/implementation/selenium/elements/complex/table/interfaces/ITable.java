@@ -133,4 +133,11 @@ public interface ITable<T extends SelectElement> extends IText {
     /** Get All Cells */
     @JDIAction
     List<ICell> getCells();
+
+    /** Clean all already founded Cells */
+    @JDIAction
+    void clean();
+    /** Similar to clean */
+    @JDIAction
+    void clear();
 }

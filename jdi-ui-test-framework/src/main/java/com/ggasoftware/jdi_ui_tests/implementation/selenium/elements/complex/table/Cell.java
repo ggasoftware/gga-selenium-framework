@@ -27,6 +27,7 @@ class Cell extends SelectElement implements ISelect, ICell {
     private int rowIndex;
     private int columnIndex;
     private WebElement webElement;
+    public void setWebElement(WebElement webElement) { this.webElement = webElement; }
     private Table table;
     private int columnNum;
     public int columnNum() { return columnNum; }

@@ -23,13 +23,13 @@ public class Rows extends TableLine {
         elementIndex = ElementIndexType.Nums;
     }
 
-    protected By columnTemplate = By.xpath(".//tr/td[%s]");
     protected By rowsHeadersTemplate = By.xpath(".//tr/td[1]");
+    protected By rowTemplate = By.xpath(".//tr[%s]/td");
     protected List<WebElement> getHeadersAction() {
         return table.getWebElement().findElements(rowsHeadersTemplate);
     }
-    protected List<WebElement> getColumnAction(int colNum) {
-        return table.getWebElement().findElements(fillByTemplate(columnTemplate, colNum));
+    protected List<WebElement> getRowAction(int rowNum) {
+        return table.getWebElement().findElements(fillByTemplate(rowTemplate, rowNum));
     }
 
     private RuntimeException throwRowsException(String rowName, Exception ex) {
@@ -39,7 +39,7 @@ public class Rows extends TableLine {
     public final MapArray<String, ICell> getColumn(String colName) {
         try {
             String[] headers = headers();
-            List<WebElement> webColumn = getColumnAction(index(headers, colName));
+            List<WebElement> webColumn = table.columns().getColumnAction(index(headers, colName));
             return new MapArray<>(count(),
                     key -> headers[key],
                     value -> table.cell(webColumn.get(value), new Column(colName), new Row(headers[value])));
@@ -60,7 +60,7 @@ public class Rows extends TableLine {
         if (count() < 0 || count() < colNum || colNum <= 0)
             throw asserter.exception(format("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, count()));
         try {
-            List<WebElement> webColumn = getColumnAction(colNum);
+            List<WebElement> webColumn = table.columns().getColumnAction(colNum);
             return new MapArray<>(count(),
                     key -> headers()[key],
                     value -> table.cell(webColumn.get(value), new Column(colNum), new Row(value + 1)));
