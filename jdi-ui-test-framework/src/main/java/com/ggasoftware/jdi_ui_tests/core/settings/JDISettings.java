@@ -37,9 +37,9 @@ public class JDISettings {
     public static String jdiSettingsPath = "test.properties";
     public static void initJDIFromProperties() throws Exception {
         getProperties(jdiSettingsPath);
-        fillAction(driverFactory::registerDriver, "driver");
-        fillAction(driverFactory::setRunType, "run.type");
-        fillAction(p -> domain = p, "domain");
+        fillAction(driverFactory::registerDriver,   "driver");
+        fillAction(driverFactory::setRunType,       "run.type");
+        fillAction(p -> domain = p,                 "domain");
         fillAction(p -> timeouts.waitElementSec = parseInt(p), "timeout.wait.webElement");
         fillAction(p -> timeouts.waitPageLoadSec = parseInt(p), "timeout.wait.pageLoad");
         BaseChecker.defaultDoScreenType = SCREEN_ON_FAIL;

@@ -24,6 +24,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         super(optionsNamesLocatorTemplate, enumMember);
     }
 
+    protected void beforeAction() {}
     protected void clearAction() {
         foreach(where(getOptions(), this::waitSelectedAction), this::selectAction);
     }
@@ -38,13 +39,13 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     public IMultiSelector<TEnum> setValuesSeparator(String separator) { this.separator = separator; return this; }
 
     public final void select(String... names) {
-        actions.select(this::selectListAction, names);
+        beforeAction(); actions.select(this::selectListAction, names);
     }
     public final void select(TEnum... names) {
-        select(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
+        beforeAction(); select(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final void select(int... indexes) {
-        actions.select(this::selectListAction, indexes);
+        beforeAction(); actions.select(this::selectListAction, indexes);
     }
     public final void check(String... names) { clear(); select(names); }
     public final void check(TEnum... names) { clear(); select(names); }
@@ -53,31 +54,31 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     public final void uncheck(TEnum... names) { checkAll(); select(names); }
     public final void uncheck(int... indexes) { checkAll(); select(indexes); }
     public final List<String> areSelected() {
-        return actions.areSelected(this::getNames, this::waitSelectedAction);
+        beforeAction(); return actions.areSelected(this::getNames, this::waitSelectedAction);
     }
     public final boolean waitSelected(TEnum... names) {
-        return waitSelected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
+        beforeAction(); return waitSelected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final boolean waitSelected(String... names) {
-        return actions.waitSelected(this::waitSelectedAction, names);
+        beforeAction(); return actions.waitSelected(this::waitSelectedAction, names);
     }
     public final List<String> areDeselected() {
-        return actions.areDeselected(this::getNames, this::waitSelectedAction);
+        beforeAction(); return actions.areDeselected(this::getNames, this::waitSelectedAction);
     }
     public final boolean waitDeselected(TEnum... names) {
-        return waitDeselected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
+        beforeAction(); return waitDeselected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final boolean waitDeselected(String... names) {
-        return actions.waitDeselected(this::waitSelectedAction, names);
+        beforeAction(); return actions.waitDeselected(this::waitSelectedAction, names);
     }
 
     public void clear() {
-        invoker.doJAction("Clear Options", this::clearAction);
+        beforeAction(); invoker.doJAction("Clear Options", this::clearAction);
     }
     public void uncheckAll() { clear(); }
 
     public void checkAll() {
-        foreach(where(getOptions(), label -> !waitSelectedAction(label)), this::selectAction);
+        beforeAction(); foreach(where(getOptions(), label -> !waitSelectedAction(label)), this::selectAction);
     }
     public final String getValue() { return actions.getValue(this::getValueAction); }
 

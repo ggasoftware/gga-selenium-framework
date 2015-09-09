@@ -37,10 +37,14 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     public By valueLocator;
     protected Button field() { return new Button(valueLocator); }
 
+    protected boolean isExpanded() { return true; }
+    @Override
+    protected void beforeAction() { if (getLocator() == null || !isExpanded()) getWebElement().click(); }
+
     @Override
     protected void selectListAction(String... names) {
         if (getLocator() != null) {
-            getWebElement().click();
+            beforeAction();
             super.selectListAction(names);
         }
         else
@@ -50,7 +54,7 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     @Override
     protected void selectListAction(int... indexes) {
         if (getLocator() != null) {
-            getWebElement().click();
+            beforeAction();
             super.selectListAction(indexes);
         }
         else

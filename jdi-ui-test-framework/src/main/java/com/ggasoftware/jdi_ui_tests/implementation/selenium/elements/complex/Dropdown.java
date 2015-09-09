@@ -36,10 +36,13 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     public By selectLocator;
     protected Element element() { return new Element(selectLocator); }
 
+    protected boolean isExpanded() { return true; }
+    protected void beforeAction() { if (getLocator() == null || !isExpanded()) getWebElement().click(); }
+
     @Override
     protected void selectAction(String name) {
         if (getLocator() != null) {
-            getWebElement().click();
+            beforeAction();
             super.selectAction(name);
         }
         else
@@ -48,7 +51,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     @Override
     protected void selectByIndexAction(int index) {
         if (getLocator() != null) {
-            getWebElement().click();
+            beforeAction();
             super.selectByIndexAction(index);
         }
         else
