@@ -23,7 +23,7 @@ public class Columns extends TableLine {
         elementIndex = ElementIndexType.Nums;
     }
 
-    protected By rowTemplate = By.xpath(".//tr/td[%s]");
+    protected By rowTemplate = By.xpath(".//tr[%s]/td");
     protected By columnsHeadersTemplate = By.xpath(".//th");
     protected List<WebElement> getHeadersAction() {
         return table.getWebElement().findElements(columnsHeadersTemplate);
