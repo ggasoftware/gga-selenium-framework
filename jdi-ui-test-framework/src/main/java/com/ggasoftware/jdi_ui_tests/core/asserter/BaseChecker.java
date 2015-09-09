@@ -71,11 +71,11 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                 ? new Timer(timeout).getResultByCondition(result::invoke, r -> r != null && r.equals(FOUND))
                 : result.invoke();
         if (resultMessage == null)
-            resultMessage = result.invoke();
+            throw exception(format("Assert Failed by Timeout. Wait %s seconds", timeout / 1000));
         if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 makeScreenshot();
-            throwFail.invoke((failMessage != null
+            throw exception((failMessage != null
                     ? failMessage
                     : resultMessage));
         }
@@ -95,7 +95,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     // For Framework
     public RuntimeException exception(String failMessage) {
         logger.error(FRAMEWORK, failMessage);
-        assertAction(null, false, failMessage);
+        throwFail.invoke(failMessage);
         return new RuntimeException(failMessage);
     }
     public <TResult> TResult silent(JFuncTEx<TResult> func) {
