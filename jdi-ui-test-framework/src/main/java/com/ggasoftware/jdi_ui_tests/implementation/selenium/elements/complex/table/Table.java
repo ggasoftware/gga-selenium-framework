@@ -58,8 +58,8 @@ public class Table extends Text implements ITable {
         return _allCells;
     }
 
-    public void clean() { _allCells = null; }
-    public void clear() { _allCells = null; }
+    public void clean() { _allCells = new ArrayList<>(); }
+    public void clear() { clean(); }
     private Columns _columns = new Columns();
     public Columns columns() { return _columns; }
     public MapArray<String, ICell> column(int colNum) { return rows().getColumn(colNum); }
