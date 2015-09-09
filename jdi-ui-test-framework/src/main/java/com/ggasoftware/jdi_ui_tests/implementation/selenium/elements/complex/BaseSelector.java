@@ -27,7 +27,7 @@ abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElem
     public BaseSelector(By optionsNamesLocatorTemplate, TEnum enumMember) {
         super(optionsNamesLocatorTemplate, new SelectElement(optionsNamesLocatorTemplate), enumMember);
     }
-    private TextList<TEnum> allLabels;
+    protected TextList<TEnum> allLabels;
     protected SelectElement getDefaultElement(By locator) { return new SelectElement(locator); }
 
     protected void selectAction(String name) {
@@ -57,6 +57,6 @@ abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElem
         return names;
     }
     public final void setValue(String value) { actions.setValue(value, this::setValueAction); }
-    public final List<String> getOptions() { return allLabels.getLabels(); }
+    public final List<String> getOptions() { return getNames(); }
     public final String getOptionsAsText() { return print(getOptions()); }
 }

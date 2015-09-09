@@ -24,6 +24,9 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         super(optionsNamesLocatorTemplate, enumMember);
     }
 
+    protected void clearAction() {
+        foreach(where(getOptions(), this::waitSelectedAction), this::selectAction);
+    }
     protected void selectListAction(String... names) { foreach(names, this::selectAction); }
     protected void selectListAction(int... indexes) { for (int i : indexes) selectByIndexAction(i); }
     protected boolean waitSelectedAction(String value) { return getElement(value).isSelected(); }
@@ -69,7 +72,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     }
 
     public void clear() {
-        foreach(where(getOptions(), this::waitSelectedAction), this::selectAction);
+        invoker.doJAction("Clear Options", this::clearAction);
     }
     public void uncheckAll() { clear(); }
 
