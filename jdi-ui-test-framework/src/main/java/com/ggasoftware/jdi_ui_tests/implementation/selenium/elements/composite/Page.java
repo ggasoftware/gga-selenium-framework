@@ -45,9 +45,9 @@ public class Page extends BaseElement implements IPage {
         this.title = title;
     }
     public StringCheckType url() {
-        return new StringCheckType(() -> getUrl(), url, urlContains, urlMatchs);
+        return new StringCheckType(Page::getUrl, url, urlContains, urlMatchs, "url");
     }
-    public StringCheckType title() { return new StringCheckType(() -> geTtitle(), title, titleContains, titleMatchs); }
+    public StringCheckType title() { return new StringCheckType(Page::geTtitle, title, titleContains, titleMatchs, "title"); }
 
     public static boolean checkAfterOpen = false;
     public void checkOpened() {
@@ -74,23 +74,25 @@ public class Page extends BaseElement implements IPage {
         private String equals;
         private String contains;
         private String matches;
+        private String what;
 
-        public StringCheckType(JFuncT<String> actual, String equals, String contains, String matches) {
+        public StringCheckType(JFuncT<String> actual, String equals, String contains, String matches, String what) {
             this.actual = actual;
             this.equals = equals;
             this.contains = contains;
             this.matches = matches;
+            this.what = what;
         }
 
         /** BaseChecker that current page url/title equals to expected url/title */
         @JDIAction
-        public void check() { new Check("Page url equals to " + equals).areEquals(actual, equals); }
+        public void check() { new Check("Page " + what + " equals to " + equals).areEquals(actual, equals); }
         /** BaseChecker that current page url/title matches to expected url/title-matcher */
         @JDIAction
-        public void match() { new Check("Page url matches to " + matches).matches(actual, matches); }
+        public void match() { new Check("Page " + what + " matches to " + matches).matches(actual, matches); }
         /** BaseChecker that current page url/title contains expected url/title-matcher */
         @JDIAction
-        public void contains() { new Check("Page url contains " + contains).contains(actual, contains); }
+        public void contains() { new Check("Page " + what + " contains " + contains).contains(actual, contains); }
     }
 
     public void open() {
