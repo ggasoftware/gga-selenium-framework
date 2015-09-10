@@ -43,6 +43,9 @@ abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElem
     protected boolean waitSelectedAction(String value) {
         return Timer.waitCondition(() -> getElement(value).isSelected());
     }
+    protected boolean isSelectedAction(String value) {
+        return getElement(value).isSelected();
+    }
     protected void setValueAction(String value) { selectAction(value); }
 
     protected List<String> getNames() {

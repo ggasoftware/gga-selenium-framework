@@ -26,7 +26,10 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
 
     protected void beforeAction() {}
     protected void clearAction() {
-        foreach(where(getOptions(), this::waitSelectedAction), this::selectAction);
+        foreach(where(getOptions(), this::waitSelectedAction), name -> {
+            if (isSelectedAction(name))
+                selectAction(name);
+        });
     }
     protected void selectListAction(String... names) { foreach(names, this::selectAction); }
     protected void selectListAction(int... indexes) { for (int i : indexes) selectByIndexAction(i); }
