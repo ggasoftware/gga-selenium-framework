@@ -2,6 +2,9 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.ta
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 /**
  * Created by Roman_Iovlev on 7/28/2015.
@@ -26,4 +29,6 @@ public interface ITableLine {
     MapArray<String, MapArray<String, ICell>> get();
     @JDIAction
     MapArray<String, MapArray<String, String>> getAsText();
+    @JDIAction
+    List<WebElement> header();
 }

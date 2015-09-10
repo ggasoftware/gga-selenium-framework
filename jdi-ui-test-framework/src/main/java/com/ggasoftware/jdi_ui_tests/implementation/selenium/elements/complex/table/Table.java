@@ -97,7 +97,8 @@ public class Table extends Text implements ITable {
     }
     protected String[] _footer;
     public void setFooter(String[] value) { _footer = value; }
-    public String[] header() { return columns().headers(); }
+    public final List<WebElement> header() { return columns().header(); }
+    public String[] headers() { return columns().headers(); }
     public String[] footer() {
         if (_footer != null)
             return _footer;
