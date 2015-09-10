@@ -69,6 +69,16 @@ public class Element extends BaseElement implements IElement {
                 () -> jsExecutor().executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attributeName),
                         getWebElement(), value));
     }
+    public boolean isDisplayed() {
+        setWaitTimeout(0);
+        avatar.localElementSearchCriteria = el -> el != null;
+        boolean result = getWebElement().isDisplayed();
+        setWaitTimeout(JDISettings.timeouts.waitElementSec);
+        return result;
+    }
+    public boolean isHidden() {
+        return !isDisplayed();
+    }
     public boolean waitDisplayed() {
         return wait(WebElement::isDisplayed);
     }
