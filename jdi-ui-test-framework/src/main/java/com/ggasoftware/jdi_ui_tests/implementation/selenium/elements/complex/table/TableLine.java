@@ -33,7 +33,10 @@ abstract class TableLine extends Element implements ITableLine {
     }
 
     protected String[] headers;
-    public void setHeaders(String[] value) { headers = value; }
+    public void setHeaders(String[] value) {
+        if (table.cache)
+            headers = value;
+    }
     protected String[] getHeadersTextAction() {
         return LinqUtils.select(getHeadersAction(), WebElement::getText)
                 .toArray(new String[1]);

@@ -44,7 +44,6 @@ public abstract class BaseElement implements IBaseElement {
         avatar = new GetElementModule(byLocator, this);
         if (!createFreeInstance && firstInstance)
             InitElements(this);
-
         updateInterfacesMap(seleniumDefaultMap());
     }
 

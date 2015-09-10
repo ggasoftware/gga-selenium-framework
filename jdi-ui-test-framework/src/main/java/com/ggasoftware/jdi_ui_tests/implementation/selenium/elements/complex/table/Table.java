@@ -51,14 +51,22 @@ public class Table extends Text implements ITable {
 
     private List<ICell> _allCells = new ArrayList<>();
     public List<ICell> getCells() {
+        List<ICell> result = new ArrayList<>();
         MapArray<String, MapArray<String, ICell>> rows = rows().get();
         for(String columnName : columns().headers())
             for(String rowName : rows().headers())
-                _allCells.add(rows.get(rowName).get(columnName));
-        return _allCells;
+                result.add(rows.get(rowName).get(columnName));
+        if (cache)
+            _allCells = result;
+        return result;
     }
 
-    public void clean() { _allCells = new ArrayList<>(); }
+    public boolean cache = false;
+    public void clean() {
+        _allCells = new ArrayList<>();
+        columns().headers = null;
+        rows().headers = null;
+    }
     public void clear() { clean(); }
     private Columns _columns = new Columns();
     public Columns columns() { return _columns; }
@@ -280,7 +288,8 @@ public class Table extends Text implements ITable {
         if (cell != null)
             return cell.updateData(colName, rowName);
         cell = new Cell(colIndex, rowIndex, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate, this);
-        _allCells.add(cell);
+        if (cache)
+            _allCells.add(cell);
         return cell;
     }
     private Cell addCell(WebElement webElement, int colNum, int rowNum, String colName, String rowName) {
@@ -290,7 +299,8 @@ public class Table extends Text implements ITable {
             return cell.updateData(colName, rowName);
         }
         cell = new Cell(webElement, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate, this);
-        _allCells.add(cell);
+        if (cache)
+            _allCells.add(cell);
         return cell;
     }
 }
