@@ -50,10 +50,10 @@ abstract class TableLine extends Element implements ITableLine {
         setHeaders((hasHeader)
             ? localHeaders
             : getNumList(localHeaders.length));
-        if (headers == null || headers.length == 0)
+        if (localHeaders == null || localHeaders.length == 0)
             throw asserter.exception("Can't get headers for Table");
-        setCount(headers.length);
-        return headers;
+        setCount(localHeaders.length);
+        return localHeaders;
     }
 
     protected String[] getNumList(int count) {
