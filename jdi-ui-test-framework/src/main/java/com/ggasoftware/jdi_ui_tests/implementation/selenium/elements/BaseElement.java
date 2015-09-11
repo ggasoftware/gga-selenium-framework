@@ -113,6 +113,7 @@ public abstract class BaseElement implements IBaseElement {
                 {ILink.class,       Link.class},
                 {ISelector.class,   Selector.class},
                 {IText.class,       Text.class},
+                {IImage.class,      Image.class},
                 {ITextArea.class,   TextArea.class},
                 {ITextField.class,  TextField.class},
                 {ILabel.class,      Label.class},
