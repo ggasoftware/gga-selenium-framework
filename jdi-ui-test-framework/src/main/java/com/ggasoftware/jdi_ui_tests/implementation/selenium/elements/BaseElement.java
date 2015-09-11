@@ -140,7 +140,7 @@ public abstract class BaseElement implements IBaseElement {
     @Override
     public String toString() {
         return MessageFormat.format(shortLogMessagesFormat
-                ? "{1} {2).{0} {3}"
+                ? "{1} {2}.{0} {3}"
                 : "Name: '{0}', Type: '{1}' In: '{2}', {3}",
                 getName(), getTypeName(), getParentName(), avatar);
     }
