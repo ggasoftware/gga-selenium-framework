@@ -14,13 +14,13 @@ import static java.util.Arrays.asList;
  * Created by roman.i on 30.09.2014.
  */
 public class LinqUtils {
-    public static <T> Collection<T> copyList(Iterable<T> list) {
+    public static <T> List<T> copyList(Iterable<T> list) {
         List<T> result = new ArrayList<>();
         for (T el : list)
             result.add(el);
         return result;
     }
-    public static <T, T1> Collection<T1> select(Iterable<T> list, JFuncTT<T, T1> func) {
+    public static <T, T1> List<T1> select(Iterable<T> list, JFuncTT<T, T1> func) {
         try {
             List<T1> result = new ArrayList<>();
             for (T el : list)
@@ -28,10 +28,10 @@ public class LinqUtils {
             return result;
         } catch (Exception ignore) { return new ArrayList<>(); }
     }
-    public static <T, T1> Collection<T1> select(T[] array, JFuncTT<T, T1> func){
+    public static <T, T1> List<T1> select(T[] array, JFuncTT<T, T1> func){
         return select(asList(array), func);
     }
-    public static <T, T1, T2> Collection<T2> selectMap(Map<T, T1> map, JFuncTT<Map.Entry<T, T1>, T2> func) {
+    public static <T, T1, T2> List<T2> selectMap(Map<T, T1> map, JFuncTT<Map.Entry<T, T1>, T2> func) {
         try {
             List<T2> result = new ArrayList<>();
             for(Map.Entry<T, T1> el : map.entrySet())
@@ -48,7 +48,7 @@ public class LinqUtils {
         } catch (Exception ignore) { return new HashMap<>(); }
     }
 
-    public static <T> Collection<T> where(Iterable<T> list, JFuncTT<T, Boolean> func) {
+    public static <T> List<T> where(Iterable<T> list, JFuncTT<T, Boolean> func) {
         try {
             List<T> result = new ArrayList<>();
             for(T el : list)
@@ -57,7 +57,7 @@ public class LinqUtils {
             return result;
         } catch (Exception ignore) { return new ArrayList<>(); }
     }
-    public static <T> Collection<T> where(T[] list, JFuncTT<T, Boolean> func) {
+    public static <T> List<T> where(T[] list, JFuncTT<T, Boolean> func) {
         return where(asList(list), func);
     }
     public static <T, T1> Map<T, T1> where(Map<T, T1> map, JFuncTT<Map.Entry<T, T1>, Boolean> func) {

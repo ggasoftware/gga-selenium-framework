@@ -20,6 +20,6 @@ public class EnumUtils {
         return TryCatchUtil.tryGetResult(() -> (String) field.get(enumWithValue));
     }
     public static <T extends Enum> List<T> getAllEnumValues(T enumValue) {
-        return (List<T>) asList(enumValue.getDeclaringClass().getEnumConstants());
+        return asList(enumValue.getDeclaringClass().getEnumConstants());
     }
 }

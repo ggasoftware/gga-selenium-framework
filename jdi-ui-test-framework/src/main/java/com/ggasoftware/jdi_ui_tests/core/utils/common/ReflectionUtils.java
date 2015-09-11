@@ -40,11 +40,11 @@ public class ReflectionUtils {
     }
 
     public static List<Field> getFields(Object obj, Class<?> type)  {
-        return (List<Field>) where(obj.getClass().getDeclaredFields(), field -> !isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
+        return where(obj.getClass().getDeclaredFields(), field -> !isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
     }
 
     public static List<Field> getStaticFields(Class<?> parent, Class<?> type)  {
-        return (List<Field>) where(parent.getDeclaredFields(), field -> isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
+        return where(parent.getDeclaredFields(), field -> isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
     }
     public static <T> T getFirstField(Object obj, Class<T> type)  {
         return (T) getFieldValue(first(obj.getClass().getDeclaredFields(), field -> isClass(field, type) || isInterface(field, type)), obj);

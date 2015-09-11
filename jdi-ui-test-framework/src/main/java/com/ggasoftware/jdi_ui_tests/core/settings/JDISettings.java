@@ -29,6 +29,7 @@ public class JDISettings {
     public static TimeoutSettings timeouts = new TimeoutSettings();
     public static boolean isDemoMode = false;
     public static HighlightSettings highlightSettings = new HighlightSettings();
+    public static boolean shortLogMessagesFormat = true;
 
     public static void useDriver(WebDriver driver) { driverFactory.registerDriver(() -> driver); }
     public static void useDriver(DriverTypes driver)  { driverFactory.registerDriver(driver); }

@@ -27,7 +27,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import java.text.MessageFormat;
+
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.shortLogMessagesFormat;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.InitElements;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.firstInstance;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.updateInterfacesMap;
@@ -83,7 +86,9 @@ public abstract class BaseElement implements IBaseElement {
     protected void setParentName(String parrentName) { parentTypeName = parrentName; }
 
     public void logAction(String actionName, LogSettings logSettings) {
-        logger.toLog(format("Perform action '%s' with webElement (%s)", actionName, this.toString()), logSettings);
+        logger.toLog(format(shortLogMessagesFormat
+                ? "%s with %s"
+                : "Perform action '%s' with webElement (%s)", actionName, this.toString()), logSettings);
     }
     public void logAction(String actionName) { logAction(actionName, new LogSettings());
     }
@@ -134,7 +139,9 @@ public abstract class BaseElement implements IBaseElement {
 
     @Override
     public String toString() {
-        return format("Name: '%s', Type: '%s' In: '%s', %s",
+        return MessageFormat.format(shortLogMessagesFormat
+                ? "{1} {2).{0} {3}"
+                : "Name: '{0}', Type: '{1}' In: '{2}', {3}",
                 getName(), getTypeName(), getParentName(), avatar);
     }
 }

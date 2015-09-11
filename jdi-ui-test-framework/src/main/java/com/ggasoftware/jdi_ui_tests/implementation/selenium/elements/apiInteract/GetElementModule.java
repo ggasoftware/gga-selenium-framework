@@ -11,10 +11,15 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByFunc;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByLocator;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.String.format;
 
@@ -66,7 +71,7 @@ public class GetElementModule {
                 this::searchElements,
                 els -> where(els, getSearchCriteria()::invoke).size() > 0);
         timeouts.dropTimeouts();
-        return (List<WebElement>) where(result, getSearchCriteria()::invoke);
+        return where(result, getSearchCriteria()::invoke);
     }
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
     private JFuncTT<WebElement, Boolean> getSearchCriteria() {
@@ -110,14 +115,14 @@ public class GetElementModule {
         for (Pair<ContextType, By> pair : context.subList(1)) {
             By byValue = pair.value;
             if (byValue.toString().contains("By.xpath: //"))
-                pair.value = tryGetResult(() -> WebDriverByUtils.getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
+                pair.value = tryGetResult(() -> getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
                         .replaceFirst("/", "./")));
         }
         return context;
     }
     private By correctXPaths(By byValue) {
         return (byValue.toString().contains("By.xpath: //"))
-                ? tryGetResult(() -> WebDriverByUtils.getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
+                ? tryGetResult(() -> getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
                 .replaceFirst("/", "./")))
                 : byValue;
     }
@@ -126,9 +131,23 @@ public class GetElementModule {
 
     @Override
     public String toString() {
-        return format("Locator: '%s'", byLocator) +
+        return shortLogMessagesFormat
+            ? printFullLocator()
+            : format("Locator: '%s'", byLocator) +
                 ((context.size() > 0)
                         ? format(", Context: '%s'", context)
                         : "");
+    }
+
+    private String printFullLocator() {
+        List<String> result = new ArrayList<>();
+        if (context.size() != 0)
+            result = select(context, el -> printShortBy(el.value));
+        result.add(printShortBy(byLocator));
+        return print(result);
+    }
+
+    private String printShortBy(By by) {
+        return getByFunc(by).toString().split(".*//..*")[1] + "=" + getByLocator(by);
     }
 }

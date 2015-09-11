@@ -32,12 +32,12 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
     public TemplatesList(By byLocator, TType templateElement, TEnum enumMember) {
         super(byLocator);
         this.templateElement = templateElement;
-        elementsNames = (List<String>) select(enumMember.getClass().getEnumConstants(), EnumUtils::getEnumValue);
+        elementsNames = select(enumMember.getClass().getEnumConstants(), EnumUtils::getEnumValue);
     }
 
     public void setListOfElements(List<String> elementsNames) { this.elementsNames = elementsNames; }
     public void setListOfElements(TEnum enumMember) { this.elementsNames =
-            (List<String>) select(enumMember.getClass().getEnumConstants(), EnumUtils::getEnumValue); }
+            select(enumMember.getClass().getEnumConstants(), EnumUtils::getEnumValue); }
     protected List<String> elementsNames;
     private TType templateElement;
     protected TType getTemplateElement() {
@@ -74,7 +74,7 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
     }
 
     public List<WebElement> getWebElements(TEnum enumName) {
-        return (List<WebElement>) select(getElementsList(), IElement::getWebElement); }
+        return select(getElementsList(), IElement::getWebElement); }
     protected List<TType> getElementsListAction() {
         try { return elementsNames.stream().map(this::getElement).collect(Collectors.toList());
         } catch (Exception ex) { throw asserter.exception(ex.getMessage()); }

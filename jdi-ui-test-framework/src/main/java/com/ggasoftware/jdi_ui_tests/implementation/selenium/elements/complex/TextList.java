@@ -102,7 +102,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     }
 
     public String getLastText() {
-        List<String> results = invoker.doJActionResult("Get list of texts", () -> (List<String>) select(getWebElements(), WebElement::getText),
+        List<String> results = invoker.doJActionResult("Get list of texts", () -> select(getWebElements(), WebElement::getText),
                 PrintUtils::print);
         return (results != null && results.size() > 0)
             ? results.get(results.size() - 1)
@@ -110,7 +110,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     }
 
     public List<String> getTexts() {
-        return invoker.doJActionResult("Get list of texts", () -> (List<String>) select(getWebElements(), WebElement::getText),
+        return invoker.doJActionResult("Get list of texts", () -> select(getWebElements(), WebElement::getText),
                 PrintUtils::print);
     }
 }

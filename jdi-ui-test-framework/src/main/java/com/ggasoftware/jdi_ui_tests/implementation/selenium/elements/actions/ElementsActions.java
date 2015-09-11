@@ -121,7 +121,7 @@ public class ElementsActions {
     }
     public List<String> areSelected(JFuncT<List<String>> getNames, JFuncTT<String, Boolean> waitSelectedAction) {
         return invoker().doJActionResult("Are selected", () ->
-                (List<String>) where(getNames.invoke(), waitSelectedAction));
+                where(getNames.invoke(), waitSelectedAction));
     }
     public boolean waitSelected(JFuncTT<String, Boolean> waitSelectedAction, String... names) {
         return invoker().doJActionResult(format("Are deselected '%s'", print(names)), () -> {
@@ -133,7 +133,7 @@ public class ElementsActions {
     }
     public List<String> areDeselected(JFuncT<List<String>> getNames, JFuncTT<String, Boolean> waitSelectedAction) {
         return invoker().doJActionResult("Are deselected", () ->
-                (List<String>) where(getNames.invoke(), name -> !waitSelectedAction.invoke(name)));
+                where(getNames.invoke(), name -> !waitSelectedAction.invoke(name)));
     }
     public boolean waitDeselected(JFuncTT<String, Boolean> waitSelectedAction, String... names) {
         return invoker().doJActionResult(format("Are deselected '%s'", print(names)), () -> {
