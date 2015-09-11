@@ -3,6 +3,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.ta
 import com.ggasoftware.jdi_ui_tests.core.utils.common.StringUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
@@ -97,7 +98,7 @@ public class Table extends Text implements ITable {
     }
     protected String[] _footer;
     public void setFooter(String[] value) { _footer = value; }
-    public final List<WebElement> header() { return columns().header(); }
+    public final MapArray<String, SelectElement> header() { return columns().header(); }
     public String[] headers() { return columns().headers(); }
     public String[] footer() {
         if (_footer != null)

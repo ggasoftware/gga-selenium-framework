@@ -8,7 +8,6 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.tab
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Rows;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -127,7 +126,7 @@ public interface ITable<T extends SelectElement> extends IText {
     MapArray<String, ICell> column(String colName);
     /** Get Header */
     @JDIAction
-    List<WebElement> header();
+    MapArray<String, SelectElement> header();
     /** Get Header */
     @JDIAction
     String[] headers();
