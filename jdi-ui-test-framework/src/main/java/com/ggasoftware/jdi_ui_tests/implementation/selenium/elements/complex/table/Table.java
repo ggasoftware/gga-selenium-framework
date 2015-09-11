@@ -99,6 +99,7 @@ public class Table extends Text implements ITable {
     protected String[] _footer;
     public void setFooter(String[] value) { _footer = value; }
     public final MapArray<String, SelectElement> header() { return columns().header(); }
+    public final SelectElement header(String name) { return columns().header(name); }
     public String[] headers() { return columns().headers(); }
     public String[] footer() {
         if (_footer != null)

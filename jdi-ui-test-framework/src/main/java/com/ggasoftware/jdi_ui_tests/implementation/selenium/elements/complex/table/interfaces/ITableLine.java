@@ -29,4 +29,6 @@ public interface ITableLine {
     MapArray<String, MapArray<String, String>> getAsText();
     @JDIAction
     MapArray<String, SelectElement> header();
+    @JDIAction
+    SelectElement header(String name);
 }

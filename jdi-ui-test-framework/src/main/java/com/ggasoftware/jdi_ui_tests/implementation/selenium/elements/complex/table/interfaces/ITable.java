@@ -127,6 +127,8 @@ public interface ITable<T extends SelectElement> extends IText {
     /** Get Header */
     @JDIAction
     MapArray<String, SelectElement> header();
+    @JDIAction
+    SelectElement header(String name);
     /** Get Header */
     @JDIAction
     String[] headers();
