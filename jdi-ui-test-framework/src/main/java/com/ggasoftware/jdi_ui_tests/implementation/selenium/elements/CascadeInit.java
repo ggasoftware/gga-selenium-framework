@@ -80,7 +80,7 @@ public abstract class CascadeInit implements IBaseElement {
             if (instance == null)
                 instance = (BaseElement) type.newInstance();
             fillPage(instance, field, parentClass);
-            instance.setName(getElementName(field));
+            instance.setName(field);
             if (instance.getClass().getSimpleName().equals(""))
                 instance.setTypeName(type.getSimpleName());
             instance.setParentName(parentClass.getSimpleName());
@@ -107,7 +107,7 @@ public abstract class CascadeInit implements IBaseElement {
                 instance = createChildFromField(parentInstance, field, type);
                 instance.function = getFunction(field);
             }
-            instance.setName(getElementName(field));
+            instance.setName(field);
             if (instance.getClass().getSimpleName().equals(""))
                 instance.setTypeName(type.getSimpleName());
             instance.setParentName(parent.getClass().getSimpleName());

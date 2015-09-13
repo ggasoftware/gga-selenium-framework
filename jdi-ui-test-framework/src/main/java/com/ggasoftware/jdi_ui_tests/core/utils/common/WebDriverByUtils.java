@@ -52,7 +52,7 @@ public class WebDriverByUtils {
     }
 
     public static String getByName(By by) {
-        Matcher m = Pattern.compile("By\\.(?<locator>.*):.*").matcher("By.cssSelector: .authorization-form");
+        Matcher m = Pattern.compile("By\\.(?<locator>.*):.*").matcher(by.toString());
         if (m.find())
             return m.group("locator");
         throw new RuntimeException("Can't get By name for: " + by);

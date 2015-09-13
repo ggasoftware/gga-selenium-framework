@@ -13,8 +13,8 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clicka
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.*;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
@@ -27,6 +27,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import java.lang.reflect.Field;
 import java.text.MessageFormat;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
@@ -34,6 +35,7 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.shortLogMes
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.InitElements;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.firstInstance;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.updateInterfacesMap;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -51,8 +53,12 @@ public abstract class BaseElement implements IBaseElement {
     }
 
     private String name;
+    private String varName;
     public String getName() { return name != null ? name : getTypeName(); }
+    public String getVarName() { return varName != null ? varName : getName(); }
     public void setName(String name) { this.name = name; }
+    public void setName(Field field) { this.name = getElementName(field); this.varName = field.getName(); }
+
     public Functions function = Functions.NONE;
     protected GetElementModule avatar;
     protected String parentTypeName = "";
@@ -140,8 +146,8 @@ public abstract class BaseElement implements IBaseElement {
     @Override
     public String toString() {
         return MessageFormat.format(shortLogMessagesFormat
-                ? "{1} {2}.{0} {3}"
-                : "Name: '{0}', Type: '{1}' In: '{2}', {3}",
-                getName(), getTypeName(), getParentName(), avatar);
+                        ? "{1} '{0}' ({2}.{3}; {4})"
+                        : "Name: '{0}', Type: '{1}' In: '{2}', {4}",
+                getName(), getTypeName(), getParentName(), getVarName(), avatar);
     }
 }
