@@ -14,12 +14,12 @@ import static java.lang.String.format;
  * Created by Roman_Iovlev on 7/17/2015.
  */
 public class Page extends BaseElement implements IPage {
-    private String url;
-    private String title;
-    private String urlContains;
-    private String titleContains;
-    private String urlMatchs;
-    private String titleMatchs;
+    protected String url;
+    protected String title;
+    protected String urlContains;
+    protected String titleContains;
+    protected String urlMatchs;
+    protected String titleMatchs;
 
     public void updatePageData(String url, String title, String urlContains, String titleContains, String urlMatchs, String titleMatchs) {
         if (this.url == null)
