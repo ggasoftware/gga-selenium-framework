@@ -140,6 +140,8 @@ public class GetElementModule {
     }
 
     private String printFullLocator() {
+        if (byLocator == null)
+             return "No Locators";
         List<String> result = new ArrayList<>();
         if (context.size() != 0)
             result = select(context, el -> printShortBy(el.value));
