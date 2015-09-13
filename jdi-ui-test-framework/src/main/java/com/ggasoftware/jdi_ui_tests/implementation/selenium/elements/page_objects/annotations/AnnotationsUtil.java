@@ -11,6 +11,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getUrlFromUri;
+
 /**
  * Created by roman.i on 25.09.2014.
  */
@@ -35,10 +38,10 @@ public class AnnotationsUtil {
     public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Class<?> parentClass){
         String url = pageAnnotation.url();
         if (!JDISettings.hasDomain() && parentClass != null && parentClass.isAnnotationPresent(JSite.class))
-            JDISettings.domain = parentClass.getAnnotation(JSite.class).domain();
+            domain = parentClass.getAnnotation(JSite.class).domain();
         url = (url.contains("://") || parentClass == null || !JDISettings.hasDomain())
                 ? url
-                : JDISettings.domain.replaceAll("/*$", "") + "/" + url.replaceAll("^/*", "");
+                : getUrlFromUri(url);
         String title = pageAnnotation.title();
         String urlContains = pageAnnotation.urlContains();
         String titleContains = pageAnnotation.titleContains();
@@ -48,8 +51,8 @@ public class AnnotationsUtil {
     }
 
     private static String getUrlFromDomain(Object parent, String uri) {
-        String domain = parent.getClass().getAnnotation(JSite.class).domain();
-        return domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
+        domain = parent.getClass().getAnnotation(JSite.class).domain();
+        return getUrlFromUri(uri);
     }
 
     public static Functions getFunction(Field field) {

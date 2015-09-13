@@ -35,6 +35,9 @@ public class Page extends BaseElement implements IPage {
         if (this.titleMatchs == null && titleMatchs != null && !titleMatchs.equals(""))
             this.titleMatchs = titleMatchs;
     }
+    public static String getUrlFromUri(String uri) {
+        return JDISettings.domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
+    }
 
     public Page() {}
     public Page(String url) {
