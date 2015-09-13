@@ -2,9 +2,10 @@ package com.ggasoftware.jdi_ui_tests.core.utils.map;
 
 
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.*;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionTT;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTTT;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
-import com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -62,7 +63,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     }
     public MapArray(Object[][] objects) {
         this();
-        TryCatchUtil.ignoreException(() -> add(objects));
+        add(objects);
     }
 
     public static <T> MapArray<Integer, T> toMapArray(Collection<T> collection) {

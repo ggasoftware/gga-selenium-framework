@@ -72,7 +72,7 @@ public class Timer {
                 if (result != null && conditionFunc.invoke(result))
                     return result;
             } catch (Exception|AssertionError ignore) { }
-            ignoreException(() -> sleep(_retryTimeoutInMSec));
+            sleep(_retryTimeoutInMSec);
         }
         return null;
     }

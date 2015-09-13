@@ -36,7 +36,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     public By selectLocator;
     protected Element element() { return new Element(selectLocator); }
 
-    protected boolean isExpanded() { return true; }
+    protected boolean isExpanded() { return false; }
     protected void beforeAction() { if (getLocator() == null || !isExpanded()) getWebElement().click(); }
 
     @Override
