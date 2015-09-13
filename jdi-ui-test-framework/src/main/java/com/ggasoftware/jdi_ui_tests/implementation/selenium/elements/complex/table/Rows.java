@@ -74,4 +74,5 @@ public class Rows extends TableLine {
     public MapArray<String, MapArray<String, ICell>> get() {
         return new MapArray<>(headers(), key -> key, value -> table.rows().getColumn(value));
     }
+
 }

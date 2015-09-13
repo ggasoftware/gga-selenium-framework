@@ -72,6 +72,8 @@ public class GetElementModule {
                 this::searchElements,
                 els -> where(els, getSearchCriteria()::invoke).size() > 0);
         timeouts.dropTimeouts();
+        if (result == null)
+            throw asserter.exception("Can't get Web Elements");
         return where(result, getSearchCriteria()::invoke);
     }
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
