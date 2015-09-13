@@ -82,7 +82,7 @@ public abstract class TemplatesList<TType extends IElement, TEnum extends Enum, 
         return (List<WebElement>) select(getElementsList(), IElement::getWebElement); }
     protected List<TType> getElementsListAction() {
         try { return elementsNames.stream().map(this::getElement).collect(Collectors.toList());
-        } catch (Exception ex) { throw exception(ex.getMessage()); }
+        } catch (Exception|AssertionError ex) { throw exception(ex.getMessage()); }
     }
     public final List<TType> getElementsList() {
         if (elementsNames == null)

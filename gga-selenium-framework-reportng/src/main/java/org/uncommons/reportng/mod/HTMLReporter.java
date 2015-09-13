@@ -121,7 +121,7 @@ public class HTMLReporter extends AbstractReporter
             createLog(outputDirectory, onlyFailures);
             copyResources(outputDirectory);
         }
-        catch (Exception ex)
+        catch (Exception|AssertionError ex)
         {
             throw new ReportNGException("Failed generating HTML report.", ex);
         }

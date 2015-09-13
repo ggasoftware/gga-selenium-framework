@@ -10,10 +10,10 @@ public class TryCatchUtil {
     public static <T> T tryGetResult(JFuncTEx<T> waitCase)
     {
         try { return waitCase.invoke(); }
-        catch(Exception|AssertionError ex) { return null; }
+        catch (Exception|AssertionError ex) { return null; }
     }
     public static void ignoreException(JActionEx action) {
         try { action.invoke();
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
     }
 }

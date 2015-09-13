@@ -63,7 +63,7 @@ class Cell extends SelectElement implements ISelect, ICell {
             instance = (clazz.isInterface())
                     ? (T) getClassFromInterface(clazz).newInstance()
                     : (T) clazz.newInstance();
-        } catch (Exception ex) { throw asserter.exception("Can't get Cell from interface/class: " + last((clazz + "").split("\\."))); }
+        } catch (Exception|AssertionError ex) { throw asserter.exception("Can't get Cell from interface/class: " + last((clazz + "").split("\\."))); }
         return get(instance);
     }
     public <T extends BaseElement> T get(T cell) {

@@ -312,7 +312,7 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
                 cell.getAvatar().context.add(Locator, getLocator());
             } else
                 cell = (T) createCellInstance(clazz, fillByTemplateSilent(_cellLocatorTemplate, rowIndex, colIndex));
-        } catch (Exception ex) { throw exception("Can't init Cell"); }
+        } catch (Exception|AssertionError ex) { throw exception("Can't init Cell"); }
         if (cell == null)
             throw exception("Can't init Cell");
         return cell;
@@ -321,7 +321,7 @@ public class Table<T extends IClickableText, P> extends Text<P> implements ITabl
     public <TChild extends IBaseElement> TChild createCellInstance(Class<TChild> childClass, By newLocator) {
         TChild element;
         try { element = childClass.newInstance(); }
-        catch (Exception ignore) { throw exception(
+        catch (Exception|AssertionError ignore) { throw exception(
                 format("Can't create child for parent '%s' with type '%s' and new locator '%s'",
                         toString(), childClass.getName(), newLocator));  }
         element.getAvatar().byLocator = newLocator;

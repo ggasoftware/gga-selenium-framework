@@ -58,7 +58,7 @@ public class Timer {
                 if (tryGetResult(waitCase))
                     return true;
                 sleep(_retryTimeoutInMSec);
-            } catch (Exception ignore) { }
+            } catch (Exception|AssertionError ignore) { }
         return false;
     }
 
@@ -71,7 +71,7 @@ public class Timer {
                 T result = tryGetResult(getFunc);
                 if (result != null && conditionFunc.invoke(result))
                     return result;
-            } catch (Exception ignore) { }
+            } catch (Exception|AssertionError ignore) { }
             ignoreException(() -> sleep(_retryTimeoutInMSec));
         }
         return null;

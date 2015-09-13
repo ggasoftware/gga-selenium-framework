@@ -178,7 +178,7 @@ public abstract class BaseElement<P> implements IBaseElement {
             processDemoMode();
             return invocationScenarioWithResult.invoke(this, actionName, viAction, logResult, logSettings);
         }
-        catch (Exception ex) {
+        catch (Exception|AssertionError ex) {
             throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
@@ -188,7 +188,7 @@ public abstract class BaseElement<P> implements IBaseElement {
             processDemoMode();
             invocationScenario.invoke(this, actionName, viAction);
         }
-        catch (Exception ex) {
+        catch (Exception|AssertionError ex) {
             throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
@@ -220,7 +220,7 @@ public abstract class BaseElement<P> implements IBaseElement {
             field.set(parent, instance);
             if (isInterface(field, IComposite.class))
                 InitElements(instance);
-        } catch (Exception ex) {
+        } catch (Exception|AssertionError ex) {
             throw exception(format("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
     }
 
@@ -228,7 +228,7 @@ public abstract class BaseElement<P> implements IBaseElement {
         BaseElement instance = (BaseElement) getFieldValue(field, parent);
         if (instance == null)
             try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Exception ignore) { throw exception(
+            catch (Exception|AssertionError ignore) { throw exception(
                     format("Can't create child for parent '%s' with type '%s'",
                             parent.getClass().getSimpleName(), field.getType().getName())); }
         else if (instance.getLocator() == null)
@@ -278,7 +278,7 @@ public abstract class BaseElement<P> implements IBaseElement {
                 return (BaseElement) classType.getDeclaredConstructor(By.class).newInstance(newLocator);
             throw exception("Unknown interface: " + type +
                     ". Add relation interface -> class in VIElement.InterfaceTypeMap");
-        } catch (Exception ex) {
+        } catch (Exception|AssertionError ex) {
             throw exception(format("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getName()) +
                     LineBreak + ex.getMessage()); }
     }
@@ -295,7 +295,7 @@ public abstract class BaseElement<P> implements IBaseElement {
             return (byLocator != null)
                     ? byLocator
                     : getFindByLocator(field.getAnnotation(FindBy.class));
-        } catch (Exception ex) {
+        } catch (Exception|AssertionError ex) {
             throw exception(format("Error in get locator for type '%s'", field.getType().getName()) +
                     LineBreak + ex.getMessage()); }
     }
@@ -341,7 +341,7 @@ public abstract class BaseElement<P> implements IBaseElement {
                         {IDatePicker.class, DatePicker.class},
                 });
             return map;
-        } catch (Exception ex) { throw exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage()); }
+        } catch (Exception|AssertionError ex) { throw exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage()); }
     }
 
     /**

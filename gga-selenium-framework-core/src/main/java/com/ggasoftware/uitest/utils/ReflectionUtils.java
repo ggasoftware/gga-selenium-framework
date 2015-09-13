@@ -51,7 +51,7 @@ public class ReflectionUtils {
     public static Object getFieldValue(Field field, Object obj) {
         field.setAccessible(true);
         try { return field.get(obj); }
-        catch (Exception ex) {
+        catch (Exception|AssertionError ex) {
             throw exception(format("Can't get field '%s' value", field.getName())); }
     }
 }

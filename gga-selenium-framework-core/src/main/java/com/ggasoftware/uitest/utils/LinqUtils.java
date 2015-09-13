@@ -19,7 +19,7 @@ public class LinqUtils {
             for (T el : list)
                 result.add(func.invoke(el));
             return result;
-        } catch (Exception ignore) { return new ArrayList<>(); }
+        } catch (Exception|AssertionError ignore) { return new ArrayList<>(); }
     }
     public static <T, T1> Collection<T1> select(T[] list, JFuncTT<T, T1> func){
         return select(asList(list), func);
@@ -30,7 +30,7 @@ public class LinqUtils {
             for(Map.Entry<T, T1> el : map.entrySet())
                 result.add(func.invoke(el));
             return result;
-        } catch (Exception ignore) { return new ArrayList<>(); }
+        } catch (Exception|AssertionError ignore) { return new ArrayList<>(); }
     }
     public static <T, T1, T2> Map<T, T2> select(Map<T, T1> map, JFuncTT<T1, T2> func) {
         try {
@@ -38,7 +38,7 @@ public class LinqUtils {
             for(Map.Entry<T, T1> el : map.entrySet())
                 result.put(el.getKey(), func.invoke(el.getValue()));
             return result;
-        } catch (Exception ignore) { return new HashMap<>(); }
+        } catch (Exception|AssertionError ignore) { return new HashMap<>(); }
     }
 
     public static <T> Collection<T> where(Iterable<T> list, JFuncTT<T, Boolean> func) {
@@ -48,7 +48,7 @@ public class LinqUtils {
                 if (func.invoke(el))
                     result.add(el);
             return result;
-        } catch (Exception ignore) { return new ArrayList<>(); }
+        } catch (Exception|AssertionError ignore) { return new ArrayList<>(); }
     }
     public static <T> Collection<T> where(T[] list, JFuncTT<T, Boolean> func) {
         return where(asList(list), func);
@@ -60,7 +60,7 @@ public class LinqUtils {
                 if (func.invoke(el))
                     result.put(el.getKey(), el.getValue());
             return result;
-        } catch (Exception ignore) { return new HashMap<>(); }
+        } catch (Exception|AssertionError ignore) { return new HashMap<>(); }
     }
 
     public static <T> void foreach(Iterable<T> list, JActionT<T> action) {
@@ -74,7 +74,7 @@ public class LinqUtils {
         try {
             for (Map.Entry<T, T1> entry : map.entrySet())
                 action.invoke(entry);
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
     }
     public static <T> T first(Iterable<T> list) {
         for(T el : list)
@@ -94,7 +94,7 @@ public class LinqUtils {
             for(T el : list)
                 if (func.invoke(el))
                     return el;
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
         return null;
     }
     public static <T> int firstIndex(List<T> list, JFuncTT<T, Boolean> func)  {
@@ -102,7 +102,7 @@ public class LinqUtils {
             for(int i = 0; i< list.size(); i++)
                 if (func.invoke(list.get(i)))
                     return i;
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
         return -1;
     }
     public static <T> int firstIndex(T[] array, JFuncTT<T, Boolean> func) {
@@ -110,7 +110,7 @@ public class LinqUtils {
             for(int i = 0; i< array.length; i++)
                 if (func.invoke(array[i]))
                     return i;
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
         return -1;
     }
     public static <T> T first(T[] list, JFuncTT<T, Boolean> func) {
@@ -121,7 +121,7 @@ public class LinqUtils {
             for (Map.Entry<T, T1> el : map.entrySet())
                 if (func.invoke(el.getKey()))
                     return el.getValue();
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
         return null;
     }
     public static <K, V> V first(MapArray<K, V> map, JFuncTT<K, Boolean> func) {
@@ -129,7 +129,7 @@ public class LinqUtils {
             for (Pair<K, V> pair : map.pairs)
                 if (func.invoke(pair.key))
                     return pair.value;
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
         return null;
     }
     public static <T> T last(Iterable<T> list)
@@ -148,7 +148,7 @@ public class LinqUtils {
             for(T el : list)
                 if (func.invoke(el))
                     result = el;
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
         return result;
     }
     public static <T> T last(T[] list, JFuncTT<T, Boolean> func) {

@@ -29,31 +29,31 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
         this();
         try { for (T t : collection)
             add(key.invoke(t), value.invoke(t));
-        } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
+        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't init MapArray from collection"); }
     }
     public MapArray(Collection<K> collection, JFuncTT<K, V> value) {
         this();
         try { for (K k : collection)
             add(k, value.invoke(k));
-        } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
+        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't init MapArray from collection"); }
     }
     public <T> MapArray(T[] array, JFuncTT<T, K> key, JFuncTT<T, V> value) {
         this();
         try { for (T t : array)
             add(key.invoke(t), value.invoke(t));
-        } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
+        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't init MapArray from collection"); }
     }
     public MapArray(K[] array, JFuncTT<K, V> value) {
         this();
         try { for (K k : array)
             add(k, value.invoke(k));
-        } catch (Exception ex) { throw new RuntimeException("Can't init MapArray from collection"); }
+        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't init MapArray from collection"); }
     }
     public MapArray(int count, JFuncTT<Integer, K> key, JFuncTT<Integer, V> value) {
         this();
         try { for (int i = 0; i < count; i++)
             add(key.invoke(i), value.invoke(i));
-        } catch (Exception ex) { throw new RuntimeException(format("Can't init MapArray with generator (count=%s)", count)); }
+        } catch (Exception|AssertionError ex) { throw new RuntimeException(format("Can't init MapArray with generator (count=%s)", count)); }
     }
 
     public MapArray(MapArray<K, V> mapArray) {
@@ -101,7 +101,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             for (Object[] pair : pairs)
                 if (pair.length == 2)
                     add((K) pair[0], (V) pair[1]);
-        } catch (Exception ex) { throw new RuntimeException("Can't add objects to MapArray"); }
+        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't add objects to MapArray"); }
     }
     public void addOrReplace(K key, V value) {
         if (haveKey(key))
@@ -114,7 +114,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             for (Object[] pair : pairs)
                 if (pair.length == 2)
                     addOrReplace((K) pair[0], (V) pair[1]);
-        } catch (Exception ex) { throw new RuntimeException("Can't addOrReplace objects to MapArray"); }
+        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't addOrReplace objects to MapArray"); }
     }
     private boolean haveKey(K key) {
         return keys().contains(key);
@@ -131,7 +131,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     public V get(K key) {
         Pair<K, V> first = null;
         try { first = LinqUtils.first(pairs, pair -> pair.key.equals(key));
-        } catch (Exception ignore) {}
+        } catch (Exception|AssertionError ignore) {}
         return (first != null) ? first.value : null;
     }
     public Pair<K,V> get(int index) {
@@ -265,7 +265,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             return pairs.stream()
                     .map(pair -> func.invoke(pair.key, pair.value))
                     .collect(Collectors.toList());
-        } catch (Exception ignore) { return new ArrayList<>(); }
+        } catch (Exception|AssertionError ignore) { return new ArrayList<>(); }
     }
 
     public MapArray<K, V> where(JFuncTTT<K, V, Boolean> func) {
@@ -275,7 +275,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
                 if (func.invoke(pair.key, pair.value))
                     result.add(pair);
             return result;
-        } catch (Exception ignore) { return null; }
+        } catch (Exception|AssertionError ignore) { return null; }
     }
     public V first(JFuncTTT<K,V, Boolean> func) {
         try {
@@ -283,12 +283,12 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
                 if (func.invoke(pair.key, pair.value))
                     return pair.value;
             return null;
-        } catch (Exception ignore) { return null; }
+        } catch (Exception|AssertionError ignore) { return null; }
     }
     public void foreach(JActionTT<K, V> action) {
         try {
             for(Pair<K,V> pair : pairs)
                 action.invoke(pair.key, pair.value);
-        } catch (Exception ignore) { }
+        } catch (Exception|AssertionError ignore) { }
     }
 }

@@ -79,7 +79,7 @@ public class JUnitXMLReporter extends AbstractReporter
                              RESULTS_FILE + TEMPLATE_EXTENSION,
                              context);
             }
-            catch (Exception ex)
+            catch (Exception|AssertionError ex)
             {
                 throw new ReportNGException("Failed generating JUnit XML report.", ex);
             }

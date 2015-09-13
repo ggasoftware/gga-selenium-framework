@@ -155,7 +155,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Exception ex) { throw exception("Can't copy element: " + element); }
+        } catch (Exception|AssertionError ex) { throw exception("Can't copy element: " + element); }
     }
 
     public WebElement getWebElement() {

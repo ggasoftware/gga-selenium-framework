@@ -16,7 +16,7 @@ public class EnumUtils {
         try { field = enumWithValue.getClass().getField("value");
             if (field.getType() != String.class)
                 throw new Exception("Can't get Value from enum");
-        } catch (Exception ex) { return enumWithValue.toString(); }
+        } catch (Exception|AssertionError ex) { return enumWithValue.toString(); }
         return TryCatchUtil.tryGetResult(() -> (String) field.get(enumWithValue));
     }
     public static <T extends Enum> List<T> getAllEnumValues(T enumValue) {

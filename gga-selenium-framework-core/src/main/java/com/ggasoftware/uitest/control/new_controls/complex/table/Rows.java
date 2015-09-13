@@ -31,7 +31,7 @@ public class Rows<T extends IClickableText, P> extends TableLine<T, P> {
 
     public final MapArray<String, Cell<T,P>> getColumn(String colName) {
         try { return cellsToColumn(select(headers(), rowName -> table.cell(new Column(colName), new Row(rowName)))); }
-        catch (Exception ex) { throw throwRowsException(colName, ex); }
+        catch (Exception|AssertionError ex) { throw throwRowsException(colName, ex); }
     }
 
     public MapArray<String, Cell<T,P>> cellsToColumn(Collection<Cell<T,P>> cells) {
@@ -53,7 +53,7 @@ public class Rows<T extends IClickableText, P> extends TableLine<T, P> {
                     rowNum -> headers()[rowNum],
                     rowNum -> table.cell(new Column(colNum), new Row(rowNum)));
         }
-        catch (Exception ex) { throw throwRowsException(colNum + "", ex); }
+        catch (Exception|AssertionError ex) { throw throwRowsException(colNum + "", ex); }
     }
 
     public MapArray<String, MapArray<String, Cell<T,P>>> get() {

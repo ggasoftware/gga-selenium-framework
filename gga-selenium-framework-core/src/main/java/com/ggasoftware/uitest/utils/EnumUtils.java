@@ -13,7 +13,7 @@ public class EnumUtils {
         try { field = enumWithValue.getClass().getField("value");
             if (field.getType() != String.class)
                 throw new Exception("Can't get Value from enum");
-        } catch (Exception ex) { return enumWithValue.toString(); }
+        } catch (Exception|AssertionError ex) { return enumWithValue.toString(); }
         return tryGetResult(() -> (String) field.get(enumWithValue));
     }
 }

@@ -58,7 +58,7 @@ public class Element extends BaseElement implements IElement {
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Exception ex) { throw asserter.exception("Can't copy Element: " + element); }
+        } catch (Exception|AssertionError ex) { throw asserter.exception("Can't copy Element: " + element); }
     }
 
     public boolean waitAttribute(String name, String value) {
@@ -87,7 +87,7 @@ public class Element extends BaseElement implements IElement {
         setWaitTimeout(JDISettings.timeouts.retryMSec);
         boolean result = timer().wait(() -> {
                 try { if (getWebElement().isDisplayed()) return false; }
-                catch (Exception ignore) { }
+                catch (Exception|AssertionError ignore) { }
                 return false;
             });
         setWaitTimeout(JDISettings.timeouts.waitElementSec);

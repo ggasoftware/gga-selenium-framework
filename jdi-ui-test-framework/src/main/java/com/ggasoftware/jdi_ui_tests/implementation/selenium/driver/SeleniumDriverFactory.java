@@ -156,7 +156,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
             resultDriver.manage().window().maximize();
             resultDriver.manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
             return resultDriver;
-        } catch (Exception ex) { asserter.exception("Can't get driver"); return null; }
+        } catch (Exception|AssertionError ex) { asserter.exception("Can't get driver"); return null; }
     }
     public void reopenDriver() {
         if (runDrivers.keys().contains(currentDriverName)) {
@@ -191,7 +191,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         String orig = element.getWebElement().getAttribute("style");
         element.setAttribute("style", format("border: 3px solid %s; background-color: %s;", highlightSettings.FrameColor,
                 highlightSettings.BgColor));
-        try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception ignore) {}
+        try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception|AssertionError ignore) {}
         element.setAttribute("style", orig);
     }
 

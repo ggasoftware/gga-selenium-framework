@@ -68,7 +68,7 @@ public abstract class AbstractReporter implements IReporter
         {
             Velocity.init();
         }
-        catch (Exception ex)
+        catch (Exception|AssertionError ex)
         {
             throw new ReportNGException("Failed to initialise Velocity.", ex);
         }

@@ -70,7 +70,7 @@ public class TextList<TEnum extends Enum, P> extends BaseElement<P> implements I
 
     protected MapArray<String, WebElement> getElementsAction() {
         try { return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
-        } catch (Exception ex) { throw exception(ex.getMessage()); }
+        } catch (Exception|AssertionError ex) { throw exception(ex.getMessage()); }
     }
     protected List<String> getLabelsAction() {
         return (List<String>) getElementsAction().keys();

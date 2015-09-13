@@ -35,7 +35,7 @@ public class ActionInvoker {
             processDemoMode();
             return actionScenrios.setElement(element).resultScenario(actionName, action, logResult, logSettings);
         }
-        catch (Exception ex) {
+        catch (Exception|AssertionError ex) {
             throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
@@ -49,7 +49,7 @@ public class ActionInvoker {
             processDemoMode();
             actionScenrios.setElement(element).actionScenario(actionName, action, logSettings);
         }
-        catch (Exception ex) {
+        catch (Exception|AssertionError ex) {
             throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }

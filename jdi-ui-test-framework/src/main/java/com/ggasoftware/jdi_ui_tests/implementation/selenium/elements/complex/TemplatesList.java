@@ -56,7 +56,7 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
         boolean result = timer().wait(() -> {
                 for (TType el : getElementsList())
                     try { if (el.getWebElement().isDisplayed()) return false;
-                    } catch (Exception ignore) { }
+                    } catch (Exception|AssertionError ignore) { }
                 return true;
             });
         setWaitTimeout(timeouts.waitElementSec);
@@ -77,7 +77,7 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
         return select(getElementsList(), IElement::getWebElement); }
     protected List<TType> getElementsListAction() {
         try { return elementsNames.stream().map(this::getElement).collect(Collectors.toList());
-        } catch (Exception ex) { throw asserter.exception(ex.getMessage()); }
+        } catch (Exception|AssertionError ex) { throw asserter.exception(ex.getMessage()); }
     }
     public final List<TType> getElementsList() {
         if (elementsNames == null || elementsNames.size() == 0)
