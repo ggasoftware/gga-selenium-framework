@@ -25,7 +25,7 @@ public class WebDriverByUtils {
     public static By fillByTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
         try { byLocator = format(byLocator, args); }
-        catch(Exception ex) {
+        catch(Exception|AssertionError ex) {
             throw new RuntimeException(getBadLocatorMsg(byLocator, args)); }
         return getByFunc(by).invoke(byLocator);
     }
