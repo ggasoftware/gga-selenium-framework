@@ -1,22 +1,21 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite;
 
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IPagination;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil;
 import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static java.lang.String.format;
 
 /**
@@ -85,7 +84,7 @@ public class Pagination extends BaseElement implements IPagination {
             return nextLink;
 
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
-            return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), "next")));
+            return new Clickable(fillByTemplate(getLocator(), "next"));
 
         throw asserter.exception(format("Can't choose Next page for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
@@ -101,7 +100,7 @@ public class Pagination extends BaseElement implements IPagination {
             return prevLink;
 
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
-            return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), "prev")));
+            return new Clickable(fillByTemplate(getLocator(), "prev"));
 
         throw asserter.exception(format("Can't choose Previous page for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
@@ -117,7 +116,7 @@ public class Pagination extends BaseElement implements IPagination {
             return firstLink;
 
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
-            return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), "first")));
+            return new Clickable(fillByTemplate(getLocator(), "first"));
 
         throw asserter.exception(format("Can't choose First page for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
@@ -133,7 +132,7 @@ public class Pagination extends BaseElement implements IPagination {
             return lastLink;
 
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
-            return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), "last")));
+            return new Clickable(fillByTemplate(getLocator(), "last"));
 
         throw asserter.exception(format("Can't choose Last page for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
@@ -142,7 +141,7 @@ public class Pagination extends BaseElement implements IPagination {
     }
     private Clickable pageAction(int index) {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
-            return new Clickable(TryCatchUtil.tryGetResult(() -> WebDriverByUtils.fillByTemplate(getLocator(), index)));
+            return new Clickable(fillByTemplate(getLocator(), index));
 
         Clickable pageLink = getClickable("page");
         if (pageLink != null)

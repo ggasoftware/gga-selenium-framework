@@ -23,7 +23,6 @@ import java.util.Set;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isClass;
-import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.DriverTypes.*;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.RunTypes.*;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.SauceLabRunner.getSauceDesiredCapabilities;
@@ -149,7 +148,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         try {
             if (runDrivers.keys().contains(driverName))
                 return runDrivers.get(driverName);
-            WebDriver resultDriver = tryGetResult(() -> drivers.get(driverName).invoke());
+            WebDriver resultDriver = drivers.get(driverName).invoke();
             runDrivers.add(driverName, resultDriver);
             if (resultDriver == null)
                 throw asserter.exception(format("Can't get Webdriver '%s'. This Driver name not registered", driverName));

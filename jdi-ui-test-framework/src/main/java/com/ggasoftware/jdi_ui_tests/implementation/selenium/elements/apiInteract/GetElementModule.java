@@ -21,7 +21,6 @@ import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByFunc;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByLocator;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByName;
-import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.String.format;
 
 /**
@@ -50,7 +49,7 @@ public class GetElementModule {
         this.context = context;
     }
 
-    public WebDriver getDriver() { return tryGetResult(() -> driverFactory.getDriver(driverName)); }
+    public WebDriver getDriver() { return driverFactory.getDriver(driverName); }
 
     public WebElement getElement() {
         logger.debug("Get Web Element: " + element);
@@ -118,15 +117,15 @@ public class GetElementModule {
         for (Pair<ContextType, By> pair : context.subList(1)) {
             By byValue = pair.value;
             if (byValue.toString().contains("By.xpath: //"))
-                pair.value = tryGetResult(() -> getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
-                        .replaceFirst("/", "./")));
+                pair.value = getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
+                        .replaceFirst("/", "./"));
         }
         return context;
     }
     private By correctXPaths(By byValue) {
         return (byValue.toString().contains("By.xpath: //"))
-                ? tryGetResult(() -> getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
-                .replaceFirst("/", "./")))
+                ? getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
+                .replaceFirst("/", "./"))
                 : byValue;
     }
 

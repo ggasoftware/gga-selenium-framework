@@ -1,7 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.core.utils.common;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
-import com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil;
 import org.openqa.selenium.By;
 
 import java.text.MessageFormat;
@@ -41,7 +40,7 @@ public class WebDriverByUtils {
     }
     public static By copyBy(By by) {
         String byLocator = getByLocator(by);
-        return TryCatchUtil.tryGetResult(() -> getByFunc(by).invoke(byLocator));
+        return getByFunc(by).invoke(byLocator);
     }
 
 

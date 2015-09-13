@@ -3,8 +3,8 @@ package com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.os.WindowsUtils;
 
-import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
+import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 
 /**
  * Created by 12345 on 26.01.2015.

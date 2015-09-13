@@ -9,7 +9,6 @@ import java.util.Date;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.ignoreException;
-import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.System.currentTimeMillis;
 
 /**
@@ -55,7 +54,7 @@ public class Timer {
     public boolean wait(JFuncTEx<Boolean> waitCase) {
         while (!timeoutPassed())
             try {
-                if (tryGetResult(waitCase))
+                if (waitCase.invoke())
                     return true;
                 sleep(_retryTimeoutInMSec);
             } catch (Exception|AssertionError ignore) { }
@@ -68,7 +67,7 @@ public class Timer {
     public <T> T getResultByCondition(JFuncTEx<T> getFunc, JFuncTT<T, Boolean> conditionFunc) {
         while (!timeoutPassed()) {
             try {
-                T result = tryGetResult(getFunc);
+                T result = getFunc.invoke();
                 if (result != null && conditionFunc.invoke(result))
                     return result;
             } catch (Exception|AssertionError ignore) { }

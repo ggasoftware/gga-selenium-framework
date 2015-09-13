@@ -26,7 +26,7 @@ abstract class TableLine extends Element implements ITableLine {
     public Table table;
 
     protected int count = 0;
-    public void setCount(int value) { count = value; }
+    public void setCount(int value) { if (table.cache) count = value; }
     public int count() {
         if (count > 0)
              return count;
