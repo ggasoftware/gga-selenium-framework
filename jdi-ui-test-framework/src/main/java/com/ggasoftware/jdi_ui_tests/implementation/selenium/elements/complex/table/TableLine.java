@@ -28,9 +28,12 @@ abstract class TableLine extends Element implements ITableLine {
     protected int count = -1;
     public void setCount(int value) { count = value; }
     public int count() {
-        return (count > 0)
-            ? count
-            : headers() != null ? headers.length : 0;
+        if (count > 0)
+             return count;
+        else {
+            String[] headers = headers();
+            return headers != null ? headers.length : 0;
+        }
     }
 
     protected String[] headers;

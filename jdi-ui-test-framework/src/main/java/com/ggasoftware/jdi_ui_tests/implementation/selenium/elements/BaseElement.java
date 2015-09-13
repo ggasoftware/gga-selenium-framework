@@ -93,7 +93,7 @@ public abstract class BaseElement implements IBaseElement {
 
     public void logAction(String actionName, LogSettings logSettings) {
         logger.toLog(format(shortLogMessagesFormat
-                ? "%s with %s"
+                ? "%s for %s"
                 : "Perform action '%s' with Element (%s)", actionName, this.toString()), logSettings);
     }
     public void logAction(String actionName) { logAction(actionName, new LogSettings());
