@@ -32,7 +32,7 @@ public class Rows extends TableLine {
         return table.getWebElement().findElements(fillByTemplate(rowTemplate, rowNum));
     }
 
-    private RuntimeException throwRowsException(String rowName, Exception ex) {
+    private RuntimeException throwRowsException(String rowName, String ex) {
         return asserter.exception(format("Can't Get Rows '%s'. Exception: %s", rowName, ex));
     }
 
@@ -44,7 +44,7 @@ public class Rows extends TableLine {
                     key -> headers[key],
                     value -> table.cell(webColumn.get(value), new Column(colName), new Row(headers[value])));
         }
-        catch (Exception|AssertionError ex) { throw throwRowsException(colName, ex); }
+        catch (Exception|AssertionError ex) { throw throwRowsException(colName, ex.getMessage()); }
     }
     public final MapArray<String, String> getColumnAsText(String colName) {
         return getColumn(colName).toMapArray(IText::getText);
@@ -65,7 +65,7 @@ public class Rows extends TableLine {
                     key -> headers()[key],
                     value -> table.cell(webColumn.get(value), new Column(colNum), new Row(value + 1)));
         }
-        catch (Exception|AssertionError ex) { throw throwRowsException(colNum + "", ex); }
+        catch (Exception|AssertionError ex) { throw throwRowsException(colNum + "", ex.getMessage()); }
     }
     public final MapArray<String, String> getColumnAsText(int colNum) {
         return getColumn(colNum).toMapArray(IText::getText);

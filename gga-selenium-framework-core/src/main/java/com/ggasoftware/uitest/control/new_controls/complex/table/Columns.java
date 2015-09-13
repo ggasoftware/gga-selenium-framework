@@ -25,7 +25,7 @@ public class Columns<T extends IClickableText, P> extends TableLine<T, P> {
                 .toArray(new String[1]);
     }
 
-    private RuntimeException throwColsException(String colName, Exception ex) {
+    private RuntimeException throwColsException(String colName, String ex) {
         return exception(format("Can't Get Column '%s'. Exception: %s", colName, ex));
     }
 
@@ -33,7 +33,7 @@ public class Columns<T extends IClickableText, P> extends TableLine<T, P> {
         try {
             return cellsToRow(select(headers(), colName -> table.cell(new Column(colName), new Row(rowName))));
         }
-        catch (Exception|AssertionError ex) { throw throwColsException(rowName, ex); }
+        catch (Exception|AssertionError ex) { throw throwColsException(rowName, ex.getMessage()); }
     }
 
     public MapArray<String, Cell<T,P>> cellsToRow(Collection<Cell<T,P>> cells) {
@@ -55,7 +55,7 @@ public class Columns<T extends IClickableText, P> extends TableLine<T, P> {
                     colNum -> headers()[colNum],
                     colNum -> table.cell(new Column(colNum), new Row(rowNum)));
         }
-        catch (Exception|AssertionError ex) { throw throwColsException(rowNum + "", ex); }
+        catch (Exception|AssertionError ex) { throw throwColsException(rowNum + "", ex.getMessage()); }
     }
 
     public MapArray<String, MapArray<String, Cell<T,P>>> get() {
