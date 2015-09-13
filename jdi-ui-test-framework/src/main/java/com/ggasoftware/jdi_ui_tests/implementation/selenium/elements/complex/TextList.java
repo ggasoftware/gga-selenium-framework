@@ -31,7 +31,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
 
     public List<WebElement> getWebElements() {
         return invoker.doJActionResult("Get web elements " + this.toString(), avatar::getElements,
-                els -> format("Got %s webElement(s)", els.size()), new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
+                els -> format("Got %s Element(s)", els.size()), new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
     }
 
     public boolean waitDisplayed() {
@@ -79,12 +79,12 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     protected String getTextAction(WebElement element) { return element.getText(); }
 
     public final String getText(String name) {
-        return invoker.doJActionResult(String.format("Get text for webElement '%s' with name '%s'", this.toString(), name),
+        return invoker.doJActionResult(String.format("Get text for Element '%s' with name '%s'", this.toString(), name),
                 () -> getTextAction(getElement(name)));
     }
 
     public final String getText(int index) {
-        return invoker.doJActionResult(String.format("Get text for webElement '%s' with index '%s'", this.toString(), index),
+        return invoker.doJActionResult(String.format("Get text for Element '%s' with index '%s'", this.toString(), index),
                 () -> getTextAction(getElement(index)));
     }
     public final String getText(TEnum enumName) {

@@ -48,7 +48,7 @@ public class Element extends BaseElement implements IElement {
     private WebElement webElement;
 
     public WebElement getWebElement() {
-        return invoker.doJActionResult("Get web webElement " + this.toString(),
+        return invoker.doJActionResult("Get web element",
                 () -> webElement != null ? webElement : avatar.getElement(),
                 new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
     }
@@ -58,7 +58,7 @@ public class Element extends BaseElement implements IElement {
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Exception ex) { throw asserter.exception("Can't copy webElement: " + element); }
+        } catch (Exception ex) { throw asserter.exception("Can't copy Element: " + element); }
     }
 
     public boolean waitAttribute(String name, String value) {
@@ -121,7 +121,7 @@ public class Element extends BaseElement implements IElement {
     }
 
     public void clickWithKeys(Keys... keys) {
-        invoker.doJAction("Ctrl click on webElement",
+        invoker.doJAction("Ctrl click on Element",
                 () -> {
                     Actions action = new Actions(getDriver());
                     for (Keys key : keys)
@@ -133,35 +133,35 @@ public class Element extends BaseElement implements IElement {
                 });
     }
     public void doubleClick() {
-        invoker.doJAction("Couble click on webElement", () -> {
+        invoker.doJAction("Couble click on Element", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
             builder.doubleClick();
         });
     }
     public void rightClick() {
-        invoker.doJAction("Right click on webElement", () -> {
+        invoker.doJAction("Right click on Element", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
             builder.contextClick(getWebElement()).perform();
         });
     }
     public void clickCenter() {
-        invoker.doJAction("Click in Center of webElement", () -> {
+        invoker.doJAction("Click in Center of Element", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
             builder.click(getWebElement()).perform();
         });
     }
     public void mouseOver() {
-        invoker.doJAction("Move mouse over webElement", () -> {
+        invoker.doJAction("Move mouse over Element", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
             builder.moveToElement(getWebElement()).build().perform();
         });
     }
     public void focus() {
-        invoker.doJAction("Focus on webElement", () -> {
+        invoker.doJAction("Focus on Element", () -> {
             Dimension size = getWebElement().getSize(); //for scroll to object
             new Actions(getDriver()).moveToElement(getWebElement(), size.width / 2, size.height / 2).build().perform();
         });
@@ -175,7 +175,7 @@ public class Element extends BaseElement implements IElement {
         });
     }
     public void dragAndDropBy(int x, int y) {
-        invoker.doJAction(format("Drag and drop webElement: (x,y)=(%s,%s)", x, y), () ->
+        invoker.doJAction(format("Drag and drop Element: (x,y)=(%s,%s)", x, y), () ->
                 new Actions(getDriver()).dragAndDropBy(getWebElement(), x, y).build().perform());
     }
 

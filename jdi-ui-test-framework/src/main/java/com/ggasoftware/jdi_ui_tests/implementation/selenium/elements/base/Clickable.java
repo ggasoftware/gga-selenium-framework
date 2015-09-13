@@ -20,7 +20,7 @@ public class Clickable extends Element implements IClickable {
     public final void click() { actions.click(this::clickAction); }
 
     public void clickByXY(int x, int y) {
-        invoker.doJAction(format("Click on webElement with coordinates (x,y) = (%s, %s)", x, y),
+        invoker.doJAction(format("Click on Element with coordinates (x,y) = (%s, %s)", x, y),
                 () -> new Actions(getDriver())
                         .moveToElement(getWebElement(), x, y).click().build().perform());
     }

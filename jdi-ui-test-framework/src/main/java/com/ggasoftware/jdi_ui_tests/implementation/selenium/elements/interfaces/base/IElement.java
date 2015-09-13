@@ -8,13 +8,13 @@ import org.openqa.selenium.WebElement;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface IElement extends IBaseElement, IVisible {
-    /** Returns Selenium webElement for this Element */
+    /** Returns Selenium Element for this Element */
     @JDIAction
     WebElement getWebElement();
     /** Waits while attribute gets expected value. Return false if this not happens */
     @JDIAction
     boolean waitAttribute(String name, String value);
-    /** Sets attribute value for webElement */
+    /** Sets attribute value for Element */
     @JDIAction
     void setAttribute(String attributeName, String value);
     /** Waits while condition with WebElement and returns wait result */

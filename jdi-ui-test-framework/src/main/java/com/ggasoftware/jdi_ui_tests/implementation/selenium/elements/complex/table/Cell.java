@@ -21,7 +21,7 @@ import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiI
  * ColumnName, RowName, ColumnIndex, RowIndex<br>
  * You can do some actions with Cell:<br>
  * Click, Select, getText, waitText, waitMatchText<br>
- * Also you can use get() method to get webElement of specified for table Type and do any possible action with it<br>
+ * Also you can use get() method to get Element of specified for table Type and do any possible action with it<br>
  * */
 class Cell extends SelectElement implements ISelect, ICell {
     private int rowIndex;

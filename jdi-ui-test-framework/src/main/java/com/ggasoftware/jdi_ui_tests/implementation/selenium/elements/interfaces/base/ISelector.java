@@ -8,16 +8,16 @@ import java.util.List;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
-    /** Select webElement with name (use text) from list */
+    /** Select Element with name (use text) from list */
     @JDIAction
     void select(String name);
-    /** Select webElement with name (use enum) from list */
+    /** Select Element with name (use enum) from list */
     @JDIAction
     void select(TEnum name);
-    /** Select webElement with name (use index) from list */
+    /** Select Element with name (use index) from list */
     @JDIAction
     void select(int index);
-    /** Get name of the selected webElement */
+    /** Get name of the selected Element */
     @JDIAction
     String isSelected();
     /** Wait while option (from text) is selected. Return false if this not happens */

@@ -50,13 +50,13 @@ abstract class BaseSelector<TEnum extends Enum> extends TemplatesList<SelectElem
 
     protected List<String> getNames() {
         if (allLabels == null && elementsNames == null)
-            throw asserter.exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for webElement '%s'"
+            throw asserter.exception(format("Please specify 'allOptionsNamesLocator' locator or Enum to work with getAllElements method for Element '%s'"
                     , this.toString()));
         List<String> names = (elementsNames != null)
                 ? elementsNames
                 : allLabels.getLabels();
         if (names == null || names.size() == 0)
-            throw asserter.exception(format("No labels found for webElement '%s'", this.toString()));
+            throw asserter.exception(format("No labels found for Element '%s'", this.toString()));
         return names;
     }
     public final void setValue(String value) { actions.setValue(value, this::setValueAction); }

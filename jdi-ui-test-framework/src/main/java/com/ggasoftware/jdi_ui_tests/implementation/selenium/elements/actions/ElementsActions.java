@@ -35,7 +35,7 @@ public class ElementsActions {
 
     // Click Action
     public void click(JAction clickAction) {
-        invoker().doJAction("Click on webElement", clickAction);
+        invoker().doJAction("Click on Element", clickAction);
     }
 
     // Text Actions

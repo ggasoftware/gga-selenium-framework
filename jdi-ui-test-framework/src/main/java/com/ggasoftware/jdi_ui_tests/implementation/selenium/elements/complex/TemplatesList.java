@@ -81,7 +81,7 @@ abstract class TemplatesList<TType extends Element, TEnum extends Enum> extends 
     }
     public final List<TType> getElementsList() {
         if (elementsNames == null || elementsNames.size() == 0)
-            throw asserter.exception(format("Please specify elements names for list webElement '%s'", toString()));
+            throw asserter.exception(format("Please specify elements names for list Element '%s'", toString()));
         return invoker.doJActionResult("Get elements", this::getElementsListAction);
     }
     public int count() {

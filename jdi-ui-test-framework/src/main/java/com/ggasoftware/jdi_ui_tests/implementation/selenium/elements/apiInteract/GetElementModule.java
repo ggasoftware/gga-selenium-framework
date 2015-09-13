@@ -53,9 +53,9 @@ public class GetElementModule {
     public WebDriver getDriver() { return tryGetResult(() -> driverFactory.getDriver(driverName)); }
 
     public WebElement getElement() {
-        logger.debug("Get Web webElement: " + element);
+        logger.debug("Get Web Element: " + element);
         WebElement element = Timer.getByCondition(this::getElementAction, el -> el != null);
-        logger.debug("One webElement found");
+        logger.debug("One Element found");
         return element;
     }
 
@@ -89,8 +89,8 @@ public class GetElementModule {
         return result.get(0);
     }
 
-    private static final String failedToFindElementMessage = "Can't find webElement '%s' during %s seconds";
-    private static final String findToMuchElementsMessage = "Find %s elements instead of one for webElement '%s' during %s seconds";
+    private static final String failedToFindElementMessage = "Can't find Element '%s' during %s seconds";
+    private static final String findToMuchElementsMessage = "Find %s elements instead of one for Element '%s' during %s seconds";
 
     private List<WebElement> searchElements() {
         if (context == null || context.size() == 0)
@@ -151,6 +151,6 @@ public class GetElementModule {
     }
 
     private String printShortBy(By by) {
-        return getByName(by) + "=" + getByLocator(by);
+        return String.format("%s='%s'", getByName(by), getByLocator(by));
     }
 }

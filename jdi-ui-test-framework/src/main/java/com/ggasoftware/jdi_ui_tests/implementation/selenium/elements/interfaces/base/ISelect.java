@@ -7,7 +7,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_object
  * Created by Roman_Iovlev on 7/9/2015.
  */
 public interface ISelect extends IClickable, IText {
-    /** Selects webElement. Similar to click() */
+    /** Selects Element. Similar to click() */
     @JDIAction
     void select();
     /** Checks is Element selected */

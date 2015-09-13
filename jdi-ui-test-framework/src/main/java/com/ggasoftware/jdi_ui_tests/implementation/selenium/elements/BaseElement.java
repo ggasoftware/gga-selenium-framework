@@ -94,7 +94,7 @@ public abstract class BaseElement implements IBaseElement {
     public void logAction(String actionName, LogSettings logSettings) {
         logger.toLog(format(shortLogMessagesFormat
                 ? "%s with %s"
-                : "Perform action '%s' with webElement (%s)", actionName, this.toString()), logSettings);
+                : "Perform action '%s' with Element (%s)", actionName, this.toString()), logSettings);
     }
     public void logAction(String actionName) { logAction(actionName, new LogSettings());
     }
@@ -146,8 +146,8 @@ public abstract class BaseElement implements IBaseElement {
     @Override
     public String toString() {
         return MessageFormat.format(shortLogMessagesFormat
-                        ? "{1} '{0}' ({2}.{3}; {4})"
-                        : "Name: '{0}', Type: '{1}' In: '{2}', {4}",
+                        ? "{1} ''{0}'' ({2}.{3}; {4})"
+                        : "Name: ''{0}'', Type: ''{1}'' In: ''{2}'', {4}",
                 getName(), getTypeName(), getParentName(), getVarName(), avatar);
     }
 }
