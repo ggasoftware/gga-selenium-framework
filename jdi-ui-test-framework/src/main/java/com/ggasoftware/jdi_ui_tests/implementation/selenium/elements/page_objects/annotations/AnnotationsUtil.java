@@ -1,7 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page;
-import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.functions.CancelButton;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.functions.CloseButton;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.functions.Functions;
@@ -12,6 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import java.lang.reflect.Field;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.hasDomain;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getUrlFromUri;
 
 /**
@@ -37,15 +37,17 @@ public class AnnotationsUtil {
 
     public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Class<?> parentClass){
         String url = pageAnnotation.url();
-        if (!JDISettings.hasDomain() && parentClass != null && parentClass.isAnnotationPresent(JSite.class))
+        if (!hasDomain() && parentClass != null && parentClass.isAnnotationPresent(JSite.class))
             domain = parentClass.getAnnotation(JSite.class).domain();
-        url = (url.contains("://") || parentClass == null || !JDISettings.hasDomain())
+        url = (url.contains("://") || parentClass == null || !hasDomain())
                 ? url
                 : getUrlFromUri(url);
         String title = pageAnnotation.title();
         String urlContains = pageAnnotation.urlContains();
         String titleContains = pageAnnotation.titleContains();
-        String urlMatchs = pageAnnotation.urlMatchs();
+        String urlMatchs = (url.contains("://") || parentClass == null || !hasDomain())
+                ? url
+                : getUrlFromUri(pageAnnotation.urlMatchs());
         String titleMatchs = pageAnnotation.titleMatchs();
         element.updatePageData(url, title, urlContains, titleContains, urlMatchs, titleMatchs);
     }
