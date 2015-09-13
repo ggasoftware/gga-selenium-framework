@@ -25,7 +25,7 @@ abstract class TableLine extends Element implements ITableLine {
 
     public Table table;
 
-    protected int count = -1;
+    protected int count = 0;
     public void setCount(int value) { count = value; }
     public int count() {
         if (count > 0)
@@ -36,6 +36,7 @@ abstract class TableLine extends Element implements ITableLine {
         }
     }
 
+    public void clean() { headers = null; count = 0; hasHeader = false; }
     protected String[] headers;
     public void setHeaders(String[] value) {
         if (table.cache)

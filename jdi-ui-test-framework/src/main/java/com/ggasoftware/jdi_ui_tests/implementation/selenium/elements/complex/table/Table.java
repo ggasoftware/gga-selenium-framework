@@ -65,8 +65,8 @@ public class Table extends Text implements ITable {
     public boolean cache = false;
     public void clean() {
         _allCells = new ArrayList<>();
-        columns().headers = null;
-        rows().headers = null;
+        columns().clean();
+        rows().clean();
     }
     public void clear() { clean(); }
     private Columns _columns = new Columns();
