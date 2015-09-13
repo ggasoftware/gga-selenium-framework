@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static java.lang.String.format;
@@ -47,6 +49,13 @@ public class WebDriverByUtils {
         String byAsString = by.toString();
         int index = byAsString.indexOf(": ") + 2;
         return byAsString.substring(index);
+    }
+
+    public static String getByName(By by) {
+        Matcher m = Pattern.compile("By\\.(?<locator>.*):.*").matcher("By.cssSelector: .authorization-form");
+        if (m.find())
+            return m.group("locator");
+        throw new RuntimeException("Can't get By name for: " + by);
     }
 
     private static Map<String, JFuncTT<String, By>> getMapByTypes() {

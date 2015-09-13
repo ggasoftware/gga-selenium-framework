@@ -20,6 +20,7 @@ import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByFunc;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByLocator;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByName;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static java.lang.String.format;
 
@@ -150,6 +151,6 @@ public class GetElementModule {
     }
 
     private String printShortBy(By by) {
-        return getByFunc(by).toString().split(".*//..*")[1] + "=" + getByLocator(by);
+        return getByName(by) + "=" + getByLocator(by);
     }
 }
