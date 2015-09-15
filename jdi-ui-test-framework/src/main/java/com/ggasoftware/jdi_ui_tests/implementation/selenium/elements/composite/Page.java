@@ -8,6 +8,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_object
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Check;
 import org.openqa.selenium.Cookie;
 
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
 import static java.lang.String.format;
 
 /**
@@ -36,7 +37,10 @@ public class Page extends BaseElement implements IPage {
             this.titleMatchs = titleMatchs;
     }
     public static String getUrlFromUri(String uri) {
-        return JDISettings.domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
+        return domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
+    }
+    public static String getMatchFromDomain(String uri) {
+        return domain.replaceAll("/*$", "").replace(".", "\\.") + "/" + uri.replaceAll("^/*", "");
     }
 
     public Page() {}

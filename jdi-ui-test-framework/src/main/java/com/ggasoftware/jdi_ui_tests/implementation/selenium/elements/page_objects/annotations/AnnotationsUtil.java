@@ -45,9 +45,10 @@ public class AnnotationsUtil {
         String title = pageAnnotation.title();
         String urlContains = pageAnnotation.urlContains();
         String titleContains = pageAnnotation.titleContains();
-        String urlMatchs = (url.contains("://") || parentClass == null || !hasDomain())
-                ? url
-                : getUrlFromUri(pageAnnotation.urlMatchs());
+        String urlMatchs = pageAnnotation.urlMatchs();
+        urlMatchs = (urlMatchs.contains("://") || parentClass == null || !hasDomain())
+                ? urlMatchs
+                : getUrlFromUri(urlMatchs);
         String titleMatchs = pageAnnotation.titleMatchs();
         element.updatePageData(url, title, urlContains, titleContains, urlMatchs, titleMatchs);
     }
