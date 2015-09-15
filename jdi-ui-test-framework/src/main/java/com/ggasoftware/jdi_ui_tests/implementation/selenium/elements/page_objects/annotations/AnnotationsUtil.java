@@ -1,5 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations;
 
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.CheckPageTypes;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.functions.CancelButton;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.functions.CloseButton;
@@ -12,6 +13,7 @@ import java.lang.reflect.Field;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.hasDomain;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getMatchFromDomain;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getUrlFromUri;
 
 /**
@@ -43,15 +45,15 @@ public class AnnotationsUtil {
                 ? url
                 : getUrlFromUri(url);
         String title = pageAnnotation.title();
-        String urlContains = pageAnnotation.urlContains();
-        String titleContains = pageAnnotation.titleContains();
-        String urlMatchs = pageAnnotation.urlMatchs();
-        if (urlMatchs != null && !urlMatchs.equals(""))
-            urlMatchs = (urlMatchs.contains("://") || parentClass == null || !hasDomain())
-                    ? urlMatchs
-                    : getUrlFromUri(urlMatchs);
+        String urlTemplate = pageAnnotation.urlTemplate();
+        if (urlTemplate != null && !urlTemplate.equals(""))
+            urlTemplate = (urlTemplate.contains("://") || parentClass == null || !hasDomain())
+                    ? urlTemplate
+                    : getMatchFromDomain(urlTemplate);
+        CheckPageTypes checkType = pageAnnotation.checkType();
+        CheckPageTypes urlMatchs = pageAnnotation.urlMatchs();
         String titleMatchs = pageAnnotation.titleMatchs();
-        element.updatePageData(url, title, urlContains, titleContains, urlMatchs, titleMatchs);
+        element.updatePageData(url, title, urlTemplate, titleContains, urlTemplate);
     }
 
     private static String getUrlFromDomain(Object parent, String uri) {
