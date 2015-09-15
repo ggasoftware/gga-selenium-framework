@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.CheckPageTypes.EQUALS;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.CheckPageTypes.*;
 
 /**
  * Created by Roman_Iovlev on 7/24/2015.
@@ -18,8 +18,8 @@ public @interface JPage {
     String url() default "";
     String title() default "";
     String urlTemplate() default "";
-    CheckPageTypes checkType() default EQUALS;
-    CheckPageTypes urlCheckType() default EQUALS;
-    CheckPageTypes titleCheckType() default EQUALS;
+    CheckPageTypes checkType() default NONE;
+    CheckPageTypes urlCheckType() default NONE;
+    CheckPageTypes titleCheckType() default NONE;
 
 }

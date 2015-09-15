@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.hasDomain;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.CheckPageTypes.*;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getMatchFromDomain;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getUrlFromUri;
 
@@ -51,9 +52,13 @@ public class AnnotationsUtil {
                     ? urlTemplate
                     : getMatchFromDomain(urlTemplate);
         CheckPageTypes checkType = pageAnnotation.checkType();
-        CheckPageTypes urlMatchs = pageAnnotation.urlMatchs();
-        String titleMatchs = pageAnnotation.titleMatchs();
-        element.updatePageData(url, title, urlTemplate, titleContains, urlTemplate);
+        CheckPageTypes urlCheckType = pageAnnotation.urlCheckType();
+        CheckPageTypes titleCheckType = pageAnnotation.titleCheckType();
+        if (urlCheckType == NONE)
+            urlCheckType = (checkType != NONE) ? checkType : EQUALS;
+        if (titleCheckType == NONE)
+            titleCheckType = (checkType != NONE) ? checkType : EQUALS;
+        element.updatePageData(url, title, urlCheckType, titleCheckType, urlTemplate);
     }
 
     private static String getUrlFromDomain(Object parent, String uri) {
