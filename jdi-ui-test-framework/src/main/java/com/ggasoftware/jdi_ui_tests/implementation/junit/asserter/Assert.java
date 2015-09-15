@@ -108,26 +108,26 @@ public class Assert {
     public static BaseChecker.ListChecker assertEach(Object[] array) { return eachElementOf(array); }
 
 
-    public <T> void areEquals(JFuncT<T> actual, T expected, String failMessage) { getAssert().areEquals(actual, expected, failMessage); }
-    public <T> void areEquals(JFuncT<T> actual, T expected) { getAssert().areEquals(actual, expected); }
-    public void matches(JFuncT<String> actual, String regEx, String failMessage) { getAssert().matches(actual, regEx, failMessage); }
-    public void matches(JFuncT<String> actual, String regEx) { getAssert().matches(actual, regEx); }
-    public void contains(JFuncT<String> actual, String expected, String failMessage) { getAssert().contains(actual, expected, failMessage); }
-    public void contains(JFuncT<String> actual, String expected) { getAssert().contains(actual, expected); }
-    public void isTrue(JFuncT<Boolean> condition, String failMessage) { getAssert().isTrue(condition, failMessage); }
-    public void isTrue(JFuncT<Boolean> condition) { getAssert().isTrue(condition); }
-    public void isFalse(JFuncT<Boolean> condition, String failMessage) { getAssert().isFalse(condition, failMessage); }
-    public void isFalse(JFuncT<Boolean> condition) { getAssert().isFalse(condition); }
-    public void isEmpty(JFuncT<Object> obj, String failMessage) { getAssert().isEmpty(obj, failMessage); }
-    public void isEmpty(JFuncT<Object> obj) { getAssert().isEmpty(obj); }
-    public void isNotEmpty(JFuncT<Object> obj, String failMessage) { getAssert().isNotEmpty(obj, failMessage); }
-    public void isNotEmpty(JFuncT<Object> obj) { getAssert().isNotEmpty(obj); }
-    public <T> void areSame(JFuncT<T> actual, T expected, String failMessage) { getAssert().areSame(actual, expected, failMessage); }
-    public <T> void areSame(JFuncT<T> actual, T expected) { getAssert().areSame(actual, expected); }
-    public <T> void areDifferent(JFuncT<T> actual, T expected, String failMessage) { getAssert().areDifferent(actual, expected, failMessage); }
-    public <T> void areDifferent(JFuncT<T> actual, T expected) { getAssert().areDifferent(actual, expected); }
-    public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage) { getAssert().listEquals(actual, expected, failMessage); }
-    public <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected) { getAssert().listEquals(actual, expected); }
-    public <T> void arrayEquals(JFuncT<T> actual, T expected, String failMessage) { getAssert().arrayEquals(actual, expected, failMessage); }
-    public <T> void arrayEquals(JFuncT<T> actual, T expected) { getAssert().arrayEquals(actual, expected); }
+    public static <T> void areEquals(JFuncT<T> actual, T expected, String failMessage) { getAssert().areEquals(actual, expected, failMessage); }
+    public static <T> void areEquals(JFuncT<T> actual, T expected) { getAssert().areEquals(actual, expected); }
+    public static void matches(JFuncT<String> actual, String regEx, String failMessage) { getAssert().matches(actual, regEx, failMessage); }
+    public static void matches(JFuncT<String> actual, String regEx) { getAssert().matches(actual, regEx); }
+    public static void contains(JFuncT<String> actual, String expected, String failMessage) { getAssert().contains(actual, expected, failMessage); }
+    public static void contains(JFuncT<String> actual, String expected) { getAssert().contains(actual, expected); }
+    public static void isTrue(JFuncT<Boolean> condition, String failMessage) { getAssert().isTrue(condition, failMessage); }
+    public static void isTrue(JFuncT<Boolean> condition) { getAssert().isTrue(condition); }
+    public static void isFalse(JFuncT<Boolean> condition, String failMessage) { getAssert().isFalse(condition, failMessage); }
+    public static void isFalse(JFuncT<Boolean> condition) { getAssert().isFalse(condition); }
+    public static void isEmpty(JFuncT<Object> obj, String failMessage) { getAssert().isEmpty(obj, failMessage); }
+    public static void isEmpty(JFuncT<Object> obj) { getAssert().isEmpty(obj); }
+    public static void isNotEmpty(JFuncT<Object> obj, String failMessage) { getAssert().isNotEmpty(obj, failMessage); }
+    public static void isNotEmpty(JFuncT<Object> obj) { getAssert().isNotEmpty(obj); }
+    public static <T> void areSame(JFuncT<T> actual, T expected, String failMessage) { getAssert().areSame(actual, expected, failMessage); }
+    public static <T> void areSame(JFuncT<T> actual, T expected) { getAssert().areSame(actual, expected); }
+    public static <T> void areDifferent(JFuncT<T> actual, T expected, String failMessage) { getAssert().areDifferent(actual, expected, failMessage); }
+    public static <T> void areDifferent(JFuncT<T> actual, T expected) { getAssert().areDifferent(actual, expected); }
+    public static <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage) { getAssert().listEquals(actual, expected, failMessage); }
+    public static <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected) { getAssert().listEquals(actual, expected); }
+    public static <T> void arrayEquals(JFuncT<T> actual, T expected, String failMessage) { getAssert().arrayEquals(actual, expected, failMessage); }
+    public static <T> void arrayEquals(JFuncT<T> actual, T expected) { getAssert().arrayEquals(actual, expected); }
 }
