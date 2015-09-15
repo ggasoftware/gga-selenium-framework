@@ -55,9 +55,11 @@ public class AnnotationsUtil {
         CheckPageTypes urlCheckType = pageAnnotation.urlCheckType();
         CheckPageTypes titleCheckType = pageAnnotation.titleCheckType();
         if (urlCheckType == NONE)
-            urlCheckType = (checkType != NONE) ? checkType : EQUALS;
+            urlCheckType = (checkType != NONE) ? checkType : EQUAL;
         if (titleCheckType == NONE)
-            titleCheckType = (checkType != NONE) ? checkType : EQUALS;
+            titleCheckType = (checkType != NONE) ? checkType : EQUAL;
+        if (urlCheckType == MATCH || urlCheckType == CONTAIN && (urlTemplate == null || urlTemplate.equals("")))
+            urlTemplate = url;
         element.updatePageData(url, title, urlCheckType, titleCheckType, urlTemplate);
     }
 

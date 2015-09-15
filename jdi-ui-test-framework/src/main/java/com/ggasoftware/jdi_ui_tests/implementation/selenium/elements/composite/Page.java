@@ -9,7 +9,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Check;
 import org.openqa.selenium.Cookie;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.CheckPageTypes.EQUALS;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.CheckPageTypes.EQUAL;
 import static java.lang.String.format;
 
 /**
@@ -18,8 +18,8 @@ import static java.lang.String.format;
 public class Page extends BaseElement implements IPage {
     protected String url;
     protected String title;
-    protected CheckPageTypes checkUrlType = EQUALS;
-    protected CheckPageTypes checkTitleType = EQUALS;
+    protected CheckPageTypes checkUrlType = EQUAL;
+    protected CheckPageTypes checkTitleType = EQUAL;
     protected String urlTemplate;
 
     public void updatePageData(String url, String title, CheckPageTypes checkUrlType, CheckPageTypes checkTitleType, String urlTemplate) {
@@ -54,19 +54,19 @@ public class Page extends BaseElement implements IPage {
     public static boolean checkAfterOpen = false;
     public void checkOpened() {
         switch (checkUrlType) {
-            case EQUALS:
+            case EQUAL:
                 url().check(); break;
-            case MATCHES:
+            case MATCH:
                 url().match(); break;
-            case CONTAINS:
+            case CONTAIN:
                 url().contains(); break;
         }
         switch (checkTitleType) {
-            case EQUALS:
+            case EQUAL:
                 title().check(); break;
-            case MATCHES:
+            case MATCH:
                 title().match(); break;
-            case CONTAINS:
+            case CONTAIN:
                 title().contains(); break;
         }
     }
