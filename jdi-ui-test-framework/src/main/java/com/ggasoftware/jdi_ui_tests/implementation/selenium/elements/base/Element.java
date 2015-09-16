@@ -29,6 +29,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static java.lang.String.format;
 
 /**
@@ -61,6 +62,7 @@ public class Element extends BaseElement implements IElement {
         } catch (Exception|AssertionError ex) { throw asserter.exception("Can't copy Element: " + element); }
     }
 
+    public String getAttribute(String name) { return getWebElement().getAttribute(name); }
     public boolean waitAttribute(String name, String value) {
         return wait(el -> el.getAttribute(name).equals(value));
     }
@@ -69,29 +71,20 @@ public class Element extends BaseElement implements IElement {
                 () -> jsExecutor().executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attributeName),
                         getWebElement(), value));
     }
-    public boolean isDisplayed() {
-        setWaitTimeout(0);
-        avatar.localElementSearchCriteria = el -> el != null;
-        boolean result = getWebElement().isDisplayed();
-        setWaitTimeout(JDISettings.timeouts.waitElementSec);
-        return result;
+    protected boolean isDisplayedAction() {
+        return actions.findImmediately(() -> getWebElement().isDisplayed());
     }
+    protected boolean waitDisplayedAction() { return wait(WebElement::isDisplayed);}
+
+    public boolean isDisplayed() {return actions.isDisplayed(this::isDisplayedAction); }
     public boolean isHidden() {
-        return !isDisplayed();
+        return actions.isDisplayed(() -> !isDisplayedAction());
     }
     public boolean waitDisplayed() {
-        return wait(WebElement::isDisplayed);
+        return actions.waitDisplayed(this::waitDisplayedAction);
     }
-
-    public boolean waitVanished()  {
-        setWaitTimeout(JDISettings.timeouts.retryMSec);
-        boolean result = timer().wait(() -> {
-                try { if (getWebElement().isDisplayed()) return false; }
-                catch (Exception|AssertionError ignore) { }
-                return false;
-            });
-        setWaitTimeout(JDISettings.timeouts.waitElementSec);
-        return result;
+    public boolean waitVanished() {
+        return actions.waitVanished(() -> timer().wait(() -> !isDisplayedAction()));
     }
 
     @Override
@@ -111,7 +104,7 @@ public class Element extends BaseElement implements IElement {
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
         setWaitTimeout(timeoutSec);
         T result = new Timer(timeoutSec).getResultByCondition(() -> resultFunc.invoke(getWebElement()), condition::invoke);
-        setWaitTimeout(JDISettings.timeouts.waitElementSec);
+        setWaitTimeout(timeouts.waitElementSec);
         return result;
     }
 

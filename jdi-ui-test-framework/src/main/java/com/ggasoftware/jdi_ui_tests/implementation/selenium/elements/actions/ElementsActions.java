@@ -5,12 +5,12 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
+import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.getByCondition;
@@ -25,6 +25,19 @@ public class ElementsActions {
     public ActionInvoker invoker() { return element.invoker; }
     public ElementsActions(BaseElement element) { this.element = element; }
 
+    // Element Actions
+    public boolean isDisplayed(JFuncT<Boolean> isDisplayed) {
+        return invoker().doJActionResult("Is element displayed", isDisplayed);
+    }
+    public boolean isHidden(JFuncT<Boolean> isHidden) {
+        return invoker().doJActionResult("Is element hidden", isHidden);
+    }
+    public boolean waitDisplayed(JFuncT<Boolean> isDisplayed) {
+        return invoker().doJActionResult("Wait element displayed", isDisplayed);
+    }
+    public boolean waitVanished(JFuncT<Boolean> isVanished) {
+        return invoker().doJActionResult("Wait element vanished", isVanished);
+    }
     // Value Actions
     public String getValue(JFuncT<String> getValueFunc) {
         return invoker().doJActionResult("Get value", getValueFunc);
@@ -97,16 +110,17 @@ public class ElementsActions {
     public void select(String name, JActionT<String> selectAction) { invoker().doJAction(format("Select '%s'", name), () -> selectAction.invoke(name)); }
     public void select(int index, JActionT<Integer> selectByIndexAction) {
         invoker().doJAction(format("Select '%s'", index), () -> selectByIndexAction.invoke(index)); }
-    public String isSelectedList(JFuncT<List<SelectElement>> getElementsList) {
-        return invoker().doJActionResult("Is Selected", () -> {
-            List<SelectElement> elements = getElementsList.invoke();
-            if (elements == null) return null;
-            SelectElement selectedElement = first(elements, SelectElement::isSelected);
-            return (selectedElement != null) ? selectedElement.getText() : null;
-        });
+    public boolean isSelected(String name, JFuncTT<String, Boolean> isSelectedAction) {
+        return invoker().doJActionResult(format("Wait is '%s' selected", name), () -> isSelectedAction.invoke(name));
     }
-    public boolean waitSelected(String name, JFuncTT<String, Boolean> waitSelectedAction) {
-        return invoker().doJActionResult(format("Wait is '%s' selected", name), () -> waitSelectedAction.invoke(name));
+    public boolean isSelected(int index, JFuncTT<Integer, Boolean> isSelectedAction) {
+        return invoker().doJActionResult(format("Wait is '%s' selected", index), () -> isSelectedAction.invoke(index));
+    }
+    public String getSelected(JFuncT<String> isSelectedAction) {
+        return invoker().doJActionResult("Get Selected element name", isSelectedAction::invoke);
+    }
+    public int getSelectedIndex(JFuncT<Integer> isSelectedAction) {
+        return invoker().doJActionResult("Get Selected element index", isSelectedAction::invoke);
     }
 
     //MultiSelector
@@ -142,5 +156,15 @@ public class ElementsActions {
                     return false;
             return true;
         });
+    }
+
+    public <T> T findImmediately(JFuncT<T> func) {
+        element.setWaitTimeout(0);
+        JFuncTT<WebElement, Boolean> temp = element.avatar.localElementSearchCriteria;
+        element.avatar.localElementSearchCriteria = el -> true;
+        T result = func.invoke();
+        element.avatar.localElementSearchCriteria = temp;
+        element.setWaitTimeout(timeouts.waitElementSec);
+        return result;
     }
 }

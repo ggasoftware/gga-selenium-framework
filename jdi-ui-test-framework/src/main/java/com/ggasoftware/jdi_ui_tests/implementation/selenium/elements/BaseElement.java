@@ -1,7 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements;
 
 import com.ggasoftware.jdi_ui_tests.core.logger.base.LogSettings;
-import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionTT;
@@ -60,7 +59,7 @@ public abstract class BaseElement implements IBaseElement {
     public void setName(Field field) { this.name = getElementName(field); this.varName = field.getName(); }
 
     public Functions function = Functions.NONE;
-    protected GetElementModule avatar;
+    public GetElementModule avatar;
     protected String parentTypeName = "";
     protected Timer timer() { return avatar.timer(); }
     protected JavascriptExecutor jsExecutor() { return (JavascriptExecutor) getDriver(); }
@@ -79,8 +78,8 @@ public abstract class BaseElement implements IBaseElement {
     protected ElementsActions actions = new ElementsActions(this);
     public ActionInvoker invoker = new ActionInvoker(this);
 
-    protected void setWaitTimeout(long mSeconds) {
-        JDISettings.logger.debug("Set wait timeout to " + mSeconds);
+    public void setWaitTimeout(long mSeconds) {
+        logger.debug("Set wait timeout to " + mSeconds);
         getDriver().manage().timeouts().implicitlyWait(mSeconds, MILLISECONDS);
     }
     private String typeName;

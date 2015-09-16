@@ -1,14 +1,13 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.ITextList;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.core.logger.base.LogSettings;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels;
-import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.ITextList;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -16,9 +15,7 @@ import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils.getEnumValue;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static java.lang.String.format;
 
@@ -34,22 +31,33 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
                 els -> format("Got %s Element(s)", els.size()), new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
     }
 
-    public boolean waitDisplayed() {
-        return timer().wait(() -> where(getWebElements(), WebElement::isDisplayed).size() > 0);
+    public boolean waitVanishedAction()  {
+        return actions.findImmediately(() ->
+            timer().wait(() -> {
+                List<WebElement> elements = getWebElements();
+                if (elements == null || elements.size() == 0)
+                    return true;
+                for (WebElement el : getWebElements())
+                    if (el.isDisplayed()) return false;
+                return true;
+            }));
+    }
+    protected boolean isDisplayedAction() {
+        return actions.findImmediately(() -> where(getWebElements(), WebElement::isDisplayed).size() > 0);
+    }
+    public boolean waitDisplayedAction() {
+        return timer().wait(() -> any(getWebElements(), el -> !el.isDisplayed()));
     }
 
-    public boolean waitVanished()  {
-        setWaitTimeout(JDISettings.timeouts.retryMSec);
-        boolean result = timer().wait(() -> {
-                    List<WebElement> elements = getWebElements();
-                    if (elements == null || elements.size() == 0)
-                        return true;
-                    for (WebElement el : getWebElements())
-                        if (el.isDisplayed()) return false;
-                    return true;
-                });
-        setWaitTimeout(JDISettings.timeouts.waitElementSec);
-        return result;
+    public boolean isDisplayed() {return actions.isDisplayed(this::isDisplayedAction); }
+    public boolean isHidden() {
+        return actions.isDisplayed(() -> !isDisplayedAction());
+    }
+    public boolean waitDisplayed() {
+        return actions.waitDisplayed(this::waitDisplayedAction);
+    }
+    public boolean waitVanished() {
+        return actions.waitVanished(this::waitVanishedAction);
     }
 
     public WebElement getElement(String name)  {

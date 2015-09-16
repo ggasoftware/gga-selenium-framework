@@ -126,6 +126,9 @@ public class LinqUtils {
         } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
         return null;
     }
+    public static <T> boolean any(Iterable<T> list, JFuncTT<T, Boolean> func) {
+        return first(list, func) == null;
+    }
     public static <T> int firstIndex(List<T> list, JFuncTT<T, Boolean> func)  {
         if (list == null)
             throw new RuntimeException("Can't do firstIndex. Collection is Null");

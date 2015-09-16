@@ -93,7 +93,8 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     // For Framework
-    public RuntimeException exception(String failMessage) {
+    public RuntimeException exception(String failMessage, Object... args) {
+        failMessage = format(failMessage, args);
         logger.error(FRAMEWORK, failMessage);
         throwFail.invoke(failMessage);
         return new RuntimeException(failMessage);

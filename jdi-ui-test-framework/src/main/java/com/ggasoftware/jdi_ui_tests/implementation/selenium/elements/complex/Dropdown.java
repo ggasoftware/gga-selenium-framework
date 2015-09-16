@@ -14,6 +14,7 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropDown;
 import org.openqa.selenium.By;
@@ -27,40 +28,39 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDropDown<TEnum> {
     public Dropdown() { super(); }
-    public Dropdown(By selectLocator) { this.selectLocator = selectLocator; }
-    public Dropdown(By selectLocator, By optionsNamesLocatorTemplate) { super(optionsNamesLocatorTemplate); this.selectLocator = selectLocator;}
-    public Dropdown(By selectLocator, By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {
-        super(optionsNamesLocatorTemplate, allOptionsNamesLocator); this.selectLocator = selectLocator;
+    public Dropdown(By selectLocator) { super(selectLocator); }
+    public Dropdown(By selectLocator, By optionsNamesLocator) { super(optionsNamesLocator); this.selectLocator = selectLocator;}
+    public Dropdown(By selectLocator, By optionsNamesLocator, By allOptionsNamesLocator) {
+        super(optionsNamesLocator, allOptionsNamesLocator); this.selectLocator = selectLocator;
     }
 
     public By selectLocator;
-    protected Element element() { return new Element(selectLocator); }
+    protected Clickable element() { return new Clickable(selectLocator); }
 
-    protected boolean isExpanded() { return false; }
-    protected void beforeAction() { if (getLocator() == null || !isExpanded()) getWebElement().click(); }
+    protected void expandAction() { if (!isDisplayed()) element().click(); }
 
     @Override
     protected void selectAction(String name) {
-        if (getLocator() != null) {
-            beforeAction();
+        if (selectLocator != null) {
+            expandAction();
             super.selectAction(name);
         }
         else
-            new Select(new Element(selectLocator).getWebElement()).selectByValue(name);
+            new Select(getWebElement()).selectByValue(name);
     }
     @Override
-    protected void selectByIndexAction(int index) {
-        if (getLocator() != null) {
-            beforeAction();
-            super.selectByIndexAction(index);
+    protected void selectAction(int index) {
+        if (selectLocator != null) {
+            expandAction();
+            super.selectAction(index);
         }
         else
-            new Select(new Element(selectLocator).getWebElement()).selectByIndex(index);
+            new Select(getWebElement()).selectByIndex(index);
     }
     @Override
     protected String getValueAction() { return getTextAction(); }
     @Override
-    protected boolean waitSelectedAction(String value) { return waitText(value).equals(value); }
+    protected boolean isSelectedAction(String value) { return getTextAction().equals(value); }
 
     @Override
     public boolean waitDisplayed() {  return element().waitDisplayed(); }
@@ -83,7 +83,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
         return element().wait(resultFunc, condition, timeoutSec);
     }
-    protected String getTextAction() { return getWebElement().getAttribute("value"); }
+    protected String getTextAction() { return element().getAttribute("value"); }
     public final String getText() { return actions.getText(this::getTextAction); }
     public final String waitText(String text) {
         return actions.waitText(text, this::getTextAction);
@@ -95,7 +95,9 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     public void setAttribute(String attributeName, String value) {
         element().setAttribute(attributeName, value);
     }
-    public WebElement getWebElement() { return element().getWebElement(); }
+    public WebElement getWebElement() { return new Element(getLocator()).getWebElement(); }
+
+    public String getAttribute(String name) { return element().getAttribute(name); }
 
     public boolean waitAttribute(String name, String value) {
         return element().waitAttribute(name, value);

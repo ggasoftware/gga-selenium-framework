@@ -14,8 +14,8 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Button;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropList;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -29,40 +29,37 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implements IDropList<TEnum> {
     public DropList() { super(); }
-    public DropList(By valueLocator) { this.valueLocator = valueLocator; }
+    public DropList(By valueLocator) { super(valueLocator); }
     public DropList(By valueLocator, By optionsNamesLocator) { super(optionsNamesLocator); this.valueLocator = valueLocator;}
     public DropList(By valueLocator, By optionsNamesLocator, By allOptionsNamesLocator) {
         super(optionsNamesLocator, allOptionsNamesLocator); this.valueLocator = valueLocator;
     }
     public By valueLocator;
-    protected Button field() { return new Button(valueLocator); }
-
-    protected boolean isExpanded() { return false; }
-    @Override
-    protected void beforeAction() { if (getLocator() == null || !isExpanded()) getWebElement().click(); }
+    protected Clickable field() { return new Clickable(valueLocator); }
+    protected void expandAction() { if (!isDisplayed()) field().click(); }
 
     @Override
     protected void selectListAction(String... names) {
-        if (getLocator() != null) {
-            beforeAction();
+        if (valueLocator != null) {
+            expandAction();
             super.selectListAction(names);
         }
         else
             for(String name : names)
-                new Select(new Element(valueLocator).getWebElement()).selectByValue(name);
+                new Select(getWebElement()).selectByValue(name);
     }
     @Override
     protected void selectListAction(int... indexes) {
-        if (getLocator() != null) {
-            beforeAction();
+        if (valueLocator != null) {
+            expandAction();
             super.selectListAction(indexes);
         }
         else
             for(int index : indexes)
-                new Select(new Element(valueLocator).getWebElement()).selectByIndex(index);
+                new Select(getWebElement()).selectByIndex(index);
     }
     @Override
-    protected boolean waitSelectedAction(String value) { return getTextAction().equals(value); }
+    protected boolean isSelectedAction(String value) { return getTextAction().equals(value); }
     @Override
     protected String getValueAction() { return getTextAction(); }
     protected String getTextAction() { return getWebElement().getAttribute("value"); }
@@ -91,7 +88,12 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     public final String waitText(String text) { return actions.waitText(text, this::getTextAction); }
     public final String waitMatchText(String regEx) { return actions.waitMatchText(regEx, this::getTextAction); }
 
-    public WebElement getWebElement() { return field().getWebElement(); }
+    public WebElement getWebElement() { return new Element(getLocator()).getWebElement(); }
+
+    public String getAttribute(String name) {
+        return field().getAttribute(name);
+    }
+
     public boolean waitAttribute(String name, String value) {
         return field().waitAttribute(name, value);
     }

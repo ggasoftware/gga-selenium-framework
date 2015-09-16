@@ -2,11 +2,15 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IMultiSelector;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 
@@ -16,24 +20,34 @@ import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 
 public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEnum> implements IMultiSelector<TEnum> {
     public MultiSelector() { super(); }
-    public MultiSelector(By optionsNamesLocatorTemplate) { super(optionsNamesLocatorTemplate); }
-    public MultiSelector(By optionsNamesLocatorTemplate, By allOptionsNamesLocator) {
-        super(optionsNamesLocatorTemplate, allOptionsNamesLocator);
-    }
-    public MultiSelector(By optionsNamesLocatorTemplate, TEnum enumMember) {
-        super(optionsNamesLocatorTemplate, enumMember);
+    public MultiSelector(By optionsNamesLocator) { super(optionsNamesLocator); }
+    public MultiSelector(By optionsNamesLocator, By allLabelsLocator) {
+        super(optionsNamesLocator, allLabelsLocator);
     }
 
-    protected void beforeAction() {}
     protected void clearAction() {
-        foreach(where(getOptions(), this::waitSelectedAction), name -> {
-            if (isSelectedAction(name))
-                selectAction(name);
-        });
+        if (!haveLocator() && allLabels == null)
+            throw asserter.exception("Can't clear options. No optionsNamesLocator and allLabelsLocator found");
+        if (getLocator().toString().contains("%s"))
+            throw asserter.exception("Can't clear options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain %s)");
+        if (allLabels != null) {
+            clearElements(allLabels.getWebElements());
+            return;
+        }
+        List<WebElement> els = getDriver().findElements(getLocator());
+        if (els.size() == 1)
+            new Select(new Element(getLocator()).getWebElement()).deselectAll();
+        else
+            clearElements(els);
     }
+    private void clearElements(List<WebElement> els) {
+        foreach(where(LinqUtils.select(els, WebElement::getText), this::isSelected), this::select);
+    }
+    protected boolean isSelectedAction(String name) { return areSelected().contains(name); }
+    protected boolean isSelectedAction(int index) { return areSelected().contains(getNames().get(index));}
+
     protected void selectListAction(String... names) { foreach(names, this::selectAction); }
-    protected void selectListAction(int... indexes) { for (int i : indexes) selectByIndexAction(i); }
-    protected boolean waitSelectedAction(String value) { return getElement(value).isSelected(); }
+    protected void selectListAction(int... indexes) { for (int i : indexes) selectAction(i); }
     @Override
     protected void setValueAction(String value) { selectListAction(value.split(", ")); }
     protected String getValueAction() { return print(areSelected()); }
@@ -42,13 +56,13 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     public IMultiSelector<TEnum> setValuesSeparator(String separator) { this.separator = separator; return this; }
 
     public final void select(String... names) {
-        beforeAction(); actions.select(this::selectListAction, names);
+        actions.select(this::selectListAction, names);
     }
     public final void select(TEnum... names) {
-        beforeAction(); select(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
+        select(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final void select(int... indexes) {
-        beforeAction(); actions.select(this::selectListAction, indexes);
+        actions.select(this::selectListAction, indexes);
     }
     public final void check(String... names) { clear(); select(names); }
     public final void check(TEnum... names) { clear(); select(names); }
@@ -57,32 +71,31 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     public final void uncheck(TEnum... names) { checkAll(); select(names); }
     public final void uncheck(int... indexes) { checkAll(); select(indexes); }
     public final List<String> areSelected() {
-        beforeAction(); return actions.areSelected(this::getNames, this::waitSelectedAction);
+        return actions.areSelected(this::getNames, this::isSelectedAction);
     }
     public final boolean waitSelected(TEnum... names) {
-        beforeAction(); return waitSelected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
+        return waitSelected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final boolean waitSelected(String... names) {
-        beforeAction(); return actions.waitSelected(this::waitSelectedAction, names);
+        return actions.waitSelected(this::waitSelected, names);
     }
     public final List<String> areDeselected() {
-        beforeAction(); return actions.areDeselected(this::getNames, this::waitSelectedAction);
+        return actions.areDeselected(this::getNames, this::waitSelected);
     }
     public final boolean waitDeselected(TEnum... names) {
-        beforeAction(); return waitDeselected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
+        return waitDeselected(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
     }
     public final boolean waitDeselected(String... names) {
-        beforeAction(); return actions.waitDeselected(this::waitSelectedAction, names);
+        return actions.waitDeselected(this::waitSelected, names);
     }
 
     public void clear() {
-        beforeAction(); invoker.doJAction("Clear Options", this::clearAction);
+        invoker.doJAction("Clear Options", this::clearAction);
     }
     public void uncheckAll() { clear(); }
 
     public void checkAll() {
-        beforeAction(); foreach(where(getOptions(), label -> !waitSelectedAction(label)), this::selectAction);
+        foreach(where(getOptions(), label -> !waitSelected(label)), this::selectAction);
     }
-    public final String getValue() { return actions.getValue(this::getValueAction); }
 
 }

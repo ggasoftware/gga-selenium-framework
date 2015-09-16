@@ -11,6 +11,9 @@ public interface IElement extends IBaseElement, IVisible {
     /** Returns Selenium Element for this Element */
     @JDIAction
     WebElement getWebElement();
+    /** Get element attribute */
+    @JDIAction
+    String getAttribute(String name);
     /** Waits while attribute gets expected value. Return false if this not happens */
     @JDIAction
     boolean waitAttribute(String name, String value);
