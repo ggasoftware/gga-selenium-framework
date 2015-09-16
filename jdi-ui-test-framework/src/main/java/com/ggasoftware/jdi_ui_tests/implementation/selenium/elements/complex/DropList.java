@@ -21,6 +21,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+
 /**
  * Select control implementation
  *
@@ -36,12 +38,15 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     }
     public By valueLocator;
     protected Clickable field() { return new Clickable(valueLocator); }
-    protected void expandAction() { if (!isDisplayed()) field().click(); }
+    protected void expandAction(String name) { if (!isDisplayedAction(name)) field().click(); }
+    protected void expandAction(int index) { if (!isDisplayedAction(index)) field().click(); }
 
     @Override
     protected void selectListAction(String... names) {
+        if (names == null || names.length == 0)
+            throw asserter.exception("Can't do select. Names list should have at least one element");
         if (valueLocator != null) {
-            expandAction();
+            expandAction(names[0]);
             super.selectListAction(names);
         }
         else
@@ -50,8 +55,10 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     }
     @Override
     protected void selectListAction(int... indexes) {
+        if (indexes == null || indexes.length == 0)
+            throw asserter.exception("Can't do select. Indexes list should have at least one element");
         if (valueLocator != null) {
-            expandAction();
+            expandAction(indexes[0]);
             super.selectListAction(indexes);
         }
         else

@@ -129,6 +129,43 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             els = new Select(new Element(getLocator()).getWebElement()).getAllSelectedOptions();
         return els;
     }
+
+    protected boolean isDisplayedAction(String name) {
+        if (!haveLocator() && allLabels == null)
+            throw asserter.exception("Can't check is option '%s' displayed. No optionsNamesLocator and allLabelsLocator found", name);
+        if (getLocator().toString().contains("%s"))
+            return new Clickable(fillByTemplate(getLocator(), name)).isDisplayed();
+        if (allLabels != null)
+            return isDisplayedInList(allLabels.getWebElements(), name);
+        List<WebElement> els = getDriver().findElements(getLocator());
+        return els.size() == 1 || isDisplayedInList(els, name);
+    }
+    private boolean isDisplayedInList(List<WebElement> els, String name) {
+        WebElement element = first(els, el -> el.getText().equals(name));
+        if (element == null)
+            throw asserter.exception("Can't find option '%s'. Please fix allLabelsLocator", name);
+        return element.isDisplayed();
+    }
+    protected boolean isDisplayedAction(int index) {
+        if (!haveLocator() && allLabels == null)
+            throw asserter.exception("Can't check is option '%s' displayed. No optionsNamesLocator and allLabelsLocator found", index);
+        if (getLocator().toString().contains("%s"))
+            return new Clickable(fillByTemplate(getLocator(), index)).isDisplayed();
+        if (allLabels != null)
+            return isDisplayedInList(allLabels.getWebElements(), index);
+        List<WebElement> els = getDriver().findElements(getLocator());
+        return els.size() == 1 || isDisplayedInList(els, index);
+    }
+    private boolean isDisplayedInList(List<WebElement> els, int index) {
+        if (index <= 0)
+            throw asserter.exception("Can't get option with index '%s'. Index should be 1 or more", index);
+        if (els == null)
+            throw asserter.exception("Can't find option with index '%s'. Please fix allLabelsLocator", index);
+        if (els.size() < index)
+            throw asserter.exception("Can't find option with index '%s'. Find only '%s' options", index, els.size());
+        return els.get(index).isDisplayed();
+    }
+
     protected boolean isDisplayedAction() {
         List<WebElement> els = actions.findImmediately(this::getElements);
         return els != null && els.size() > 0 && els.get(0).isDisplayed();
