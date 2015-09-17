@@ -17,26 +17,13 @@ public class Assert  {
     
     public static BaseChecker doScreenOnFail() { return new Check().doScreenshot(SCREEN_ON_FAIL); }
     public static BaseChecker ignoreCase() { return getAssert().ignoreCase(); }
-    
-    public static RuntimeException exception(String message) { return getAssert().exception(message); }
-    public static void areEquals(Object obj, Object obj2, String message) {
-        getAssert().areEquals(obj, obj2, message);
-    }
-    public static void areEquals(Object obj, Object obj2) {
-        getAssert().areEquals(obj, obj2);
-    }
-    public static void assertEquals(Object obj, Object obj2, String message) {
-        areEquals(obj, obj2, message);
-    }
-    public static void assertEquals(Object obj, Object obj2) {
-        areEquals(obj, obj2);
-    }
-    public static void matches(String str, String regEx, String message) {
-        getAssert().matches(str, regEx, message);
-    }
-    public static void matches(String str, String regEx) {
-        getAssert().matches(str, regEx);
-    }
+
+    public static void areEquals(Object obj, Object obj2, String message) { getAssert().areEquals(obj, obj2, message); }
+    public static void areEquals(Object obj, Object obj2) { getAssert().areEquals(obj, obj2); }
+    public static void assertEquals(Object obj, Object obj2, String message) { areEquals(obj, obj2, message); }
+    public static void assertEquals(Object obj, Object obj2) { areEquals(obj, obj2); }
+    public static void matches(String str, String regEx, String message) { getAssert().matches(str, regEx, message); }
+    public static void matches(String str, String regEx) { getAssert().matches(str, regEx); }
     public static void contains(String str, String str2, String message) {
         getAssert().contains(str, str2, message);
     }
@@ -91,9 +78,7 @@ public class Assert  {
     public static void assertSame(Object obj, Object obj2) {
         areSame(obj, obj2);
     }
-    public static void areDifferent(Object obj, Object obj2, String message) {
-        getAssert().areDifferent(obj, obj2, message);
-    }
+    public static void areDifferent(Object obj, Object obj2, String message) { getAssert().areDifferent(obj, obj2, message); }
     public static void areDifferent(Object obj, Object obj2) {
         getAssert().areDifferent(obj, obj2);
     }
@@ -103,6 +88,11 @@ public class Assert  {
     public static void assertNotSame(Object obj, Object obj2) {
         areDifferent(obj, obj2);
     }
+
+    public static <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage) { getAssert().listEquals(actual, expected, failMessage); }
+    public static <T> void listEquals(Collection<T> actual, Collection<T> expected) { getAssert().listEquals(actual, expected); }
+    public static <T> void arrayEquals(T actual, T expected, String failMessage) { getAssert().arrayEquals(actual, expected, failMessage); }
+    public static <T> void arrayEquals(T actual, T expected) { getAssert().arrayEquals(actual, expected); }
     
     public static BaseChecker.ListChecker eachElementOf(List<Object> list) { return getAssert().eachElementOf(list); }
     public static BaseChecker.ListChecker eachElementOf(Object[] array) { return getAssert().eachElementOf(array); }
@@ -127,6 +117,11 @@ public class Assert  {
     public static <T> void areSame(JFuncT<T> actual, T expected) { getAssert().areSame(actual, expected); }
     public static <T> void areDifferent(JFuncT<T> actual, T expected, String failMessage) { getAssert().areDifferent(actual, expected, failMessage); }
     public static <T> void areDifferent(JFuncT<T> actual, T expected) { getAssert().areDifferent(actual, expected); }
+    public static void assertNotSame(JFuncT<Object> obj, Object obj2, String message) { areDifferent(obj, obj2, message); }
+    public static void assertNotSame(JFuncT<Object> obj, Object obj2) {
+        areDifferent(obj, obj2);
+    }
+
     public static <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected, String failMessage) { getAssert().listEquals(actual, expected, failMessage); }
     public static <T> void listEquals(JFuncT<Collection<T>> actual, Collection<T> expected) { getAssert().listEquals(actual, expected); }
     public static <T> void arrayEquals(JFuncT<T> actual, T expected, String failMessage) { getAssert().arrayEquals(actual, expected, failMessage); }

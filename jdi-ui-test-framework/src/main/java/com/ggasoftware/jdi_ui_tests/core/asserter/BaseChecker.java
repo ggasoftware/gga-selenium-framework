@@ -64,7 +64,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         if (!isListCheck && defaultMessage != null)
             logger.info(getBeforeMessage(defaultMessage));
         if (!isListCheck && doScreenshot == DO_SCREEN_ALWAYS)
-            makeScreenshot();
+            logger.info(doScreenshotGetMessage());
         if (isListCheck && failMessage == null)
             failMessage = defaultMessage + " failed";
         String resultMessage = (wait)
@@ -74,16 +74,11 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             throw exception(format("Assert Failed by Timeout. Wait %s seconds", timeout / 1000));
         if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
-                makeScreenshot();
+                logger.info(doScreenshotGetMessage());
             throw exception((failMessage != null
                     ? failMessage
                     : resultMessage));
         }
-    }
-
-    private void makeScreenshot() {
-        String screenMessage = doScreenshotGetMessage();
-        logger.info("Create screenshot in: " + screenMessage);
     }
 
     private String getBeforeMessage(String defaultMessage) {
