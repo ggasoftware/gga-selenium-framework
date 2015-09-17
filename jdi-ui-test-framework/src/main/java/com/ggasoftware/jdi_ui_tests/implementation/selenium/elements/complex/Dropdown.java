@@ -61,7 +61,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     @Override
     protected String getValueAction() { return getTextAction(); }
     @Override
-    protected boolean isSelectedAction(String value) { return getTextAction().equals(value); }
+    protected boolean isSelectedAction(String name) { return getTextAction().equals(name); }
 
     @Override
     public boolean waitDisplayed() {  return element().waitDisplayed(); }

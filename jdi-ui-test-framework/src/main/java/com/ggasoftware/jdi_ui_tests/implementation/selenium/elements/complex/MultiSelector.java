@@ -41,7 +41,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
             clearElements(els);
     }
     private void clearElements(List<WebElement> els) {
-        foreach(where(LinqUtils.select(els, WebElement::getText), this::isSelected), this::select);
+        foreach(where(els, el -> isSelectedAction(el.getText())), WebElement::click);
     }
     protected boolean isSelectedAction(String name) { return areSelected().contains(name); }
     protected boolean isSelectedAction(int index) { return areSelected().contains(getNames().get(index));}

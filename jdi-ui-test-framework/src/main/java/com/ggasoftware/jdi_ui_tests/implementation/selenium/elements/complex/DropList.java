@@ -37,9 +37,9 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
         super(optionsNamesLocator, allOptionsNamesLocator); this.valueLocator = valueLocator;
     }
     public By valueLocator;
-    protected Clickable field() { return new Clickable(valueLocator); }
-    protected void expandAction(String name) { if (!isDisplayedAction(name)) field().click(); }
-    protected void expandAction(int index) { if (!isDisplayedAction(index)) field().click(); }
+    protected Clickable button() { return new Clickable(valueLocator); }
+    protected void expandAction(String name) { if (!isDisplayedAction(name)) button().click(); }
+    protected void expandAction(int index) { if (!isDisplayedAction(index)) button().click(); }
 
     @Override
     protected void selectListAction(String... names) {
@@ -72,29 +72,27 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
         super.clearAction();
     }
     @Override
-    protected boolean isSelectedAction(String value) { return getTextAction().equals(value); }
-    @Override
     protected String getValueAction() { return getTextAction(); }
     protected String getTextAction() { return getWebElement().getAttribute("value"); }
     @Override
-    public boolean waitDisplayed() {  return field().waitDisplayed(); }
+    public boolean waitDisplayed() {  return button().waitDisplayed(); }
     @Override
-    public boolean waitVanished()  { return field().waitVanished(); }
+    public boolean waitVanished()  { return button().waitVanished(); }
 
     public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc) {
-        return field().wait(resultFunc);
+        return button().wait(resultFunc);
     }
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition) {
-        return field().wait(resultFunc, condition);
+        return button().wait(resultFunc, condition);
     }
     public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc, int timeoutSec) {
-        return field().wait(resultFunc, timeoutSec);
+        return button().wait(resultFunc, timeoutSec);
     }
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
-        return field().wait(resultFunc, condition, timeoutSec);
+        return button().wait(resultFunc, condition, timeoutSec);
     }
     public void setAttribute(String attributeName, String value) {
-        field().setAttribute(attributeName, value);
+        button().setAttribute(attributeName, value);
     }
 
     public final String getText() { return actions.getText(this::getTextAction); }
@@ -104,10 +102,10 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     public WebElement getWebElement() { return new Element(getLocator()).getWebElement(); }
 
     public String getAttribute(String name) {
-        return field().getAttribute(name);
+        return button().getAttribute(name);
     }
 
     public boolean waitAttribute(String name, String value) {
-        return field().waitAttribute(name, value);
+        return button().waitAttribute(name, value);
     }
 }
