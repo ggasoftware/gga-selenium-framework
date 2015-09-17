@@ -109,16 +109,20 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
         else { throw asserter.exception("Wait Text Failed"); }
     }
 
-    public String getLastText() {
-        List<String> results = invoker.doJActionResult("Get list of texts", () -> select(getWebElements(), WebElement::getText),
-                PrintUtils::print);
-        return (results != null && results.size() > 0)
-            ? results.get(results.size() - 1)
-            : null;
-    }
-
-    public List<String> getTexts() {
+    public List<String> getTextList() {
         return invoker.doJActionResult("Get list of texts", () -> select(getWebElements(), WebElement::getText),
                 PrintUtils::print);
+    }
+    public String getFirstText() {
+        List<String> results = getTextList();
+        return (results != null && results.size() > 0)
+                ? results.get(0)
+                : null;
+    }
+    public String getLastText() {
+        List<String> results = getTextList();
+        return (results != null && results.size() > 0)
+                ? results.get(results.size() - 1)
+                : null;
     }
 }
