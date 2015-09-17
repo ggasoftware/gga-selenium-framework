@@ -39,7 +39,7 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
     protected boolean isSelectedAction(WebElement el) {
         return el.isSelected();
     }
-    protected final String getSelectedAction() {
+    protected String getSelectedAction() {
         if (allLabels != null)
             return getSelected(allLabels.getWebElements());
         if (getLocator().toString().contains("%s"))
@@ -55,7 +55,7 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
             throw asserter.exception("No elements selected");
         return element.getText();
     }
-    protected final int getSelectedIndexAction() {
+    protected int getSelectedIndexAction() {
         if (allLabels != null) {
             return getSelectedIndex(allLabels.getWebElements());
         }
