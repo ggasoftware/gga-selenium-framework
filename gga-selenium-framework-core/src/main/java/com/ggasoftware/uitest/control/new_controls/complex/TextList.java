@@ -86,7 +86,7 @@ public class TextList<TEnum extends Enum, P> extends BaseElement<P> implements I
 
     public final String getText(String name) {
         return doJActionResult(format("Get text for element '%s' with name '%s'", this.toString(), name),
-            () -> getTextAction(getElement(name)));
+                () -> getTextAction(getElement(name)));
     }
 
     public final String getText(int index) {
@@ -107,9 +107,18 @@ public class TextList<TEnum extends Enum, P> extends BaseElement<P> implements I
         else { throw exception("Wait Text Failed"); }
     }
 
-    public String getLastText() {
-        List<String> results = doJActionResult("Get list of texts", () -> (List<String>) select(getWebElements(), WebElement::getText),
+    public List<String> getTextList() {
+        return doJActionResult("Get list of texts", () -> (List<String>) select(getWebElements(), WebElement::getText),
                 PrintUtils::print);
+    }
+    public String getFirstText() {
+        List<String> results = getTextList();
+        return (results != null && results.size() > 0)
+                ? results.get(0)
+                : null;
+    }
+    public String getLastText() {
+        List<String> results = getTextList();
         return (results != null && results.size() > 0)
             ? results.get(results.size() - 1)
             : null;

@@ -73,25 +73,6 @@ public abstract class CascadeInit implements IBaseElement {
                 field -> setElement(parent, parent, field));
     }
 
-    private static void setPage(Class<?> parentClass, Field field) {
-        try {
-            Class<?> type = field.getType();
-            BaseElement instance = (BaseElement) getFieldValue(field, null);
-            if (instance == null)
-                instance = (BaseElement) type.newInstance();
-            fillPage(instance, field, parentClass);
-            instance.setName(field);
-            if (instance.getClass().getSimpleName().equals(""))
-                instance.setTypeName(type.getSimpleName());
-            instance.setParentName(parentClass.getSimpleName());
-            field.set(parentClass, instance);
-            InitElements(instance);
-        } catch (Exception|AssertionError ex) {
-            throw asserter.exception(format("Error in setPage for field '%s' with parent '%s'", field.getName(),
-                    parentClass.getSimpleName()) + LineBreak + ex.getMessage()); }
-    }
-
-
     public static void setElement(Object parent, Object parentInstance, Field field) {
         try {
             Class<?> type = field.getType();

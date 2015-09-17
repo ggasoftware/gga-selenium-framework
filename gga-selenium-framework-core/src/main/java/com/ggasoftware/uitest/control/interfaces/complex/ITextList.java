@@ -30,5 +30,9 @@ public interface ITextList<TEnum extends Enum> extends IBaseElement, IHaveValue,
     @JDIAction
     List<String> waitText(String str);
     @JDIAction
+    List<String> getTextList();
+    @JDIAction
+    String getFirstText();
+    @JDIAction
     String getLastText();
 }
