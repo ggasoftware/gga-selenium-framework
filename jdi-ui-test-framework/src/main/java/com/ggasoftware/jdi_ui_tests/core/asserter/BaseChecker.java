@@ -379,7 +379,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         JFuncT<Boolean> resultAction = (ignoreCase && expected.getClass() == String.class)
             ? () -> actual.invoke().equals(expected)
             : () -> ((String)actual.invoke()).toLowerCase().equals(((String)expected).toLowerCase());
-        waitAction(format("Check that '%s' equals to '%s'", actual, expected), resultAction, failMessage);
+        waitAction(format("Check that '%s' equals to '%s'", "result", expected), resultAction, failMessage);
     }
     public <T> void areEquals(JFuncT<T> actual, T expected) {
         areEquals(actual, expected, null);
@@ -388,7 +388,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         JFuncT<Boolean> resultAction = (ignoreCase && regEx.getClass() == String.class)
                 ? () -> actual.invoke().matches(regEx)
                 : () -> actual.invoke().toLowerCase().matches(regEx.toLowerCase());
-        waitAction(format("Check that '%s' matches to regEx '%s", actual, regEx), resultAction, failMessage);
+        waitAction(format("Check that '%s' matches to regEx '%s", "result", regEx), resultAction, failMessage);
     }
     public void matches(JFuncT<String> actual, String regEx) {
         matches(actual, regEx, null);
@@ -398,21 +398,21 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         JFuncT<Boolean> resultAction = (ignoreCase && expected.getClass() == String.class)
                 ? () -> actual.invoke().contains(expected)
                 : () -> actual.invoke().toLowerCase().contains(expected.toLowerCase());
-        waitAction(format("Check that '%s' contains '%s'", actual, expected), resultAction, failMessage);
+        waitAction(format("Check that '%s' contains '%s'", "result", expected), resultAction, failMessage);
     }
     public void contains(JFuncT<String> actual, String expected) {
         contains(actual, expected, null);
     }
 
     public void isTrue(JFuncT<Boolean> condition, String failMessage) {
-        waitAction(format("Check that condition '%s' is True", condition), condition, failMessage);
+        waitAction(format("Check that condition '%s' is True", "result"), condition, failMessage);
     }
     public void isTrue(JFuncT<Boolean> condition) {
         isTrue(condition, null);
     }
 
     public void isFalse(JFuncT<Boolean> condition, String failMessage) {
-        waitAction(format("Check that condition '%s' is False", condition), () -> !condition.invoke(), failMessage);
+        waitAction(format("Check that condition '%s' is False", "result"), () -> !condition.invoke(), failMessage);
     }
     public void isFalse(JFuncT<Boolean> condition) {
         isFalse(condition, null);

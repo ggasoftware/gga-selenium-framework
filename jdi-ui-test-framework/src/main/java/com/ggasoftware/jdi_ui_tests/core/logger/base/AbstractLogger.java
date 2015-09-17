@@ -5,9 +5,10 @@ import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 
-import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels.*;
-import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes.*;
 import static com.ggasoftware.jdi_ui_tests.core.logger.enums.BusinessInfoTypes.*;
+import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes.*;
+import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels.*;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.last;
 import static java.lang.String.format;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
@@ -75,7 +76,7 @@ public abstract class AbstractLogger implements ILogger {
     }
 
     private String getLineId() {
-        StackTraceElement stackTraceLine = currentThread().getStackTrace()[3];
+        StackTraceElement stackTraceLine = last(currentThread().getStackTrace(), el -> el.getClassName().contains("core.logger"));
         return stackTraceLine.getLineNumber() + ":" + stackTraceLine.getClassName();
     }
     private boolean duplicated(String message, String lineId) {
