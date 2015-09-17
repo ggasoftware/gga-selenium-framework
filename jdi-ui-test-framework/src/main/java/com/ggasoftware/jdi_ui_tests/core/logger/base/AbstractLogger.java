@@ -77,7 +77,7 @@ public abstract class AbstractLogger implements ILogger {
     private String getLineId() {
         StackTraceElement stackTraceLine = null;
         for (StackTraceElement line : currentThread().getStackTrace())
-            if (line.getClassName().contains("core.logger"))
+            if (line.getClassName().contains("com.ggasoftware.jdi_ui_tests"))
                 stackTraceLine = null;
             else if (stackTraceLine == null)
                 stackTraceLine = line;
