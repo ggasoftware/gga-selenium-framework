@@ -29,14 +29,14 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
     public final String getSelected() { return actions.getSelected(this::getSelectedAction); }
     public final int getSelectedIndex() { return actions.getSelectedIndex(this::getSelectedIndexAction); }
 
-    protected boolean isSelectedAction(String name) {
+    protected final boolean isSelectedAction(String name) {
         return getSelectedAction().equals(name);
     }
-    protected boolean isSelectedAction(int index) {
+    protected final boolean isSelectedAction(int index) {
         return getSelectedIndexAction() == index;
     }
     protected String getValueAction() {return getSelected(); }
-    protected boolean isSelected(WebElement el) {
+    protected boolean isSelectedAction(WebElement el) {
         return el.isSelected();
     }
     protected final String getSelectedAction() {
@@ -50,7 +50,7 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
                 : els);
     }
     private String getSelected(List<WebElement> els) {
-        WebElement element = first(els, this::isSelected);
+        WebElement element = first(els, this::isSelectedAction);
         if (element == null)
             throw asserter.exception("No elements selected");
         return element.getText();
@@ -67,6 +67,6 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
                 : els);
     }
     private int getSelectedIndex(List<WebElement> els) {
-        return firstIndex(els, this::isSelected);
+        return firstIndex(els, this::isSelectedAction) + 1;
     }
 }
