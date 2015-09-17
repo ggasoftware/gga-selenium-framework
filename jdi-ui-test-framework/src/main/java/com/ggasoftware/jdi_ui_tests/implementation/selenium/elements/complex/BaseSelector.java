@@ -80,7 +80,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             throw asserter.exception("Can't find option with index '%s'. Please fix allLabelsLocator", index);
         if (els.size() < index)
             throw asserter.exception("Can't find option with index '%s'. Find only '%s' options", index, els.size());
-        els.get(index).click();
+        els.get(index-1).click();
     }
     protected abstract boolean isSelectedAction(String name);
     protected abstract boolean isSelectedAction(int index);
