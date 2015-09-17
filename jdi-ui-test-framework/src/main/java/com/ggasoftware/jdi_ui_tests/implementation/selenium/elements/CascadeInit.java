@@ -103,21 +103,6 @@ public abstract class CascadeInit implements IBaseElement {
         if (field.isAnnotationPresent(JPage.class))
             fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), (parent != null) ? parent.getClass() : null);
     }
-    private static void fillPage(BaseElement instance, Field field, Class<?> parentClass) {
-        if (field.isAnnotationPresent(JPage.class))
-            fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), parentClass);
-    }
-    private static BaseElement createChildPage(Class<?> parentClass, Field field, Class<?> type) {
-        BaseElement instance = (BaseElement) getFieldValue(field, null);
-        if (instance == null)
-            try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Exception|AssertionError ex) { throw asserter.exception(
-                    format("Can't create child for parent '%s' with type '%s'",
-                            parentClass.getSimpleName(), field.getType().getSimpleName()));  }
-        else if (instance.getLocator() == null)
-            instance.avatar.byLocator = getNewLocator(field);
-        return instance;
-    }
     private static BaseElement createChildFromField(Object parentInstance, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
         if (instance == null)

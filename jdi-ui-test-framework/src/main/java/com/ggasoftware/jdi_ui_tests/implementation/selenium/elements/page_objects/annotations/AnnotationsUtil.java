@@ -81,7 +81,7 @@ public class AnnotationsUtil {
     private static String splitCamelCase(String camel) {
         String result = (camel.charAt(0) + "").toUpperCase();
         for (int i = 1; i < camel.length() - 1; i++)
-            result += (((isCapital(camel.charAt(i)) && !isCapital(camel.charAt(i + 1))) ? " " : "") + camel.charAt(i));
+            result += ((isCapital(camel.charAt(i)) && !isCapital(camel.charAt(i - 1))) ? " " : "") + camel.charAt(i);
         return result + camel.charAt(camel.length() - 1);
     }
 
