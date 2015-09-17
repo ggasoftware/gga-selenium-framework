@@ -66,6 +66,12 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
                 new Select(getWebElement()).selectByIndex(index);
     }
     @Override
+    protected void clearAction() {
+        if (valueLocator != null)
+            expandAction(1);
+        super.clearAction();
+    }
+    @Override
     protected boolean isSelectedAction(String value) { return getTextAction().equals(value); }
     @Override
     protected String getValueAction() { return getTextAction(); }
