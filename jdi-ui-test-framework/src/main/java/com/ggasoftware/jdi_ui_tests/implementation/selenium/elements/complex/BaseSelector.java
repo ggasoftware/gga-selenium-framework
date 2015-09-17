@@ -117,7 +117,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
     public final List<String> getOptions() { return getOptionsAction(); }
     public final String getOptionsAsText() { return print(getOptions()); }
 
-    private List<WebElement> getElements() {
+    protected List<WebElement> getElements() {
         if (!haveLocator() && allLabels == null)
             throw asserter.exception("Can't check is element displayed or not. No optionsNamesLocator and allLabelsLocator found");
         if (allLabels != null)
