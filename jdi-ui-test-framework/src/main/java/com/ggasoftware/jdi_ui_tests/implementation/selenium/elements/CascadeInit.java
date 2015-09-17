@@ -54,7 +54,7 @@ public abstract class CascadeInit implements IBaseElement {
     private static Object getParentInstance(Class<?> parentType) {
         firstInstance = false;
         createFreeInstance = true;
-        Object parentInstance = tryGetResult(() -> parentType.newInstance());
+        Object parentInstance = tryGetResult(parentType::newInstance);
         createFreeInstance = false;
         return parentInstance;
     }
@@ -70,7 +70,7 @@ public abstract class CascadeInit implements IBaseElement {
 
     private static void initPages(Class<?> parent) {
         foreach(getStaticFields(parent, BaseElement.class),
-                field -> setPage(parent, field));
+                field -> setElement(parent, parent, field));
     }
 
     private static void setPage(Class<?> parentClass, Field field) {
