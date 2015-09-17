@@ -10,6 +10,8 @@ import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils.getEnumValue;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.firstIndex;
 
 /**
  * Created by roman.i on 03.10.2014.
@@ -34,26 +36,37 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         return getSelectedIndexAction() == index;
     }
     protected String getValueAction() {return getSelected(); }
-    protected String getSelectedAction() {
-        if (allLabels == null && haveLocator() && !getLocator().toString().contains("%s")) {
-            List<WebElement> els = getDriver().findElements(getLocator());
-            if (els.size() == 1)
-                return new Select(new Element(getLocator()).getWebElement())
-                        .getFirstSelectedOption().getText();
-        }
-        throw asserter.exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
+    protected boolean isSelected(WebElement el) {
+        return el.isSelected();
     }
-    protected int getSelectedIndexAction() {
-        if (allLabels == null && haveLocator() && !getLocator().toString().contains("%s")) {
-            List<WebElement> els = getDriver().findElements(getLocator());
-            if (els.size() == 1) {
-                List<WebElement> options = new Select(new Element(getLocator()).getWebElement()).getAllSelectedOptions();
-                for (int i = 0; i < options.size(); i++)
-                    if (options.get(i).isSelected())
-                        return i;
-                return -1;
-            }
+    protected final String getSelectedAction() {
+        if (allLabels != null)
+            return getSelected(allLabels.getWebElements());
+        if (getLocator().toString().contains("%s"))
+            throw asserter.exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
+        List<WebElement> els = getDriver().findElements(getLocator());
+        return getSelected(els.size() == 1
+                ? new Select(new Element(getLocator()).getWebElement()).getOptions()
+                : els);
+    }
+    private String getSelected(List<WebElement> els) {
+        WebElement element = first(els, this::isSelected);
+        if (element == null)
+            throw asserter.exception("No elements selected");
+        return element.getText();
+    }
+    protected final int getSelectedIndexAction() {
+        if (allLabels != null) {
+            return getSelectedIndex(allLabels.getWebElements());
         }
-        throw asserter.exception("Can't get Selected options. Override getSelectedIndexAction or place locator to <select> tag");
+        if (getLocator().toString().contains("%s"))
+            throw asserter.exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
+        List<WebElement> els = getDriver().findElements(getLocator());
+        return getSelectedIndex(els.size() == 1
+                ? new Select(new Element(getLocator()).getWebElement()).getOptions()
+                : els);
+    }
+    private int getSelectedIndex(List<WebElement> els) {
+        return firstIndex(els, this::isSelected);
     }
 }
