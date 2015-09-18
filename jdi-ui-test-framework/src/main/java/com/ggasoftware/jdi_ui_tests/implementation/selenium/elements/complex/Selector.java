@@ -36,7 +36,10 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         return getSelectedIndexAction() == index;
     }
     protected String getValueAction() {return getSelected(); }
+    private boolean isSelector = false;
     protected boolean isSelectedAction(WebElement el) {
+        if (!isSelector)
+            throw asserter.exception("Can't check is option Selected or not. Override isSelectedAction or getSelectedAction or place locator to <select> tag");
         return el.isSelected();
     }
     protected String getSelectedAction() {
@@ -45,9 +48,12 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         if (getLocator().toString().contains("%s"))
             throw asserter.exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
         List<WebElement> els = getDriver().findElements(getLocator());
-        return getSelected(els.size() == 1
-                ? new Select(new Element(getLocator()).getWebElement()).getOptions()
-                : els);
+        if (els.size() == 1) {
+            isSelector = true;
+            return getSelected(new Select(new Element(getLocator()).getWebElement()).getOptions());
+        }
+        else
+            return getSelected(els);
     }
     private String getSelected(List<WebElement> els) {
         WebElement element = first(els, this::isSelectedAction);
