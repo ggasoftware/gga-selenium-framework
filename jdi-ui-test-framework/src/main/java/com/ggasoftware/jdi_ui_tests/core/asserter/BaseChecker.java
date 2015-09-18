@@ -29,10 +29,9 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public static long defaultWaitTimeout = 0;
     public static DoScreen defaultDoScreenType = NO_SCREEN;
 
-    private JActionT<String> throwFail;
+    protected abstract JActionT<String> throwFail();
     public BaseChecker doScreenshot(DoScreen doScreenshot) { this.doScreenshot = doScreenshot; return this; }
     public BaseChecker doScreenshot() { return doScreenshot(DO_SCREEN_ALWAYS); }
-    public BaseChecker setThrowFail(JActionT<String> throwFail) { this.throwFail = throwFail; return this; }
     public BaseChecker ignoreCase() { this.ignoreCase = true; return this; }
     public BaseChecker setWait(int timeoutSec) { this.timeout = timeoutSec*1000; return this; }
 
@@ -81,6 +80,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         }
     }
 
+
     private String getBeforeMessage(String defaultMessage) {
         return  (checkMessage != null && !checkMessage.equals(""))
             ? checkMessage
@@ -91,7 +91,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public RuntimeException exception(String failMessage, Object... args) {
         failMessage = format(failMessage, args);
         logger.error(FRAMEWORK, failMessage);
-        throwFail.invoke(failMessage);
+        throwFail().invoke(failMessage);
         return new RuntimeException(failMessage);
     }
     public <TResult> TResult silent(JFuncTEx<TResult> func) {

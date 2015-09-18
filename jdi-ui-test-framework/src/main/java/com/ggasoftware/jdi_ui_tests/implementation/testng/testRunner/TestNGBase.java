@@ -18,16 +18,16 @@ import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.Driver
 public class TestNGBase {
 
     public static Timer timer;
-
     @BeforeSuite(alwaysRun = true)
     public static void setUp() throws Exception {
         logger.init("Init test run");
         killAllRunWebDrivers();
-        initJDIFromProperties();
         useDriver(CHROME);
+        initJDIFromProperties();
         timer = new Timer();
         logger.init("Run Tests");
     }
+
     @AfterSuite(alwaysRun = true)
     public static void tearDown() {
         logger.info("Test run finished. " + LineBreak + "Tests time spent: " +

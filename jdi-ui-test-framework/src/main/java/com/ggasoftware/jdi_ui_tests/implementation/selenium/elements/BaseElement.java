@@ -29,6 +29,7 @@ import org.openqa.selenium.WebDriver;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
 
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.shortLogMessagesFormat;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.InitElements;

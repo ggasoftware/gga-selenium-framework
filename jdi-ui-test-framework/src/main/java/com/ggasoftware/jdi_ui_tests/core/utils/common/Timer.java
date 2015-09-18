@@ -1,6 +1,5 @@
 package com.ggasoftware.jdi_ui_tests.core.utils.common;
 
-import com.ggasoftware.jdi_ui_tests.core.asserter.JDIException;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTEx;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
@@ -8,6 +7,7 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exceptionThrown;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static java.lang.System.currentTimeMillis;
 
@@ -58,7 +58,9 @@ public class Timer {
                 if (waitCase.invoke())
                     return true;
                 sleep(_retryTimeoutInMSec);
-            } catch (Exception|AssertionError ex) { if (ex instanceof JDIException) throw new JDIException((Exception)ex); }
+            } catch (Exception|AssertionError ignore) { if (exceptionThrown)
+                throw (ignore instanceof RuntimeException) ? (RuntimeException) ignore : new RuntimeException(ignore);
+            }
         return false;
     }
 
@@ -71,7 +73,8 @@ public class Timer {
                 T result = getFunc.invoke();
                 if (result != null && conditionFunc.invoke(result))
                     return result;
-            } catch (Exception|AssertionError ex) { if (ex instanceof JDIException) throw new JDIException((Exception)ex);}
+            } catch (Exception|AssertionError ignore) { if (exceptionThrown)
+                throw (ignore instanceof RuntimeException) ? (RuntimeException) ignore : new RuntimeException(ignore); }
             sleep(_retryTimeoutInMSec);
         }
         return null;
