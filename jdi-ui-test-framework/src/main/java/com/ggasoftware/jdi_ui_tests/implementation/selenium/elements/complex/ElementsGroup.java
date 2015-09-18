@@ -3,7 +3,6 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IGroup;
-import com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil;
 import org.openqa.selenium.By;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
@@ -27,9 +26,11 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
         return get(getEnumValue(name));
     }
     public TType get(String name) {
-        TType instance = TryCatchUtil.tryGetResult(clazz::newInstance);
-        if (instance == null)
-            throw asserter.exception(format("Can't get instace of '%s' Element from Elements Group '%s'", name, toString()));
+        TType instance;
+        try { instance = clazz.newInstance();
+        } catch (IllegalAccessException|InstantiationException ex) {
+            throw asserter.exception(format("Can't get instance of '%s' Element from Elements Group '%s'", name, toString()));
+        }
         instance.setAvatar(fillByTemplate(getLocator(), name), getAvatar());
         return instance;
     }

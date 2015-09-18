@@ -115,15 +115,15 @@ public class GetElementModule {
         for (Pair<ContextType, By> pair : context.subList(1)) {
             By byValue = pair.value;
             if (byValue.toString().contains("By.xpath: //"))
-                pair.value = tryGetResult(() -> getByFunc(byValue).invoke(getByLocator(byValue)
-                        .replaceFirst("/", "./")));
+                pair.value = getByFunc(byValue).invoke(getByLocator(byValue)
+                        .replaceFirst("/", "./"));
         }
         return context;
     }
     private By correctXPaths(By byValue) {
         return (byValue.toString().contains("By.xpath: //"))
-                ? tryGetResult(() -> getByFunc(byValue).invoke(getByLocator(byValue)
-                .replaceFirst("/", "./")))
+                ? getByFunc(byValue).invoke(getByLocator(byValue)
+                .replaceFirst("/", "./"))
                 : byValue;
     }
 

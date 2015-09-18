@@ -8,5 +8,5 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
  */
 public interface IGroup<TEnum extends Enum, TType extends Element> extends IBaseElement {
     TType get(TEnum name);
-    TType get(String name);
+    TType get(String name) throws IllegalAccessException, InstantiationException;
 }

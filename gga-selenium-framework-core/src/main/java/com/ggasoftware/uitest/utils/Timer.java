@@ -5,8 +5,6 @@ import com.ggasoftware.uitest.utils.linqInterfaces.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.ggasoftware.uitest.control.base.usefulUtils.TryCatchUtil.ignoreException;
-import static com.ggasoftware.uitest.control.base.usefulUtils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
 import static java.lang.System.currentTimeMillis;
 
@@ -25,7 +23,8 @@ public class Timer {
     }
     public static String nowMSecs() { return currentTimeMillis()+""; }
     public static void sleep(long mSec) {
-        ignoreException(() -> Thread.sleep(mSec));
+        try { Thread.sleep(mSec);
+        } catch (InterruptedException ignore) { }
     }
 
     public Timer() { }
@@ -53,7 +52,7 @@ public class Timer {
     public boolean wait(JFuncTEx<Boolean> waitCase) {
         while (!timeoutPassed())
             try {
-                if (tryGetResult(waitCase) != null)
+                if (waitCase.invoke() != null)
                     return true;
                 sleep(_retryTimeoutInMSec);
             } catch (Exception|AssertionError ignore) { }
@@ -66,11 +65,11 @@ public class Timer {
     public <T> T getResultByCondition(JFuncTEx<T> getFunc, JFuncTT<T, Boolean> conditionFunc) {
         while (!timeoutPassed()) {
             try {
-                T result = tryGetResult(getFunc);
+                T result = getFunc.invoke();
                 if (result != null && conditionFunc.invoke(result))
                     return result;
             } catch (Exception|AssertionError ignore) { }
-            ignoreException(() -> sleep(_retryTimeoutInMSec));
+            sleep(_retryTimeoutInMSec);
         }
         return null;
     }

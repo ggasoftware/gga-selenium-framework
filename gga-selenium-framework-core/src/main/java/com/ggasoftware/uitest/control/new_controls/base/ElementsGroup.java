@@ -4,9 +4,9 @@ import com.ggasoftware.uitest.control.Element;
 import com.ggasoftware.uitest.control.interfaces.complex.IGroup;
 import org.openqa.selenium.By;
 
-import static com.ggasoftware.uitest.control.base.usefulUtils.TryCatchUtil.tryGetResult;
+import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.utils.EnumUtils.getEnumValue;
-import static com.ggasoftware.uitest.utils.WebDriverByUtils.fillByTemplateSilent;
+import static java.lang.String.format;
 
 
 /**
@@ -24,8 +24,11 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
         return get(getEnumValue(name));
     }
     public TType get(String name) {
-        TType instance = tryGetResult(() -> clazz.newInstance());
-        instance.setAvatar(fillByTemplateSilent(getLocator(), name), getAvatar());
+        TType instance;
+        try { instance = clazz.newInstance();
+        } catch (IllegalAccessException|InstantiationException ex) {
+            throw exception(format("Can't get instance of '%s' Element from Elements Group '%s'", name, toString()));
+        }
         return instance;
     }
 }
