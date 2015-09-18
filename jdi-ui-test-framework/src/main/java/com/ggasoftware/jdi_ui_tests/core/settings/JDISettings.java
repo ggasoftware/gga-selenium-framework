@@ -2,6 +2,7 @@ package com.ggasoftware.jdi_ui_tests.core.settings;
 
 import com.ggasoftware.jdi_ui_tests.core.asserter.BaseChecker;
 import com.ggasoftware.jdi_ui_tests.core.asserter.IAsserter;
+import com.ggasoftware.jdi_ui_tests.core.asserter.JDIException;
 import com.ggasoftware.jdi_ui_tests.core.logger.ListLogger;
 import com.ggasoftware.jdi_ui_tests.core.logger.base.ILogger;
 import com.ggasoftware.jdi_ui_tests.core.testRunner.ITestRunner;
@@ -23,7 +24,7 @@ import static java.lang.Integer.parseInt;
  */
 public class JDISettings {
     public static ILogger logger = new ListLogger(new TestNGLogger(), new Log4JLogger());
-    public static IAsserter asserter = new Check().doScreenshot(SCREEN_ON_FAIL);
+    public static IAsserter asserter = new Check().doScreenshot(SCREEN_ON_FAIL).setThrowFail(msg -> { throw new JDIException(msg); });
     public static ITestRunner testRunner = new TestNGRunner();
     public static SeleniumDriverFactory driverFactory = new SeleniumDriverFactory();
     public static TimeoutSettings timeouts = new TimeoutSettings();

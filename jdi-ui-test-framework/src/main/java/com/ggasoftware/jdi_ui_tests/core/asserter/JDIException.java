@@ -10,4 +10,7 @@ public class JDIException extends RuntimeException {
     public JDIException(AssertionError ex) {
         super(ex.getMessage());
     }
+    public JDIException(String msg) {
+        super(msg);
+    }
 }
