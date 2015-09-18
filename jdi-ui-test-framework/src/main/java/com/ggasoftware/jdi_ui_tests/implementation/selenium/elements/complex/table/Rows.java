@@ -44,7 +44,7 @@ public class Rows extends TableLine {
                     key -> headers[key],
                     value -> table.cell(webColumn.get(value), new Column(colName), new Row(headers[value])));
         }
-        catch (Exception|AssertionError ex) { throw throwRowsException(colName, ex.getMessage()); }
+        catch (Throwable ex) { throw throwRowsException(colName, ex.getMessage()); }
     }
     public final MapArray<String, String> getColumnAsText(String colName) {
         return getColumn(colName).toMapArray(IText::getText);
@@ -65,7 +65,7 @@ public class Rows extends TableLine {
                     key -> headers()[key],
                     value -> table.cell(webColumn.get(value), new Column(colNum), new Row(value + 1)));
         }
-        catch (Exception|AssertionError ex) { throw throwRowsException(colNum + "", ex.getMessage()); }
+        catch (Throwable ex) { throw throwRowsException(colNum + "", ex.getMessage()); }
     }
     public final MapArray<String, String> getColumnAsText(int colNum) {
         return getColumn(colNum).toMapArray(IText::getText);

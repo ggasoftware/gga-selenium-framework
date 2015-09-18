@@ -25,14 +25,12 @@ import static com.ggasoftware.jdi_ui_tests.core.asserter.Verify.getFails;
 import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes.BUSINESS;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.newTest;
 import static org.testng.ITestResult.FAILURE;
 
 public class TestNGListener implements IInvokedMethodListener {
     @Override
     public void beforeInvocation(IInvokedMethod iInvokedMethod, ITestResult iTestResult) {
         if (iInvokedMethod.isTestMethod()) {
-            newTest();
             Method testMethod = iInvokedMethod.getTestMethod().getConstructorOrMethod().getMethod();
             if (testMethod.isAnnotationPresent(Test.class)) {
                 testName = testMethod.getName();

@@ -7,8 +7,8 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exceptionThrown;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
+import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.throwRuntimeException;
 import static java.lang.System.currentTimeMillis;
 
 /**
@@ -58,9 +58,7 @@ public class Timer {
                 if (waitCase.invoke())
                     return true;
                 sleep(_retryTimeoutInMSec);
-            } catch (Exception|AssertionError ignore) { if (exceptionThrown)
-                throw (ignore instanceof RuntimeException) ? (RuntimeException) ignore : new RuntimeException(ignore);
-            }
+            } catch (Throwable ignore) { throwRuntimeException(ignore); }
         return false;
     }
 
@@ -73,8 +71,7 @@ public class Timer {
                 T result = getFunc.invoke();
                 if (result != null && conditionFunc.invoke(result))
                     return result;
-            } catch (Exception|AssertionError ignore) { if (exceptionThrown)
-                throw (ignore instanceof RuntimeException) ? (RuntimeException) ignore : new RuntimeException(ignore); }
+            } catch (Throwable ignore) { throwRuntimeException(ignore); }
             sleep(_retryTimeoutInMSec);
         }
         return null;

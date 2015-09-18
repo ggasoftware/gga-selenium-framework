@@ -17,7 +17,7 @@ import static java.lang.String.format;
  */
 public class ActionInvoker {
     private BaseElement element;
-    public ActionInvoker(BaseElement element) { this.element = element; }
+    public ActionInvoker(BaseElement element) { newTest(); this.element = element; }
 
     public final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action) {
         return doJActionResult(actionName, action, null, new LogSettings());
@@ -35,7 +35,7 @@ public class ActionInvoker {
             processDemoMode();
             return actionScenrios.setElement(element).resultScenario(actionName, action, logResult, logSettings);
         }
-        catch (Exception|AssertionError ex) {
+        catch (Throwable ex) {
             throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }
@@ -49,7 +49,7 @@ public class ActionInvoker {
             processDemoMode();
             actionScenrios.setElement(element).actionScenario(actionName, action, logSettings);
         }
-        catch (Exception|AssertionError ex) {
+        catch (Throwable ex) {
             throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
         }
     }

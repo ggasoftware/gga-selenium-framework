@@ -72,7 +72,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
 
     protected MapArray<String, WebElement> getElementsAction() {
         try { return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
-        } catch (Exception|AssertionError ex) { throw asserter.exception(ex.getMessage()); }
+        } catch (Throwable ex) { throw asserter.exception(ex.getMessage()); }
     }
     protected List<String> getLabelsAction() {
         return (List<String>) getElementsAction().keys();

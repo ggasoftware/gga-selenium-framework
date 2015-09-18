@@ -28,7 +28,7 @@ public class LinqUtils {
             for (T el : list)
                 result.add(func.invoke(el));
             return result;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
     }
     public static <T, T1> List<T1> select(T[] array, JFuncTT<T, T1> func){
         return select(asList(array), func);
@@ -41,7 +41,7 @@ public class LinqUtils {
             for(Map.Entry<T, T1> el : map.entrySet())
                 result.add(func.invoke(el));
             return result;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
     }
     public static <T, T1, T2> Map<T, T2> select(Map<T, T1> map, JFuncTT<T1, T2> func) {
         if (map == null)
@@ -51,7 +51,7 @@ public class LinqUtils {
             for(Map.Entry<T, T1> el : map.entrySet())
                 result.put(el.getKey(), func.invoke(el.getValue()));
             return result;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
     }
 
     public static <T> List<T> where(Iterable<T> list, JFuncTT<T, Boolean> func) {
@@ -63,7 +63,7 @@ public class LinqUtils {
                 if (func.invoke(el))
                 result.add(el);
             return result;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do where. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do where. Exception: " + ex.getMessage()); }
     }
     public static <T> List<T> where(T[] list, JFuncTT<T, Boolean> func) {
         return where(asList(list), func);
@@ -77,7 +77,7 @@ public class LinqUtils {
                 if (func.invoke(el))
                     result.put(el.getKey(), el.getValue());
             return result;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do where. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do where. Exception: " + ex.getMessage()); }
     }
 
     public static <T> void foreach(Iterable<T> list, JActionT<T> action) {
@@ -86,7 +86,7 @@ public class LinqUtils {
         try {
             for(T el : list)
                 action.invoke(el);
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do foreach. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do foreach. Exception: " + ex.getMessage()); }
     }
     public static <T> void foreach(T[] list, JActionT<T> action) {
         foreach(asList(list), action);
@@ -97,7 +97,7 @@ public class LinqUtils {
         try {
             for (Map.Entry<T, T1> entry : map.entrySet())
                 action.invoke(entry);
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do foreach. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do foreach. Exception: " + ex.getMessage()); }
     }
     public static <T> T first(Iterable<T> list) {
         if (list == null)
@@ -123,7 +123,7 @@ public class LinqUtils {
             for(T el : list)
                 if (func.invoke(el))
                     return el;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
         return null;
     }
     public static <T> boolean any(Iterable<T> list, JFuncTT<T, Boolean> func) {
@@ -136,7 +136,7 @@ public class LinqUtils {
             for(int i = 0; i< list.size(); i++)
                 if (func.invoke(list.get(i)))
                     return i;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do firstIndex. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do firstIndex. Exception: " + ex.getMessage()); }
         return -1;
     }
     public static <T> int firstIndex(T[] array, JFuncTT<T, Boolean> func) {
@@ -146,7 +146,7 @@ public class LinqUtils {
             for(int i = 0; i< array.length; i++)
                 if (func.invoke(array[i]))
                     return i;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do firstIndex. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do firstIndex. Exception: " + ex.getMessage()); }
         return -1;
     }
     public static <T> T first(T[] list, JFuncTT<T, Boolean> func) {
@@ -159,7 +159,7 @@ public class LinqUtils {
             for (Map.Entry<T, T1> el : map.entrySet())
                 if (func.invoke(el.getKey()))
                     return el.getValue();
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
         return null;
     }
     public static <K, V> V first(MapArray<K, V> map, JFuncTT<K, Boolean> func) {
@@ -169,7 +169,7 @@ public class LinqUtils {
             for (Pair<K, V> pair : map.pairs)
                 if (func.invoke(pair.key))
                     return pair.value;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
         return null;
     }
     public static <T> T last(Iterable<T> list) {
@@ -191,7 +191,7 @@ public class LinqUtils {
             for(T el : list)
                 if (func.invoke(el))
                     result = el;
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't do last. Exception: " + ex.getMessage()); }
+        } catch (Throwable ex) { throw new RuntimeException("Can't do last. Exception: " + ex.getMessage()); }
         return result;
     }
     public static <T> T last(T[] list, JFuncTT<T, Boolean> func) {

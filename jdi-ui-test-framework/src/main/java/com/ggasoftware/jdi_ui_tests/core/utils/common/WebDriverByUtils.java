@@ -27,14 +27,14 @@ public class WebDriverByUtils {
     public static By fillByTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
         try { byLocator = format(byLocator, args); }
-        catch (Exception|AssertionError ex) {
+        catch (Throwable ex) {
             throw new RuntimeException(getBadLocatorMsg(byLocator, args)); }
         return getByFunc(by).invoke(byLocator);
     }
     public static By fillByMsgTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
         try { byLocator = MessageFormat.format(byLocator, args); }
-        catch (Exception|AssertionError ex) {
+        catch (Throwable ex) {
             throw new RuntimeException(getBadLocatorMsg(byLocator, args)); }
         return getByFunc(by).invoke(byLocator);
     }

@@ -96,7 +96,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
     public <TResult> TResult silent(JFuncTEx<TResult> func) {
         try { return func.invoke();
-        } catch (Exception|AssertionError ex) { throw asserter.exception(ex.getMessage()); }
+        } catch (Throwable ex) { throw asserter.exception(ex.getMessage()); }
     }
 
     // Asserts

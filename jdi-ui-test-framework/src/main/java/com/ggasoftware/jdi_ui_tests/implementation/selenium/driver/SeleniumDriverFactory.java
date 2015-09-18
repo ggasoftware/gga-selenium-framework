@@ -157,7 +157,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
             resultDriver.manage().window().maximize();
             resultDriver.manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
             return resultDriver;
-        } catch (Exception|AssertionError ex) { asserter.exception("Can't get driver"); return null; }
+        } catch (Throwable ex) { asserter.exception("Can't get driver"); return null; }
     }
     public void reopenDriver() {
         if (runDrivers.keys().contains(currentDriverName)) {

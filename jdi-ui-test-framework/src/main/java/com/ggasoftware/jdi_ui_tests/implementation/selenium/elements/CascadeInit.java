@@ -95,7 +95,7 @@ public abstract class CascadeInit implements IBaseElement {
             field.set(parent, instance);
             if (isInterface(field, IComposite.class))
                 InitElements(instance);
-        } catch (Exception|AssertionError ex) {
+        } catch (Throwable ex) {
             throw asserter.exception(format("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
     }
 
@@ -107,7 +107,7 @@ public abstract class CascadeInit implements IBaseElement {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
         if (instance == null)
             try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Exception|AssertionError ex) { throw asserter.exception(
+            catch (Throwable ex) { throw asserter.exception(
                     format("Can't create child for parent '%s' with type '%s'",
                             parentInstance.getClass().getSimpleName(), field.getType().getSimpleName())); }
         else if (instance.getLocator() == null)
@@ -143,7 +143,7 @@ public abstract class CascadeInit implements IBaseElement {
                 return (BaseElement) classType.getDeclaredConstructor(By.class).newInstance(newLocator);
             throw asserter.exception("Unknown interface: " + type +
                     ". Add relation interface -> class in VIElement.InterfaceTypeMap");
-        } catch (Exception|AssertionError ex) {
+        } catch (Throwable ex) {
             throw asserter.exception(format("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getSimpleName()) +
                     LineBreak + ex.getMessage()); }
     }
@@ -160,7 +160,7 @@ public abstract class CascadeInit implements IBaseElement {
             return (byLocator != null)
                     ? byLocator
                     : getFindByLocator(field.getAnnotation(FindBy.class));
-        } catch (Exception|AssertionError ex) {
+        } catch (Throwable ex) {
             throw asserter.exception(format("Error in get locator for type '%s'", field.getType().getName()) +
                     LineBreak + ex.getMessage()); }
     }

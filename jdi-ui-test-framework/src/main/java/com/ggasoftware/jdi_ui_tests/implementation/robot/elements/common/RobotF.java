@@ -16,7 +16,7 @@ public class RobotF {
     public RobotF() {
         try {
             robotInstance = new Robot();
-        } catch (Exception|AssertionError ex) { throw asserter.exception("Can't instantiate Robot"); }
+        } catch (Throwable ex) { throw asserter.exception("Can't instantiate Robot"); }
     }
     public static RobotF robot = new RobotF();
     public void pasteText(String text) {
@@ -31,7 +31,7 @@ public class RobotF {
             robotInstance.keyRelease(VK_CONTROL);
             robotInstance.keyPress(VK_ENTER);
             robotInstance.keyRelease(VK_ENTER);
-        } catch (Exception|AssertionError ex) {
+        } catch (Throwable ex) {
             throw asserter.exception("Robot Input exception");
         }
     }
