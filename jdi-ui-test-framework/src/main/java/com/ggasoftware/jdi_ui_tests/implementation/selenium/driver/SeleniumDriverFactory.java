@@ -23,8 +23,10 @@ import java.util.Set;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isClass;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.sleep;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.DriverTypes.*;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.RunTypes.*;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.RunTypes.LOCAL;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.RunTypes.SAUCE_LAB;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.SauceLabRunner.getSauceDesiredCapabilities;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.SauceLabRunner.getSauceUrl;
 import static java.lang.String.format;
@@ -190,7 +192,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         String orig = element.getWebElement().getAttribute("style");
         element.setAttribute("style", format("border: 3px solid %s; background-color: %s;", highlightSettings.FrameColor,
                 highlightSettings.BgColor));
-        try { Thread.sleep(highlightSettings.TimeoutInSec * 1000); } catch (Exception|AssertionError ignore) {}
+        sleep(highlightSettings.TimeoutInSec * 1000);
         element.setAttribute("style", orig);
     }
 

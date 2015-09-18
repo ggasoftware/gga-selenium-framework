@@ -58,7 +58,7 @@ public class Timer {
                 if (waitCase.invoke())
                     return true;
                 sleep(_retryTimeoutInMSec);
-            } catch (Exception|AssertionError ignore) { if (ignore instanceof JDIException) throw new JDIException((Exception)ignore); }
+            } catch (Exception|AssertionError ex) { if (ex instanceof JDIException) throw new JDIException((Exception)ex); }
         return false;
     }
 
@@ -71,7 +71,7 @@ public class Timer {
                 T result = getFunc.invoke();
                 if (result != null && conditionFunc.invoke(result))
                     return result;
-            } catch (Exception|AssertionError ignore) { if (ignore instanceof JDIException) throw new JDIException((Exception)ignore);}
+            } catch (Exception|AssertionError ex) { if (ex instanceof JDIException) throw new JDIException((Exception)ex);}
             sleep(_retryTimeoutInMSec);
         }
         return null;

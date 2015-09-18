@@ -17,7 +17,7 @@ public class WebDriverUtils {
                 killPID(pid);
                 pid = getPid();
             }
-        } catch (Exception|AssertionError ignore) { }
+        } catch (Exception ignore) { }
     }
 
     private static String getPid() {
