@@ -10,7 +10,6 @@ import java.util.Collection;
 
 import static com.ggasoftware.jdi_ui_tests.core.asserter.DoScreen.*;
 import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes.FRAMEWORK;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
@@ -70,7 +69,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                 ? new Timer(timeout).getResultByCondition(result::invoke, r -> r != null && r.equals(FOUND))
                 : result.invoke();
         if (resultMessage == null)
-            throw exception(format("Assert Failed by Timeout. Wait %s seconds", timeout / 1000));
+            throw exception("Assert Failed by Timeout. Wait %s seconds", timeout / 1000);
         if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 logger.info(doScreenshotGetMessage());
@@ -96,7 +95,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
     public <TResult> TResult silent(JFuncTEx<TResult> func) {
         try { return func.invoke();
-        } catch (Throwable ex) { throw asserter.exception(ex.getMessage()); }
+        } catch (Throwable ex) { throw exception(ex.getMessage()); }
     }
 
     // Asserts

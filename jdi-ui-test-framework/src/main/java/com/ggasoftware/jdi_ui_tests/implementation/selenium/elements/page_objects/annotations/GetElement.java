@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
@@ -32,7 +32,7 @@ public class GetElement {
         Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, element));
         Button button = first(buttons, b -> namesEqual(b.getName(), buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button"));
         if (button == null)
-            throw asserter.exception(format("Can't find button '%s' for Element '%s'", buttonName, toString()));
+            throw exception("Can't find button '%s' for Element '%s'", buttonName, toString());
         return button;
     }
 
@@ -51,7 +51,7 @@ public class GetElement {
             String buttonName = name.toLowerCase().contains("button") ? name : name + "button";
             button = first(buttons, b -> namesEqual(b.getName(), buttonName));
             if (button == null)
-                throw asserter.exception(format("Can't find button '%s' for Element '%s'", name, toString()));
+                throw exception("Can't find button '%s' for Element '%s'", name, toString());
         }
         return button;
     }
@@ -59,7 +59,7 @@ public class GetElement {
     public Text getTextElement() {
         Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
         if (textField == null)
-            throw asserter.exception(format("Can't find Text Element '%s'", toString()));
+            throw exception("Can't find Text Element '%s'", toString());
         return (Text) getFieldValue(textField, element);
     }
 }

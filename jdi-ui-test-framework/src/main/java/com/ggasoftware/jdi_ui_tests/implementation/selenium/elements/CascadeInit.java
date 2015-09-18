@@ -1,28 +1,27 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements;
 
+import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pairs;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IComposite;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.Frame;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JFindBy;
-import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pairs;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.getClassFromInterface;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.*;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement.createFreeInstance;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.fillPageFromAnnotaiton;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.applicationVersion;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.StringUtils.LineBreak;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement.createFreeInstance;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.getClassFromInterface;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.*;
 import static java.lang.String.format;
 
 /**
@@ -96,7 +95,7 @@ public abstract class CascadeInit implements IBaseElement {
             if (isInterface(field, IComposite.class))
                 InitElements(instance);
         } catch (Throwable ex) {
-            throw asserter.exception(format("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
+            throw exception("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName() + LineBreak + ex.getMessage()); }
     }
 
     private static void fillPage(BaseElement instance, Field field, Object parent) {
@@ -107,7 +106,7 @@ public abstract class CascadeInit implements IBaseElement {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
         if (instance == null)
             try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Throwable ex) { throw asserter.exception(
+            catch (Throwable ex) { throw exception(
                     format("Can't create child for parent '%s' with type '%s'",
                             parentInstance.getClass().getSimpleName(), field.getType().getSimpleName())); }
         else if (instance.getLocator() == null)
@@ -141,10 +140,10 @@ public abstract class CascadeInit implements IBaseElement {
             Class classType = getClassFromInterface(type);
             if (classType != null)
                 return (BaseElement) classType.getDeclaredConstructor(By.class).newInstance(newLocator);
-            throw asserter.exception("Unknown interface: " + type +
+            throw exception("Unknown interface: " + type +
                     ". Add relation interface -> class in VIElement.InterfaceTypeMap");
         } catch (Throwable ex) {
-            throw asserter.exception(format("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getSimpleName()) +
+            throw exception("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getSimpleName() +
                     LineBreak + ex.getMessage()); }
     }
 
@@ -161,7 +160,7 @@ public abstract class CascadeInit implements IBaseElement {
                     ? byLocator
                     : getFindByLocator(field.getAnnotation(FindBy.class));
         } catch (Throwable ex) {
-            throw asserter.exception(format("Error in get locator for type '%s'", field.getType().getName()) +
+            throw exception("Error in get locator for type '%s'", field.getType().getName() +
                     LineBreak + ex.getMessage()); }
     }
 

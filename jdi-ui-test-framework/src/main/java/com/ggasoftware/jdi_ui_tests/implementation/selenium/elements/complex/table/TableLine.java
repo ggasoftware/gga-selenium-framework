@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 
 /**
  * Created by 12345 on 25.10.2014.
@@ -57,7 +57,7 @@ abstract class TableLine extends Element implements ITableLine {
             ? localHeaders
             : getNumList(localHeaders.length));
         if (localHeaders == null || localHeaders.length == 0)
-            throw asserter.exception("Can't get headers for Table");
+            throw exception("Can't get headers for Table");
         setCount(localHeaders.length);
         return localHeaders;
     }

@@ -18,9 +18,7 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByFunc;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByLocator;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.getByName;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.*;
 import static java.lang.String.format;
 
 /**
@@ -61,7 +59,7 @@ public class GetElementModule {
     public List<WebElement> getElements() {
         logger.debug("Get Web elements: " + element);
         List<WebElement> elements = getElementsAction();
-        logger.debug(format("Found %s elements", elements.size()));
+        logger.debug("Found %s elements", elements.size());
         return elements;
     }
 
@@ -72,7 +70,7 @@ public class GetElementModule {
                 els -> where(els, getSearchCriteria()::invoke).size() > 0);
         timeouts.dropTimeouts();
         if (result == null)
-            throw asserter.exception("Can't get Web Elements");
+            throw exception("Can't get Web Elements");
         return where(result, getSearchCriteria()::invoke);
     }
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
@@ -84,9 +82,9 @@ public class GetElementModule {
         int timeout = timeouts.currentTimeoutSec;
         List<WebElement> result = getElementsAction();
         if (result == null)
-            throw asserter.exception(format(failedToFindElementMessage, element, timeout));
+            throw exception(failedToFindElementMessage, element, timeout);
         if (result.size() > 1)
-            throw asserter.exception(format(findToMuchElementsMessage, result.size(), element, timeout));
+            throw exception(findToMuchElementsMessage, result.size(), element, timeout);
         return result.get(0);
     }
 

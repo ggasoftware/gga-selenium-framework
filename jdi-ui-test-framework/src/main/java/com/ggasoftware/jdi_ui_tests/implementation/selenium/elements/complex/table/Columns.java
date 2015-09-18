@@ -10,9 +10,9 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.index;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
-import static java.lang.String.format;
 
 /**
  * Created by 12345 on 26.10.2014.
@@ -33,7 +33,7 @@ public class Columns extends TableLine {
     }
 
     private RuntimeException throwColsException(String colName, String ex) {
-        return asserter.exception(format("Can't Get Column '%s'. Exception: %s", colName, ex));
+        return asserter.exception("Can't Get Column '%s'. Exception: %s", colName, ex);
     }
     public final MapArray<String, ICell> getRow(String rowName) {
         try {
@@ -57,7 +57,7 @@ public class Columns extends TableLine {
 
     public MapArray<String, ICell> getRow(int rowNum) {
         if (count() < 0 || count() < rowNum || rowNum <= 0)
-            throw asserter.exception(format("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, count()));
+            throw exception("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, count());
         try {
             List<WebElement> webRow = table.rows().getRowAction(rowNum);
             return new MapArray<>(count(),

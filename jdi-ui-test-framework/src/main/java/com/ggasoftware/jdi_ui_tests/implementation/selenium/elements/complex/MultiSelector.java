@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 
@@ -27,9 +27,9 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
 
     protected void clearAction() {
         if (!haveLocator() && allLabels == null)
-            throw asserter.exception("Can't clear options. No optionsNamesLocator and allLabelsLocator found");
+            throw exception("Can't clear options. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
-            throw asserter.exception("Can't clear options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain %s)");
+            throw exception("Can't clear options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain %s)");
         if (allLabels != null) {
             clearElements(allLabels.getWebElements());
             return;

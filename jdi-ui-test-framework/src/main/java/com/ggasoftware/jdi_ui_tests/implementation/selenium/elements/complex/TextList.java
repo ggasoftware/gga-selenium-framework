@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
@@ -72,7 +72,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
 
     protected MapArray<String, WebElement> getElementsAction() {
         try { return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
-        } catch (Throwable ex) { throw asserter.exception(ex.getMessage()); }
+        } catch (Throwable ex) { throw exception(ex.getMessage()); }
     }
     protected List<String> getLabelsAction() {
         return (List<String>) getElementsAction().keys();
@@ -106,7 +106,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     public final List<String> waitText(String str) {
         if (Timer.waitCondition(() -> select(getWebElements(), WebElement::getText).contains(str)))
             return getLabels();
-        else { throw asserter.exception("Wait Text Failed"); }
+        else { throw exception("Wait Text Failed"); }
     }
 
     public List<String> getTextList() {

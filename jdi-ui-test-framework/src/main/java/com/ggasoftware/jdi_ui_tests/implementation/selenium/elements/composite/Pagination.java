@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
@@ -71,7 +71,7 @@ public class Pagination extends BaseElement implements IPagination {
         Collection<Clickable> clickables = select(fields, f -> (Clickable) ReflectionUtils.getFieldValue(f, this));
         Clickable clickable = LinqUtils.first(clickables, cl -> cl.getName().contains(getElementName(name.toLowerCase())));
         if (clickable == null)
-            throw asserter.exception(format("Can't find clickable Element '%s' for Element '%s'", name, toString()));
+            throw exception("Can't find clickable Element '%s' for Element '%s'", name, toString());
         return clickable;
     }
 
@@ -86,10 +86,10 @@ public class Pagination extends BaseElement implements IPagination {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
             return new Clickable(fillByTemplate(getLocator(), "next"));
 
-        throw asserter.exception(format("Can't choose Next page for Element '%s'. " +
+        throw exception("Can't choose Next page for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
                 "on pageObject with name 'nextLink' or 'nextButton' or use locator template with parameter 'next'" +
-                "or override nextAction() in class", toString()));
+                "or override nextAction() in class", toString());
     }
     private Clickable previousAction() {
         if (previousLocator != null)
@@ -102,10 +102,10 @@ public class Pagination extends BaseElement implements IPagination {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
             return new Clickable(fillByTemplate(getLocator(), "prev"));
 
-        throw asserter.exception(format("Can't choose Previous page for Element '%s'. " +
+        throw exception("Can't choose Previous page for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
                 "on pageObject with name 'prevLink' or 'prevButton' or use locator template with parameter 'prev'" +
-                "or override previousAction() in class", toString()));
+                "or override previousAction() in class", toString());
     }
     private Clickable firstAction() {
         if (firstLocator != null)
@@ -118,10 +118,10 @@ public class Pagination extends BaseElement implements IPagination {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
             return new Clickable(fillByTemplate(getLocator(), "first"));
 
-        throw asserter.exception(format("Can't choose First page for Element '%s'. " +
+        throw exception("Can't choose First page for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
                 "on pageObject with name 'firstLink' or 'firstButton' or use locator template with parameter 'first'" +
-                "or override firstAction() in class", toString()));
+                "or override firstAction() in class", toString());
     }
     private Clickable lastAction() {
         if (lastLocator != null)
@@ -134,10 +134,10 @@ public class Pagination extends BaseElement implements IPagination {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
             return new Clickable(fillByTemplate(getLocator(), "last"));
 
-        throw asserter.exception(format("Can't choose Last page for Element '%s'. " +
+        throw exception("Can't choose Last page for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
                 "on pageObject with name 'lastLink' or 'lastButton' or use locator template with parameter 'last'" +
-                "or override lastAction() in class", toString()));
+                "or override lastAction() in class", toString());
     }
     private Clickable pageAction(int index) {
         if (getLocator() != null && getLocator().toString().contains("'%s'"))
@@ -147,9 +147,9 @@ public class Pagination extends BaseElement implements IPagination {
         if (pageLink != null)
             return pageLink;
 
-        throw asserter.exception(format("Can't choose page '%s' for Element '%s'. " +
+        throw exception("Can't choose page '%s' for Element '%s'. " +
                 "Please specify locator for this action using constructor or add Clickable Element " +
                 "on pageObject with name 'pageLink' or 'pageButton'" +
-                "or override pageAction() in class", index, toString()));
+                "or override pageAction() in class", index, toString());
     }
 }

@@ -58,8 +58,8 @@ public class JDISettings {
 
     public static void newTest() { exceptionThrown = false; }
     public static boolean exceptionThrown = false;
-    protected static void exception(String msg) {
+    public static RuntimeException exception(String msg, Object... args) {
         exceptionThrown = true;
-        throw asserter.exception(msg);
+        return asserter.exception(msg, args);
     }
 }

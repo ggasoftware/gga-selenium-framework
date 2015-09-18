@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.*;
@@ -53,11 +54,11 @@ public class Form<T> extends Element implements IForm<T> {
         List<Field> fields = getFields(this, IButton.class);
         switch (fields.size()) {
             case 0:
-                throw asserter.exception(format("Can't find any buttons on form '%s.", toString()));
+                throw exception("Can't find any buttons on form '%s.", toString());
             case 1:
                 return (Button) getFieldValue(fields.get(0), this);
             default:
-                throw asserter.exception(format("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString()));
+                throw exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
         }
     }
     public void submit(MapArray<String, String> objStrings) {

@@ -5,7 +5,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Elemen
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IGroup;
 import org.openqa.selenium.By;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 import static java.lang.String.format;
@@ -29,7 +29,7 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
         TType instance;
         try { instance = clazz.newInstance();
         } catch (IllegalAccessException|InstantiationException ex) {
-            throw asserter.exception(format("Can't get instance of '%s' Element from Elements Group '%s'", name, toString()));
+            throw exception("Can't get instance of '%s' Element from Elements Group '%s'", name, toString());
         }
         instance.setAvatar(fillByTemplate(getLocator(), name), getAvatar());
         return instance;

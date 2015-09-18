@@ -7,7 +7,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.last;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByMsgTemplate;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.getClassFromInterface;
@@ -63,7 +63,7 @@ class Cell extends SelectElement implements ISelect, ICell {
             instance = (clazz.isInterface())
                     ? (T) getClassFromInterface(clazz).newInstance()
                     : (T) clazz.newInstance();
-        } catch (Throwable ex) { throw asserter.exception("Can't get Cell from interface/class: " + last((clazz + "").split("\\."))); }
+        } catch (Throwable ex) { throw exception("Can't get Cell from interface/class: " + last((clazz + "").split("\\."))); }
         return get(instance);
     }
     public <T extends BaseElement> T get(T cell) {
@@ -71,7 +71,7 @@ class Cell extends SelectElement implements ISelect, ICell {
         if (locator == null || locator.toString().equals(""))
             locator = cellLocatorTemplate;
         if (!locator.toString().contains("{0}") || !locator.toString().contains("{1}"))
-            throw asserter.exception("Can't create cell with locator template " + cell.getLocator() +
+            throw exception("Can't create cell with locator template " + cell.getLocator() +
                     ". Template for Cell should contains '{0}' - for column and '{1}' - for row indexes.");
         cell.getAvatar().byLocator = fillByMsgTemplate(cell.getLocator(), rowIndex, columnIndex);
         cell.getAvatar().context.add(Locator, getLocator());

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
@@ -166,7 +166,7 @@ public class Table extends Text implements ITable {
             boolean matches = true;
             for (String colNameValue : colNameValues) {
                 if (!colNameValue.matches("[^=]+=[^=]*"))
-                    throw asserter.exception("Wrong searchCriteria for Cells: " + colNameValue);
+                    throw exception("Wrong searchCriteria for Cells: " + colNameValue);
                 String[] splitted = colNameValue.split("=");
                 String colName = splitted[0];
                 String colValue = splitted[1];
@@ -186,7 +186,7 @@ public class Table extends Text implements ITable {
             boolean matches = true;
             for (String rowNameValue : rowNameValues) {
                 if (!rowNameValue.matches("[^=]+=[^=]*"))
-                    throw asserter.exception("Wrong searchCritaria for Cells: " + rowNameValue);
+                    throw exception("Wrong searchCritaria for Cells: " + rowNameValue);
                 String[] splitted = rowNameValue.split("=");
                 String rowName = splitted[0];
                 String rowValue = splitted[1];
@@ -259,9 +259,9 @@ public class Table extends Text implements ITable {
         if (headers != null && asList(headers).contains(name))
             nameIndex = asList(headers).indexOf(name);
         else
-            throw asserter.exception("Can't Get Column: '" + name + "'. " + ((headers == null)
-                ? "ColumnHeaders is Null"
-                : ("Available ColumnHeaders: " + print(headers, ", ", "'{0}'") + ")")));
+            throw exception("Can't Get Column: '" + name + "'. " + ((headers == null)
+                    ? "ColumnHeaders is Null"
+                    : ("Available ColumnHeaders: " + print(headers, ", ", "'{0}'") + ")")));
         return nameIndex + columns().startIndex;
     }
 
@@ -271,9 +271,9 @@ public class Table extends Text implements ITable {
         if (headers != null && asList(headers).contains(name))
             nameIndex = asList(headers).indexOf(name);
         else
-            throw asserter.exception("Can't Get Row: '" + name + "'. " + ((headers == null)
-                ? "RowHeaders is Null"
-                : ("Available RowHeaders: " + print(headers, ", ", "'{0}'") + ")")));
+            throw exception("Can't Get Row: '" + name + "'. " + ((headers == null)
+                    ? "RowHeaders is Null"
+                    : ("Available RowHeaders: " + print(headers, ", ", "'{0}'") + ")")));
         return nameIndex + rows().startIndex;
     }
     @Override

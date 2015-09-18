@@ -10,7 +10,6 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Elemen
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isClass;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement.actionScenrios;
-import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 9/3/2015.
@@ -36,7 +35,7 @@ public class ActionInvoker {
             return actionScenrios.setElement(element).resultScenario(actionName, action, logResult, logSettings);
         }
         catch (Throwable ex) {
-            throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+            throw exception("Failed to do '%s' action. Exception: %s", actionName, ex);
         }
     }
 
@@ -50,7 +49,7 @@ public class ActionInvoker {
             actionScenrios.setElement(element).actionScenario(actionName, action, logSettings);
         }
         catch (Throwable ex) {
-            throw asserter.exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+            throw exception("Failed to do '%s' action. Exception: %s", actionName, ex);
         }
     }
 
