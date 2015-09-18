@@ -68,9 +68,12 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         if (getLocator().toString().contains("%s"))
             throw asserter.exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
         List<WebElement> els = getDriver().findElements(getLocator());
-        return getSelectedIndex(els.size() == 1
-                ? new Select(new Element(getLocator()).getWebElement()).getOptions()
-                : els);
+        if (els.size() == 1) {
+            isSelector = true;
+            return getSelectedIndex(new Select(new Element(getLocator()).getWebElement()).getOptions());
+        }
+        else
+            return getSelectedIndex(els);
     }
     private int getSelectedIndex(List<WebElement> els) {
         return firstIndex(els, this::isSelectedAction) + 1;
