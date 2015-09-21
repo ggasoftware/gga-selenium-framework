@@ -29,11 +29,6 @@ public class TextArea extends TextField implements ITextArea {
     public TextArea(By byLocator) { super(byLocator); }
     public TextArea(WebElement webElement) { super(webElement); }
 
-    @Override
-    public String getTextAction() {
-        return getWebElement().getText();
-    }
-
     public final void inputLines(String... textLines) {
         actions.inputLines(this::clearAction, this::inputAction, textLines);
     }
