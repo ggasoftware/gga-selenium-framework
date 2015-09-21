@@ -94,7 +94,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     }
     @Override
     protected List<String> getOptionsAction() {
-        boolean isExpanded = isDisplayedAction(0);
+        boolean isExpanded = isDisplayedAction(1);
         if (!isExpanded) element().click();
         List<String> result = super.getOptionsAction();
         if (!isExpanded) element().click();

@@ -161,7 +161,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             throw exception("Can't find option with index '%s'. Please fix allLabelsLocator", index);
         if (els.size() < index)
             throw exception("Can't find option with index '%s'. Find only '%s' options", index, els.size());
-        return els.get(index).isDisplayed();
+        return els.get(index-1).isDisplayed();
     }
 
     protected boolean isDisplayedAction() {
