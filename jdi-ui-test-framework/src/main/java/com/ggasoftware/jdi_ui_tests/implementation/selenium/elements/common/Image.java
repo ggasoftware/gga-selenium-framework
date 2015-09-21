@@ -33,8 +33,8 @@ public class Image extends Clickable implements IImage {
                 () -> getWebElement().getAttribute("src"));
     }
     public String getAlt() {
-        return invoker.doJActionResult("Get image alt for Element " + this,
-                () -> getWebElement().getAttribute("alt"));
+        return invoker.doJActionResult("Get image title for Element " + this,
+                () -> getWebElement().getAttribute("title"));
     }
 
 }
