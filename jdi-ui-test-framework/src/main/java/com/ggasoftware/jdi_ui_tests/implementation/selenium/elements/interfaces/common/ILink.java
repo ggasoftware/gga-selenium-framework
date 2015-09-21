@@ -15,4 +15,6 @@ public interface ILink extends IClickable, IText {
     /** Wait while link destination contains expected text. Returns link destination */
     @JDIAction
     String waitMatchReference(String regEx);
+    /** Get links tooltip */
+    String getToolTip();
 }
