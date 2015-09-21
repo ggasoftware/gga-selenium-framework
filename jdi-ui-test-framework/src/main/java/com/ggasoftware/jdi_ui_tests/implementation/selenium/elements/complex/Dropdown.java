@@ -21,6 +21,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.List;
+
 /**
  * RadioButtons control implementation
  *
@@ -89,6 +91,14 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     @Override
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
         return element().wait(resultFunc, condition, timeoutSec);
+    }
+    @Override
+    protected List<String> getOptionsAction() {
+        boolean isExpanded = isDisplayedAction(0);
+        if (!isExpanded) element().click();
+        List<String> result = super.getOptionsAction();
+        if (!isExpanded) element().click();
+        return result;
     }
     protected String getTextAction() { return element().getAttribute("value"); }
     public final String getText() { return actions.getText(this::getTextAction); }
