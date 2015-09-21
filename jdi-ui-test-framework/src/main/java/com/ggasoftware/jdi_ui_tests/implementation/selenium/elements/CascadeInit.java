@@ -64,12 +64,22 @@ public abstract class CascadeInit implements IBaseElement {
 
     public static void InitPages(Class<?> parent) {
         if (parent.getName().contains("$")) return;
-        initPages(parent);
+        Object parentInstance = null;
+        Class<?> parentType = parent.getClass();
+        boolean firstInstanceCreated = false;
+
+        if (firstInstance) {
+            parentInstance = getParentInstance(parentType);
+            firstInstanceCreated = true;
+        }
+        initPages(parent, parentInstance);
+        if (firstInstanceCreated)
+            firstInstance = true;
     }
 
-    private static void initPages(Class<?> parent) {
+    private static void initPages(Class<?> parent, Object parentInstance) {
         foreach(getStaticFields(parent, BaseElement.class),
-                field -> setElement(parent, parent, field));
+                field -> setElement(parent, parentInstance, field));
     }
 
     public static void setElement(Object parent, Object parentInstance, Field field) {

@@ -1,13 +1,14 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IComposite;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;
 import org.openqa.selenium.Cookie;
 
 /**
  * Created by Roman_Iovlev on 9/3/2015.
  */
-public interface IPage {
+public interface IPage extends IComposite {
     Page.StringCheckType url();
     Page.StringCheckType title();
     /** Check that page opened */
