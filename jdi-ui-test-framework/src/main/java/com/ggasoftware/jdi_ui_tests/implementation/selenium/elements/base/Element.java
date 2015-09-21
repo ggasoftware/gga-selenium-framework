@@ -13,8 +13,6 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.core.logger.base.LogSettings;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels;
@@ -22,14 +20,14 @@ import com.ggasoftware.jdi_ui_tests.core.settings.HighlightSettings;
 import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static java.lang.String.format;
 
 /**
@@ -104,7 +102,7 @@ public class Element extends BaseElement implements IElement {
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
         setWaitTimeout(timeoutSec);
         T result = new Timer(timeoutSec).getResultByCondition(() -> resultFunc.invoke(getWebElement()), condition::invoke);
-        setWaitTimeout(timeouts.waitElementSec);
+        restoreWaitTimeout();
         return result;
     }
 

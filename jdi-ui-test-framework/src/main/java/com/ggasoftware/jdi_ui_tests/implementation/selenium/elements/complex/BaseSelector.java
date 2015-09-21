@@ -142,9 +142,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
     }
     private boolean isDisplayedInList(List<WebElement> els, String name) {
         WebElement element = first(els, el -> el.getText().equals(name));
-        if (element == null)
-            throw exception("Can't find option '%s'. Please fix allLabelsLocator", name);
-        return element.isDisplayed();
+        return element != null && element.isDisplayed();
     }
     protected boolean isDisplayedAction(int index) {
         if (!haveLocator() && allLabels == null)

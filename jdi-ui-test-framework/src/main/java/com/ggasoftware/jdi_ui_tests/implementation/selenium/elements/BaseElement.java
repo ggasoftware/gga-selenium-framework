@@ -29,9 +29,9 @@ import org.openqa.selenium.WebDriver;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.shortLogMessagesFormat;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.InitElements;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.firstInstance;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.updateInterfacesMap;
@@ -82,6 +82,9 @@ public abstract class BaseElement implements IBaseElement {
     public void setWaitTimeout(long mSeconds) {
         logger.debug("Set wait timeout to " + mSeconds);
         getDriver().manage().timeouts().implicitlyWait(mSeconds, MILLISECONDS);
+    }
+    public void restoreWaitTimeout() {
+        setWaitTimeout(timeouts.waitElementSec);
     }
     private String typeName;
     public void setTypeName(String typeName) {

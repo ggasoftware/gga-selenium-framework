@@ -10,7 +10,6 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.getByCondition;
@@ -164,7 +163,7 @@ public class ElementsActions {
         element.avatar.localElementSearchCriteria = el -> true;
         T result = func.invoke();
         element.avatar.localElementSearchCriteria = temp;
-        element.setWaitTimeout(timeouts.waitElementSec);
+        element.restoreWaitTimeout();
         return result;
     }
 }
