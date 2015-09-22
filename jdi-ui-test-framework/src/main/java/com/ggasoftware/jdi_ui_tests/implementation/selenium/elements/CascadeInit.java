@@ -21,6 +21,7 @@ import static com.ggasoftware.jdi_ui_tests.core.utils.common.StringUtils.LineBre
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement.createFreeInstance;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.getClassFromInterface;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType.Frame;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.*;
 import static java.lang.String.format;
 
@@ -64,21 +65,43 @@ public abstract class CascadeInit implements IBaseElement {
 
     public static void InitPages(Class<?> parentType) {
         if (parentType.getName().contains("$")) return;
-        Object parentInstance = null;
         boolean firstInstanceCreated = false;
 
-        if (firstInstance) {
-            parentInstance = getParentInstance(parentType);
+        if (firstInstance)
             firstInstanceCreated = true;
-        }
-        initPages(parentType, parentInstance);
+        initPages(parentType);
         if (firstInstanceCreated)
             firstInstance = true;
     }
 
-    private static void initPages(Class<?> parent, Object parentInstance) {
-        foreach(getStaticFields(parent, BaseElement.class),
-                field -> setElement(parent, parentInstance, field));
+    private static void initPages(Class<?> parentType) {
+        foreach(getStaticFields(parentType, BaseElement.class),
+                field -> setElement(parentType, field));
+    }
+
+    public static void setElement(Class<?> parentType, Field field) {
+        try {
+            Class<?> type = field.getType();
+            BaseElement instance;
+            if (isClass(type, Page.class)) {
+                instance = (BaseElement) getFieldValue(field, null);
+                if (instance == null)
+                    instance = (BaseElement) type.newInstance();
+                fillPage(instance, field, parentType);
+            }
+            else {
+                instance = createChildFromFieldStatic(parentType, field, type);
+                instance.function = getFunction(field);
+            }
+            instance.setName(field);
+            if (instance.getClass().getSimpleName().equals(""))
+                instance.setTypeName(type.getSimpleName());
+            instance.setParentName(parentType.getClass().getSimpleName());
+            field.set(null, instance);
+            if (isInterface(field, IComposite.class))
+                InitElements(instance);
+        } catch (Throwable ex) {
+            throw exception("Error in setElement for field '%s' with parent '%s'", field.getName(), parentType.getClass().getSimpleName() + LineBreak + ex.getMessage()); }
     }
 
     public static void setElement(Object parent, Object parentInstance, Field field) {
@@ -109,7 +132,24 @@ public abstract class CascadeInit implements IBaseElement {
 
     private static void fillPage(BaseElement instance, Field field, Object parent) {
         if (field.isAnnotationPresent(JPage.class))
-            fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), (parent != null) ? parent.getClass() : null);
+            fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), parent != null ? parent.getClass() : null);
+    }
+    private static BaseElement createChildFromFieldStatic(Class<?> parentClass, Field field, Class<?> type) {
+        BaseElement instance = (BaseElement) getFieldValue(field, null);
+        if (instance == null)
+            try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
+            catch (Throwable ex) { throw exception(
+                    format("Can't create child for parent '%s' with type '%s'",
+                            parentClass.getSimpleName(), field.getType().getSimpleName())); }
+        else if (instance.getLocator() == null)
+            instance.avatar.byLocator = getNewLocator(field);
+        instance.avatar.context = new Pairs<>();
+        if (type != null) {
+            By frameBy = getFrame(type.getDeclaredAnnotation(Frame.class));
+            if (frameBy != null)
+                instance.avatar.context.add(Frame, frameBy);
+        }
+        return instance;
     }
     private static BaseElement createChildFromField(Object parentInstance, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
@@ -126,7 +166,7 @@ public abstract class CascadeInit implements IBaseElement {
         if (type != null) {
             By frameBy = getFrame(type.getDeclaredAnnotation(Frame.class));
             if (frameBy != null)
-                instance.avatar.context.add(ContextType.Frame, frameBy);
+                instance.avatar.context.add(Frame, frameBy);
         }
         if (isBaseElement(parentInstance)) {
             By parentLocator = ((BaseElement) parentInstance).getLocator();
