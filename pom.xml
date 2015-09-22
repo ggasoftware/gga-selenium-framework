@@ -33,6 +33,7 @@
     <modules>
         <module>gga-selenium-framework-core</module>
 		<module>jdi-ui-test-framework</module>
+        <module>jdi-ui-tests</module>
         <!--<module>gga-selenium-framework-demo</module>-->
         <!--<module>gga-selenium-framework-demo-allure</module>-->
         <!--<module>gga-selenium-framework-demo-cuke</module>-->

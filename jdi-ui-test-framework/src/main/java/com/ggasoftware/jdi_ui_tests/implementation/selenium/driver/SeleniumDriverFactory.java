@@ -61,6 +61,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
 
     private MapArray<String, JFuncT<WebDriver>> drivers = new MapArray<>();
     private MapArray<String, WebDriver> runDrivers = new MapArray<>();
+    public boolean hasDrivers() { return drivers.size() > 0; }
     public void registerDriver(JFuncT<WebDriver> driver) {
         registerDriver("Driver" + drivers.size() + 1, driver);
     }
@@ -74,9 +75,10 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
                 this.runType = SAUCE_LAB; break;
         }
     }
+    public String driversPath = "src\\main\\resources";
 
     private String getDriversPath() {
-        return asserter.silent(() -> new File("src\\main\\resources").getCanonicalPath() + "\\");
+        return asserter.silent(() -> new File(driversPath).getCanonicalPath() + "\\");
     }
 
     // REGISTER DRIVER

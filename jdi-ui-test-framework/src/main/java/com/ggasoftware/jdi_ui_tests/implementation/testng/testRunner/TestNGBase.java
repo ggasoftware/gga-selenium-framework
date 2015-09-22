@@ -1,5 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.testng.testRunner;
 
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -24,8 +25,9 @@ public class TestNGBase {
     public static void jdiSetUp() throws Exception {
         logger.init("Init test run");
         killAllRunWebDrivers();
-        useDriver(CHROME);
         initJDIFromProperties();
+        if (!JDISettings.driverFactory.hasDrivers())
+            useDriver(CHROME);
         timer = new Timer();
     }
 
