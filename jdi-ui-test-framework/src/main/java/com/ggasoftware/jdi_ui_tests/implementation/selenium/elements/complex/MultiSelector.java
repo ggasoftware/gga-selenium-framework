@@ -2,6 +2,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IMultiSelector;
 import org.openqa.selenium.By;
@@ -43,8 +44,50 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     private void clearElements(List<WebElement> els) {
         foreach(where(els, el -> isSelectedAction(el.getText())), WebElement::click);
     }
-    protected boolean isSelectedAction(String name) { return areSelected().contains(name); }
-    protected boolean isSelectedAction(int index) { return areSelected().contains(getNames().get(index));}
+    protected WebElement getElement(String name) {
+        List<WebElement> els = null;
+        if (!haveLocator() && allLabels == null)
+            throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
+        if (getLocator().toString().contains("%s"))
+            els = getDriver().findElements(WebDriverByUtils.fillByTemplate(getLocator(), name));
+        if (allLabels != null)
+            els = getElement(allLabels.getWebElements(), name);
+        if (els == null)
+            els = getDriver().findElements(getLocator());
+        if (els.size() == 1)
+            els = new Select(new Element(getLocator()).getWebElement()).getOptions();
+        if (els == null)
+            throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
+        else
+            els = getElement(els, name);
+        if (els == null || els.size() != 1)
+            throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
+        return els.get(0);
+    }
+    private List<WebElement> getElement(List<WebElement> els, String name) {
+        return where(els, el -> el.getText().equals(name));
+    }
+    protected WebElement getElement(int index) {
+        if (!haveLocator() && allLabels == null)
+            throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
+        if (getLocator().toString().contains("%s"))
+            throw exception("Can't get options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain %s)");
+        if (allLabels != null)
+            return getElement(allLabels.getWebElements(), index);
+        List<WebElement> els = getDriver().findElements(getLocator());
+        return getElement(els.size() == 1
+            ? new Select(new Element(getLocator()).getWebElement()).getOptions()
+            : els, index);
+    }
+    private WebElement getElement(List<WebElement> els, int index) {
+        if (index <= 0)
+            throw exception("Can't get option with index '%s'. Index should be 1 or more", index);
+        if (index > els.size())
+            throw exception("Can't get option with index '%s'. Found only %s options", index, els.size());
+        return els.get(index-1);
+    }
+    protected boolean isSelectedAction(String name) { return getElement(name).isSelected(); }
+    protected boolean isSelectedAction(int index) { return getElement(index).isSelected();}
 
     protected void selectListAction(String... names) { foreach(names, this::selectAction); }
     protected void selectListAction(int... indexes) { for (int i : indexes) selectAction(i); }
