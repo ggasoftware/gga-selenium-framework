@@ -103,6 +103,8 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     protected void clickAction() {element().click(); }
 
     protected String getTextAction() { return element().getAttribute("value"); }
+    public final void expand() { if (!isDisplayedAction(1)) element().click();  }
+    public final void close() { if (isDisplayedAction(1)) element().click();  }
     public final void click() { actions.click(this::clickAction); }
     public final String getText() { return actions.getText(this::getTextAction); }
     public final String waitText(String text) {
