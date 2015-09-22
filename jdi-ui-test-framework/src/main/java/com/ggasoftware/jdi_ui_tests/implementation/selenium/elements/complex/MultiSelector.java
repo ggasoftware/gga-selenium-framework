@@ -137,7 +137,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     }
 
     public void checkAll() {
-        foreach(where(getOptions(), label -> !waitSelected(label)), this::selectAction);
+        foreach(where(getOptions(), label -> !isSelectedAction(label)), this::selectAction);
     }
 
 }
