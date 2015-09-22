@@ -49,7 +49,7 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
         }
         else
             for(String name : names)
-                new Select(getWebElement()).selectByValue(name);
+                new Select(getWebElement()).selectByVisibleText(name);
     }
     @Override
     protected void selectListAction(int... indexes) {

@@ -55,7 +55,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
             super.selectAction(name);
         }
         else
-            new Select(getWebElement()).selectByValue(name);
+            new Select(getWebElement()).selectByVisibleText(name);
     }
     @Override
     protected void selectAction(int index) {

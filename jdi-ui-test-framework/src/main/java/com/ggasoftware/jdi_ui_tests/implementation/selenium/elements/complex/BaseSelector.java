@@ -44,7 +44,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         }
         List<WebElement> els = getDriver().findElements(getLocator());
         if (els.size() == 1)
-            new Select(new Element(getLocator()).getWebElement()).selectByValue(name);
+            new Select(new Element(getLocator()).getWebElement()).selectByVisibleText(name);
         else
             selectFromList(els, name);
     }
