@@ -92,7 +92,6 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     public void clear() {
         invoker.doJAction("Clear Options", this::clearAction);
     }
-    public void uncheckAll() { clear(); }
 
     public void checkAll() {
         foreach(where(getOptions(), label -> !waitSelected(label)), this::selectAction);

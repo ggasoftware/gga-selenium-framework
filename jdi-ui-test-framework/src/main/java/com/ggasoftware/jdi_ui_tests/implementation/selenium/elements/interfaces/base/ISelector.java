@@ -4,6 +4,8 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_object
 
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
+
 /**
  * Created by Roman_Iovlev on 6/10/2015.
  */
@@ -38,9 +40,9 @@ public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     /** Get labels of all options */
     @JDIAction
     List<String> getOptions();
-    List<String> getNames();
-    List<String> getValues();
+    default List<String> getNames() { return getOptions(); }
+    default List<String> getValues() { return getOptions(); }
     /** Get all options labels in one string separated with “; ” */
     @JDIAction
-    String getOptionsAsText();
+    default String getOptionsAsText() { return print(getOptions()); }
 }

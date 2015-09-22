@@ -14,7 +14,6 @@ import java.util.List;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.waitCondition;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
@@ -112,10 +111,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
 
     public final String getValue() { return actions.getValue(this::getValueAction); }
     public final void setValue(String value) { actions.setValue(value, this::setValueAction); }
-    public final List<String> getNames() { return getOptionsAction(); }
-    public final List<String> getValues() { return getOptionsAction(); }
     public final List<String> getOptions() { return getOptionsAction(); }
-    public final String getOptionsAsText() { return print(getOptions()); }
 
     protected List<WebElement> getElements() {
         if (!haveLocator() && allLabels == null)
