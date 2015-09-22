@@ -13,7 +13,6 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.index;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
-import static java.lang.String.format;
 
 /**
  * Created by 12345 on 26.10.2014.
@@ -34,7 +33,7 @@ public class Rows extends TableLine {
     }
 
     private RuntimeException throwRowsException(String rowName, String ex) {
-        return asserter.exception("Can't Get Rows '%s'. Exception: %s", rowName, ex);
+        return asserter.exception("Can't Get Rows for column '%s'. Exception: %s", rowName, ex);
     }
 
     public final MapArray<String, ICell> getColumn(String colName) {

@@ -14,10 +14,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelector;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement;
@@ -32,6 +29,7 @@ import java.text.MessageFormat;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.shortLogMessagesFormat;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.InitElements;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.firstInstance;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.updateInterfacesMap;
@@ -47,7 +45,7 @@ public abstract class BaseElement implements IBaseElement {
     public static boolean createFreeInstance = false;
     public BaseElement(By byLocator) {
         avatar = new GetElementModule(byLocator, this);
-        if (!createFreeInstance && firstInstance)
+        if (isInterface(getClass(), IComposite.class) && !createFreeInstance && firstInstance)
             InitElements(this);
         updateInterfacesMap(seleniumDefaultMap());
     }

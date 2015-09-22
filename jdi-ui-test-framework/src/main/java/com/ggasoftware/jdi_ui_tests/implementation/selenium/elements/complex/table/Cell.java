@@ -88,6 +88,7 @@ class Cell extends SelectElement implements ISelect, ICell {
         if (cellLocatorTemplate != null)
             this.cellLocatorTemplate = cellLocatorTemplate;
         this.columnsTemplate = columnsTemplate;
+        this.table = table;
     }
     public Cell(int columnIndex, int rowIndex, int columnNum, int rowNum, String colName, String rowName,
                 By cellLocatorTemplate, Class<?>[] columnsTemplate, Table table) {
@@ -100,6 +101,7 @@ class Cell extends SelectElement implements ISelect, ICell {
         if (cellLocatorTemplate != null)
             this.cellLocatorTemplate = cellLocatorTemplate;
         this.columnsTemplate = columnsTemplate;
+        this.table = table;
     }
 
     public Cell updateData(String colName, String rowName) {
