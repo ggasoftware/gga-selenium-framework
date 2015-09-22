@@ -113,7 +113,7 @@ public abstract class CascadeInit implements IBaseElement {
                 instance = (BaseElement) getFieldValue(field, parentInstance);
                 if (instance == null)
                     instance = (BaseElement) type.newInstance();
-                fillPage(instance, field, parent);
+                fillPage(instance, field, parent != null ? parent.getClass() : null);
             }
             else {
                 instance = createChildFromField(parentInstance, field, type);
@@ -130,9 +130,9 @@ public abstract class CascadeInit implements IBaseElement {
             throw exception("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName() + LineBreak + ex.getMessage()); }
     }
 
-    private static void fillPage(BaseElement instance, Field field, Object parent) {
+    private static void fillPage(BaseElement instance, Field field, Class<?> parentType) {
         if (field.isAnnotationPresent(JPage.class))
-            fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), parent != null ? parent.getClass() : null);
+            fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), parentType);
     }
     private static BaseElement createChildFromFieldStatic(Class<?> parentClass, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, null);
