@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite verbose="0" name="Test Suite" parallel="false">
-    <test name="Demo Test">
-        <classes>
-            <class name="com.ggasoftware.uitest.demo.TestExample"/>
-        </classes>
-    </test>
-</suite>
