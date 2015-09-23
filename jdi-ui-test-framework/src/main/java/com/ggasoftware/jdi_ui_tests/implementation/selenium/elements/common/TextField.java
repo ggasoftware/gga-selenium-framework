@@ -41,8 +41,6 @@ public class TextField extends Text implements ITextField {
     public final void input(String text) {
         actions.input(text, this::inputAction);
     }
-
-    public void sendKeys(String text) { input(text); }
     public void newInput(String text) {
         clear();
         input(text);

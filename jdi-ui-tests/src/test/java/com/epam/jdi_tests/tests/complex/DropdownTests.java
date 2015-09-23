@@ -90,20 +90,12 @@ public class DropdownTests extends InitTests {
         areEquals(colors().isSelected("Colors"), true);
     }
     @Test
-    public void isSelectedIndexTest() {
-        checkActionThrowError(() -> colors().isSelected(4), noElementsMessage); // isDisplayed not defined
-    }
-    @Test
     public void isSelectedEnumTest() {
         areEquals(colors().isSelected(Colors), true);
     }
     @Test
     public void waitSelectedTest() {
         areEquals(colors().waitSelected("Colors"), true);
-    }
-    @Test
-    public void waitSelectedIndexTest() {
-        checkActionThrowError(() -> colors().waitSelected(4), noElementsMessage); // isDisplayed not defined
     }
     @Test
     public void waitSelectedEnumTest() {

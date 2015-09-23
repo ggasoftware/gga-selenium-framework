@@ -11,7 +11,6 @@ import static java.lang.String.format;
  * Created by Roman_Iovlev on 7/8/2015.
  */
 public class PopupForm<T> extends Form<T> implements IPopup {
-
     @Override
     public void submit(MapArray<String, String> objStrings) {
         fill(objStrings);

@@ -96,17 +96,11 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
     public final boolean waitSelected(TEnum name) {
         return waitSelected(getEnumValue(name));
     }
-    public final boolean waitSelected(int index) {
-        return actions.isSelected(index, i -> waitCondition(() -> isSelectedAction(i)));
-    }
     public final boolean isSelected(String name) {
         return actions.isSelected(name, this::isSelectedAction);
     }
     public final boolean isSelected(TEnum name) {
         return isSelected(getEnumValue(name));
-    }
-    public final boolean isSelected(int index) {
-        return actions.isSelected(index, this::isSelectedAction);
     }
     protected void setValueAction(String value) { selectAction(value); }
 

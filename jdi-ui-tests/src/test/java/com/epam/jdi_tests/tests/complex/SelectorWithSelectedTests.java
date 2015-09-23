@@ -88,11 +88,6 @@ public class SelectorWithSelectedTests extends InitTests {
         isTrue(odds().isSelected("7"));
     }
     @Test
-    public void isSelectedIndexTest() {
-        odds().select(SEVEN);
-        isTrue(odds().isSelected(4));
-    }
-    @Test
     public void isSelectedEnumTest() {
         odds().select(SEVEN);
         isTrue(odds().isSelected(SEVEN));
@@ -103,11 +98,6 @@ public class SelectorWithSelectedTests extends InitTests {
         isTrue(odds().waitSelected("7"));
     }
     @Test
-    public void waitSelectedIndexTest() {
-        odds().select(SEVEN);
-        isTrue(odds().waitSelected(4));
-    }
-    @Test
     public void waitSelectedEnumTest() {
         odds().select(SEVEN);
         isTrue(odds().waitSelected(SEVEN));
@@ -116,13 +106,6 @@ public class SelectorWithSelectedTests extends InitTests {
     public void wait3SelectedTest() {
         runParallel(() -> odds().select(SEVEN));
         isTrue(odds().waitSelected("7"));
-        isTrue(getTimePassed() > waitTimeOut);
-        isTrue(odds().isSelected(SEVEN));
-    }
-    @Test
-    public void wait3SelectedIndexTest() {
-        runParallel(() -> odds().select(SEVEN));
-        isTrue(odds().waitSelected(4));
         isTrue(getTimePassed() > waitTimeOut);
         isTrue(odds().isSelected(SEVEN));
     }

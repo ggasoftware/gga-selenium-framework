@@ -140,9 +140,7 @@ public interface ITable<T extends SelectElement> extends IText {
     List<ICell> getCells();
 
     /** Clean all already founded Cells */
-    @JDIAction
     void clean();
     /** Similar to clean */
-    @JDIAction
     void clear();
 }

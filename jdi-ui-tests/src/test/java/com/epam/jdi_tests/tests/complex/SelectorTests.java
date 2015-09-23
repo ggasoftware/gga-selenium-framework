@@ -89,20 +89,12 @@ public class SelectorTests extends InitTests {
         checkActionThrowError(() -> odds().isSelected("7"), noElementsMessage); // isDisplayed not defined
     }
     @Test
-    public void isSelectedIndexTest() {
-        checkActionThrowError(() -> odds().isSelected(4), noElementsMessage); // isDisplayed not defined
-    }
-    @Test
     public void isSelectedEnumTest() {
         checkActionThrowError(() -> odds().isSelected(SEVEN), noElementsMessage); // isDisplayed not defined
     }
     @Test
     public void waitSelectedTest() {
         checkActionThrowError(() -> odds().waitSelected("7"), noElementsMessage); // isDisplayed not defined
-    }
-    @Test
-    public void waitSelectedIndexTest() {
-        checkActionThrowError(() -> odds().waitSelected(4), noElementsMessage); // isDisplayed not defined
     }
     @Test
     public void waitSelectedEnumTest() {

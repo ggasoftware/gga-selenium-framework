@@ -112,9 +112,6 @@ public class ElementsActions {
     public boolean isSelected(String name, JFuncTT<String, Boolean> isSelectedAction) {
         return invoker().doJActionResult(format("Wait is '%s' selected", name), () -> isSelectedAction.invoke(name));
     }
-    public boolean isSelected(int index, JFuncTT<Integer, Boolean> isSelectedAction) {
-        return invoker().doJActionResult(format("Wait is '%s' selected", index), () -> isSelectedAction.invoke(index));
-    }
     public String getSelected(JFuncT<String> isSelectedAction) {
         return invoker().doJActionResult("Get Selected element name", isSelectedAction::invoke);
     }

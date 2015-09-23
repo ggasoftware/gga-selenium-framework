@@ -1,5 +1,7 @@
-package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base;
+package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex;
 
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;
 
 import java.util.List;
@@ -25,18 +27,18 @@ public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     /** Get index of the selected Element */
     @JDIAction
     int getSelectedIndex();
+    /** Is option selected? */
+    @JDIAction
     boolean isSelected(String name);
+    /** Is option selected? */
+    @JDIAction
     boolean isSelected(TEnum name);
-    boolean isSelected(int index);
     /** Wait while option (from text) is selected. Return false if this not happens */
     @JDIAction
     boolean waitSelected(String name);
     /** Wait while option (from enum) is selected. Return false if this not happens */
     @JDIAction
     boolean waitSelected(TEnum name);
-    /** Wait while option (from int) is selected. Return false if this not happens */
-    @JDIAction
-    boolean waitSelected(int index);
     /** Get labels of all options */
     @JDIAction
     List<String> getOptions();

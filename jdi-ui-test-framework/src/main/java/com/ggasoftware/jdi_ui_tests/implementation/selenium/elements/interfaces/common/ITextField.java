@@ -13,7 +13,7 @@ public interface ITextField extends ISetValue, IText, IElement {
     void input(String text);
     /** Input text in textfield */
     @JDIAction
-    void sendKeys(String text);
+    default void sendKeys(String text) { input(text); }
     /** Clear and input text in textfield */
     @JDIAction
     void newInput(String text);

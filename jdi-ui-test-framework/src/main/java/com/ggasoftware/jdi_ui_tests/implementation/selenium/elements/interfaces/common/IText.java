@@ -9,6 +9,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_object
  */
 public interface IText extends IHasValue, IElement {
     /** Get Element’s text */
+    @JDIAction
     String getText();
     /** Wait while Element’s text contains expected text. Returns Element’s text */
     @JDIAction

@@ -1,6 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelector;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.ISelector;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

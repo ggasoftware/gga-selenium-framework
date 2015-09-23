@@ -24,4 +24,11 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     @JDIAction
     void submit(T entity, String buttonName);
 
+    /** Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
+     *  To use this option Form pageObject should have button names in specific format <br>
+     *  e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>
+     *  * Letters case in button name  no matters
+     *  */
+    @JDIAction
+    void submit(T entity, Enum buttonName);
 }

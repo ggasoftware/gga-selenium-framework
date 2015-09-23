@@ -43,8 +43,8 @@ public class Link extends ClickableText implements ILink {
         return invoker.doJActionResult(format("Wait link match regex '%s'", regEx),
                 () -> getByCondition(this::getReferenceAction, t -> t.matches(regEx)));
     }
-    protected String getToolTipAction() { return getWebElement().getAttribute("title"); }
-    public final String getToolTip() {
+    protected String getTooltipAction() { return getWebElement().getAttribute("title"); }
+    public final String getTooltip() {
         return invoker.doJActionResult("Get link tooltip", this::getReferenceAction, href -> "Get link tooltip '" + href + "'");
     }
 }

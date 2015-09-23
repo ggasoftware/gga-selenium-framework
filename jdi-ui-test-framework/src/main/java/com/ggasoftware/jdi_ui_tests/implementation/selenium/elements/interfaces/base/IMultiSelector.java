@@ -58,17 +58,25 @@ public interface IMultiSelector<TEnum extends Enum> extends IBaseElement, ISetVa
     /** Get labels of all options */
     @JDIAction
     List<String> getOptions();
+    /** Get labels of all options */
+    @JDIAction
     default List<String> getNames() { return getOptions(); }
+    /** Get labels of all options */
+    @JDIAction
     default List<String> getValues() { return getOptions(); }
     /** Get all options labels in one string separated with “; ” */
     @JDIAction
     default String getOptionsAsText() { return print(getOptions()); }
-    /** Set all options unchecked */
-    @JDIAction
-    void clear();
-    default void uncheckAll() { clear(); }
     /** Set all options checked */
     @JDIAction
     void checkAll();
+    /** Set all options checked */
+    @JDIAction
     default void selectAll() { checkAll(); }
+    /** Set all options unchecked */
+    @JDIAction
+    void clear();
+    /** Set all options unchecked */
+    @JDIAction
+    default void uncheckAll() { clear(); }
 }

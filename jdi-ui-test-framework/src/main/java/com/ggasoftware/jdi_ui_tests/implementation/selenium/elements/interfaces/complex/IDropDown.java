@@ -1,7 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex;
 
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelector;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 
 /**
