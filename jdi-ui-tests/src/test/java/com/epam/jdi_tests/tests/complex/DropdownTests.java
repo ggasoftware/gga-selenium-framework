@@ -2,7 +2,6 @@ package com.epam.jdi_tests.tests.complex;
 
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.enums.Colors;
-import com.epam.jdi_tests.enums.Preconditions;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropDown;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -12,12 +11,13 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static com.epam.jdi_tests.enums.Colors.Blue;
-import static com.epam.jdi_tests.enums.Colors.Red;
+import static com.epam.jdi_tests.enums.Colors.Colors;
 import static com.epam.jdi_tests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkAction;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkActionThrowError;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.noElementsMessage;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.listEquals;
 import static java.util.Arrays.asList;
@@ -27,34 +27,24 @@ import static java.util.Arrays.asList;
  */
 public class DropdownTests extends InitTests {
     private IDropDown<Colors> colors() { return metalsColorsPage.colors; }
-    private Preconditions onPage = METALS_AND_COLORS_PAGE;
 
     @BeforeMethod
     public void before(Method method) throws IOException {
-        isInState(onPage, method);
-        colors().close();
+        isInState(METALS_AND_COLORS_PAGE, method);
     }
 
     @Test
     public void selectStringTest() {
-        colors().select("Red");
-        checkAction("Colors: value changed to Red");
-        colors().close();
         colors().select("Blue");
         checkAction("Colors: value changed to Blue");
     }
     @Test
     public void selectIndexTest() {
-        colors().select(2);
-        checkAction("Colors: value changed to Red");
-        colors().close();
         colors().select(4);
         checkAction("Colors: value changed to Blue");
     }
     @Test
     public void selectEnumTest() {
-        colors().select(Red);
-        checkAction("Colors: value changed to Red");
         colors().select(Blue);
         checkAction("Colors: value changed to Blue");
     }
@@ -78,8 +68,6 @@ public class DropdownTests extends InitTests {
     }
     @Test
     public void setValueTest() {
-        colors().setValue("Red");
-        checkAction("Colors: value changed to Red");
         colors().setValue("Blue");
         checkAction("Colors: value changed to Blue");
     }
@@ -91,38 +79,38 @@ public class DropdownTests extends InitTests {
     // Fails
     @Test
     public void getSelectedTest() {
-        checkActionThrowError(() -> colors().getSelected());
+        areEquals(colors().getSelected(), "Colors");
     }
     @Test
     public void getSelectedIndexTest() {
-        checkActionThrowError(() -> colors().getSelectedIndex());
+        checkActionThrowError(() -> colors().getSelectedIndex(), noElementsMessage); // isDisplayed not defined
     }
     @Test
     public void isSelectedTest() {
-        checkActionThrowError(() -> colors().isSelected("Red"));
+        areEquals(colors().isSelected("Colors"), true);
     }
     @Test
     public void isSelectedIndexTest() {
-        checkActionThrowError(() -> colors().isSelected(2));
+        checkActionThrowError(() -> colors().isSelected(4), noElementsMessage); // isDisplayed not defined
     }
     @Test
     public void isSelectedEnumTest() {
-        checkActionThrowError(() -> colors().isSelected(Red));
+        areEquals(colors().isSelected(Colors), true);
     }
     @Test
     public void waitSelectedTest() {
-        checkActionThrowError(() -> colors().waitSelected("Red"));
+        areEquals(colors().waitSelected("Colors"), true);
     }
     @Test
     public void waitSelectedIndexTest() {
-        checkActionThrowError(() -> colors().waitSelected(2));
+        checkActionThrowError(() -> colors().waitSelected(4), noElementsMessage); // isDisplayed not defined
     }
     @Test
     public void waitSelectedEnumTest() {
-        checkActionThrowError(() -> colors().waitSelected(Red));
+        areEquals(colors().waitSelected(Colors), true);
     }
     @Test
     public void getValueTest() {
-        checkActionThrowError(() -> colors().getValue());
+        areEquals(colors().getValue(), "Colors");
     }
 }

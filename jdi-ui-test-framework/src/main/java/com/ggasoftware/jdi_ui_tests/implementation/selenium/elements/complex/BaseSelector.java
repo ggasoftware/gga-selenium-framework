@@ -44,7 +44,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         }
         List<WebElement> els = getDriver().findElements(getLocator());
         if (els.size() == 1)
-            new Select(new Element(getLocator()).getWebElement()).selectByVisibleText(name);
+            getSelector().selectByVisibleText(name);
         else
             selectFromList(els, name);
     }
@@ -68,7 +68,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         }
         List<WebElement> els = getDriver().findElements(getLocator());
         if (els.size() == 1)
-            new Select(new Element(getLocator()).getWebElement()).selectByIndex(index);
+            getSelector().selectByIndex(index);
         else
             selectFromList(els, index);
     }
@@ -83,7 +83,13 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
     }
     protected abstract boolean isSelectedAction(String name);
     protected abstract boolean isSelectedAction(int index);
-
+    protected boolean isSelector = false;
+    protected boolean isSelectedAction(WebElement el) {
+        if (isSelector)
+            return el.isSelected();
+        String attr = el.getAttribute("checked");
+        return attr != null && attr.equals("true");
+    }
     public final boolean waitSelected(String name) {
         return actions.isSelected(name, n -> waitCondition(() -> isSelectedAction(n)));
     }
@@ -113,6 +119,11 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
     public final void setValue(String value) { actions.setValue(value, this::setValueAction); }
     public final List<String> getOptions() { return getOptionsAction(); }
 
+    protected Select getSelector() { {
+        isSelector = true;
+        return new Select(new Element(getLocator()).getWebElement());
+    }}
+
     protected List<WebElement> getElements() {
         if (!haveLocator() && allLabels == null)
             throw exception("Can't check is element displayed or not. No optionsNamesLocator and allLabelsLocator found");
@@ -122,7 +133,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             throw exception("Can't check is element displayed or not. Please specify allLabelsLocator or correct optionsNamesLocator (should not contain '%s)");
         List<WebElement> els = getDriver().findElements(getLocator());
         if (els.size() == 1)
-            els = new Select(new Element(getLocator()).getWebElement()).getAllSelectedOptions();
+            els = getSelector().getAllSelectedOptions();
         return els;
     }
 
@@ -134,7 +145,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         if (allLabels != null)
             return isDisplayedInList(allLabels.getWebElements(), name);
         List<WebElement> els = getDriver().findElements(getLocator());
-        return els.size() == 1 || isDisplayedInList(els, name);
+        return isDisplayedInList(els.size() == 1 ? getSelector().getOptions() : els, name);
     }
     private boolean isDisplayedInList(List<WebElement> els, String name) {
         WebElement element = first(els, el -> el.getText().equals(name));
@@ -148,7 +159,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         if (allLabels != null)
             return isDisplayedInList(allLabels.getWebElements(), index);
         List<WebElement> els = getDriver().findElements(getLocator());
-        return els.size() == 1 || isDisplayedInList(els, index);
+        return isDisplayedInList(els.size() == 1 ? getSelector().getOptions() : els, index);
     }
     private boolean isDisplayedInList(List<WebElement> els, int index) {
         if (index <= 0)
@@ -156,7 +167,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         if (els == null)
             throw exception("Can't find option with index '%s'. Please fix allLabelsLocator", index);
         if (els.size() < index)
-            throw exception("Can't find option with index '%s'. Find only '%s' options", index, els.size());
+            throw exception("Can't find option with index '%s'. Find '%s' options", index, els.size());
         return els.get(index-1).isDisplayed();
     }
 

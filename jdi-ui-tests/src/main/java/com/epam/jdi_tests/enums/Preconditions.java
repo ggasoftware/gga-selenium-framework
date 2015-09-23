@@ -33,7 +33,7 @@ public enum Preconditions {
         this.moveToAction = moveToAction;
     }
     Preconditions(String uri) {
-        this(() -> checkUrl(uri), () -> openUri(uri));
+        this(() -> false/*checkUrl(uri)*/, () -> openUri(uri));
     }
     private static boolean checkUrl(String uri) {
         return getUrl().matches(".*/" + uri + "(\\?.*)?");

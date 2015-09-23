@@ -16,6 +16,7 @@ public class ScreenAssert {
 
     public static BaseChecker ignoreCase() { return getAssert().ignoreCase(); }
 
+    public static RuntimeException exception(String msg, Object... args) { return getAssert().exception(msg, args); }
     public static <T> void areEquals(T actual, T expected, String failMessage) { getAssert().areEquals(actual, expected, failMessage); }
     public static <T> void areEquals(T actual, T expected) { getAssert().areEquals(actual, expected); }
     public static <T> void assertEquals(T actual, T expected, String failMessage) { getAssert().areEquals(actual, expected, failMessage); }

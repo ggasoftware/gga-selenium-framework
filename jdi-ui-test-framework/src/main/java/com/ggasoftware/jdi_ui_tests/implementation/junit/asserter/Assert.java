@@ -1,6 +1,7 @@
 package com.ggasoftware.jdi_ui_tests.implementation.junit.asserter;
 
 import com.ggasoftware.jdi_ui_tests.core.asserter.BaseChecker;
+import com.ggasoftware.jdi_ui_tests.core.asserter.DoScreen;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 
 import java.util.Collection;
@@ -13,11 +14,14 @@ import static com.ggasoftware.jdi_ui_tests.core.asserter.DoScreen.SCREEN_ON_FAIL
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class Assert {
-    private static BaseChecker getAssert() { return new Check().doScreenshot(NO_SCREEN); }
+    private static DoScreen doScreen = SCREEN_ON_FAIL;
+    private static BaseChecker getAssert() { return new Check().doScreenshot(doScreen); }
+    public static void noScreenOnFail() { doScreen = NO_SCREEN; }
 
     public static BaseChecker doScreenOnFail() { return new Check().doScreenshot(SCREEN_ON_FAIL); }
     public static BaseChecker ignoreCase() { return getAssert().ignoreCase(); }
 
+    public static RuntimeException exception(String msg, Object... args) { return getAssert().exception(msg, args); }
     public static <T> void areEquals(T actual, T expected, String failMessage) { getAssert().areEquals(actual, expected, failMessage); }
     public static <T> void areEquals(T actual, T expected) { getAssert().areEquals(actual, expected); }
     public static <T> void assertEquals(T actual, T expected, String failMessage) { getAssert().areEquals(actual, expected, failMessage); }

@@ -1,10 +1,8 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelector;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -36,29 +34,21 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         return getSelectedIndexAction() == index;
     }
     protected String getValueAction() {return getSelected(); }
-    private boolean isSelector = false;
-    protected boolean isSelectedAction(WebElement el) {
-        if (!isSelector)
-            throw exception("Can't check is option Selected or not. Override isSelectedAction or getSelectedAction or place locator to <select> tag");
-        return el.isSelected();
-    }
     protected String getSelectedAction() {
         if (allLabels != null)
             return getSelected(allLabels.getWebElements());
         if (getLocator().toString().contains("%s"))
             throw exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
         List<WebElement> els = getDriver().findElements(getLocator());
-        if (els.size() == 1) {
-            isSelector = true;
-            return getSelected(new Select(new Element(getLocator()).getWebElement()).getOptions());
-        }
+        if (els.size() == 1)
+            return getSelected(getSelector().getOptions());
         else
             return getSelected(els);
     }
     private String getSelected(List<WebElement> els) {
         WebElement element = first(els, this::isSelectedAction);
         if (element == null)
-            throw exception("No elements selected");
+            throw exception("No elements selected. Override getSelectedAction or place locator to <select> tag");
         return element.getText();
     }
     protected int getSelectedIndexAction() {
@@ -68,14 +58,15 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         if (getLocator().toString().contains("%s"))
             throw exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
         List<WebElement> els = getDriver().findElements(getLocator());
-        if (els.size() == 1) {
-            isSelector = true;
-            return getSelectedIndex(new Select(new Element(getLocator()).getWebElement()).getOptions());
-        }
+        if (els.size() == 1)
+            return getSelectedIndex(getSelector().getOptions());
         else
             return getSelectedIndex(els);
     }
     private int getSelectedIndex(List<WebElement> els) {
-        return firstIndex(els, this::isSelectedAction) + 1;
+        int index = firstIndex(els, this::isSelectedAction) + 1;
+        if (index == 0)
+            throw exception("No elements selected. Override getSelectedAction or place locator to <select> tag");
+        return index;
     }
 }

@@ -23,7 +23,7 @@ public class MetalsColorsPage extends Page {
     @FindBy(id = "calculate-button")
     public ILabel calculate;
 
-    public IDropDown<Colors> colors = new Dropdown<>(By.cssSelector("[data-id=colors-dropdown]"), By.cssSelector(".colors li span"));
+    public IDropDown<Colors> colors = new Dropdown<>(By.cssSelector(".colors .filter-option"), By.cssSelector(".colors li span"));
 
     @FindBy(css = ".summ-res")
     public IText calculateText;

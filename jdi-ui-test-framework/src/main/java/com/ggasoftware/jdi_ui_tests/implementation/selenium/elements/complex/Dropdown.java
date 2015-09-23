@@ -14,8 +14,8 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Label;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropDown;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -37,7 +37,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     }
 
     public By selectLocator;
-    protected Clickable element() { return new Clickable(selectLocator); }
+    protected Label element() { return new Label(selectLocator); }
 
     protected void expandAction(String name) {
         if (element().isDisplayed()) {
@@ -102,7 +102,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     }
     protected void clickAction() {element().click(); }
 
-    protected String getTextAction() { return element().getAttribute("value"); }
+    protected String getTextAction() { return element().getText(); }
     public final void expand() { if (!isDisplayedAction(1)) element().click();  }
     public final void close() { if (isDisplayedAction(1)) element().click();  }
     public final void click() { actions.click(this::clickAction); }

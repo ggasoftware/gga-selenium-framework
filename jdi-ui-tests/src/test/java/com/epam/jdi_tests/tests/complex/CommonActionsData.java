@@ -7,19 +7,21 @@ import ru.yandex.qatools.allure.annotations.Step;
 
 import static com.epam.jdi_tests.page_objects.EpamJDISite.actionsLog;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.contains;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.*;
 
 /**
  * Created by Roman_Iovlev on 9/18/2015.
  */
 public class CommonActionsData {
-    public static void checkActionThrowError(JAction action) {
+    public static void checkActionThrowError(JAction action, String msg) {
         try { action.invoke();
         } catch (Exception|AssertionError ex) {
-            contains(ex.getMessage(), "Can't check is option Selected or not. Override isSelectedAction or getSelectedAction or place locator to <select> tag");
+            assertContains(ex.getMessage(), msg);
+            return;
         }
+        throw exception("Exception not thrown");
     }
+    public static final String noElementsMessage = "No elements selected. Override getSelectedAction or place locator to <select> tag";
 
     public static final long waitTimeOut = 1000;
     private static Timer timer;
@@ -36,7 +38,7 @@ public class CommonActionsData {
     }
     @Step
     public static void checkAction(String text) {
-        contains(actionsLog::getFirstText, text);
+        assertContains(actionsLog::getFirstText, text);
     }
     @Step
     public static void checText(JFuncT<String> func, String text) {
@@ -44,6 +46,6 @@ public class CommonActionsData {
     }
     @Step
     public static void checkCalculate(String text) {
-        contains(metalsColorsPage.calculateText::getText, text);
+        assertContains(metalsColorsPage.calculateText::getText, text);
     }
 }

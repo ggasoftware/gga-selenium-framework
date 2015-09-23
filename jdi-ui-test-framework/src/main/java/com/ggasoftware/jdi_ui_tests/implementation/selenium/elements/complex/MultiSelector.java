@@ -3,11 +3,9 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IMultiSelector;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -37,7 +35,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         }
         List<WebElement> els = getDriver().findElements(getLocator());
         if (els.size() == 1)
-            new Select(new Element(getLocator()).getWebElement()).deselectAll();
+            getSelector().deselectAll();
         else
             clearElements(els);
     }
@@ -55,7 +53,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         if (els == null)
             els = getDriver().findElements(getLocator());
         if (els.size() == 1)
-            els = new Select(new Element(getLocator()).getWebElement()).getOptions();
+            els = getSelector().getOptions();
         if (els == null)
             throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         else
@@ -76,18 +74,18 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
             return getElement(allLabels.getWebElements(), index);
         List<WebElement> els = getDriver().findElements(getLocator());
         return getElement(els.size() == 1
-            ? new Select(new Element(getLocator()).getWebElement()).getOptions()
-            : els, index);
+                ? getSelector().getOptions()
+                : els, index);
     }
     private WebElement getElement(List<WebElement> els, int index) {
         if (index <= 0)
             throw exception("Can't get option with index '%s'. Index should be 1 or more", index);
         if (index > els.size())
             throw exception("Can't get option with index '%s'. Found only %s options", index, els.size());
-        return els.get(index-1);
+        return els.get(index - 1);
     }
-    protected boolean isSelectedAction(String name) { return getElement(name).isSelected(); }
-    protected boolean isSelectedAction(int index) { return getElement(index).isSelected();}
+    protected boolean isSelectedAction(String name) { return isSelectedAction(getElement(name)); }
+    protected boolean isSelectedAction(int index) { return isSelectedAction(getElement(index));}
 
     protected void selectListAction(String... names) { foreach(names, this::selectAction); }
     protected void selectListAction(int... indexes) { for (int i : indexes) selectAction(i); }

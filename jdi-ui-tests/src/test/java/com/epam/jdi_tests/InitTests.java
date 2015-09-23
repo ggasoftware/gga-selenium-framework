@@ -1,6 +1,7 @@
 package com.epam.jdi_tests;
 
 import com.epam.jdi_tests.page_objects.EpamJDISite;
+import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.testRunner.TestNGBase;
 import org.testng.annotations.BeforeSuite;
 
@@ -21,6 +22,7 @@ public class InitTests extends TestNGBase {
     public static void setUp() throws Exception {
         driverFactory.driversPath = "jdi-ui-tests\\src\\main\\resources";
         initJDIFromProperties();
+        Assert.noScreenOnFail();
         Init(EpamJDISite.class);
         homePage.open();
         login.submit(DEFAULT_USER);
