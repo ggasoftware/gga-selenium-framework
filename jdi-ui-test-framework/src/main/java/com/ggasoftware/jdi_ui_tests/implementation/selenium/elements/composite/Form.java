@@ -21,7 +21,6 @@ import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.get
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement.namesEqual;
-import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.
@@ -63,6 +62,15 @@ public class Form<T> extends Element implements IForm<T> {
     }
     public void submit(MapArray<String, String> objStrings) {
         fill(objStrings);
+        getSubmitButton().click();
+    }
+    private void setText(String text) {
+        Field field = getFields(this, ISetValue.class).get(0);
+        ISetValue setValueElement = (ISetValue) getFieldValue(field, this);
+        doActionRule.invoke(text, val -> setValueAction(val, setValueElement));
+    }
+    public void submit(String text) {
+        setText(text);
         getSubmitButton().click();
     }
     public void submit(T entity) { submit(objToSetValue(entity)); }
