@@ -8,7 +8,9 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_object
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Check;
 import org.openqa.selenium.Cookie;
 
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.CheckPageTypes.EQUAL;
 import static java.lang.String.format;
 
@@ -100,6 +102,14 @@ public class Page extends BaseElement implements IPage {
                 () -> getDriver().navigate().to(url));
         if (checkAfterOpen)
             checkOpened();
+    }
+    public void isOpened() {
+        try {
+            logger.test("Page %s is opened", getName());
+            if (getUrl().equals(url)) return;
+            open();
+        } catch (Exception ex) { throw asserter.exception(format("Can't open page %s. Exception: %s", getName(), ex.getMessage())); }
+
     }
 
     public static void openUrl(String url) {
