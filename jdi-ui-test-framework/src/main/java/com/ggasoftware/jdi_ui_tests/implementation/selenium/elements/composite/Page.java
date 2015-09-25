@@ -16,8 +16,8 @@ import static java.lang.String.format;
  * Created by Roman_Iovlev on 7/17/2015.
  */
 public class Page extends BaseElement implements IPage {
-    protected String url;
-    protected String title;
+    public String url;
+    public String title;
     protected CheckPageTypes checkUrlType = EQUAL;
     protected CheckPageTypes checkTitleType = EQUAL;
     protected String urlTemplate;
