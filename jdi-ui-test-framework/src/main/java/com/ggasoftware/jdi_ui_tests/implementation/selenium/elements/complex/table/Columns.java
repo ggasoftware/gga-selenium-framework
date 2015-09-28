@@ -37,7 +37,7 @@ public class Columns extends TableLine {
     }
     public final MapArray<String, ICell> getRow(String rowName) {
         try {
-            String[] headers = headers();
+            String[] headers = table.rows().headers();
             List<WebElement> webRow = table.rows().getRowAction(index(headers, rowName));
             return new MapArray<>(count(),
                     key -> headers[key],
@@ -71,6 +71,6 @@ public class Columns extends TableLine {
     }
 
     public MapArray<String, MapArray<String, ICell>> get() {
-        return new MapArray<>(headers(), key -> key, value -> table.columns().getRow(value));
+        return new MapArray<>(headers(), key -> key, value -> table.rows().getColumn(value));
     }
 }
