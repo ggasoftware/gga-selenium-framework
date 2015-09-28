@@ -38,10 +38,10 @@ public class Columns extends TableLine {
     public final MapArray<String, ICell> getRow(String rowName) {
         try {
             String[] headers = table.rows().headers();
-            List<WebElement> webRow = table.rows().getRowAction(index(headers, rowName));
+            List<WebElement> webRow = table.rows().getRowAction(index(headers, rowName) + 1);
             return new MapArray<>(count(),
-                    key -> headers[key],
-                    value -> table.cell(webRow.get(value), new Column(headers[value]), new Row(rowName)));
+                    key -> headers()[key],
+                    value -> table.cell(webRow.get(value), new Column(headers()[value]), new Row(rowName)));
         }
         catch (Throwable ex) { throw throwColsException(rowName, ex.getMessage()); }
     }

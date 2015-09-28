@@ -39,10 +39,10 @@ public class Rows extends TableLine {
     public final MapArray<String, ICell> getColumn(String colName) {
         try {
             String[] headers = table.columns().headers();
-            List<WebElement> webColumn = table.columns().getColumnAction(index(headers, colName));
+            List<WebElement> webColumn = table.columns().getColumnAction(index(headers, colName) + 1);
             return new MapArray<>(count(),
-                    key -> headers[key],
-                    value -> table.cell(webColumn.get(value), new Column(colName), new Row(headers[value])));
+                    key -> headers()[key],
+                    value -> table.cell(webColumn.get(value), new Column(colName), new Row(headers()[value])));
         }
         catch (Throwable ex) { throw throwRowsException(colName, ex.getMessage()); }
     }

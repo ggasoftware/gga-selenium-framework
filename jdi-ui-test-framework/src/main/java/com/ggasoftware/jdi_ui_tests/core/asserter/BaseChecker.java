@@ -101,9 +101,14 @@ public abstract class BaseChecker implements IAsserter, IChecker {
 
     // Asserts
     public <T> void areEquals(T actual, T expected, String failMessage) {
-        boolean result = (ignoreCase && actual.getClass() == String.class)
-            ? ((String)actual).toLowerCase().equals(((String)expected).toLowerCase())
-            : actual.equals(expected);
+        boolean result;
+        if (expected.getClass() == String.class) {
+            String actualString = actual.toString();
+            result = (ignoreCase)
+                ? actualString.toLowerCase().equals(((String)expected).toLowerCase())
+                : actualString.equals(expected);
+        }
+        else result = actual.equals(expected);
         assertAction(format("Check that '%s' equals to '%s'", actual, expected), result, failMessage);
     }
     public <T> void areEquals(T actual, T expected) {
