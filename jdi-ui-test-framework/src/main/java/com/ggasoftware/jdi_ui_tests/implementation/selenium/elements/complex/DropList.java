@@ -14,6 +14,7 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.GetElementType;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropList;
@@ -30,12 +31,13 @@ import org.openqa.selenium.support.ui.Select;
 public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implements IDropList<TEnum> {
     public DropList() { super(); }
     public DropList(By valueLocator) { super(valueLocator); }
-    public DropList(By valueLocator, By optionsNamesLocator) { super(optionsNamesLocator); this.valueLocator = valueLocator;}
+    public DropList(By valueLocator, By optionsNamesLocator) { this(valueLocator, optionsNamesLocator, null);}
     public DropList(By valueLocator, By optionsNamesLocator, By allOptionsNamesLocator) {
-        super(optionsNamesLocator, allOptionsNamesLocator); this.valueLocator = valueLocator;
+        super(optionsNamesLocator, allOptionsNamesLocator); this.button = new GetElementType(valueLocator);
     }
-    public By valueLocator;
-    protected Clickable button() { return new Clickable(valueLocator); }
+
+    private GetElementType button = new GetElementType();
+    protected Clickable button() { return button.get(new Clickable(), getAvatar()); }
     protected void expandAction(String name) { if (!isDisplayedAction(name)) button().click(); }
     protected void expandAction(int index) { if (!isDisplayedAction(index)) button().click(); }
 
@@ -43,7 +45,7 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     protected void selectListAction(String... names) {
         if (names == null || names.length == 0)
             return;
-        if (valueLocator != null) {
+        if (button() != null) {
             expandAction(names[0]);
             super.selectListAction(names);
         }
@@ -55,7 +57,7 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     protected void selectListAction(int... indexes) {
         if (indexes == null || indexes.length == 0)
             return;
-        if (valueLocator != null) {
+        if (button() != null) {
             expandAction(indexes[0]);
             super.selectListAction(indexes);
         }
@@ -65,7 +67,7 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
     }
     @Override
     protected void clearAction() {
-        if (valueLocator != null)
+        if (button() != null)
             expandAction(1);
         super.clearAction();
     }

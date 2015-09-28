@@ -13,9 +13,10 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.GetElementType;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.TextField;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IComboBox;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
 
 /**
  * ComboBox control implementation
@@ -26,22 +27,22 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
     public ComboBox() { super(); }
     public ComboBox(By valueLocator) {
         super(valueLocator);
-        textFieldLocator = valueLocator;
+        textField = new GetElementType(valueLocator);
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate) {
         super(selectorLocator, optionsNamesLocatorTemplate);
-        textFieldLocator = selectorLocator;
+        textField = new GetElementType(selectorLocator);
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator) {
         super(selectorLocator, optionsNamesLocatorTemplate);
-        textFieldLocator = valueLocator;
+        textField = new GetElementType(valueLocator);
     }
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator, By allOptionsNamesLocator) {
         super(selectorLocator, optionsNamesLocatorTemplate, allOptionsNamesLocator);
-        textFieldLocator = valueLocator;
+        textField = new GetElementType(valueLocator);
     }
-    public By textFieldLocator;
-    protected TextField textField() { return new TextField(textFieldLocator); }
+    private GetElementType textField = new GetElementType();
+    protected TextField textField() { return textField.get(new TextField(), getAvatar()); }
 
     @Override
     protected void setValueAction(String value){ newInput(value);}

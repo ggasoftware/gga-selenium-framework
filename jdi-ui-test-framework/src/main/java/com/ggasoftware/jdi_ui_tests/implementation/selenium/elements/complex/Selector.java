@@ -35,11 +35,11 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
     }
     protected String getValueAction() {return getSelected(); }
     protected String getSelectedAction() {
-        if (allLabels != null)
-            return getSelected(allLabels.getWebElements());
+        if (allLabels() != null)
+            return getSelected(allLabels().getWebElements());
         if (getLocator().toString().contains("%s"))
             throw exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
-        List<WebElement> els = getAvatar().getElements();
+        List<WebElement> els = getAvatar().searchAll().getElements();
         if (els.size() == 1)
             return getSelected(getSelector().getOptions());
         else
@@ -52,12 +52,12 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         return element.getText();
     }
     protected int getSelectedIndexAction() {
-        if (allLabels != null) {
-            return getSelectedIndex(allLabels.getWebElements());
+        if (allLabels() != null) {
+            return getSelectedIndex(allLabels().getWebElements());
         }
         if (getLocator().toString().contains("%s"))
             throw exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
-        List<WebElement> els = getAvatar().getElements();
+        List<WebElement> els = getAvatar().searchAll().getElements();
         if (els.size() == 1)
             return getSelectedIndex(getSelector().getOptions());
         else

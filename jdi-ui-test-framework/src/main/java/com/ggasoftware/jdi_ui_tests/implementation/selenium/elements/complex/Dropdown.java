@@ -14,6 +14,7 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.GetElementType;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Label;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropDown;
@@ -31,13 +32,13 @@ import java.util.List;
 public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDropDown<TEnum> {
     public Dropdown() { super(); }
     public Dropdown(By selectLocator) { super(selectLocator); }
-    public Dropdown(By selectLocator, By optionsNamesLocator) { super(optionsNamesLocator); this.selectLocator = selectLocator;}
+    public Dropdown(By selectLocator, By optionsNamesLocator) { this(selectLocator, optionsNamesLocator, null);}
     public Dropdown(By selectLocator, By optionsNamesLocator, By allOptionsNamesLocator) {
-        super(optionsNamesLocator, allOptionsNamesLocator); this.selectLocator = selectLocator;
+        super(optionsNamesLocator, allOptionsNamesLocator); this.element = new GetElementType(selectLocator);
     }
 
-    public By selectLocator;
-    protected Label element() { return new Label(selectLocator); }
+    private GetElementType element = new GetElementType();
+    protected Label element() { return element.get(new Label(), getAvatar()); }
 
     protected void expandAction(String name) {
         if (element().isDisplayed()) {
@@ -50,7 +51,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
 
     @Override
     protected void selectAction(String name) {
-        if (selectLocator != null) {
+        if (element() != null) {
             expandAction(name);
             super.selectAction(name);
         }
@@ -59,7 +60,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     }
     @Override
     protected void selectAction(int index) {
-        if (selectLocator != null) {
+        if (element() != null) {
             expandAction(index);
             super.selectAction(index);
         }

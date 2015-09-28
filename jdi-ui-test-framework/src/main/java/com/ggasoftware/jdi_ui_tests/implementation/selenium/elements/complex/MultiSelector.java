@@ -26,15 +26,15 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     }
 
     protected void clearAction() {
-        if (!haveLocator() && allLabels == null)
+        if (!haveLocator() && allLabels() == null)
             throw exception("Can't clear options. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
             throw exception("Can't clear options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
-        if (allLabels != null) {
-            clearElements(allLabels.getWebElements());
+        if (allLabels() != null) {
+            clearElements(allLabels().getWebElements());
             return;
         }
-        List<WebElement> els = getAvatar().getElements();
+        List<WebElement> els = getAvatar().searchAll().getElements();
         if (els.size() == 1)
             getSelector().deselectAll();
         else
@@ -45,14 +45,14 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     }
     protected WebElement getElement(String name) {
         List<WebElement> els = null;
-        if (!haveLocator() && allLabels == null)
+        if (!haveLocator() && allLabels() == null)
             throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
             els = new GetElementModule(fillByTemplate(getLocator(), name), getAvatar().context, this).getElements();
-        if (allLabels != null)
-            els = getElement(allLabels.getWebElements(), name);
+        if (allLabels() != null)
+            els = getElement(allLabels().getWebElements(), name);
         if (els == null)
-            els = getAvatar().getElements();
+            els = getAvatar().searchAll().getElements();
         if (els.size() == 1)
             els = getSelector().getOptions();
         if (els == null)
@@ -67,13 +67,13 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         return where(els, el -> el.getText().equals(name));
     }
     protected WebElement getElement(int index) {
-        if (!haveLocator() && allLabels == null)
+        if (!haveLocator() && allLabels() == null)
             throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
             throw exception("Can't get options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
-        if (allLabels != null)
-            return getElement(allLabels.getWebElements(), index);
-        List<WebElement> els = getAvatar().getElements();
+        if (allLabels() != null)
+            return getElement(allLabels().getWebElements(), index);
+        List<WebElement> els = getAvatar().searchAll().getElements();
         return getElement(els.size() == 1
                 ? getSelector().getOptions()
                 : els, index);

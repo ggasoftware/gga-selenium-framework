@@ -14,7 +14,10 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.*;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IComposite;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement;
@@ -26,9 +29,7 @@ import org.openqa.selenium.WebDriver;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.shortLogMessagesFormat;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.InitElements;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.firstInstance;
@@ -68,10 +69,11 @@ public abstract class BaseElement implements IBaseElement {
     public By getLocator() { return avatar.byLocator; }
 
     public GetElementModule getAvatar() {return avatar; }
-    public void setAvatar(GetElementModule avatar) { this.avatar = avatar; }
-    public void setAvatar(By byLocator, GetElementModule avatar) {
+    public BaseElement setAvatar(GetElementModule avatar) { this.avatar = avatar; return this; }
+    public BaseElement setAvatar(By byLocator, GetElementModule avatar) {
         this.avatar = new GetElementModule(byLocator, avatar.context, this);
         this.avatar.localElementSearchCriteria = avatar.localElementSearchCriteria;
+        return this;
     }
     protected GetElement getElement = new GetElement(this);
     protected ElementsActions actions = new ElementsActions(this);
@@ -143,6 +145,7 @@ public abstract class BaseElement implements IBaseElement {
                 {IDatePicker.class, DatePicker.class},
         };
     }
+
 
     @Override
     public String toString() {

@@ -77,6 +77,7 @@ public class GetElementModule {
     private JFuncTT<WebElement, Boolean> getSearchCriteria() {
         return localElementSearchCriteria != null ? localElementSearchCriteria : driverFactory.elementSearchCriteria;
     }
+    public GetElementModule searchAll() { localElementSearchCriteria = el -> el!=null; return this; }
 
     private WebElement getElementAction() {
         int timeout = timeouts.currentTimeoutSec;

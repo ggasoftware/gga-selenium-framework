@@ -30,7 +30,7 @@ public class Summary extends Section {
             return el.findElement(By.tagName("input")).getAttribute("checked") != null;
         }
     };
-    @FindBy(id="#even-selector p")
+    @FindBy(css="#even-selector p")
     public Selector even;
     @FindBy(id="calculate-button")
     public IButton calculate;
