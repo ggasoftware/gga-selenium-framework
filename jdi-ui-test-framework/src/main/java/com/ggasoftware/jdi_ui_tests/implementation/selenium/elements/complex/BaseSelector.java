@@ -124,7 +124,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         if (allLabels != null)
             return allLabels.getWebElements();
         if (getLocator().toString().contains("%s"))
-            throw exception("Can't check is element displayed or not. Please specify allLabelsLocator or correct optionsNamesLocator (should not contain '%s)");
+            throw exception("Can't check is element displayed or not. Please specify allLabelsLocator or correct optionsNamesLocator (should not contain '%s')");
         List<WebElement> els = getDriver().findElements(getLocator());
         if (els.size() == 1)
             els = getSelector().getAllSelectedOptions();

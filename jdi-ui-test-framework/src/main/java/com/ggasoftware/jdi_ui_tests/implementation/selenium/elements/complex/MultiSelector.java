@@ -28,7 +28,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         if (!haveLocator() && allLabels == null)
             throw exception("Can't clear options. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
-            throw exception("Can't clear options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain %s)");
+            throw exception("Can't clear options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
         if (allLabels != null) {
             clearElements(allLabels.getWebElements());
             return;
@@ -69,7 +69,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         if (!haveLocator() && allLabels == null)
             throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
-            throw exception("Can't get options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain %s)");
+            throw exception("Can't get options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
         if (allLabels != null)
             return getElement(allLabels.getWebElements(), index);
         List<WebElement> els = getDriver().findElements(getLocator());
