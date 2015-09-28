@@ -2,7 +2,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.GetElementModule;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IMultiSelector;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -12,6 +12,7 @@ import java.util.List;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
 /**
  * Created by roman.i on 03.10.2014.
@@ -33,7 +34,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
             clearElements(allLabels.getWebElements());
             return;
         }
-        List<WebElement> els = getDriver().findElements(getLocator());
+        List<WebElement> els = getAvatar().getElements();
         if (els.size() == 1)
             getSelector().deselectAll();
         else
@@ -47,11 +48,11 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         if (!haveLocator() && allLabels == null)
             throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
-            els = getDriver().findElements(WebDriverByUtils.fillByTemplate(getLocator(), name));
+            els = new GetElementModule(fillByTemplate(getLocator(), name), getAvatar().context, this).getElements();
         if (allLabels != null)
             els = getElement(allLabels.getWebElements(), name);
         if (els == null)
-            els = getDriver().findElements(getLocator());
+            els = getAvatar().getElements();
         if (els.size() == 1)
             els = getSelector().getOptions();
         if (els == null)
@@ -72,7 +73,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
             throw exception("Can't get options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
         if (allLabels != null)
             return getElement(allLabels.getWebElements(), index);
-        List<WebElement> els = getDriver().findElements(getLocator());
+        List<WebElement> els = getAvatar().getElements();
         return getElement(els.size() == 1
                 ? getSelector().getOptions()
                 : els, index);

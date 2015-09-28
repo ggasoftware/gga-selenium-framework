@@ -42,7 +42,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             selectFromList(allLabels.getWebElements(), name);
             return;
         }
-        List<WebElement> els = getDriver().findElements(getLocator());
+        List<WebElement> els = getAvatar().getElements();
         if (els.size() == 1)
             getSelector().selectByVisibleText(name);
         else
@@ -66,7 +66,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             new Clickable(fillByTemplate(getLocator(), index)).click();
             return;
         }
-        List<WebElement> els = getDriver().findElements(getLocator());
+        List<WebElement> els = getAvatar().getElements();
         if (els.size() == 1)
             getSelector().selectByIndex(index);
         else
@@ -125,7 +125,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             return allLabels.getWebElements();
         if (getLocator().toString().contains("%s"))
             throw exception("Can't check is element displayed or not. Please specify allLabelsLocator or correct optionsNamesLocator (should not contain '%s')");
-        List<WebElement> els = getDriver().findElements(getLocator());
+        List<WebElement> els = getAvatar().getElements();
         if (els.size() == 1)
             els = getSelector().getAllSelectedOptions();
         return els;
@@ -138,7 +138,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             return new Clickable(fillByTemplate(getLocator(), name)).isDisplayed();
         if (allLabels != null)
             return isDisplayedInList(allLabels.getWebElements(), name);
-        List<WebElement> els = getDriver().findElements(getLocator());
+        List<WebElement> els = getAvatar().getElements();
         return isDisplayedInList(els.size() == 1 ? getSelector().getOptions() : els, name);
     }
     private boolean isDisplayedInList(List<WebElement> els, String name) {
@@ -152,7 +152,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             return new Clickable(fillByTemplate(getLocator(), index)).isDisplayed();
         if (allLabels != null)
             return isDisplayedInList(allLabels.getWebElements(), index);
-        List<WebElement> els = getDriver().findElements(getLocator());
+        List<WebElement> els = getAvatar().getElements();
         return isDisplayedInList(els.size() == 1 ? getSelector().getOptions() : els, index);
     }
     private boolean isDisplayedInList(List<WebElement> els, int index) {
