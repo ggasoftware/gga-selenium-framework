@@ -62,6 +62,7 @@ public class Table extends Text implements ITable {
         return result;
     }
 
+    public ITable useCache() { cache = true; return this; }
     public boolean cache = false;
     public void clean() {
         _allCells = new ArrayList<>();

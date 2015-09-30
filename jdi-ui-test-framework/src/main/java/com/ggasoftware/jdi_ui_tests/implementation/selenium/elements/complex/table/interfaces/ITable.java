@@ -143,4 +143,5 @@ public interface ITable<T extends SelectElement> extends IText {
     void clean();
     /** Similar to clean */
     void clear();
+    ITable useCache();
 }

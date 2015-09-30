@@ -283,4 +283,13 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
                 action.invoke(pair.key, pair.value);
         } catch (Throwable ignore) { throwRuntimeException(ignore); }
     }
+    public <R> List<R> selectMany(JFuncTTT<K, V, List<R>> func) {
+        try {
+            List<R> result = new ArrayList<>();
+            for(Pair<K,V> pair : pairs)
+                result.addAll(func.invoke(pair.key, pair.value));
+            return result;
+        } catch (Throwable ignore) { throwRuntimeException(ignore); return null;}
+    }
+
 }
