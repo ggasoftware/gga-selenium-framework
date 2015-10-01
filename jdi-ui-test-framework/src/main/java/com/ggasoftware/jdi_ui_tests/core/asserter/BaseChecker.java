@@ -16,10 +16,10 @@ import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
-import static edu.emory.mathcs.backport.java.util.Arrays.asList;
 import static java.lang.String.format;
 import static java.lang.reflect.Array.get;
 import static java.lang.reflect.Array.getLength;
+import static java.util.Arrays.asList;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.

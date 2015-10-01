@@ -36,13 +36,13 @@
         <module>jdi-ui-tests</module>
     </modules>
 
-    <dependencies>
+    <!--<dependencies>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>2.9.1</version>
         </dependency>
-    </dependencies>
+    </dependencies>-->
 
     <build>
         <pluginManagement>

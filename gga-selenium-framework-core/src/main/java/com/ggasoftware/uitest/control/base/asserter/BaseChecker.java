@@ -1,6 +1,7 @@
 package com.ggasoftware.uitest.control.base.asserter;
 
-import com.ggasoftware.uitest.utils.linqInterfaces.*;
+import com.ggasoftware.uitest.utils.linqInterfaces.JActionT;
+import com.ggasoftware.uitest.utils.linqInterfaces.JFuncT;
 
 import java.util.Collection;
 
@@ -13,10 +14,10 @@ import static com.ggasoftware.uitest.utils.PrintUtils.print;
 import static com.ggasoftware.uitest.utils.PrintUtils.printObjectAsArray;
 import static com.ggasoftware.uitest.utils.ReflectionUtils.isInterface;
 import static com.ggasoftware.uitest.utils.TestBaseWebDriver.logger;
-import static edu.emory.mathcs.backport.java.util.Arrays.asList;
 import static java.lang.String.format;
 import static java.lang.reflect.Array.get;
 import static java.lang.reflect.Array.getLength;
+import static java.util.Arrays.asList;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.

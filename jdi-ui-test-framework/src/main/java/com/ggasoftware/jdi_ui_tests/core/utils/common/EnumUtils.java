@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
-import static edu.emory.mathcs.backport.java.util.Arrays.asList;
+import static java.util.Arrays.asList;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.
@@ -28,6 +28,6 @@ public class EnumUtils {
         return tryGetResult(() -> field.get(enumWithValue).toString());
     }
     public static <T extends Enum> List<T> getAllEnumValues(T enumValue) {
-        return asList(enumValue.getDeclaringClass().getEnumConstants());
+        return asList((T[]) enumValue.getDeclaringClass().getEnumConstants());
     }
 }
