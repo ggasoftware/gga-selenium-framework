@@ -216,4 +216,18 @@ public class LinqUtils {
                 return i;
         return -1;
     }
+
+    public static <T> List<T> selectMany(List<T> list, JFuncTT<T,List<T>> func) {
+        List<T> result = new ArrayList<>();
+        for (T el : list)
+            result.addAll(func.invoke(el));
+        return result;
+    }
+    public static <T> List<T> selectManyArray(List<T> list, JFuncTT<T,T[]> func) {
+        List<T> result = new ArrayList<>();
+        for (T el : list)
+            result.addAll(asList(func.invoke(el)));
+        return result;
+    }
+
 }
