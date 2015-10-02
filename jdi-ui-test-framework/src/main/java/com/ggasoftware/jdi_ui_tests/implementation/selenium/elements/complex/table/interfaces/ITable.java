@@ -113,6 +113,12 @@ public interface ITable<T extends SelectElement> extends IText {
      *  */
     @JDIAction
     MapArray<String, ICell> row(String rowName);
+    /** Get Row value */
+    @JDIAction
+    List<String> rowValue(int colNum);
+    /** Get Row value */
+    @JDIAction
+    List<String> rowValue(String colName);
     Columns columns();
     /** Get Column with index <br>
      *  Each Column is map: rowName:cell
@@ -124,6 +130,12 @@ public interface ITable<T extends SelectElement> extends IText {
      *  */
     @JDIAction
     MapArray<String, ICell> column(String colName);
+    /** Get Column value */
+    @JDIAction
+    List<String> columnValue(int colNum);
+    /** Get Column value */
+    @JDIAction
+    List<String> columnValue(String colName);
     /** Get Header */
     @JDIAction
     MapArray<String, SelectElement> header();

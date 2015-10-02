@@ -204,7 +204,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void listEquals(Collection<T> actual, Collection<T> expected) {
         listEquals(actual, expected, null);
     }
-    private  <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage, boolean shouldEqual) {
+    private <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage, boolean shouldEqual) {
         MapArray<String, String> expected = objToSetValue(entity).where((k,value) -> value != null);
         assertAction("Check that Collections are equal",
                 () -> actual != null && expected != null && (!shouldEqual || actual.size() == expected.size())
@@ -246,8 +246,28 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             return FOUND;
         }, failMessage, false);
     }
-    public <T> void arrayEquals(T actual, T expected) {
-        arrayEquals(actual, expected, null);
+    public void isSortedByAsc(int[] array, String failMessage) {
+        if (array == null || array.length == 0)
+            throw exception("isSortedByAsc failed because array have no elements or null");
+        assertAction("Check tat array sorted by ascending",
+                () -> {
+                    for (int i = 1; i < array.length; i++)
+                        if (array[i] < array[i - 1])
+                            return format("Array not sorted by ascending. a[%s] > a[%s]", i - 1, i);
+                    return FOUND;
+                }, failMessage, false);
+    }
+    public void isSortedByDesc(int[] array, String failMessage) {
+        if (array == null || array.length == 0)
+            throw exception("isSortedByAsc failed because array have no elements or null");
+        assertAction("Check tat array sorted by ascending",
+                () -> {
+                    for (int i = 1; i < array.length; i++)
+                        if (array[i] > array[i - 1])
+                            return format("Array not sorted by ascending. a[%s] < a[%s]", i - 1, i);
+                    return FOUND;
+                }, failMessage, false);
+
     }
 
     // ListProcessor

@@ -17,7 +17,27 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     @JDIAction
     void submit(String text);
     @JDIAction
-    default void add(String text) {submit(text);}
+    void submit(String text, String buttonName);
+    @JDIAction
+    default void login(String text) { submit(text, "login"); }
+    @JDIAction
+    default void add(String text) { submit(text, "add"); }
+    @JDIAction
+    default void publish(String text) { submit(text, "publish"); }
+    @JDIAction
+    default void save(String text) { submit(text, "save"); }
+    @JDIAction
+    default void update(String text) { submit(text, "update"); }
+    @JDIAction
+    default void cancel(String text) { submit(text, "cancel"); }
+    @JDIAction
+    default void close(String text) { submit(text, "close"); }
+    @JDIAction
+    default void back(String text) { submit(text, "back"); }
+    @JDIAction
+    default void select(String text) { submit(text, "select"); }
+    @JDIAction
+    default void next(String text) { submit(text, "next"); }
     /** Fill all SetValue elements and click on Button “submit” <br>
      *  To use this option Form pageObject should have only one IButton Element */
     @JDIAction
@@ -38,6 +58,8 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     default void close(T entity) { submit(entity, "close"); }
     @JDIAction
     default void back(T entity) { submit(entity, "back"); }
+    @JDIAction
+    default void select(T entity) { submit(entity, "select"); }
     @JDIAction
     default void next(T entity) { submit(entity, "next"); }
     /** Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>

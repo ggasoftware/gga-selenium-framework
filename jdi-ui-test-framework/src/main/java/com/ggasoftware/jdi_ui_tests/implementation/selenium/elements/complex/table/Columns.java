@@ -12,6 +12,7 @@ import java.util.List;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.index;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
 /**
@@ -23,13 +24,19 @@ public class Columns extends TableLine {
         elementIndex = ElementIndexType.Nums;
     }
 
-    protected By columnTemplate = By.xpath(".//tr/td[%s]");
     protected By columnsHeadersTemplate = By.xpath(".//th");
+    protected By columnTemplate = By.xpath(".//tr/td[%s]");
+    protected By columnNameTemplate = null;
     protected List<WebElement> getHeadersAction() {
         return table.getWebElement().findElements(columnsHeadersTemplate);
     }
     protected List<WebElement> getColumnAction(int colNum) {
         return table.getWebElement().findElements(fillByTemplate(columnTemplate, colNum));
+    }
+    protected List<WebElement> getColumnAction(String colName) {
+        return (columnNameTemplate == null)
+            ? getColumnAction(index(headers, colName) + 1)
+            : table.getWebElement().findElements(fillByTemplate(columnNameTemplate, colName));
     }
 
     private RuntimeException throwColsException(String colName, String ex) {
@@ -37,12 +44,16 @@ public class Columns extends TableLine {
     }
     public final MapArray<String, ICell> getRow(String rowName) {
         try {
-            String[] headers = table.rows().headers();
-            List<WebElement> webRow = table.rows().getRowAction(index(headers, rowName) + 1);
+            String[] headers = headers();
+            List<WebElement> webRow = table.rows().getRowAction(rowName);
             return new MapArray<>(count(),
-                    key -> headers()[key],
-                    value -> table.cell(webRow.get(value), new Column(headers()[value]), new Row(rowName)));
+                    key -> headers[key],
+                    value -> table.cell(webRow.get(value), new Column(headers[value]), new Row(rowName)));
         }
+        catch (Throwable ex) { throw throwColsException(rowName, ex.getMessage()); }
+    }
+    public List<String> getRowValue(String rowName) {
+        try { return select(table.rows().getRowAction(rowName), WebElement::getText); }
         catch (Throwable ex) { throw throwColsException(rowName, ex.getMessage()); }
     }
     public final MapArray<String, String> getRowAsText(String rowName) {
@@ -64,6 +75,12 @@ public class Columns extends TableLine {
                     key -> headers()[key],
                     value -> table.cell(webRow.get(value), new Column(value+1), new Row(rowNum)));
         }
+        catch (Throwable ex) { throw throwColsException(rowNum + "", ex.getMessage()); }
+    }
+    public List<String> getRowValue(int rowNum) {
+        if (count() < 0 || count() < rowNum || rowNum <= 0)
+            throw exception("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, count());
+        try { return select(table.rows().getRowAction(rowNum), WebElement::getText); }
         catch (Throwable ex) { throw throwColsException(rowNum + "", ex.getMessage()); }
     }
     public final MapArray<String, String> getRowAsText(int rowNum) {

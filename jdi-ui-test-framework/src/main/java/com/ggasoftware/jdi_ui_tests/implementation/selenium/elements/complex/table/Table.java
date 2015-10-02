@@ -36,6 +36,12 @@ public class Table extends Text implements ITable {
         _columns.table = this;
         _rows.table = this;
     }
+    public Table(By header, By row, By column) {
+        this(null);
+        _columns.columnNameTemplate = column;
+        _columns.columnsHeadersTemplate = header;
+        _rows.rowTemplate = row;
+    }
     public Table(By tableLocator, By cellLocatorTemplate) {
         this(tableLocator);
         this.cellLocatorTemplate = cellLocatorTemplate;
@@ -74,6 +80,8 @@ public class Table extends Text implements ITable {
     public Columns columns() { return _columns; }
     public MapArray<String, ICell> column(int colNum) { return rows().getColumn(colNum); }
     public MapArray<String, ICell> column(String colName) { return rows().getColumn(colName); }
+    public List<String> columnValue(int colNum) { return rows().getColumnValue(colNum); }
+    public List<String> columnValue(String colName) { return rows().getColumnValue(colName); }
 
     private MapArray<String, ICell> column(Column column) { return column.get(this::column, this::column); }
 
@@ -83,6 +91,8 @@ public class Table extends Text implements ITable {
     public Rows rows() { return _rows; }
     public MapArray<String, ICell> row(int rowNum) { return columns().getRow(rowNum); }
     public MapArray<String, ICell> row(String rowName) { return columns().getRow(rowName); }
+    public List<String> rowValue(int rowNum) { return columns().getRowValue(rowNum); }
+    public List<String> rowValue(String rowName) { return columns().getRowValue(rowName); }
 
     private MapArray<String, ICell> row(Row row) { return row.get(this::row, this::row); }
     public void setRows(Rows value) { _rows.update(value); }

@@ -203,10 +203,14 @@ public class LinqUtils {
             throw new RuntimeException("Can't do toStringArray. Collection is Null");
         return collection.toArray(new String[collection.size()]);
     }
-    public static Integer[] toIntArray(Collection<Integer> collection) {
+    public static int[] toIntArray(Collection<Integer> collection) {
         if (collection == null)
             throw new RuntimeException("Can't do toIntArray. Collection is Null");
-        return collection.toArray(new Integer[collection.size()]);
+        int[] result = new int[collection.size()];
+        int i = 0;
+        for (Integer el : collection)
+            result[i++] = el;
+        return result;
     }
     public static int index(String[] array, String value) {
         if (array == null)

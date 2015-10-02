@@ -1,8 +1,12 @@
 package com.ggasoftware.jdi_ui_tests.core.asserter;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 
 import java.util.Collection;
+import java.util.List;
+
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.toIntArray;
 
 /**
  * Created by Roman_Iovlev on 8/28/2015.
@@ -29,7 +33,22 @@ public interface IChecker {
     <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage);
     <T> void listEquals(Collection<T> actual, Collection<T> expected);
     <T> void arrayEquals(T actual, T expected, String failMessage);
-    <T> void arrayEquals(T actual, T expected);
+    default <T> void arrayEquals(T actual, T expected) { arrayEquals(actual, expected, null); }
+    <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage);
+    default <T> void entityIncludeMap(MapArray<String, String> actual, T entity) {
+        entityEqualsToMap(actual, entity, null); }
+    <T> void entityEqualsToMap(MapArray<String, String> actual, T entity, String failMessage);
+    default <T> void entityEqualsToMap(MapArray<String, String> actual, T entity) {
+        entityEqualsToMap(actual, entity, null); }
+    void isSortedByAsc(int[] array, String failMessage);
+    default void isSortedByAsc(int[] array) { isSortedByAsc(array, null); }
+    default void isSortedByAsc(List<Integer> array, String failMessage) { isSortedByAsc(toIntArray(array), failMessage); }
+    default void isSortedByAsc(List<Integer> array) { isSortedByAsc(toIntArray(array)); }
+
+    void isSortedByDesc(int[] array, String failMessage);
+    default void isSortedByDesc(int[] array) { isSortedByDesc(array, null); }
+    default void isSortedByDesc(List<Integer> array, String failMessage) { isSortedByDesc(toIntArray(array), failMessage); }
+    default void isSortedByDesc(List<Integer> array) { isSortedByDesc(toIntArray(array)); }
 
     <T> void areEquals(JFuncT<T> actual, T expected, String failMessage);
     <T> void areEquals(JFuncT<T> actual, T expected);

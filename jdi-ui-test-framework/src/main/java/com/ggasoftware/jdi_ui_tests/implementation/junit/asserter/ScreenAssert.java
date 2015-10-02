@@ -2,6 +2,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.junit.asserter;
 
 import com.ggasoftware.jdi_ui_tests.core.asserter.BaseChecker;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 
 import java.util.Collection;
 import java.util.List;
@@ -96,6 +97,19 @@ public class ScreenAssert {
     public static <T> void listEquals(Collection<T> actual, Collection<T> expected) { getAssert().listEquals(actual, expected); }
     public static <T> void arrayEquals(T actual, T expected, String failMessage) { getAssert().arrayEquals(actual, expected, failMessage); }
     public static <T> void arrayEquals(T actual, T expected) { getAssert().arrayEquals(actual, expected); }
+
+    public static <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage) { getAssert().entityIncludeMap(actual, entity, failMessage); }
+    public static <T> void entityIncludeMap(MapArray<String, String> actual, T entity) { getAssert().entityIncludeMap(actual, entity); }
+    public static <T> void entityEqualsToMap(MapArray<String, String> actual, T entity, String failMessage) { getAssert().entityEqualsToMap(actual, entity, failMessage); }
+    public static <T> void entityEqualsToMap(MapArray<String, String> actual, T entity) { getAssert().entityEqualsToMap(actual, entity); }
+    public static void isSortedByAsc(int[] array, String failMessage) { getAssert().isSortedByAsc(array, failMessage); }
+    public static void isSortedByAsc(int[] array) { getAssert().isSortedByAsc(array); }
+    public static void isSortedByDesc(int[] array, String failMessage) { getAssert().isSortedByDesc(array, failMessage); }
+    public static void isSortedByDesc(int[] array) { getAssert().isSortedByDesc(array); }
+    public static void isSortedByAsc(List<Integer> array, String failMessage) { getAssert().isSortedByAsc(array, failMessage); }
+    public static void isSortedByAsc(List<Integer> array) { getAssert().isSortedByAsc(array); }
+    public static void isSortedByDesc(List<Integer> array, String failMessage) { getAssert().isSortedByDesc(array, failMessage); }
+    public static void isSortedByDesc(List<Integer> array) { getAssert().isSortedByDesc(array); }
 
     public static BaseChecker.ListChecker eachElementOf(List<Object> list) { return getAssert().eachElementOf(list); }
     public static BaseChecker.ListChecker eachElementOf(Object[] array) { return getAssert().eachElementOf(array); }

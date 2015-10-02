@@ -16,7 +16,6 @@ import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
-import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 9/3/2015.

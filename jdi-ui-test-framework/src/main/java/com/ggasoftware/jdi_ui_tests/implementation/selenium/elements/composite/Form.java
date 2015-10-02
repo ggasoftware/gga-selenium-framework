@@ -1,5 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite;
 
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionTT;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Element;
@@ -15,7 +16,6 @@ import java.util.List;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.foreach;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
@@ -78,6 +78,10 @@ public class Form<T> extends Element implements IForm<T> {
         fill(objToSetValue(entity));
         getElement.getButton(buttonName).click();
     }
+    public void submit(String text, String buttonName) {
+        setText(text);
+        getElement.getButton(buttonName).click();
+    }
     public void submit(T entity, Enum buttonName) {
         fill(objToSetValue(entity));
         getElement.getButton(buttonName.toString().toLowerCase()).click();
@@ -97,7 +101,7 @@ public class Form<T> extends Element implements IForm<T> {
     }
 
     protected void setValueAction(String value) { submit(parseObjectAsString(value)); }
-    protected String getValueAction() { return print(select(getFields(this, IHasValue.class), field ->
+    protected String getValueAction() { return print(LinqUtils.select(getFields(this, IHasValue.class), field ->
             ((IHasValue) getFieldValue(field, this)).getValue())); }
 
     public final String getValue() { return actions.getValue(this::getValueAction); }
