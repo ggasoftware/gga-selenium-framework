@@ -35,7 +35,7 @@ public class Columns extends TableLine {
     }
     protected List<WebElement> getColumnAction(String colName) {
         return (columnNameTemplate == null)
-            ? getColumnAction(index(headers, colName) + 1)
+            ? getColumnAction(index(headers(), colName) + 1)
             : table.getWebElement().findElements(fillByTemplate(columnNameTemplate, colName));
     }
 

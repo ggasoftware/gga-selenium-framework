@@ -53,9 +53,10 @@ abstract class TableLine extends Element implements ITableLine {
         if (headers != null)
             return headers;
         String[] localHeaders = Timer.getResultAction(this::getHeadersTextAction);
-        setHeaders((hasHeader)
+        localHeaders = (hasHeader)
             ? localHeaders
-            : getNumList(localHeaders.length));
+            : getNumList(localHeaders.length);
+        setHeaders(localHeaders);
         if (localHeaders == null || localHeaders.length == 0)
             throw exception("Can't get headers for Table");
         setCount(localHeaders.length);

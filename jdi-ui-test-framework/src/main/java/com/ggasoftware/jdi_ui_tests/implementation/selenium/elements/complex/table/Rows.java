@@ -35,7 +35,7 @@ public class Rows extends TableLine {
     }
     protected List<WebElement> getRowAction(String rowName) {
         return (rowNameTemplate == null)
-                ? getRowAction(index(headers, rowName) + 1)
+                ? getRowAction(index(headers(), rowName) + 1)
                 : table.getWebElement().findElements(fillByTemplate(rowNameTemplate, rowName));
     }
 
