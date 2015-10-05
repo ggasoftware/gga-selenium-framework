@@ -68,7 +68,7 @@ public class Rows extends TableLine {
     }
 
     public final MapArray<String, ICell> getColumn(int colNum) {
-        if (count() < 0 || count() < colNum || colNum <= 0)
+        if (count() < 0 || table.columns().count() < colNum || colNum <= 0)
             throw exception("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, count());
         try {
             List<WebElement> webColumn = table.columns().getColumnAction(colNum);
