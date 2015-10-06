@@ -34,8 +34,8 @@ public class BaseScenario {
 	public static void baseWait3TextMatchTest(final InitTests test, final String regex, final String expected) {
 		try {
 			isInState(SUPPORT_PAGE);
-			final IText t = test.textElement();
 			runParallel(test._onPage::open);
+			final IText t = test.textElement();
 			checkText(() -> t.waitMatchText(regex), expected);
 			isTrue(timer.timePassedInMSec() > waitTimeOut);
 		} catch (final Exception e) {
