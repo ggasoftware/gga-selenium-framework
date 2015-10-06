@@ -2,7 +2,6 @@ package com.epam.jdi_tests.tests.complex.tableTests;
 
 import com.epam.jdi_tests.InitTests;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
-import com.sun.org.apache.xml.internal.security.Init;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.IOException;

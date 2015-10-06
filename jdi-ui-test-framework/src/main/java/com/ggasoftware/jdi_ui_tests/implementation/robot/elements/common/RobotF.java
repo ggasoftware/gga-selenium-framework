@@ -28,6 +28,7 @@ public class RobotF {
             sleep(1000);
             robotInstance.keyPress(VK_CONTROL);
             robotInstance.keyPress(VK_V);
+            
             robotInstance.keyRelease(VK_CONTROL);
             robotInstance.keyPress(VK_ENTER);
             robotInstance.keyRelease(VK_ENTER);
