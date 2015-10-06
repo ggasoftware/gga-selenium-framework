@@ -257,11 +257,11 @@ public class Table extends Text implements ITable {
 
     public MapArray<String, ICell> column(String value, Row row) {
         ICell columnCell = cell(value, row);
-        return columnCell != null ? columns().getRow(columnCell.columnNum()) : null;
+        return columnCell != null ? rows().getColumn(columnCell.columnNum()) : null;
     }
     public MapArray<String, ICell> row(String value, Column column) {
         ICell rowCell = cell(value, column);
-        return rowCell != null ? rows().getColumn(rowCell.rowNum()) : null;
+        return rowCell != null ? columns().getRow(rowCell.rowNum()) : null;
     }
 
     private int getColumnIndex(String name) {

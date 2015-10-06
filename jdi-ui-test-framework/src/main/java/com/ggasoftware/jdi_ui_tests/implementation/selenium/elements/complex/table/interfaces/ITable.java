@@ -15,7 +15,7 @@ import java.util.List;
  * Created by roman.i on 20.10.2014.
  */
 
-public interface ITable<T extends SelectElement> extends IText {
+public interface ITable extends IText {
     /** Get Cell by column/row index (Int) or name(String) */
     @JDIAction
     ICell cell(Column column, Row row);

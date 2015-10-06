@@ -2,18 +2,27 @@ package com.epam.jdi_tests.tests.complex.tableTests;
 
 import com.epam.jdi_tests.InitTests;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Columns;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
+import javafx.scene.control.Cell;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.supportPage;
+import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
 
 /**
  * Created by Natalia_Grebenshchikova on 10/5/2015.
@@ -24,6 +33,42 @@ public class ColumnTests extends InitTableTests{
     public void findAllColumns(){
         Columns columns = support().columns();
         Assert.areEquals(columns.count(), 3, String.format("Expected to find 3 columns, but was %d", columns.count()));
+    }
+
+    @Test
+    public void getCellsColumnByColumnNumber(){
+        List<String> expectedColumnsValue = Arrays.asList("Selenium Custom", "TestNG, JUnit Custom", "TestNG, JUnit, Custom", "Log4J, TestNG log, Custom", "Jenkins, Allure, Custom", "Custom");
+
+        MapArray<String, ICell> cellColumns = support().column(2);
+
+        Assert.areEquals(cellColumns.count(),6, String.format("Expected number of cell expected to be 6, but was ",cellColumns.count()));
+
+        for (int i=0; i<6; i++)
+            Assert.areEquals(   cellColumns.value(i).getValue(),
+                                expectedColumnsValue.get(i),
+                                String.format("Expected content for row %d is '%s', but was %s", i+1, expectedColumnsValue.get(i), cellColumns.value(i).getValue()));
+
+    }
+    @Test
+    public void getCellsColumnByColumnName(){
+        List<String> expectedColumnsValue = Arrays.asList("Selenium Custom", "TestNG, JUnit Custom", "TestNG, JUnit, Custom", "Log4J, TestNG log, Custom", "Jenkins, Allure, Custom", "Custom");
+
+        MapArray<String, ICell> cellColumns = support().column("Now");
+
+        Assert.areEquals(cellColumns.count(),6, String.format("Nnumber of cell expected to be 6, but was ",cellColumns.count()));
+
+        for (int i=0; i<6; i++)
+            Assert.areEquals(   cellColumns.value(i).getValue(),
+                                expectedColumnsValue.get(i),
+                                String.format("Expected content for row %d is '%s', but was %s", i + 1, expectedColumnsValue.get(i), cellColumns.value(i).getValue()));
+
+    }
+
+    @Test
+    public void verifyColumnsCount(){
+        int actualColNumber = support().columns().count();
+
+        Assert.areEquals(actualColNumber, 3, String.format("Expected number of columns 3, but was %d", actualColNumber));
     }
 
     @Test
@@ -51,5 +96,12 @@ public class ColumnTests extends InitTableTests{
                         "4:Epam, XML/Json logging, Hyper logging, " +
                         "5:EPAM Report portal, Serenity, TimCity, Hudson, " +
                         "6:Cucumber, Jbehave, Thucydides, SpecFlow");
+    }
+
+    @Test
+    public void getColumnByRowAndValue(){
+        MapArray<String, ICell> column = support().column("Logger", row(4));
+
+        Assert.areEquals("Type", column.get(0).value.columnName(), String.format("Expected column name is 'Type', but was %s", column.get(0).value.columnName()));
     }
 }
