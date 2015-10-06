@@ -4,3 +4,4 @@ target/
 *.zip
 *.exe
 .logs/
+*.xlsx
