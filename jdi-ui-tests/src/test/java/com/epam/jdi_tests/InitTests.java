@@ -22,7 +22,7 @@ public class InitTests extends TestNGBase {
     public static void setUp() throws Exception {
         driverFactory.driversPath = "jdi-ui-tests\\src\\main\\resources";
         initJDIFromProperties();
-        Assert.noScreenOnFail();
+        //Assert.noScreenOnFail();
         Init(EpamJDISite.class);
         homePage.open();
         login.submit(DEFAULT_USER);

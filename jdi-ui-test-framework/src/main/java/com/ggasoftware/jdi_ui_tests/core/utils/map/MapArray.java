@@ -252,7 +252,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     }
     public MapArray<K, V> copy() { return clone(); }
 
-    public <T1> Collection<T1> select(JFuncTTT<K,V, T1> func) {
+    public <T1> List<T1> select(JFuncTTT<K,V, T1> func) {
         try {
             return pairs.stream()
                     .map(pair -> func.invoke(pair.key, pair.value))
