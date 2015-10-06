@@ -1,22 +1,29 @@
 package com.epam.jdi_tests.page_objects;
 
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
+import static java.lang.String.format;
+
+import java.lang.reflect.Method;
+
+import org.openqa.selenium.support.FindBy;
+
 import com.epam.jdi_tests.enums.Preconditions;
-import com.epam.jdi_tests.page_objects.pages.*;
+import com.epam.jdi_tests.page_objects.pages.ContactForm;
+import com.epam.jdi_tests.page_objects.pages.DatesPage;
+import com.epam.jdi_tests.page_objects.pages.HomePage;
+import com.epam.jdi_tests.page_objects.pages.Login;
+import com.epam.jdi_tests.page_objects.pages.MetalsColorsPage;
+import com.epam.jdi_tests.page_objects.pages.SupportPage;
 import com.epam.jdi_tests.page_objects.sections.Footer;
 import com.epam.jdi_tests.page_objects.sections.Header;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.TextList;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Site;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JPage;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JSite;
-import org.openqa.selenium.support.FindBy;
+
 import ru.yandex.qatools.allure.annotations.Step;
-
-import java.lang.reflect.Method;
-
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
-import static java.lang.String.format;
 
 /**
  * Created by Maksim_Palchevskii on 9/10/2015.
@@ -43,20 +50,19 @@ public class EpamJDISite extends Site {
     @FindBy(css = ".logs li")
     public static TextList actionsLog;
 
-
     @Step
-    public static void isInState(Preconditions condition, Method method) {
+    public static void isInState(final Preconditions condition, final Method method) {
         testName = method.getName();
         isInState(condition);
     }
     @Step
-    public static void isInState(Preconditions condition) {
+    public static void isInState(final Preconditions condition) {
         try {
             logger.test("Move to condition: " + condition);
             if (condition.checkAction.invoke())
                 return;
             condition.moveToAction.invoke();
             logger.test(format("Condition '%s' achieved", condition));
-        } catch (Exception ex) { throw asserter.exception(format("Can't reach state: %s. Exception: %s", condition, ex.getMessage())); }
+        } catch (final Exception ex) { throw asserter.exception(format("Can't reach state: %s. Exception: %s", condition, ex.getMessage())); }
     }
 }

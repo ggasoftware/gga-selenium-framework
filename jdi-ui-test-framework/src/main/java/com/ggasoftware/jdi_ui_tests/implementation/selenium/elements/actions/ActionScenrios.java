@@ -3,14 +3,15 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.actions;
 
 import com.ggasoftware.jdi_ui_tests.core.logger.base.LogSettings;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.*;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
 
 import static com.ggasoftware.jdi_ui_tests.core.reporting.PerformanceStatistic.addStatistic;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.alwaysDoneAction;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.sleep;
 import static java.lang.String.format;
 
 /**
@@ -24,7 +25,6 @@ public class ActionScenrios {
     }
 
     public void actionScenario(String actionName , JAction jAction, LogSettings logSettings) {
-        sleep(100);
         element.logAction(actionName, logSettings);
         Timer timer = new Timer();
         alwaysDoneAction(jAction::invoke);
@@ -33,7 +33,6 @@ public class ActionScenrios {
     }
 
     public <TResult> TResult resultScenario(String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
-        sleep(100);
         element.logAction(actionName);
         Timer timer = new Timer();
         TResult result = Timer.getResultAction(jAction::invoke);

@@ -5,13 +5,14 @@ import com.ggasoftware.jdi_ui_tests.core.asserter.IAsserter;
 import com.ggasoftware.jdi_ui_tests.core.logger.ListLogger;
 import com.ggasoftware.jdi_ui_tests.core.logger.base.ILogger;
 import com.ggasoftware.jdi_ui_tests.core.testRunner.ITestRunner;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.implementation.log4j.logger.Log4JLogger;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.DriverTypes;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.SeleniumDriverFactory;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Check;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.logger.TestNGLogger;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.testRunner.TestNGRunner;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import static com.ggasoftware.jdi_ui_tests.core.asserter.DoScreen.SCREEN_ON_FAIL;
@@ -32,7 +33,7 @@ public class JDISettings {
     public static HighlightSettings highlightSettings = new HighlightSettings();
     public static boolean shortLogMessagesFormat = true;
 
-    public static void useDriver(JFuncT<WebDriver> driver) { driverFactory.registerDriver(driver); }
+    public static void useDriver(WebDriver driver) { driverFactory.registerDriver(() -> driver); }
     public static void useDriver(DriverTypes driver)  { driverFactory.registerDriver(driver); }
     public static void useDriver(String driverName)  { driverFactory.registerDriver(driverName); }
 
@@ -56,6 +57,14 @@ public class JDISettings {
         return domain != null && domain.contains("://");
     }
     public static WebDriver getDriver() { return driverFactory.getDriver(); }
+    
+    public static JavascriptExecutor getJSExecutor() {
+    	if(driverFactory.getDriver() instanceof JavascriptExecutor){
+    		return (JavascriptExecutor)driverFactory.getDriver();
+    		} else {
+    			throw new ClassCastException("JavaScript doesn't support.");
+    			}
+    	}
 
     public static void newTest() { exceptionThrown = false; }
     public static boolean exceptionThrown = false;
