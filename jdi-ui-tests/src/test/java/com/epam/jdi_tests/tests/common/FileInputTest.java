@@ -1,18 +1,9 @@
 package com.epam.jdi_tests.tests.common;
 
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static java.net.URLDecoder.decode;
-import static org.junit.Assert.*;
-
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.epam.jdi_tests.BaseScenarioInput;
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.page_objects.EpamJDISite;

@@ -26,7 +26,7 @@ public class InitTests extends TestNGBase {
     @BeforeSuite(alwaysRun = true)
     public static void setUp() throws Exception {
         initJDIFromProperties();
-        Assert.noScreenOnFail();
+        //Assert.noScreenOnFail();
         Init(EpamJDISite.class);
         homePage.open();
         login.submit(DEFAULT_USER);

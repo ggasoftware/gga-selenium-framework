@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
@@ -31,11 +32,10 @@ public class RowTests extends InitTableTests {
     }
     @Test
     public void findAllRowsWithRepeatableWord(){
-        MapArray<String, MapArray<String, ICell>> rows = support().rows("Now=Custom");
+        MapArray<String, MapArray<String, ICell>> rows = support().rows("Plans=Cucumber, Jbehave, Thucydides, SpecFlow");
 
-        Assert.areEquals(rows.size(),1,String.format("Number of found element expectde to 1, but was %d", rows.size()));
-        Assert.areEquals(rows.value(0).value(0).columnNum(),2,"Wrong element`s position, expected 2, but was "+rows.value(0).value(0).columnNum());
-        Assert.areEquals(rows.value(0).value(0).rowNum(),6,"Wrong element`s position, expected 6, but was "+rows.value(0).value(0).rowNum());
+        Assert.areEquals(rows.size(),1,String.format("Number of found element expected to 1, but was %d", rows.size()));
+        Assert.areEquals(rows.key(0),"6",String.format("Expected row number is '6', but was '%s'", rows.key(0)));
     }
     @Test
     public void findAllRowsWithSameValue(){
@@ -43,11 +43,8 @@ public class RowTests extends InitTableTests {
 
         Assert.areEquals(rows.size(),2,String.format("Number of found element expectde to 2, but was %d", rows.size()));
 
-        Assert.areEquals(rows.value(0).value(0).columnNum(),3,"Wrong element`s position, expected 3, but was "+rows.value(0).value(0).columnNum());
-        Assert.areEquals(rows.value(0).value(0).rowNum(),2,"Wrong element`s position, expected 2, but was "+rows.value(0).value(0).rowNum());
-
-        Assert.areEquals(rows.value(1).value(0).columnNum(),3,"Wrong element`s position, expected 3, but was "+rows.value(0).value(0).columnNum());
-        Assert.areEquals(rows.value(1).value(0).rowNum(),3,"Wrong element`s position, expected 3, but was "+rows.value(0).value(0).rowNum());
+        Assert.areEquals(rows.key(0),"2",String.format("Expected row 1 number is '2', but was '%s'", rows.key(0)));
+        Assert.areEquals(rows.key(1),"3",String.format("Expected row 2 number is '3', but was '%s'", rows.key(1)));
     }
 
     @Test
@@ -113,6 +110,42 @@ public class RowTests extends InitTableTests {
                         "Type:BDD/DSL, " +
                         "Now:Custom, " +
                         "Plans:Cucumber, Jbehave, Thucydides, SpecFlow");
+    }
+
+    @Test
+    public void verifyCellsRowByRowNumber(){
+        List<String> expectedRowsValue = Arrays.asList("Asserter", "TestNG, JUnit, Custom", "MSTest, NUnit, Epam");
+
+        MapArray<String, ICell> cellRows = support().row(3);
+
+        Assert.areEquals(cellRows.count(),3, String.format("Number of cell expected to be 3, but was ",cellRows.count()));
+
+        for (int i=0; i<3; i++)
+            Assert.areEquals(   cellRows.value(i).getValue(),
+                    expectedRowsValue.get(i),
+                    String.format("Expected content for row %d is '%s', but was %s", i+1, expectedRowsValue.get(i), cellRows.value(i).getValue()));
+
+    }
+    @Test
+    public void verifyCellsRowByRowName(){
+        List<String> expectedRowsValue = Arrays.asList("Asserter", "TestNG, JUnit, Custom", "MSTest, NUnit, Epam");
+
+        MapArray<String, ICell> cellRows = support().row("3");
+
+        Assert.areEquals(cellRows.count(),3, String.format("Name of cell expected to be 3, but was ",cellRows.count()));
+
+        for (int i=0; i<3; i++)
+            Assert.areEquals(   cellRows.value(i).getValue(),
+                    expectedRowsValue.get(i),
+                    String.format("Expected content for row %d is '%s', but was %s", i+1, expectedRowsValue.get(i), cellRows.value(i).getValue()));
+
+    }
+
+    @Test
+    public void verifyRowCount(){
+        int actualRowCount = support().rows().count();
+
+        Assert.areEquals(actualRowCount, 6, String.format("Expected number of rows is 6, but found %d", actualRowCount));
     }
 
 }
