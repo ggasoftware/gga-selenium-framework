@@ -14,8 +14,8 @@ public class DatesPage extends Page {
 
 	@FindBy(xpath = "//*[@id=\"datepicker\"]/input")
 	public IDatePicker _datepicker;
-	@FindBy(xpath = "/html/body/div/div/main/div[2]/div/form/div[3]/div[2]/div[2]")
+	@FindBy(xpath = ".//div[@data-provides=\"fileinput\"]")
 	public IFileInput _imageInput;
-	@FindBy(xpath = "/html/body/div/div/main/div[2]/div/form/div[3]/div[2]/div[2]")
+	@FindBy(xpath = ".//div[@data-provides=\"fileinput\"]")
 	public RFileInput _rImageInput;
 }

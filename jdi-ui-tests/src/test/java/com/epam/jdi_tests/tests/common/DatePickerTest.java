@@ -5,6 +5,7 @@ import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.dataproviders.DatePickerDP;
 import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.page_objects.EpamJDISite;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IDatePicker;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -67,7 +68,7 @@ public class DatePickerTest extends InitTests {
 
 	@Test
 	public void newInputTest() throws Exception {
-		BaseScenarioInput.newInputTest(this, DatePickerDP.currentDate());
+		BaseScenarioInput.newInputTest(this, Timer.nowTime("MM/dd/yyyy"));
 	}
 
 	@Test
@@ -77,7 +78,7 @@ public class DatePickerTest extends InitTests {
 
 	@Test
 	public void multiKeyTest() throws Exception {
-		BaseScenarioInput.multiKeyTest(this, DatePickerDP.currentDate());
+		BaseScenarioInput.multiKeyTest(this, Timer.nowTime("MM/dd/yyyy"));
 	}
 	// !INPUT
 

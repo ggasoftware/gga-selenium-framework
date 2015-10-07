@@ -1,5 +1,6 @@
 package com.epam.jdi_tests.enums;
 
+import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 
@@ -28,7 +29,7 @@ public enum Preconditions {
     DATES_PAGE(() -> checkUrl("page4.html"), () -> {
     	openUri("page4.htm");
 		((org.openqa.selenium.JavascriptExecutor) com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.getDriver())
-		.executeScript("arguments[0].value = arguments[1]", dates._datepicker.getWebElement(), "");
+		.executeScript("arguments[0].value = arguments[1]", dates._datepicker.getWebElement(), Timer.nowTime("MM/dd/yyyy"));
     });
 	public String _htmlPageName;
     public JFuncT<Boolean> checkAction;

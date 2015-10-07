@@ -9,15 +9,8 @@ import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.page_objects.EpamJDISite;
 import com.ggasoftware.jdi_ui_tests.implementation.robot.elements.common.RFileInput;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IFileInput;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.lang.reflect.Method;
-
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
 
-// TODO 
 public class FileInputTest extends InitTests {
 
 	public FileInputTest() {
@@ -25,7 +18,7 @@ public class FileInputTest extends InitTests {
 	}
 
 	@BeforeMethod
-	public void before(final Method method) throws Exception {
+	public void before(final Method method) {
 		isInState(_onPage, method);
 	}
 
