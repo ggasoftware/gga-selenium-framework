@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.checText;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkText;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.runParallel;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.waitTimeOut;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
@@ -63,7 +63,7 @@ public class WaiterTests extends  InitTableTests{
         support().clean();
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
-        checText(() -> support().cell(column(2),row(2)).waitText("TestNG, JUnit Custom"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2),row(2)).waitText("TestNG, JUnit Custom"), "TestNG, JUnit Custom");
 
         isTrue(timer.timePassedInMSec() > waitTimeOut);
     }
@@ -73,7 +73,7 @@ public class WaiterTests extends  InitTableTests{
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
 
-        checText(() -> support().cell(column(2),row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2),row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
     }
     @Test
     public void waitHaveRows() {
