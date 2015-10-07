@@ -1,5 +1,6 @@
 package com.epam.jdi_tests.page_objects.pages;
 
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.CheckBox;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
@@ -38,7 +39,10 @@ public class MetalsColorsPage extends Page {
 	@FindBy(css = "#elements-checklist label")
 	public ICheckList<Nature> nature;
 
-	@FindBy(xpath = "//*[@id=\"elements-checklist\"]/p[1]/label")
-	public ICheckBox cbWater;
+	@FindBy(css = "#elements-checklist input")
+	public ICheckBox cbWater = new CheckBox() {
+	@Override
+	protected boolean isCheckedAction() { return getWebElement().getAttribute("checked") != null; }
+	};
 
 }
