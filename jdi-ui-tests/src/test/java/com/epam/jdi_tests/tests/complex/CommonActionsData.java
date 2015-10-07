@@ -1,21 +1,15 @@
 package com.epam.jdi_tests.tests.complex;
 
-import static com.epam.jdi_tests.page_objects.EpamJDISite.actionsLog;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.assertContains;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.exception;
-
-import java.io.File;
-
-import org.openqa.selenium.WebDriver;
-
-import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
-
 import ru.yandex.qatools.allure.annotations.Step;
+
+import java.io.File;
+
+import static com.epam.jdi_tests.page_objects.EpamJDISite.actionsLog;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.*;
 
 /**
  * Created by Roman_Iovlev on 9/18/2015.
@@ -38,10 +32,6 @@ public class CommonActionsData {
 
 	private static String _name = null;
 	private static String _path = null;
-
-	public static WebDriver getDriver() {
-		return JDISettings.getDriver();
-	}
 
 	public static long getTimePassed() {
 		return timer.timePassedInMSec();

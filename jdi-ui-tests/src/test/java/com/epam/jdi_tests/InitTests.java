@@ -33,7 +33,7 @@ public class InitTests extends TestNGBase {
         logger.init("Run Tests");
     }
      
-    public IText textElement() throws Exception{
-    	throw new Exception();
+    public IText textElement() throws RuntimeException{
+    	throw new RuntimeException();
     }
 }

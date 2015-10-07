@@ -1,22 +1,18 @@
 package com.epam.jdi_tests.tests.common;
 
-import static com.epam.jdi_tests.BaseScenario.baseWait3TextMatchTest;
-import static com.epam.jdi_tests.BaseScenario.baseWait3TextTest;
-import static com.epam.jdi_tests.BaseScenario.baseWaitTextMatchTest;
-import static com.epam.jdi_tests.BaseScenario.baseWaitTextTest;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-
-import java.lang.reflect.Method;
-
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.jdi_tests.BaseScenarioInput;
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.dataproviders.DatePickerDP;
 import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.page_objects.EpamJDISite;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IDatePicker;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.lang.reflect.Method;
+
+import static com.epam.jdi_tests.BaseScenario.*;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 
 public class DatePickerTest extends InitTests {
 
@@ -25,7 +21,7 @@ public class DatePickerTest extends InitTests {
 	}
 
 	@Override
-	public IDatePicker textElement() throws Exception {
+	public IDatePicker textElement() {
 		return EpamJDISite.dates._datepicker;
 	}
 
