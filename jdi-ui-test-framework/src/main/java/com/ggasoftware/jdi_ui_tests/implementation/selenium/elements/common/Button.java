@@ -26,7 +26,7 @@ import org.openqa.selenium.WebElement;
 public class Button extends ClickableText implements IButton {
     public Button() { }
     public Button(By byLocator) { super(byLocator); }
-    public Button(WebElement webElement) { super(webElement); }
+    public Button(WebElement webElement) { super(webElement);  }
 
     @Override
     protected String getTextAction() { return getWebElement().getAttribute("value"); }

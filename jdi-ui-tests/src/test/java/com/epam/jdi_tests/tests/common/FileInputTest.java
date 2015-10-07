@@ -7,9 +7,15 @@ import org.testng.annotations.Test;
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.page_objects.EpamJDISite;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
 import com.ggasoftware.jdi_ui_tests.implementation.robot.elements.common.RFileInput;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IFileInput;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.lang.reflect.Method;
+
+import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
 
 // TODO 
 public class FileInputTest extends InitTests {
@@ -24,23 +30,23 @@ public class FileInputTest extends InitTests {
 	}
 
 	@Override
-	public RFileInput textElement() throws Exception {
+	public RFileInput textElement() {
 		return EpamJDISite.dates._rImageInput;
 	}
 
-	public IFileInput robotInput() throws Exception {
+	public IFileInput robotInput() {
 		return EpamJDISite.dates._imageInput;
 	}
 	
 	// INPUT
 	@Test
-	public void inputTest() throws Exception {
+	public void inputTest() {
 		textElement().input(getFPath());
 		checkAction("FileUpload: file \""+ getFName() +"\" has been uploaded");
 	}
 	
 	@Test
-	public void sendKeysTest() throws Exception {
+	public void sendKeysTest() {
 		textElement().sendKeys(getFPath());
 		checkAction("FileUpload: file \""+ getFName() +"\" has been uploaded");
 	}
