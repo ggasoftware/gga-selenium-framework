@@ -1,28 +1,22 @@
 package com.epam.jdi_tests.tests.common;
 
-import static com.epam.jdi_tests.BaseScenario.baseGetTextTest;
-import static com.epam.jdi_tests.BaseScenario.baseGetValueTest;
-import static com.epam.jdi_tests.BaseScenario.baseWait3TextMatchTest;
-import static com.epam.jdi_tests.BaseScenario.baseWait3TextTest;
-import static com.epam.jdi_tests.BaseScenario.baseWaitTextMatchTest;
-import static com.epam.jdi_tests.BaseScenario.baseWaitTextTest;
-import static com.epam.jdi_tests.dataproviders.LabelDP.TEXT;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkCalculate;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.jdi_tests.BaseScenario;
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.dataproviders.AttrDP;
 import com.epam.jdi_tests.dataproviders.LabelDP;
 import com.epam.jdi_tests.enums.Preconditions;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+import static com.epam.jdi_tests.BaseScenario.*;
+import static com.epam.jdi_tests.dataproviders.LabelDP.TEXT;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkCalculate;
 
 public class ButtonTest extends InitTests {
 

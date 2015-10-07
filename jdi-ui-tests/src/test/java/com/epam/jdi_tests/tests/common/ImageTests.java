@@ -1,25 +1,22 @@
 package com.epam.jdi_tests.tests.common;
 
-import static com.epam.jdi_tests.enums.Preconditions.CONTACT_PAGE;
-import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.contactFormPage;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.homePage;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkText;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.getDriver;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import com.epam.jdi_tests.BaseScenario;
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.dataproviders.AttrDP;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IImage;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+import static com.epam.jdi_tests.enums.Preconditions.CONTACT_PAGE;
+import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkText;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.getDriver;
 
 /**
  * Created by Roman_Iovlev on 9/15/2015.

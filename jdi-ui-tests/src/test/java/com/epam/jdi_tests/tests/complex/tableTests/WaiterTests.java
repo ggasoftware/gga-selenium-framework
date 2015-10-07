@@ -1,21 +1,14 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.epam.jdi_tests.enums.Preconditions;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
 import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.checText;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.runParallel;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.waitTimeOut;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isFalse;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
 
@@ -63,7 +56,7 @@ public class WaiterTests extends  InitTableTests{
         support().clean();
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
-        checText(() -> support().cell(column(2),row(2)).waitText("TestNG, JUnit Custom"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2),row(2)).waitText("TestNG, JUnit Custom"), "TestNG, JUnit Custom");
 
         isTrue(timer.timePassedInMSec() > waitTimeOut);
     }
@@ -73,7 +66,7 @@ public class WaiterTests extends  InitTableTests{
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
 
-        checText(() -> support().cell(column(2),row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2), row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
     }
     @Test
     public void waitHaveRows() {
