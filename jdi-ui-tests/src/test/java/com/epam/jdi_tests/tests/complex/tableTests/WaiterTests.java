@@ -21,13 +21,13 @@ public class WaiterTests extends  InitTableTests{
     public void waitExpectedRowsValue(){
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow", row(6));
 
-        Assert.isTrue(rowValueExists,"waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Row 6 ");
+        Assert.isTrue(rowValueExists, "waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Row 6 ");
     }
     @Test
     public void waitUnexpectedRowsValue(){
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow Unexepected", row(6));
 
-        Assert.isTrue(!rowValueExists,"waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Row 6 ");
+        Assert.isTrue(!rowValueExists, "waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Row 6 ");
     }
 
     @Test
@@ -35,13 +35,13 @@ public class WaiterTests extends  InitTableTests{
 
         boolean columnValueExists = support().waitValue("Custom", column(2));
 
-        Assert.isTrue(columnValueExists,"waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Column 3 ");
+        Assert.isTrue(columnValueExists, "waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Column 3 ");
     }
     @Test
     public void waitUnexpectedColumnsValue(){
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow Unexepected", column(3));
 
-        Assert.isTrue(!rowValueExists,"waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Column 3 ");
+        Assert.isTrue(!rowValueExists, "waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Column 3 ");
     }
 
     @Test
@@ -66,7 +66,7 @@ public class WaiterTests extends  InitTableTests{
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
 
-        checkText(() -> support().cell(column(2), row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2),row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
     }
     @Test
     public void waitHaveRows() {

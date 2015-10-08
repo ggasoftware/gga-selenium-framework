@@ -14,7 +14,7 @@ import static com.epam.jdi_tests.page_objects.EpamJDISite.supportPage;
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.
  */
-public class InitTableTests extends InitTests{
+public class InitTableTests extends InitTests {
     protected ITable support() {
         return supportPage.supportTable;
     }

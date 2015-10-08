@@ -32,7 +32,7 @@ public class InitTests extends TestNGBase {
         login.submit(DEFAULT_USER);
         logger.init("Run Tests");
     }
-     
+
     public IText textElement() throws RuntimeException{
     	throw new RuntimeException();
     }

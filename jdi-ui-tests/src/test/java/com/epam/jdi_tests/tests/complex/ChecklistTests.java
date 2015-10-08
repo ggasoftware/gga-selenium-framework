@@ -31,11 +31,6 @@ public class ChecklistTests extends InitTests {
     @BeforeMethod
     public void before(Method method) throws IOException {
         isInState(METALS_AND_COLORS_PAGE);
-        /*nature().select("Fire");
-        for(WebElement el : getDriver().findElements(By.cssSelector("#elements-checklist p"))) {
-            if (el.findElement(By.tagName("input")).getAttribute("checked") != null)
-                el.findElement(By.tagName("label")).click();
-        }*/
     }
     private void checkAllChecked() {
         assertTrue(first(getDriver().findElements(By.cssSelector("#elements-checklist input")),
