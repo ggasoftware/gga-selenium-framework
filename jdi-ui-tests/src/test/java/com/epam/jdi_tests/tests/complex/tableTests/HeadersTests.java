@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.foreach;
+
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.
  */

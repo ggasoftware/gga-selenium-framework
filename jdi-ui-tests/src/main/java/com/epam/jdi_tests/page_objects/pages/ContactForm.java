@@ -19,8 +19,8 @@ public class ContactForm extends Page {
     public ITextField lastName;
     @FindBy(id = "Description")
     public ITextArea description;
-    @FindBy(xpath = "/html/body/div/div/main/div[2]/div/form/div[3]/div[2]/button")
+    @FindBy(xpath = ".//main//button")
     public IButton contactSubmit;
-    @FindBy(xpath = "/html/body/div/header/div/nav/div[2]/img")
+    @FindBy(xpath = ".//nav//img")
 	public IImage logoImage;
 }
