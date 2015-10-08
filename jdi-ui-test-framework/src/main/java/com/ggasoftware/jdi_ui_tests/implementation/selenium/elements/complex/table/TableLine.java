@@ -36,7 +36,7 @@ abstract class TableLine extends Element implements ITableLine {
         }
     }
 
-    public void clean() { headers = null; count = 0; hasHeader = false; }
+    public void clean() { headers = null; count = 0; }
     protected String[] headers;
     public void setHeaders(String[] value) {
         if (table.cache)
