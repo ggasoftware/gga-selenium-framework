@@ -148,4 +148,21 @@ public class RowTests extends InitTableTests {
         Assert.areEquals(actualRowCount, 6, String.format("Expected number of rows is 6, but found %d", actualRowCount));
     }
 
+    @Test
+    public void getRowAsTestByNumber(){
+
+        String expectedRowValues = "Type:Test Runner, Now:TestNG, JUnit Custom, Plans:MSTest, NUnit, Epam";
+        MapArray<String, String> rowAsText = support().columns().getRowAsText(2);
+
+        Assert.areEquals(rowAsText, expectedRowValues, String.format("Expected row value is %s, but was %s",expectedRowValues,rowAsText));
+    }
+    @Test
+    public void getRowAsTestByName(){
+
+        String expectedRowValues = "Type:Test Runner, Now:TestNG, JUnit Custom, Plans:MSTest, NUnit, Epam";
+        MapArray<String, String> rowAsText = support().columns().getRowAsText("2");
+
+        Assert.areEquals(rowAsText, expectedRowValues, String.format("Expected row value is %s, but was %s",expectedRowValues,rowAsText));
+    }
+
 }

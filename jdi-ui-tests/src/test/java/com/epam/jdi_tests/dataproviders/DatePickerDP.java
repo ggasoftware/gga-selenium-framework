@@ -1,9 +1,6 @@
 package com.epam.jdi_tests.dataproviders;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.testng.annotations.DataProvider;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 
 public class DatePickerDP {
 	@DataProvider(name = "inputText")
@@ -17,28 +14,14 @@ public class DatePickerDP {
 	@DataProvider(name = "matchText")
 	public static Object[][] matchText() {
 		return new Object[][] { 
-			{ "([0-9]{2}[\\/]{1}){2}[0-9]{4}", currentDate() },
+			{ "([0-9]{2}[\\/]{1}){2}[0-9]{4}", Timer.nowTime("MM/dd/yyyy") },
 			};
 	}
 	
 	@DataProvider(name = "waitText")
 	public static Object[][] waitText() {
 		return new Object[][] { 
-			{ currentYear(), currentDate() },
+			{ Timer.nowTime("yyyy"), Timer.nowTime("MM/dd/yyyy") },
 			};
-	}
-
-	private static String currentYear() {
-		final Date myDate = new Date();
-		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-		final String myDateString = sdf.format(myDate).trim();
-		return myDateString;
-	}
-	
-	public static String currentDate() {
-		final Date myDate = new Date();
-		final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		final String myDateString = sdf.format(myDate).trim();
-		return myDateString;
 	}
 }
