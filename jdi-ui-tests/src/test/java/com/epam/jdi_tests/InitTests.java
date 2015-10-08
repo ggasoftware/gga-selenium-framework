@@ -34,6 +34,7 @@ public class InitTests extends TestNGBase {
     }
      
     public IText textElement() throws Exception{
+        //test comments
     	throw new Exception();
     }
 }
