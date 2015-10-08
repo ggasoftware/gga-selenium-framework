@@ -169,4 +169,18 @@ public class RowTests extends InitTableTests {
         Assert.areEquals(cellsToRow.key(1), "Now",String.format("Expected second cell column id 'Now', but was %s", cellsToRow.key(1)));
         Assert.areEquals(cellsToRow.value(1).getValue(),"TestNG, JUnit Custom",String.format("Expected first cell value id 'TestNG, JUnit Custom', but was %s", cellsToRow.value(1).getValue()));
     }
+
+    @Test
+    public void getRowValueByName(){
+        List<String> expectedRowValue = Arrays.asList("Test Runner", "TestNG, JUnit Custom", "MSTest, NUnit, Epam");
+        List<String> rowValue = support().rowValue("2");
+
+        Assert.areEquals(rowValue, expectedRowValue, String.format("Expected row values are %s, but were %s", expectedRowValue, rowValue));
+    } @Test
+    public void getRowValueByNumber(){
+        List<String> expectedRowValue = Arrays.asList("Test Runner", "TestNG, JUnit Custom", "MSTest, NUnit, Epam");
+        List<String> rowValue = support().rowValue(2);
+
+        Assert.areEquals(rowValue, expectedRowValue, String.format("Expected row values are %s, but were %s", expectedRowValue, rowValue));
+    }
 }
