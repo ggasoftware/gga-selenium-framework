@@ -1,21 +1,14 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.epam.jdi_tests.enums.Preconditions;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
 import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkText;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.runParallel;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.waitTimeOut;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isFalse;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
 
@@ -28,13 +21,13 @@ public class WaiterTests extends  InitTableTests{
     public void waitExpectedRowsValue(){
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow", row(6));
 
-        Assert.isTrue(rowValueExists,"waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Row 6 ");
+        Assert.isTrue(rowValueExists, "waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Row 6 ");
     }
     @Test
     public void waitUnexpectedRowsValue(){
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow Unexepected", row(6));
 
-        Assert.isTrue(!rowValueExists,"waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Row 6 ");
+        Assert.isTrue(!rowValueExists, "waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Row 6 ");
     }
 
     @Test
@@ -42,13 +35,13 @@ public class WaiterTests extends  InitTableTests{
 
         boolean columnValueExists = support().waitValue("Custom", column(2));
 
-        Assert.isTrue(columnValueExists,"waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Column 3 ");
+        Assert.isTrue(columnValueExists, "waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Column 3 ");
     }
     @Test
     public void waitUnexpectedColumnsValue(){
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow Unexepected", column(3));
 
-        Assert.isTrue(!rowValueExists,"waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Column 3 ");
+        Assert.isTrue(!rowValueExists, "waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Column 3 ");
     }
 
     @Test

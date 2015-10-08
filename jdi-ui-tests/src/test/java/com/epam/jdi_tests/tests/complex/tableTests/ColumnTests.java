@@ -1,33 +1,20 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.epam.jdi_tests.InitTests;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Columns;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
-import javafx.scene.control.Cell;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.supportPage;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
 
 /**
  * Created by Natalia_Grebenshchikova on 10/5/2015.
  */
-public class ColumnTests extends InitTableTests{
+public class ColumnTests extends InitTableTests {
 
     @Test
     public void findAllColumns(){
@@ -41,12 +28,12 @@ public class ColumnTests extends InitTableTests{
 
         MapArray<String, ICell> cellColumns = support().column(2);
 
-        Assert.areEquals(cellColumns.count(),6, String.format("Expected number of cell expected to be 6, but was ",cellColumns.count()));
+        Assert.areEquals(cellColumns.count(), 6, String.format("Expected number of cell expected to be 6, but was ", cellColumns.count()));
 
         for (int i=0; i<6; i++)
-            Assert.areEquals(   cellColumns.value(i).getValue(),
-                                expectedColumnsValue.get(i),
-                                String.format("Expected content for row %d is '%s', but was %s", i+1, expectedColumnsValue.get(i), cellColumns.value(i).getValue()));
+            Assert.areEquals(cellColumns.value(i).getValue(),
+                    expectedColumnsValue.get(i),
+                    String.format("Expected content for row %d is '%s', but was %s", i + 1, expectedColumnsValue.get(i), cellColumns.value(i).getValue()));
 
     }
     @Test
@@ -55,12 +42,12 @@ public class ColumnTests extends InitTableTests{
 
         MapArray<String, ICell> cellColumns = support().column("Now");
 
-        Assert.areEquals(cellColumns.count(),6, String.format("Nnumber of cell expected to be 6, but was ",cellColumns.count()));
+        Assert.areEquals(cellColumns.count(), 6, String.format("Nnumber of cell expected to be 6, but was ", cellColumns.count()));
 
         for (int i=0; i<6; i++)
-            Assert.areEquals(   cellColumns.value(i).getValue(),
-                                expectedColumnsValue.get(i),
-                                String.format("Expected content for row %d is '%s', but was %s", i + 1, expectedColumnsValue.get(i), cellColumns.value(i).getValue()));
+            Assert.areEquals(cellColumns.value(i).getValue(),
+                    expectedColumnsValue.get(i),
+                    String.format("Expected content for row %d is '%s', but was %s", i + 1, expectedColumnsValue.get(i), cellColumns.value(i).getValue()));
 
     }
 
@@ -103,5 +90,14 @@ public class ColumnTests extends InitTableTests{
         MapArray<String, ICell> column = support().column("Logger", row(4));
 
         Assert.areEquals("Type", column.get(0).value.columnName(), String.format("Expected column name is 'Type', but was %s", column.get(0).value.columnName()));
+    }
+
+    @Test
+    public void getColumnAsTest(){
+
+        String expectedColumnValue = "1:Selenium Custom, 2:TestNG, JUnit Custom, 3:TestNG, JUnit, Custom, 4:Log4J, TestNG log, Custom, 5:Jenkins, Allure, Custom, 6:Custom";
+        MapArray<String, String> columnAsText = support().rows().getColumnAsText(2);
+
+        Assert.areEquals(columnAsText, expectedColumnValue, String.format("Expectde column is %s, but was %s", expectedColumnValue, columnAsText));
     }
 }
