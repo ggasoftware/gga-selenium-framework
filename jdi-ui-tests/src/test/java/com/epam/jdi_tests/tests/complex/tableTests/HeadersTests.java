@@ -67,7 +67,7 @@ public class HeadersTests extends InitTableTests{
 
     @Test
     public void setColumnHeaders(){
-        List<String> newHeaders = Arrays.asList("h1","h2", "h3");
+        List<String> newHeaders = Arrays.asList("h1","h2","h3");
         ((Table) support()).setColumnHeaders((String[]) newHeaders.toArray());
         List<String> actualHeaders = Arrays.asList(support().headers());
 
