@@ -1,9 +1,9 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.dataproviders.TableDP;
-import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.TableSettings;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -23,12 +23,16 @@ import java.util.Arrays;
 
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
+import static java.lang.String.format;
+import static java.util.Arrays.asList;
+
 /**
  * Created by Roman_Iovlev on 9/15/2015.
  */
-public class TableTests extends InitTests {
-    private ITable support() {
-        return supportPage.supportTable;
+public class TableTests extends InitTableTests {
+    private Table initTable(Table table) {
+        table.avatar.byLocator = By.className("uui-table");
+        return table;
     }
 
     @BeforeMethod
@@ -37,210 +41,109 @@ public class TableTests extends InitTests {
     }
 
     @Test(dataProvider = "hasHeadersSelector", dataProviderClass = TableDP.class)
-    public void verifyHasHeadersVariables(ITable table, int rowsCount, int columnsCount,
-                                            List<String> rowsHeaders, List<String> columnHeaders){
-        arrayEquals(table.columns().headers(), toStringArray(columnHeaders));
-        arrayEquals(table.rows().headers(), toStringArray(rowsHeaders));
-        areEquals(table.columns().count(), columnsCount);
-        areEquals(table.rows().count(), rowsCount);
-    }
+    public void verifyHasHeadersVariablesByColumnCount(  boolean hasColumnHeaders, boolean hasRowHeaders,
+                                                         int columnsCount, int rowsCount,
+                                                         List<String> columnHeaders, List<String> rowsHeaders,
+                                                         String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(hasColumnHeaders, hasRowHeaders)));
 
-    @Test
-    public void getRowsTest() {
-        MapArray<String, MapArray<String, String>> rows = support().rows().getAsText();
-        areEquals(rows,
-                "1:" +
-                        "Type:Drivers, " +
-                        "Now:Selenium Custom, " +
-                        "Plans:JavaScript, Appium, WinAPI, Sikuli, " +
-                "2:" +
-                        "Type:Test Runner, " +
-                        "Now:TestNG, JUnit Custom, " +
-                        "Plans:MSTest, NUnit, Epam, " +
-                "3:" +
-                        "Type:Asserter, " +
-                        "Now:TestNG, JUnit, Custom, " +
-                        "Plans:MSTest, NUnit, Epam, " +
-                "4:" +
-                        "Type:Logger, " +
-                        "Now:Log4J, TestNG log, Custom, " +
-                        "Plans:Epam, XML/Json logging, Hyper logging, " +
-                "5:" +
-                        "Type:Reporter, " +
-                        "Now:Jenkins, Allure, Custom, " +
-                        "Plans:EPAM Report portal, Serenity, TimCity, Hudson, " +
-                "6:" +
-                        "Type:BDD/DSL, " +
-                        "Now:Custom, " +
-                        "Plans:Cucumber, Jbehave, Thucydides, SpecFlow");
-    }
-    @Test
-    public void getColumnsTest() {
-        MapArray<String, MapArray<String, String>> columns = support().columns().getAsText();
-        areEquals(columns,
-                "Type:" +
-                        "1:Drivers, " +
-                        "2:Test Runner, " +
-                        "3:Asserter, " +
-                        "4:Logger, " +
-                        "5:Reporter, " +
-                        "6:BDD/DSL, " +
-                "Now:" +
-                        "1:Selenium Custom, " +
-                        "2:TestNG, JUnit Custom, " +
-                        "3:TestNG, JUnit, Custom, " +
-                        "4:Log4J, TestNG log, Custom, " +
-                        "5:Jenkins, Allure, Custom, " +
-                        "6:Custom, " +
-                "Plans:" +
-                        "1:JavaScript, Appium, WinAPI, Sikuli, " +
-                        "2:MSTest, NUnit, Epam, " +
-                        "3:MSTest, NUnit, Epam, " +
-                        "4:Epam, XML/Json logging, Hyper logging, " +
-                        "5:EPAM Report portal, Serenity, TimCity, Hudson, " +
-                        "6:Cucumber, Jbehave, Thucydides, SpecFlow");
-    }
-
-    @Test(dataProvider = "hasHeadersSelector", dataProviderClass = TableDP.class)
-    public void verifyHasHeadersVariablesByColumnCount(  boolean hasRowHeaders, boolean hasColumnHeaders,
-                                            int rowsCount, int columnsCount,
-                                            List<String> rowsHeaders, List<String> columnHeaders,
-                                            String firstColumnContent){
-
-        ITable supportTable = new SupportPage().supportTable;
-
-        supportTable.rows().hasHeader = hasRowHeaders;
-        supportTable.columns().hasHeader = hasColumnHeaders;
-
-        Assert.isTrue((supportTable.columns().count()== columnsCount && supportTable.rows().count()==rowsCount),
-                String.format("Expected column/row count is %d/%d, but was %d/%d", columnsCount,rowsCount, supportTable.columns().count(), supportTable.rows().count()));
+        Assert.isTrue((table.columns().count() == columnsCount && table.rows().count() == rowsCount),
+                format("Expected column/row count is %d/%d, but was %d/%d", columnsCount, rowsCount, table.columns().count(), table.rows().count()));
     }
     @Test(dataProvider = "hasHeadersSelector", dataProviderClass = TableDP.class)
-    public void verifyHasHeadersVariablesByHeaders(  boolean hasRowHeaders, boolean hasColumnHeaders,
-                                            int rowsCount, int columnsCount,
-                                            List<String> rowsHeaders, List<String> columnHeaders,
-                                            String firstColumnContent){
+    public void verifyHasHeadersVariablesByHeaders(  boolean hasColumnHeaders, boolean hasRowHeaders,
+                                                     int columnsCount, int rowsCount,
+                                                     List<String> columnHeaders, List<String> rowsHeaders,
+                                                     String firstColumnContent){
 
-        ITable supportTable = new SupportPage().supportTable;
+        Table table = initTable(new Table(new TableSettings(hasColumnHeaders, hasRowHeaders)));
 
-        supportTable.rows().hasHeader = hasRowHeaders;
-        supportTable.columns().hasHeader = hasColumnHeaders;
-
-        Assert.isTrue((Arrays.asList(supportTable.columns().headers()).equals(columnHeaders) && Arrays.asList(supportTable.rows().headers()).equals(rowsHeaders)),
-                String.format("Expected column/row headers is \n%s\n%s, \nbut was \n%s\n%s", columnHeaders,rowsHeaders,
-                        Arrays.asList(supportTable.columns().headers()), Arrays.asList(supportTable.rows().headers())));
+        Assert.isTrue((asList(table.columns().headers()).equals(columnHeaders) && asList(table.rows().headers()).equals(rowsHeaders)),
+                format("Expected column/row headers is \n%s\n%s, \nbut was \n%s\n%s", columnHeaders, rowsHeaders,
+                        asList(table.columns().headers()), asList(table.rows().headers())));
     }
-   @Test(dataProvider = "hasHeadersSelector", dataProviderClass = TableDP.class)
-    public void verifyHasHeadersVariablesByFirstColumn(  boolean hasRowHeaders, boolean hasColumnHeaders,
-                                            int rowsCount, int columnsCount,
-                                            List<String> rowsHeaders, List<String> columnHeaders,
-                                            String firstColumnContent){
+    @Test(dataProvider = "hasHeadersSelector", dataProviderClass = TableDP.class)
+    public void verifyHasHeadersVariablesByFirstCell( boolean hasColumnHeaders, boolean hasRowHeaders,
+                                                      int columnsCount, int rowsCount,
+                                                      List<String> columnHeaders, List<String> rowsHeaders,
+                                                      String firstColumnContent){
 
-        ITable supportTable = new SupportPage().supportTable;
+        Table table = initTable(new Table(new TableSettings(hasColumnHeaders, hasRowHeaders)));
 
-        supportTable.rows().hasHeader = hasRowHeaders;
-        supportTable.columns().hasHeader = hasColumnHeaders;
-
-        Assert.areEquals(supportTable.cell(column(1), row(1)).getText(),firstColumnContent,
-                String.format("Expected first column is '%s', but was '%s'", firstColumnContent, supportTable.cell(column(1), row(1)).getText()));
+        Assert.areEquals(table.cell(column(1), row(1)).getText(),firstColumnContent,
+                format("Expected first column is '%s', but was '%s'", firstColumnContent, table.cell(column(1), row(1)).getText()));
     }
 
 
     @Test(dataProvider = "setColumnsCount", dataProviderClass = TableDP.class)
-    public void verifySetColumnsCountByColumnsCount(int providedColumnCount,int expNewColumnCount,
-                                               List<String> expNewColumnsHeaders, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
+    public void verifySetColumnsCountByColumnsCount(int newColumnCount,List<String> expNewColumnsHeaders, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(newColumnCount, 6)));
 
-        supportTable.setColCount(providedColumnCount);
+        areEquals(table.columns().count(), newColumnCount,
+                format("Expected column count is %d, but was %d", newColumnCount, table.columns().count()));
+    }
+    @Test(dataProvider = "setColumnsCount", dataProviderClass = TableDP.class)
+    public void verifySetColumnsCountByColumnsHeader(int newColumnCount,List<String> expNewColumnsHeaders, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(newColumnCount, 6)));
 
-        Assert.areEquals(supportTable.columns().count(),expNewColumnCount,
-                String.format("Expected column count is %d, but was %d",expNewColumnCount,supportTable.columns().count()));
+        areEquals(asList(table.columns().headers()), expNewColumnsHeaders,
+                format("Expected columns headers are \n%s, \nbut was \n%s", expNewColumnsHeaders, asList(table.columns().headers())));
 
     }
     @Test(dataProvider = "setColumnsCount", dataProviderClass = TableDP.class)
-    public void verifySetColumnsCountByColumnsHeader(int providedColumnCount,int expNewColumnCount,
-                                               List<String> expNewColumnsHeaders, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
+    public void verifySetColumnsCountByFirstCellContent(int newColumnCount,List<String> expNewColumnsHeaders, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(newColumnCount, 6)));
 
-        supportTable.setColCount(providedColumnCount);
-
-        Assert.areEquals(Arrays.asList(supportTable.columns().headers()),expNewColumnsHeaders,
-                String.format("Expected columns headers are \n%s, \nbut was \n%s", expNewColumnsHeaders, Arrays.asList(supportTable.columns().headers())));
-
-    }
-    @Test(dataProvider = "setColumnsCount", dataProviderClass = TableDP.class)
-    public void verifySetColumnsCountByFirstColumnContent(int providedColumnCount,int expNewColumnCount,
-                                               List<String> expNewColumnsHeaders, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
-
-        supportTable.setColCount(providedColumnCount);
-
-        Assert.areEquals(supportTable.cell(column(1), row(1)).getText(),firstColumnContent,
-                String.format("Expected first column is '%s', but was '%s'", firstColumnContent, supportTable.cell(column(1), row(1)).getText()));
-
+        Assert.areEquals(table.cell(column(1), row(1)).getText(),firstColumnContent,
+                format("Expected first column is '%s', but was '%s'", firstColumnContent, table.cell(column(1), row(1)).getText()));
     }
 
     @Test(dataProvider = "setRowsCount", dataProviderClass = TableDP.class)
-    public void verifySetRowsCountByColumnsCount(int providedRowsCount,int expNewRowsCount,
-                                               List<String> expNewRowsHeaders, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
+    public void verifySetRowsCountByRowCount(int newRowCount, List<String> expNewRowsHeaders, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(3, newRowCount)));
 
-        supportTable.setRowCount(providedRowsCount);
-
-        Assert.areEquals(supportTable.rows().count(),expNewRowsCount,
-                String.format("Expected rows count is %d, but was %d",expNewRowsCount,supportTable.rows().count()));
+        Assert.areEquals(table.rows().count(),newRowCount,
+                format("Expected rows count is %d, but was %d", newRowCount, table.rows().count()));
 
     }
     @Test(dataProvider = "setRowsCount", dataProviderClass = TableDP.class)
-    public void verifySetRowsCountByRowHeaders(int providedRowsCount,int expNewRowsCount,
-                                               List<String> expNewRowsHeaders, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
+    public void verifySetRowsCountByRowHeaders(int newRowCount, List<String> expNewRowsHeaders, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(3, newRowCount)));
 
-        supportTable.setRowCount(providedRowsCount);
-
-        Assert.areEquals(Arrays.asList(supportTable.rows().headers()),expNewRowsHeaders,
-                String.format("Expected rows headers are \n%s, \nbut were \n%s",expNewRowsHeaders,Arrays.asList(supportTable.rows().headers())));
+        areEquals(asList(table.rows().headers()), expNewRowsHeaders,
+                format("Expected rows headers are \n%s, \nbut were \n%s", expNewRowsHeaders, asList(table.rows().headers())));
 
     }
     @Test(dataProvider = "setColumnsCount", dataProviderClass = TableDP.class)
-    public void verifySetRowsCountByFirstColumnContent(int providedColumnCount,int expNewColumnCount,
-                                                          List<String> expNewColumnsHeaders, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
+    public void verifySetRowsCountByFirstCellContent(int newRowCount, List<String> expNewRowsHeaders, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(3, newRowCount)));
 
-        supportTable.setColCount(providedColumnCount);
-
-        Assert.areEquals(supportTable.cell(column(1), row(1)).getText(),firstColumnContent,
-                String.format("Expected first column is '%s', but was '%s'", firstColumnContent, supportTable.cell(column(1), row(1)).getText()));
+        Assert.areEquals(table.cell(column(1), row(1)).getText(),firstColumnContent,
+                format("Expected first column is '%s', but was '%s'", firstColumnContent, table.cell(column(1), row(1)).getText()));
 
     }
 
 
     @Test(dataProvider = "setColumnHeaders", dataProviderClass = TableDP.class)
-    public void verifySetColumnHeadersByColumnCount (List<String> providedColumnList, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
+    public void verifySetColumnHeadersByColumnRowCount (List<String> providedColumnList, List<String> providedRowList, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(toStringArray(providedColumnList),toStringArray(providedRowList))));
 
-        supportTable.setColumnHeaders((String [])providedColumnList.toArray());
-
-        Assert.areEquals(supportTable.columns().count(),providedColumnList.size(),
-                String.format("Expected column count is %d, but was %d",providedColumnList.size(),supportTable.columns().count()));
+        areEquals(table.columns().count(), providedColumnList.size(),format("Expected column count is %d, but was %d", providedColumnList.size(), table.columns().count()));
+        areEquals(table.rows().count(), providedRowList.size(),format("Expected row count is %d, but was %d", providedRowList.size(), table.rows().count()));
     }
     @Test(dataProvider = "setColumnHeaders", dataProviderClass = TableDP.class)
-    public void verifySetColumnHeadersByHeaders (List<String> providedColumnList, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
+    public void verifySetColumnHeadersByHeaders (List<String> providedColumnList, List<String> providedRowList, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(toStringArray(providedColumnList),toStringArray(providedRowList))));
 
-        supportTable.setColumnHeaders((String [])providedColumnList.toArray());
-
-        Assert.areEquals(Arrays.asList(supportTable.columns().headers()),providedColumnList,
-                String.format("Expected column list is \n%s, \nbut was \n%s",providedColumnList,Arrays.asList(supportTable.columns().headers())));
+        areEquals(asList(table.columns().headers()),providedColumnList,format("Expected column list is \n%s, \nbut was \n%s", providedColumnList, asList(table.columns().headers())));
+        areEquals(asList(table.rows().headers()), providedRowList, format("Expected row list is \n%s, \nbut was \n%s", providedRowList, asList(table.rows().headers())));
     }
     @Test(dataProvider = "setColumnHeaders", dataProviderClass = TableDP.class)
-    public void verifySetColumnHeadersByFirstColumnContent (List<String> providedColumnList, String firstColumnContent){
-        Table supportTable = (Table)new SupportPage().supportTable;
+    public void verifySetColumnHeadersByFirstCellContent (List<String> providedColumnList, List<String> providedRowList, String firstColumnContent){
+        Table table = initTable(new Table(new TableSettings(toStringArray(providedColumnList),toStringArray(providedRowList))));
 
-        supportTable.setColumnHeaders((String [])providedColumnList.toArray());
-
-        Assert.areEquals(supportTable.cell(column(1),row(1)).getText(),firstColumnContent,
-                String.format("Expected first column ocntent is %s, but was %s",firstColumnContent, supportTable.cell(column(1), row(1)).getText()));
+        areEquals(table.cell(column(providedColumnList.get(0)), row(providedRowList.get(0))).getText(), firstColumnContent,
+                format("Expected first column ocntent is %s, but was %s", firstColumnContent, table.cell(column(providedColumnList.get(0)), row(providedRowList.get(0))).getText()));
     }
 
 }
