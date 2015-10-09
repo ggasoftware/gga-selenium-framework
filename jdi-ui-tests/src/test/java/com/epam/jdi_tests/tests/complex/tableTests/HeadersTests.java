@@ -1,15 +1,11 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
-import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,14 +40,14 @@ public class HeadersTests extends InitTableTests{
 
         SelectElement selectElement = support().header(headerName);
 
-        Assert.areEquals(selectElement.getValue(),headerName,
+        Assert.areEquals(selectElement.getValue(), headerName,
                 String.format("Expected '%s' header name, but was '%s'", headerName, selectElement.getValue()));
         Assert.isTrue(!selectElement.isSelected(), "Element expectde to be not selected< but was selected");
     }
 
     @Test
     public void verifyColumnsHeadersAsTest(){
-        String [] expectedColumnHeaders = (String[]) Arrays.asList("Type", "Now", "Plans").toArray();
+        String [] expectedColumnHeaders = new String[] {"Type", "Now", "Plans"};
         String [] actualColumnHeaders = support().columns().headers();
 
         Assert.isTrue(Arrays.equals(expectedColumnHeaders, actualColumnHeaders),
@@ -67,4 +63,22 @@ public class HeadersTests extends InitTableTests{
                 String.format("Expected list of headers is %s, but was %s", Arrays.toString(expectedColumnHeaders), Arrays.toString(actualColumnHeaders)));
     }
 
+    @Test
+    public void setColumnHeaders(){
+        List<String> newHeaders = Arrays.asList("h1","h2","h3");
+        ((Table) support()).setColumnHeaders((String[]) newHeaders.toArray());
+        List<String> actualHeaders = Arrays.asList(support().headers());
+
+        Assert.areEquals(newHeaders, actualHeaders,
+                String.format("Wrong columns headers returned, expected %s, but was %s", newHeaders, actualHeaders));
+    }
+    @Test
+    public void setRowHeaders(){
+        List<String> newHeaders = Arrays.asList("h1","h2","h3","h4","h5", "h6");
+        ((Table) support()).setRowHeaders((String[]) newHeaders.toArray());
+        List<String> actualHeaders = Arrays.asList(support().rows().headers());
+
+        Assert.areEquals(newHeaders, actualHeaders,
+                String.format("Wrong rows headers returned, expected %s, but was %s", newHeaders, actualHeaders));
+    }
 }

@@ -17,6 +17,7 @@ import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.comp
  * Created by Roman_Iovlev on 7/13/2015.
  */
 public class InitTests extends TestNGBase {
+
     @BeforeSuite(alwaysRun = true)
     public static void setUp() throws Exception {
         JDISettings.driverFactory.driversPath = "jdi-ui-tests\\src\\main\\resources";
