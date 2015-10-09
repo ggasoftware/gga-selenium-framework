@@ -84,7 +84,7 @@ public class Element extends BaseElement implements IElement {
     public boolean waitVanished() {
         return actions.waitVanished(() -> timer().wait(() -> !isDisplayedAction()));
     }
-
+    public WebElement getInvisibleElement() { avatar.searchAll(); return getWebElement(); }
     @Override
     public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc) {
         return wait(resultFunc, result -> result);

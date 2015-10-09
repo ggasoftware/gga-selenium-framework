@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Selenium Suite" parallel="false" >
+    <test name="Selenium Tests">
+        <classes>
+            <!--<class name="com.pharmapendium.qa.tests.Smoke-->
+            <class name="com.epam.jdi_tests.tests.common.TextTests"/>
+        </classes>
+    </test>
+</suite>

@@ -71,7 +71,6 @@ public class ChecklistTests extends InitTests {
         assertContains(() -> (String) actionsLog.getTextList().get(1), "Water: condition changed to true");
     }
 
-
     @Test
     public void checkStringTest() {
         nature().check("Fire");

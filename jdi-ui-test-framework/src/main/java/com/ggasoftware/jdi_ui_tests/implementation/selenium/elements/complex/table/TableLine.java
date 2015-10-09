@@ -36,7 +36,7 @@ abstract class TableLine extends Element implements ITableLine {
         }
     }
 
-    public void clean() { headers = null; count = 0; hasHeader = false; }
+    public void clean() { headers = null; count = 0; }
     protected String[] headers;
     public void setHeaders(String[] value) {
         if (table.cache)
@@ -49,7 +49,7 @@ abstract class TableLine extends Element implements ITableLine {
     protected abstract List<WebElement> getHeadersAction();
     public final MapArray<String, SelectElement> header() { return new MapArray<>(getHeadersAction(), WebElement::getText, SelectElement::new); }
     public final SelectElement header(String name) { return header().get(name); }
-    public final String[] headers() {
+    public String[] headers() {
         if (headers != null)
             return headers;
         String[] localHeaders = Timer.getResultAction(this::getHeadersTextAction);

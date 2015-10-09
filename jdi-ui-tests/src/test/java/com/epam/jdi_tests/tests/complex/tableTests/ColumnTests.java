@@ -1,27 +1,14 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.epam.jdi_tests.InitTests;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Columns;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
-import javafx.scene.control.Cell;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.supportPage;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
 
 /**
@@ -102,6 +89,6 @@ public class ColumnTests extends InitTableTests{
     public void getColumnByRowAndValue(){
         MapArray<String, ICell> column = support().column("Logger", row(4));
 
-        Assert.areEquals("Type", column.get(0).value.columnName(), String.format("Expected column name is 'Type', but was %s", column.get(0).value.columnName()));
+        Assert.areEquals("Type", column.get(0).value.columnName(), String.format("Expected column name is 'Type', but was '%s'", column.get(0).value.columnName()));
     }
 }

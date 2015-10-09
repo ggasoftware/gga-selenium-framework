@@ -24,11 +24,11 @@ public class Rows extends TableLine {
         elementIndex = ElementIndexType.Nums;
     }
 
-    protected By rowsHeadersTemplate = By.xpath(".//tr/td[1]");
+    protected By rowsHeadersLocator = By.xpath(".//tr/td[1]");
     protected By rowTemplate = By.xpath(".//tr[%s]/td");
     protected By rowNameTemplate = null;
     protected List<WebElement> getHeadersAction() {
-        return table.getWebElement().findElements(rowsHeadersTemplate);
+        return table.getWebElement().findElements(rowsHeadersLocator);
     }
     protected List<WebElement> getRowAction(int rowNum) {
         return table.getWebElement().findElements(fillByTemplate(rowTemplate, rowNum));
@@ -42,7 +42,6 @@ public class Rows extends TableLine {
     private RuntimeException throwRowsException(String rowName, String ex) {
         return asserter.exception("Can't Get Rows for column '%s'. Exception: %s", rowName, ex);
     }
-
     public final MapArray<String, ICell> getColumn(String colName) {
         try {
             String[] headers = headers();

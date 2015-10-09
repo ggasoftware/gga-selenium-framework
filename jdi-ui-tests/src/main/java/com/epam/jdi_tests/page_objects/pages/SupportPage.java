@@ -1,5 +1,7 @@
 package com.epam.jdi_tests.page_objects.pages;
 
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.TableSettings;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page;
 import org.openqa.selenium.support.FindBy;
@@ -10,5 +12,13 @@ import org.openqa.selenium.support.FindBy;
 public class SupportPage extends Page {
     @FindBy(css = ".uui-table")
     public ITable supportTable;
+    @FindBy(css = ".uui-table")
+    public ITable tableWithBothHeaders = new Table(new TableSettings(true, true));
+    @FindBy(css = ".uui-table")
+    public ITable tableWithRowsHeader = new Table(new TableSettings(false, true));
+    @FindBy(css = ".uui-table")
+    public ITable tableWithColumnHeader = new Table(new TableSettings(true, false));
+    @FindBy(css = ".uui-table")
+    public ITable tableWithoutHeaders = new Table(new TableSettings(false, false));
 
 }

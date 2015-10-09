@@ -1,60 +1,69 @@
 package com.epam.jdi_tests.tests.common;
 
-import com.epam.jdi_tests.BaseScenarioInput;
 import com.epam.jdi_tests.InitTests;
-import com.epam.jdi_tests.dataproviders.DatePickerDP;
-import com.epam.jdi_tests.enums.Preconditions;
-import com.epam.jdi_tests.page_objects.EpamJDISite;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IDatePicker;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 
-import static com.epam.jdi_tests.BaseScenario.*;
+import static com.epam.jdi_tests.enums.Preconditions.DATES_PAGE;
+import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.dates;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.getDriver;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
 
 public class DatePickerTest extends InitTests {
-
-	public DatePickerTest() {
-		_onPage = Preconditions.DATES_PAGE;
-	}
-
-	@Override
-	public IDatePicker textElement() {
-		return EpamJDISite.dates._datepicker;
-	}
+	public IDatePicker datePicker() { return dates._datepicker; }
 
 	@BeforeMethod
-	public void before(final Method method) throws Exception {
-		isInState(_onPage, method);
+	public void before(Method method) throws Exception {
+		isInState(DATES_PAGE, method);
+		WebElement datePicker = getDriver().findElement(datePicker().getLocator());
+		datePicker.clear();
+		datePicker.sendKeys(TEST_DATE);
 	}
 
-	// WAIT
-	@Test(dataProvider = "waitText", dataProviderClass = DatePickerDP.class)
-	public void waitTextTest(final String contains, final String expected) {
-		baseWaitTextTest(this, contains, expected);
+	@Test
+	public void getTextTest() {
+		checkText(() -> datePicker().getText(), TEST_DATE);
+	}
+	@Test
+	public void getValueTest() {
+		checkText(() -> datePicker().getValue(), TEST_DATE);
+	}
+	public void waitTextTest() {
+		checkText(() -> datePicker().waitText("09/09"), TEST_DATE);
 	}
 
-	@Test(dataProvider = "waitText", dataProviderClass = DatePickerDP.class)
-	public void wait3TextTest(final String contains, final String expected) {
-		baseWait3TextTest(this, contains, expected);
-	}
-	// !WAIT
+	public static final String TEST_DATE = "09/09/1945";
+	//TODO ! contains
 
-	// MATCH
-	@Test(dataProvider = "matchText", dataProviderClass = DatePickerDP.class)
-	public void waitTextMatchTest(final String regex, final String expected) {
-		baseWaitTextMatchTest(this, regex, expected);
+	@Test
+	public void matchTextTest() {
+		checkText(() -> datePicker().waitMatchText("([0-9]{2}[\\/]{1}){2}[0-9]{4}"), TEST_DATE);
+	}
+	//TODO ! match
+	@Test
+	public void wait3TextTest() {
+		isInState(SUPPORT_PAGE);
+		runParallel(dates::open);
+		checkText(() -> datePicker().waitText("09/09"), TEST_DATE);
+		isTrue(timer.timePassedInMSec() > waitTimeOut);
+	}
+	@Test
+	public void match3TextTest() {
+		isInState(SUPPORT_PAGE);
+		runParallel(dates::open);
+		checkText(() -> datePicker().waitMatchText("([0-9]{2}[\\/]{1}){2}[0-9]{4}"), TEST_DATE);
+		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 
-	@Test(dataProvider = "matchText", dataProviderClass = DatePickerDP.class)
-	public void wait3TextMatchTest(final String regex, final String expected) {
-		baseWait3TextMatchTest(this, regex, expected);
-	}
-	// !MATCH
-
+/*
+TODO
 	// INPUT
 	@Test(dataProvider = "inputText", dataProviderClass = DatePickerDP.class)
 	public void inputTest(final String in, final String expected) throws Exception {
@@ -85,5 +94,5 @@ public class DatePickerTest extends InitTests {
 	@Test
 	public void focusTest() throws Exception {
 		BaseScenarioInput.focusTest(this, "test123");
-	}
+	}*/
 }

@@ -37,12 +37,12 @@ class Cell extends SelectElement implements ISelect, ICell {
     public String columnName() {
         return (columnName != null && !columnName.equals(""))
             ? columnName
-            : table.columns().headers()[columnNum]; }
+            : table.columns().headers()[columnNum-1]; }
     private String rowName;
     public String rowName() {
         return (rowName != null && !rowName.equals(""))
                 ? rowName
-                : table.rows().headers()[rowNum]; }
+                : table.rows().headers()[rowNum-1]; }
 
     @Override
     protected String getTextAction() {return get().getText(); }

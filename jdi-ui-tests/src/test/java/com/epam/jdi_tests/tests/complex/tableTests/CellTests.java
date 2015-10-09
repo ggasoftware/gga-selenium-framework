@@ -1,21 +1,13 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.epam.jdi_tests.InitTests;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.List;
 
-import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.supportPage;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
 
