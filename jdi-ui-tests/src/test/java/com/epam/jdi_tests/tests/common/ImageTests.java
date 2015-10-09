@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkText;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 
 /**
  * Created by Roman_Iovlev on 9/15/2015.
@@ -32,11 +32,11 @@ public class ImageTests extends InitTests {
 	
 	@Test
 	public void getSourceTest(){
-		checkText(image()::getSource, "http://ecse00100176.epam.com/images/Logo_Epam_Color.svg");
+		areEquals(image().getSource(), "http://ecse00100176.epam.com/images/Logo_Epam_Color.svg");
 	}
 
 	@Test
 	public void getTipTest(){
-		checkText(image()::getAlt, "ALT");
+		areEquals(image().getAlt(), "ALT");
 	}
 }

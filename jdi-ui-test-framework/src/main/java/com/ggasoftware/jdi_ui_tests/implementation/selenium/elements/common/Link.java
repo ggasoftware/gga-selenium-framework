@@ -45,6 +45,6 @@ public class Link extends ClickableText implements ILink {
     }
     protected String getTooltipAction() { return getWebElement().getAttribute("title"); }
     public final String getTooltip() {
-        return invoker.doJActionResult("Get link tooltip", this::getReferenceAction, href -> "Get link tooltip '" + href + "'");
+        return invoker.doJActionResult("Get link tooltip", this::getTooltipAction, href -> "Get link tooltip '" + href + "'");
     }
 }

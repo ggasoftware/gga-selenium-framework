@@ -12,6 +12,7 @@ import static com.epam.jdi_tests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
 
 /**
@@ -34,34 +35,37 @@ public class LabelTests extends InitTests {
 
 	@Test
 	public void getTextTest() {
-		checkText(() -> label().getText(), LABEL_NAME);
+		areEquals(label().getText(), LABEL_NAME);
 	}
 	@Test
 	public void getValueTest() {
-		checkText(() -> label().getValue(), LABEL_NAME);
+		areEquals(label().getValue(), LABEL_NAME);
 	}
 	@Test
 	public void waitTextTest() {
-		checkText(() -> label().waitText("CULATE"), LABEL_NAME);
+		areEquals(label().waitText("CULATE"), LABEL_NAME);
 	}
 
 	//TODO ! contains
 
 	@Test
 	public void matchTextTest() {
-		checkText(() -> label().waitMatchText("C.*C.LATE"), LABEL_NAME);
+		areEquals(label().waitMatchText("C.*C.LATE"), LABEL_NAME);
 	}
 	//TODO ! match
 	@Test
 	public void wait3TextTest() {
 		isInState(SUPPORT_PAGE);
-		runParallel(homePage::open);
-		checkText(() -> label().waitText("CULATE"), LABEL_NAME);
+		runParallel(metalsColorsPage::open);
+		areEquals(label().waitText("CULATE"), LABEL_NAME);
 		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 
 	@Test
 	public void match3TextTest() {
-		checkText(() -> label().waitMatchText("C.*C.LATE"), LABEL_NAME);
+		isInState(SUPPORT_PAGE);
+		runParallel(metalsColorsPage::open);
+		areEquals(label().waitMatchText("C.*C.LATE"), LABEL_NAME);
+		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 }

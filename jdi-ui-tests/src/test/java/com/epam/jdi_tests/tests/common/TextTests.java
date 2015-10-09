@@ -13,9 +13,9 @@ import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.homePage;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkText;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.runParallel;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.waitTimeOut;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
 
 /**
@@ -23,8 +23,13 @@ import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert
  */
 public class TextTests extends InitTests {
 
+	private IText text = homePage.text;
+	public TextTests(IText text) {
+		this.text = text;
+	}
+
 	public IText text() {
-		return homePage.text;
+		return text;
 	}
 
 	@BeforeMethod
@@ -33,35 +38,35 @@ public class TextTests extends InitTests {
 	}
 	@Test
 	public void getTextTest() {
-		checkText(() -> text().getText(), TEXT);
+		areEquals(text().getText(), TEXT);
 	}
 	@Test
 	public void getValueTest() {
-		checkText(() -> text().getValue(), TEXT);
+		areEquals(text().getValue(), TEXT);
 	}
 	@Test(dataProvider = "waitText", dataProviderClass = TextDP.class)
 	public void waitTextTest(String contains) {
-		checkText(() -> text().waitText(contains), TEXT);
+		areEquals(text().waitText(contains), TEXT);
 	}
 
 	//TODO ! contains
 
 	@Test
 	public void matchTextTest() {
-		checkText(() -> text().waitMatchText(".* ipsum dolor sit amet.*".toUpperCase()), TEXT);
+		areEquals(() -> text().waitMatchText(".* ipsum dolor sit amet.*".toUpperCase()), TEXT);
 	}
 	//TODO ! match
 	@Test
 	public void wait3TextTest() {
 		isInState(SUPPORT_PAGE);
 		runParallel(homePage::open);
-		checkText(() -> text().waitText("Lorem ipsum dolor sit amet".toUpperCase()), TEXT);
+		areEquals(text().waitText("Lorem ipsum dolor sit amet".toUpperCase()), TEXT);
 		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 
 	@Test
 	public void match3TextTest() {
-		checkText(() -> text().waitMatchText(".* ipsum dolor sit amet.*".toUpperCase()), TEXT);
+		areEquals(text().waitMatchText(".* ipsum dolor sit amet.*".toUpperCase()), TEXT);
 	}
 
 	public static final String TEXT =
