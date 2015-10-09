@@ -49,7 +49,7 @@ abstract class TableLine extends Element implements ITableLine {
     protected abstract List<WebElement> getHeadersAction();
     public final MapArray<String, SelectElement> header() { return new MapArray<>(getHeadersAction(), WebElement::getText, SelectElement::new); }
     public final SelectElement header(String name) { return header().get(name); }
-    public final String[] headers() {
+    public String[] headers() {
         if (headers != null)
             return headers;
         String[] localHeaders = Timer.getResultAction(this::getHeadersTextAction);

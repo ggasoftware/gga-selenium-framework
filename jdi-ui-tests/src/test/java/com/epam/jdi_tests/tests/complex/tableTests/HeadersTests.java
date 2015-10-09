@@ -8,8 +8,6 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.foreach;
-
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.
  */
@@ -49,7 +47,7 @@ public class HeadersTests extends InitTableTests{
 
     @Test
     public void verifyColumnsHeadersAsTest(){
-        String [] expectedColumnHeaders = (String[]) Arrays.asList("Type", "Now", "Plans").toArray();
+        String [] expectedColumnHeaders = new String[] {"Type", "Now", "Plans"};
         String [] actualColumnHeaders = support().columns().headers();
 
         Assert.isTrue(Arrays.equals(expectedColumnHeaders, actualColumnHeaders),

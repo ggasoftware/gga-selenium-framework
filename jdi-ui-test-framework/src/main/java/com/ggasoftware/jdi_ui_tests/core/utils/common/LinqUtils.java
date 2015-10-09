@@ -220,6 +220,15 @@ public class LinqUtils {
                 return i;
         return -1;
     }
+    public static <T> List<T> listCopy(List<T> array, int from, Class<T> clazz) {
+        return listCopy(array, from, array.size() - 1, clazz);
+    }
+    public static <T> List<T> listCopy(List<T> list, int from, int to, Class<T> clazz) {
+        List<T> result = new ArrayList<>();
+        for (int i = from; i <= to; i++)
+            result.add(list.get(i));
+        return result;
+    }
 
     public static <T> List<T> selectMany(List<T> list, JFuncTT<T,List<T>> func) {
         List<T> result = new ArrayList<>();

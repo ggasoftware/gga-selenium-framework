@@ -12,7 +12,6 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
  * Created by Maksim_Palchevskii on 8/17/2015.
  */
 public class ContactForm extends Page {
-
     @FindBy(id = "Name")
     public ITextField name;
     @FindBy(id = "LastName")
@@ -21,6 +20,4 @@ public class ContactForm extends Page {
     public ITextArea description;
     @FindBy(xpath = ".//main//button")
     public IButton contactSubmit;
-    @FindBy(xpath = ".//nav//img")
-	public IImage logoImage;
 }

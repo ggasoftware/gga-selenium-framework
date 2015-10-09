@@ -90,7 +90,7 @@ public class ColumnTests extends InitTableTests {
     public void getColumnByRowAndValue(){
         MapArray<String, ICell> column = support().column("Logger", row(4));
 
-        Assert.areEquals("Type", column.get(0).value.columnName(), String.format("Expected column name is 'Type', but was %s", column.get(0).value.columnName()));
+        Assert.areEquals("Type", column.get(0).value.columnName(), String.format("Expected column name is 'Type', but was '%s'", column.get(0).value.columnName()));
     }
 
     @Test

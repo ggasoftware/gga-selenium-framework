@@ -1,33 +1,13 @@
 package com.epam.jdi_tests.tests.common;
 
-import static com.epam.jdi_tests.BaseScenario.baseGetTextTest;
-import static com.epam.jdi_tests.BaseScenario.baseWait3TextMatchTest;
-import static com.epam.jdi_tests.BaseScenario.baseWait3TextTest;
-import static com.epam.jdi_tests.BaseScenario.baseWaitTextMatchTest;
-import static com.epam.jdi_tests.BaseScenario.baseWaitTextTest;
-import static com.epam.jdi_tests.dataproviders.TextAreaDP.TEXT;
-import static com.epam.jdi_tests.enums.Preconditions.CONTACT_PAGE_WITH_FILLED_FIELDS;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.contactFormPage;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkText;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import com.epam.jdi_tests.BaseScenarioInput;
 import com.epam.jdi_tests.InitTests;
-import com.epam.jdi_tests.dataproviders.TextAreaDP;
-import com.epam.jdi_tests.dataproviders.TextFieldDP;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextArea;
 
 /**
  * Created by Roman_Iovlev on 9/15/2015.
  */
 public class TextAreaTests extends InitTests {
+/*
+TODO
 	final String[] IN = {"line1", "line2", "line3"};
 	
 	@Override
@@ -142,4 +122,5 @@ public class TextAreaTests extends InitTests {
 		_onPage.open();
 		checkText(textElement()::getValue, TEXT);
 	}
+	*/
 }
