@@ -140,5 +140,23 @@ public class TableTests extends InitTableTests {
         Assert.areEquals(supportTable.columns().count(),providedColumnList.size(),
                 String.format("Expected column count is %d, but was %d",providedColumnList.size(),supportTable.columns().count()));
     }
+    @Test(dataProvider = "setColumnHeaders", dataProviderClass = TableDP.class)
+    public void verifySetColumnHeadersByHeaders (List<String> providedColumnList, String firstColumnContent){
+        Table supportTable = (Table)new SupportPage().supportTable;
+
+        supportTable.setColumnHeaders((String [])providedColumnList.toArray());
+
+        Assert.areEquals(Arrays.asList(supportTable.columns().headers()),providedColumnList,
+                String.format("Expected column list is \n%s, \nbut was \n%s",providedColumnList,Arrays.asList(supportTable.columns().headers())));
+    }
+    @Test(dataProvider = "setColumnHeaders", dataProviderClass = TableDP.class)
+    public void verifySetColumnHeadersByFirstColumnContent (List<String> providedColumnList, String firstColumnContent){
+        Table supportTable = (Table)new SupportPage().supportTable;
+
+        supportTable.setColumnHeaders((String [])providedColumnList.toArray());
+
+        Assert.areEquals(supportTable.cell(column(1),row(1)).getText(),firstColumnContent,
+                String.format("Expected first column ocntent is %s, but was %s",firstColumnContent, supportTable.cell(column(1), row(1)).getText()));
+    }
 
 }
