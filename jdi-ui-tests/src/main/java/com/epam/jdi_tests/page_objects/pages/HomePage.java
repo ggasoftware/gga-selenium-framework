@@ -13,8 +13,6 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
 public class HomePage extends Page {
 	@FindBy(css = ".main-txt")
 	public IText text;
-
-
-	@FindBy(id = "epam_logo")
+	@FindBy(css = ".epam-logo img")
 	public IImage logoImage;
 }

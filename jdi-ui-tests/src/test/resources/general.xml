@@ -1,0 +1,44 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Selenium Suite" parallel="false" >
+    <test name="Selenium Tests">
+        <classes>
+            <!--<class name="com.pharmapendium.qa.tests.Smoke-->
+            <class name="com.epam.jdi_tests.tests.common.TextTests"/>
+        </classes>
+    </test>
+</suite>
+=======
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="2" name="gga-selenium-framework" parallel="false">
+    <test  verbose="2" name="jdi-ui-tests" preserve-order="true">
+        <classes>
+            <class name="com.epam.jdi_tests.tests.complex.tableTests.CellTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.tableTests.ColumnTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.tableTests.InitTableTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.tableTests.RowTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.tableTests.TableTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.tableTests.WaitersTest"></class>
+            <class name="com.epam.jdi_tests.tests.complex.tableTests.HeadersTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.ChecklistTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.ComboBoxTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.CommonActionsData"></class>
+            <class name="com.epam.jdi_tests.tests.complex.DropdownTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.DropdownExpandedTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.RadioButtonsTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.RadioButtonsWithSelectedTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.SelectorTests"></class>
+            <class name="com.epam.jdi_tests.tests.complex.SelectorWithSelectedTests"></class>
+            <class name="com.epam.jdi_tests.tests.common.CheckboxTests"></class>
+            <class name="com.epam.jdi_tests.tests.common.ImageTests"></class>
+            <class name="com.epam.jdi_tests.tests.common.LabelTests"></class>
+            <class name="com.epam.jdi_tests.tests.common.LinkTests"></class>
+            <class name="com.epam.jdi_tests.tests.common.TextAreaTests"></class>
+            <class name="com.epam.jdi_tests.tests.common.TextFieldTests"></class>
+            <class name="com.epam.jdi_tests.tests.common.TextTests"></class>
+        </classes>
+    </test>
+</suite>
+>>>>>>> 42aac2b1ba94b5b1e249261454a0732cc88e5ebb

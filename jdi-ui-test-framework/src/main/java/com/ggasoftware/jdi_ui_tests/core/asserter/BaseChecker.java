@@ -234,12 +234,16 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void arrayEquals(T actual, T expected, String failMessage) {
         assertAction("Check that Collections are equal",
                 () -> actual != null && expected != null && actual.getClass().isArray() && expected.getClass().isArray()
-                        && getLength(actual) == getLength(expected)
                         ? FOUND
                         : "arrayEquals failed because one of the Objects is not Array or empty",
                 failMessage, false);
+        assertAction("Check that Collections are equal",
+                () -> getLength(actual) == getLength(expected)
+                        ? FOUND
+                        : format("arrayEquals failed because arrays have different lengths: '%s' and '%s'", getLength(actual), getLength(expected)),
+                failMessage, false);
         assertAction(null, () -> {
-            for (int i = 0; i <= getLength(actual); i++)
+            for (int i = 0; i < getLength(actual); i++)
                 if (!get(actual, i).equals(get(expected, i)))
                     return format("Arrays not equals at index '%s'. '%s' != '%s'. Arrays: '%s' and '%s'",
                             i, get(actual, i), get(expected, i), printObjectAsArray(actual), printObjectAsArray(expected));
