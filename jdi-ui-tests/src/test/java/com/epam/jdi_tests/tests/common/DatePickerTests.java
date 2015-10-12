@@ -2,7 +2,7 @@ package com.epam.jdi_tests.tests.common;
 
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
-
+import static com.epam.jdi_tests.CommonData.TEST_DATE;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import org.testng.annotations.AfterMethod;
@@ -25,7 +25,6 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
 
 public class DatePickerTests extends InitTests {
 	private Preconditions _onPage = null;
-	private static final String TEXT = Timer.nowTime("MM/dd/yyyy");
 
 	public DatePickerTests() {
 		_onPage = Preconditions.DATES_PAGE;
@@ -64,9 +63,9 @@ public class DatePickerTests extends InitTests {
 
 	@Factory
 	public Object[] factory() {
-		return new Object[] { new SimpleTextTests(TEXT, _onPage, getTextable()),
-				new MatchTextTests(TEXT, "([0-9]{2}[\\/]{1}){2}[0-9]{4}", _onPage, getTextable()),
-				new ContainsTextTests(TEXT, Timer.nowTime("yyyy"), _onPage, getTextable()),
+		return new Object[] { new SimpleTextTests(TEST_DATE, _onPage, getTextable()),
+				new MatchTextTests(TEST_DATE, "([0-9]{2}[\\/]{1}){2}[0-9]{4}", _onPage, getTextable()),
+				new ContainsTextTests(TEST_DATE, "1945", _onPage, getTextable()),
 				new AttributeTests("testAttribute", "testValue", _onPage, gete()),
 				new InputTests(Timer.nowTime("MM/dd/yyyy"), _onPage, getInputable()),
 				};

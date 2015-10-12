@@ -14,8 +14,8 @@ public class DatesPage extends Page {
 
 	@FindBy(css = "#datepicker input")
 	public IDatePicker datepicker;
-	@FindBy(css = "[@data-provides=fileinput]")
+	@FindBy(css = "[data-provides=fileinput]")
 	public IFileInput imageInput;
-	@FindBy(css = "[@data-provides=fileinput]")
+	@FindBy(css = "[data-provides=fileinput]")
 	public RFileInput rImageInput;
 }
