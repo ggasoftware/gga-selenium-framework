@@ -2,6 +2,8 @@ package com.epam.jdi_tests.tests.complex;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
+
 import ru.yandex.qatools.allure.annotations.Step;
 
 import java.io.File;
@@ -80,8 +82,8 @@ public class CommonActionsData {
 
 
 	@Step
-	public static void checkText(JAction action, String expected){
-		areEquals(action, expected);
+	public static void checkText(final JFuncT<String> func, String expected){
+		areEquals(func.invoke(), expected);
 	}
 	
 	@Step
