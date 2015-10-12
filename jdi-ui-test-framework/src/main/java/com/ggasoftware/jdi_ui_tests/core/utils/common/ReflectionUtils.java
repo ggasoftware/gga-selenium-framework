@@ -51,8 +51,11 @@ public class ReflectionUtils {
         return result;
     }
 
-    public static List<Field> getFields(Object obj, Class<?> type)  {
+    public static List<Field> deepGetFields(Object obj, Class<?> type)  {
         return where(deepGetFields(obj.getClass()), field -> !isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
+    }
+    public static List<Field> getFields(Object obj, Class<?> type)  {
+        return where(obj.getClass().getDeclaredFields(), field -> !isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
     }
 
     public static List<Field> getStaticFields(Class<?> parent, Class<?> type)  {

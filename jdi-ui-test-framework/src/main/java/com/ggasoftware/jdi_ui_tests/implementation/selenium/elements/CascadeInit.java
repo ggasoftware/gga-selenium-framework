@@ -59,7 +59,7 @@ public abstract class CascadeInit implements IBaseElement {
         return parentInstance;
     }
     private static void initSubElements(Object parent, Object parentInstance) {
-        foreach(getFields(parent, IBaseElement.class),
+        foreach(deepGetFields(parent, IBaseElement.class),
                 field -> setElement(parent, parentInstance, field));
     }
 
