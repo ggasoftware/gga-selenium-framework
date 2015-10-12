@@ -28,7 +28,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  */
 public class Table extends Text implements ITable {
     public Table() {
-        this(null);
+        _columns.table = this;
+        _rows.table = this;
         //GetFooterFunc = t => t.FindElements(By.xpath("//tfoot/tr/td")).Select(el => el.Text).ToArray();
     }
     public Table(By tableLocator) {
@@ -37,9 +38,9 @@ public class Table extends Text implements ITable {
         _rows.table = this;
     }
     public Table(By header, By row, By column) {
-        this(null);
-        _columns.columnNameTemplate = column;
-        _columns.columnsHeadersTemplate = header;
+        this();
+        _columns.columnTemplate = column;
+        _columns.columnsHeadersLocator = header;
         _rows.rowTemplate = row;
     }
     public Table(By tableLocator, By cellLocatorTemplate) {
@@ -49,6 +50,15 @@ public class Table extends Text implements ITable {
     public Table(By tableLocator, Class<?>... columnsTemplate) {
         this(tableLocator);
         this.columnsTemplate = columnsTemplate;
+    }
+    public Table(TableSettings settings) {
+        this();
+        rows().hasHeader = settings.rowHasHeaders;
+        rows().headers = settings.rowHeaders;
+        rows().count = settings.rowsCount;
+        columns().hasHeader = settings.columnHasHeaders;
+        columns().headers = settings.columnHeaders;
+        columns().count = settings.columnsCount;
     }
 
     private By cellLocatorTemplate;

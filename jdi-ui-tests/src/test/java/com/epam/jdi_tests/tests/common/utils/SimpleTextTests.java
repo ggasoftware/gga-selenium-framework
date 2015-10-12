@@ -12,9 +12,9 @@ public class SimpleTextTests {
 
 	private String _expected;
 	private Preconditions _onPage;
-	private Texstable _t;
+	private ITexstable _t;
 	
-	public SimpleTextTests(String expected, Preconditions onPage, Texstable t) {
+	public SimpleTextTests(String expected, Preconditions onPage, ITexstable t) {
 		_expected = expected;
 		_onPage = onPage;
 		this._t = t;

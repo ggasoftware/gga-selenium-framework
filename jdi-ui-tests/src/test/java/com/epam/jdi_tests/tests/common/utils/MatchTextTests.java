@@ -19,9 +19,9 @@ public class MatchTextTests {
 	private String _expected;
 	private String _regex;
 	private Preconditions _onPage;
-	private Texstable _t;
+	private ITexstable _t;
 
-	public MatchTextTests(String expected, String regex, Preconditions onPage, Texstable t) {
+	public MatchTextTests(String expected, String regex, Preconditions onPage, ITexstable t) {
 		super();
 		this._expected = expected;
 		this._regex = regex;

@@ -11,8 +11,7 @@ import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.index;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
 /**
@@ -24,19 +23,20 @@ public class Columns extends TableLine {
         elementIndex = ElementIndexType.Nums;
     }
 
-    protected By columnsHeadersTemplate = By.xpath(".//th");
-    protected By columnTemplate = By.xpath(".//tr/td[%s]");
-    protected By columnNameTemplate = null;
+    protected By columnsHeadersLocator = By.xpath(".//th");
+    protected By defaultColumnTemplate = By.xpath(".//tr/td[%s]");
+    protected By columnTemplate = null;
     protected List<WebElement> getHeadersAction() {
-        return table.getWebElement().findElements(columnsHeadersTemplate);
+        List<WebElement> headers = table.getWebElement().findElements(columnsHeadersLocator);
+        return (table.rows().hasHeader) ? listCopy(headers, 1, WebElement.class) : headers;
     }
     protected List<WebElement> getColumnAction(int colNum) {
-        return table.getWebElement().findElements(fillByTemplate(columnTemplate, colNum));
+        return table.getWebElement().findElements(fillByTemplate(defaultColumnTemplate, colNum));
     }
     protected List<WebElement> getColumnAction(String colName) {
-        return (columnNameTemplate == null)
+        return (columnTemplate == null)
             ? getColumnAction(index(headers(), colName) + 1)
-            : table.getWebElement().findElements(fillByTemplate(columnNameTemplate, colName));
+            : table.getWebElement().findElements(fillByTemplate(columnTemplate, colName));
     }
 
     private RuntimeException throwColsException(String colName, String ex) {

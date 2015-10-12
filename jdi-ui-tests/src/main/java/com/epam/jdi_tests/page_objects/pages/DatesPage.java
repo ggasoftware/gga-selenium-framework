@@ -12,10 +12,10 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
  */
 public class DatesPage extends Page {
 
-	@FindBy(xpath = "//*[@id=\"datepicker\"]/input")
-	public IDatePicker _datepicker;
-	@FindBy(xpath = ".//div[@data-provides=\"fileinput\"]")
-	public IFileInput _imageInput;
-	@FindBy(xpath = ".//div[@data-provides=\"fileinput\"]")
-	public RFileInput _rImageInput;
+	@FindBy(css = "#datepicker input")
+	public IDatePicker datepicker;
+	@FindBy(css = "[@data-provides=fileinput]")
+	public IFileInput imageInput;
+	@FindBy(css = "[@data-provides=fileinput]")
+	public RFileInput rImageInput;
 }

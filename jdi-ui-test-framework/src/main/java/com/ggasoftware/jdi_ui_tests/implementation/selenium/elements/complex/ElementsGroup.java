@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils.getEnumValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
-import static java.lang.String.format;
 
 
 /**
@@ -16,6 +15,9 @@ import static java.lang.String.format;
  */
 public class ElementsGroup<TEnum extends Enum, TType extends Element> extends BaseElement implements IGroup<TEnum, TType> {
     public ElementsGroup() { }
+    public ElementsGroup(Class<TType> clazz) {
+        this.clazz = clazz;
+    }
     public ElementsGroup(By byLocator, Class<TType> clazz) {
         super(byLocator);
         this.clazz = clazz;

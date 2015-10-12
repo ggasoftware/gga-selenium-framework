@@ -11,10 +11,9 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <groupId>com.ggasoftware.jdi-ui-tests</groupId>
     <artifactId>jdi-ui-tests</artifactId>
     <version>2.0.1-SNAPSHOT</version>
-    <name>jdi-ui-test-framework</name>
+    <name>jdi-ui-tests</name>
     <packaging>jar</packaging>
 
     <properties>

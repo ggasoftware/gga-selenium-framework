@@ -12,10 +12,10 @@ import com.epam.jdi_tests.enums.Preconditions;
 public class AttributeTests {
 	private String _value;
 	private Preconditions _onPage;
-	private Elementable _e;
+	private IElementable _e;
 	private String _attributeName;
 
-	public AttributeTests(String attributeName, String value, Preconditions onPage, Elementable e) {
+	public AttributeTests(String attributeName, String value, Preconditions onPage, IElementable e) {
 		this._value = value;
 		this._attributeName = attributeName;
 		this._onPage = onPage;
@@ -34,8 +34,8 @@ public class AttributeTests {
 	}
 	
 	// TODO
-	@Test
-	public void getAttributeTest() throws Exception {
-		
-	}
+//	@Test
+//	public void getAttributeTest() throws Exception {
+//		
+//	}
 }

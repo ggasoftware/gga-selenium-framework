@@ -1,6 +1,7 @@
 package com.epam.jdi_tests.tests.common;
 
 import com.epam.jdi_tests.InitTests;
+import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.tests.common.utils.AttributeTests;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IImage;
@@ -26,7 +27,8 @@ public class ImageTests extends InitTests {
 
 	private static final String ALT = "ALT";
 	private static final String SRC = "http://ecse00100176.epam.com/images/Logo_Epam_Color.svg";
-
+	private Preconditions _onPage = null;
+	
 	public ImageTests() {
 		_onPage = HOME_PAGE;
 	}

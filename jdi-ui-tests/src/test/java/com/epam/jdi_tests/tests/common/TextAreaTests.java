@@ -14,21 +14,23 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 import com.epam.jdi_tests.InitTests;
+import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.tests.common.utils.AttributeTests;
 import com.epam.jdi_tests.tests.common.utils.ContainsTextTests;
-import com.epam.jdi_tests.tests.common.utils.Elementable;
+import com.epam.jdi_tests.tests.common.utils.IElementable;
 import com.epam.jdi_tests.tests.common.utils.InputTests;
-import com.epam.jdi_tests.tests.common.utils.Inputable;
+import com.epam.jdi_tests.tests.common.utils.IInputable;
 import com.epam.jdi_tests.tests.common.utils.MatchTextTests;
 import com.epam.jdi_tests.tests.common.utils.SimpleTextTests;
-import com.epam.jdi_tests.tests.common.utils.Texstable;
+import com.epam.jdi_tests.tests.common.utils.ITexstable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextArea;
 
 public class TextAreaTests extends InitTests {
 	final String[] IN = { "line1", "line2", "line3" };
 	public static final String TEXT = DEFAULT_USER.description;
-
+	private Preconditions _onPage = null;
+	
 	public TextAreaTests() {
 		_onPage = CONTACT_PAGE_WITH_FILLED_FIELDS;
 	}
@@ -37,9 +39,9 @@ public class TextAreaTests extends InitTests {
 		return contactFormPage.description;
 	}
 	
-	private Texstable getTextable()  { return () -> { return getElement(); }; }
-	private Inputable getInputable() { return () -> { return getElement(); }; }
-	private Elementable gete() 		 { return () -> { return (IElement) getElement(); }; }
+	private ITexstable getTextable()  { return () -> { return getElement(); }; }
+	private IInputable getInputable() { return () -> { return getElement(); }; }
+	private IElementable gete() 		 { return () -> { return (IElement) getElement(); }; }
 
 	public ITextArea input() {
 		return (ITextArea) getInputable().getInputElement();

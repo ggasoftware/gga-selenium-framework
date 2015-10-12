@@ -18,10 +18,10 @@ import com.epam.jdi_tests.enums.Preconditions;
 public class ContainsTextTests {
 	private String _expected;
 	private Preconditions _onPage;
-	private Texstable _t;
+	private ITexstable _t;
 	private String _contains;
 
-	public ContainsTextTests(String expected, String contains, Preconditions onPage, Texstable t) {
+	public ContainsTextTests(String expected, String contains, Preconditions onPage, ITexstable t) {
 		super();
 		this._expected = expected;
 		this._contains = contains;

@@ -13,10 +13,13 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 
+import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ICheckBox;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 
 /**
  * Checkbox control implementation
@@ -41,12 +44,30 @@ public class CheckBox extends Clickable implements ICheckBox {
     protected void checkAction() {
         if (!isCheckedAction())
             clickAction();
+        if (!isCheckedAction())
+            throw asserter.exception("Can't check element. Verify locator for click or isCheckedAction");
     }
     protected void uncheckAction() {
         if (isCheckedAction())
             clickAction();
+        if (isCheckedAction())
+            throw asserter.exception("Can't uncheck element. Verify locator for click or isCheckedAction");
     }
-    protected boolean isCheckedAction() { return getWebElement().isSelected(); }
+    private JFuncTT<WebElement, Boolean> isSelected = WebElement::isSelected;
+    private JFuncTT<WebElement, Boolean> isChecked = el -> el.getAttribute("checked") != null;
+    private JFuncTT<WebElement, Boolean> isCheckedFunc = el -> {
+        if (isSelected.invoke(el)) {
+            isCheckedFunc = isSelected;
+            return true;
+        }
+        if (isChecked.invoke(el)) {
+            isCheckedFunc = isChecked;
+            return true;
+        }
+        return false;
+    };
+
+    protected boolean isCheckedAction() { return isCheckedFunc.invoke(getWebElement()); }
 
     public final void check() {
         actions.check(this::checkAction);

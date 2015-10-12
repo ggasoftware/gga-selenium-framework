@@ -21,7 +21,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
  */
 
 public class CheckboxTests extends InitTests {
-
+	private Preconditions _onPage = null;
     public CheckboxTests() {
     	_onPage = Preconditions.METALS_AND_COLORS_PAGE;
 	}

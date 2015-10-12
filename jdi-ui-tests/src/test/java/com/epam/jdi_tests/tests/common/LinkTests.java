@@ -15,19 +15,21 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 import com.epam.jdi_tests.InitTests;
+import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.tests.common.utils.AttributeTests;
 import com.epam.jdi_tests.tests.common.utils.ContainsTextTests;
-import com.epam.jdi_tests.tests.common.utils.Elementable;
+import com.epam.jdi_tests.tests.common.utils.IElementable;
 import com.epam.jdi_tests.tests.common.utils.MatchTextTests;
 import com.epam.jdi_tests.tests.common.utils.SimpleTextTests;
-import com.epam.jdi_tests.tests.common.utils.Texstable;
+import com.epam.jdi_tests.tests.common.utils.ITexstable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ILink;
 
 public class LinkTests extends InitTests {
 	public final static String TEXT = "About";
 	public final static String HREF = "http://ecse00100176.epam.com/page3.htm";
-
+	private Preconditions _onPage = null;
+	
 	public LinkTests() {
 		_onPage = HOME_PAGE;
 	}
@@ -36,11 +38,11 @@ public class LinkTests extends InitTests {
 		return footer.about;
 	}
 
-	private Texstable get() {
+	private ITexstable get() {
 		return () -> {	return getElement(); };
 	}
 	
-	private Elementable gete() {
+	private IElementable gete() {
 		return () -> { return (IElement) getElement(); };
 	}
 

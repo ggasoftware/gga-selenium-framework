@@ -12,17 +12,19 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import com.epam.jdi_tests.InitTests;
+import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.tests.common.utils.AttributeTests;
 import com.epam.jdi_tests.tests.common.utils.ContainsTextTests;
-import com.epam.jdi_tests.tests.common.utils.Elementable;
+import com.epam.jdi_tests.tests.common.utils.IElementable;
 import com.epam.jdi_tests.tests.common.utils.MatchTextTests;
 import com.epam.jdi_tests.tests.common.utils.SimpleTextTests;
-import com.epam.jdi_tests.tests.common.utils.Texstable;
+import com.epam.jdi_tests.tests.common.utils.ITexstable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ILabel;
 
 @Test(testName = "Label")
 public class LabelTests extends InitTests{
+	private Preconditions _onPage = null;
 	
 	public static final String TEXT = "CALCULATE";
 	
@@ -34,11 +36,11 @@ public class LabelTests extends InitTests{
 		return metalsColorsPage.calculate;
 	}
 	
-	private Texstable get() {
+	private ITexstable get() {
 		return () -> {	return getElement(); };
 	}
 
-	private Elementable gete() {
+	private IElementable gete() {
 		return () -> { return (IElement) getElement(); };
 	}
 	

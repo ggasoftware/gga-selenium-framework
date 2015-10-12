@@ -15,11 +15,11 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
 public class InputTests {
 
 	private Preconditions _onPage;
-	private Inputable _i;
+	private IInputable _i;
 	private ITextField _textFileld = null;
 	private String _inputText;
 
-	public InputTests(String inputText, Preconditions onPage, Inputable i) {
+	public InputTests(String inputText, Preconditions onPage, IInputable i) {
 		this._inputText = inputText;
 		this._onPage = onPage;
 		this._i = i;
