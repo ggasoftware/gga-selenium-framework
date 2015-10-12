@@ -1,5 +1,6 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
+import com.epam.jdi_tests.dataproviders.TableDP;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
@@ -9,8 +10,6 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
 
@@ -19,17 +18,11 @@ import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.comp
  */
 public class CellTests extends InitTableTests {
 
-    @Test
-    public  void getCellValueByRowAndColumnFirstCell(){
-
-        String cellValue = support().cell(new Column(1), new Row(1)).getValue();
-        Assert.areEquals(cellValue, "Drivers", String.format("In cell (1, 1) expected \"Drivers\", but was, %s", cellValue));
-    }
-    @Test
-    public  void getCellValueByRowAndColumnLastCell(){
-        String cellValue = support().cell(new Column(3), new Row(6)).getValue();
-        Assert.areEquals(cellValue, "Cucumber, Jbehave, Thucydides, SpecFlow",
-                String.format("In cell (6, 3) expected \"Cucumber, Jbehave, Thucydides, SpecFlow\", but was, %s", cellValue));
+    @Test (dataProvider = "setCellValue", dataProviderClass = TableDP.class)
+    public  void getCellValueByRowAndColumn(int columnIndex, int rowIndex, String expectedCellValue){
+        String cellValue = support().cell(new Column(columnIndex), new Row(rowIndex)).getValue();
+        Assert.areEquals(cellValue, expectedCellValue,
+                String.format("In cell (%d, %d) expected %s, but was, %s",rowIndex, columnIndex, expectedCellValue, cellValue));
     }
 
     @Test
@@ -65,19 +58,13 @@ public class CellTests extends InitTableTests {
         }
     }
 
-    @Test
-    public void getFirstCellWithValueEqualTo(){
-        ICell cell = support().cell("MSTest, NUnit, Epam");
 
-        Assert.areEquals(cell.columnNum(), 3, "Wrong position first element`s position");
-        Assert.areEquals(cell.rowNum(), 2, "Wrong position first element`s position");
-    }
-    @Test
-    public void getFirstCellWithValueEqualToValueInUse(){
-        ICell cell = support().cell("Custom");
+    @Test(dataProvider = "setCellPosition", dataProviderClass = TableDP.class)
+    public void getFirstCellWithValueEqualTo(String searchCellValue, int columnIndex, int rowIndex){
+        ICell cell = support().cell(searchCellValue);
 
-        Assert.areEquals(cell.columnNum(), 2, "Wrong position first element`s position");
-        Assert.areEquals(cell.rowNum(), 6, "Wrong position first element`s position");
+        Assert.areEquals(cell.columnNum(), columnIndex, "Wrong position first element`s position");
+        Assert.areEquals(cell.rowNum(), rowIndex, "Wrong position first element`s position");
     }
     @Test
     public void getFirstCellWithValueMatchTo(){
@@ -87,33 +74,18 @@ public class CellTests extends InitTableTests {
         Assert.areEquals(cell.rowNum(), 1, "Wrong position first element`s position");
     }
 
-    @Test
-    public void getCellWithValueEqualToInColumnByName(){
-        ICell cell = support().cell("Custom", column("Now"));
+    @Test(dataProvider = "setValueAndColumn", dataProviderClass = TableDP.class)
+    public <T> void getCellWithValueEqualToInColumnByName(String cellValue, T column, int columnIndex, int rowIndex){
+        ICell cell;
 
-        Assert.areEquals(cell.columnNum(), 2, String.format("Wrong column number for element with 'Custom' value, expected 2, but was %d", cell.columnNum()));
-        Assert.areEquals(cell.rowNum(), 6, String.format("Wrong row number for element with 'Custom' value, expected 6, but was %d", cell.rowNum()));
-    }
-    @Test
-    public void getFirstCellWithValueEqualToInColumnByName(){
-        ICell cell = support().cell("MSTest, NUnit, Epam", column("Plans"));
+        if (column.getClass().equals(String.class))
+            cell = support().cell(cellValue, column((String) column));
+        else
+            cell = support().cell(cellValue, column((Integer) column));
 
-        Assert.areEquals(cell.columnNum(), 3, String.format("Wrong column number for element with 'MSTest, NUnit, Epam' value, expected 3, but was %d", cell.columnNum()));
-        Assert.areEquals(cell.rowNum(), 2, String.format("Wrong row number for element with 'MSTest, NUnit, Epam' value, expected 2, but was %d", cell.rowNum()));
-    }
-    @Test
-    public void getCellWithValueEqualToInColumnByNumber(){
-        ICell cell = support().cell("Custom", column(2));
-
-        Assert.areEquals(cell.columnNum(), 2, String.format("Wrong column number for element with 'Custom' value, expected 2, but was %d", cell.columnNum()));
-        Assert.areEquals(cell.rowNum(), 6, String.format("Wrong row number for element with 'Custom' value, expected 6, but was %d", cell.rowNum()));
-    }
-    @Test
-    public void getFirstCellWithValueEqualToInColumnByNumber(){
-        ICell cell = support().cell("MSTest, NUnit, Epam", column(3));
-
-        Assert.areEquals(cell.columnNum(), 3, String.format("Wrong column number for element with 'MSTest, NUnit, Epam' value, expected 3, but was %d", cell.columnNum()));
-        Assert.areEquals(cell.rowNum(), 2, String.format("Wrong row number for element with 'MSTest, NUnit, Epam' value, expected 2, but was %d", cell.rowNum()));
+        Assert.areEquals(cell.columnNum(), columnIndex,
+                String.format("Wrong column number for element with %s value, expected %d, but was %d",cellValue, columnIndex, cell.columnNum()));
+        Assert.areEquals(cell.rowNum(), rowIndex, String.format("Wrong row number for element with 'Custom' value, expected 6, but was %d", cell.rowNum()));
     }
 
     @Test
@@ -155,7 +127,7 @@ public class CellTests extends InitTableTests {
 
         Assert.areEquals(cells.get(0).columnNum(), 2, String.format("Wrong column number for element 1 match to  '[a-zA-Z, ]*log[a-zA-Z, ]*' value, expected 2, but was %d", cells.get(0).columnNum()));
         Assert.areEquals(cells.get(0).rowNum(), 4, String.format("Wrong row number for element 1 with to '[a-zA-Z, ]*log[a-zA-Z, ]*' value, expected 4, but was %d", cells.get(0).rowNum()));
-        new Check("Text in 2-nd column").areEquals(cells.get(1).columnNum(), 3);//, String.format("Wrong column number for element 2 match to  '[a-zA-Z, ]*log[a-zA-Z, ]*' value, expected 3, but was %d", cells.get(1).columnNum()));
+        new Check("Text in 2-nd column").areEquals(cells.get(1).columnNum(), 3);
         Assert.areEquals(cells.get(1).rowNum(), 4, String.format("Wrong row number for element 2 with to '[a-zA-Z, ]*log[a-zA-Z, ]*' value, expected 4, but was %d", cells.get(1).rowNum()));
     }
 
