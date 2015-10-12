@@ -24,19 +24,19 @@ public class Columns extends TableLine {
     }
 
     protected By columnsHeadersLocator = By.xpath(".//th");
-    protected By columnTemplate = By.xpath(".//tr/td[%s]");
-    protected By columnNameTemplate = null;
+    protected By defaultColumnTemplate = By.xpath(".//tr/td[%s]");
+    protected By columnTemplate = null;
     protected List<WebElement> getHeadersAction() {
         List<WebElement> headers = table.getWebElement().findElements(columnsHeadersLocator);
         return (table.rows().hasHeader) ? listCopy(headers, 1, WebElement.class) : headers;
     }
     protected List<WebElement> getColumnAction(int colNum) {
-        return table.getWebElement().findElements(fillByTemplate(columnTemplate, colNum));
+        return table.getWebElement().findElements(fillByTemplate(defaultColumnTemplate, colNum));
     }
     protected List<WebElement> getColumnAction(String colName) {
-        return (columnNameTemplate == null)
+        return (columnTemplate == null)
             ? getColumnAction(index(headers(), colName) + 1)
-            : table.getWebElement().findElements(fillByTemplate(columnNameTemplate, colName));
+            : table.getWebElement().findElements(fillByTemplate(columnTemplate, colName));
     }
 
     private RuntimeException throwColsException(String colName, String ex) {

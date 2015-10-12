@@ -1,6 +1,10 @@
 package com.ggasoftware.jdi_ui_tests.core.utils.common;
 
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
+
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
@@ -39,8 +43,16 @@ public class ReflectionUtils {
         return false;
     }
 
+    private static List<Field> deepGetFields(Class<?> clazz) {
+        List<Field> result = new ArrayList<>();
+        if (clazz != BaseElement.class)
+            result.addAll(deepGetFields(clazz.getSuperclass()));
+        result.addAll(Arrays.asList(clazz.getDeclaredFields()));
+        return result;
+    }
+
     public static List<Field> getFields(Object obj, Class<?> type)  {
-        return where(obj.getClass().getDeclaredFields(), field -> !isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
+        return where(deepGetFields(obj.getClass()), field -> !isStatic(field.getModifiers()) && (isClass(field, type) || isInterface(field, type)));
     }
 
     public static List<Field> getStaticFields(Class<?> parent, Class<?> type)  {

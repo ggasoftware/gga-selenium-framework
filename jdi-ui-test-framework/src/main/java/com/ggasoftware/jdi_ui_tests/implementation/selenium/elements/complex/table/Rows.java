@@ -25,18 +25,18 @@ public class Rows extends TableLine {
     }
 
     protected By rowsHeadersLocator = By.xpath(".//tr/td[1]");
-    protected By rowTemplate = By.xpath(".//tr[%s]/td");
-    protected By rowNameTemplate = null;
+    protected By defaultRowTemplate = By.xpath(".//tr[%s]/td");
+    protected By rowTemplate = null;
     protected List<WebElement> getHeadersAction() {
         return table.getWebElement().findElements(rowsHeadersLocator);
     }
     protected List<WebElement> getRowAction(int rowNum) {
-        return table.getWebElement().findElements(fillByTemplate(rowTemplate, rowNum));
+        return table.getWebElement().findElements(fillByTemplate(defaultRowTemplate, rowNum));
     }
     protected List<WebElement> getRowAction(String rowName) {
-        return (rowNameTemplate == null)
+        return (rowTemplate == null)
                 ? getRowAction(index(headers(), rowName) + 1)
-                : table.getWebElement().findElements(fillByTemplate(rowNameTemplate, rowName));
+                : table.getWebElement().findElements(fillByTemplate(rowTemplate, rowName));
     }
 
     private RuntimeException throwRowsException(String rowName, String ex) {

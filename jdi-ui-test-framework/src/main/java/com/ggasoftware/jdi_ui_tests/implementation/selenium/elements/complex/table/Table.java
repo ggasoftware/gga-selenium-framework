@@ -39,7 +39,7 @@ public class Table extends Text implements ITable {
     }
     public Table(By header, By row, By column) {
         this();
-        _columns.columnNameTemplate = column;
+        _columns.columnTemplate = column;
         _columns.columnsHeadersLocator = header;
         _rows.rowTemplate = row;
     }
