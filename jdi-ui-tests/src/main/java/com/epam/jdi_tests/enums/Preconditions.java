@@ -7,6 +7,7 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import static com.epam.jdi_tests.entities.User.DEFAULT_USER;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.contactFormPage;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.dates;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.supportPage;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getUrl;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.openUrl;
@@ -40,7 +41,7 @@ public enum Preconditions {
         this.moveToAction = moveToAction;
     }
     Preconditions(final String uri) {
-        this(() -> false/*checkUrl(uri)*/, () -> openUri(uri));
+        this(() -> checkUrl(uri), () -> openUri(uri));
         _htmlPageName = uri;
     }
     private static boolean checkUrl(final String uri) {

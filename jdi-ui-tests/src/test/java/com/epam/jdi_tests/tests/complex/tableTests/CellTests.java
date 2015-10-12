@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
 
@@ -40,6 +42,7 @@ public class CellTests extends InitTableTests {
         Assert.areEquals(cells.get(0).rowNum(), 2, "Wrong position for element 1" + cells.get(0).rowNum());
         Assert.areEquals(cells.get(1).columnNum(), 3, "Wrong position for element 2");
         Assert.areEquals(cells.get(1).rowNum(), 3, "Wrong position for element 2");
+
     }
     @Test
     public void getAllCellsWithValueEqualToValueInUse(){
