@@ -11,7 +11,6 @@ public class TextDP {
 			+ " nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in"
 			+ " reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.").toUpperCase();
 	 
-	// TODO testText wait add more cases
 	@DataProvider(name = "waitText")
 	public static Object[][] waitText() {
 		return new Object[][] { 
@@ -20,7 +19,6 @@ public class TextDP {
 			{ "ENIM AD MINIM VENIAM, QUIS NOSTRUD", TEXT } };
 	}
 
-	// TODO testText match add more cases
 	@DataProvider(name = "matchText")
 	public static Object[][] matchText() {
 		return new Object[][] { 
