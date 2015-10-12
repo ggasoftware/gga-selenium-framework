@@ -3,52 +3,52 @@
 
 	<test name="button">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._ButtonTests" />
+			<class name="com.epam.jdi_tests.tests.common.ButtonTests" />
 		</classes>
 	</test>
 	<test name="label">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._LabelTests" />
+			<class name="com.epam.jdi_tests.tests.common.LabelTests" />
 		</classes>
 	</test>
 	<test name="link">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._LinkTests" />
+			<class name="com.epam.jdi_tests.tests.common.LinkTests" />
 		</classes>
 	</test>
 	<test name="textArea">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._TextAreaTests" />
+			<class name="com.epam.jdi_tests.tests.common.TextAreaTests" />
 		</classes>
 	</test>
 	<test name="textField">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._TextFieldTests" />
+			<class name="com.epam.jdi_tests.tests.common.TextFieldTests" />
 		</classes>
 	</test>
 	<test name="text">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._TextTests" />
+			<class name="com.epam.jdi_tests.tests.common.TextTests" />
 		</classes>
 	</test>
 	<test name="fileInput">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._FileInputTests" />
+			<class name="com.epam.jdi_tests.tests.common.FileInputTests" />
 		</classes>
 	</test>
 	<test name="checkBox">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._CheckboxTests" />
+			<class name="com.epam.jdi_tests.tests.common.CheckboxTests" />
 		</classes>
 	</test>
 	<test name="datePicker">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._DatePickerTests" />
+			<class name="com.epam.jdi_tests.tests.common.DatePickerTests" />
 		</classes>
 	</test>
 		<test name="image">
 		<classes>
-			<class name="com.epam.jdi_tests.tests.commonFactory._ImageTests" />
+			<class name="com.epam.jdi_tests.tests.common.ImageTests" />
 		</classes>
 	</test>
 </suite>

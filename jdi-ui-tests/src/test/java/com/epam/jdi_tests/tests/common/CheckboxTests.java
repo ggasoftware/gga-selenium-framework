@@ -21,11 +21,6 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
  */
 
 public class CheckboxTests extends InitTests {
-    @BeforeMethod
-    public void before(final Method method) throws IOException {
-        testName = method.getName();
-        isInState(_onPage, method);
-    }
 
     public CheckboxTests() {
     	_onPage = Preconditions.METALS_AND_COLORS_PAGE;
@@ -34,6 +29,12 @@ public class CheckboxTests extends InitTests {
     public ICheckBox getCheckBox() {
 		return metalsColorsPage.cbWater;
 	}
+    
+    @BeforeMethod
+    public void before(final Method method) throws IOException {
+    	testName = method.getName();
+    	isInState(_onPage, method);
+    }
     
     @Test
     public void checkSingleTest() throws InterruptedException {

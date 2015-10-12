@@ -1,4 +1,4 @@
-package com.epam.jdi_tests.tests.commonFactory;
+package com.epam.jdi_tests.tests.common;
 
 import static com.epam.jdi_tests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
@@ -10,14 +10,20 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 import com.epam.jdi_tests.InitTests;
+import com.epam.jdi_tests.tests.common.utils.AttributeTests;
+import com.epam.jdi_tests.tests.common.utils.ContainsTextTests;
+import com.epam.jdi_tests.tests.common.utils.Elementable;
+import com.epam.jdi_tests.tests.common.utils.MatchTextTests;
+import com.epam.jdi_tests.tests.common.utils.SimpleTextTests;
+import com.epam.jdi_tests.tests.common.utils.Texstable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 
-public class _ButtonTests extends InitTests{
+public class ButtonTests extends InitTests{
 	
 	public static final String TEXT = "CALCULATE";
 	
-	public _ButtonTests() {
+	public ButtonTests() {
 		_onPage = METALS_AND_COLORS_PAGE;
 	}
 	

@@ -1,4 +1,4 @@
-package com.epam.jdi_tests.tests.commonFactory;
+package com.epam.jdi_tests.tests.common;
 
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
@@ -10,16 +10,24 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.enums.Preconditions;
+import com.epam.jdi_tests.tests.common.utils.AttributeTests;
+import com.epam.jdi_tests.tests.common.utils.ContainsTextTests;
+import com.epam.jdi_tests.tests.common.utils.Elementable;
+import com.epam.jdi_tests.tests.common.utils.InputTests;
+import com.epam.jdi_tests.tests.common.utils.Inputable;
+import com.epam.jdi_tests.tests.common.utils.MatchTextTests;
+import com.epam.jdi_tests.tests.common.utils.SimpleTextTests;
+import com.epam.jdi_tests.tests.common.utils.Texstable;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IDatePicker;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextArea;
 
-public class _DatePickerTests extends InitTests {
+public class DatePickerTests extends InitTests {
 
 	private static final String TEXT = Timer.nowTime("MM/dd/yyyy");
 
-	public _DatePickerTests() {
+	public DatePickerTests() {
 		_onPage = Preconditions.DATES_PAGE;
 	}
 

@@ -11,19 +11,13 @@ import com.ggasoftware.jdi_ui_tests.implementation.robot.elements.common.RFileIn
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IFileInput;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
 
-public class FileInputTest extends InitTests {
+public class FileInputTests extends InitTests {
 
-	public FileInputTest() {
+	public FileInputTests() {
 		_onPage = Preconditions.DATES_PAGE;
 	}
 
-	@BeforeMethod
-	public void before(final Method method) {
-		isInState(_onPage, method);
-	}
-
-	@Override
-	public RFileInput textElement() {
+	public RFileInput input() {
 		return EpamJDISite.dates._rImageInput;
 	}
 
@@ -31,22 +25,27 @@ public class FileInputTest extends InitTests {
 		return EpamJDISite.dates._imageInput;
 	}
 	
+	@BeforeMethod
+	public void before(final Method method) {
+		isInState(_onPage, method);
+	}
+	
 	// INPUT
 	@Test
 	public void inputTest() {
-		textElement().input(getFPath());
+		input().input(getFPath());
 		checkAction("FileUpload: file \""+ getFName() +"\" has been uploaded");
 	}
 	
 	@Test
 	public void sendKeysTest() {
-		textElement().sendKeys(getFPath());
+		input().sendKeys(getFPath());
 		checkAction("FileUpload: file \""+ getFName() +"\" has been uploaded");
 	}
 	
 	@Test
 	public void newInputTest() throws Exception {
-		textElement().newInput(getFPath());
+		input().newInput(getFPath());
 		checkAction("FileUpload: file \""+ getFName() +"\" has been uploaded");
 	}
 	// !INPUT

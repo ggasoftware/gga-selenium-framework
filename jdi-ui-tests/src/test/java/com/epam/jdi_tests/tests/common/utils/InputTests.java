@@ -1,4 +1,4 @@
-package com.epam.jdi_tests.tests.commonFactory;
+package com.epam.jdi_tests.tests.common.utils;
 
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;

@@ -1,4 +1,4 @@
-package com.epam.jdi_tests.tests.commonFactory;
+package com.epam.jdi_tests.tests.common.utils;
 
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
@@ -15,16 +15,16 @@ import org.testng.annotations.Test;
 
 import com.epam.jdi_tests.enums.Preconditions;
 
-public class ContainsTextTests {
+public class MatchTextTests {
 	private String _expected;
+	private String _regex;
 	private Preconditions _onPage;
 	private Texstable _t;
-	private String _contains;
 
-	public ContainsTextTests(String expected, String contains, Preconditions onPage, Texstable t) {
+	public MatchTextTests(String expected, String regex, Preconditions onPage, Texstable t) {
 		super();
 		this._expected = expected;
-		this._contains = contains;
+		this._regex = regex;
 		this._onPage = onPage;
 		this._t = t;
 	}
@@ -35,15 +35,16 @@ public class ContainsTextTests {
 	}
 
 	@Test
-	public void waitText() throws Exception {
-		checkText(() -> _t.getTextElement().waitText(_contains), _expected);
+	public void waitMatchText() throws Exception {
+		checkText(() -> _t.getTextElement().waitMatchText(_regex), _expected);
 	}
 	
 	@Test
-	public void waitTextParallel() throws Exception {
+	public void waitMatchTextParallel() throws Exception {
 		isInState(SUPPORT_PAGE);
 		runParallel(_onPage::open);
-		checkText(() -> _t.getTextElement().waitText(_contains), _expected);
+		checkText(() -> _t.getTextElement().waitMatchText(_regex), _expected);
 		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
+	
 }

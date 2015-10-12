@@ -1,11 +1,12 @@
 package com.epam.jdi_tests.tests.common;
 
-import com.epam.jdi_tests.BaseScenario;
 import com.epam.jdi_tests.InitTests;
-import com.epam.jdi_tests.dataproviders.AttrDP;
+import com.epam.jdi_tests.tests.common.utils.AttributeTests;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IImage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -25,16 +26,9 @@ public class ImageTests extends InitTests {
 
 	private static final String ALT = "ALT";
 	private static final String SRC = "http://ecse00100176.epam.com/images/Logo_Epam_Color.svg";
-	
-	
+
 	public ImageTests() {
 		_onPage = HOME_PAGE;
-	}
-	
-	@BeforeMethod
-	public void before(final Method method) throws IOException {
-		testName = method.getName();
-		isInState(_onPage, method);
 	}
 
 	public IImage getImageHome() {
@@ -44,31 +38,38 @@ public class ImageTests extends InitTests {
 	public IImage getImageContact() {
 		return contactFormPage.logoImage;
 	}
-	
+
+	@BeforeMethod
+	public void before(final Method method) throws IOException {
+		testName = method.getName();
+		isInState(_onPage, method);
+	}
+
 	@Test
 	public void clickTest() throws InterruptedException {
 		/*
-		 * 1) Open contact page
-		 * 2) Click on epam logo
-		 * 3) Current page must be index.html
+		 * 1) Open contact page 2) Click on epam logo 3) Current page must be
+		 * index.html
 		 */
 		CONTACT_PAGE.open();
 		getImageContact().click();
 		Assert.assertTrue(getDriver().getCurrentUrl().contains(_onPage._htmlPageName));
 	}
-	
-	@Test(dataProvider = "attr", dataProviderClass = AttrDP.class)
-	public void setAttrTest(final String attrName, final String attrValue) throws Exception {
-		BaseScenario.baseSetAttrTest(this, attrName, attrValue);
+
+	@Factory
+	public Object[] factory() {
+		return new Object[] { new AttributeTests("testAttribute", "testValue", _onPage, () -> {
+			return (IElement) getImageHome();
+		}) };
 	}
-	
+
 	@Test
-	public void getSourceTest(){
+	public void getSourceTest() {
 		checkText(getImageHome()::getSource, SRC);
 	}
-	
+
 	@Test
-	public void getTipTest(){
+	public void getTipTest() {
 		checkText(getImageHome()::getAlt, ALT);
 	}
 }
