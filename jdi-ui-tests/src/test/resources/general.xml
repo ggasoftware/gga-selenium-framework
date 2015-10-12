@@ -25,6 +25,9 @@
             <class name="com.epam.jdi_tests.tests.common.TextAreaTests"></class>
             <class name="com.epam.jdi_tests.tests.common.TextFieldTests"></class>
             <class name="com.epam.jdi_tests.tests.common.TextTests"></class>
+            <class name="com.epam.jdi_tests.tests.common.ButtonTests" />
+            <class name="com.epam.jdi_tests.tests.common.FileInputTests" />
+            <class name="com.epam.jdi_tests.tests.common.DatePickerTests" />
         </classes>
     </test>
 </suite>

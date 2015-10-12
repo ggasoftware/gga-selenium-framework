@@ -1,94 +1,50 @@
 package com.epam.jdi_tests.tests.common;
 
-import com.epam.jdi_tests.InitTests;
+import static com.epam.jdi_tests.entities.User.DEFAULT_USER;
+import static com.epam.jdi_tests.enums.Preconditions.CONTACT_PAGE_WITH_FILLED_FIELDS;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.contactFormPage;
 
-/**
- * Created by Roman_Iovlev on 9/15/2015.
- */
+import org.testng.annotations.Factory;
+import com.epam.jdi_tests.InitTests;
+import com.epam.jdi_tests.enums.Preconditions;
+import com.epam.jdi_tests.tests.common.utils.AttributeTests;
+import com.epam.jdi_tests.tests.common.utils.ContainsTextTests;
+import com.epam.jdi_tests.tests.common.utils.IElementable;
+import com.epam.jdi_tests.tests.common.utils.InputTests;
+import com.epam.jdi_tests.tests.common.utils.IInputable;
+import com.epam.jdi_tests.tests.common.utils.MatchTextTests;
+import com.epam.jdi_tests.tests.common.utils.SimpleTextTests;
+import com.epam.jdi_tests.tests.common.utils.ITexstable;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextField;
+
 public class TextFieldTests extends InitTests {
 
-/*
-TODO
+	public static final String TEXT = DEFAULT_USER.name;
+	private Preconditions _onPage = null;
+	
 	public TextFieldTests() {
 		_onPage = CONTACT_PAGE_WITH_FILLED_FIELDS;
 	}
 
-	@Override
-	public ITextField textElement() {
+	private ITexstable getTextable()  { return () -> { return getElement(); }; }
+	private IElementable gete() 	 	 { return () -> { return (IElement) getElement(); }; }
+	private IInputable getInputable() { return () -> { return getElement(); }; }
+
+	private ITextField getElement() {
 		return contactFormPage.name;
 	}
-
-	@BeforeMethod
-	public void before(final Method method) throws IOException {
-		isInState(_onPage, method);
-	}
-
-	// WAIT
-	@Test(dataProvider = "waitText", dataProviderClass = TextFieldDP.class)
-	public void waitTextTest(final String contains, final String expected) {
-		baseWaitTextTest(this, contains, expected);
-	}
-
-	@Test(dataProvider = "waitText", dataProviderClass = TextFieldDP.class)
-	public void wait3TextTest(final String contains, final String expected) {
-		baseWait3TextTest(this, contains, expected);
-	}
-	// !WAIT
-
-	// MATCH
-	@Test(dataProvider = "matchText", dataProviderClass = TextFieldDP.class)
-	public void waitTextMatchTest(final String regex, final String expected) {
-		baseWaitTextMatchTest(this, regex, expected);
-	}
-
-	@Test(dataProvider = "matchText", dataProviderClass = TextFieldDP.class)
-	public void wait3TextMatchTest(final String regex, final String expected) {
-		baseWait3TextMatchTest(this, regex, expected);
-	}
-	// !MATCH
-
-	// INPUT
-	@Test(dataProvider = "inputText", dataProviderClass = TextFieldDP.class)
-	public void inputTest(final String in, final String expected) throws Exception {
-		BaseScenarioInput.inputTest(this, in, expected);
-	}
 	
-	@Test(dataProvider = "inputText", dataProviderClass = TextFieldDP.class)
-	public void sendKeysTest(final String in, final String expected) throws Exception {
-		BaseScenarioInput.sendKeysTest(this, in, expected);
+	@Factory
+	public Object[] factory() {
+		return new Object[] { 
+				new SimpleTextTests(TEXT, _onPage, getTextable()),
+				new MatchTextTests(TEXT, ".am.", _onPage, getTextable()),
+				new ContainsTextTests(TEXT, "ame", _onPage, getTextable()),
+				new AttributeTests("testAttribute", "testValue", _onPage, gete()),
+				new InputTests("inputText", _onPage, getInputable()),
+				new InputTests("1234567890", _onPage, getInputable()),
+				new InputTests("!@#^&*()_", _onPage, getInputable())
+				};
 	}
-	
-	@Test
-	public void newInputTest() throws Exception {
-		BaseScenarioInput.newInputTest(this, "TestString123!@$");
-	}
-	
-	@Test
-	public void clearTest() throws Exception {
-		BaseScenarioInput.clearTest(this);
-	}
-	
-	@Test
-	public void multiKeyTest() throws Exception {
-		BaseScenarioInput.multiKeyTest(this, "TestString123@#^");
-	}
-	// !INPUT
-	
-	@Test
-	public void focusTest() throws Exception {
-		BaseScenarioInput.focusTest(this, "test123");
-	}
-	
-	@Test
-	public void getTextTest() {
-		_onPage.open();
-		baseGetTextTest(this, DEFAULT_USER.name);
-	}
-
-	@Test
-	public void getValueTest() {
-		_onPage.open();
-		checkText(textElement()::getValue, DEFAULT_USER.name);
-	}
-	*/
 }

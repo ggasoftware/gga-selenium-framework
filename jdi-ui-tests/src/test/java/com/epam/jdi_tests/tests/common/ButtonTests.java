@@ -6,11 +6,9 @@ import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkCalculate;
 
 import java.lang.reflect.Method;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
-
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.tests.common.utils.AttributeTests;
@@ -20,24 +18,23 @@ import com.epam.jdi_tests.tests.common.utils.MatchTextTests;
 import com.epam.jdi_tests.tests.common.utils.SimpleTextTests;
 import com.epam.jdi_tests.tests.common.utils.ITexstable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ILabel;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 
-@Test(testName = "Label")
-public class LabelTests extends InitTests{
-	private Preconditions _onPage = null;
+public class ButtonTests extends InitTests{
 	
 	public static final String TEXT = "CALCULATE";
+	private Preconditions _onPage = null;
 	
-	public LabelTests() {
+	public ButtonTests() {
 		_onPage = METALS_AND_COLORS_PAGE;
 	}
 	
-	private ILabel getElement() {
-		return metalsColorsPage.calculate;
+	private IButton getElement() {
+		return metalsColorsPage.calculateButton;
 	}
 	
 	private ITexstable get() {
-		return () -> {	return getElement(); };
+		return () -> { return getElement(); };
 	}
 
 	private IElementable gete() {

@@ -1,75 +1,85 @@
 package com.epam.jdi_tests.tests.common;
 
-import com.epam.jdi_tests.InitTests;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ILink;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
 import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
-import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.footer;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.supportPage;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkText;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.runParallel;
+import static com.epam.jdi_tests.tests.complex.CommonActionsData.waitTimeOut;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
 
-/**
- * Created by Roman_Iovlev on 9/15/2015.
- */
+import java.lang.reflect.Method;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
+import com.epam.jdi_tests.InitTests;
+import com.epam.jdi_tests.enums.Preconditions;
+import com.epam.jdi_tests.tests.common.utils.AttributeTests;
+import com.epam.jdi_tests.tests.common.utils.ContainsTextTests;
+import com.epam.jdi_tests.tests.common.utils.IElementable;
+import com.epam.jdi_tests.tests.common.utils.MatchTextTests;
+import com.epam.jdi_tests.tests.common.utils.SimpleTextTests;
+import com.epam.jdi_tests.tests.common.utils.ITexstable;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ILink;
+
 public class LinkTests extends InitTests {
-	public ILink link() { return footer.about; }
-	public static final String LINK_NAME = "About";
+	public final static String TEXT = "About";
+	public final static String HREF = "http://ecse00100176.epam.com/page3.htm";
+	private Preconditions _onPage = null;
+	
+	public LinkTests() {
+		_onPage = HOME_PAGE;
+	}
+
+	private ILink getElement() {
+		return footer.about;
+	}
+
+	private ITexstable get() {
+		return () -> {	return getElement(); };
+	}
+	
+	private IElementable gete() {
+		return () -> { return (IElement) getElement(); };
+	}
 
 	@BeforeMethod
-	public void before(final Method method) throws IOException {
-		isInState(HOME_PAGE, method);
+	public void before(final Method method) {
+		isInState(_onPage, method);
 	}
 
 	@Test
-	public void clickTest() {
-		link().click();
+	public void textWaitTestWithButton() {
+		getElement().click();
 		supportPage.checkOpened();
 	}
 
+	// reference
 	@Test
-	public void getTextTest() {
-		areEquals(link().getText(), LINK_NAME);
-	}
-	@Test
-	public void getValueTest() {
-		areEquals(link().getValue(), LINK_NAME);
-	}
-	@Test
-	public void waitTextTest() {
-		areEquals(link().waitText("bout"), LINK_NAME);
-	}
-
-	//TODO ! contains
-
-	@Test
-	public void matchTextTest() {
-		areEquals(link().waitMatchText(".*ut"), LINK_NAME);
-	}
-	//TODO ! match
-	@Test
-	public void wait3TextTest() {
+	public void waitReferenceTest() {
 		isInState(SUPPORT_PAGE);
-		runParallel(homePage::open);
-		areEquals(link().waitText("bout"), LINK_NAME);
+		runParallel(_onPage::open);
+		checkText(() -> getElement().waitReference("page3.htm"), HREF);
 		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 
 	@Test
-	public void match3TextTest() {
+	public void waitMatchReferenceTest() throws Exception {
 		isInState(SUPPORT_PAGE);
-		runParallel(homePage::open);
-		areEquals(link().waitMatchText(".*ut"), LINK_NAME);
+		runParallel(_onPage::open);
+		checkText(() -> getElement().waitMatchReference(".*htm"), HREF);
 		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
-	@Test
-	public void getTooltipTest() throws Exception {
-		areEquals(link().getTooltip(), "Tip title");
+	// !reference
+
+	@Factory
+	public Object[] factory() {
+		return new Object[] { new SimpleTextTests(TEXT, _onPage, get()),
+				new MatchTextTests(TEXT, "Abou.*", _onPage, get()),
+				new ContainsTextTests(TEXT, "About", _onPage, get()),
+				new AttributeTests("testAttribute", "testValue", _onPage, gete()) };
 	}
 }

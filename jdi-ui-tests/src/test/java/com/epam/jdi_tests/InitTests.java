@@ -20,7 +20,7 @@ public class InitTests extends TestNGBase {
 
     @BeforeSuite(alwaysRun = true)
     public static void setUp() throws Exception {
-        JDISettings.driverFactory.driversPath = "jdi-ui-tests\\src\\main\\resources";
+//        JDISettings.driverFactory.driversPath = "jdi-ui-tests\\src\\main\\resources";
         initJDIFromProperties();
         //Assert.noScreenOnFail();
         Init(EpamJDISite.class);
