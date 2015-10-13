@@ -1,15 +1,5 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
-import com.ggasoftware.jdiuitests.implementation.testng.asserter.Check;
-import org.testng.annotations.Test;
-
-import java.util.List;
-
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
-
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.
  */
@@ -28,7 +18,6 @@ public class CellTests extends InitTableTests {
         Assert.areEquals(cellValue, "Cucumber, Jbehave, Thucydides, SpecFlow",
                 String.format("In cell (6, 3) expected \"Cucumber, Jbehave, Thucydides, SpecFlow\", but was, %s", cellValue));
     }
-    */
     @Test
     public void getAllCellsWithValueEqualTo(){
         List<ICell> cells = support().cells("MSTest, NUnit, Epam");
@@ -154,8 +143,6 @@ public class CellTests extends InitTableTests {
         new Check("Text in 2-nd column").areEquals(cells.get(1).columnNum(), 3);//, String.format("Wrong column number for element 2 match to  '[a-zA-Z, ]*log[a-zA-Z, ]*' value, expected 3, but was %d", cells.get(1).columnNum()));
         Assert.areEquals(cells.get(1).rowNum(), 4, String.format("Wrong row number for element 2 with to '[a-zA-Z, ]*log[a-zA-Z, ]*' value, expected 4, but was %d", cells.get(1).rowNum()));
     }
-    // TODO failed
-    /*
     @Test
     public void verifyGetTest(){
         ICell cell = support().cell(column(3), row(4));
