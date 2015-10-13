@@ -9,11 +9,11 @@ import static com.epam.jditests.pageobjects.EpamJDISite.metalsColorsPage;
 /**
  * Created by Roman_Iovlev on 10/13/2015.
  */
-public class SimpleFactoryTests extends InitTests {
+public class _LabelTests2 extends InitTests {
     @Factory
     public Object[] buttonTests() {
         return new Object[] {
-            new SimpleTests(() -> metalsColorsPage.calculateButton, METALS_AND_COLORS_PAGE, "CALCULATE")
+            new _TextTests2(() -> metalsColorsPage.calculateButton, METALS_AND_COLORS_PAGE, "CALCULATE")
         };
     }
 }

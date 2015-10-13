@@ -10,14 +10,16 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 
 import static com.epam.jditests.enums.Preconditions.HOME_PAGE;
+import static com.epam.jditests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.homePage;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
-import static com.epam.jditests.tests.complex.CommonActionsData.checkText;
+import static com.epam.jditests.tests.complex.CommonActionsData.*;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
 
 /**
  * Created by Roman_Iovlev on 10/13/2015.
  */
-public class SimpleTests extends InitTests {
+public class _TextTests2 extends InitTests {
 
     private JFuncT<IText> text = () -> homePage.text;
     public String expected = ("Lorem ipsum dolor sit amet, consectetur adipisicing elit,"
@@ -25,9 +27,12 @@ public class SimpleTests extends InitTests {
             + " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris"
             + " nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in"
             + " reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.").toUpperCase();
+
     public Preconditions onPage = HOME_PAGE;
-    public SimpleTests() { }
-    public SimpleTests(JFuncT<IText> text, Preconditions onPage, String expected) {
+    private String regex = null;
+
+    public _TextTests2() { }
+    public _TextTests2(JFuncT<IText> text, Preconditions onPage, String expected) {
         this.text = text;
         this.expected = expected;
         this.onPage = onPage;
@@ -41,5 +46,23 @@ public class SimpleTests extends InitTests {
     @Test
     public void getTextTest() throws Exception {
         checkText(text.invoke()::getText, expected);
+    }
+
+    @Test
+    public void getValueTest() throws Exception {
+        checkText(text.invoke()::getValue, expected);
+    }
+
+    @Test
+    public void waitMatchText() throws Exception {
+        checkText(() -> text.invoke().waitMatchText(regex), expected);
+    }
+
+    @Test
+    public void waitMatchTextParallel() throws Exception {
+        isInState(SUPPORT_PAGE);
+        runParallel(onPage::open);
+        checkText(() -> text.invoke().waitMatchText(regex), expected);
+        isTrue(timer.timePassedInMSec() > waitTimeOut);
     }
 }
