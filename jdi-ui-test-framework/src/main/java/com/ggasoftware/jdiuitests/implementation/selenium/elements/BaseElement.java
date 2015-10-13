@@ -20,9 +20,9 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.ba
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.*;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.*;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.GetElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.functions.Functions;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.AnnotationsUtil;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.GetElement;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.functions.Functions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

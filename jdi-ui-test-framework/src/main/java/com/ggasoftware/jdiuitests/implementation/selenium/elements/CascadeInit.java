@@ -5,11 +5,11 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.apiInteract.C
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IComposite;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.Frame;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JFindBy;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JPage;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.Frame;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JFindBy;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JPage;
 import com.ggasoftware.jdiuitests.core.utils.common.StringUtils;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.AnnotationsUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 

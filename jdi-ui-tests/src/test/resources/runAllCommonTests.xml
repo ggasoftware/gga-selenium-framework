@@ -1,0 +1,54 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TestAll">
+
+	<test name="button">
+		<classes>
+			<class name="com.epam.jditests.tests.common.ButtonTests" />
+		</classes>
+	</test>
+	<test name="label">
+		<classes>
+			<class name="com.epam.jditests.tests.common.LabelTests" />
+		</classes>
+	</test>
+	<test name="link">
+		<classes>
+			<class name="com.epam.jditests.tests.common.LinkTests" />
+		</classes>
+	</test>
+	<test name="textArea">
+		<classes>
+			<class name="com.epam.jditests.tests.common.TextAreaTests" />
+		</classes>
+	</test>
+	<test name="textField">
+		<classes>
+			<class name="com.epam.jditests.tests.common.TextFieldTests" />
+		</classes>
+	</test>
+	<test name="text">
+		<classes>
+			<class name="com.epam.jditests.tests.common.TextTests" />
+		</classes>
+	</test>
+	<test name="fileInput">
+		<classes>
+			<class name="com.epam.jditests.tests.common.FileInputTests" />
+		</classes>
+	</test>
+	<test name="checkBox">
+		<classes>
+			<class name="com.epam.jditests.tests.common.CheckboxTests" />
+		</classes>
+	</test>
+	<test name="datePicker">
+		<classes>
+			<class name="com.epam.jditests.tests.common.DatePickerTests" />
+		</classes>
+	</test>
+		<test name="image">
+		<classes>
+			<class name="com.epam.jditests.tests.common.ImageTests" />
+		</classes>
+	</test>
+</suite>

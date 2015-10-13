@@ -3,7 +3,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.c
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IHasValue;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IVisible;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import org.openqa.selenium.WebElement;
 

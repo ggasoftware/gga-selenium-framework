@@ -4,7 +4,7 @@ import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IPage;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 import com.ggasoftware.jdiuitests.implementation.testng.asserter.Check;
 import org.openqa.selenium.Cookie;
 

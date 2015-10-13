@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitests.core.utils.common;
 
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.Complex;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.AnnotationsUtil;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.Complex;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

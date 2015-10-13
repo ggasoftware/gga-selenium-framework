@@ -2,7 +2,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.tabl
 
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 
 /**
  * Created by Roman_Iovlev on 7/28/2015.

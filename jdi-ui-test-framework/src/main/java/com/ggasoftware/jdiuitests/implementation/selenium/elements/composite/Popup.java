@@ -2,7 +2,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.composite;
 
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Text;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IPopup;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.functions.Functions;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.functions.Functions;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.

@@ -1,10 +1,10 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.composite;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IPopup;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IPopup;
 
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.functions.Functions.*;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.functions.Functions.*;
 import static java.lang.String.format;
 
 /**

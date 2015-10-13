@@ -2,7 +2,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.c
 
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.ISetValue;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 import com.ggasoftware.jdiuitests.core.utils.common.PrintUtils;
 
 import java.util.List;

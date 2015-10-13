@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 
 /**
  * Created by Roman_Iovlev on 7/6/2015.

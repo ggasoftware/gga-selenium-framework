@@ -75,7 +75,9 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
     public String driversPath = "src\\main\\resources";
 
     private String getDriversPath() {
-        return asserter.silent(() -> new File(driversPath).getCanonicalPath() + "\\");
+        return ((driversPath.contains(":\\"))
+                ? driversPath
+                : asserter.silent(() -> new File(driversPath).getCanonicalPath())).replaceAll("/*$", "") + "\\";
     }
 
     // REGISTER DRIVER

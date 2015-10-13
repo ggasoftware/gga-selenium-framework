@@ -7,7 +7,7 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Rows;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IText;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 
 import java.util.List;
 

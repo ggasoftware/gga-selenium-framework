@@ -12,14 +12,14 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.co
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.PrintUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.GetElement;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.AnnotationsUtil;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.GetElement;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.foreach;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.AnnotationsUtil.getElementName;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.

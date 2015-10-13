@@ -2,7 +2,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.c
 
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IComposite;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IText;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.

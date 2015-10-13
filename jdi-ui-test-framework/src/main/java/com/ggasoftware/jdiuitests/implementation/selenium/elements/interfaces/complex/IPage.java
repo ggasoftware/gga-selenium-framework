@@ -2,7 +2,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.c
 
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IComposite;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 import org.openqa.selenium.Cookie;
 
 /**

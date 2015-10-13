@@ -15,7 +15,7 @@ import java.util.List;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByTemplate;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.AnnotationsUtil.getElementName;
 import static java.lang.String.format;
 
 /**
