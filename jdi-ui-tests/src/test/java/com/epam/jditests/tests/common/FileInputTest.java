@@ -7,7 +7,11 @@ public class FileInputTest extends InitTests {
 /*
 TODO
 	public FileInputTest() {
+<<<<<<< HEAD:jdi-ui-tests/src/test/java/com/epam/jditests/tests/common/FileInputTest.java
 		_onPage = Preconditions.DATES_PAGE_FILLED;
+=======
+		_onPage = Preconditions.DATES_PAGE;
+>>>>>>> c8549cc8dd1914453ba21663dd785cce6f7430e5:jdi-ui-tests/src/test/java/com/epam/jditests/tests/common/FileInputTest.java
 	}
 
 	@BeforeMethod

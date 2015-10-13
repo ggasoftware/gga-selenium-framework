@@ -4,7 +4,6 @@ import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Rows;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;

@@ -29,12 +29,12 @@ public enum Preconditions {
     DATES_PAGE("page4.htm"),
     SUPPORT_PAGE("page3.htm"),
     DATES_PAGE_FILLED(() -> checkUrl("page4.html"), () -> {
-    	openUri("page4.htm");
+        openUri("page4.htm");
         WebElement datePicker = getDriver().findElement(dates.datepicker.getLocator());
         datePicker.clear();
         datePicker.sendKeys(TEST_DATE);
     });
-	public String _htmlPageName;
+    public String _htmlPageName;
     public JFuncT<Boolean> checkAction;
     public JAction moveToAction;
 

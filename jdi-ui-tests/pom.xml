@@ -71,7 +71,8 @@
                         </property>
                         <property>
                             <name>listener</name>
-                            <value>com.ggasoftware.jdiuitests.implementation.testng.testRunner.TestNGListener, org.uncommons.reportng.mod.HTMLReporter</value>
+                            <value>com.ggasoftware.jdiuitests.implementation.testng.testRunner.TestNGListener,
+                                org.uncommons.reportng.mod.HTMLReporter</value>
                         </property>
                     </properties>
                 </configuration>
