@@ -1,9 +1,9 @@
 package com.epam.jdi_tests.page_objects.pages;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.TableSettings;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Table;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.TableSettings;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page;
 import org.openqa.selenium.support.FindBy;
 
 /**

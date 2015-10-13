@@ -1,6 +1,6 @@
 package com.epam.jdi_tests.dataproviders;
 import org.testng.annotations.DataProvider;
-import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
+import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 
 public class DatePickerDP {
 	@DataProvider(name = "inputText")

@@ -1,17 +1,17 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
+import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
 import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isFalse;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isFalse;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
 
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.

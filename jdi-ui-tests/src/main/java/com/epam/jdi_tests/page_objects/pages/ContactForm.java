@@ -1,9 +1,9 @@
 package com.epam.jdi_tests.page_objects.pages;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextArea;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextField;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IButton;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextArea;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextField;
 import org.openqa.selenium.support.FindBy;
 
 /**

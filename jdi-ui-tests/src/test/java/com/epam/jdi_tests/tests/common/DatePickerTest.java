@@ -1,7 +1,7 @@
 package com.epam.jdi_tests.tests.common;
 
 import com.epam.jdi_tests.InitTests;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IDatePicker;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IDatePicker;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,8 +13,8 @@ import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.dates;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
 
 public class DatePickerTest extends InitTests {
 	public IDatePicker datePicker() { return dates.datepicker; }

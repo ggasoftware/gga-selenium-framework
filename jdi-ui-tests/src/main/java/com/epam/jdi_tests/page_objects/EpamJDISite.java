@@ -4,18 +4,18 @@ import com.epam.jdi_tests.enums.Preconditions;
 import com.epam.jdi_tests.page_objects.pages.*;
 import com.epam.jdi_tests.page_objects.sections.Footer;
 import com.epam.jdi_tests.page_objects.sections.Header;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.TextList;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Site;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JPage;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JSite;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.TextList;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Site;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JPage;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.page_objects.annotations.JSite;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import java.lang.reflect.Method;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
+import static com.ggasoftware.jdiuitests.core.settings.JDIData.testName;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.logger;
 import static java.lang.String.format;
 
 /**

@@ -1,17 +1,17 @@
 package com.epam.jdi_tests.enums;
 
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
 import org.openqa.selenium.WebElement;
 
 import static com.epam.jdi_tests.CommonData.TEST_DATE;
 import static com.epam.jdi_tests.entities.User.DEFAULT_USER;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.contactFormPage;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.dates;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.getDriver;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getUrl;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.openUrl;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.domain;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getDriver;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page.getUrl;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page.openUrl;
 
 /**
  * Created by 12345 on 03.06.2015.

@@ -1,10 +1,10 @@
 package com.epam.jdi_tests.page_objects.pages;
 
 import com.epam.jdi_tests.entities.User;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Form;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IClickable;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextField;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Form;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IClickable;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IButton;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextField;
 import org.openqa.selenium.support.FindBy;
 
 /**

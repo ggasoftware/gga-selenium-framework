@@ -1,7 +1,7 @@
 package com.epam.jdi_tests.page_objects.sections;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Section;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ILink;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Section;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ILink;
 import org.openqa.selenium.support.FindBy;
 
 /**

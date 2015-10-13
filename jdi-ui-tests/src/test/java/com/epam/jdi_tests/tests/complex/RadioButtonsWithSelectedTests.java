@@ -2,7 +2,7 @@ package com.epam.jdi_tests.tests.complex;
 
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.enums.Odds;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.Selector;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.Selector;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,7 +15,7 @@ import static com.epam.jdi_tests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.*;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.*;
 import static java.util.Arrays.asList;
 
 /**

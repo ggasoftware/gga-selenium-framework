@@ -1,9 +1,9 @@
 package com.epam.jdi_tests.page_objects.sections;
 
 import com.epam.jdi_tests.enums.Odds;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.*;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Section;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.*;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Section;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IButton;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

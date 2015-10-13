@@ -1,15 +1,15 @@
 package com.epam.jdi_tests.tests.complex;
 
-import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
-import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.common.Timer;
+import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import java.io.File;
 
 import static com.epam.jdi_tests.page_objects.EpamJDISite.actionsLog;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.assertContains;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.exception;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.assertContains;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.exception;
 
 /**
  * Created by Roman_Iovlev on 9/18/2015.

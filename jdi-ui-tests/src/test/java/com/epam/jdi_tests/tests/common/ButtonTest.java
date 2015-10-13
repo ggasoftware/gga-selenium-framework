@@ -1,7 +1,7 @@
 package com.epam.jdi_tests.tests.common;
 
 import com.epam.jdi_tests.InitTests;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IButton;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,8 +13,8 @@ import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
 
 public class ButtonTest extends InitTests {
 	public IButton button() { return metalsColorsPage.calculateButton; }

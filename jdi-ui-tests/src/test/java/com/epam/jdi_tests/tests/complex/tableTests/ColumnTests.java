@@ -1,15 +1,15 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
-import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Columns;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
+import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Columns;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
+import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
 
 /**
  * Created by Natalia_Grebenshchikova on 10/5/2015.

@@ -2,7 +2,7 @@ package com.epam.jdi_tests.tests.common;
 
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.dataproviders.TextDP;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IText;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,8 +15,8 @@ import static com.epam.jdi_tests.page_objects.EpamJDISite.homePage;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.runParallel;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.waitTimeOut;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
 
 /**
  * Created by Roman_Iovlev on 9/15/2015.

@@ -2,7 +2,7 @@ package com.epam.jdi_tests.tests.complex;
 
 import com.epam.jdi_tests.InitTests;
 import com.epam.jdi_tests.enums.Colors;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IDropDown;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IDropDown;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -18,8 +18,8 @@ import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkAction;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.checkActionThrowError;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.noElementsMessage;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.listEquals;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.listEquals;
 import static java.util.Arrays.asList;
 
 /**
