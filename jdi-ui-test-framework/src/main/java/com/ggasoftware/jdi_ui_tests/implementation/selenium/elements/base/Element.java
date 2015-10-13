@@ -57,7 +57,7 @@ public class Element extends BaseElement implements IElement {
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Throwable ex) { throw JDISettings.exception("Can't copy Element: " + element); }
+        } catch (Exception ex) { throw JDISettings.exception("Can't copy Element: " + element); }
     }
 
     public String getAttribute(String name) { return getWebElement().getAttribute(name); }

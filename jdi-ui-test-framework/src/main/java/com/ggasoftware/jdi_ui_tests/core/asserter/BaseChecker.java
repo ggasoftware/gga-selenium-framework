@@ -5,6 +5,7 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTEx;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 
 import java.util.Collection;
 
@@ -68,12 +69,14 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         String resultMessage = (wait)
                 ? new Timer(timeout).getResultByCondition(result::invoke, r -> r != null && r.equals(FOUND))
                 : result.invoke();
-        if (resultMessage == null)
-            throw exception("Assert Failed by Timeout. Wait %s seconds", timeout / 1000);
+        if (resultMessage == null) {
+            assertException("Assert Failed by Timeout. Wait %s seconds", timeout / 1000);
+            return;
+        }
         if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 logger.info(doScreenshotGetMessage());
-            throw exception((failMessage != null
+            assertException((failMessage != null
                     ? failMessage
                     : resultMessage));
         }
@@ -88,15 +91,18 @@ public abstract class BaseChecker implements IAsserter, IChecker {
 
     // For Framework
     public RuntimeException exception(String failMessage, Object... args) {
+        assertException(failMessage, args);
+        return new RuntimeException(failMessage);
+    }
+    protected void assertException(String failMessage, Object... args) {
         if (args.length > 0)
             failMessage = format(failMessage, args);
         logger.error(FRAMEWORK, failMessage);
         throwFail().invoke(failMessage);
-        return new RuntimeException(failMessage);
     }
     public <TResult> TResult silent(JFuncTEx<TResult> func) {
         try { return func.invoke();
-        } catch (Throwable ex) { throw exception(ex.getMessage()); }
+        } catch (Exception ex) { throw exception(ex.getMessage()); }
     }
 
     // Asserts
@@ -194,10 +200,10 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                         : "listEquals failed because one of the Collections is null or empty",
                 failMessage, false);
         assertAction(null, () -> {
-            T notEqualElement = first(actual, el -> !expected.contains(el));
+            T notEqualElement = LinqUtils.first(actual, el -> !expected.contains(el));
             return (notEqualElement != null)
                     ? format("Collections '%s' and '%s' not equals at element '%s'",
-                    print(select(actual, Object::toString)), print(select(expected, Object::toString)), notEqualElement)
+                    print(LinqUtils.select(actual, Object::toString)), print(LinqUtils.select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, false);
     }
@@ -251,8 +257,10 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         }, failMessage, false);
     }
     public void isSortedByAsc(int[] array, String failMessage) {
-        if (array == null || array.length == 0)
-            throw exception("isSortedByAsc failed because array have no elements or null");
+        if (array == null || array.length == 0) {
+            assertException("isSortedByAsc failed because array have no elements or null");
+            return;
+        }
         assertAction("Check tat array sorted by ascending",
                 () -> {
                     for (int i = 1; i < array.length; i++)
@@ -262,8 +270,10 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                 }, failMessage, false);
     }
     public void isSortedByDesc(int[] array, String failMessage) {
-        if (array == null || array.length == 0)
-            throw exception("isSortedByAsc failed because array have no elements or null");
+        if (array == null || array.length == 0) {
+            assertException("isSortedByAsc failed because array have no elements or null");
+            return;
+        }
         assertAction("Check tat array sorted by ascending",
                 () -> {
                     for (int i = 1; i < array.length; i++)
@@ -285,7 +295,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         }
 
         private void beforeListCheck(String defaultMessage, String expected, String failMessage) {
-            assertAction(format(defaultMessage, print(select(list, Object::toString)), expected),
+            assertAction(format(defaultMessage, print(LinqUtils.select(list, Object::toString)), expected),
                 () -> list != null && list.size() > 0
                         ? FOUND
                         : "list check failed because list is null or empty",
@@ -483,7 +493,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             T notEqualElement = first(actual.invoke(), el -> !expected.contains(el));
             return (notEqualElement != null)
                     ? format("Collections '%s' and '%s' not equals at element '%s'",
-                    print(select(actual.invoke(), Object::toString)), print(select(expected, Object::toString)), notEqualElement)
+                    print(select(actual.invoke(), Object::toString)), print(LinqUtils.select(expected, Object::toString)), notEqualElement)
                     : FOUND;
         }, failMessage, true);
     }

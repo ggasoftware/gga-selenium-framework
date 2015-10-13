@@ -10,8 +10,10 @@ import java.lang.reflect.Method;
 
 import static com.epam.jdi_tests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
 
 public class ButtonTest extends InitTests {
@@ -31,29 +33,29 @@ public class ButtonTest extends InitTests {
 
 	@Test
 	public void getTextTest() {
-		checkText(() -> button().getText(), BUTTON_NAME);
+		areEquals(button().getText(), BUTTON_NAME);
 	}
 	@Test
 	public void getValueTest() {
-		checkText(() -> button().getValue(), BUTTON_NAME);
+		areEquals(button().getValue(), BUTTON_NAME);
 	}
 	@Test
 	public void waitTextTest() {
-		checkText(() -> button().waitText("CULATE"), BUTTON_NAME);
+		areEquals(button().waitText("CULATE"), BUTTON_NAME);
 	}
 
 	//TODO ! contains
 
 	@Test
 	public void matchTextTest() {
-		checkText(() -> button().waitMatchText("C.*C.LATE"), BUTTON_NAME);
+		areEquals(button().waitMatchText("C.*C.LATE"), BUTTON_NAME);
 	}
 	//TODO ! match
 	@Test
 	public void wait3TextTest() {
 		isInState(SUPPORT_PAGE);
 		runParallel(metalsColorsPage::open);
-		checkText(() -> button().waitText("CULATE"), BUTTON_NAME);
+		areEquals(button().waitText("CULATE"), BUTTON_NAME);
 		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 
@@ -61,7 +63,7 @@ public class ButtonTest extends InitTests {
 	public void match3TextTest() {
 		isInState(SUPPORT_PAGE);
 		runParallel(metalsColorsPage::open);
-		checkText(() -> button().waitMatchText("C.*C.LATE"), BUTTON_NAME);
+		areEquals(button().waitMatchText("C.*C.LATE"), BUTTON_NAME);
 		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 }

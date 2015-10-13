@@ -1,20 +1,17 @@
 package com.ggasoftware.jdi_ui_tests.core.utils.common;
 
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.Complex;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.Complex;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isClass;
+import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.*;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
-import static java.lang.String.join;
 import static java.lang.reflect.Array.get;
 import static java.lang.reflect.Array.getLength;
 import static java.util.Arrays.asList;
@@ -26,10 +23,10 @@ public class PrintUtils {
     public static String print(Iterable<String> list) { return print(list, ", ", "%s"); }
     public static String print(Iterable<String> list, String separator) { return print(list, separator, "%s"); }
     public static <T extends Enum> String printEnum(List<T> enums) {
-        return (enums != null) ? join(", ", select(enums, el -> format("%s", el))) : "";
+        return (enums != null) ? String.join(", ", LinqUtils.select(enums, el -> String.format("%s", el))) : "";
     }
     public static String print(Iterable<String> list, String separator, String format) {
-        return (list != null) ? join(separator, select(list, el -> format(format, el))) : "";
+        return (list != null) ? String.join(separator, LinqUtils.select(list, el -> String.format(format, el))) : "";
     }
     public static String print(String[] list) { return print(list, ", ", "%s"); }
     public static String print(String[] list, String separator) { return print(list, separator, "%s"); }
@@ -73,7 +70,7 @@ public class PrintUtils {
             else if (field.isAnnotationPresent(Complex.class))
                 strValue = "#(#" + printObject(value) + "#)#";
             if (strValue != null)
-                result.add(format("%s#:#%s", getElementName(field), strValue));
+                result.add(String.format("%s#:#%s", AnnotationsUtil.getElementName(field), strValue));
         }
         return print(result, "#;#", "%s");
     }

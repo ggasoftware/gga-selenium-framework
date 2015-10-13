@@ -1,5 +1,8 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
@@ -8,12 +11,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
 import java.util.List;
-
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.index;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
 /**
  * Created by 12345 on 26.10.2014.
@@ -25,22 +22,22 @@ public class Rows extends TableLine {
     }
 
     protected By rowsHeadersLocator = By.xpath(".//tr/td[1]");
-    protected By rowTemplate = By.xpath(".//tr[%s]/td");
-    protected By rowNameTemplate = null;
+    protected By defaultRowTemplate = By.xpath(".//tr[%s]/td");
+    protected By rowTemplate = null;
     protected List<WebElement> getHeadersAction() {
         return table.getWebElement().findElements(rowsHeadersLocator);
     }
     protected List<WebElement> getRowAction(int rowNum) {
-        return table.getWebElement().findElements(fillByTemplate(rowTemplate, rowNum));
+        return table.getWebElement().findElements(WebDriverByUtils.fillByTemplate(defaultRowTemplate, rowNum));
     }
     protected List<WebElement> getRowAction(String rowName) {
-        return (rowNameTemplate == null)
-                ? getRowAction(index(headers(), rowName) + 1)
-                : table.getWebElement().findElements(fillByTemplate(rowNameTemplate, rowName));
+        return (rowTemplate == null)
+                ? getRowAction(LinqUtils.index(headers(), rowName) + 1)
+                : table.getWebElement().findElements(WebDriverByUtils.fillByTemplate(rowTemplate, rowName));
     }
 
     private RuntimeException throwRowsException(String rowName, String ex) {
-        return asserter.exception("Can't Get Rows for column '%s'. Exception: %s", rowName, ex);
+        return JDISettings.asserter.exception("Can't Get Rows for column '%s'. Exception: %s", rowName, ex);
     }
     public final MapArray<String, ICell> getColumn(String colName) {
         try {
@@ -50,11 +47,11 @@ public class Rows extends TableLine {
                     key -> headers[key],
                     value -> table.cell(webColumn.get(value), new Column(colName), new Row(headers[value])));
         }
-        catch (Throwable ex) { throw throwRowsException(colName, ex.getMessage()); }
+        catch (Exception|Error ex) { throw throwRowsException(colName, ex.getMessage()); }
     }
     public final List<String> getColumnValue(String colName) {
-        try { return select(table.columns().getColumnAction(colName), WebElement::getText); }
-        catch (Throwable ex) { throw throwRowsException(colName, ex.getMessage()); }
+        try { return LinqUtils.select(table.columns().getColumnAction(colName), WebElement::getText); }
+        catch (Exception|Error ex) { throw throwRowsException(colName, ex.getMessage()); }
     }
     public final MapArray<String, String> getColumnAsText(String colName) {
         return getColumn(colName).toMapArray(IText::getText);
@@ -68,20 +65,20 @@ public class Rows extends TableLine {
 
     public final MapArray<String, ICell> getColumn(int colNum) {
         if (count() < 0 || table.columns().count() < colNum || colNum <= 0)
-            throw exception("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, count());
+            throw JDISettings.exception("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, count());
         try {
             List<WebElement> webColumn = table.columns().getColumnAction(colNum);
             return new MapArray<>(count(),
                     key -> headers()[key],
                     value -> table.cell(webColumn.get(value), new Column(colNum), new Row(value + 1)));
         }
-        catch (Throwable ex) { throw throwRowsException(colNum + "", ex.getMessage()); }
+        catch (Exception|Error ex) { throw throwRowsException(colNum + "", ex.getMessage()); }
     }
     public final List<String> getColumnValue(int colNum) {
         if (count() < 0 || count() < colNum || colNum <= 0)
-            throw exception("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, count());
-        try { return select(table.columns().getColumnAction(colNum), WebElement::getText); }
-        catch (Throwable ex) { throw throwRowsException(colNum + "", ex.getMessage()); }
+            throw JDISettings.exception("Can't Get Row '%s'. [num] > RowsCount(%s).", colNum, count());
+        try { return LinqUtils.select(table.columns().getColumnAction(colNum), WebElement::getText); }
+        catch (Exception|Error ex) { throw throwRowsException(colNum + "", ex.getMessage()); }
     }
     public final MapArray<String, String> getColumnAsText(int colNum) {
         return getColumn(colNum).toMapArray(IText::getText);

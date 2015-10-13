@@ -6,15 +6,15 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.Tex
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ITextField;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.ISearch;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
 import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByTemplate;
 import static java.lang.String.format;
 
 /**
@@ -72,35 +72,35 @@ public class Search extends TextField implements ISearch {
         if (suggestions != null)
             return suggestions;
         else
-            throw exception("Suggestions list locator not specified for search. Use accordance constructor");
+            throw JDISettings.exception("Suggestions list locator not specified for search. Use accordance constructor");
     }
 
     private Clickable getElement(String name) {
         if (select != null)
-            return copy(select, fillByTemplate(getLocator(), name));
+            return copy(select, WebDriverByUtils.fillByTemplate(getLocator(), name));
         else
-            throw exception("Select locator not specified for search. Use accordance constructor");
+            throw JDISettings.exception("Select locator not specified for search. Use accordance constructor");
     }
     private ITextField getSearchField() {
         List<Field> fields = getFields(this, ITextField.class);
         switch (fields.size()) {
             case 0:
-                throw exception("Can't find any buttons on form '%s.", toString());
+                throw JDISettings.exception("Can't find any buttons on form '%s.", toString());
             case 1:
                 return (ITextField) getFieldValue(fields.get(0), this);
             default:
-                throw exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
+                throw JDISettings.exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
         }
     }
     private IButton getSearchButton() {
         List<Field> fields = getFields(this, IButton.class);
         switch (fields.size()) {
             case 0:
-                throw exception("Can't find any buttons on form '%s.", toString());
+                throw JDISettings.exception("Can't find any buttons on form '%s.", toString());
             case 1:
                 return (IButton) getFieldValue(fields.get(0), this);
             default:
-                throw exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
+                throw JDISettings.exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
         }
     }
 }

@@ -16,10 +16,9 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.ICheckBox;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 
 /**
  * Checkbox control implementation
@@ -45,13 +44,13 @@ public class CheckBox extends Clickable implements ICheckBox {
         if (!isCheckedAction())
             clickAction();
         if (!isCheckedAction())
-            throw asserter.exception("Can't check element. Verify locator for click or isCheckedAction");
+            throw JDISettings.asserter.exception("Can't check element. Verify locator for click or isCheckedAction");
     }
     protected void uncheckAction() {
         if (isCheckedAction())
             clickAction();
         if (isCheckedAction())
-            throw asserter.exception("Can't uncheck element. Verify locator for click or isCheckedAction");
+            throw JDISettings.asserter.exception("Can't uncheck element. Verify locator for click or isCheckedAction");
     }
     private JFuncTT<WebElement, Boolean> isSelected = WebElement::isSelected;
     private JFuncTT<WebElement, Boolean> isChecked = el -> el.getAttribute("checked") != null;

@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Selenium Suite" parallel="false" >
-    <test name="Selenium Tests">
-        <classes>
-            <!--<class name="com.pharmapendium.qa.tests.Smoke-->
-            <class name="com.epam.jdi_tests.tests.common.TextTests"/>
-        </classes>
-    </test>
-</suite>
-=======
 <?xml version="1.0" encoding="WINDOWS-1251"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite verbose="2" name="gga-selenium-framework" parallel="false">
@@ -20,7 +8,6 @@
             <class name="com.epam.jdi_tests.tests.complex.tableTests.InitTableTests"></class>
             <class name="com.epam.jdi_tests.tests.complex.tableTests.RowTests"></class>
             <class name="com.epam.jdi_tests.tests.complex.tableTests.TableTests"></class>
-            <class name="com.epam.jdi_tests.tests.complex.tableTests.WaitersTest"></class>
             <class name="com.epam.jdi_tests.tests.complex.tableTests.HeadersTests"></class>
             <class name="com.epam.jdi_tests.tests.complex.ChecklistTests"></class>
             <class name="com.epam.jdi_tests.tests.complex.ComboBoxTests"></class>
@@ -41,4 +28,3 @@
         </classes>
     </test>
 </suite>
->>>>>>> 42aac2b1ba94b5b1e249261454a0732cc88e5ebb

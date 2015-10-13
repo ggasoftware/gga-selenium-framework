@@ -25,11 +25,8 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isClass;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.sleep;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.DriverTypes.*;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.RunTypes.LOCAL;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.RunTypes.SAUCE_LAB;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.SauceLabRunner.getSauceDesiredCapabilities;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.driver.SauceLabRunner.getSauceUrl;
 import static java.lang.String.format;
 import static java.lang.System.setProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -86,11 +83,11 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
     public void registerDriver(String driverName) {
         switch (driverName.toLowerCase()) {
             case "chrome":
-                registerDriver(CHROME); return;
+                registerDriver(DriverTypes.CHROME); return;
             case "firefox":
-                registerDriver(FIREFOX); return;
+                registerDriver(DriverTypes.FIREFOX); return;
             case "ie": case "internetexplorer":
-                registerDriver(IE); return;
+                registerDriver(DriverTypes.IE); return;
             default:
                 throw exception("Unknown driver: " + driverName);
         }
@@ -102,7 +99,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
                 registerLocalDriver(driverType); return;
             case SAUCE_LAB:
                 registerDriver("SauceLab " + driverType,
-                        () -> new RemoteWebDriver(getSauceUrl(), getSauceDesiredCapabilities(driverType)));
+                        () -> new RemoteWebDriver(SauceLabRunner.getSauceUrl(), SauceLabRunner.getSauceDesiredCapabilities(driverType)));
                 return;
         }
         throw exception("Unknown driver: " + driverType);
@@ -112,16 +109,16 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         switch (driverType) {
             case CHROME:
                 setProperty("webdriver.chrome.driver", getDriversPath() + "chromedriver.exe");
-                registerDriver(getDriverName(CHROME), ChromeDriver::new);
+                registerDriver(getDriverName(DriverTypes.CHROME), ChromeDriver::new);
                 return;
             case FIREFOX:
-                registerDriver(getDriverName(FIREFOX), FirefoxDriver::new);
+                registerDriver(getDriverName(DriverTypes.FIREFOX), FirefoxDriver::new);
                 return;
             case IE:
                 DesiredCapabilities capabilities = internetExplorer();
                 capabilities.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
                 setProperty("webdriver.ie.driver", getDriversPath() + "IEDriverServer.exe");
-                registerDriver(getDriverName(IE), () -> new InternetExplorerDriver(capabilities));
+                registerDriver(getDriverName(DriverTypes.IE), () -> new InternetExplorerDriver(capabilities));
                 return;
         }
         throw exception("Unknown driver: " + driverType);
@@ -146,8 +143,8 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
     public WebDriver getDriver() {
         if (!currentDriverName.equals(""))
             return getDriver(currentDriverName);
-        registerDriver(CHROME);
-        return getDriver(CHROME.toString());
+        registerDriver(DriverTypes.CHROME);
+        return getDriver(DriverTypes.CHROME.toString());
     }
     public WebDriver getDriver(String driverName) {
         try {
@@ -160,7 +157,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
             resultDriver.manage().window().maximize();
             resultDriver.manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
             return resultDriver;
-        } catch (Throwable ex) { throw exception("Can't get driver"); }
+        } catch (Exception ex) { throw exception("Can't get driver"); }
     }
     public void reopenDriver() {
         if (runDrivers.keys().contains(currentDriverName)) {

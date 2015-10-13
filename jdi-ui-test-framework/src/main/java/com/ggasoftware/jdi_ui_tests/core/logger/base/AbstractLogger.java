@@ -5,7 +5,6 @@ import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
 
-import static com.ggasoftware.jdi_ui_tests.core.logger.enums.BusinessInfoTypes.*;
 import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes.*;
 import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels.*;
 import static java.lang.String.format;
@@ -19,27 +18,27 @@ public abstract class AbstractLogger implements ILogger {
     public void init(String message, Object... args) {
         if (logSettings.logLevel.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId()))
-            inLog(format(message, wrap(args)), INIT);
+            inLog(format(message, wrap(args)), BusinessInfoTypes.INIT);
     }
 
     public void suit(String message, Object... args) {
         if (logSettings.logLevel.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId())) {
-            inLog(format(message, wrap(args)), SUIT);
+            inLog(format(message, wrap(args)), BusinessInfoTypes.SUIT);
         }
     }
 
     public void test(String message, Object... args) {
         if (logSettings.logLevel.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId())) {
-            inLog(format(message, wrap(args)), TEST);
+            inLog(format(message, wrap(args)), BusinessInfoTypes.TEST);
         }
     }
 
     public void step(String message, Object... args) {
         if (logSettings.logLevel.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId())) {
-            inLog(format(message, wrap(args)), STEP);
+            inLog(format(message, wrap(args)), BusinessInfoTypes.STEP);
         }
     }
 
@@ -77,7 +76,7 @@ public abstract class AbstractLogger implements ILogger {
     private String getLineId() {
         StackTraceElement stackTraceLine = null;
         for (StackTraceElement line : currentThread().getStackTrace())
-            if (line.getClassName().contains("com.ggasoftware.jdi_ui_tests"))
+            if (line.getClassName().contains("com.ggasoftware.jdiuitests"))
                 stackTraceLine = null;
             else if (stackTraceLine == null)
                 stackTraceLine = line;

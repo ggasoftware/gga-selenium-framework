@@ -13,6 +13,10 @@
  ***************************************************************************/
 package com.ggasoftware.jdi_ui_tests.implementation.testng.testRunner;
 
+import com.ggasoftware.jdi_ui_tests.core.asserter.Verify;
+import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDIData;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
 import org.testng.ITestResult;
@@ -21,10 +25,6 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.asserter.Verify.getFails;
-import static com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes.BUSINESS;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static org.testng.ITestResult.FAILURE;
 
 public class TestNGListener implements IInvokedMethodListener {
@@ -33,8 +33,8 @@ public class TestNGListener implements IInvokedMethodListener {
         if (iInvokedMethod.isTestMethod()) {
             Method testMethod = iInvokedMethod.getTestMethod().getConstructorOrMethod().getMethod();
             if (testMethod.isAnnotationPresent(Test.class)) {
-                testName = testMethod.getName();
-                logger.info("== Test '%s' started ==", testName);
+                JDIData.testName = testMethod.getName();
+                JDISettings.logger.info("== Test '%s' started ==", JDIData.testName);
             }
         }
     }
@@ -42,13 +42,13 @@ public class TestNGListener implements IInvokedMethodListener {
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
         if (method.isTestMethod()) {
-            List<String> fails = getFails();
+            List<String> fails = Verify.getFails();
             if (fails.size() > 0) {
                 for (String fail : fails)
-                    logger.error(BUSINESS, fail);
+                    JDISettings.logger.error(LogInfoTypes.BUSINESS, fail);
                 result.setStatus(FAILURE);
             }
-            logger.info("=== Test '%s' %s ===", testName, getTestResult(result));
+            JDISettings.logger.info("=== Test '%s' %s ===", JDIData.testName, getTestResult(result));
         }
     }
     private String getTestResult(ITestResult result) {

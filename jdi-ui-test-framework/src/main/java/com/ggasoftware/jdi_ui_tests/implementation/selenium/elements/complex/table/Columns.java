@@ -24,19 +24,19 @@ public class Columns extends TableLine {
     }
 
     protected By columnsHeadersLocator = By.xpath(".//th");
-    protected By columnTemplate = By.xpath(".//tr/td[%s]");
-    protected By columnNameTemplate = null;
+    protected By defaultColumnTemplate = By.xpath(".//tr/td[%s]");
+    protected By columnTemplate = null;
     protected List<WebElement> getHeadersAction() {
         List<WebElement> headers = table.getWebElement().findElements(columnsHeadersLocator);
         return (table.rows().hasHeader) ? listCopy(headers, 1, WebElement.class) : headers;
     }
     protected List<WebElement> getColumnAction(int colNum) {
-        return table.getWebElement().findElements(fillByTemplate(columnTemplate, colNum));
+        return table.getWebElement().findElements(fillByTemplate(defaultColumnTemplate, colNum));
     }
     protected List<WebElement> getColumnAction(String colName) {
-        return (columnNameTemplate == null)
+        return (columnTemplate == null)
             ? getColumnAction(index(headers(), colName) + 1)
-            : table.getWebElement().findElements(fillByTemplate(columnNameTemplate, colName));
+            : table.getWebElement().findElements(fillByTemplate(columnTemplate, colName));
     }
 
     private RuntimeException throwColsException(String colName, String ex) {
@@ -50,11 +50,11 @@ public class Columns extends TableLine {
                     key -> headers[key],
                     value -> table.cell(webRow.get(value), new Column(headers[value]), new Row(rowName)));
         }
-        catch (Throwable ex) { throw throwColsException(rowName, ex.getMessage()); }
+        catch (Exception|Error ex) { throw throwColsException(rowName, ex.getMessage()); }
     }
     public List<String> getRowValue(String rowName) {
         try { return select(table.rows().getRowAction(rowName), WebElement::getText); }
-        catch (Throwable ex) { throw throwColsException(rowName, ex.getMessage()); }
+        catch (Exception|Error ex) { throw throwColsException(rowName, ex.getMessage()); }
     }
     public final MapArray<String, String> getRowAsText(String rowName) {
         return getRow(rowName).toMapArray(IText::getText);
@@ -75,13 +75,13 @@ public class Columns extends TableLine {
                     key -> headers()[key],
                     value -> table.cell(webRow.get(value), new Column(value+1), new Row(rowNum)));
         }
-        catch (Throwable ex) { throw throwColsException(rowNum + "", ex.getMessage()); }
+        catch (Exception|Error ex) { throw throwColsException(rowNum + "", ex.getMessage()); }
     }
     public List<String> getRowValue(int rowNum) {
         if (count() < 0 || count() < rowNum || rowNum <= 0)
             throw exception("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, count());
         try { return select(table.rows().getRowAction(rowNum), WebElement::getText); }
-        catch (Throwable ex) { throw throwColsException(rowNum + "", ex.getMessage()); }
+        catch (Exception|Error ex) { throw throwColsException(rowNum + "", ex.getMessage()); }
     }
     public final MapArray<String, String> getRowAsText(int rowNum) {
         return getRow(rowNum).toMapArray(IText::getText);

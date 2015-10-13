@@ -1,17 +1,16 @@
 package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table;
 
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISelect;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.last;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.fillByMsgTemplate;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.getClassFromInterface;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.apiInteract.ContextType.Locator;
 
 /**
  * Created by 12345 on 25.10.2014.
@@ -55,15 +54,15 @@ class Cell extends SelectElement implements ISelect, ICell {
     public SelectElement get() {
         return (webElement != null)
             ? new SelectElement(webElement)
-            : new SelectElement(fillByMsgTemplate(cellLocatorTemplate, columnIndex, rowIndex));
+            : new SelectElement(WebDriverByUtils.fillByMsgTemplate(cellLocatorTemplate, columnIndex, rowIndex));
     }
     public <T extends BaseElement> T get(Class<?> clazz) {
         T instance;
         try {
             instance = (clazz.isInterface())
-                    ? (T) getClassFromInterface(clazz).newInstance()
+                    ? (T) MapInterfaceToElement.getClassFromInterface(clazz).newInstance()
                     : (T) clazz.newInstance();
-        } catch (Throwable ex) { throw exception("Can't get Cell from interface/class: " + last((clazz + "").split("\\."))); }
+        } catch (Exception ex) { throw JDISettings.exception("Can't get Cell from interface/class: " + LinqUtils.last((clazz + "").split("\\."))); }
         return get(instance);
     }
     public <T extends BaseElement> T get(T cell) {
@@ -71,10 +70,10 @@ class Cell extends SelectElement implements ISelect, ICell {
         if (locator == null || locator.toString().equals(""))
             locator = cellLocatorTemplate;
         if (!locator.toString().contains("{0}") || !locator.toString().contains("{1}"))
-            throw exception("Can't create cell with locator template " + cell.getLocator() +
+            throw JDISettings.exception("Can't create cell with locator template " + cell.getLocator() +
                     ". Template for Cell should contains '{0}' - for column and '{1}' - for row indexes.");
-        cell.getAvatar().byLocator = fillByMsgTemplate(cell.getLocator(), rowIndex, columnIndex);
-        cell.getAvatar().context.add(Locator, getLocator());
+        cell.getAvatar().byLocator = WebDriverByUtils.fillByMsgTemplate(cell.getLocator(), rowIndex, columnIndex);
+        cell.getAvatar().context.add(ContextType.Locator, getLocator());
         return cell;
     }
 

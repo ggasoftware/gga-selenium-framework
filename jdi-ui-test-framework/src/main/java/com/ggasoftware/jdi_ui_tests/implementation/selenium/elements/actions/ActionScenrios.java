@@ -7,10 +7,10 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
+import com.ggasoftware.jdi_ui_tests.core.reporting.PerformanceStatistic;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 
 import static com.ggasoftware.jdi_ui_tests.core.reporting.PerformanceStatistic.addStatistic;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.Timer.alwaysDoneAction;
 import static java.lang.String.format;
 
@@ -28,8 +28,8 @@ public class ActionScenrios {
         element.logAction(actionName, logSettings);
         Timer timer = new Timer();
         alwaysDoneAction(jAction::invoke);
-        logger.info(actionName + " done");
-        addStatistic(timer.timePassedInMSec());
+        JDISettings.logger.info(actionName + " done");
+        PerformanceStatistic.addStatistic(timer.timePassedInMSec());
     }
 
     public <TResult> TResult resultScenario(String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
@@ -38,10 +38,10 @@ public class ActionScenrios {
         TResult result = Timer.getResultAction(jAction::invoke);
         String stringResult = (logResult == null)
                 ? result.toString()
-                : asserter.silent(() -> logResult.invoke(result));
+                : JDISettings.asserter.silent(() -> logResult.invoke(result));
         Long timePassed = timer.timePassedInMSec();
-        addStatistic(timer.timePassedInMSec());
-        logger.toLog(format("Get result '%s' in %s seconds", stringResult,
+        PerformanceStatistic.addStatistic(timer.timePassedInMSec());
+        JDISettings.logger.toLog(format("Get result '%s' in %s seconds", stringResult,
                 format("%.2f", (double) timePassed / 1000)), logSettings);
         return result;
     }

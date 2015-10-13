@@ -33,7 +33,7 @@
     <modules>
         <module>gga-selenium-framework-core</module>
 		<module>jdi-ui-test-framework</module>
-        <module>jdi-ui-tests</module>	
+        <module>jdi-ui-tests</module>
     </modules>
 
     <!--<dependencies>

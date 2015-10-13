@@ -5,9 +5,10 @@ import com.ggasoftware.jdi_ui_tests.core.logger.enums.BusinessInfoTypes;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDIData;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.frameworkName;
 import static org.apache.log4j.LogManager.getLogger;
 
 /**
@@ -30,7 +31,7 @@ public class Log4JLogger extends AbstractLogger {
         log4j.info(String.format("[%s] %s: %s", infoType, Timer.nowTimeShort(), message));
     }
 
-    private Logger log4j = getLogger("log4j " + frameworkName + " logger");
+    private Logger log4j = LogManager.getLogger("log4j " + JDIData.frameworkName + " logger");
 
     public Log4JLogger() { super(); }
     public Log4JLogger(LogLevels logLevel) { super(logLevel); }

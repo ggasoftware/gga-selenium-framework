@@ -1,5 +1,6 @@
 package com.ggasoftware.jdi_ui_tests.core.utils.common;
 
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTEx;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
@@ -7,7 +8,6 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.throwRuntimeException;
 import static java.lang.System.currentTimeMillis;
 
@@ -15,8 +15,8 @@ import static java.lang.System.currentTimeMillis;
  * Created by 12345 on 28.09.2014.
  */
 public class Timer {
-    private long _timeoutInMSec = timeouts.waitElementSec * 1000;
-    private long _retryTimeoutInMSec = timeouts.retryMSec;
+    private long _timeoutInMSec = JDISettings.timeouts.waitElementSec * 1000;
+    private long _retryTimeoutInMSec = JDISettings.timeouts.retryMSec;
     private final Long start = currentTimeMillis();
     public static String nowTime() { return nowTime("HH:mm:ss.SSS"); }
     public static String nowTimeShort() { return nowTime("mm:ss.SSS"); }
@@ -58,7 +58,7 @@ public class Timer {
                 if (waitCase.invoke())
                     return true;
                 sleep(_retryTimeoutInMSec);
-            } catch (Throwable ignore) { throwRuntimeException(ignore); }
+            } catch (Exception|Error ignore) { throwRuntimeException(ignore); }
         return false;
     }
 
@@ -71,7 +71,7 @@ public class Timer {
                 T result = getFunc.invoke();
                 if (result != null && conditionFunc.invoke(result))
                     return result;
-            } catch (Throwable ignore) { throwRuntimeException(ignore); }
+            } catch (Exception|Error ignore) { throwRuntimeException(ignore); }
             sleep(_retryTimeoutInMSec);
         }
         return null;

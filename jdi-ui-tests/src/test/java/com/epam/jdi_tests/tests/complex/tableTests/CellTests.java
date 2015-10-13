@@ -12,19 +12,30 @@ import java.util.List;
 
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
-
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.
  */
 public class CellTests extends InitTableTests {
 
     @Test (dataProvider = "setCellValue", dataProviderClass = TableDP.class)
-    public  void getCellValueByRowAndColumn(int columnIndex, int rowIndex, String expectedCellValue){
+    public  void getCellValueByRowAndColumn(int columnIndex, int rowIndex, String expectedCellValue) {
         String cellValue = support().cell(new Column(columnIndex), new Row(rowIndex)).getValue();
         Assert.areEquals(cellValue, expectedCellValue,
-                String.format("In cell (%d, %d) expected %s, but was, %s",rowIndex, columnIndex, expectedCellValue, cellValue));
+                String.format("In cell (%d, %d) expected %s, but was, %s", rowIndex, columnIndex, expectedCellValue, cellValue));
     }
 
+    @Test
+    public  void getCellValueByRowAndColumnFirstCell(){
+        String cellValue = support().cell(new Column(1), new Row(1)).getValue();
+        Assert.areEquals(cellValue, "Drivers", String.format("In cell (1, 1) expected \"Drivers\", but was, %s", cellValue));
+    }
+    @Test
+    public  void getCellValueByRowAndColumnLastCell(){
+        String cellValue = support().cell(new Column(3), new Row(6)).getValue();
+        Assert.areEquals(cellValue, "Cucumber, Jbehave, Thucydides, SpecFlow",
+                String.format("In cell (6, 3) expected \"Cucumber, Jbehave, Thucydides, SpecFlow\", but was, %s", cellValue));
+
+    }
     @Test
     public void getAllCellsWithValueEqualTo(){
         List<ICell> cells = support().cells("MSTest, NUnit, Epam");
@@ -130,7 +141,6 @@ public class CellTests extends InitTableTests {
         new Check("Text in 2-nd column").areEquals(cells.get(1).columnNum(), 3);
         Assert.areEquals(cells.get(1).rowNum(), 4, String.format("Wrong row number for element 2 with to '[a-zA-Z, ]*log[a-zA-Z, ]*' value, expected 4, but was %d", cells.get(1).rowNum()));
     }
-
     @Test
     public void verifyGetTest(){
         ICell cell = support().cell(column(3), row(4));
@@ -138,5 +148,4 @@ public class CellTests extends InitTableTests {
         Assert.areEquals(cell.getText(), "Epam, XML/Json logging, Hyper logging",
                 String.format("Expected test id 'Epam, XML/Json logging, Hyper logging', but was '%s'", cell.getText()));
     }
-
 }

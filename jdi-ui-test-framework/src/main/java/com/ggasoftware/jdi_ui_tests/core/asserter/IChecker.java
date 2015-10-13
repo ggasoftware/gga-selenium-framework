@@ -2,11 +2,10 @@ package com.ggasoftware.jdi_ui_tests.core.asserter;
 
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 
 import java.util.Collection;
 import java.util.List;
-
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.toIntArray;
 
 /**
  * Created by Roman_Iovlev on 8/28/2015.
@@ -42,13 +41,13 @@ public interface IChecker {
         entityEqualsToMap(actual, entity, null); }
     void isSortedByAsc(int[] array, String failMessage);
     default void isSortedByAsc(int[] array) { isSortedByAsc(array, null); }
-    default void isSortedByAsc(List<Integer> array, String failMessage) { isSortedByAsc(toIntArray(array), failMessage); }
-    default void isSortedByAsc(List<Integer> array) { isSortedByAsc(toIntArray(array)); }
+    default void isSortedByAsc(List<Integer> array, String failMessage) { isSortedByAsc(LinqUtils.toIntArray(array), failMessage); }
+    default void isSortedByAsc(List<Integer> array) { isSortedByAsc(LinqUtils.toIntArray(array)); }
 
     void isSortedByDesc(int[] array, String failMessage);
     default void isSortedByDesc(int[] array) { isSortedByDesc(array, null); }
-    default void isSortedByDesc(List<Integer> array, String failMessage) { isSortedByDesc(toIntArray(array), failMessage); }
-    default void isSortedByDesc(List<Integer> array) { isSortedByDesc(toIntArray(array)); }
+    default void isSortedByDesc(List<Integer> array, String failMessage) { isSortedByDesc(LinqUtils.toIntArray(array), failMessage); }
+    default void isSortedByDesc(List<Integer> array) { isSortedByDesc(LinqUtils.toIntArray(array)); }
 
     <T> void areEquals(JFuncT<T> actual, T expected, String failMessage);
     <T> void areEquals(JFuncT<T> actual, T expected);

@@ -1,16 +1,20 @@
 package com.epam.jdi_tests.enums;
 
-import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
+import org.openqa.selenium.WebElement;
 
+import static com.epam.jdi_tests.CommonData.TEST_DATE;
 import static com.epam.jdi_tests.entities.User.DEFAULT_USER;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.contactFormPage;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.dates;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.supportPage;
+<<<<<<< HEAD
 import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.domain;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.getUrl;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Page.openUrl;
+=======
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.getDriver;
+>>>>>>> refs/remotes/origin/master
 
 /**
  * Created by 12345 on 03.06.2015.
@@ -29,8 +33,9 @@ public enum Preconditions {
     SUPPORT_PAGE("page3.htm"),
     DATES_PAGE(() -> checkUrl("page4.html"), () -> {
     	openUri("page4.htm");
-		((org.openqa.selenium.JavascriptExecutor) com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.getDriver())
-		.executeScript("arguments[0].value = arguments[1]", dates._datepicker.getWebElement(), Timer.nowTime("MM/dd/yyyy"));
+        WebElement datePicker = getDriver().findElement(dates.datepicker.getLocator());
+        datePicker.clear();
+        datePicker.sendKeys(TEST_DATE);
     });
 	public String _htmlPageName;
     public JFuncT<Boolean> checkAction;

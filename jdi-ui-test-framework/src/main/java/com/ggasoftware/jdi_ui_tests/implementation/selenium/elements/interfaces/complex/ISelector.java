@@ -3,6 +3,7 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JDIAction;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils;
 
 import java.util.List;
 
@@ -46,5 +47,5 @@ public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     default List<String> getValues() { return getOptions(); }
     /** Get all options labels in one string separated with “; ” */
     @JDIAction
-    default String getOptionsAsText() { return print(getOptions()); }
+    default String getOptionsAsText() { return PrintUtils.print(getOptions()); }
 }

@@ -1,29 +1,22 @@
 package com.epam.jdi_tests.page_objects;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
-import static java.lang.String.format;
-
-import java.lang.reflect.Method;
-
-import org.openqa.selenium.support.FindBy;
-
 import com.epam.jdi_tests.enums.Preconditions;
-import com.epam.jdi_tests.page_objects.pages.ContactForm;
-import com.epam.jdi_tests.page_objects.pages.DatesPage;
-import com.epam.jdi_tests.page_objects.pages.HomePage;
-import com.epam.jdi_tests.page_objects.pages.Login;
-import com.epam.jdi_tests.page_objects.pages.MetalsColorsPage;
-import com.epam.jdi_tests.page_objects.pages.SupportPage;
+import com.epam.jdi_tests.page_objects.pages.*;
 import com.epam.jdi_tests.page_objects.sections.Footer;
 import com.epam.jdi_tests.page_objects.sections.Header;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.TextList;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.composite.Site;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JPage;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.JSite;
-
+import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
+
+import java.lang.reflect.Method;
+
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDIData.testName;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.logger;
+import static java.lang.String.format;
 
 /**
  * Created by Maksim_Palchevskii on 9/10/2015.
@@ -31,7 +24,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 
 @JSite(domain = "http://ecse00100176.epam.com")
 public class EpamJDISite extends Site {
-    @JPage(url = "/", title = "Index Page")
+    @JPage(url = "/index.htm", title = "Index Page")
     public static HomePage homePage;
     @JPage(url = "/page1.htm", title = "Page 1")
     public static ContactForm contactFormPage;

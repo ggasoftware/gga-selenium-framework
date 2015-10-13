@@ -7,6 +7,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.base.Select
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ICell;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -39,7 +40,7 @@ public class Table extends Text implements ITable {
     }
     public Table(By header, By row, By column) {
         this();
-        _columns.columnNameTemplate = column;
+        _columns.columnTemplate = column;
         _columns.columnsHeadersLocator = header;
         _rows.rowTemplate = row;
     }
@@ -114,7 +115,7 @@ public class Table extends Text implements ITable {
     public void setRowCount(int value) { rows().setCount(value); }
 
     protected String[] getFooterAction() {
-        return select(getWebElement().findElements(By.xpath("//tfoot/tr/td[1]")), WebElement::getText)
+        return LinqUtils.select(getWebElement().findElements(By.xpath("//tfoot/tr/td[1]")), WebElement::getText)
                 .toArray(new String[1]);
     }
     protected String[] _footer;
@@ -150,11 +151,11 @@ public class Table extends Text implements ITable {
     }
 
     private List<ICell> matches(Collection<ICell> list, String regex) {
-        return new ArrayList<>(where(list, cell -> cell.getValue().matches(regex)));
+        return new ArrayList<>(LinqUtils.where(list, cell -> cell.getValue().matches(regex)));
     }
 
     public List<ICell> cells(String value) {
-        return new ArrayList<>(where(getCells(), cell -> cell.getValue().equals(value)));
+        return new ArrayList<>(LinqUtils.where(getCells(), cell -> cell.getValue().equals(value)));
     }
 
     public List<ICell> cellsMatch(String regex) {
@@ -302,13 +303,13 @@ public class Table extends Text implements ITable {
         "||X|" + print(columns().headers(), "|") + "||" + StringUtils.LineBreak +
                 print(new ArrayList<>(select(rows().headers(),
                         rowName -> "||" + rowName + "||" +
-                                print(new ArrayList<>(select(where(getCells(),
+                                print(new ArrayList<>(select(LinqUtils.where(getCells(),
                                                 cell -> cell.rowName().equals(rowName)),
                                         ICell::getValue)), "|") + "||")), StringUtils.LineBreak);
     }
 
     private Cell addCell(int colIndex, int rowIndex, int colNum, int rowNum, String colName, String rowName) {
-        Cell cell = (Cell) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
+        Cell cell = (Cell) LinqUtils.first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
         if (cell != null)
             return cell.updateData(colName, rowName);
         cell = new Cell(colIndex, rowIndex, colNum, rowNum, colName, rowName, cellLocatorTemplate, columnsTemplate, this);
@@ -317,7 +318,7 @@ public class Table extends Text implements ITable {
         return cell;
     }
     private Cell addCell(WebElement webElement, int colNum, int rowNum, String colName, String rowName) {
-        Cell cell = (Cell) first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
+        Cell cell = (Cell) LinqUtils.first(_allCells, c -> c.columnNum() == colNum && c.rowNum() == rowNum);
         if (cell != null) {
             cell.setWebElement(webElement);
             return cell.updateData(colName, rowName);

@@ -9,18 +9,17 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.ISetValue;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.IForm;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.foreach;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.*;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFields;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement.namesEqual;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.
@@ -36,28 +35,28 @@ public class Form<T> extends Element implements IForm<T> {
         return element.getValue();
     }
     public void fill(MapArray<String, String> objStrings) {
-        foreach(getFields(this, ISetValue.class), element -> {
+        LinqUtils.foreach(ReflectionUtils.getFields(this, ISetValue.class), element -> {
             String fieldValue = objStrings.first((name, value) ->
-                    namesEqual(name, getElementName(element)));
+                    GetElement.namesEqual(name, AnnotationsUtil.getElementName(element)));
             if (fieldValue != null) {
-                ISetValue setValueElement = (ISetValue) getFieldValue(element, this);
+                ISetValue setValueElement = (ISetValue) ReflectionUtils.getFieldValue(element, this);
                 doActionRule.invoke(fieldValue, val -> setValueAction(val, setValueElement));
             }
         });
     }
     public void fill(T entity) {
-        fill(objToSetValue(entity));
+        fill(PrintUtils.objToSetValue(entity));
     }
 
     private Button getSubmitButton() {
-        List<Field> fields = getFields(this, IButton.class);
+        List<Field> fields = ReflectionUtils.getFields(this, IButton.class);
         switch (fields.size()) {
             case 0:
-                throw exception("Can't find any buttons on form '%s.", toString());
+                throw JDISettings.exception("Can't find any buttons on form '%s.", toString());
             case 1:
-                return (Button) getFieldValue(fields.get(0), this);
+                return (Button) ReflectionUtils.getFieldValue(fields.get(0), this);
             default:
-                throw exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
+                throw JDISettings.exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
         }
     }
     public void submit(MapArray<String, String> objStrings) {
@@ -65,17 +64,17 @@ public class Form<T> extends Element implements IForm<T> {
         getSubmitButton().click();
     }
     private void setText(String text) {
-        Field field = getFields(this, ISetValue.class).get(0);
-        ISetValue setValueElement = (ISetValue) getFieldValue(field, this);
+        Field field = ReflectionUtils.getFields(this, ISetValue.class).get(0);
+        ISetValue setValueElement = (ISetValue) ReflectionUtils.getFieldValue(field, this);
         doActionRule.invoke(text, val -> setValueAction(val, setValueElement));
     }
     public void submit(String text) {
         setText(text);
         getSubmitButton().click();
     }
-    public void submit(T entity) { submit(objToSetValue(entity)); }
+    public void submit(T entity) { submit(PrintUtils.objToSetValue(entity)); }
     public void submit(T entity, String buttonName) {
-        fill(objToSetValue(entity));
+        fill(PrintUtils.objToSetValue(entity));
         getElement.getButton(buttonName).click();
     }
     public void submit(String text, String buttonName) {
@@ -83,26 +82,26 @@ public class Form<T> extends Element implements IForm<T> {
         getElement.getButton(buttonName).click();
     }
     public void submit(T entity, Enum buttonName) {
-        fill(objToSetValue(entity));
+        fill(PrintUtils.objToSetValue(entity));
         getElement.getButton(buttonName.toString().toLowerCase()).click();
     }
     public void verify(MapArray<String, String> objStrings, JActionTT<String, String> compare) {
-        foreach(getFields(this, IHasValue.class), element -> {
+        LinqUtils.foreach(ReflectionUtils.getFields(this, IHasValue.class), element -> {
             String fieldValue = objStrings.first((name, value) ->
-                    namesEqual(name, getElementName(element)));
+                    GetElement.namesEqual(name, AnnotationsUtil.getElementName(element)));
             if (fieldValue != null) {
-                IHasValue getValueElement = (IHasValue) getFieldValue(element, this);
+                IHasValue getValueElement = (IHasValue) ReflectionUtils.getFieldValue(element, this);
                 doActionRule.invoke(fieldValue, val -> compare.invoke(getValueAction(getValueElement).trim(), val));
             }
         });
     }
     public void verify(T entity) {
-        verify(objToSetValue(entity), asserter::areEquals);
+        verify(PrintUtils.objToSetValue(entity), JDISettings.asserter::areEquals);
     }
 
-    protected void setValueAction(String value) { submit(parseObjectAsString(value)); }
-    protected String getValueAction() { return print(LinqUtils.select(getFields(this, IHasValue.class), field ->
-            ((IHasValue) getFieldValue(field, this)).getValue())); }
+    protected void setValueAction(String value) { submit(PrintUtils.parseObjectAsString(value)); }
+    protected String getValueAction() { return PrintUtils.print(LinqUtils.select(ReflectionUtils.getFields(this, IHasValue.class), field ->
+            ((IHasValue) ReflectionUtils.getFieldValue(field, this)).getValue())); }
 
     public final String getValue() { return actions.getValue(this::getValueAction); }
     public final void setValue(String value) { actions.setValue(value, this::setValueAction); }

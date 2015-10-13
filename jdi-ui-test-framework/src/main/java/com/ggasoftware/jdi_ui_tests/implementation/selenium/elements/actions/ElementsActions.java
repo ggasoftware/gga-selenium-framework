@@ -5,6 +5,8 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JActionT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.BaseElement;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -121,20 +123,20 @@ public class ElementsActions {
 
     //MultiSelector
     public void select(JActionT<String[]> selectListAction, String... names) {
-        invoker().doJAction(format("Select '%s'", print(names)), () -> selectListAction.invoke(names));
+        invoker().doJAction(String.format("Select '%s'", PrintUtils.print(names)), () -> selectListAction.invoke(names));
     }
     public void select(JActionT<int[]> selectListAction, int[] indexes) {
         List<String> listIndexes = new ArrayList<>();
         for (int i : indexes)
             listIndexes.add(i+"");
-        invoker().doJAction(format("Select '%s'", print(listIndexes)), () -> selectListAction.invoke(indexes));
+        invoker().doJAction(String.format("Select '%s'", PrintUtils.print(listIndexes)), () -> selectListAction.invoke(indexes));
     }
     public List<String> areSelected(JFuncT<List<String>> getNames, JFuncTT<String, Boolean> waitSelectedAction) {
         return invoker().doJActionResult("Are selected", () ->
-                where(getNames.invoke(), waitSelectedAction));
+                LinqUtils.where(getNames.invoke(), waitSelectedAction));
     }
     public boolean waitSelected(JFuncTT<String, Boolean> waitSelectedAction, String... names) {
-        return invoker().doJActionResult(format("Are deselected '%s'", print(names)), () -> {
+        return invoker().doJActionResult(String.format("Are deselected '%s'", PrintUtils.print(names)), () -> {
             for (String name : names)
                 if (!waitSelectedAction.invoke(name))
                     return false;
@@ -143,10 +145,10 @@ public class ElementsActions {
     }
     public List<String> areDeselected(JFuncT<List<String>> getNames, JFuncTT<String, Boolean> waitSelectedAction) {
         return invoker().doJActionResult("Are deselected", () ->
-                where(getNames.invoke(), name -> !waitSelectedAction.invoke(name)));
+                LinqUtils.where(getNames.invoke(), name -> !waitSelectedAction.invoke(name)));
     }
     public boolean waitDeselected(JFuncTT<String, Boolean> waitSelectedAction, String... names) {
-        return invoker().doJActionResult(format("Are deselected '%s'", print(names)), () -> {
+        return invoker().doJActionResult(String.format("Are deselected '%s'", PrintUtils.print(names)), () -> {
             for (String name : names)
                 if (waitSelectedAction.invoke(name))
                     return false;

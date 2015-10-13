@@ -3,6 +3,8 @@ package com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex;
 import com.ggasoftware.jdi_ui_tests.core.logger.base.LogSettings;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdi_ui_tests.core.logger.enums.LogLevels;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils;
 import com.ggasoftware.jdi_ui_tests.core.utils.common.Timer;
 import com.ggasoftware.jdi_ui_tests.core.utils.map.MapArray;
@@ -13,10 +15,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.EnumUtils.getEnumValue;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.*;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static java.lang.String.format;
 
 /**
@@ -43,10 +42,10 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
             }));
     }
     protected boolean isDisplayedAction() {
-        return actions.findImmediately(() -> where(getWebElements(), WebElement::isDisplayed).size() > 0);
+        return actions.findImmediately(() -> LinqUtils.where(getWebElements(), WebElement::isDisplayed).size() > 0);
     }
     public boolean waitDisplayedAction() {
-        return timer().wait(() -> any(getWebElements(), el -> !el.isDisplayed()));
+        return timer().wait(() -> LinqUtils.any(getWebElements(), el -> !el.isDisplayed()));
     }
 
     public boolean isDisplayed() {return actions.isDisplayed(this::isDisplayedAction); }
@@ -61,7 +60,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     }
 
     public WebElement getElement(String name)  {
-        return first(getWebElements(), el -> el.getText().equals(name));
+        return LinqUtils.first(getWebElements(), el -> el.getText().equals(name));
     }
     public WebElement getElement(int index) {
         return getWebElements().get(index);
@@ -72,7 +71,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
 
     protected MapArray<String, WebElement> getElementsAction() {
         try { return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
-        } catch (Throwable ex) { throw exception(ex.getMessage()); }
+        } catch (Exception ex) { throw JDISettings.exception(ex.getMessage()); }
     }
     protected List<String> getLabelsAction() {
         return (List<String>) getElementsAction().keys();
@@ -100,17 +99,17 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     }
     public final int count() { return getElements().size(); }
 
-    protected String getValueAction() { return print(select(getWebElements(), WebElement::getText)); }
+    protected String getValueAction() { return PrintUtils.print(LinqUtils.select(getWebElements(), WebElement::getText)); }
     public final String getValue() { return invoker.doJActionResult("Get value", this::getValueAction); }
 
     public final List<String> waitText(String str) {
-        if (Timer.waitCondition(() -> select(getWebElements(), WebElement::getText).contains(str)))
+        if (Timer.waitCondition(() -> LinqUtils.select(getWebElements(), WebElement::getText).contains(str)))
             return getLabels();
-        else { throw exception("Wait Text Failed"); }
+        else { throw JDISettings.exception("Wait Text Failed"); }
     }
 
     public List<String> getTextList() {
-        return invoker.doJActionResult("Get list of texts", () -> select(getWebElements(), WebElement::getText),
+        return invoker.doJActionResult("Get list of texts", () -> LinqUtils.select(getWebElements(), WebElement::getText),
                 PrintUtils::print);
     }
     public String getFirstText() {

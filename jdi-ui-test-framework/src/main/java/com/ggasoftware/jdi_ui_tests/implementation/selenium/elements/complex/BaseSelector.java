@@ -51,7 +51,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             selectFromList(els, name);
     }
     private void selectFromList(List<WebElement> els, String name){
-        WebElement element = first(els, el -> el.getText().equals(name));
+        WebElement element = LinqUtils.first(els, el -> el.getText().equals(name));
         if (element == null)
             throw exception("Can't find option '%s'. Please fix allLabelsLocator", name);
         element.click();
@@ -144,7 +144,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         return isDisplayedInList(els.size() == 1 ? getSelector().getOptions() : els, name);
     }
     private boolean isDisplayedInList(List<WebElement> els, String name) {
-        WebElement element = first(els, el -> el.getText().equals(name));
+        WebElement element = LinqUtils.first(els, el -> el.getText().equals(name));
         return element != null && element.isDisplayed();
     }
     protected boolean isDisplayedAction(int index) {

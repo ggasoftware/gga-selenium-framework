@@ -1,8 +1,9 @@
 package com.epam.jdi_tests.tests.complex.tableTests;
 
 import com.epam.jdi_tests.dataproviders.TableDP;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.TableSettings;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.interfaces.ITable;
+import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -12,29 +13,26 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
+import static com.epam.jdi_tests.page_objects.EpamJDISite.isInState;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.toStringArray;
-import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.*;
-import com.epam.jdi_tests.page_objects.pages.SupportPage;
-import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Table;
-import com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert;
-
-import java.util.Arrays;
-
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
 /**
  * Created by Roman_Iovlev on 9/15/2015.
  */
+/**
+ * Created by Roman_Iovlev on 9/15/2015.
+ */
+
 public class TableTests extends InitTableTests {
     private Table initTable(Table table) {
         table.avatar.byLocator = By.className("uui-table");
         return table;
     }
-
     @BeforeMethod
     public void before(Method method) throws IOException {
         isInState(SUPPORT_PAGE, method);
@@ -145,5 +143,4 @@ public class TableTests extends InitTableTests {
         areEquals(table.cell(column(providedColumnList.get(0)), row(providedRowList.get(0))).getText(), firstColumnContent,
                 format("Expected first column ocntent is %s, but was %s", firstColumnContent, table.cell(column(providedColumnList.get(0)), row(providedRowList.get(0))).getText()));
     }
-
 }

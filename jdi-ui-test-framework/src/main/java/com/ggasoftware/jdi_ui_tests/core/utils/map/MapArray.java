@@ -10,7 +10,6 @@ import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.firstIndex;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdi_ui_tests.core.utils.usefulUtils.TryCatchUtil.throwRuntimeException;
 import static java.util.stream.Collectors.toList;
@@ -123,7 +122,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     public V get(K key) {
         Pair<K, V> first = null;
         try { first = LinqUtils.first(pairs, pair -> pair.key.equals(key));
-        } catch (Throwable ignore) {}
+        } catch (Exception ignore) {}
         return (first != null) ? first.value : null;
     }
     public Pair<K,V> get(int index) {
@@ -204,7 +203,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     }
 
     public void removeByKey(K key) {
-        pairs.remove(firstIndex(pairs, pair -> pair.key.equals(key)));
+        pairs.remove(LinqUtils.firstIndex(pairs, pair -> pair.key.equals(key)));
     }
     public void removeAllValues(V value) {
         LinqUtils.where(pairs, p -> p.value.equals(value)).forEach(pairs::remove);
@@ -257,7 +256,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             return pairs.stream()
                     .map(pair -> func.invoke(pair.key, pair.value))
                     .collect(Collectors.toList());
-        } catch (Throwable ignore) { throwRuntimeException(ignore); return new ArrayList<>(); }
+        } catch (Exception ignore) { throwRuntimeException(ignore); return new ArrayList<>(); }
     }
 
     public MapArray<K, V> where(JFuncTTT<K, V, Boolean> func) {
@@ -267,7 +266,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
                 if (func.invoke(pair.key, pair.value))
                     result.add(pair);
             return result;
-        } catch (Throwable ignore) { throwRuntimeException(ignore); return null; }
+        } catch (Exception ignore) { throwRuntimeException(ignore); return null; }
     }
     public V first(JFuncTTT<K,V, Boolean> func) {
         try {
@@ -275,13 +274,13 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
                 if (func.invoke(pair.key, pair.value))
                     return pair.value;
             return null;
-        } catch (Throwable ignore) { throwRuntimeException(ignore); return null; }
+        } catch (Exception ignore) { throwRuntimeException(ignore); return null; }
     }
     public void foreach(JActionTT<K, V> action) {
         try {
             for(Pair<K,V> pair : pairs)
                 action.invoke(pair.key, pair.value);
-        } catch (Throwable ignore) { throwRuntimeException(ignore); }
+        } catch (Exception ignore) { throwRuntimeException(ignore); }
     }
     public <R> List<R> selectMany(JFuncTTT<K, V, List<R>> func) {
         try {
@@ -289,7 +288,7 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             for(Pair<K,V> pair : pairs)
                 result.addAll(func.invoke(pair.key, pair.value));
             return result;
-        } catch (Throwable ignore) { throwRuntimeException(ignore); return null;}
+        } catch (Exception ignore) { throwRuntimeException(ignore); return null;}
     }
 
 }

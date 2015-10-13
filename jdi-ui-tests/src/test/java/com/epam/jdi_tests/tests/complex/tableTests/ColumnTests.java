@@ -12,12 +12,10 @@ import java.util.List;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Row.row;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
-
 /**
  * Created by Natalia_Grebenshchikova on 10/5/2015.
  */
 public class ColumnTests extends InitTableTests {
-
     @Test
     public void findAllColumns(){
         Columns columns = support().columns();
@@ -101,7 +99,6 @@ public class ColumnTests extends InitTableTests {
 
         Assert.areEquals(columnAsText, expectedColumnValue, String.format("Expectde column is %s, but was %s", expectedColumnValue, columnAsText));
     }
-
     @Test
     public void cellsToColumn(){
         MapArray<String, ICell> cellsToColumn = support().rows().cellsToColumn(Arrays.asList(support().cell(column(1), row(1)),support().cell(column(2), row(2))));
@@ -112,6 +109,5 @@ public class ColumnTests extends InitTableTests {
         areEquals(cellsToColumn.key(1), "2",String.format("Expected second cell row id '2', but was %s", cellsToColumn.key(1)));
         areEquals(cellsToColumn.value(1).getValue(),"TestNG, JUnit Custom",String.format("Expected first cell value id 'TestNG, JUnit Custom', but was %s", cellsToColumn.value(1).getValue()));
     }
-
 
 }

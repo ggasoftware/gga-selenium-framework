@@ -20,38 +20,38 @@ public class LinqUtils {
             result.add(el);
         return result;
     }
-    public static <T, T1> List<T1> select(Iterable<T> list, JFuncTT<T, T1> func) {
+    public static <T, TR> List<TR> select(Iterable<T> list, JFuncTT<T, TR> func) {
         if (list == null)
             throw new RuntimeException("Can't do select. Collection is Null");
         try {
-            List<T1> result = new ArrayList<>();
+            List<TR> result = new ArrayList<>();
             for (T el : list)
                 result.add(func.invoke(el));
             return result;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
     }
-    public static <T, T1> List<T1> select(T[] array, JFuncTT<T, T1> func){
+    public static <T, TR> List<TR> select(T[] array, JFuncTT<T, TR> func){
         return select(asList(array), func);
     }
-    public static <T, T1, T2> List<T2> selectMap(Map<T, T1> map, JFuncTT<Map.Entry<T, T1>, T2> func) {
+    public static <K, V, R> List<R> selectMap(Map<K, V> map, JFuncTT<Map.Entry<K, V>, R> func) {
         if (map == null)
             throw new RuntimeException("Can't do selectMap. Collection is Null");
         try {
-            List<T2> result = new ArrayList<>();
-            for(Map.Entry<T, T1> el : map.entrySet())
+            List<R> result = new ArrayList<>();
+            for(Map.Entry<K, V> el : map.entrySet())
                 result.add(func.invoke(el));
             return result;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
     }
-    public static <T, T1, T2> Map<T, T2> select(Map<T, T1> map, JFuncTT<T1, T2> func) {
+    public static <K, V, TR> Map<K, TR> select(Map<K, V> map, JFuncTT<V, TR> func) {
         if (map == null)
             throw new RuntimeException("Can't do select. Collection is Null");
         try {
-            Map<T, T2> result = new HashMap<>();
-            for(Map.Entry<T, T1> el : map.entrySet())
+            Map<K, TR> result = new HashMap<>();
+            for(Map.Entry<K, V> el : map.entrySet())
                 result.put(el.getKey(), func.invoke(el.getValue()));
             return result;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do select. Exception: " + ex.getMessage()); }
     }
 
     public static <T> List<T> where(Iterable<T> list, JFuncTT<T, Boolean> func) {
@@ -63,21 +63,21 @@ public class LinqUtils {
                 if (func.invoke(el))
                 result.add(el);
             return result;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do where. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do where. Exception: " + ex.getMessage()); }
     }
     public static <T> List<T> where(T[] list, JFuncTT<T, Boolean> func) {
         return where(asList(list), func);
     }
-    public static <T, T1> Map<T, T1> where(Map<T, T1> map, JFuncTT<Map.Entry<T, T1>, Boolean> func) {
+    public static <K, V> Map<K, V> where(Map<K, V> map, JFuncTT<Map.Entry<K, V>, Boolean> func) {
         if (map == null)
             throw new RuntimeException("Can't do where. Collection is Null");
         try {
-            Map<T, T1> result = new HashMap<>();
-            for(Map.Entry<T, T1> el : map.entrySet())
+            Map<K, V> result = new HashMap<>();
+            for(Map.Entry<K, V> el : map.entrySet())
                 if (func.invoke(el))
                     result.put(el.getKey(), el.getValue());
             return result;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do where. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do where. Exception: " + ex.getMessage()); }
     }
 
     public static <T> void foreach(Iterable<T> list, JActionT<T> action) {
@@ -86,18 +86,18 @@ public class LinqUtils {
         try {
             for(T el : list)
                 action.invoke(el);
-        } catch (Throwable ex) { throw new RuntimeException("Can't do foreach. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do foreach. Exception: " + ex.getMessage()); }
     }
     public static <T> void foreach(T[] list, JActionT<T> action) {
         foreach(asList(list), action);
     }
-    public static <T, T1> void foreach(Map<T, T1> map, JActionT<Map.Entry<T, T1>> action) {
+    public static <K, V> void foreach(Map<K, V> map, JActionT<Map.Entry<K, V>> action) {
         if (map == null)
             throw new RuntimeException("Can't do foreach. Collection is Null");
         try {
-            for (Map.Entry<T, T1> entry : map.entrySet())
+            for (Map.Entry<K, V> entry : map.entrySet())
                 action.invoke(entry);
-        } catch (Throwable ex) { throw new RuntimeException("Can't do foreach. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do foreach. Exception: " + ex.getMessage()); }
     }
     public static <T> T first(Iterable<T> list) {
         if (list == null)
@@ -109,10 +109,10 @@ public class LinqUtils {
     public static <T> T first(T[] list) {
         return first(asList(list));
     }
-    public static <T, T1> T1 first(Map<T, T1> map) {
+    public static <K, V> V first(Map<K, V> map) {
         if (map == null)
             throw new RuntimeException("Can't do first. Collection is Null");
-        for (Map.Entry<T, T1> el : map.entrySet())
+        for (Map.Entry<K, V> el : map.entrySet())
             return el.getValue();
         return null;
     }
@@ -123,7 +123,7 @@ public class LinqUtils {
             for(T el : list)
                 if (func.invoke(el))
                     return el;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
         return null;
     }
     public static <T> boolean any(Iterable<T> list, JFuncTT<T, Boolean> func) {
@@ -136,7 +136,7 @@ public class LinqUtils {
             for(int i = 0; i< list.size(); i++)
                 if (func.invoke(list.get(i)))
                     return i;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do firstIndex. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do firstIndex. Exception: " + ex.getMessage()); }
         return -1;
     }
     public static <T> int firstIndex(T[] array, JFuncTT<T, Boolean> func) {
@@ -146,20 +146,20 @@ public class LinqUtils {
             for(int i = 0; i< array.length; i++)
                 if (func.invoke(array[i]))
                     return i;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do firstIndex. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do firstIndex. Exception: " + ex.getMessage()); }
         return -1;
     }
     public static <T> T first(T[] list, JFuncTT<T, Boolean> func) {
         return first(asList(list), func);
     }
-    public static <T, T1> T1 first(Map<T, T1> map, JFuncTT<T, Boolean> func) {
+    public static <K, V> V first(Map<K, V> map, JFuncTT<K, Boolean> func) {
         if (map == null)
             throw new RuntimeException("Can't do first. Collection is Null");
         try {
-            for (Map.Entry<T, T1> el : map.entrySet())
+            for (Map.Entry<K, V> el : map.entrySet())
                 if (func.invoke(el.getKey()))
                     return el.getValue();
-        } catch (Throwable ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
         return null;
     }
     public static <K, V> V first(MapArray<K, V> map, JFuncTT<K, Boolean> func) {
@@ -169,7 +169,7 @@ public class LinqUtils {
             for (Pair<K, V> pair : map.pairs)
                 if (func.invoke(pair.key))
                     return pair.value;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do first. Exception: " + ex.getMessage()); }
         return null;
     }
     public static <T> T last(Iterable<T> list) {
@@ -191,7 +191,7 @@ public class LinqUtils {
             for(T el : list)
                 if (func.invoke(el))
                     result = el;
-        } catch (Throwable ex) { throw new RuntimeException("Can't do last. Exception: " + ex.getMessage()); }
+        } catch (Exception ex) { throw new RuntimeException("Can't do last. Exception: " + ex.getMessage()); }
         return result;
     }
     public static <T> T last(T[] list, JFuncTT<T, Boolean> func) {

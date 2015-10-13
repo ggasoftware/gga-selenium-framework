@@ -11,10 +11,9 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <groupId>com.ggasoftware.jdi-ui-tests</groupId>
     <artifactId>jdi-ui-tests</artifactId>
     <version>2.0.1-SNAPSHOT</version>
-    <name>jdi-ui-test-framework</name>
+    <name>jdi-ui-tests</name>
     <packaging>jar</packaging>
 
     <properties>
@@ -31,7 +30,7 @@
             <version>${selenium.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.ggasoftware.jdi-ui-tests</groupId>
+            <groupId>com.ggasoftware.uitest</groupId>
             <artifactId>jdi-ui-test-framework</artifactId>
             <version>${fw.version}</version>
         </dependency>
@@ -72,7 +71,8 @@
                         </property>
                         <property>
                             <name>listener</name>
-                            <value>com.ggasoftware.jdi_ui_tests.implementation.testng.testRunner.TestNGListener, org.uncommons.reportng.mod.HTMLReporter</value>
+                            <value>com.ggasoftware.jdi_ui_tests.implementation.testng.testRunner.TestNGListener,
+                                org.uncommons.reportng.mod.HTMLReporter</value>
                         </property>
                     </properties>
                 </configuration>

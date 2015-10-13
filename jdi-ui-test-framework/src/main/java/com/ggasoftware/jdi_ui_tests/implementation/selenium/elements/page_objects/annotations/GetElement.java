@@ -6,12 +6,13 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.common.Text
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IButton;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.IText;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.functions.Functions;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.getFieldValue;
@@ -28,10 +29,10 @@ public class GetElement {
         List<Field> fields = getFields(element, IButton.class);
         if (fields.size() == 1)
             return (Button) getFieldValue(fields.get(0), element);
-        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, element));
-        Button button = first(buttons, b -> namesEqual(b.getName(), buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button"));
+        Collection<Button> buttons = LinqUtils.select(fields, f -> (Button) getFieldValue(f, element));
+        Button button = LinqUtils.first(buttons, b -> namesEqual(b.getName(), buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button"));
         if (button == null)
-            throw exception("Can't find button '%s' for Element '%s'", buttonName, toString());
+            throw JDISettings.exception("Can't find button '%s' for Element '%s'", buttonName, toString());
         return button;
     }
 
@@ -43,22 +44,22 @@ public class GetElement {
         List<Field> fields = getFields(element, IButton.class);
         if (fields.size() == 1)
             return (Button) getFieldValue(fields.get(0), element);
-        Collection<Button> buttons = select(fields, f -> (Button) getFieldValue(f, element));
-        Button button = first(buttons, b -> b.function.equals(funcName));
+        Collection<Button> buttons = LinqUtils.select(fields, f -> (Button) getFieldValue(f, element));
+        Button button = LinqUtils.first(buttons, b -> b.function.equals(funcName));
         if (button == null) {
             String name = funcName.name;
             String buttonName = name.toLowerCase().contains("button") ? name : name + "button";
-            button = first(buttons, b -> namesEqual(b.getName(), buttonName));
+            button = LinqUtils.first(buttons, b -> namesEqual(b.getName(), buttonName));
             if (button == null)
-                throw exception("Can't find button '%s' for Element '%s'", name, toString());
+                throw JDISettings.exception("Can't find button '%s' for Element '%s'", name, toString());
         }
         return button;
     }
 
     public Text getTextElement() {
-        Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
+        Field textField = LinqUtils.first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
         if (textField == null)
-            throw exception("Can't find Text Element '%s'", toString());
+            throw JDISettings.exception("Can't find Text Element '%s'", toString());
         return (Text) getFieldValue(textField, element);
     }
 }

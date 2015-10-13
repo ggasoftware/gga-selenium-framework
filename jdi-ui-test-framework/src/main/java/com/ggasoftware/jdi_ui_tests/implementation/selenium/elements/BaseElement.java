@@ -20,6 +20,7 @@ import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.common.*;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.complex.*;
+import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.GetElement;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.functions.Functions;
 import org.openqa.selenium.By;
@@ -33,8 +34,6 @@ import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.ReflectionUtils.isInterface;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.InitElements;
 import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.CascadeInit.firstInstance;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.MapInterfaceToElement.updateInterfacesMap;
-import static com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.page_objects.annotations.AnnotationsUtil.getElementName;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -48,7 +47,7 @@ public abstract class BaseElement implements IBaseElement {
         avatar = new GetElementModule(byLocator, this);
         if (isInterface(getClass(), IComposite.class) && !createFreeInstance && firstInstance)
             InitElements(this);
-        updateInterfacesMap(seleniumDefaultMap());
+        MapInterfaceToElement.updateInterfacesMap(seleniumDefaultMap());
     }
 
     private String name;
@@ -56,7 +55,7 @@ public abstract class BaseElement implements IBaseElement {
     public String getName() { return name != null ? name : getTypeName(); }
     public String getVarName() { return varName != null ? varName : getName(); }
     public void setName(String name) { this.name = name; }
-    public void setName(Field field) { this.name = getElementName(field); this.varName = field.getName(); }
+    public void setName(Field field) { this.name = AnnotationsUtil.getElementName(field); this.varName = field.getName(); }
 
     public Functions function = Functions.NONE;
     public GetElementModule avatar;

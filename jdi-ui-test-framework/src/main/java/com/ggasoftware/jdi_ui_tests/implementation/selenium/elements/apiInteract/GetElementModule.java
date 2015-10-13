@@ -6,6 +6,9 @@ import com.ggasoftware.jdi_ui_tests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pair;
 import com.ggasoftware.jdi_ui_tests.core.utils.pairs.Pairs;
 import com.ggasoftware.jdi_ui_tests.implementation.selenium.elements.interfaces.base.IBaseElement;
+import com.ggasoftware.jdi_ui_tests.core.settings.JDISettings;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -14,11 +17,9 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.jdi_ui_tests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdi_ui_tests.core.utils.common.PrintUtils.print;
-import static com.ggasoftware.jdi_ui_tests.core.utils.common.WebDriverByUtils.*;
 import static java.lang.String.format;
 
 /**
@@ -35,7 +36,7 @@ public class GetElementModule {
 
     public GetElementModule(IBaseElement element) {
         this.element = element;
-        driverName = driverFactory.currentDriverName;
+        driverName = JDISettings.driverFactory.currentDriverName;
     }
     public GetElementModule(By byLocator, IBaseElement element) {
         this(element);
@@ -47,45 +48,45 @@ public class GetElementModule {
         this.context = context;
     }
 
-    public WebDriver getDriver() { return driverFactory.getDriver(driverName); }
+    public WebDriver getDriver() { return JDISettings.driverFactory.getDriver(driverName); }
 
     public WebElement getElement() {
-        logger.debug("Get Web Element: " + element);
+        JDISettings.logger.debug("Get Web Element: " + element);
         WebElement element = Timer.getByCondition(this::getElementAction, el -> el != null);
-        logger.debug("One Element found");
+        JDISettings.logger.debug("One Element found");
         return element;
     }
 
     public List<WebElement> getElements() {
-        logger.debug("Get Web elements: " + element);
+        JDISettings.logger.debug("Get Web elements: " + element);
         List<WebElement> elements = getElementsAction();
-        logger.debug("Found %s elements", elements.size());
+        JDISettings.logger.debug("Found %s elements", elements.size());
         return elements;
     }
 
-    public Timer timer() { return new Timer(timeouts.currentTimeoutSec * 1000); }
+    public Timer timer() { return new Timer(JDISettings.timeouts.currentTimeoutSec * 1000); }
     private List<WebElement> getElementsAction() {
         List<WebElement> result = timer().getResultByCondition(
                 this::searchElements,
                 els -> where(els, getSearchCriteria()::invoke).size() > 0);
-        timeouts.dropTimeouts();
+        JDISettings.timeouts.dropTimeouts();
         if (result == null)
-            throw exception("Can't get Web Elements");
-        return where(result, getSearchCriteria()::invoke);
+            throw JDISettings.exception("Can't get Web Elements");
+        return LinqUtils.where(result, getSearchCriteria()::invoke);
     }
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
     private JFuncTT<WebElement, Boolean> getSearchCriteria() {
-        return localElementSearchCriteria != null ? localElementSearchCriteria : driverFactory.elementSearchCriteria;
+        return localElementSearchCriteria != null ? localElementSearchCriteria : JDISettings.driverFactory.elementSearchCriteria;
     }
     public GetElementModule searchAll() { localElementSearchCriteria = el -> el!=null; return this; }
 
     private WebElement getElementAction() {
-        int timeout = timeouts.currentTimeoutSec;
+        int timeout = JDISettings.timeouts.currentTimeoutSec;
         List<WebElement> result = getElementsAction();
         if (result == null)
-            throw exception(failedToFindElementMessage, element, timeout);
+            throw JDISettings.exception(failedToFindElementMessage, element, timeout);
         if (result.size() > 1)
-            throw exception(findToMuchElementsMessage, result.size(), element, timeout);
+            throw JDISettings.exception(findToMuchElementsMessage, result.size(), element, timeout);
         return result.get(0);
     }
 
@@ -116,14 +117,14 @@ public class GetElementModule {
         for (Pair<ContextType, By> pair : context.subList(1)) {
             By byValue = pair.value;
             if (byValue.toString().contains("By.xpath: //"))
-                pair.value = getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
+                pair.value = WebDriverByUtils.getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
                         .replaceFirst("/", "./"));
         }
         return context;
     }
     private By correctXPaths(By byValue) {
         return (byValue.toString().contains("By.xpath: //"))
-                ? getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
+                ? WebDriverByUtils.getByFunc(byValue).invoke(WebDriverByUtils.getByLocator(byValue)
                 .replaceFirst("/", "./"))
                 : byValue;
     }
@@ -132,7 +133,7 @@ public class GetElementModule {
 
     @Override
     public String toString() {
-        return shortLogMessagesFormat
+        return JDISettings.shortLogMessagesFormat
             ? printFullLocator()
             : format("Locator: '%s'", byLocator) +
                 ((context.size() > 0)
@@ -145,12 +146,12 @@ public class GetElementModule {
              return "No Locators";
         List<String> result = new ArrayList<>();
         if (context.size() != 0)
-            result = select(context, el -> printShortBy(el.value));
+            result = LinqUtils.select(context, el -> printShortBy(el.value));
         result.add(printShortBy(byLocator));
-        return print(result);
+        return PrintUtils.print(result);
     }
 
     private String printShortBy(By by) {
-        return String.format("%s='%s'", getByName(by), getByLocator(by));
+        return String.format("%s='%s'", WebDriverByUtils.getByName(by), WebDriverByUtils.getByLocator(by));
     }
 }

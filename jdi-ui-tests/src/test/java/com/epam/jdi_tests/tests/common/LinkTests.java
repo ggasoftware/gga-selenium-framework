@@ -12,6 +12,7 @@ import static com.epam.jdi_tests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi_tests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi_tests.page_objects.EpamJDISite.*;
 import static com.epam.jdi_tests.tests.complex.CommonActionsData.*;
+import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.areEquals;
 import static com.ggasoftware.jdi_ui_tests.implementation.testng.asserter.Assert.isTrue;
 
 /**
@@ -34,38 +35,41 @@ public class LinkTests extends InitTests {
 
 	@Test
 	public void getTextTest() {
-		checkText(() -> link().getText(), LINK_NAME);
+		areEquals(link().getText(), LINK_NAME);
 	}
 	@Test
 	public void getValueTest() {
-		checkText(() -> link().getValue(), LINK_NAME);
+		areEquals(link().getValue(), LINK_NAME);
 	}
 	@Test
 	public void waitTextTest() {
-		checkText(() -> link().waitText("CULATE"), LINK_NAME);
+		areEquals(link().waitText("bout"), LINK_NAME);
 	}
 
 	//TODO ! contains
 
 	@Test
 	public void matchTextTest() {
-		checkText(() -> link().waitMatchText("C.*C.LATE"), LINK_NAME);
+		areEquals(link().waitMatchText(".*ut"), LINK_NAME);
 	}
 	//TODO ! match
 	@Test
 	public void wait3TextTest() {
 		isInState(SUPPORT_PAGE);
 		runParallel(homePage::open);
-		checkText(() -> link().waitText("CULATE"), LINK_NAME);
+		areEquals(link().waitText("bout"), LINK_NAME);
 		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 
 	@Test
 	public void match3TextTest() {
-		checkText(() -> link().waitMatchText("C.*C.LATE"), LINK_NAME);
+		isInState(SUPPORT_PAGE);
+		runParallel(homePage::open);
+		areEquals(link().waitMatchText(".*ut"), LINK_NAME);
+		isTrue(timer.timePassedInMSec() > waitTimeOut);
 	}
 	@Test
 	public void getTooltipTest() throws Exception {
-		checkText(() -> link().getTooltip(), "Tip title");
+		areEquals(link().getTooltip(), "Tip title");
 	}
 }
