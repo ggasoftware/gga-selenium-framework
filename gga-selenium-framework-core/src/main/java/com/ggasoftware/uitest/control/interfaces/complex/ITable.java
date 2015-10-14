@@ -14,59 +14,75 @@ import java.util.List;
 
 public interface ITable<T extends IClickableText, P> extends IText<P> {
     @JDIAction
-    Cell<T,P> cell(Column column, Row row);
-    @JDIAction
-    List<Cell<T,P>> cells(String value);
-    @JDIAction
-    List<Cell<T,P>> cellsMatch(String regex);
-    @JDIAction
-    Cell<T,P> cell(String value);
-    @JDIAction
-    Cell<T,P> cellMatch(String regex);
+    Cell<T, P> cell(Column column, Row row);
 
     @JDIAction
-    MapArray<String, MapArray<String, Cell<T,P>>> rows(String... colNameValues);
+    List<Cell<T, P>> cells(String value);
+
     @JDIAction
-    MapArray<String, MapArray<String, Cell<T,P>>> columns(String... rowNameValues);
+    List<Cell<T, P>> cellsMatch(String regex);
+
+    @JDIAction
+    Cell<T, P> cell(String value);
+
+    @JDIAction
+    Cell<T, P> cellMatch(String regex);
+
+    @JDIAction
+    MapArray<String, MapArray<String, Cell<T, P>>> rows(String... colNameValues);
+
+    @JDIAction
+    MapArray<String, MapArray<String, Cell<T, P>>> columns(String... rowNameValues);
 
     @JDIAction
     boolean waitValue(String value, Row row);
+
     @JDIAction
     boolean waitValue(String value, Column column);
 
     @JDIAction
     boolean isEmpty();
+
     @JDIAction
     boolean waitHaveRows();
+
     @JDIAction
     boolean waitRows(int count);
 
     @JDIAction
-    Cell<T,P> cell(String value, Row row);
-    @JDIAction
-    Cell<T,P> cell(String value, Column column);
-    @JDIAction
-    List<Cell<T,P>> cellsMatch(String regex, Column column);
-    @JDIAction
-    List<Cell<T,P>> cellsMatch(String regex, Row row);
+    Cell<T, P> cell(String value, Row row);
 
     @JDIAction
-    MapArray<String, Cell<T,P>> column(String value, Row row);
+    Cell<T, P> cell(String value, Column column);
+
     @JDIAction
-    MapArray<String, Cell<T,P>> row(String value, Column column);
+    List<Cell<T, P>> cellsMatch(String regex, Column column);
+
+    @JDIAction
+    List<Cell<T, P>> cellsMatch(String regex, Row row);
+
+    @JDIAction
+    MapArray<String, Cell<T, P>> column(String value, Row row);
+
+    @JDIAction
+    MapArray<String, Cell<T, P>> row(String value, Column column);
 
 
-    Columns<T,P> columns();
-    @JDIAction
-    MapArray<String, Cell<T,P>> column(int colNum);
-    @JDIAction
-    MapArray<String, Cell<T,P>> column(String colName);
+    Columns<T, P> columns();
 
-    Rows<T,P> rows();
     @JDIAction
-    MapArray<String, Cell<T,P>> row(int rowNum);
+    MapArray<String, Cell<T, P>> column(int colNum);
+
     @JDIAction
-    MapArray<String, Cell<T,P>> row(String rowName);
+    MapArray<String, Cell<T, P>> column(String colName);
+
+    Rows<T, P> rows();
+
+    @JDIAction
+    MapArray<String, Cell<T, P>> row(int rowNum);
+
+    @JDIAction
+    MapArray<String, Cell<T, P>> row(String rowName);
 
     @JDIAction
     String[] footer();

@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.control.base.annotations.functions.Functions;
@@ -78,19 +80,6 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
     }
 
-    /**
-     * Searches for the property with the specified key in this property list.
-     * If the key is not found in this property list, the default property list,
-     * and its defaults, recursively, are then checked. The method returns
-     * <code>null</code> if the property is not found.
-     *
-     * @param key the property key.
-     * @return the value in this property list with the specified key value.
-     */
-    public String getProperty(String key) {
-        return properties.getProperty(key);
-    }
-
     protected Element() {
 
     }
@@ -106,11 +95,36 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public Element(String name, String locator, ParentPanel panel) {
         super(name, locator, panel);
     }
+
     public Element(String name, By byLocator) {
         super(name, byLocator);
     }
+
     public Element(By byLocator) {
         super(byLocator);
+    }
+
+    public static <T extends IElement> T copy(T element, By newLocator) {
+        try {
+            T result = (T) element.getClass().newInstance();
+            result.setAvatar(newLocator, element.getAvatar());
+            return result;
+        } catch (Exception | AssertionError ex) {
+            throw exception("Can't copy element: " + element);
+        }
+    }
+
+    /**
+     * Searches for the property with the specified key in this property list.
+     * If the key is not found in this property list, the default property list,
+     * and its defaults, recursively, are then checked. The method returns
+     * <code>null</code> if the property is not found.
+     *
+     * @param key the property key.
+     * @return the value in this property list with the specified key value.
+     */
+    public String getProperty(String key) {
+        return properties.getProperty(key);
     }
 
     /**
@@ -130,7 +144,11 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     protected void setParent(ParentPanel parentPanel) {
         this.parent = parentPanel;
     }
-    public boolean waitDisplayed() { return waitDisplayed(TIMEOUT); }
+
+    public boolean waitDisplayed() {
+        return waitDisplayed(TIMEOUT);
+    }
+
     public boolean waitDisplayed(int seconds) {
         return doJActionResult("Wait element appear during '%s' seconds", () -> {
             setWaitTimeout(seconds);
@@ -140,8 +158,11 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         });
     }
 
-    public boolean waitVanished() { return waitDisplayed(TIMEOUT); }
-    public boolean waitVanished(int seconds)  {
+    public boolean waitVanished() {
+        return waitDisplayed(TIMEOUT);
+    }
+
+    public boolean waitVanished(int seconds) {
         return doJActionResult("Wait element disappear during '%s' seconds", () -> {
             setWaitTimeout(100);
             boolean result = new Timer(seconds * 1000).wait(() -> !(avatar.getElement().isDisplayed()));
@@ -150,18 +171,11 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         });
     }
 
-    public static <T extends IElement> T copy(T element, By newLocator) {
-        try {
-            T result = (T) element.getClass().newInstance();
-            result.setAvatar(newLocator, element.getAvatar());
-            return result;
-        } catch (Exception|AssertionError ex) { throw exception("Can't copy element: " + element); }
-    }
-
     public WebElement getWebElement() {
         return doJActionResult("Get web element " + this.toString(), avatar::getElement,
                 new LogSettings(DEBUG, BUSINESS));
     }
+
     public WebElement getWebElement(int seconds) {
         setTimeout(seconds);
         WebElement result = doJActionResult("Get web element " + this.toString(), avatar::getElement,
@@ -169,6 +183,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         setTimeout(TIMEOUT);
         return result;
     }
+
     protected Button getButton(Functions funcName) {
         List<Field> fields = getFields(this, IButton.class);
         if (fields.size() == 1)
@@ -183,15 +198,21 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
 
     protected Text getTextElement() {
         Field textField = first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
-        if (textField!= null)
+        if (textField != null)
             return (Text) getFieldValue(textField, this);
         throw exception(format("Can't find Text element '%s'", toString()));
     }
     //  Common functions
 
 
-    protected void clickActionM() { getWebElement().click(); }
-    public ParentPanel click() { doJAction("Click on element", this::clickActionM); return parent; }
+    protected void clickActionM() {
+        getWebElement().click();
+    }
+
+    public ParentPanel click() {
+        doJAction("Click on element", this::clickActionM);
+        return parent;
+    }
 
     /**
      * A convenience method that performs click at the location of the source element
@@ -219,6 +240,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     protected String insertValue(String str, String value) {
         return str.replace("$VALUE", value);
     }
+
     protected String insertValues(String str, String[] values) {
         int i = 0;
         String result = str;
@@ -226,6 +248,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             result = result.replace("$VALUE" + i++, value);
         return result;
     }
+
     /**
      * Click on the Element(WebElement) by JS
      *
@@ -332,7 +355,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         return parent;
     }
 
-    public String getSimpleClassName() { return getClass().getSimpleName(); }
+    public String getSimpleClassName() {
+        return getClass().getSimpleName();
+    }
 
     /**
      * Mouse Over on the the given element.
@@ -504,7 +529,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public boolean isVanished() {
         setTimeout(0);
-        boolean result = !isExists(0) || !(getWebElement().isDisplayed());;
+        boolean result = !isExists(0) || !(getWebElement().isDisplayed());
+        ;
         setTimeout(TIMEOUT);
         return result;
     }
@@ -578,8 +604,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      */
     public String getElementText() {
         int l = 0;
-        for(WebElement webElement:getChild()){
-            l=+webElement.getText().length();
+        for (WebElement webElement : getChild()) {
+            l = +webElement.getText().length();
         }
         return (String) logGetter(this, getParentClassName(), "element text", getWebElement().getText().substring(l));
     }
@@ -595,14 +621,17 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public String getAttribute(String sName) {
         return (String) logGetter(this, getParentClassName(), sName, getWebElement().getAttribute(sName));
     }
+
     public boolean waitAttribute(String name, String value) {
         return doJActionResult(format("Wait attribute %s='%s'", name, value),
                 () -> getWebElement().getAttribute(name).equals(value));
     }
+
     public boolean waitAttributeChanged(String name, String value) {
         return doJActionResult(format("Wait attribute %s='%s' changed", name, value),
                 () -> !getWebElement().getAttribute(name).equals(value));
     }
+
     /**
      * Set the value of a the given attribute of the element by JS.
      *
@@ -799,6 +828,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public ParentPanel waitForExists(int timeoutSec) {
         return waitForExists(timeoutSec, CHECKCONDITION);
     }
+
     /**
      * Wait until element exists.
      *
@@ -807,6 +837,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public ParentPanel waitForExists() {
         return waitForExists(TIMEOUT);
     }
+
     /**
      * Wait until element exists.
      *
@@ -845,6 +876,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
         }
         return parent;
     }
+
     /**
      * Wait until element is displayed.
      *
@@ -854,6 +886,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public ParentPanel waitForDisplayed(int timeoutSec) {
         return waitForDisplayed(timeoutSec, CHECKCONDITION);
     }
+
     /**
      * Wait until element is displayed.
      *
@@ -862,6 +895,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public ParentPanel waitForDisplayed() {
         return waitForDisplayed(TIMEOUT);
     }
+
     /**
      * Wait until element is displayed.
      *
@@ -922,7 +956,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isVanished = false;
         }
         setTimeout(TIMEOUT);
-        if (checkCondition){
+        if (checkCondition) {
             logAssertTrue(BUSINESS_LEVEL, isVanished,
                     format("waitForElementToVanish - '%s' should be vanished", getName()), takePassedScreenshot);
         }
@@ -979,7 +1013,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             logTechnical(format("waitForText: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-        if (checkCondition){
+        if (checkCondition) {
             logAssertTrue(BUSINESS_LEVEL, isPresent,
                     format("waitForText - '%s' should has a text '%s'", getName(), text), takePassedScreenshot);
         }
@@ -995,6 +1029,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public ParentPanel waitForTextContains(final String text) {
         return waitForTextContains(text, TIMEOUT, CHECKCONDITION);
     }
+
     /**
      * Wait until element contains a text.
      *
@@ -1005,6 +1040,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     public ParentPanel waitForTextContains(final String text, final int timeoutSec) {
         return waitForTextContains(text, timeoutSec, CHECKCONDITION);
     }
+
     /**
      * Wait until element contains a text.
      *
@@ -1025,7 +1061,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             logTechnical(format("waitForTextContains: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-        if (checkCondition){
+        if (checkCondition) {
             logAssertTrue(BUSINESS_LEVEL, isPresent,
                     format("waitForTextContains - '%s' should has a text contains '%s'", getName(), text), takePassedScreenshot);
         }
@@ -1073,7 +1109,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             logTechnical(format("waitForTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        if (checkCondition){
+        if (checkCondition) {
             logAssertTrue(BUSINESS_LEVEL, isChanged,
                     format("waitForTextChanged - '%s' text '%s' should be changed", getName(), text), takePassedScreenshot);
         }
@@ -1121,7 +1157,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             logTechnical(format("waitForValueAttribute: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isPresent = false;
         }
-        if (checkCondition){
+        if (checkCondition) {
             logAssertTrue(BUSINESS_LEVEL, isPresent,
                     format("waitForValueAttribute - '%s' should has a value attribute '%s'", getName(), value), takePassedScreenshot);
         }
@@ -1158,9 +1194,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
                 format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", getName(), attribute, value), takePassedScreenshot);
         setTimeout(TIMEOUT);
 
-        if (checkCondition){
+        if (checkCondition) {
             logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, result,
-                format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value),
+                    format("waitForAttributeChanged - '%s' attribute '%s' value '%s' should be changed", name, attribute, value),
                     takePassedScreenshot);
         }
         return parent;
@@ -1283,7 +1319,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
             isTrue = true;
         }
         setTimeout(TIMEOUT);
-        if (checkCondition){
+        if (checkCondition) {
             logAssertFalse(BUSINESS_LEVEL, isTrue,
                     format("waitForExpectedCondition - '%s'", condition), takePassedScreenshot);
         }

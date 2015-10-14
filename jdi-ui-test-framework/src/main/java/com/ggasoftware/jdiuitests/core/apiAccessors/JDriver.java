@@ -7,7 +7,10 @@ import java.util.List;
  */
 public interface JDriver<T extends JElement> {
     T getElement(String locator);
+
     List<T> getElements(String locator);
+
     void runApplication();
+
     void closeApplication();
 }

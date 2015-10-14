@@ -9,20 +9,37 @@ import org.openqa.selenium.WebElement;
  * Created by Roman_Iovlev on 7/6/2015.
  */
 public class Text extends Element implements IText {
-    public Text() { }
-    public Text(By byLocator) { super(byLocator); }
-    public Text(WebElement webElement) { super(webElement); }
+    public Text() {
+    }
 
-    protected String getTextAction() { return getWebElement().getText(); }
-    protected String getValueAction() { return getTextAction(); }
+    public Text(By byLocator) {
+        super(byLocator);
+    }
 
-    public final String getValue() { return actions.getValue(this::getValueAction); }
+    public Text(WebElement webElement) {
+        super(webElement);
+    }
+
+    protected String getTextAction() {
+        return getWebElement().getText();
+    }
+
+    protected String getValueAction() {
+        return getTextAction();
+    }
+
+    public final String getValue() {
+        return actions.getValue(this::getValueAction);
+    }
+
     public final String getText() {
         return actions.getText(this::getTextAction);
     }
+
     public final String waitText(String text) {
         return actions.waitText(text, this::getTextAction);
     }
+
     public final String waitMatchText(String regEx) {
         return actions.waitMatchText(regEx, this::getTextAction);
     }

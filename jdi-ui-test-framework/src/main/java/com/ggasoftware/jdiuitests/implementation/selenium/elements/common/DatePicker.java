@@ -8,7 +8,14 @@ import org.openqa.selenium.WebElement;
  * Created by Roman_Iovlev on 7/10/2015.
  */
 public class DatePicker extends TextField implements IDatePicker {
-    public DatePicker() { }
-    public DatePicker(By byLocator) { super(byLocator); }
-    public DatePicker(WebElement webElement) { super(webElement); }
+    public DatePicker() {
+    }
+
+    public DatePicker(By byLocator) {
+        super(byLocator);
+    }
+
+    public DatePicker(WebElement webElement) {
+        super(webElement);
+    }
 }

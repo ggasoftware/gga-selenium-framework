@@ -1,7 +1,8 @@
 package com.ggasoftware.uitest.control.base.logger;
 
 
-import com.ggasoftware.uitest.control.base.logger.enums.*;
+import com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes;
+import com.ggasoftware.uitest.control.base.logger.enums.LogLevels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class LogSettings {
         this.logLevel = INFO;
         logInfoTypes = BUSINESS.type + FRAMEWORK.type + TECHNICAL.type;
     }
+
     public LogSettings(LogLevels logLevel, LogInfoTypes... logInfoTypes) {
         this.logLevel = logLevel;
         List<LogInfoTypes> usedTypes = new ArrayList<>();
@@ -31,6 +33,7 @@ public class LogSettings {
                 this.logInfoTypes += logInfoType.type;
             }
     }
+
     public LogSettings(LogLevels logLevel, LogInfoTypes logInfoType) {
         this.logLevel = logLevel;
         this.logInfoType = logInfoType;

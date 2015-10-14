@@ -1,7 +1,6 @@
 package com.ggasoftware.uitest.control.new_controls.composite;
 
 import com.ggasoftware.uitest.control.Element;
-import com.ggasoftware.uitest.control.base.annotations.functions.Functions;
 import com.ggasoftware.uitest.control.base.map.MapArray;
 import com.ggasoftware.uitest.control.interfaces.base.IHaveValue;
 import com.ggasoftware.uitest.control.interfaces.base.ISetValue;
@@ -12,9 +11,7 @@ import static com.ggasoftware.uitest.control.base.annotations.AnnotationsUtil.ge
 import static com.ggasoftware.uitest.control.base.annotations.functions.Functions.SUBMIT_BUTTON;
 import static com.ggasoftware.uitest.utils.LinqUtils.foreach;
 import static com.ggasoftware.uitest.utils.LinqUtils.select;
-import static com.ggasoftware.uitest.utils.PrintUtils.objToSetValue;
-import static com.ggasoftware.uitest.utils.PrintUtils.parseObjectAsString;
-import static com.ggasoftware.uitest.utils.PrintUtils.print;
+import static com.ggasoftware.uitest.utils.PrintUtils.*;
 import static com.ggasoftware.uitest.utils.ReflectionUtils.getFieldValue;
 import static com.ggasoftware.uitest.utils.ReflectionUtils.getFields;
 
@@ -23,10 +20,19 @@ import static com.ggasoftware.uitest.utils.ReflectionUtils.getFields;
  * Created by Roman_Iovlev on 7/8/2015.
  */
 public class Form<T, P> extends Element<P> implements IForm<T, P> {
-    public Form() { }
-    public Form(By byLocator) { super(byLocator); }
     private boolean fillEmptyValue = false;
-    public Form fillEmptyValue() { fillEmptyValue = true; return this; }
+
+    public Form() {
+    }
+
+    public Form(By byLocator) {
+        super(byLocator);
+    }
+
+    public Form fillEmptyValue() {
+        fillEmptyValue = true;
+        return this;
+    }
 
     protected void setValueAction(String text, ISetValue element) {
         element.setValue(text);
@@ -42,6 +48,7 @@ public class Form<T, P> extends Element<P> implements IForm<T, P> {
             }
         });
     }
+
     public void fill(T entity) {
         fill(objToSetValue(entity));
     }
@@ -54,16 +61,25 @@ public class Form<T, P> extends Element<P> implements IForm<T, P> {
         fill(objStrings);
         getButton(SUBMIT_BUTTON).click();
     }
+
     public void submit(T entity) {
         submit(objToSetValue(entity));
     }
-    protected void setValueAction(String value) {
-        submit(parseObjectAsString(value));
-    }
+
     protected String getValueAction() {
         return print(select(getFields(this, IHaveValue.class), field ->
                 ((IHaveValue) getFieldValue(field, this)).getValue()));
     }
-    public final void setValue(String value) { doJAction("Set value", () -> setValueRule(value, this::setValueAction)); }
-    public final String getValue() { return doJActionResult("Get value", this::getValueAction); }
+
+    protected void setValueAction(String value) {
+        submit(parseObjectAsString(value));
+    }
+
+    public final String getValue() {
+        return doJActionResult("Get value", this::getValueAction);
+    }
+
+    public final void setValue(String value) {
+        doJAction("Set value", () -> setValueRule(value, this::setValueAction));
+    }
 }

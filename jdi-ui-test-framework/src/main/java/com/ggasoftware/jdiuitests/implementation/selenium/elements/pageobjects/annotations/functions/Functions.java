@@ -10,5 +10,8 @@ public enum Functions {
     CANCEL_BUTTON("cancel");
 
     public String name;
-    Functions(String name) { this.name = name; }
+
+    Functions(String name) {
+        this.name = name;
+    }
 }

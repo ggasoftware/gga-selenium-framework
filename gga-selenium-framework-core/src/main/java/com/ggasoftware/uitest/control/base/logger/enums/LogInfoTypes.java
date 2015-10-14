@@ -10,6 +10,7 @@ public enum LogInfoTypes {
 
     public int num;
     public int type;
+
     LogInfoTypes(int num, int flag) {
         this.num = num;
         this.type = flag;

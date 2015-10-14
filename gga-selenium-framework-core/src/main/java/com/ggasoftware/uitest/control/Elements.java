@@ -1,17 +1,19 @@
-/****************************************************************************
-/****************************************************************************
+/**
+ * *************************************************************************
+ * /****************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.*;
@@ -25,9 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static com.ggasoftware.uitest.utils.LinqUtils.first;
-import static com.ggasoftware.uitest.utils.LinqUtils.firstIndex;
-import static com.ggasoftware.uitest.utils.LinqUtils.select;
+import static com.ggasoftware.uitest.utils.LinqUtils.*;
 import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
 import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
@@ -49,6 +49,11 @@ import static java.lang.String.format;
 public class Elements<ParentPanel> {
 
     /**
+     * Contains name of the element used for locating its parameters in
+     * properties file
+     */
+    protected final Properties properties = new Properties();
+    /**
      * Name of the Group Element for Report
      */
     protected String name;
@@ -61,10 +66,9 @@ public class Elements<ParentPanel> {
      */
     protected By bylocator;
     /**
-     * Contains name of the element used for locating its parameters in
-     * properties file
+     * Parent panel which contains current element
      */
-    protected final Properties properties = new Properties();
+    protected ParentPanel parent;
 
     {
         PropertyReader.getProperties(properties, this.getClass().getName());
@@ -74,11 +78,6 @@ public class Elements<ParentPanel> {
             this.bylocator = getByLocator();
         }
     }
-
-    /**
-     * Parent panel which contains current element
-     */
-    protected ParentPanel parent;
 
     //constructors
 
@@ -166,7 +165,7 @@ public class Elements<ParentPanel> {
     public List<WebElement> getWebElements(int seconds) {
         setTimeout(seconds);
         List<WebElement> webElementList = new Timer(seconds * 1000)
-            .getResult(() -> getDriver().findElements(bylocator));
+                .getResult(() -> getDriver().findElements(bylocator));
         setTimeout(TIMEOUT);
         return webElementList;
     }
@@ -210,7 +209,7 @@ public class Elements<ParentPanel> {
     public Element getElement(int elementIndex, String tag) {
         String xpath = getXPath();
         StringBuilder b = new StringBuilder(getXPath());
-        b.replace(xpath.lastIndexOf(tag), xpath.lastIndexOf(tag)+1+String.valueOf(elementIndex+1).length(), format("%s[%d]", tag, elementIndex + 1));
+        b.replace(xpath.lastIndexOf(tag), xpath.lastIndexOf(tag) + 1 + String.valueOf(elementIndex + 1).length(), format("%s[%d]", tag, elementIndex + 1));
         return new Element<>(format("Element #%s", elementIndex), b.toString(), parent);
     }
 
@@ -356,7 +355,10 @@ public class Elements<ParentPanel> {
         return parent;
     }
 
-    private JavascriptExecutor jsExecutor() { return (JavascriptExecutor) getDriver(); }
+    private JavascriptExecutor jsExecutor() {
+        return (JavascriptExecutor) getDriver();
+    }
+
     /**
      * Click on the WebElement by JS
      *
@@ -622,7 +624,7 @@ public class Elements<ParentPanel> {
             isVisible = false;
         }
         setTimeout(TIMEOUT);
-        if (checkCondition){
+        if (checkCondition) {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVisible, format("waitForFirstVisibleElement - first element of '%s' should be visible", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
@@ -636,6 +638,7 @@ public class Elements<ParentPanel> {
     public ParentPanel waitForFirstVisibleElement() {
         return waitForFirstVisibleElement(TIMEOUT, CHECKCONDITION);
     }
+
     /**
      * Wait until first element is visible
      * @param timeoutSec seconds to wait until all elements exist
@@ -667,7 +670,7 @@ public class Elements<ParentPanel> {
             exist = false;
         }
         setTimeout(TIMEOUT);
-        if (checkCondition){
+        if (checkCondition) {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, exist, format("waitForAllElementsExist - all elements of '%s' should exist", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
@@ -681,6 +684,7 @@ public class Elements<ParentPanel> {
     public ParentPanel waitForAllElementsExist() {
         return waitForAllElementsExist(TIMEOUT, CHECKCONDITION);
     }
+
     /**
      * Wait until all elements exist
      * @param timeoutSec seconds to wait until all elements become Not Visible
@@ -707,14 +711,14 @@ public class Elements<ParentPanel> {
         try {
             wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOfAllElements(getWebElements())));
             isNotVisible = true;
-        } catch (TimeoutException e){
+        } catch (TimeoutException e) {
             logTechnical(format("waitForAllElementsNotVisible: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isNotVisible = false;
         } catch (NoSuchElementException elementException) {
             isNotVisible = false;
         }
         setTimeout(TIMEOUT);
-        if (checkCondition){
+        if (checkCondition) {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isNotVisible, format("waitForAllElementsNotVisible - all element of '%s' should be not visible", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
@@ -728,6 +732,7 @@ public class Elements<ParentPanel> {
     public ParentPanel waitForAllElementsNotVisible() {
         return waitForAllElementsNotVisible(TIMEOUT, CHECKCONDITION);
     }
+
     /**
      * Wait until all elements is invisible
      * @param timeoutSec seconds to wait until all elements become Visible
@@ -759,7 +764,7 @@ public class Elements<ParentPanel> {
             isVisible = false;
         }
         setTimeout(TIMEOUT);
-        if (checkCondition){
+        if (checkCondition) {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isVisible, format("waitForAllElementsVisible - all elements of '%s' should be visible", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
@@ -810,7 +815,7 @@ public class Elements<ParentPanel> {
             logTechnical(format("waitForElementsTextChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        if (checkCondition){
+        if (checkCondition) {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, format("waitForElementsTextChanged - '%s' should be changed", name), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;
@@ -865,7 +870,7 @@ public class Elements<ParentPanel> {
             logTechnical(format("waitNumberOfElementsChanged: [ %s ] during: [ %d ] sec ", locator, System.currentTimeMillis() / 1000 - start));
             isChanged = false;
         }
-        if (checkCondition){
+        if (checkCondition) {
             ReporterNGExt.logAssertTrue(ReporterNGExt.BUSINESS_LEVEL, isChanged, format("waitNumberOfElementsChanged - '%s' elements count '%d' should be changed", name, count), TestBaseWebDriver.takePassedScreenshot);
         }
         return parent;

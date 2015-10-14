@@ -17,19 +17,31 @@ public class PopupForm<T> extends Form<T> implements IPopup {
         ok();
     }
 
-    public void ok()       { getElement.getButton(OK_BUTTON).click();}
-    public void cancel()   { getElement.getButton(CANCEL_BUTTON).click();}
-    public void close()    { getElement.getButton(CLOSE_BUTTON).click();}
+    public void ok() {
+        getElement.getButton(OK_BUTTON).click();
+    }
 
-    protected String getTextAction() { return getWebElement().getText(); }
+    public void cancel() {
+        getElement.getButton(CANCEL_BUTTON).click();
+    }
+
+    public void close() {
+        getElement.getButton(CLOSE_BUTTON).click();
+    }
+
+    protected String getTextAction() {
+        return getWebElement().getText();
+    }
 
     public final String getText() {
         return invoker.doJActionResult("Get text", this::getTextAction);
     }
+
     public final String waitText(String text) {
         return invoker.doJActionResult(format("Wait text contains '%s'", text),
                 () -> Timer.getByCondition(this::getTextAction, t -> t.contains(text)));
     }
+
     public final String waitMatchText(String regEx) {
         return invoker.doJActionResult(format("Wait text match regex '%s'", regEx),
                 () -> Timer.getByCondition(this::getTextAction, t -> t.matches(regEx)));

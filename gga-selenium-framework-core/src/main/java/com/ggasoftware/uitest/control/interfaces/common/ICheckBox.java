@@ -11,8 +11,10 @@ import com.ggasoftware.uitest.control.interfaces.base.ISetValue;
 public interface ICheckBox<P> extends IClickable<P>, ISetValue {
     @JDIAction
     P check();
+
     @JDIAction
     P uncheck();
+
     @JDIAction
     boolean isChecked();
 }

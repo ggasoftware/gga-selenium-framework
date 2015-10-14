@@ -11,10 +11,13 @@ import com.ggasoftware.uitest.control.interfaces.base.ISetValue;
 public interface IInput<P> extends ISetValue, IText<P>, IElement<P> {
     @JDIAction
     void input(String text);
+
     @JDIAction
     void newInput(String text);
+
     @JDIAction
     P clear();
+
     @JDIAction
     P focus();
 }

@@ -53,7 +53,7 @@ public class CukeTestImpl implements ITest {
         ro.getFeaturePaths().add(feature);
 
         if (!tags.isEmpty()) {
-            for(String s:tags.split("--tags")){
+            for (String s : tags.split("--tags")) {
                 if (!s.trim().isEmpty()) {
                     ro.getFilters().add(s.trim());
                 }

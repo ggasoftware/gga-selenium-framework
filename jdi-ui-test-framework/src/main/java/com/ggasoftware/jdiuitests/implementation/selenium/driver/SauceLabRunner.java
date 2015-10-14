@@ -19,15 +19,11 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM;
 public class SauceLabRunner implements SauceOnDemandSessionIdProvider {
     public static SauceOnDemandAuthentication authentication =
             new SauceOnDemandAuthentication(getenv("SAUCE_USER_NAME"), getenv("SAUCE_API_KEY"));
-
+    private static String sessionId;
     @Rule
     public SauceOnDemandTestWatcher resultReportingTestWatcher = new SauceOnDemandTestWatcher(
             this, authentication);
 
-    private static String sessionId;
-    public String getSessionId() {
-        return sessionId;
-    }
     public static void setSauceSessionID(RemoteWebDriver remoteDriver) {
         sessionId = remoteDriver.getSessionId().toString();
     }
@@ -41,9 +37,13 @@ public class SauceLabRunner implements SauceOnDemandSessionIdProvider {
     }
 
     public static URL getSauceUrl() {
-        return asserter.silent( () -> new URL("http://"
+        return asserter.silent(() -> new URL("http://"
                 + authentication.getUsername() + ":"
                 + authentication.getAccessKey()
                 + "@ondemand.saucelabs.com:80/wd/hub"));
+    }
+
+    public String getSessionId() {
+        return sessionId;
     }
 }

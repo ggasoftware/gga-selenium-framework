@@ -8,8 +8,16 @@ import org.openqa.selenium.WebElement;
  * Created by Roman_Iovlev on 7/10/2015.
  */
 public class FileInput extends TextField implements IFileInput {
-    public FileInput() { super(); }
-    public FileInput(By byLocator) { super(byLocator); }
-    public FileInput(WebElement webElement) { super(webElement); }
+    public FileInput() {
+        super();
+    }
+
+    public FileInput(By byLocator) {
+        super(byLocator);
+    }
+
+    public FileInput(WebElement webElement) {
+        super(webElement);
+    }
 
 }

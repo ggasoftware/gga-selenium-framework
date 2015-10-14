@@ -2,7 +2,8 @@ package com.ggasoftware.uitest.control.base.map;
 
 import com.ggasoftware.uitest.control.base.pairs.Pair;
 import com.ggasoftware.uitest.utils.LinqUtils;
-import com.ggasoftware.uitest.utils.linqInterfaces.*;
+import com.ggasoftware.uitest.utils.linqInterfaces.JActionT;
+import com.ggasoftware.uitest.utils.linqInterfaces.JFuncTT;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,30 +15,43 @@ import static java.lang.String.format;
 /**
  * Created by Roman_Iovlev on 6/3/2015.
  */
-public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
-    public List<Pair<K,V>> pairs;
+public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
+    public List<Pair<K, V>> pairs;
 
-    public MapArray() { pairs = new ArrayList<>(); }
+    public MapArray() {
+        pairs = new ArrayList<>();
+    }
+
     public MapArray(K key, V value) {
         this();
         add(key, value);
     }
+
     public <T> MapArray(Collection<T> collection, JFuncTT<T, K> key, JFuncTT<T, V> value) throws RuntimeException {
         this();
-        try { for (T t : collection)
-            add(key.invoke(t), value.invoke(t));
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't init MapArray from collection"); }
+        try {
+            for (T t : collection)
+                add(key.invoke(t), value.invoke(t));
+        } catch (Exception | AssertionError ex) {
+            throw new RuntimeException("Can't init MapArray from collection");
+        }
     }
+
     public MapArray(int count, JFuncTT<Integer, K> key, JFuncTT<Integer, V> value) throws RuntimeException {
         this();
-        try { for (int i = 0; i < count; i++)
-            add(key.invoke(i), value.invoke(i));
-        } catch (Exception|AssertionError ex) { throw new RuntimeException(format("Can't init MapArray with generator (count=%s)", count)); }
+        try {
+            for (int i = 0; i < count; i++)
+                add(key.invoke(i), value.invoke(i));
+        } catch (Exception | AssertionError ex) {
+            throw new RuntimeException(format("Can't init MapArray with generator (count=%s)", count));
+        }
     }
+
     public MapArray(MapArray<K, V> mapArray) {
         this();
         addAll(mapArray.stream().collect(Collectors.toList()));
     }
+
     public MapArray(Object[][] objects) throws RuntimeException {
         this();
         add(objects);
@@ -50,23 +64,29 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             mapArray.add(i++, t);
         return mapArray;
     }
+
     public static <T> MapArray<Integer, T> toMapArray(T[] array) {
         Set<T> mySet = new HashSet<T>();
         Collections.addAll(mySet, array);
         return toMapArray(mySet);
     }
+
     public boolean add(K key, V value) {
         if (haveKey(key)) return false;
         pairs.add(new Pair<>(key, value));
         return true;
     }
+
     public void add(Object[][] pairs) throws RuntimeException {
         try {
             for (Object[] pair : pairs)
                 if (pair.length == 2)
                     add((K) pair[0], (V) pair[1]);
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't add objects to MapArray"); }
+        } catch (Exception | AssertionError ex) {
+            throw new RuntimeException("Can't add objects to MapArray");
+        }
     }
+
     public void addOrReplace(K key, V value) {
         if (haveKey(key))
             removeByKey(key);
@@ -78,69 +98,92 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
             for (Object[] pair : pairs)
                 if (pair.length == 2)
                     addOrReplace((K) pair[0], (V) pair[1]);
-        } catch (Exception|AssertionError ex) { throw new RuntimeException("Can't addOrReplace objects to MapArray"); }
+        } catch (Exception | AssertionError ex) {
+            throw new RuntimeException("Can't addOrReplace objects to MapArray");
+        }
     }
+
     private boolean haveKey(K key) {
         return keys().contains(key);
     }
 
     public boolean addFirst(K key, V value) {
         if (haveKey(key)) return false;
-        List<Pair<K,V>> result = new ArrayList<>();
+        List<Pair<K, V>> result = new ArrayList<>();
         result.add(new Pair<>(key, value));
         result.addAll(pairs);
         pairs = result;
         return true;
     }
+
     public V get(K key) {
         Pair<K, V> first = null;
-        try { first = LinqUtils.first(pairs, pair -> pair.key.equals(key));
-        } catch (Exception|AssertionError ignore) {}
+        try {
+            first = LinqUtils.first(pairs, pair -> pair.key.equals(key));
+        } catch (Exception | AssertionError ignore) {
+        }
         return (first != null) ? first.value : null;
     }
-    public Pair<K,V> get(int index) {
+
+    public Pair<K, V> get(int index) {
         if (index < 0) index = pairs.size() + index;
         if (index < 0) return null;
         return (pairs.size() > index)
                 ? pairs.get(index)
                 : null;
     }
-    public Pair<K,V> getFromEnd(int index) {
+
+    public Pair<K, V> getFromEnd(int index) {
         return get(size() - index - 1);
     }
+
     public K key(int index) {
         return get(index).key;
     }
+
     public V value(int index) {
         return get(index).value;
     }
+
     public Collection<K> keys() {
         return LinqUtils.select(pairs, pair -> pair.key);
     }
+
     public Collection<V> values() {
         return LinqUtils.select(pairs, pair -> pair.value);
     }
+
     public Collection<V> values(JFuncTT<V, Boolean> condition) {
         return LinqUtils.where(values(), condition);
     }
 
-    public int size() { return pairs.size(); }
+    public int size() {
+        return pairs.size();
+    }
+
     public int count() {
         return size();
     }
-    public boolean isEmpty() { return size() == 0; }
-    public boolean any() { return size() > 0; }
 
-    public Pair<K,V> first() {
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public boolean any() {
+        return size() > 0;
+    }
+
+    public Pair<K, V> first() {
         return get(0);
     }
-    public Pair<K,V> last() {
+
+    public Pair<K, V> last() {
         return getFromEnd(0);
     }
 
-    public MapArray<K,V> revert() {
-        List<Pair<K,V>> result = new ArrayList<>();
-        for(int i = size() - 1; i >= 0; i--)
+    public MapArray<K, V> revert() {
+        List<Pair<K, V>> result = new ArrayList<>();
+        for (int i = size() - 1; i >= 0; i--)
             result.add(get(i));
         return this;
     }
@@ -178,31 +221,33 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     public void removeByKey(K key) {
         pairs.remove(firstIndex(pairs, pair -> pair.key.equals(key)));
     }
+
     public void removeAllValues(V value) {
         LinqUtils.where(pairs, p -> p.value.equals(value)).forEach(pairs::remove);
     }
+
     public boolean containsAll(Collection<?> c) {
-        for(Object o : c)
+        for (Object o : c)
             if (!contains(o))
                 return false;
         return true;
     }
 
     public boolean addAll(Collection<? extends Pair<K, V>> c) {
-        for(Pair<K, V> pair : c)
+        for (Pair<K, V> pair : c)
             add(pair);
         return true;
     }
 
     public boolean removeAll(Collection<?> c) {
-        for(Object o : c)
+        for (Object o : c)
             if (!remove(o))
                 return false;
         return true;
     }
 
     public boolean retainAll(Collection<?> c) {
-        for(Pair pair : pairs)
+        for (Pair pair : pairs)
             if (!c.contains(pair))
                 if (!remove(pair))
                     return false;
@@ -222,38 +267,50 @@ public class MapArray<K, V> implements Collection<Pair<K,V>>, Cloneable {
     public MapArray<K, V> clone() {
         return new MapArray<>(this);
     }
-    public MapArray<K, V> copy() { return clone(); }
 
-    public <T1> Collection<T1> select(JFuncTT<Pair<K,V>, T1> func) {
+    public MapArray<K, V> copy() {
+        return clone();
+    }
+
+    public <T1> Collection<T1> select(JFuncTT<Pair<K, V>, T1> func) {
         try {
             List<T1> result = new ArrayList<>();
-            for (Pair<K,V> pair : pairs)
+            for (Pair<K, V> pair : pairs)
                 result.add(func.invoke(pair));
             return result;
-        } catch (Exception|AssertionError ignore) { return new ArrayList<>(); }
+        } catch (Exception | AssertionError ignore) {
+            return new ArrayList<>();
+        }
     }
 
     public MapArray<K, V> where(JFuncTT<Pair<K, V>, Boolean> func) {
         try {
             MapArray<K, V> result = new MapArray<>();
-            for(Pair<K,V> pair : pairs)
+            for (Pair<K, V> pair : pairs)
                 if (func.invoke(pair))
                     result.add(pair);
             return result;
-        } catch (Exception|AssertionError ignore) { return null; }
+        } catch (Exception | AssertionError ignore) {
+            return null;
+        }
     }
+
     public V first(JFuncTT<K, Boolean> func) {
         try {
-            for(Pair<K,V> pair : pairs)
+            for (Pair<K, V> pair : pairs)
                 if (func.invoke(pair.key))
                     return pair.value;
             return null;
-        } catch (Exception|AssertionError ignore) { return null; }
+        } catch (Exception | AssertionError ignore) {
+            return null;
+        }
     }
+
     public void foreach(JActionT<Pair<K, V>> action) {
         try {
-            for(Pair<K,V> pair : pairs)
+            for (Pair<K, V> pair : pairs)
                 action.invoke(pair);
-        } catch (Exception|AssertionError ignore) { }
+        } catch (Exception | AssertionError ignore) {
+        }
     }
 }

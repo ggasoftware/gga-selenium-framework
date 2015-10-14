@@ -12,6 +12,14 @@ import static java.util.stream.Collectors.toCollection;
  */
 public class Verify extends BaseChecker {
     private static List<String> fails = new LinkedList<>();
+
+    public Verify() {
+    }
+
+    public Verify(String checkMessage) {
+        super(checkMessage);
+    }
+
     public static List<String> getFails() {
         List<String> result = fails.stream().collect(toCollection(LinkedList::new));
         fails.clear();
@@ -19,8 +27,7 @@ public class Verify extends BaseChecker {
     }
 
     @Override
-    protected JActionT<String> throwFail() { return fails::add; }
-
-    public Verify() { }
-    public Verify(String checkMessage) { super(checkMessage); }
+    protected JActionT<String> throwFail() {
+        return fails::add;
+    }
 }

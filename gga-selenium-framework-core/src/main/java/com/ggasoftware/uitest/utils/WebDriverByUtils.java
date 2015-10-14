@@ -17,22 +17,29 @@ public class WebDriverByUtils {
     public static JFuncTT<String, By> getByFunc(By by) {
         return LinqUtils.first(getMapByTypes(), key -> by.toString().contains(key));
     }
+
     private static String getBadLocatorMsg(String byLocator, Object... args) {
         return "Bad locator template '" + byLocator + "'. Args: " + print(LinqUtils.select(args, Object::toString), ", ", "'%s'") + ".";
     }
 
     public static By fillByTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
-        try { byLocator = format(byLocator, args); }
-        catch (Exception|AssertionError ex) {
-            throw new RuntimeException(getBadLocatorMsg(byLocator, args)); }
+        try {
+            byLocator = format(byLocator, args);
+        } catch (Exception | AssertionError ex) {
+            throw new RuntimeException(getBadLocatorMsg(byLocator, args));
+        }
         return getByFunc(by).invoke(byLocator);
     }
 
     public static By fillByTemplateSilent(By by, Object... args) {
-        try { return fillByTemplate(by, args);
-        } catch (Exception|AssertionError ex) { throw new RuntimeException(ex.getMessage());  }
+        try {
+            return fillByTemplate(by, args);
+        } catch (Exception | AssertionError ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
     }
+
     public static By copyBy(By by) {
         String byLocator = getByLocator(by);
         return getByFunc(by).invoke(byLocator);

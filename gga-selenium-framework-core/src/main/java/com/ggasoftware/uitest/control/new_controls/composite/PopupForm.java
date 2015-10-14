@@ -11,16 +11,32 @@ import static com.ggasoftware.uitest.control.base.annotations.functions.Function
  * Created by Roman_Iovlev on 7/8/2015.
  */
 public class PopupForm<T, P> extends Form<T, P> implements IPopup {
-    public PopupForm() { }
-    public PopupForm(By byLocator) { super(byLocator); }
+    public PopupForm() {
+    }
+
+    public PopupForm(By byLocator) {
+        super(byLocator);
+    }
 
     @Override
     public void submit(MapArray<String, String> objStrings) {
         fill(objStrings);
         ok();
     }
-    protected void buttonAction(Button button) { button.click(); }
-    public void ok()       { buttonAction(getButton(OK_BUTTON));}
-    public void cancel()   { buttonAction(getButton(CANCEL_BUTTON));}
-    public void close()         { buttonAction(getButton(CLOSE_BUTTON));}
+
+    protected void buttonAction(Button button) {
+        button.click();
+    }
+
+    public void ok() {
+        buttonAction(getButton(OK_BUTTON));
+    }
+
+    public void cancel() {
+        buttonAction(getButton(CANCEL_BUTTON));
+    }
+
+    public void close() {
+        buttonAction(getButton(CLOSE_BUTTON));
+    }
 }

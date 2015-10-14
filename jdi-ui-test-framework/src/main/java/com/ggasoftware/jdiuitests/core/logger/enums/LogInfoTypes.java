@@ -9,6 +9,7 @@ public enum LogInfoTypes {
     TECHNICAL(4);
 
     public int type;
+
     LogInfoTypes(int flag) {
         this.type = flag;
     }

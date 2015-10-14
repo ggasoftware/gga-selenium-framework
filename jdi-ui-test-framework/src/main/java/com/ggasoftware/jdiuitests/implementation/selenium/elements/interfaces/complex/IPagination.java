@@ -8,19 +8,33 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  * Created by Roman_Iovlev on 7/29/2015.
  */
 public interface IPagination extends IBaseElement, IComposite {
-    /** Choose Next page */
+    /**
+     * Choose Next page
+     */
     @JDIAction
     void next();
-    /** Choose Previous page */
+
+    /**
+     * Choose Previous page
+     */
     @JDIAction
     void previous();
-    /** Choose First page */
+
+    /**
+     * Choose First page
+     */
     @JDIAction
     void first();
-    /** Choose Last page */
+
+    /**
+     * Choose Last page
+     */
     @JDIAction
     void last();
-    /** Choose page by index */
+
+    /**
+     * Choose page by index
+     */
     @JDIAction
     void selectPage(int index);
 }

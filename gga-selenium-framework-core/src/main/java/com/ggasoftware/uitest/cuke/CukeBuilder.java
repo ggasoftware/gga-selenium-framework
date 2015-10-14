@@ -24,7 +24,7 @@ public class CukeBuilder {
 
         if (featurePath.isDirectory()) {
             File[] list = featurePath.listFiles();
-            if (list!=null) {
+            if (list != null) {
                 for (File file : list) {
                     features.addAll(getFeatures(new File(file.getAbsolutePath())));
                 }

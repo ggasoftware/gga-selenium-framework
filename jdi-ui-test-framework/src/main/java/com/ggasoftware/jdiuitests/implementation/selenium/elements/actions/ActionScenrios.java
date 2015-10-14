@@ -2,15 +2,14 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.actions;
 
 
 import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
+import com.ggasoftware.jdiuitests.core.reporting.PerformanceStatistic;
+import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
-import com.ggasoftware.jdiuitests.core.reporting.PerformanceStatistic;
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 
-import static com.ggasoftware.jdiuitests.core.reporting.PerformanceStatistic.addStatistic;
 import static com.ggasoftware.jdiuitests.core.utils.common.Timer.alwaysDoneAction;
 import static java.lang.String.format;
 
@@ -19,12 +18,13 @@ import static java.lang.String.format;
  */
 public class ActionScenrios {
     private BaseElement element;
+
     public ActionScenrios setElement(BaseElement element) {
         this.element = element;
         return this;
     }
 
-    public void actionScenario(String actionName , JAction jAction, LogSettings logSettings) {
+    public void actionScenario(String actionName, JAction jAction, LogSettings logSettings) {
         element.logAction(actionName, logSettings);
         Timer timer = new Timer();
         alwaysDoneAction(jAction::invoke);

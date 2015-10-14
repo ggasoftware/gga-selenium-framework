@@ -10,18 +10,25 @@ import java.util.List;
 public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     @JDIAction
     void select(String name);
+
     @JDIAction
     void select(TEnum name);
+
     @JDIAction
     void select(int index);
+
     @JDIAction
     String isSelected();
+
     @JDIAction
     boolean waitSelected(String name);
+
     @JDIAction
     boolean waitSelected(TEnum name);
+
     @JDIAction
     List<String> getOptions();
+
     @JDIAction
     String getOptionsAsText();
 }

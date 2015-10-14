@@ -12,8 +12,12 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface Table {
     String root() default "";
+
     String header() default "";
+
     String cell() default "";
+
     String row() default "";
+
     String column() default "";
 }

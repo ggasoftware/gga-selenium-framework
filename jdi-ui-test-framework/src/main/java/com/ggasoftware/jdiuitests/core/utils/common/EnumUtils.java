@@ -19,14 +19,19 @@ public class EnumUtils {
             case 0:
                 return enumWithValue.toString();
             case 1:
-                field = fields[0]; break;
+                field = fields[0];
+                break;
             default:
-                try { field = type.getField("value");
-                } catch (Exception ex) { return enumWithValue.toString(); }
+                try {
+                    field = type.getField("value");
+                } catch (Exception ex) {
+                    return enumWithValue.toString();
+                }
                 break;
         }
         return TryCatchUtil.tryGetResult(() -> field.get(enumWithValue).toString());
     }
+
     public static <T extends Enum> List<T> getAllEnumValues(T enumValue) {
         return asList((T[]) enumValue.getDeclaringClass().getEnumConstants());
     }

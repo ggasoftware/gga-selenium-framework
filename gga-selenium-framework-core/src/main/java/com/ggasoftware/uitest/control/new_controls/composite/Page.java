@@ -15,6 +15,23 @@ public class Page extends BaseElement {
     private String title;
     private String urlMatcher;
     private String titleMatcher;
+
+    public Page() {
+    }
+
+    public Page(String url) {
+        this.url = url;
+    }
+
+    public Page(String url, String title) {
+        this.url = url;
+        this.title = title;
+    }
+
+    public static void openUrl(String url) {
+        new Page(url).open();
+    }
+
     public void updatePageData(String url, String title, String urlMatcher, String titleMatcher) {
         if (this.url == null)
             this.url = url;
@@ -26,19 +43,36 @@ public class Page extends BaseElement {
             this.titleMatcher = titleMatcher;
     }
 
-    public Page() {}
-    public Page(String url) {
-        this.url = url;
-    }
-    public Page(String url, String title) {
-        this.url = url;
-        this.title = title;
-    }
     public StringCheckType url() {
         return new StringCheckType(url, urlMatcher, getDriver());
     }
+
     public StringCheckType title() {
         return new StringCheckType(title, titleMatcher, getDriver());
+    }
+
+    public void open() {
+        getDriver().navigate().to(url);
+    }
+
+    public void refresh() {
+        getDriver().navigate().refresh();
+    }
+
+    public void back() {
+        getDriver().navigate().back();
+    }
+
+    public void forward() {
+        getDriver().navigate().forward();
+    }
+
+    public void addCookie(Cookie cookie) {
+        getDriver().manage().addCookie(cookie);
+    }
+
+    public void clearCache() {
+        getDriver().manage().deleteAllCookies();
     }
 
     public class StringCheckType {
@@ -52,29 +86,16 @@ public class Page extends BaseElement {
             this.driver = driver;
         }
 
-        public void check() { assertEquals(driver.getTitle(), string); }
-        public void match() { assertTrue(driver.getTitle().matches(matcher)); }
-        public void contains() { assertTrue(driver.getTitle().contains(matcher)); }
-    }
+        public void check() {
+            assertEquals(driver.getTitle(), string);
+        }
 
-    public void open() { getDriver().navigate().to(url); }
-    public static void openUrl(String url) {
-        new Page(url).open();
-    }
-    public void refresh() {
-        getDriver().navigate().refresh();
-    }
+        public void match() {
+            assertTrue(driver.getTitle().matches(matcher));
+        }
 
-    public void back() {
-        getDriver().navigate().back();
-    }
-    public void forward() {
-        getDriver().navigate().forward();
-    }
-    public void addCookie(Cookie cookie) {
-        getDriver().manage().addCookie(cookie);
-    }
-    public void clearCache() {
-        getDriver().manage().deleteAllCookies();
+        public void contains() {
+            assertTrue(driver.getTitle().contains(matcher));
+        }
     }
 }

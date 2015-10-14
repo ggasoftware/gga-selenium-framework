@@ -8,5 +8,6 @@ import com.ggasoftware.uitest.control.interfaces.base.IBaseElement;
  */
 public interface IGroup<TEnum extends Enum, TType extends Element> extends IBaseElement {
     TType get(TEnum name);
+
     TType get(String name);
 }

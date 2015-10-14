@@ -22,7 +22,7 @@ import static com.ggasoftware.jdiuitests.implementation.selenium.elements.compos
  */
 public class AnnotationsUtil {
     public static <T> String getElementName(T clazz) {
-        Class<T> cl = (Class<T>)clazz.getClass();
+        Class<T> cl = (Class<T>) clazz.getClass();
         if (cl.isAnnotationPresent(Name.class)) {
             return cl.getAnnotation(Name.class).value();
         } else {
@@ -38,7 +38,7 @@ public class AnnotationsUtil {
         }
     }
 
-    public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Class<?> parentClass){
+    public static void fillPageFromAnnotaiton(Page element, JPage pageAnnotation, Class<?> parentClass) {
         String url = pageAnnotation.url();
         if (!hasDomain() && parentClass != null && parentClass.isAnnotationPresent(JSite.class))
             domain = parentClass.getAnnotation(JSite.class).domain();
@@ -85,7 +85,9 @@ public class AnnotationsUtil {
         return result + camel.charAt(camel.length() - 1);
     }
 
-    private static boolean isCapital(char ch) { return 'A' < ch  && ch < 'Z'; }
+    private static boolean isCapital(char ch) {
+        return 'A' < ch && ch < 'Z';
+    }
 
     public static By getFrame(Frame frame) {
         if (frame == null) return null;
@@ -107,6 +109,7 @@ public class AnnotationsUtil {
             return By.tagName(frame.tagName());
         return null;
     }
+
     public static By getFindByLocator(FindBy locator) {
         if (locator == null) return null;
         if (!"".equals(locator.id()))
@@ -127,6 +130,7 @@ public class AnnotationsUtil {
             return By.tagName(locator.tagName());
         return null;
     }
+
     public static By getFindByLocator(JFindBy locator) {
         if (locator == null) return null;
         if (!"".equals(locator.id()))

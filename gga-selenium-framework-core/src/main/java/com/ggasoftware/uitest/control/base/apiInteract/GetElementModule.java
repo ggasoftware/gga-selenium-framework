@@ -29,27 +29,39 @@ import static java.lang.String.format;
  * Created by Roman_Iovlev on 7/3/2015.
  */
 public class GetElementModule {
+    private static final String failedToFindElementMessage = "Can't find element '%s' during %s seconds";
+    private static final String findToMuchElementsMessage = "Find %s elements instead of one for element '%s' during %s seconds";
     public By byLocator;
-    public boolean haveLocator() { return byLocator != null; }
-    private IBaseElement element;
-
     public Pairs<ContextType, By> context = new Pairs<>();
-    public String printContext() { return context.toString(); }
+    public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
+    private IBaseElement element;
 
     public GetElementModule(IBaseElement element) {
         this.element = element;
     }
+
     public GetElementModule(By byLocator, IBaseElement element) {
         this(element);
         this.byLocator = byLocator;
     }
+
     public GetElementModule(By byLocator, Pairs<ContextType, By> context, IBaseElement element) {
         this(element);
         this.byLocator = byLocator;
         this.context = context;
     }
 
-    public WebDriver getDriver() { return tryGetResult(WebDriverWrapper::getDriver); }
+    public boolean haveLocator() {
+        return byLocator != null;
+    }
+
+    public String printContext() {
+        return context.toString();
+    }
+
+    public WebDriver getDriver() {
+        return tryGetResult(WebDriverWrapper::getDriver);
+    }
 
     public WebElement getElement() {
         logger.debug("Get Web element: " + element);
@@ -71,7 +83,7 @@ public class GetElementModule {
                 els -> where(els, getSearchCriteria()::invoke).size() > 0);
         return (List<WebElement>) where(result, getSearchCriteria()::invoke);
     }
-    public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
+
     private JFuncTT<WebElement, Boolean> getSearchCriteria() {
         return localElementSearchCriteria != null ? localElementSearchCriteria : defaultSearchCriteria;
     }
@@ -88,14 +100,12 @@ public class GetElementModule {
         return result.get(0);
     }
 
-    private static final String failedToFindElementMessage = "Can't find element '%s' during %s seconds";
-    private static final String findToMuchElementsMessage = "Find %s elements instead of one for element '%s' during %s seconds";
-
     private List<WebElement> searchElements() {
         if (context == null || context.size() == 0)
             return getDriver().findElements(byLocator);
         return getSearchContext(correctXPaths(context)).findElements(correctXPaths(byLocator));
     }
+
     private SearchContext getSearchContext(Pairs<ContextType, By> context) {
         SearchContext searchContext = getDriver().switchTo().defaultContent();
         for (Pair<ContextType, By> locator : context) {
@@ -120,6 +130,7 @@ public class GetElementModule {
         }
         return context;
     }
+
     private By correctXPaths(By byValue) {
         return (byValue.toString().contains("By.xpath: //"))
                 ? getByFunc(byValue).invoke(getByLocator(byValue)
@@ -127,7 +138,9 @@ public class GetElementModule {
                 : byValue;
     }
 
-    public void clearCookies() { getDriver().manage().deleteAllCookies(); }
+    public void clearCookies() {
+        getDriver().manage().deleteAllCookies();
+    }
 
     @Override
     public String toString() {

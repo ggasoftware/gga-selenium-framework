@@ -11,6 +11,7 @@ import com.ggasoftware.uitest.control.interfaces.base.ISetValue;
 public interface IForm<T, P> extends IComposite, ISetValue, IElement<P> {
     @JDIAction
     void fill(T entity);
+
     @JDIAction
     void submit(T entity);
 }

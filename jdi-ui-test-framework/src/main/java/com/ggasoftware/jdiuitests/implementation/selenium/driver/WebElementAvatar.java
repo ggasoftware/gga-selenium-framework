@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class WebElementAvatar implements JElement, WebElement {
     private WebElement element;
+
     public WebElementAvatar(WebElement element) {
         this.element = element;
     }
@@ -42,6 +43,10 @@ public class WebElementAvatar implements JElement, WebElement {
         return null;
     }
 
+    public void setText(String text) {
+
+    }
+
     public List<WebElement> findElements(By by) {
         return null;
     }
@@ -51,10 +56,6 @@ public class WebElementAvatar implements JElement, WebElement {
     }
 
     public void clear(String text) {
-
-    }
-
-    public void setText(String text) {
 
     }
 

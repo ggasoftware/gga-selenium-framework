@@ -7,8 +7,7 @@ public class Pair<TValue1, TValue2> {
     public TValue1 key;
     public TValue2 value;
 
-    public Pair(TValue1 value1, TValue2 value2)
-    {
+    public Pair(TValue1 value1, TValue2 value2) {
         key = value1;
         value = value2;
     }
@@ -18,7 +17,9 @@ public class Pair<TValue1, TValue2> {
     }
 
     @Override
-    public int hashCode() { return key.hashCode() ^ value.hashCode(); }
+    public int hashCode() {
+        return key.hashCode() ^ value.hashCode();
+    }
 
     @Override
     public boolean equals(Object o) {

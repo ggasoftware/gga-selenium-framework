@@ -15,11 +15,44 @@ import static java.lang.String.format;
  * Created by Roman_Iovlev on 7/17/2015.
  */
 public class Page extends BaseElement implements IPage {
+    public static boolean checkAfterOpen = false;
     public String url;
     public String title;
     protected CheckPageTypes checkUrlType = EQUAL;
     protected CheckPageTypes checkTitleType = EQUAL;
     protected String urlTemplate;
+
+    public Page() {
+    }
+
+    public Page(String url) {
+        this.url = url;
+    }
+
+    public Page(String url, String title) {
+        this.url = url;
+        this.title = title;
+    }
+
+    public static String getUrlFromUri(String uri) {
+        return JDISettings.domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
+    }
+
+    public static String getMatchFromDomain(String uri) {
+        return JDISettings.domain.replaceAll("/*$", "").replace(".", "\\.") + "/" + uri.replaceAll("^/*", "");
+    }
+
+    public static void openUrl(String url) {
+        new Page(url).open();
+    }
+
+    public static String getUrl() {
+        return JDISettings.getDriver().getCurrentUrl();
+    }
+
+    public static String geTtitle() {
+        return JDISettings.getDriver().getTitle();
+    }
 
     public void updatePageData(String url, String title, CheckPageTypes checkUrlType, CheckPageTypes checkTitleType, String urlTemplate) {
         if (this.url == null)
@@ -30,44 +63,81 @@ public class Page extends BaseElement implements IPage {
         this.checkTitleType = checkTitleType;
         this.urlTemplate = urlTemplate;
     }
-    public static String getUrlFromUri(String uri) {
-        return JDISettings.domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
-    }
-    public static String getMatchFromDomain(String uri) {
-        return JDISettings.domain.replaceAll("/*$", "").replace(".", "\\.") + "/" + uri.replaceAll("^/*", "");
-    }
 
-    public Page() {}
-    public Page(String url) {
-        this.url = url;
-    }
-    public Page(String url, String title) {
-        this.url = url;
-        this.title = title;
-    }
     public StringCheckType url() {
         return new StringCheckType(Page::getUrl, url, urlTemplate, "url");
     }
-    public StringCheckType title() { return new StringCheckType(Page::geTtitle, title, title, "title"); }
 
-    public static boolean checkAfterOpen = false;
+    public StringCheckType title() {
+        return new StringCheckType(Page::geTtitle, title, title, "title");
+    }
+
     public void checkOpened() {
         switch (checkUrlType) {
             case EQUAL:
-                url().check(); break;
+                url().check();
+                break;
             case MATCH:
-                url().match(); break;
+                url().match();
+                break;
             case CONTAIN:
-                url().contains(); break;
+                url().contains();
+                break;
         }
         switch (checkTitleType) {
             case EQUAL:
-                title().check(); break;
+                title().check();
+                break;
             case MATCH:
-                title().match(); break;
+                title().match();
+                break;
             case CONTAIN:
-                title().contains(); break;
+                title().contains();
+                break;
         }
+    }
+
+    public void open() {
+        invoker.doJAction(format("Open page %s by url %s", getName(), url),
+                () -> getDriver().navigate().to(url));
+        if (checkAfterOpen)
+            checkOpened();
+    }
+
+    public void isOpened() {
+        try {
+            JDISettings.logger.test("Page %s is opened", getName());
+            if (getUrl().equals(url)) return;
+            open();
+        } catch (Exception ex) {
+            throw JDISettings.asserter.exception(format("Can't open page %s. Exception: %s", getName(), ex.getMessage()));
+        }
+
+    }
+
+    public void refresh() {
+        invoker.doJAction("Refresh page " + getName(),
+                () -> getDriver().navigate().refresh());
+    }
+
+    public void back() {
+        invoker.doJAction("Go back to previous page",
+                () -> getDriver().navigate().back());
+    }
+
+    public void forward() {
+        invoker.doJAction("Go forward to next page",
+                () -> getDriver().navigate().forward());
+    }
+
+    public void addCookie(Cookie cookie) {
+        invoker.doJAction("Go forward to next page",
+                () -> getDriver().manage().addCookie(cookie));
+    }
+
+    public void clearCache() {
+        invoker.doJAction("Go forward to next page",
+                () -> getDriver().manage().deleteAllCookies());
     }
 
     public class StringCheckType {
@@ -83,60 +153,28 @@ public class Page extends BaseElement implements IPage {
             this.what = what;
         }
 
-        /** BaseChecker that current page url/title equals to expected url/title */
+        /**
+         * BaseChecker that current page url/title equals to expected url/title
+         */
         @JDIAction
-        public void check() { new Check(format("Page %s equals to '%s'", what, equals)).areEquals(actual, equals); }
-        /** BaseChecker that current page url/title matches to expected url/title-matcher */
+        public void check() {
+            new Check(format("Page %s equals to '%s'", what, equals)).areEquals(actual, equals);
+        }
+
+        /**
+         * BaseChecker that current page url/title matches to expected url/title-matcher
+         */
         @JDIAction
-        public void match() { new Check(format("Page %s matches to '%s'", what, template)).matches(actual, template); }
-        /** BaseChecker that current page url/title contains expected url/title-matcher */
+        public void match() {
+            new Check(format("Page %s matches to '%s'", what, template)).matches(actual, template);
+        }
+
+        /**
+         * BaseChecker that current page url/title contains expected url/title-matcher
+         */
         @JDIAction
-        public void contains() { new Check(format("Page %s contains '%s'", what, template)).contains(actual, template); }
-    }
-
-    public void open() {
-        invoker.doJAction(format("Open page %s by url %s", getName(), url),
-                () -> getDriver().navigate().to(url));
-        if (checkAfterOpen)
-            checkOpened();
-    }
-    public void isOpened() {
-        try {
-            JDISettings.logger.test("Page %s is opened", getName());
-            if (getUrl().equals(url)) return;
-            open();
-        } catch (Exception ex) { throw JDISettings.asserter.exception(format("Can't open page %s. Exception: %s", getName(), ex.getMessage())); }
-
-    }
-
-    public static void openUrl(String url) {
-        new Page(url).open();
-    }
-    public static String getUrl() {
-        return JDISettings.getDriver().getCurrentUrl();
-    }
-    public static String geTtitle() {
-        return JDISettings.getDriver().getTitle();
-    }
-
-    public void refresh() {
-        invoker.doJAction("Refresh page " + getName(),
-                () -> getDriver().navigate().refresh());
-    }
-    public void back() {
-        invoker.doJAction("Go back to previous page",
-                () -> getDriver().navigate().back());
-    }
-    public void forward() {
-        invoker.doJAction("Go forward to next page",
-                () -> getDriver().navigate().forward());
-    }
-    public void addCookie(Cookie cookie) {
-        invoker.doJAction("Go forward to next page",
-                () -> getDriver().manage().addCookie(cookie));
-    }
-    public void clearCache() {
-        invoker.doJAction("Go forward to next page",
-                () -> getDriver().manage().deleteAllCookies());
+        public void contains() {
+            new Check(format("Page %s contains '%s'", what, template)).contains(actual, template);
+        }
     }
 }

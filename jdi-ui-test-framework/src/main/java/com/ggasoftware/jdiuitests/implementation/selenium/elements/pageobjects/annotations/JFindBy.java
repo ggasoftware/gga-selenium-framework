@@ -12,12 +12,19 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface JFindBy {
     String id() default "";
+
     String name() default "";
+
     String className() default "";
+
     String css() default "";
+
     String tagName() default "";
+
     String linkText() default "";
+
     String partialLinkText() default "";
+
     String xpath() default "";
 
     String group();

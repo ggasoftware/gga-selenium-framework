@@ -1,37 +1,34 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.control.interfaces.complex.IComboBox;
 import com.ggasoftware.uitest.control.new_controls.base.SelectElement;
 import com.ggasoftware.uitest.control.new_controls.complex.Dropdown;
 import com.ggasoftware.uitest.utils.LinqUtils;
-import com.ggasoftware.uitest.utils.ReporterNGExt;
-import com.ggasoftware.uitest.utils.WebDriverWrapper;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
 import static com.ggasoftware.uitest.utils.LinqUtils.firstIndex;
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
-import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
 import static com.ggasoftware.uitest.utils.Timer.getResultAction;
 import static java.lang.String.format;
-import static java.lang.System.currentTimeMillis;
 
 /**
  * ComboBox control implementation
@@ -40,15 +37,22 @@ import static java.lang.System.currentTimeMillis;
  */
 public class ComboBox<ParentPanel> extends Dropdown<Enum, ParentPanel> implements IComboBox<Enum, ParentPanel> {
 
-    public ComboBox() { }
+    private Input input;
+    private SelectElement selector;
+
+    public ComboBox() {
+    }
+
     public ComboBox(By valueLocator) {
         super(valueLocator);
         input = createInputAction(valueLocator);
     }
+
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate) {
         super(selectorLocator, optionsNamesLocatorTemplate);
         input = createInputAction(selectorLocator);
     }
+
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator) {
         super(selectorLocator, optionsNamesLocatorTemplate);
         input = createInputAction(valueLocator);
@@ -57,27 +61,6 @@ public class ComboBox<ParentPanel> extends Dropdown<Enum, ParentPanel> implement
         super(selectorLocator, optionsNamesLocatorTemplate, allOptionsNamesLocator);
         input = createInputAction(valueLocator);
     }
-    private Input input;
-    private SelectElement selector;
-
-    protected Input createInputAction(By valueLocator) { return new Input(valueLocator); }
-
-    protected void inputAction(String text) { input.input(text); }
-    protected void clearAction() { input.clear(); }
-    protected void focusAction() { input.focus(); }
-
-    @Override
-    protected void setValueAction(String value) { newInput(value); }
-    @Override
-    protected String getValueAction() {
-        return input.getText();
-    }
-    public final void input(String text) { input.input(text); }
-    public final void newInput(String text) { input.newInput(text); }
-    public final ParentPanel clear() { input.clear(); return parent; }
-    public final ParentPanel focus() { input.focus(); return parent; }
-
-    //constructors
 
     /**
      * Initializes element with given locator. Locates own properties of the element by class name, takes given locator and tries
@@ -91,7 +74,55 @@ public class ComboBox<ParentPanel> extends Dropdown<Enum, ParentPanel> implement
         super(name, locator, parentPanel);
     }
 
-    private Select select() { return new Select(getWebElement()); }
+    protected Input createInputAction(By valueLocator) {
+        return new Input(valueLocator);
+    }
+
+    protected void inputAction(String text) {
+        input.input(text);
+    }
+
+    protected void clearAction() {
+        input.clear();
+    }
+
+    protected void focusAction() {
+        input.focus();
+    }
+
+    @Override
+    protected String getValueAction() {
+        return input.getText();
+    }
+
+    @Override
+    protected void setValueAction(String value) {
+        newInput(value);
+    }
+
+    public final void input(String text) {
+        input.input(text);
+    }
+
+    public final void newInput(String text) {
+        input.newInput(text);
+    }
+
+    public final ParentPanel clear() {
+        input.clear();
+        return parent;
+    }
+
+    //constructors
+
+    public final ParentPanel focus() {
+        input.focus();
+        return parent;
+    }
+
+    private Select select() {
+        return new Select(getWebElement());
+    }
 
     /**
      * !!! Better do not use. Instead use just select(String name)
@@ -129,7 +160,7 @@ public class ComboBox<ParentPanel> extends Dropdown<Enum, ParentPanel> implement
      * @return All Selected options.
      */
     public List<String> getSelectedItem() {
-        return doJActionResult("Get selected items",  () -> (List<String>) LinqUtils.select(
+        return doJActionResult("Get selected items", () -> (List<String>) LinqUtils.select(
                 select().getAllSelectedOptions(),
                 WebElement::getText));
     }
@@ -141,7 +172,7 @@ public class ComboBox<ParentPanel> extends Dropdown<Enum, ParentPanel> implement
      * @return List of all options.
      */
     public List<String> getItems() {
-        return doJActionResult("Get all items",  () -> (List<String>) LinqUtils.select(
+        return doJActionResult("Get all items", () -> (List<String>) LinqUtils.select(
                 select().getOptions(),
                 WebElement::getText));
     }
