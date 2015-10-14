@@ -41,9 +41,9 @@ abstract class TableLine extends Element implements ITableLine {
 
     public void clean() { headers = null; count = 0; }
     protected String[] headers;
-    public void setHeaders(final String[] value) {
+    public void setHeaders(String[] value) {
         if (table.cache)
-            headers = value;
+            headers = value.clone();
     }
     protected String[] getHeadersTextAction() {
         return LinqUtils.select(getHeadersAction(), WebElement::getText)

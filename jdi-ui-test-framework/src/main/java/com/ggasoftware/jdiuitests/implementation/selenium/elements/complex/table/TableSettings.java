@@ -16,9 +16,9 @@ public class TableSettings {
         this.columnHasHeaders = columnHasHeaders;
         this.rowHasHeaders = rowHasHeaders;
     }
-    public TableSettings(final String[] columnHeaders, final String[] rowHeaders) {
-        this.columnHeaders = columnHeaders;
-        this.rowHeaders = rowHeaders;
+    public TableSettings(String[] columnHeaders, String[] rowHeaders) {
+        this.columnHeaders = columnHeaders.clone();
+        this.rowHeaders = rowHeaders.clone();
     }
     public TableSettings(int columnsCount, int rowsCount) {
         this.columnsCount = columnsCount;
