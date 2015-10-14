@@ -9,6 +9,7 @@ import com.ggasoftware.uitest.control.interfaces.base.IClickable;
 public interface IImage<P> extends IClickable<P> {
     @JDIAction
     String getSource();
+
     @JDIAction
     String getAlt();
 }

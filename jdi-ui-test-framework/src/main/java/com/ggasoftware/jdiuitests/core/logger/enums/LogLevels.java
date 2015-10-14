@@ -13,11 +13,16 @@ public enum LogLevels {
     ALL(100);       // All log messages
 
     private int priority;
-    public int getPriority() { return priority; }
-    public boolean equalOrLessThan(LogLevels level) {
-        return getPriority() >= level.getPriority();
-    }
+
     LogLevels(int priority) {
         this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public boolean equalOrLessThan(LogLevels level) {
+        return getPriority() >= level.getPriority();
     }
 }

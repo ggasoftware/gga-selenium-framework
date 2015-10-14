@@ -17,29 +17,19 @@ import static org.openqa.selenium.OutputType.FILE;
  */
 public class ScreenshotMaker {
     public String pathSuffix = "/.logs/images/";
-    public ScreenshotMaker() {}
-    public ScreenshotMaker(String pathSuffix) { this.pathSuffix = pathSuffix; }
 
-    public static String takeScreen() throws IOException { return new ScreenshotMaker().takeScreenshot(); }
-    public String takeScreenshot() throws IOException {
-        String path = new File(".").getCanonicalPath() + getValidUrl(pathSuffix);
-        String screensFilePath = getFileName(path + testName + nowDate().replace(":", "-"));
-        new File(screensFilePath).getParentFile().mkdirs();
-        File screensFile = ((TakesScreenshot) getDriver()).getScreenshotAs(FILE);
-        copyFile(screensFile, new File(screensFilePath));
-        return screensFilePath;
+    public ScreenshotMaker() {
     }
 
-    private String getFileName(String fileName) {
-        int num = 1;
-        String newName = fileName;
-        while (new File(newName + ".jpg").exists())
-            newName = fileName + "_" + num ++;
-        return newName + ".jpg";
+    public ScreenshotMaker(String pathSuffix) {
+        this.pathSuffix = pathSuffix;
     }
 
-    public static String getValidUrl(String logPath)
-    {
+    public static String takeScreen() throws IOException {
+        return new ScreenshotMaker().takeScreenshot();
+    }
+
+    public static String getValidUrl(String logPath) {
         if (logPath == null || logPath.equals(""))
             return "";
         String result = logPath.replace("/", "\\");
@@ -55,10 +45,29 @@ public class ScreenshotMaker {
 
     public static String doScreenshotGetMessage() {
         String screenshotPath = "";
-        try { screenshotPath = takeScreen(); }
-        catch (IOException ignore) { }
+        try {
+            screenshotPath = takeScreen();
+        } catch (IOException ignore) {
+        }
         return (screenshotPath.equals(""))
                 ? "Failed to do Screenshot"
                 : LineBreak + "Add screenshot to: " + screenshotPath;
+    }
+
+    public String takeScreenshot() throws IOException {
+        String path = new File(".").getCanonicalPath() + getValidUrl(pathSuffix);
+        String screensFilePath = getFileName(path + testName + nowDate().replace(":", "-"));
+        new File(screensFilePath).getParentFile().mkdirs();
+        File screensFile = ((TakesScreenshot) getDriver()).getScreenshotAs(FILE);
+        copyFile(screensFile, new File(screensFilePath));
+        return screensFilePath;
+    }
+
+    private String getFileName(String fileName) {
+        int num = 1;
+        String newName = fileName;
+        while (new File(newName + ".jpg").exists())
+            newName = fileName + "_" + num++;
+        return newName + ".jpg";
     }
 }

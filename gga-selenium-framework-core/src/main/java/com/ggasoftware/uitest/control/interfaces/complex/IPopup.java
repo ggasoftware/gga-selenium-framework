@@ -10,8 +10,10 @@ import com.ggasoftware.uitest.control.interfaces.base.IHaveValue;
 public interface IPopup extends IHaveValue, IComposite {
     @JDIAction
     void ok();
+
     @JDIAction
     void cancel();
+
     @JDIAction
     void close();
 }

@@ -1,34 +1,27 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.LinqUtils;
-import com.ggasoftware.uitest.utils.ReporterNGExt;
-import com.ggasoftware.uitest.utils.Timer;
-import com.ggasoftware.uitest.utils.WebDriverWrapper;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.ArrayList;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import java.util.List;
 
-import static com.ggasoftware.uitest.utils.LinqUtils.foreach;
 import static com.ggasoftware.uitest.utils.PrintUtils.print;
-import static com.ggasoftware.uitest.utils.ReporterNG.logAssertTrue;
-import static com.ggasoftware.uitest.utils.ReporterNG.logTechnical;
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logAction;
-import static com.ggasoftware.uitest.utils.Timer.alwaysDoneAction;
 import static java.lang.String.format;
 
 /**
@@ -38,8 +31,12 @@ import static java.lang.String.format;
  * @author Belousov Andrey
  */
 public class Select<ParentPanel> extends Element<ParentPanel> {
-    public Select() { }
-    public Select(By valueLocator) { super(valueLocator); }
+    public Select() {
+    }
+
+    public Select(By valueLocator) {
+        super(valueLocator);
+    }
     //constructors
 
     /**
@@ -56,7 +53,9 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
     }
 
     private org.openqa.selenium.support.ui.Select select() {
-        return new org.openqa.selenium.support.ui.Select(getWebElement()); }
+        return new org.openqa.selenium.support.ui.Select(getWebElement());
+    }
+
     /**
      * Deselect all items.
      *
@@ -132,9 +131,9 @@ public class Select<ParentPanel> extends Element<ParentPanel> {
      */
     public List<String> getSelectedItems() {
         return doJActionResult("Get selected items", () ->
-            (List<String>) LinqUtils.select(
-                select().getAllSelectedOptions(),
-                WebElement::getText));
+                (List<String>) LinqUtils.select(
+                        select().getAllSelectedOptions(),
+                        WebElement::getText));
     }
 
     /**

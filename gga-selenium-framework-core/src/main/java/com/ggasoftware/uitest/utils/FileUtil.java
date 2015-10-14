@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.utils;
 
 import org.apache.http.HttpEntity;
@@ -36,7 +38,8 @@ import java.util.Set;
  */
 public final class FileUtil {
 
-    private FileUtil(){}
+    private FileUtil() {
+    }
 
     /**
      * Gets default directory(path) for downloaded files
@@ -61,7 +64,7 @@ public final class FileUtil {
      * - true if and only if the file denoted by this abstract pathname exists and is a normal file;
      * - false otherwise
      */
-    public static boolean isFileExist(String pathAndFileName){
+    public static boolean isFileExist(String pathAndFileName) {
         ReporterNGExt.logTechnical(String.format("isFileExist: %s", pathAndFileName));
         File findFile = new File(pathAndFileName);
         return findFile.isFile();
@@ -72,11 +75,11 @@ public final class FileUtil {
      *
      * @param downloadUrl     - url of file to download
      * @param outputFilePath  - file path for output
-     * @throws  Exception - exception
+     * @throws Exception - exception
      */
     public static void downloadFile(String downloadUrl, String outputFilePath) throws IOException {
 
-        ReporterNGExt.logAction("","", String.format("Download file form url: %s", downloadUrl));
+        ReporterNGExt.logAction("", "", String.format("Download file form url: %s", downloadUrl));
 
         CookieStore cookieStore = seleniumCookiesToCookieStore();
         DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -95,8 +98,7 @@ public final class FileUtil {
             }
             fileOutputStream.close();
             ReporterNGExt.logTechnical(String.format("downloadFile: %d bytes. %s", outputFile.length(), entity.getContentType()));
-        }
-        else {
+        } else {
             ReporterNGExt.logFailedScreenshot(ReporterNGExt.BUSINESS_LEVEL, "Download failed!");
         }
     }
@@ -111,7 +113,7 @@ public final class FileUtil {
         Set<Cookie> seleniumCookies = WebDriverWrapper.getDriver().manage().getCookies();
         CookieStore cookieStore = new BasicCookieStore();
 
-        for(Cookie seleniumCookie : seleniumCookies){
+        for (Cookie seleniumCookie : seleniumCookies) {
             BasicClientCookie basicClientCookie =
                     new BasicClientCookie(seleniumCookie.getName(), seleniumCookie.getValue());
             basicClientCookie.setDomain(seleniumCookie.getDomain());

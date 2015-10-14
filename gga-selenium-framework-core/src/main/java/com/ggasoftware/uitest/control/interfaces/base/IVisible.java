@@ -8,12 +8,16 @@ import com.ggasoftware.uitest.control.base.annotations.JDIAction;
 public interface IVisible {
     @JDIAction
     boolean isDisplayed();
+
     @JDIAction
     boolean waitDisplayed();
+
     @JDIAction
     boolean waitDisplayed(int seconds);
+
     @JDIAction
     boolean waitVanished();
+
     @JDIAction
     boolean waitVanished(int seconds);
 }

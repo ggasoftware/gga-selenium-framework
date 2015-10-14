@@ -8,11 +8,19 @@ import org.openqa.selenium.By;
  */
 public class GetElementType {
     private By locator;
-    public GetElementType() { this(null); }
-    public GetElementType(By locator) { this.locator = locator; }
     private By allLabelsLocator;
+
+    public GetElementType() {
+        this(null);
+    }
+
+    public GetElementType(By locator) {
+        this.locator = locator;
+    }
+
     public <T extends BaseElement> T get(T element, GetElementModule avatar) {
         return locator == null
                 ? null
-                : (T) element.setAvatar(locator, avatar); }
+                : (T) element.setAvatar(locator, avatar);
+    }
 }

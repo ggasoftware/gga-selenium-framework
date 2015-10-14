@@ -28,16 +28,22 @@ public class Pagination extends BaseElement implements IPagination {
     private By firstLocator;
     private By lastLocator;
 
-    public Pagination() { super(); }
+    public Pagination() {
+        super();
+    }
+
     public Pagination(By byLocator) {
         super(byLocator);
     }
+
     public Pagination(By nextLocator, By previousLocator) {
         this(null, nextLocator, previousLocator, null, null);
     }
+
     public Pagination(By pageTemplateLocator, By nextLocator, By previousLocator) {
         this(pageTemplateLocator, nextLocator, previousLocator, null, null);
     }
+
     public Pagination(By pageTemplateLocator, By nextLocator, By previousLocator,
                       By firstLocator, By lastLocator) {
         super(pageTemplateLocator);
@@ -93,6 +99,7 @@ public class Pagination extends BaseElement implements IPagination {
             return new Clickable(fillByTemplate(getLocator(), shortName));
         throw exception(cantChooseElementMsg("Next", shortName, "nextAction"));
     }
+
     private Clickable previousAction() {
         String shortName = "prev";
         if (previousLocator != null)
@@ -106,6 +113,7 @@ public class Pagination extends BaseElement implements IPagination {
             return new Clickable(fillByTemplate(getLocator(), shortName));
         throw exception(cantChooseElementMsg("Previous", shortName, "previousAction"));
     }
+
     private Clickable firstAction() {
         String shortName = "first";
         if (firstLocator != null)
@@ -119,6 +127,7 @@ public class Pagination extends BaseElement implements IPagination {
             return new Clickable(fillByTemplate(getLocator(), shortName));
         throw exception(cantChooseElementMsg("First", shortName, "firstAction"));
     }
+
     private Clickable lastAction() {
         String shortName = "last";
         if (lastLocator != null)
@@ -132,6 +141,7 @@ public class Pagination extends BaseElement implements IPagination {
             return new Clickable(fillByTemplate(getLocator(), shortName));
         throw exception(cantChooseElementMsg("Last", shortName, "lastAction"));
     }
+
     private Clickable pageAction(int index) {
         String shortName = "page";
         if (getLocator() != null && getLocator().toString().contains("'%s'"))

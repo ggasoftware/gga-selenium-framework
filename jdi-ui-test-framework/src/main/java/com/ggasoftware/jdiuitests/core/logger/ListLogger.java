@@ -10,9 +10,11 @@ import com.ggasoftware.jdiuitests.core.logger.enums.LogLevels;
  */
 public class ListLogger implements ILogger {
     private ILogger[] loggers;
+
     public ListLogger(ILogger... loggers) {
         this(LogLevels.INFO, loggers);
     }
+
     public ListLogger(LogLevels logLevel, ILogger... loggers) {
         this.loggers = loggers;
     }

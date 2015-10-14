@@ -16,6 +16,7 @@ public class PerformanceStatistic {
     public static void addStatistic(long time) {
         addStatistic(JDI_ACTION, time);
     }
+
     public static void addStatistic(ActionsType actionType, long time) {
         if (statistic.keys().contains(actionType))
             statistic.get(actionType).add(time);

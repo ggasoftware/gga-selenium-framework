@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.utils;
 
 import org.openqa.selenium.Alert;
@@ -27,7 +29,8 @@ import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
  */
 public class Alerts {
 
-    private Alerts(){}
+    private Alerts() {
+    }
 
     /**
      * Get alert.
@@ -130,7 +133,7 @@ public class Alerts {
      * Confirm alert by JS.
      */
     public static void jConfirmAlerts() {
-        if (findAlert(0)){
+        if (findAlert(0)) {
             WebDriverWrapper.executeScript("window.confirm = function(msg) { return true; }");
         }
     }
@@ -140,31 +143,34 @@ public class Alerts {
      *
      * @param timeoutSec to wait until alert is exists.
      */
-    public static void findAndAcceptAlert(int timeoutSec){
-        if (findAlert(timeoutSec)){
+    public static void findAndAcceptAlert(int timeoutSec) {
+        if (findAlert(timeoutSec)) {
             acceptAlert();
         }
     }
+
     /**
      * Wait for alert exists and accept.
      */
-    public static void findAndAcceptAlert(){
+    public static void findAndAcceptAlert() {
         findAndAcceptAlert(TIMEOUT);
     }
+
     /**
      * Wait for alert exists and dismiss.
      *
      * @param timeoutSec to wait until alert is exists.
      */
-    public static void findAndDismissAlert(int timeoutSec){
-        if (findAlert(timeoutSec)){
+    public static void findAndDismissAlert(int timeoutSec) {
+        if (findAlert(timeoutSec)) {
             dismissAlert();
         }
     }
+
     /**
      * Wait for alert exists and dismiss.
      */
-    public static void findAndDismissAlert(){
+    public static void findAndDismissAlert() {
         findAndDismissAlert(TIMEOUT);
     }
 

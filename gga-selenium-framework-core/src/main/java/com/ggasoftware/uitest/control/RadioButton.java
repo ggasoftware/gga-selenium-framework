@@ -1,24 +1,22 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.control;
 
-import com.ggasoftware.uitest.utils.ReporterNGExt;
-import com.ggasoftware.uitest.utils.Timer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
 
 /**
  * RadioButton control implementation
@@ -26,8 +24,12 @@ import static com.ggasoftware.uitest.utils.ReporterNGExt.logGetter;
  * @author Alexeenko Yan
  */
 public class RadioButton<ParentPanel> extends Element<ParentPanel> {
-    public RadioButton() { }
-    public RadioButton(By valueLocator) { super(valueLocator); }
+    public RadioButton() {
+    }
+
+    public RadioButton(By valueLocator) {
+        super(valueLocator);
+    }
     //constructor
 
     /**
@@ -58,7 +60,7 @@ public class RadioButton<ParentPanel> extends Element<ParentPanel> {
      * @return Parent instance
      */
     public ParentPanel check() {
-        doJAction("Check RadioButton", () ->  {
+        doJAction("Check RadioButton", () -> {
             WebElement webEl = getWebElement();
             if (!webEl.isSelected()) {
                 webEl.click();

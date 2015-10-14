@@ -9,6 +9,9 @@ public enum DriverTypes {
     IE("ie");
 
     public String name;
-    DriverTypes(String name) { this.name = name; }
+
+    DriverTypes(String name) {
+        this.name = name;
+    }
 
 }

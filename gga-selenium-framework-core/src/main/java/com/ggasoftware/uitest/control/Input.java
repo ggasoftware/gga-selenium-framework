@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.control.interfaces.common.IInput;
@@ -40,19 +42,40 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
     public Input(String name, String locator, ParentPanel parentPanel) {
         super(name, locator, parentPanel);
     }
-    public Input() { super(); }
-    public Input(By byLocator) { super(byLocator); }
 
-    protected void setValueAction(String value) { newInput(value); }
+    public Input() {
+        super();
+    }
+
+    public Input(By byLocator) {
+        super(byLocator);
+    }
+
+    protected void setValueAction(String value) {
+        newInput(value);
+    }
+
     @Override
-    protected String getTextAction() { return getWebElement().getAttribute("value"); }
-    protected void inputAction(String text) { getWebElement().sendKeys(text); }
-    protected void clearAction() { getWebElement().clear(); }
-    protected void focusAction() { getWebElement().click(); }
+    protected String getTextAction() {
+        return getWebElement().getAttribute("value");
+    }
+
+    protected void inputAction(String text) {
+        getWebElement().sendKeys(text);
+    }
+
+    protected void clearAction() {
+        getWebElement().clear();
+    }
+
+    protected void focusAction() {
+        getWebElement().click();
+    }
 
     public final void input(String text) {
         doJAction("Input text '" + text + "' in text field", () -> inputAction(text));
     }
+
     public final void newInput(String text) {
         clear();
         input(text);
@@ -61,6 +84,7 @@ public class Input<ParentPanel> extends Text<ParentPanel> implements IInput<Pare
     public final void setValue(String value) {
         doJAction("Set value", () -> setValueRule(value, this::setValueAction));
     }
+
     @Override
     public final ParentPanel focus() {
         doJAction("Focus on text field", this::focusAction);

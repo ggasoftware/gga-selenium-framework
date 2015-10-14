@@ -5,5 +5,7 @@ package com.ggasoftware.jdiuitests.core.utils.pairs;
  */
 
 public class PairString extends Pair<String, String> {
-    public PairString(String value1, String value2) { super(value1, value2); }
+    public PairString(String value1, String value2) {
+        super(value1, value2);
+    }
 }

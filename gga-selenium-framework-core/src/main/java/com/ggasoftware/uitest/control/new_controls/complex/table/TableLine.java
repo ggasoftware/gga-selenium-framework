@@ -23,16 +23,24 @@ public abstract class TableLine<T extends IClickableText, P> extends Element {
     public Table<T, P> table;
 
     protected int count = -1;
-    public void setCount(int value) { count = value; }
-    public int count() {
-        return (count > 0)
-            ? count
-            : headers() != null ? headers.length : 0;
+    protected String[] headers;
+
+    public void setCount(int value) {
+        count = value;
     }
 
-    protected String[] headers;
-    public void setHeaders(String[] value) { headers = value; }
-    protected abstract String[] getHeadersAction() ;
+    public int count() {
+        return (count > 0)
+                ? count
+                : headers() != null ? headers.length : 0;
+    }
+
+    public void setHeaders(String[] value) {
+        headers = value;
+    }
+
+    protected abstract String[] getHeadersAction();
+
     public final String[] headers() {
         if (headers != null)
             return headers;
@@ -49,10 +57,11 @@ public abstract class TableLine<T extends IClickableText, P> extends Element {
     protected String[] getNumList(int count) {
         return getNumList(count, 1);
     }
+
     protected String[] getNumList(int count, int from) {
         List<String> result = new ArrayList<>();
         for (int i = from; i < count + from; i++)
-        result.add(i + "");
+            result.add(i + "");
         return result.toArray(new String[count]);
     }
 
@@ -67,6 +76,6 @@ public abstract class TableLine<T extends IClickableText, P> extends Element {
                 || (isClass(tableLine.getClass(), Rows.class) && tableLine.haveHeader))
             haveHeader = tableLine.haveHeader;
         if (tableLine.elementIndex != ElementIndexType.Nums)
-        elementIndex = tableLine.elementIndex;
+            elementIndex = tableLine.elementIndex;
     }
 }

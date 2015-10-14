@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.base;
 
 import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
@@ -40,16 +42,18 @@ import static java.lang.String.format;
  * @author Zharov Alexandr
  */
 public class Element extends BaseElement implements IElement {
-    public Element() { super(); }
-    public Element(By byLocator) { super(byLocator); }
-    public Element(WebElement webElement) { this.webElement = webElement; }
-
     private WebElement webElement;
 
-    public WebElement getWebElement() {
-        return invoker.doJActionResult("Get web element",
-                () -> webElement != null ? webElement : avatar.getElement(),
-                new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
+    public Element() {
+        super();
+    }
+
+    public Element(By byLocator) {
+        super(byLocator);
+    }
+
+    public Element(WebElement webElement) {
+        this.webElement = webElement;
     }
 
     public static <T extends Element> T copy(T element, By newLocator) {
@@ -57,38 +61,65 @@ public class Element extends BaseElement implements IElement {
             T result = (T) element.getClass().newInstance();
             result.setAvatar(newLocator, element.getAvatar());
             return result;
-        } catch (Exception ex) { throw JDISettings.exception("Can't copy Element: " + element); }
+        } catch (Exception ex) {
+            throw JDISettings.exception("Can't copy Element: " + element);
+        }
     }
 
-    public String getAttribute(String name) { return getWebElement().getAttribute(name); }
+    public WebElement getWebElement() {
+        return invoker.doJActionResult("Get web element",
+                () -> webElement != null ? webElement : avatar.getElement(),
+                new LogSettings(LogLevels.DEBUG, LogInfoTypes.BUSINESS));
+    }
+
+    public String getAttribute(String name) {
+        return getWebElement().getAttribute(name);
+    }
+
     public boolean waitAttribute(String name, String value) {
         return wait(el -> el.getAttribute(name).equals(value));
     }
+
     public void setAttribute(String attributeName, String value) {
         invoker.doJAction(format("Set Attribute '%s'='%s'", attributeName, value),
                 () -> jsExecutor().executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attributeName),
                         getWebElement(), value));
     }
+
     protected boolean isDisplayedAction() {
         return actions.findImmediately(() -> getWebElement().isDisplayed());
     }
-    protected boolean waitDisplayedAction() { return wait(WebElement::isDisplayed);}
 
-    public boolean isDisplayed() {return actions.isDisplayed(this::isDisplayedAction); }
+    protected boolean waitDisplayedAction() {
+        return wait(WebElement::isDisplayed);
+    }
+
+    public boolean isDisplayed() {
+        return actions.isDisplayed(this::isDisplayedAction);
+    }
+
     public boolean isHidden() {
         return actions.isDisplayed(() -> !isDisplayedAction());
     }
+
     public boolean waitDisplayed() {
         return actions.waitDisplayed(this::waitDisplayedAction);
     }
+
     public boolean waitVanished() {
         return actions.waitVanished(() -> timer().wait(() -> !isDisplayedAction()));
     }
-    public WebElement getInvisibleElement() { avatar.searchAll(); return getWebElement(); }
+
+    public WebElement getInvisibleElement() {
+        avatar.searchAll();
+        return getWebElement();
+    }
+
     @Override
     public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc) {
         return wait(resultFunc, result -> result);
     }
+
     @Override
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition) {
         return timer().getResultByCondition(() -> resultFunc.invoke(getWebElement()), condition::invoke);
@@ -98,6 +129,7 @@ public class Element extends BaseElement implements IElement {
     public Boolean wait(JFuncTT<WebElement, Boolean> resultFunc, int timeoutSec) {
         return wait(resultFunc, result -> result, timeoutSec);
     }
+
     @Override
     public <T> T wait(JFuncTT<WebElement, T> resultFunc, JFuncTT<T, Boolean> condition, int timeoutSec) {
         setWaitTimeout(timeoutSec);
@@ -106,7 +138,10 @@ public class Element extends BaseElement implements IElement {
         return result;
     }
 
-    public void highlight() { JDISettings.driverFactory.highlight(this); }
+    public void highlight() {
+        JDISettings.driverFactory.highlight(this);
+    }
+
     public void highlight(HighlightSettings highlightSettings) {
         JDISettings.driverFactory.highlight(this, highlightSettings);
     }
@@ -123,6 +158,7 @@ public class Element extends BaseElement implements IElement {
                     action.perform();
                 });
     }
+
     public void doubleClick() {
         invoker.doJAction("Couble click on Element", () -> {
             getWebElement().getSize(); //for scroll to object
@@ -130,6 +166,7 @@ public class Element extends BaseElement implements IElement {
             builder.doubleClick();
         });
     }
+
     public void rightClick() {
         invoker.doJAction("Right click on Element", () -> {
             getWebElement().getSize(); //for scroll to object
@@ -137,6 +174,7 @@ public class Element extends BaseElement implements IElement {
             builder.contextClick(getWebElement()).perform();
         });
     }
+
     public void clickCenter() {
         invoker.doJAction("Click in Center of Element", () -> {
             getWebElement().getSize(); //for scroll to object
@@ -144,6 +182,7 @@ public class Element extends BaseElement implements IElement {
             builder.click(getWebElement()).perform();
         });
     }
+
     public void mouseOver() {
         invoker.doJAction("Move mouse over Element", () -> {
             getWebElement().getSize(); //for scroll to object
@@ -151,6 +190,7 @@ public class Element extends BaseElement implements IElement {
             builder.moveToElement(getWebElement()).build().perform();
         });
     }
+
     public void focus() {
         invoker.doJAction("Focus on Element", () -> {
             Dimension size = getWebElement().getSize(); //for scroll to object
@@ -165,6 +205,7 @@ public class Element extends BaseElement implements IElement {
                     .moveToElement(element, x2, y2).release().build().perform();
         });
     }
+
     public void dragAndDropBy(int x, int y) {
         invoker.doJAction(format("Drag and drop Element: (x,y)=(%s,%s)", x, y), () ->
                 new Actions(getDriver()).dragAndDropBy(getWebElement(), x, y).build().perform());

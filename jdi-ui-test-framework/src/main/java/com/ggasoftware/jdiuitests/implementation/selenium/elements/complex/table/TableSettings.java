@@ -11,15 +11,19 @@ public class TableSettings {
     public int columnsCount;
     public int rowsCount;
 
-    public TableSettings() {}
+    public TableSettings() {
+    }
+
     public TableSettings(boolean columnHasHeaders, boolean rowHasHeaders) {
         this.columnHasHeaders = columnHasHeaders;
         this.rowHasHeaders = rowHasHeaders;
     }
+
     public TableSettings(String[] columnHeaders, String[] rowHeaders) {
         this.columnHeaders = columnHeaders.clone();
         this.rowHeaders = rowHeaders.clone();
     }
+
     public TableSettings(int columnsCount, int rowsCount) {
         this.columnsCount = columnsCount;
         this.rowsCount = rowsCount;

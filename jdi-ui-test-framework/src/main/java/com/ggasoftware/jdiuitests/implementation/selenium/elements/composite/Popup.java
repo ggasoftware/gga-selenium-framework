@@ -10,10 +10,20 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
 public class Popup extends Text implements IPopup {
 
     @Override
-    protected String getTextAction() { return getElement.getTextElement().getText(); }
+    protected String getTextAction() {
+        return getElement.getTextElement().getText();
+    }
 
-    public void ok()       { getElement.getButton(Functions.OK_BUTTON).click();}
-    public void cancel()   { getElement.getButton(Functions.CANCEL_BUTTON).click();}
-    public void close()    { getElement.getButton(Functions.CLOSE_BUTTON).click();}
+    public void ok() {
+        getElement.getButton(Functions.OK_BUTTON).click();
+    }
+
+    public void cancel() {
+        getElement.getButton(Functions.CANCEL_BUTTON).click();
+    }
+
+    public void close() {
+        getElement.getButton(Functions.CLOSE_BUTTON).click();
+    }
 
 }

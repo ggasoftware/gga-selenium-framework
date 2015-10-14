@@ -29,18 +29,21 @@ public class Rows<T extends IClickableText, P> extends TableLine<T, P> {
         return exception(format("Can't Get Rows '%s'. Exception: %s", rowName, ex));
     }
 
-    public final MapArray<String, Cell<T,P>> getColumn(String colName) {
-        try { return cellsToColumn(select(headers(), rowName -> table.cell(new Column(colName), new Row(rowName)))); }
-        catch (Exception|AssertionError ex) { throw throwRowsException(colName, ex.getMessage()); }
+    public final MapArray<String, Cell<T, P>> getColumn(String colName) {
+        try {
+            return cellsToColumn(select(headers(), rowName -> table.cell(new Column(colName), new Row(rowName))));
+        } catch (Exception | AssertionError ex) {
+            throw throwRowsException(colName, ex.getMessage());
+        }
     }
 
-    public MapArray<String, Cell<T,P>> cellsToColumn(Collection<Cell<T,P>> cells) {
+    public MapArray<String, Cell<T, P>> cellsToColumn(Collection<Cell<T, P>> cells) {
         return new MapArray<>(cells,
                 cell -> headers()[cell.rowNum - 1],
                 cell -> cell);
     }
 
-    public final MapArray<String, Cell<T,P>> getColumn(int colNum) {
+    public final MapArray<String, Cell<T, P>> getColumn(int colNum) {
         int rowsCount = -1;
         if (count > 0)
             rowsCount = count;
@@ -52,14 +55,15 @@ public class Rows<T extends IClickableText, P> extends TableLine<T, P> {
             return new MapArray<>(count(),
                     rowNum -> headers()[rowNum],
                     rowNum -> table.cell(new Column(colNum), new Row(rowNum)));
+        } catch (Exception | AssertionError ex) {
+            throw throwRowsException(colNum + "", ex.getMessage());
         }
-        catch (Exception|AssertionError ex) { throw throwRowsException(colNum + "", ex.getMessage()); }
     }
 
-    public MapArray<String, MapArray<String, Cell<T,P>>> get() {
-        MapArray<String, MapArray<String, Cell<T,P>>> rows = new MapArray<>();
-        for(String rowName : headers()) {
-            MapArray<String, Cell<T,P>> column = new MapArray<>();
+    public MapArray<String, MapArray<String, Cell<T, P>>> get() {
+        MapArray<String, MapArray<String, Cell<T, P>>> rows = new MapArray<>();
+        for (String rowName : headers()) {
+            MapArray<String, Cell<T, P>> column = new MapArray<>();
             for (String columnName : table.columns().headers())
                 column.add(columnName, table.cell(new Column(columnName), new Row(rowName)));
             rows.add(rowName, column);

@@ -1,12 +1,12 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.actions;
 
 import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
+import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.isClass;
 
@@ -15,25 +15,30 @@ import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.isCla
  */
 public class ActionInvoker {
     private BaseElement element;
-    public ActionInvoker(BaseElement element) { JDISettings.newTest(); this.element = element; }
+
+    public ActionInvoker(BaseElement element) {
+        JDISettings.newTest();
+        this.element = element;
+    }
 
     public final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action) {
         return doJActionResult(actionName, action, null, new LogSettings());
     }
+
     public final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action, JFuncTT<TResult, String> logResult) {
         return doJActionResult(actionName, action, logResult, new LogSettings());
     }
+
     public final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action, LogSettings logSettings) {
         return doJActionResult(actionName, action, null, logSettings);
     }
 
     public final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> action,
-                                                      JFuncTT<TResult, String> logResult, LogSettings logSettings) {
+                                                   JFuncTT<TResult, String> logResult, LogSettings logSettings) {
         try {
             processDemoMode();
             return BaseElement.actionScenrios.setElement(element).resultScenario(actionName, action, logResult, logSettings);
-        }
-        catch (Exception|Error ex) {
+        } catch (Exception | Error ex) {
             throw JDISettings.exception("Failed to do '%s' action. Exception: %s", actionName, ex);
         }
     }
@@ -46,8 +51,7 @@ public class ActionInvoker {
         try {
             processDemoMode();
             BaseElement.actionScenrios.setElement(element).actionScenario(actionName, action, logSettings);
-        }
-        catch (Exception|Error ex) {
+        } catch (Exception | Error ex) {
             throw JDISettings.exception("Failed to do '%s' action. Exception: %s", actionName, ex);
         }
     }
@@ -55,6 +59,6 @@ public class ActionInvoker {
     public void processDemoMode() {
         if (JDISettings.isDemoMode)
             if (isClass(element.getClass(), Element.class))
-                ((Element)element).highlight(JDISettings.highlightSettings);
+                ((Element) element).highlight(JDISettings.highlightSettings);
     }
 }

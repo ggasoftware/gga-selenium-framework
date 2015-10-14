@@ -5,9 +5,14 @@ package com.ggasoftware.jdiuitests.core.apiAccessors;
  */
 public interface JElement {
     void click();                           // Operate with Element
+
     String getText();                       // Get text from Element
-    void clear(String text);                // clear value of Element
+
     void setText(String text);              // Set text in Element
+
+    void clear(String text);                // clear value of Element
+
     String getAttribute(String attrNamr);   // Get some elements attributes
+
     boolean isDisplayed();                  // Available to interact
 }

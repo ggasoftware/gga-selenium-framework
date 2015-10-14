@@ -45,89 +45,28 @@ import static org.apache.commons.lang.StringUtils.substring;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public abstract class BaseElement<P> implements IBaseElement {
-    public BaseElement() { this(null); }
-    public BaseElement(By byLocator) {
-        name = getTypeName();
-        avatar = new GetElementModule(byLocator, this);
-    }
-    public BaseElement(String name, String locator, P panel) {
-        this.name = name;
-        this.locator = locator;
-        this.parent = panel;
-        avatar = new GetElementModule(getByLocator(), this);
-    }
-    public BaseElement(String name, By byLocator) {
-        this.name = name;
-        avatar = new GetElementModule(byLocator, this);
-        this.locator = byLocator.toString();
-    }
-
+    public static JActionTT<String, JActionT<String>> setValueRule = (text, action) -> {
+        if (text == null) return;
+        action.invoke(text);
+    };
+    public static JActionTT<String, JActionT<String>> setValueEmptyAction = (text, action) -> {
+        if (text == null || text.equals("")) return;
+        action.invoke(text.equals("#CLEAR#") ? "" : text);
+    };
+    private static MapArray<Class, Class> map;
+    public Functions function = NONE;
     /**
      * Locator of the element if applicable
      */
     protected String locator;
 
     protected String name;
-    public String getName() { return name != null ? name : getTypeName(); }
-    public void setName(String name) { this.name = name; }
-    public Functions function = NONE;
-
-    public boolean haveLocator() { return avatar.haveLocator(); }
-    public WebDriver getDriver() { return avatar.getDriver(); }
-    public By getLocator() { return avatar.byLocator; }
-
-    public void setAvatar(GetElementModule avatar) { this.avatar = avatar; }
-
-    public void setAvatar(By byLocator, GetElementModule avatar) {
-        this.avatar = new GetElementModule(byLocator, avatar.context, this);
-        this.avatar.localElementSearchCriteria = avatar.localElementSearchCriteria;
-    }
-    public GetElementModule getAvatar() {return avatar; }
-
-    protected void setWaitTimeout(long mSeconds) {
-        logger.debug("Set wait timeout to " + mSeconds);
-        getDriver().manage().timeouts().implicitlyWait(mSeconds, MILLISECONDS);
-    }
     protected GetElementModule avatar;
-
     /**
      * Parent panel which contains current element
      */
     protected P parent;
-
-    /**
-     * Get Parent Class Name
-     *
-     * @return Parent Canonical Class Name
-     */
-    protected String getParentClassName() {
-        if (parent == null) {
-            return "";
-        }
-        if (simpleClassName) {
-            return parent.getClass().getSimpleName();
-        }
-        return parent.getClass().getCanonicalName();
-    }
-
     protected String parentTypeName;
-    protected String getTypeName() { return getClass().getSimpleName(); }
-    protected String getParentName() {
-        if (parentTypeName == null)
-            parentTypeName = (parent != null) ? parent.getClass().getSimpleName() : "No Parent";
-        return parentTypeName; }
-    protected void setParentName(String parrentName) { parentTypeName = parrentName; }
-
-    protected JavascriptExecutor jsExecutor() { return (JavascriptExecutor) getDriver(); }
-
-    @Override
-    public String toString() {
-        return (simpleLogFormat)
-                ? format("%s %s.%s", getTypeName(), getParentName(), getName())
-                : format("Name: '%s', Type: '%s' In: '%s', %s",
-                    getName(), getTypeName(), getParentName(), avatar);
-    }
-
     public static IScenario invocationScenario = (element, actionName, jAction) -> {
         sleep(100);
         element.defaultLogAction(actionName);
@@ -151,51 +90,27 @@ public abstract class BaseElement<P> implements IBaseElement {
         }
     };
 
-    public void defaultLogAction(String actionName) {
-        logger.info(format((simpleLogFormat)
-                ? "%s at %s"
-                : "Perform action '%s' with element (%s)" ,
-            actionName, this.toString()));
-    }
-    public void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
-        if (simpleLogFormat)
-            logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), substring(stringResult,0,255)));
-        else
-            logger.toLog(stringResult, logSettings);
-    }
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction) {
-        return doJActionResult(actionName, viAction, null, new LogSettings());
-    }
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction, JFuncTT<TResult, String> logResult) {
-        return doJActionResult(actionName, viAction, logResult, new LogSettings());
-    }
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction, LogSettings logSettings) {
-        return doJActionResult(actionName, viAction, null, logSettings);
-    }
-    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction,
-                                                      JFuncTT<TResult, String> logResult, LogSettings logSettings) {
-        try {
-            processDemoMode();
-            return invocationScenarioWithResult.invoke(this, actionName, viAction, logResult, logSettings);
-        }
-        catch (Exception|AssertionError ex) {
-            throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
-        }
+    public BaseElement() {
+        this(null);
     }
 
-    protected final void doJAction(String actionName, JAction viAction) {
-        try {
-            processDemoMode();
-            invocationScenario.invoke(this, actionName, viAction);
-        }
-        catch (Exception|AssertionError ex) {
-            throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
-        }
+    public BaseElement(By byLocator) {
+        name = getTypeName();
+        avatar = new GetElementModule(byLocator, this);
     }
 
-    private void processDemoMode() { }
+    public BaseElement(String name, String locator, P panel) {
+        this.name = name;
+        this.locator = locator;
+        this.parent = panel;
+        avatar = new GetElementModule(getByLocator(), this);
+    }
 
-    // Page Objects init
+    public BaseElement(String name, By byLocator) {
+        this.name = name;
+        avatar = new GetElementModule(byLocator, this);
+        this.locator = byLocator.toString();
+    }
 
     public static <T> T InitElements(T parent) {
         fillParentPage(parent);
@@ -210,8 +125,7 @@ public abstract class BaseElement<P> implements IBaseElement {
             if (isClass(type, Page.class)) {
                 instance = (BaseElement) type.newInstance();
                 instance.fillPage(field, parent);
-            }
-            else {
+            } else {
                 instance = createChildFromField(parent, field, type);
                 instance.function = getFunction(field);
             }
@@ -220,17 +134,21 @@ public abstract class BaseElement<P> implements IBaseElement {
             field.set(parent, instance);
             if (isInterface(field, IComposite.class))
                 InitElements(instance);
-        } catch (Exception|AssertionError ex) {
-            throw exception(format("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage()); }
+        } catch (Exception | AssertionError ex) {
+            throw exception(format("Error in setElement for field '%s' with parent '%s'", field.getName(), parent.getClass().getSimpleName()) + LineBreak + ex.getMessage());
+        }
     }
 
     public static BaseElement createChildFromField(Object parent, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, parent);
         if (instance == null)
-            try { instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Exception|AssertionError ignore) { throw exception(
-                    format("Can't create child for parent '%s' with type '%s'",
-                            parent.getClass().getSimpleName(), field.getType().getName())); }
+            try {
+                instance = getElementInstance(type, field.getName(), getNewLocator(field));
+            } catch (Exception | AssertionError ignore) {
+                throw exception(
+                        format("Can't create child for parent '%s' with type '%s'",
+                                parent.getClass().getSimpleName(), field.getType().getName()));
+            }
         else if (instance.getLocator() == null)
             instance.avatar.byLocator = getNewLocator(field);
         instance.avatar.context = (isBaseElement(parent))
@@ -257,11 +175,6 @@ public abstract class BaseElement<P> implements IBaseElement {
                     parentType.getAnnotation(JPage.class), null);
     }
 
-    public void fillPage(Field field, Object parent) {
-        if (field.isAnnotationPresent(JPage.class))
-            fillPageFromAnnotaiton((Page) this, field.getAnnotation(JPage.class), parent);
-    }
-
     private static boolean isBaseElement(Object obj) {
         return isClass(obj.getClass(), BaseElement.class);
     }
@@ -278,9 +191,10 @@ public abstract class BaseElement<P> implements IBaseElement {
                 return (BaseElement) classType.getDeclaredConstructor(By.class).newInstance(newLocator);
             throw exception("Unknown interface: " + type +
                     ". Add relation interface -> class in VIElement.InterfaceTypeMap");
-        } catch (Exception|AssertionError ex) {
+        } catch (Exception | AssertionError ex) {
             throw exception(format("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getName()) +
-                    LineBreak + ex.getMessage()); }
+                    LineBreak + ex.getMessage());
+        }
     }
 
     private static By getNewLocator(Field field) {
@@ -295,24 +209,16 @@ public abstract class BaseElement<P> implements IBaseElement {
             return (byLocator != null)
                     ? byLocator
                     : getFindByLocator(field.getAnnotation(FindBy.class));
-        } catch (Exception|AssertionError ex) {
+        } catch (Exception | AssertionError ex) {
             throw exception(format("Error in get locator for type '%s'", field.getType().getName()) +
-                    LineBreak + ex.getMessage()); }
+                    LineBreak + ex.getMessage());
+        }
     }
 
-    public static JActionTT<String, JActionT<String>> setValueRule = (text, action) -> {
-        if (text == null) return;
-        action.invoke(text);
-    };
-    public static void setValueRule(String text, JActionT<String> action)  {
+    public static void setValueRule(String text, JActionT<String> action) {
         setValueRule.invoke(text, action);
     }
-    public static JActionTT<String, JActionT<String>> setValueEmptyAction = (text, action) -> {
-        if (text == null || text.equals("")) return;
-        action.invoke(text.equals("#CLEAR#") ? "" : text);
-    };
 
-    private static MapArray<Class, Class> map;
     private static MapArray<Class, Class> getInterfacesMap() {
         try {
             if (map == null)
@@ -341,7 +247,143 @@ public abstract class BaseElement<P> implements IBaseElement {
                         {IDatePicker.class, DatePicker.class},
                 });
             return map;
-        } catch (Exception|AssertionError ex) { throw exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage()); }
+        } catch (Exception | AssertionError ex) {
+            throw exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage());
+        }
+    }
+
+    public String getName() {
+        return name != null ? name : getTypeName();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean haveLocator() {
+        return avatar.haveLocator();
+    }
+
+    public WebDriver getDriver() {
+        return avatar.getDriver();
+    }
+
+    public By getLocator() {
+        return avatar.byLocator;
+    }
+
+    public void setAvatar(By byLocator, GetElementModule avatar) {
+        this.avatar = new GetElementModule(byLocator, avatar.context, this);
+        this.avatar.localElementSearchCriteria = avatar.localElementSearchCriteria;
+    }
+
+    public GetElementModule getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(GetElementModule avatar) {
+        this.avatar = avatar;
+    }
+
+    protected void setWaitTimeout(long mSeconds) {
+        logger.debug("Set wait timeout to " + mSeconds);
+        getDriver().manage().timeouts().implicitlyWait(mSeconds, MILLISECONDS);
+    }
+
+    /**
+     * Get Parent Class Name
+     *
+     * @return Parent Canonical Class Name
+     */
+    protected String getParentClassName() {
+        if (parent == null) {
+            return "";
+        }
+        if (simpleClassName) {
+            return parent.getClass().getSimpleName();
+        }
+        return parent.getClass().getCanonicalName();
+    }
+
+    protected String getTypeName() {
+        return getClass().getSimpleName();
+    }
+
+    // Page Objects init
+
+    protected String getParentName() {
+        if (parentTypeName == null)
+            parentTypeName = (parent != null) ? parent.getClass().getSimpleName() : "No Parent";
+        return parentTypeName;
+    }
+
+    protected void setParentName(String parrentName) {
+        parentTypeName = parrentName;
+    }
+
+    protected JavascriptExecutor jsExecutor() {
+        return (JavascriptExecutor) getDriver();
+    }
+
+    @Override
+    public String toString() {
+        return (simpleLogFormat)
+                ? format("%s %s.%s", getTypeName(), getParentName(), getName())
+                : format("Name: '%s', Type: '%s' In: '%s', %s",
+                getName(), getTypeName(), getParentName(), avatar);
+    }
+
+    public void defaultLogAction(String actionName) {
+        logger.info(format((simpleLogFormat)
+                        ? "%s at %s"
+                        : "Perform action '%s' with element (%s)",
+                actionName, this.toString()));
+    }
+
+    public void defaultLogResultAction(String actionName, String stringResult, LogSettings logSettings) {
+        if (simpleLogFormat)
+            logger.info(format("%s at %s %s.%s, result = '%s'", actionName, getTypeName(), getParentName(), getName(), substring(stringResult, 0, 255)));
+        else
+            logger.toLog(stringResult, logSettings);
+    }
+
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction) {
+        return doJActionResult(actionName, viAction, null, new LogSettings());
+    }
+
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction, JFuncTT<TResult, String> logResult) {
+        return doJActionResult(actionName, viAction, logResult, new LogSettings());
+    }
+
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction, LogSettings logSettings) {
+        return doJActionResult(actionName, viAction, null, logSettings);
+    }
+
+    protected final <TResult> TResult doJActionResult(String actionName, JFuncT<TResult> viAction,
+                                                      JFuncTT<TResult, String> logResult, LogSettings logSettings) {
+        try {
+            processDemoMode();
+            return invocationScenarioWithResult.invoke(this, actionName, viAction, logResult, logSettings);
+        } catch (Exception | AssertionError ex) {
+            throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+        }
+    }
+
+    protected final void doJAction(String actionName, JAction viAction) {
+        try {
+            processDemoMode();
+            invocationScenario.invoke(this, actionName, viAction);
+        } catch (Exception | AssertionError ex) {
+            throw exception(format("Failed to do '%s' action. Exception: %s", actionName, ex));
+        }
+    }
+
+    private void processDemoMode() {
+    }
+
+    public void fillPage(Field field, Object parent) {
+        if (field.isAnnotationPresent(JPage.class))
+            fillPageFromAnnotaiton((Page) this, field.getAnnotation(JPage.class), parent);
     }
 
     /**

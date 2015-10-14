@@ -5,9 +5,9 @@ import com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes;
 import com.ggasoftware.uitest.control.base.logger.enums.LogLevels;
 import com.ggasoftware.uitest.control.base.map.MapArray;
 
+import static com.ggasoftware.uitest.control.base.logger.enums.BusinessInfoTypes.*;
 import static com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes.*;
 import static com.ggasoftware.uitest.control.base.logger.enums.LogLevels.*;
-import static com.ggasoftware.uitest.control.base.logger.enums.BusinessInfoTypes.*;
 import static java.lang.String.format;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
@@ -16,6 +16,18 @@ import static java.util.Arrays.asList;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public abstract class AbstractLogger implements ILogger {
+    private boolean preventDuplicates = true;
+    private MapArray<String, String> messagesMap = new MapArray<>();
+    private LogSettings logSettings;
+
+    public AbstractLogger() {
+        this(INFO);
+    }
+
+    public AbstractLogger(LogLevels logLevel) {
+        this.logSettings = new LogSettings(logLevel);
+    }
+
     public void init(String message, Object... args) {
         if (logSettings.logLevel.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId()))
@@ -78,6 +90,7 @@ public abstract class AbstractLogger implements ILogger {
         StackTraceElement stackTraceLine = currentThread().getStackTrace()[3];
         return stackTraceLine.getLineNumber() + ":" + stackTraceLine.getClassName();
     }
+
     private boolean duplicated(String message, String lineId) {
         if (!preventDuplicates) return false;
         if (messagesMap.keys().contains(lineId) && messagesMap.get(lineId).equals(message))
@@ -85,35 +98,44 @@ public abstract class AbstractLogger implements ILogger {
         messagesMap.addOrReplace(lineId, message);
         return false;
     }
-    private boolean preventDuplicates = true;
-    private MapArray<String, String> messagesMap = new MapArray<>();
 
     public void toLog(String message, LogSettings settings, Object... args) {
         switch (settings.logLevel) {
-            case FATAL: fatal(message, args); break;
-            case ERROR: error(settings.logInfoType, message, args); break;
-            case WARNING: warning(settings.logInfoType, message, args); break;
-            case INFO: info(message, args); break;
-            case DEBUG: debug(message, args); break;
+            case FATAL:
+                fatal(message, args);
+                break;
+            case ERROR:
+                error(settings.logInfoType, message, args);
+                break;
+            case WARNING:
+                warning(settings.logInfoType, message, args);
+                break;
+            case INFO:
+                info(message, args);
+                break;
+            case DEBUG:
+                debug(message, args);
+                break;
         }
     }
 
-    private Object[] wrap(Object[] args) { return args.length == 0 ? null : args; }
+    private Object[] wrap(Object[] args) {
+        return args.length == 0 ? null : args;
+    }
 
-    protected void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {}
+    protected void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
+    }
+
     protected void inLog(String message, BusinessInfoTypes infoType) {
         inLog(message, FATAL, BUSINESS);
     }
 
-    public void setLogLevel(LogLevels logLevel) { this.logSettings.logLevel = logLevel; }
-    public AbstractLogger() { this(INFO); }
-    public AbstractLogger(LogLevels logLevel) {
-        this.logSettings = new LogSettings(logLevel);
-    }
-
-    private LogSettings logSettings;
     public LogLevels getLogLevel() {
         return logSettings.logLevel;
+    }
+
+    public void setLogLevel(LogLevels logLevel) {
+        this.logSettings.logLevel = logLevel;
     }
 
     private boolean isMatchLogInfoType(LogInfoTypes logInfoType) {

@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.autoit;
 
 import com.sun.jna.Library;
@@ -22,13 +24,7 @@ import com.sun.jna.WString;
  *
  * @author Belousov Andrey
  */
-public interface UAutoItXLib extends Library
-{
-    abstract class LPPOINT extends Structure {
-        public int X;
-        public int Y;
-    }
-
+public interface UAutoItXLib extends Library {
     void AU3_Init();
 
     int AU3_error();
@@ -36,9 +32,9 @@ public interface UAutoItXLib extends Library
     int AU3_AutoItSetOption(WString Option, int Value);
 
     void AU3_BlockInput(int Flag); // 1 = disable user input, 0 enable user input (to have auto it run without
-    // interference)
 
     void AU3_CDTray(WString Drive, WString Action); // drive: ,"open" or "closed"
+    // interference)
 
     void AU3_ClipGet(byte[] Clip, int BufSize);
 
@@ -219,5 +215,10 @@ public interface UAutoItXLib extends Library
     int AU3_WinWaitClose(WString Title, WString Text, int Timeout);
 
     int AU3_WinWaitNotActive(WString Title, WString Text, int Timeout);
+
+    abstract class LPPOINT extends Structure {
+        public int X;
+        public int Y;
+    }
 
 }

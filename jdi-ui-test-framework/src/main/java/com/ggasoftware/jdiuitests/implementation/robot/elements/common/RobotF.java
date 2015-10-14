@@ -13,13 +13,17 @@ import static java.awt.event.KeyEvent.*;
  * Created by Roman_Iovlev on 9/7/2015.
  */
 public class RobotF {
+    public static RobotF robot = new RobotF();
     private Robot robotInstance;
+
     public RobotF() {
         try {
             robotInstance = new Robot();
-        } catch (Exception ex) { throw JDISettings.exception("Can't instantiate Robot"); }
+        } catch (Exception ex) {
+            throw JDISettings.exception("Can't instantiate Robot");
+        }
     }
-    public static RobotF robot = new RobotF();
+
     public void pasteText(String text) {
         try {
             StringSelection stringSelection = new StringSelection(text);
@@ -29,7 +33,7 @@ public class RobotF {
             sleep(1000);
             robotInstance.keyPress(VK_CONTROL);
             robotInstance.keyPress(VK_V);
-            
+
             robotInstance.keyRelease(VK_CONTROL);
             robotInstance.keyPress(VK_ENTER);
             robotInstance.keyRelease(VK_ENTER);

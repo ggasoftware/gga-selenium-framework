@@ -6,12 +6,23 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.ba
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface ILink extends IClickable, IText {
-    /** Get link destination */
+    /**
+     * Get link destination
+     */
     String getReference();
-    /** Wait while link destination contains expected text. Returns link destination */
+
+    /**
+     * Wait while link destination contains expected text. Returns link destination
+     */
     String waitReference(String text);
-    /** Wait while link destination contains expected text. Returns link destination */
+
+    /**
+     * Wait while link destination contains expected text. Returns link destination
+     */
     String waitMatchReference(String regEx);
-    /** Get links tooltip */
+
+    /**
+     * Get links tooltip
+     */
     String getTooltip();
 }

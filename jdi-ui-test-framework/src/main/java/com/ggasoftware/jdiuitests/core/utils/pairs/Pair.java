@@ -7,8 +7,7 @@ public class Pair<TFirst, TSecond> {
     public TFirst key;
     public TSecond value;
 
-    public Pair(TFirst value1, TSecond value2)
-    {
+    public Pair(TFirst value1, TSecond value2) {
         key = value1;
         value = value2;
     }

@@ -3,7 +3,8 @@ package com.ggasoftware.jdiuitests.core.utils.usefulUtils;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.os.WindowsUtils;
 
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.*;
+import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.first;
+import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.where;
 import static com.ggasoftware.jdiuitests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
 
 /**
@@ -17,7 +18,8 @@ public class WebDriverUtils {
                 killPID(pid);
                 pid = getPid();
             }
-        } catch (Exception ignore) { }
+        } catch (Exception ignore) {
+        }
     }
 
     private static String getPid() {

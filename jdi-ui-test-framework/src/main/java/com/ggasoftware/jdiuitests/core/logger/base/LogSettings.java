@@ -17,9 +17,10 @@ public class LogSettings {
     public LogSettings() {
         this(LogLevels.INFO);
     }
+
     public LogSettings(LogLevels logLevel, LogInfoTypes... logInfoTypes) {
         this.logLevel = logLevel;
-        switch(logInfoTypes.length) {
+        switch (logInfoTypes.length) {
             case 0:
                 this.logInfoTypes = LogInfoTypes.BUSINESS.type + LogInfoTypes.FRAMEWORK.type + LogInfoTypes.TECHNICAL.type;
                 return;

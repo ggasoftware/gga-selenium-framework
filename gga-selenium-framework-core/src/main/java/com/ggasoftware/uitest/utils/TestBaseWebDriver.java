@@ -1,14 +1,14 @@
 /**
  * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- * <p/>
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- * <p/>
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- * <p/>
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
  * *************************************************************************
@@ -37,11 +37,11 @@ import java.util.Collections;
  * @author Zhukov Anatoliy
  */
 public class TestBaseWebDriver extends TestBase {
+    public static final String screenshotDirectory = "target/surefire-reports/html/screenshots";
     public static WebDriver driver;
     public static String browserType = "chrome";
     public static boolean grid = false;
     public static String gridHub = "http://localhost:4444/wd/hub";
-    public static final String screenshotDirectory = "target/surefire-reports/html/screenshots";
     public static boolean simpleClassName = true;
     public static boolean takePassedScreenshot = false;
     public static boolean logFindElementLocator = true;
@@ -51,7 +51,7 @@ public class TestBaseWebDriver extends TestBase {
     public static String applicationVersion;
     public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = el -> el != null;
     public static boolean selectFirstElementIfMultipleFound = true;
-//    public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = WebElement::isDisplayed;
+    //    public static JFuncTT<WebElement, Boolean> defaultSearchCriteria = WebElement::isDisplayed;
 //    public static boolean selectFirstElementIfMultipleFound = false;
     public static boolean simpleLogFormat = true;
     public static ILogger logger = TestNGLog4JLogger.logger;

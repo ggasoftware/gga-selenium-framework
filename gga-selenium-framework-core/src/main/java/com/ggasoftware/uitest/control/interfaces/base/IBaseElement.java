@@ -9,8 +9,12 @@ import org.openqa.selenium.WebDriver;
  */
 public interface IBaseElement {
     WebDriver getDriver();
+
     By getLocator();
+
     void setAvatar(By byLocator, GetElementModule avatar);
+
     GetElementModule getAvatar();
+
     String getName();
 }

@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.utils;
 
 import com.ggasoftware.uitest.control.Element;
@@ -34,7 +36,7 @@ import static com.ggasoftware.uitest.utils.TestBaseWebDriver.allure;
  * @author Zharov Alexandr
  * @author Zhukov Anatoliy
  */
-public class ReporterNGExt extends ReporterNG{
+public class ReporterNGExt extends ReporterNG {
 
     public static final char BUSINESS_LEVEL = '2';
     public static final char COMPONENT_LEVEL = '1';
@@ -64,10 +66,10 @@ public class ReporterNGExt extends ReporterNG{
      * @return log level (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      */
     //TODO Improve this method
-    private static char getLogLevel(Object element){
+    private static char getLogLevel(Object element) {
         if (ClassUtils.getPackageName(element.getClass()).contains(".panel")) {
             return COMPONENT_LEVEL;
-        } else if(ClassUtils.getAllSuperclasses(element.getClass()).contains(TestBaseWebDriver.class)){
+        } else if (ClassUtils.getAllSuperclasses(element.getClass()).contains(TestBaseWebDriver.class)) {
             return BUSINESS_LEVEL;
         }
         return TECHNICAL_LEVEL;
@@ -87,7 +89,7 @@ public class ReporterNGExt extends ReporterNG{
             hasTake(true);
             Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), takeScreenshotRemote(String.format("%s: %s", message, status))));
             hasTake(hasOldValue);
-        }else {
+        } else {
             if (takePassedScreenshot) {
                 Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), takeScreenshotRemote(String.format("%s: %s", message, status))));
             }
@@ -314,17 +316,17 @@ public class ReporterNGExt extends ReporterNG{
         } else {
             String name = "";
             String className = parentClassName;
-            if (Element.class.isAssignableFrom(elClass)){
+            if (Element.class.isAssignableFrom(elClass)) {
                 name = ((Element) element).getName();
-            }else if (Elements.class.isAssignableFrom(elClass)){
+            } else if (Elements.class.isAssignableFrom(elClass)) {
                 name = ((Elements) element).getName();
             }
             if (name.length() > 0) {
                 className += name.contains(" ") ? ".'" + name + "'" : "." + name;
             }
-            if (className.length() <=0){
+            if (className.length() <= 0) {
                 return element.getClass().getSimpleName();
-            }else {
+            } else {
                 return (element.getClass().getSimpleName() + " ") + className;
             }
         }
@@ -360,6 +362,7 @@ public class ReporterNGExt extends ReporterNG{
             action(className, actionName);
         }
     }
+
     @Step
     public static void action(String element, String actionName) {
         logTechnical("Allure action step");
@@ -390,6 +393,6 @@ public class ReporterNGExt extends ReporterNG{
         Reporter.log(String.format("%s %s~ %s", logLevel, DateUtil.now(SDFP), takeScreenshotRemote(String.format("%s: Failed", message))));
         hasTake(hasOldValue);
     }
-    
+
 
 }

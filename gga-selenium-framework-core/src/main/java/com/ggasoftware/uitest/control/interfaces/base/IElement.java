@@ -9,8 +9,10 @@ import org.openqa.selenium.WebElement;
 public interface IElement<P> extends IBaseElement, IVisible {
     @JDIAction
     WebElement getWebElement();
+
     @JDIAction
     boolean waitAttribute(String name, String value);
+
     @JDIAction
     P setAttributeJS(String attributeName, String value);
 }

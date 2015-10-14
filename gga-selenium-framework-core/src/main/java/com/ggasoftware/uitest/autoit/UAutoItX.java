@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.autoit;
 
 import com.ggasoftware.uitest.utils.ReporterNGExt;
@@ -24,6 +26,26 @@ import com.sun.jna.WString;
  * @author Belousov Andrey
  */
 public class UAutoItX {
+    private static UAutoItXLib instance;
+
+    private static UAutoItXLib lib() {
+        if (instance == null) {
+            String dllpath, dllname;
+            if (System.getProperty("sun.arch.data.model").equals("64")) {
+                dllname = "AutoItX3_x64.dll";
+            } else {
+                dllname = "AutoItX3.dll";
+            }
+            if (System.getProperty("AutoItX3.dll.path") != null) {
+                dllpath = String.format("%s\\%s", System.getProperty("AutoItX3.dll.path"), dllname);
+            } else {
+                dllpath = dllname;
+            }
+            instance = (UAutoItXLib) Native.loadLibrary(dllpath, UAutoItXLib.class);
+        }
+        return instance;
+    }
+
     public int MouseMove(int x, int y, int s) {
         ReporterNGExt.logAction("", "", String.format("AutoIt - MouseMove: x=%d y=%d s=%d", x, y, s));
         return lib().AU3_MouseMove(x, y, s);
@@ -76,7 +98,6 @@ public class UAutoItX {
         ReporterNGExt.logAction("", "", String.format("AutoIt - WinExists: title [%s] text [%s]", title, text));
         return lib().AU3_WinExists(new WString(title), new WString(text));
     }
-
 
     public int Error() {
         return lib().AU3_error();
@@ -424,26 +445,5 @@ public class UAutoItX {
 
     public int WinWaitNotActive(String Title, String Text, int Timeout) {
         return lib().AU3_WinWaitNotActive(new WString(Title), new WString(Text), Timeout);
-    }
-
-
-    private static UAutoItXLib instance;
-
-    private static UAutoItXLib lib() {
-        if (instance == null) {
-            String dllpath, dllname;
-            if (System.getProperty("sun.arch.data.model").equals("64")) {
-                dllname = "AutoItX3_x64.dll";
-            } else {
-                dllname = "AutoItX3.dll";
-            }
-            if (System.getProperty("AutoItX3.dll.path") != null) {
-                dllpath = String.format("%s\\%s", System.getProperty("AutoItX3.dll.path"), dllname);
-            } else {
-                dllpath = dllname;
-            }
-            instance = (UAutoItXLib) Native.loadLibrary(dllpath, UAutoItXLib.class);
-        }
-        return instance;
     }
 }

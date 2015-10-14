@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.utils;
 
 import org.apache.commons.codec.binary.Base64;
@@ -32,11 +34,11 @@ import java.text.SimpleDateFormat;
  */
 public final class ScreenShotMaker {
 
-    private ScreenShotMaker(){}
-
     private static String path = "\\";
     private static String dir = "\\";
     private static boolean hasTake = true;
+    private ScreenShotMaker() {
+    }
 
     /**
      * Set ScreenShotMaker path

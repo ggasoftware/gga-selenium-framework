@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.*;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.isClass;
 import static com.ggasoftware.jdiuitests.core.utils.common.Timer.sleep;
 import static com.ggasoftware.jdiuitests.implementation.selenium.driver.RunTypes.LOCAL;
@@ -37,18 +35,30 @@ import static org.openqa.selenium.remote.DesiredCapabilities.internetExplorer;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDriver*/ {
+    public JFuncTT<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
+    public RunTypes runType = LOCAL;
+    public String driversPath = "src\\main\\resources";
+    public String currentDriverName = "";
+    public boolean isDemoMode = false;
+    public HighlightSettings highlightSettings = new HighlightSettings();
+    private MapArray<String, JFuncT<WebDriver>> drivers = new MapArray<>();
+    private MapArray<String, WebDriver> runDrivers = new MapArray<>();
+
     public SeleniumDriverFactory() {
         this(false, new HighlightSettings(), WebElement::isDisplayed);
     }
+
     public SeleniumDriverFactory(boolean isDemoMode) {
         this(isDemoMode, new HighlightSettings(), WebElement::isDisplayed);
     }
     public SeleniumDriverFactory(HighlightSettings highlightSettings) {
         this(false, highlightSettings, WebElement::isDisplayed);
     }
+
     public SeleniumDriverFactory(JFuncTT<WebElement, Boolean> elementSearchCriteria) {
         this(false, new HighlightSettings(), elementSearchCriteria);
     }
+
     public SeleniumDriverFactory(boolean isDemoMode, HighlightSettings highlightSettings,
                                  JFuncTT<WebElement, Boolean> elementSearchCriteria) {
         this.isDemoMode = isDemoMode;
@@ -56,23 +66,28 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         this.elementSearchCriteria = elementSearchCriteria;
     }
 
-    private MapArray<String, JFuncT<WebDriver>> drivers = new MapArray<>();
-    private MapArray<String, WebDriver> runDrivers = new MapArray<>();
-    public boolean hasDrivers() { return drivers.size() > 0; }
+    public boolean hasDrivers() {
+        return drivers.size() > 0;
+    }
+
+    // REGISTER DRIVER
+
     public void registerDriver(JFuncT<WebDriver> driver) {
         registerDriver("Driver" + drivers.size() + 1, driver);
     }
-    public JFuncTT<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
-    public RunTypes runType = LOCAL;
-    public void setRunType(String runType){
+
+    public void setRunType(String runType) {
         switch (runType.toLowerCase()) {
             case "local":
-                this.runType = LOCAL; break;
-            case "sauce lab": case "saucelab": case "sauce_lab":
-                this.runType = SAUCE_LAB; break;
+                this.runType = LOCAL;
+                break;
+            case "sauce lab":
+            case "saucelab":
+            case "sauce_lab":
+                this.runType = SAUCE_LAB;
+                break;
         }
     }
-    public String driversPath = "src\\main\\resources";
 
     private String getDriversPath() {
         return ((driversPath.contains(":\\"))
@@ -80,25 +95,28 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
                 : asserter.silent(() -> new File(driversPath).getCanonicalPath())).replaceAll("/*$", "") + "\\";
     }
 
-    // REGISTER DRIVER
-
     public void registerDriver(String driverName) {
         switch (driverName.toLowerCase()) {
             case "chrome":
-                registerDriver(DriverTypes.CHROME); return;
+                registerDriver(DriverTypes.CHROME);
+                return;
             case "firefox":
-                registerDriver(DriverTypes.FIREFOX); return;
-            case "ie": case "internetexplorer":
-                registerDriver(DriverTypes.IE); return;
+                registerDriver(DriverTypes.FIREFOX);
+                return;
+            case "ie":
+            case "internetexplorer":
+                registerDriver(DriverTypes.IE);
+                return;
             default:
                 throw exception("Unknown driver: " + driverName);
         }
     }
 
-    public void registerDriver(DriverTypes driverType)  {
+    public void registerDriver(DriverTypes driverType) {
         switch (runType) {
             case LOCAL:
-                registerLocalDriver(driverType); return;
+                registerLocalDriver(driverType);
+                return;
             case SAUCE_LAB:
                 registerDriver("SauceLab " + driverType,
                         () -> new RemoteWebDriver(SauceLabRunner.getSauceUrl(), SauceLabRunner.getSauceDesiredCapabilities(driverType)));
@@ -107,7 +125,9 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         throw exception("Unknown driver: " + driverType);
     }
 
-    private void registerLocalDriver(DriverTypes driverType)  {
+    // GET DRIVER
+
+    private void registerLocalDriver(DriverTypes driverType) {
         switch (driverType) {
             case CHROME:
                 setProperty("webdriver.chrome.driver", getDriversPath() + "chromedriver.exe");
@@ -140,14 +160,13 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         currentDriverName = driverName;
     }
 
-    // GET DRIVER
-
     public WebDriver getDriver() {
         if (!currentDriverName.equals(""))
             return getDriver(currentDriverName);
         registerDriver(DriverTypes.CHROME);
         return getDriver(DriverTypes.CHROME.toString());
     }
+
     public WebDriver getDriver(String driverName) {
         try {
             if (runDrivers.keys().contains(driverName))
@@ -159,8 +178,11 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
             resultDriver.manage().window().maximize();
             resultDriver.manage().timeouts().implicitlyWait(timeouts.waitElementSec, SECONDS);
             return resultDriver;
-        } catch (Exception ex) { throw exception("Can't get driver"); }
+        } catch (Exception ex) {
+            throw exception("Can't get driver");
+        }
     }
+
     public void reopenDriver() {
         if (runDrivers.keys().contains(currentDriverName)) {
             runDrivers.get(currentDriverName).close();
@@ -169,25 +191,24 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         if (drivers.keys().contains(currentDriverName))
             getDriver();
     }
+
     public void switchToDriver(String driverName) {
         if (drivers.keys().contains(driverName))
             currentDriverName = driverName;
         else
             throw exception("Can't switch to Webdriver '%s'. This Driver name not registered", driverName);
     }
-    public String currentDriverName = "";
 
-
-    public boolean isDemoMode = false;
     public void processDemoMode(BaseElement element) {
         if (isDemoMode)
             if (isClass(element.getClass(), Element.class))
-                highlight((Element)element, highlightSettings);
+                highlight((Element) element, highlightSettings);
     }
 
-    public HighlightSettings highlightSettings = new HighlightSettings();
+    public void highlight(IElement element) {
+        highlight(element, highlightSettings);
+    }
 
-    public void highlight(IElement element) { highlight(element, highlightSettings); }
     public void highlight(IElement element, HighlightSettings highlightSettings) {
         if (highlightSettings == null)
             highlightSettings = new HighlightSettings();

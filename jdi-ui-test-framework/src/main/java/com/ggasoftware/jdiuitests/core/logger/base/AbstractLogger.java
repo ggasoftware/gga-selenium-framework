@@ -15,6 +15,22 @@ import static java.util.Arrays.asList;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public abstract class AbstractLogger implements ILogger {
+    private boolean preventDuplicates = true;
+    private MapArray<String, String> messagesMap = new MapArray<>();
+    private LogSettings logSettings;
+
+    public AbstractLogger() {
+        this(INFO);
+    }
+
+    public AbstractLogger(LogLevels logLevel) {
+        this(new LogSettings(logLevel));
+    }
+
+    public AbstractLogger(LogSettings logSettings) {
+        this.logSettings = logSettings;
+    }
+
     public void init(String message, Object... args) {
         if (logSettings.logLevel.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId()))
@@ -82,6 +98,7 @@ public abstract class AbstractLogger implements ILogger {
                 stackTraceLine = line;
         return stackTraceLine != null ? stackTraceLine.getLineNumber() + ":" + stackTraceLine.getClassName() : null;
     }
+
     private boolean duplicated(String message, String lineId) {
         if (!preventDuplicates) return false;
         if (messagesMap.keys().contains(lineId) && messagesMap.get(lineId).equals(message))
@@ -90,39 +107,42 @@ public abstract class AbstractLogger implements ILogger {
         return false;
     }
 
-    private boolean preventDuplicates = true;
     public ILogger forbidDuplicatedLines() {
         preventDuplicates = false;
         return this;
     }
-    private MapArray<String, String> messagesMap = new MapArray<>();
 
     public final void toLog(String message, LogSettings settings, Object... args) {
         switch (settings.logLevel) {
-            case FATAL: fatal(message, args); break;
-            case ERROR: error(settings.logInfoType, message, args); break;
-            case WARNING: warning(settings.logInfoType, message, args); break;
-            case INFO: info(message, args); break;
-            case DEBUG: debug(message, args); break;
+            case FATAL:
+                fatal(message, args);
+                break;
+            case ERROR:
+                error(settings.logInfoType, message, args);
+                break;
+            case WARNING:
+                warning(settings.logInfoType, message, args);
+                break;
+            case INFO:
+                info(message, args);
+                break;
+            case DEBUG:
+                debug(message, args);
+                break;
         }
     }
 
-    private Object[] wrap(Object[] args) { return args.length == 0 ? null : args; }
+    private Object[] wrap(Object[] args) {
+        return args.length == 0 ? null : args;
+    }
 
-    protected void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {}
+    protected void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
+    }
+
     protected void inLog(String message, BusinessInfoTypes infoType) {
         inLog(message, FATAL, BUSINESS);
     }
 
-    public AbstractLogger() { this(INFO); }
-    public AbstractLogger(LogLevels logLevel) {
-        this(new LogSettings(logLevel));
-    }
-    public AbstractLogger(LogSettings logSettings) {
-        this.logSettings = logSettings;
-    }
-
-    private LogSettings logSettings;
     public LogLevels getLogLevel() {
         return logSettings.logLevel;
     }

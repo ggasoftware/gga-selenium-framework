@@ -8,5 +8,6 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.co
  */
 public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, IClickable {
     void expand();
+
     void close();
 }

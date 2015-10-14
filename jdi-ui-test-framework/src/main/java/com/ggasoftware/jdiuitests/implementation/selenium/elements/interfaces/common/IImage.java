@@ -7,10 +7,15 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  * Created by Roman_Iovlev on 7/9/2015.
  */
 public interface IImage extends IClickable {
-    /** Get image source */
+    /**
+     * Get image source
+     */
     @JDIAction
     String getSource();
-    /** Get image alt/hint text */
+
+    /**
+     * Get image alt/hint text
+     */
     @JDIAction
     String getAlt();
 }

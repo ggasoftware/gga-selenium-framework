@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.CheckPageTypes.*;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.CheckPageTypes.NONE;
 
 /**
  * Created by Roman_Iovlev on 7/24/2015.
@@ -16,10 +16,15 @@ import static com.ggasoftware.jdiuitests.implementation.selenium.elements.compos
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface JPage {
     String url() default "";
+
     String title() default "";
+
     String urlTemplate() default "";
+
     CheckPageTypes checkType() default NONE;
+
     CheckPageTypes urlCheckType() default NONE;
+
     CheckPageTypes titleCheckType() default NONE;
 
 }

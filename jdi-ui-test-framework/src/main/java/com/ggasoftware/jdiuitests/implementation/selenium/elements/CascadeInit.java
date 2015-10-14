@@ -55,6 +55,7 @@ public abstract class CascadeInit implements IBaseElement {
         BaseElement.createFreeInstance = false;
         return parentInstance;
     }
+
     private static void initSubElements(Object parent, Object parentInstance) {
         foreach(deepGetFields(parent, IBaseElement.class),
                 field -> setElement(parent, parentInstance, field));
@@ -85,8 +86,7 @@ public abstract class CascadeInit implements IBaseElement {
                 if (instance == null)
                     instance = (BaseElement) type.newInstance();
                 fillPage(instance, field, parentType);
-            }
-            else {
+            } else {
                 instance = createChildFromFieldStatic(parentType, field, type);
                 instance.function = AnnotationsUtil.getFunction(field);
             }
@@ -101,6 +101,7 @@ public abstract class CascadeInit implements IBaseElement {
             throw exception("Error in setElement for field '%s' with parent '%s'", field.getName(), parentType.getClass().getSimpleName() + LineBreak + ex.getMessage());
         }
     }
+
     private static String getClassName(Object obj) {
         return obj == null ? "NULL Class" : obj.getClass().getSimpleName();
     }
@@ -116,8 +117,7 @@ public abstract class CascadeInit implements IBaseElement {
                 if (instance == null)
                     instance = (BaseElement) type.newInstance();
                 fillPage(instance, field, parent != null ? parent.getClass() : null);
-            }
-            else {
+            } else {
                 instance = createChildFromField(parentInstance, field, type);
                 instance.function = AnnotationsUtil.getFunction(field);
             }
@@ -138,15 +138,15 @@ public abstract class CascadeInit implements IBaseElement {
         if (field.isAnnotationPresent(JPage.class))
             AnnotationsUtil.fillPageFromAnnotaiton((Page) instance, field.getAnnotation(JPage.class), parentType);
     }
+
     private static BaseElement createChildFromFieldStatic(Class<?> parentClass, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, null);
         if (instance == null)
             try {
                 instance = getElementInstance(type, field.getName(), getNewLocator(field));
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw exception(format("Can't create child for parent '%s' with type '%s'",
-                            parentClass.getSimpleName(), field.getType().getSimpleName()));
+                        parentClass.getSimpleName(), field.getType().getSimpleName()));
             }
         else if (instance.getLocator() == null)
             instance.avatar.byLocator = getNewLocator(field);
@@ -158,15 +158,16 @@ public abstract class CascadeInit implements IBaseElement {
         }
         return instance;
     }
+
     private static BaseElement createChildFromField(Object parentInstance, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
         if (instance == null)
             try {
-                instance = getElementInstance(type, field.getName(), getNewLocator(field)); }
-            catch (Exception ex) {
+                instance = getElementInstance(type, field.getName(), getNewLocator(field));
+            } catch (Exception ex) {
                 throw exception(
-                    format("Can't create child for parent '%s' with type '%s'",
-                            parentInstance.getClass().getSimpleName(), field.getType().getSimpleName()));
+                        format("Can't create child for parent '%s' with type '%s'",
+                                parentInstance.getClass().getSimpleName(), field.getType().getSimpleName()));
             }
         else if (instance.getLocator() == null)
             instance.avatar.byLocator = getNewLocator(field);
@@ -189,6 +190,7 @@ public abstract class CascadeInit implements IBaseElement {
     private static boolean isBaseElement(Object obj) {
         return isClass(obj.getClass(), BaseElement.class);
     }
+
     private static BaseElement getElementInstance(Class<?> type, String fieldName, By newLocator) {
         try {
             if (!type.isInterface()) {

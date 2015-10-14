@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitests.implementation.testng.testRunner;
 
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
-import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.common.StringUtils;
+import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.usefulUtils.WebDriverUtils;
 import com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes;
 import org.testng.annotations.AfterSuite;
@@ -17,7 +17,10 @@ import java.util.Date;
 public class TestNGBase {
 
     protected static Timer timer;
-    public static long getTestRunTime() { return timer.timePassedInMSec(); }
+
+    public static long getTestRunTime() {
+        return timer.timePassedInMSec();
+    }
 
     @BeforeSuite(alwaysRun = true)
     public static void jdiSetUp() throws Exception {
@@ -32,7 +35,7 @@ public class TestNGBase {
     @AfterSuite(alwaysRun = true)
     public static void jdiTearDown() {
         JDISettings.logger.info("Test run finished. " + StringUtils.LineBreak + "Total test run time: " +
-            new SimpleDateFormat("HH:mm:ss.S").format(new Date(21 * 3600000 + getTestRunTime())));
+                new SimpleDateFormat("HH:mm:ss.S").format(new Date(21 * 3600000 + getTestRunTime())));
         WebDriverUtils.killAllRunWebDrivers();
     }
 }
