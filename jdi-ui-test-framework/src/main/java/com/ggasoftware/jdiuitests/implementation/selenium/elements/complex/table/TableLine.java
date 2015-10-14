@@ -58,7 +58,7 @@ abstract class TableLine extends Element implements ITableLine {
     }
     public String[] headers() {
         if (headers != null)
-            return headers;
+            return headers.clone();
         String[] localHeaders = Timer.getResultAction(this::getHeadersTextAction);
         localHeaders = (hasHeader)
             ? localHeaders

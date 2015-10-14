@@ -117,20 +117,21 @@ public class Table extends Text implements ITable {
                 .toArray(new String[1]);
     }
     protected String[] _footer;
-    public void setFooter(final String[] value) {
-        _footer = value;
+    private String[] getFooter() { return _footer.clone(); }
+    public void setFooter(String[] value) {
+        _footer = value.clone();
     }
     public final MapArray<String, SelectElement> header() { return columns().header(); }
     public final SelectElement header(String name) { return columns().header(name); }
     public String[] headers() { return columns().headers(); }
     public String[] footer() {
         if (_footer != null)
-            return _footer;
+            return getFooter();
         _footer = invoker.doJActionResult("Get Footer", this::getFooterAction);
         if (_footer == null || _footer.length == 0)
             return new String[] {};
         columns().setCount(_footer.length);
-        return _footer;
+        return getFooter();
     }
 
     public ICell cell(Column column, Row row) {
