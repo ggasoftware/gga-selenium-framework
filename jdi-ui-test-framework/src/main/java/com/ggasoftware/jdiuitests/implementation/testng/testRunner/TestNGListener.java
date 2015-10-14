@@ -15,8 +15,6 @@ package com.ggasoftware.jdiuitests.implementation.testng.testRunner;
 
 import com.ggasoftware.jdiuitests.core.asserter.Verify;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogInfoTypes;
-import com.ggasoftware.jdiuitests.core.settings.JDIData;
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
 import org.testng.ITestResult;
@@ -25,6 +23,8 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static com.ggasoftware.jdiuitests.core.settings.JDIData.testName;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.logger;
 import static org.testng.ITestResult.FAILURE;
 
 public class TestNGListener implements IInvokedMethodListener {
@@ -33,8 +33,8 @@ public class TestNGListener implements IInvokedMethodListener {
         if (iInvokedMethod.isTestMethod()) {
             Method testMethod = iInvokedMethod.getTestMethod().getConstructorOrMethod().getMethod();
             if (testMethod.isAnnotationPresent(Test.class)) {
-                JDIData.testName = testMethod.getName();
-                JDISettings.logger.info("== Test '%s' started ==", JDIData.testName);
+                testName = testMethod.getName();
+                logger.info("== Test '%s' started ==", testName);
             }
         }
     }
@@ -43,12 +43,12 @@ public class TestNGListener implements IInvokedMethodListener {
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
         if (method.isTestMethod()) {
             List<String> fails = Verify.getFails();
-            if (fails.size() > 0) {
+            if (!fails.isEmpty()) {
                 for (String fail : fails)
-                    JDISettings.logger.error(LogInfoTypes.BUSINESS, fail);
+                    logger.error(LogInfoTypes.BUSINESS, fail);
                 result.setStatus(FAILURE);
             }
-            JDISettings.logger.info("=== Test '%s' %s ===", JDIData.testName, getTestResult(result));
+            logger.info("=== Test '%s' %s ===", testName, getTestResult(result));
         }
     }
     private String getTestResult(ITestResult result) {

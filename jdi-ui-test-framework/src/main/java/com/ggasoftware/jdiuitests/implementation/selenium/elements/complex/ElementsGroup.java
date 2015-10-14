@@ -1,13 +1,14 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex;
 
+import com.ggasoftware.jdiuitests.core.settings.JDISettings;
+import com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IGroup;
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
-import com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils;
 import org.openqa.selenium.By;
 
 import static com.ggasoftware.jdiuitests.core.utils.common.EnumUtils.getEnumValue;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.CascadeInit.InitElements;
 
 
 /**
@@ -34,6 +35,7 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
             throw JDISettings.exception("Can't get instance of '%s' Element from Elements Group '%s'", name, toString());
         }
         instance.setAvatar(WebDriverByUtils.fillByTemplate(getLocator(), name), getAvatar());
+        InitElements(instance);
         return instance;
     }
 }

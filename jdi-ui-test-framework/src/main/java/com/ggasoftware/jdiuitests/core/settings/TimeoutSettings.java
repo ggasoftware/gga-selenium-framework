@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.core.settings;
 
-import com.ggasoftware.jdiuitests.core.asserter.BaseChecker;
+import static com.ggasoftware.jdiuitests.core.asserter.BaseChecker.setDefaulttimeout;
 
 /**
  * Created by 12345 on 04.07.2015.
@@ -14,7 +14,7 @@ public class TimeoutSettings {
 
     public void setCurrentTimeoutSec(int timeoutSec) {
         currentTimeoutSec = timeoutSec;
-        BaseChecker.defaultWaitTimeout = timeoutSec * 1000;
+        setDefaulttimeout(timeoutSec * 1000);
     }
 
     public TimeoutSettings() { setCurrentTimeoutSec(20); }

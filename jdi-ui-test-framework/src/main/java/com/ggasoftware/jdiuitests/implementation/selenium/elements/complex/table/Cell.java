@@ -25,19 +25,22 @@ import org.openqa.selenium.WebElement;
 class Cell extends SelectElement implements ISelect, ICell {
     private int rowIndex;
     private int columnIndex;
-    private WebElement webElement;
-    public void setWebElement(WebElement webElement) { this.webElement = webElement; }
     private Table table;
     private int columnNum;
-    public int columnNum() { return columnNum; }
+    private WebElement webElement;
     private int rowNum;
-    public int rowNum() { return rowNum; }
     private String columnName;
+    private String rowName;
+    private By cellLocatorTemplate = By.xpath(".//tr[{1}]/td[{0}]");
+    private Class<?>[] columnsTemplate;
+
+    public void setWebElement(WebElement webElement) { this.webElement = webElement; }
+    public int columnNum() { return columnNum; }
+    public int rowNum() { return rowNum; }
     public String columnName() {
         return (columnName != null && !columnName.equals(""))
             ? columnName
             : table.columns().headers()[columnNum-1]; }
-    private String rowName;
     public String rowName() {
         return (rowName != null && !rowName.equals(""))
                 ? rowName
@@ -46,8 +49,6 @@ class Cell extends SelectElement implements ISelect, ICell {
     @Override
     protected String getTextAction() {return get().getText(); }
 
-    private By cellLocatorTemplate = By.xpath(".//tr[{1}]/td[{0}]");
-    private Class<?>[] columnsTemplate;
 
     @Override
     protected void clickAction() { get().click(); }
@@ -60,8 +61,8 @@ class Cell extends SelectElement implements ISelect, ICell {
         T instance;
         try {
             instance = (clazz.isInterface())
-                    ? (T) MapInterfaceToElement.getClassFromInterface(clazz).newInstance()
-                    : (T) clazz.newInstance();
+                ? (T) MapInterfaceToElement.getClassFromInterface(clazz).newInstance()
+                : (T) clazz.newInstance();
         } catch (Exception ex) { throw JDISettings.exception("Can't get Cell from interface/class: " + LinqUtils.last((clazz + "").split("\\."))); }
         return get(instance);
     }
@@ -78,7 +79,7 @@ class Cell extends SelectElement implements ISelect, ICell {
     }
 
     public Cell(WebElement webElement, int columnNum, int rowNum, String colName, String rowName,
-                By cellLocatorTemplate, Class<?>[] columnsTemplate, Table table) {
+                By cellLocatorTemplate, Table table) {
         this.webElement = webElement;
         this.columnNum = columnNum;
         this.rowNum = rowNum;
@@ -86,11 +87,10 @@ class Cell extends SelectElement implements ISelect, ICell {
         this.rowName = rowName;
         if (cellLocatorTemplate != null)
             this.cellLocatorTemplate = cellLocatorTemplate;
-        this.columnsTemplate = columnsTemplate;
         this.table = table;
     }
     public Cell(int columnIndex, int rowIndex, int columnNum, int rowNum, String colName, String rowName,
-                By cellLocatorTemplate, Class<?>[] columnsTemplate, Table table) {
+                By cellLocatorTemplate, Table table) {
         this.columnIndex = columnIndex;
         this.rowIndex = rowIndex;
         this.columnNum = columnNum;
@@ -99,7 +99,6 @@ class Cell extends SelectElement implements ISelect, ICell {
         this.rowName = rowName;
         if (cellLocatorTemplate != null)
             this.cellLocatorTemplate = cellLocatorTemplate;
-        this.columnsTemplate = columnsTemplate;
         this.table = table;
     }
 

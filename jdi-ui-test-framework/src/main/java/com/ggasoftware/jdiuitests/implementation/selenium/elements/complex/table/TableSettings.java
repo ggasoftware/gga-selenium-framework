@@ -16,7 +16,7 @@ public class TableSettings {
         this.columnHasHeaders = columnHasHeaders;
         this.rowHasHeaders = rowHasHeaders;
     }
-    public TableSettings(String[] columnHeaders, String[] rowHeaders) {
+    public TableSettings(final String[] columnHeaders, final String[] rowHeaders) {
         this.columnHeaders = columnHeaders;
         this.rowHeaders = rowHeaders;
     }

@@ -26,7 +26,8 @@ import static java.util.Arrays.asList;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public abstract class BaseChecker implements IAsserter, IChecker {
-    public static long defaultWaitTimeout = 0;
+    private static long defaultWaitTimeout = 0;
+    public static void setDefaulttimeout(long timeout) {}
     public static DoScreen defaultDoScreenType = NO_SCREEN;
 
     protected abstract JActionT<String> throwFail();

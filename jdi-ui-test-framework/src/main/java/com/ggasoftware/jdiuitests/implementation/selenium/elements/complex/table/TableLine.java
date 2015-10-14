@@ -19,7 +19,10 @@ import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
  * Created by 12345 on 25.10.2014.
  */
 abstract class TableLine extends Element implements ITableLine {
-    public int startIndex = 1;
+    private int startIndex = 1;
+    public int getStartIndex() {
+        return startIndex;
+    }
     public boolean hasHeader;
     public ElementIndexType elementIndex;
 
@@ -38,7 +41,7 @@ abstract class TableLine extends Element implements ITableLine {
 
     public void clean() { headers = null; count = 0; }
     protected String[] headers;
-    public void setHeaders(String[] value) {
+    public void setHeaders(final String[] value) {
         if (table.cache)
             headers = value;
     }
@@ -47,8 +50,12 @@ abstract class TableLine extends Element implements ITableLine {
                 .toArray(new String[1]);
     }
     protected abstract List<WebElement> getHeadersAction();
-    public final MapArray<String, SelectElement> header() { return new MapArray<>(getHeadersAction(), WebElement::getText, SelectElement::new); }
-    public final SelectElement header(String name) { return header().get(name); }
+    public final MapArray<String, SelectElement> header() {
+        return new MapArray<>(getHeadersAction(), WebElement::getText, SelectElement::new);
+    }
+    public final SelectElement header(String name) {
+        return header().get(name);
+    }
     public String[] headers() {
         if (headers != null)
             return headers;
@@ -69,7 +76,7 @@ abstract class TableLine extends Element implements ITableLine {
     protected String[] getNumList(int count, int from) {
         List<String> result = new ArrayList<>();
         for (int i = from; i < count + from; i++)
-        result.add(i + "");
+        result.add(Integer.toString(i));
         return result.toArray(new String[count]);
     }
 

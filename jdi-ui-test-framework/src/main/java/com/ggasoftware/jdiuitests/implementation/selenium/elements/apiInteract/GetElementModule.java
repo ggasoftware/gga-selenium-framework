@@ -1,14 +1,14 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.apiInteract;
 
+import com.ggasoftware.jdiuitests.core.settings.JDISettings;
+import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
+import com.ggasoftware.jdiuitests.core.utils.common.PrintUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.core.utils.pairs.Pair;
 import com.ggasoftware.jdiuitests.core.utils.pairs.Pairs;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IBaseElement;
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
-import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
-import com.ggasoftware.jdiuitests.core.utils.common.PrintUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -17,9 +17,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.where;
-import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.print;
 import static java.lang.String.format;
 
 /**
@@ -83,11 +81,14 @@ public class GetElementModule {
     private WebElement getElementAction() {
         int timeout = JDISettings.timeouts.currentTimeoutSec;
         List<WebElement> result = getElementsAction();
-        if (result == null)
-            throw JDISettings.exception(failedToFindElementMessage, element, timeout);
-        if (result.size() > 1)
-            throw JDISettings.exception(findToMuchElementsMessage, result.size(), element, timeout);
-        return result.get(0);
+        switch (result.size()) {
+            case 0:
+                throw JDISettings.exception(failedToFindElementMessage, element, timeout);
+            case 1:
+                return result.get(0);
+            default:
+                throw JDISettings.exception(findToMuchElementsMessage, result.size(), element, timeout);
+        }
     }
 
     private static final String failedToFindElementMessage = "Can't find Element '%s' during %s seconds";

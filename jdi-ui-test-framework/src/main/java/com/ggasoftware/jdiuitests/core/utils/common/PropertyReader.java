@@ -7,17 +7,21 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertyReader {
-	public static String propertiesPath;
-	private static Properties properties;
+	PropertyReader() {}
+	private static String propertiesPath;
+	private static volatile Properties properties;
+	private static InputStream inputStream;
 
 	private static Properties loadProperties() throws IOException {
 		if (properties == null) {
 			properties = new Properties();
 			if (propertiesPath.charAt(0) != '/')
 				propertiesPath = "/" + propertiesPath;
-			InputStream inputStream = PropertyReader.class.getResourceAsStream(propertiesPath);
-			if (inputStream != null)
-				properties.load(inputStream);
+			try {
+				inputStream = PropertyReader.class.getResourceAsStream(propertiesPath);
+				if (inputStream != null)
+					properties.load(inputStream);
+			} catch (Exception ex) { if (inputStream!=null) inputStream.close(); }
 		}
 		return properties;
 	}
@@ -36,7 +40,7 @@ public class PropertyReader {
 	public static void fillAction(JActionT<String> action, String name) {
 		Object prop = properties.get(name);
 		if (prop != null && !prop.equals(""))
-			action.invoke(prop+"");
+			action.invoke(prop.toString());
 	}
 
 }
