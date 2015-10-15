@@ -12,7 +12,7 @@ import static com.ggasoftware.jdiuitests.implementation.selenium.elements.comple
 
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.
- */
+**/
 public class CellTests extends InitTableTests {
 
     @Test
