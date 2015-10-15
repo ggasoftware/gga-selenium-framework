@@ -4,7 +4,6 @@ import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
 
-import static com.epam.jditests.pageobjects.EpamJDISite.supportPage;
 import static java.util.Arrays.asList;
 
 /**
@@ -13,23 +12,31 @@ import static java.util.Arrays.asList;
 public class TableDP {
 
     @DataProvider(name = "hasHeadersSelector")
-    public static Object [][] hasHeadersSelector(){
+    public static Object[][] hasHeadersSelector(){
         return new Object [][]{
-                {supportPage.tableWithBothHeaders,6,2,
-                        asList("Drivers", "Test Runner", "Asserter", "Logger", "Reporter", "BDD/DSL"),
-                        asList("Now", "Plans")},
-                {supportPage.tableWithRowsHeader,6,2,
-                        asList("Drivers", "Test Runner", "Asserter", "Logger", "Reporter", "BDD/DSL"),
-                        asList("1", "2")},
-                {supportPage.tableWithoutHeaders,6,3,
-                        asList("1", "2", "3", "4", "5", "6"),
-                        asList("1", "2", "3")},
-                {supportPage.tableWithColumnHeader,6,3,
-                        asList("1", "2", "3", "4", "5", "6"),
-                        asList("Type", "Now", "Plans")}};
+                {true, true,2,6,
+                        asList("Now","Plans"),
+                        asList("Drivers", "Test Runner", "Asserter", "Logger", "Reporter", "BDD/DSL"),"Selenium Custom"},
+                {true, false,3,6,
+                        asList("Type","Now","Plans"),
+                        asList("1", "2", "3", "4", "5", "6"),"Drivers"},
+                {false, false,3,6,
+                        asList("1", "2", "3"),
+                        asList("1", "2", "3", "4", "5", "6"),"Drivers"},
+                {false, true,2,6,
+                        asList("1", "2"),
+                        asList("Drivers", "Test Runner", "Asserter", "Logger", "Reporter", "BDD/DSL"),"Selenium Custom"}};
     }
+
     @DataProvider(name = "setColumnsCount")
-    public static Object [][] setColumnsCount(){
+    public static Object[][] setColumnsCount(){
+        return new Object [][]{
+               {2,asList("Type","Now"),"Drivers"},
+               {3,asList("Type","Now","Plans"),"Drivers"},
+               {10,asList("Type","Now","Plans","4"),"Drivers"}};
+    }
+    @DataProvider(name = "setColumnsCountNegative")
+    public static Object[][] setColumnsCountNegarive(){
         return new Object [][]{
                {-1,0,Arrays.asList(),""},
                {0,0,Arrays.asList(),""},
@@ -37,8 +44,16 @@ public class TableDP {
                {3,3,Arrays.asList("Type","Now","Plans"),"Drivers"},
                {10,10,Arrays.asList("Type","Now","Plans","4"),"Drivers"}};
     }
+
     @DataProvider(name = "setRowsCount")
-    public static Object [][] setRowsCount(){
+    public static Object[][] setRowsCount(){
+        return new Object [][]{
+               {2,asList("1","2"),"Drivers"},
+               {6,asList("1","2","3","4","5","6"),"Drivers"},
+               {10,asList("1","2","3","4","5","6","7","8","9","10"),"Drivers"}};
+    }
+    @DataProvider(name = "setRowsCountNegative")
+    public static Object[][] setRowsCountNegative(){
         return new Object [][]{
                {-1,0,Arrays.asList(""),""},
                {0,0,Arrays.asList(),""},
@@ -46,13 +61,39 @@ public class TableDP {
                {6,6,Arrays.asList("1","2","3","4","5","6"),"Drivers"},
                {10,10,Arrays.asList("1","2","3","4","5","6","7","8","9","10"),"Drivers"}};
     }
+
     @DataProvider(name = "setColumnHeaders")
-    public  static  Object [][] setColumnHeaders(){
+    public static Object[][] setColumnHeaders(){
         return new Object[][]{
-                {Arrays.asList(""),""},
-                {Arrays.asList("h1"),"Drivers"},
-                {Arrays.asList("h1","h2","h3"),"Drivers"},
-                {Arrays.asList("h1","h2","h3","h4","h5","h6"),"Drivers"},
+                {asList("h1"),asList("r1","r2"),"Drivers"},
+                {asList("h1","h2","h3"),asList("r1","r2","r3","r4","r5","r6"),"Drivers"},
+                {asList("h1","h2","h3","h4","h5","h6"),asList("r1","r2","r3","r4","r5","r6","r7","r8"),"Drivers"},
+        };
+    }
+
+    @DataProvider(name = "setCellValue")
+    public static Object[][] setCellValue(){
+        return new Object[][]{
+                {1,1, "Drivers"},
+                {3,6,"Cucumber, Jbehave, Thucydides, SpecFlow"}
+        };
+    }
+
+    @DataProvider(name="setCellPosition")
+    public static Object[][] setCellPosition(){
+        return new Object[][]{
+                {"MSTest, NUnit, Epam",3,2},
+                {"Custom",2,6}
+        };
+    }
+
+    @DataProvider(name="setValueAndColumn")
+    public static Object[][] setValueAndColumn(){
+        return new Object[][]{
+                {"MSTest, NUnit, Epam","Plans",3,2},
+                {"MSTest, NUnit, Epam",3,3,2},
+                {"Custom",2,2,6},
+                {"Custom","Now",2,6}
         };
     }
 }
