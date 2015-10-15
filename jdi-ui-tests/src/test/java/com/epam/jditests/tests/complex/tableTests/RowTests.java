@@ -13,11 +13,13 @@ import java.util.List;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.logger;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
 
 /**
  * Created by Natalia_Grebenshikova on 10/05/2015.
  */
 public class RowTests extends InitTableTests {
+
     @Test
     public void findAllRows(){
         Rows rows = support().rows();
@@ -42,39 +44,6 @@ public class RowTests extends InitTableTests {
 
     @Test
     public void getRowsCacheTest() {
-        List<ICell> cells = support().getCells();
-        Timer timer = new Timer();
-        support().useCache();
-        MapArray<String, MapArray<String, String>> rows = support().rows().getAsText();
-        logger.info("[TIME]: " + timer.timePassedInMSec() + "");
-        Assert.areEquals(rows,
-                "1:" +
-                        "Type:Drivers, " +
-                        "Now:Selenium Custom, " +
-                        "Plans:JavaScript, Appium, WinAPI, Sikuli, " +
-                        "2:" +
-                        "Type:Test Runner, " +
-                        "Now:TestNG, JUnit Custom, " +
-                        "Plans:MSTest, NUnit, Epam, " +
-                        "3:" +
-                        "Type:Asserter, " +
-                        "Now:TestNG, JUnit, Custom, " +
-                        "Plans:MSTest, NUnit, Epam, " +
-                        "4:" +
-                        "Type:Logger, " +
-                        "Now:Log4J, TestNG log, Custom, " +
-                        "Plans:Epam, XML/Json logging, Hyper logging, " +
-                        "5:" +
-                        "Type:Reporter, " +
-                        "Now:Jenkins, Allure, Custom, " +
-                        "Plans:EPAM Report portal, Serenity, TimCity, Hudson, " +
-                        "6:" +
-                        "Type:BDD/DSL, " +
-                        "Now:Custom, " +
-                        "Plans:Cucumber, Jbehave, Thucydides, SpecFlow");
-    }
-    @Test
-    public void getRowsTest() {
         Timer timer = new Timer();
         MapArray<String, MapArray<String, String>> rows = support().rows().getAsText();
         logger.info("[TIME]: " + timer.timePassedInMSec()+"");
@@ -104,7 +73,35 @@ public class RowTests extends InitTableTests {
                         "Now:Custom, " +
                         "Plans:Cucumber, Jbehave, Thucydides, SpecFlow");
     }
-
+    @Test
+    public void getRowsTest() {
+        MapArray<String, MapArray<String, String>> rows = support().rows().getAsText();
+        areEquals(rows,
+                "1:" +
+                        "Type:Drivers, " +
+                        "Now:Selenium Custom, " +
+                        "Plans:JavaScript, Appium, WinAPI, Sikuli, " +
+                        "2:" +
+                        "Type:Test Runner, " +
+                        "Now:TestNG, JUnit Custom, " +
+                        "Plans:MSTest, NUnit, Epam, " +
+                        "3:" +
+                        "Type:Asserter, " +
+                        "Now:TestNG, JUnit, Custom, " +
+                        "Plans:MSTest, NUnit, Epam, " +
+                        "4:" +
+                        "Type:Logger, " +
+                        "Now:Log4J, TestNG log, Custom, " +
+                        "Plans:Epam, XML/Json logging, Hyper logging, " +
+                        "5:" +
+                        "Type:Reporter, " +
+                        "Now:Jenkins, Allure, Custom, " +
+                        "Plans:EPAM Report portal, Serenity, TimCity, Hudson, " +
+                        "6:" +
+                        "Type:BDD/DSL, " +
+                        "Now:Custom, " +
+                        "Plans:Cucumber, Jbehave, Thucydides, SpecFlow");
+    }
     @Test
     public void verifyCellsRowByRowNumber(){
         List<String> expectedRowsValue = Arrays.asList("Asserter", "TestNG, JUnit, Custom", "MSTest, NUnit, Epam");
@@ -131,7 +128,6 @@ public class RowTests extends InitTableTests {
             Assert.areEquals(cellRows.value(i).getValue(),
                     expectedRowsValue.get(i),
                     String.format("Expected content for row %d is '%s', but was %s", i + 1, expectedRowsValue.get(i), cellRows.value(i).getValue()));
-
     }
 
     @Test
@@ -157,16 +153,19 @@ public class RowTests extends InitTableTests {
 
         Assert.areEquals(rowAsText, expectedRowValues, String.format("Expected row value is %s, but was %s", expectedRowValues, rowAsText));
     }
+
     @Test
     public void cellToRow(){
-        MapArray<String, ICell> cellsToRow = support().columns().cellsToRow(Arrays.asList(  support().cell(column(1), row(1)),
-                support().cell(column(2), row(2))));
+        MapArray<String, ICell> cellsToRow = support().columns().cellsToRow(
+                Arrays.asList(  support().cell(column(1), row(1)),
+                                support().cell(column(2), row(2))));
 
-        Assert.areEquals(cellsToRow.key(0),"Type",String.format("Expected first cell column id 'Type', but was %s", cellsToRow.key(0)));
-        Assert.areEquals(cellsToRow.value(0).getValue(),"Drivers",String.format("Expected first cell value id 'Drivers', but was %s", cellsToRow.value(0).getValue()));
-        Assert.areEquals(cellsToRow.key(1), "Now",String.format("Expected second cell column id 'Now', but was %s", cellsToRow.key(1)));
-        Assert.areEquals(cellsToRow.value(1).getValue(),"TestNG, JUnit Custom",String.format("Expected first cell value id 'TestNG, JUnit Custom', but was %s", cellsToRow.value(1).getValue()));
+        areEquals(cellsToRow.key(0),"Type",String.format("Expected first cell column id 'Type', but was %s", cellsToRow.key(0)));
+        areEquals(cellsToRow.value(0).getValue(),"Drivers",String.format("Expected first cell value id 'Drivers', but was %s", cellsToRow.value(0).getValue()));
+        areEquals(cellsToRow.key(1), "Now",String.format("Expected second cell column id 'Now', but was %s", cellsToRow.key(1)));
+        areEquals(cellsToRow.value(1).getValue(),"TestNG, JUnit Custom",String.format("Expected first cell value id 'TestNG, JUnit Custom', but was %s", cellsToRow.value(1).getValue()));
     }
+
     @Test
     public void getRowValueByName(){
         List<String> expectedRowValue = Arrays.asList("Test Runner", "TestNG, JUnit Custom", "MSTest, NUnit, Epam");

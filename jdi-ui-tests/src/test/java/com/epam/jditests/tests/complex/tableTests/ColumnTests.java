@@ -9,12 +9,15 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+
 /**
  * Created by Natalia_Grebenshchikova on 10/5/2015.
  */
 public class ColumnTests extends InitTableTests {
+
     @Test
     public void findAllColumns(){
         Columns columns = support().columns();
@@ -58,9 +61,16 @@ public class ColumnTests extends InitTableTests {
     }
 
     @Test
+    public void getColumnByRowAndValue(){
+        MapArray<String, ICell> column = support().column("Logger", row(4));
+
+        Assert.areEquals("Type", column.get(0).value.columnName(), String.format("Expected column name is 'Type', but was '%s'", column.get(0).value.columnName()));
+    }
+
+    @Test
     public void getColumnsTest() {
         MapArray<String, MapArray<String, String>> columns = support().columns().getAsText();
-        Assert.areEquals(columns,
+        areEquals(columns,
                 "Type:" +
                         "1:Drivers, " +
                         "2:Test Runner, " +
@@ -83,14 +93,6 @@ public class ColumnTests extends InitTableTests {
                         "5:EPAM Report portal, Serenity, TimCity, Hudson, " +
                         "6:Cucumber, Jbehave, Thucydides, SpecFlow");
     }
-
-    @Test
-    public void getColumnByRowAndValue(){
-        MapArray<String, ICell> column = support().column("Logger", row(4));
-
-        Assert.areEquals("Type", column.get(0).value.columnName(), String.format("Expected column name is 'Type', but was '%s'", column.get(0).value.columnName()));
-    }
-
     @Test
     public void getColumnAsTest(){
 
@@ -99,14 +101,17 @@ public class ColumnTests extends InitTableTests {
 
         Assert.areEquals(columnAsText, expectedColumnValue, String.format("Expectde column is %s, but was %s", expectedColumnValue, columnAsText));
     }
+
     @Test
     public void cellsToColumn(){
         MapArray<String, ICell> cellsToColumn = support().rows().cellsToColumn(Arrays.asList(support().cell(column(1), row(1)),support().cell(column(2), row(2))));
 
-        Assert.areEquals(cellsToColumn.key(0),"1",String.format("Expected first cell row id '1', but was %s", cellsToColumn.key(0)));
-        Assert.areEquals(cellsToColumn.value(0).getValue(),"Drivers",String.format("Expected first cell value id 'Drivers', but was %s", cellsToColumn.value(0).getValue()));
-        Assert.areEquals(cellsToColumn.key(1), "2",String.format("Expected second cell row id '2', but was %s", cellsToColumn.key(1)));
-        Assert.areEquals(cellsToColumn.value(1).getValue(),"TestNG, JUnit Custom",String.format("Expected first cell value id 'TestNG, JUnit Custom', but was %s", cellsToColumn.value(1).getValue()));
+        areEquals(cellsToColumn.key(0),"1",String.format("Expected first cell row id '1', but was %s", cellsToColumn.key(0)));
+        areEquals(cellsToColumn.value(0).getValue(),"Drivers",String.format("Expected first cell value id 'Drivers', but was %s", cellsToColumn.value(0).getValue()));
+
+        areEquals(cellsToColumn.key(1), "2",String.format("Expected second cell row id '2', but was %s", cellsToColumn.key(1)));
+        areEquals(cellsToColumn.value(1).getValue(),"TestNG, JUnit Custom",String.format("Expected first cell value id 'TestNG, JUnit Custom', but was %s", cellsToColumn.value(1).getValue()));
     }
+
 
 }

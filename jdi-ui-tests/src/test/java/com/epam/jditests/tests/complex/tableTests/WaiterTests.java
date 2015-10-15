@@ -9,7 +9,6 @@ import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 import static com.epam.jditests.tests.complex.CommonActionsData.*;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
 import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isFalse;
 import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
 
@@ -57,7 +56,7 @@ public class WaiterTests extends  InitTableTests{
         support().clean();
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
-        areEquals(support().cell(column(2), row(2)).waitText("TestNG, JUnit Custom"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2),row(2)).waitText("TestNG, JUnit Custom"), "TestNG, JUnit Custom");
 
         isTrue(timer.timePassedInMSec() > waitTimeOut);
     }
@@ -67,7 +66,7 @@ public class WaiterTests extends  InitTableTests{
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
 
-        areEquals(support().cell(column(2), row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2),row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
     }
     @Test
     public void waitHaveRows() {
