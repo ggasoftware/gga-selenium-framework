@@ -32,6 +32,8 @@ public class EpamJDISite extends Site {
     public static MetalsColorsPage metalsColorsPage;
     @JPage(url = "/page3.htm", title = "Page 3")
     public static SupportPage supportPage;
+    @JPage(url = "/page5.htm", title = "Page 5")
+    public static ClickableTablePage clickableTablePage;
     @JPage(url = "/page4.htm", title = "Page 4")
     public static DatesPage dates;
     @FindBy(css = ".uui-profile-menu")

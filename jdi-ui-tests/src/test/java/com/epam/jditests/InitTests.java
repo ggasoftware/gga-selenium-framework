@@ -2,6 +2,8 @@ package com.epam.jditests;
 
 import com.epam.jditests.pageobjects.EpamJDISite;
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.MapInterfaceToElement;
 import com.ggasoftware.jdiuitests.implementation.testng.testRunner.TestNGBase;
 import org.testng.annotations.BeforeSuite;
 
@@ -22,6 +24,7 @@ public class InitTests extends TestNGBase {
     public static void setUp() throws Exception {
         JDISettings.driverFactory.driversPath = "C:\\Selenium";
         initJDIFromProperties();
+        MapInterfaceToElement.updateInterfacesMap(new Object[][] {});
         //Assert.noScreenOnFail();
         Init(EpamJDISite.class);
         homePage.open();

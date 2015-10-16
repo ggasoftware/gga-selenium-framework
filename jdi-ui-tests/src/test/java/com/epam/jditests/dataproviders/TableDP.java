@@ -1,8 +1,10 @@
 package com.epam.jditests.dataproviders;
 
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Button;
 import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static java.util.Arrays.asList;
 
@@ -94,6 +96,15 @@ public class TableDP {
                 {"MSTest, NUnit, Epam",3,3,2},
                 {"Custom",2,2,6},
                 {"Custom","Now",2,6}
+        };
+    }
+
+    @DataProvider(name = "tableCellsContent")
+    public static Object[][] tableCellsContent(){
+        return new Object[][] {
+                {3,2,Button.class,"([0-9]{2}:){2}[0-9]{2} Name: button was clicked"},
+                {3,2,Button.class,"([0-9]{2}:){2}[0-9]{2} Name: date selected selected"},
+                {3,2,Button.class,"([0-9]{2}:){2}[0-9]{2} Name: link ws clicked was clicked"}
         };
     }
 }
