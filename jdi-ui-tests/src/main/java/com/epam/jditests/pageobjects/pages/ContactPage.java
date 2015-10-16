@@ -21,5 +21,7 @@ public class ContactPage extends Page {
     @FindBy(css = ".results")
     public IText result;
     @FindBy(css = "main form")
-    public ContactForm feedForm;
+    public ContactForm contactForm;
+    @FindBy(css = "main form")
+    public ContactFormTwoButtons contactFormTwoButtons;
 }

@@ -10,7 +10,8 @@ import org.openqa.selenium.support.FindBy;
 /**
  * Created by Dmitry_Lebedev1 on 10/16/2015.
  */
-public class ContactForm extends Form<Contact> {
+public class ContactFormTwoButtons extends Form<Contact> {
+
     @FindBy(id = "Name")
     public ITextField name;
 
@@ -23,6 +24,6 @@ public class ContactForm extends Form<Contact> {
     @FindBy(id = "Description")
     public ITextArea description;
 
-//    @FindBy(xpath = "//*[text()=\"Calculate\"]")
-//    public IButton calculate;
+    @FindBy(xpath = "//*[text()=\"Calculate\"]")
+    public IButton calculate;
 }

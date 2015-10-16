@@ -94,5 +94,4 @@ public class CommonActionsData {
 		assertContains(contactFormPage.result::getText, text);
 	}
 
-
 }
