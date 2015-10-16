@@ -12,13 +12,5 @@ import org.openqa.selenium.support.FindBy;
 public class SupportPage extends Page {
     @FindBy(css = ".uui-table")
     public ITable supportTable;
-    @FindBy(css = ".uui-table")
-    public ITable tableWithBothHeaders = new Table(new TableSettings(true, true));
-    @FindBy(css = ".uui-table")
-    public ITable tableWithRowsHeader = new Table(new TableSettings(false, true));
-    @FindBy(css = ".uui-table")
-    public ITable tableWithColumnHeader = new Table(new TableSettings(true, false));
-    @FindBy(css = ".uui-table")
-    public ITable tableWithoutHeaders = new Table(new TableSettings(false, false));
 
 }

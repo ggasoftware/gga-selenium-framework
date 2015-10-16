@@ -10,7 +10,7 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.ba
 public interface ICell extends ISelect {
     SelectElement get();
 
-    <T extends BaseElement> T get(Class<?> clazz) throws Exception;
+    <T extends BaseElement> T get(Class<T> clazz) throws Exception;
 
     <T extends BaseElement> T get(T element);
 

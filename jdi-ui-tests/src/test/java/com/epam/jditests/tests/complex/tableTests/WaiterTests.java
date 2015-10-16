@@ -3,8 +3,10 @@ package com.epam.jditests.tests.complex.tableTests;
 import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
+import static com.epam.jditests.enums.Preconditions.DYNAMIC_TABLE_PAGE;
 import static com.epam.jditests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jditests.enums.Preconditions.SUPPORT_PAGE;
+import static com.epam.jditests.pageobjects.EpamJDISite.dynamicTablePage;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 import static com.epam.jditests.tests.complex.CommonActionsData.*;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
@@ -60,6 +62,7 @@ public class WaiterTests extends  InitTableTests{
 
         isTrue(timer.timePassedInMSec() > waitTimeOut);
     }
+
     @Test
     public void cellWaitMatchText() {
         support().clean();
