@@ -34,6 +34,8 @@ public class EpamJDISite extends Site {
     public static SupportPage supportPage;
     @JPage(url = "/page5.htm", title = "Page 5")
     public static ClickableTablePage clickableTablePage;
+    @JPage (url = "/page6.htm", title = "Page 6")
+    public static DynamicTablePage dynamicTablePage;
     @JPage(url = "/page4.htm", title = "Page 4")
     public static DatesPage dates;
     @FindBy(css = ".uui-profile-menu")
