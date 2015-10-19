@@ -159,7 +159,6 @@ public abstract class BaseElement implements IBaseElement {
         this.avatar.localElementSearchCriteria = avatar.localElementSearchCriteria;
         return this;
     }
-
     public void setWaitTimeout(long mSeconds) {
         logger.debug("Set wait timeout to " + mSeconds);
         getDriver().manage().timeouts().implicitlyWait(mSeconds, MILLISECONDS);

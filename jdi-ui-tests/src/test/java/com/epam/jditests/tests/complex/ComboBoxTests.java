@@ -1,34 +1,50 @@
 package com.epam.jditests.tests.complex;
 
 import com.epam.jditests.InitTests;
+import com.epam.jditests.enums.Metals;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IComboBox;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.lang.reflect.Method;
+import java.util.List;
+
+import static com.epam.jditests.enums.Metals.Gold;
+import static com.epam.jditests.enums.Preconditions.METALS_AND_COLORS_PAGE;
+import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
+import static com.epam.jditests.pageobjects.EpamJDISite.metalsColorsPage;
+import static com.epam.jditests.tests.complex.CommonActionsData.checkAction;
+import static com.epam.jditests.tests.complex.CommonActionsData.checkActionThrowError;
+import static com.epam.jditests.tests.complex.CommonActionsData.noElementsMessage;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.listEquals;
+import static java.util.Arrays.asList;
 
 /**
  * Created by Roman_Iovlev on 9/15/2015.
  */
 public class ComboBoxTests extends InitTests {
-    // TODO failed
-    /*
     private IComboBox<Metals> metals() { return metalsColorsPage.comboBox; }
 
     @BeforeMethod
-    public void before(Method method) throws IOException {
+    public void before(Method method) {
         isInState(METALS_AND_COLORS_PAGE, method);
     }
 
     @Test
     public void selectStringTest() {
         metals().select("Gold");
-        checkAction("Col: value changed to Gold");
+        checkAction("Metals: value changed to Gold");
     }
     @Test
     public void selectIndexTest() {
         metals().select(3);
-        checkAction("Col: value changed to Silver");
+        checkAction("Metals: value changed to Silver");
     }
     @Test
     public void selectEnumTest() {
         metals().select(Gold);
-        checkAction("Col: value changed to Gold");
+        checkAction("Metals: value changed to Gold");
     }
 
     private static final List<String> oddOptions = asList("Col", "Gold", "Silver", "Bronze", "Selen");
@@ -53,15 +69,12 @@ public class ComboBoxTests extends InitTests {
         metals().setValue("Blue");
         checkAction("Colors: value changed to Blue");
     }
-    @Test
-    public void getNameTest() {
-        areEquals(metals().getName(), "Col");
-    }
 
     // Fails
     @Test
     public void getSelectedTest() {
-        areEquals(metals().getSelected(), "Col");
+        metals().select("Gold");
+        areEquals(metals().getSelected(), "Gold");
     }
     @Test
     public void getSelectedIndexTest() {
@@ -87,5 +100,4 @@ public class ComboBoxTests extends InitTests {
     public void getValueTest() {
         areEquals(metals().getValue(), "Col");
     }
-    */
 }

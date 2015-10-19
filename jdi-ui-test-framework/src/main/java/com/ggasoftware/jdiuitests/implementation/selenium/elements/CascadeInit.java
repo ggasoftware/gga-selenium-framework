@@ -118,7 +118,7 @@ public abstract class CascadeInit implements IBaseElement {
                     instance = (BaseElement) type.newInstance();
                 fillPage(instance, field, parent != null ? parent.getClass() : null);
             } else {
-                instance = createChildFromField(parentInstance, field, type);
+                instance = createChildFromField(parent, parentInstance, field, type);
                 instance.function = AnnotationsUtil.getFunction(field);
             }
             instance.setName(field);
@@ -159,7 +159,7 @@ public abstract class CascadeInit implements IBaseElement {
         return instance;
     }
 
-    private static BaseElement createChildFromField(Object parentInstance, Field field, Class<?> type) {
+    private static BaseElement createChildFromField(Object parent, Object parentInstance, Field field, Class<?> type) {
         BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
         if (instance == null)
             try {
@@ -171,16 +171,16 @@ public abstract class CascadeInit implements IBaseElement {
             }
         else if (instance.getLocator() == null)
             instance.avatar.byLocator = getNewLocator(field);
-        instance.avatar.context = (isBaseElement(parentInstance))
-                ? ((BaseElement) parentInstance).avatar.context.copy()
+        instance.avatar.context = (isBaseElement(parent))
+                ? ((BaseElement) parent).avatar.context.copy()
                 : new Pairs<>();
         if (type != null) {
             By frameBy = AnnotationsUtil.getFrame(type.getDeclaredAnnotation(Frame.class));
             if (frameBy != null)
                 instance.avatar.context.add(ContextType.Frame, frameBy);
         }
-        if (isBaseElement(parentInstance)) {
-            By parentLocator = ((BaseElement) parentInstance).getLocator();
+        if (isBaseElement(parent)) {
+            By parentLocator = ((BaseElement) parent).getLocator();
             if (parentLocator != null)
                 instance.avatar.context.add(ContextType.Locator, parentLocator);
         }

@@ -19,7 +19,7 @@ import static com.ggasoftware.jdiuitests.implementation.selenium.elements.compos
 public enum Preconditions {
     HOME_PAGE("index.htm"),
     CONTACT_PAGE("page1.htm"),
-    CONTACT_PAGE_FILLED(() -> checkUrl("page1.htm"), () -> {
+    CONTACT_PAGE_FILLED(() -> false/*checkUrl("page1.htm")*/, () -> {
         openUri("page1.htm");
         contactFormPage.name.newInput(DEFAULT_USER.name);
         contactFormPage.lastName.newInput(DEFAULT_USER.lastName);
@@ -28,7 +28,7 @@ public enum Preconditions {
     METALS_AND_COLORS_PAGE("page2.htm"),
     DATES_PAGE("page4.htm"),
     SUPPORT_PAGE("page3.htm"),
-    DATES_PAGE_FILLED(() -> checkUrl("page4.html"), () -> {
+    DATES_PAGE_FILLED(() -> false/*checkUrl("page4.html")*/, () -> {
     	openUri("page4.htm");
         WebElement datePicker = getDriver().findElement(dates.datepicker.getLocator());
         datePicker.clear();
@@ -38,12 +38,12 @@ public enum Preconditions {
     public JFuncT<Boolean> checkAction;
     public JAction moveToAction;
 
-    Preconditions(final JFuncT<Boolean> checkAction, final JAction moveToAction) {
+    Preconditions(JFuncT<Boolean> checkAction, JAction moveToAction) {
         this.checkAction = checkAction;
         this.moveToAction = moveToAction;
     }
-    Preconditions(final String uri) {
-        this(() -> false/*checkUrl(uri)*/, () -> openUri(uri));
+    Preconditions(String uri) {
+        this(() -> checkUrl(uri), () -> openUri(uri));
         _htmlPageName = uri;
     }
     private static boolean checkUrl(final String uri) {

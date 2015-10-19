@@ -22,6 +22,6 @@ public class InitTableTests extends InitTests {
     @BeforeMethod
     protected void before(Method method) throws IOException {
         isInState(SUPPORT_PAGE, method);
-        support().useCache();
+        support().clean();
     }
 }
