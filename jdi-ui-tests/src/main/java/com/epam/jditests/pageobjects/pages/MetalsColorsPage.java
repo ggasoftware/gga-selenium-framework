@@ -62,5 +62,11 @@ public class MetalsColorsPage extends Page {
 	}
 	};
 
-    public IComboBox<Metals> comboBox = new ComboBox<>(By.cssSelector(".metals .filter-option"), By.cssSelector(".metals li span"));
+    public IComboBox<Metals> comboBox =
+			new ComboBox<Metals>(By.cssSelector(".metals .caret"), By.cssSelector(".metals li span"), By.cssSelector(".metals .filter-option")) {
+				@Override
+				protected String getTextAction() {
+					return getWebElement().getText();
+				}
+			};
 }

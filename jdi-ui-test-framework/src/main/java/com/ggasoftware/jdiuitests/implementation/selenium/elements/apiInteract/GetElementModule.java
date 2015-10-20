@@ -47,7 +47,13 @@ public class GetElementModule {
         this.byLocator = byLocator;
         this.context = context;
     }
+    public GetElementModule(By byLocator, WebElement rootElement, IBaseElement element) {
+        this(element);
+        this.byLocator = byLocator;
+        this.rootElement = rootElement;
+    }
 
+    public WebElement rootElement;
     public boolean haveLocator() {
         return byLocator != null;
     }
@@ -111,9 +117,12 @@ public class GetElementModule {
     }
 
     private List<WebElement> searchElements() {
-        if (context == null || context.size() == 0)
+        if (this.context == null || this.context.isEmpty())
             return getDriver().findElements(byLocator);
-        return getSearchContext(correctXPaths(context)).findElements(correctXPaths(byLocator));
+        SearchContext context = (rootElement != null)
+                ? rootElement
+                : getSearchContext(correctXPaths(this.context));
+        return context.findElements(correctXPaths(byLocator));
     }
 
     private SearchContext getSearchContext(Pairs<ContextType, By> context) {
