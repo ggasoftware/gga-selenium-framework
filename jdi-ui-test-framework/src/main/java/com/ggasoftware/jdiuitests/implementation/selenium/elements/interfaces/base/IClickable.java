@@ -7,7 +7,7 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface IClickable extends IElement {
     /**
-     * Click on Element
+     * @return Click on Element
      */
     @JDIAction
     void click();

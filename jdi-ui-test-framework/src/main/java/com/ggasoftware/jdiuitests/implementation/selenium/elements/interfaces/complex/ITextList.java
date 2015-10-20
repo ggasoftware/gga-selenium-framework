@@ -23,20 +23,39 @@ public interface ITextList<TEnum extends Enum> extends IBaseElement, IHasValue, 
 
     MapArray<String, WebElement> getElements();
 
+    /**
+     * @param name Specify string by String mechanic
+     * @return Get textList’s text by specified param
+     */
     @JDIAction
     String getText(String name);
 
+    /**
+     * @param index Specify string by Integer mechanic
+     * @return Get textList’s text by specified param
+     */
     @JDIAction
     String getText(int index);
 
+    /**
+     * @param enumName Specify string by Enum mechanic
+     * @return Get textList’s text by specified param
+     */
     @JDIAction
     String getText(TEnum enumName);
 
+    /**
+    * @return Returns strings count
+    */
     @JDIAction
     int count();
 
+    /**
+     * @return Wait while TextList’s text contains expected text. Returns Element’s text
+     */
     @JDIAction
     List<String> waitText(String str);
+
 
     @JDIAction
     List<String> getTextList();

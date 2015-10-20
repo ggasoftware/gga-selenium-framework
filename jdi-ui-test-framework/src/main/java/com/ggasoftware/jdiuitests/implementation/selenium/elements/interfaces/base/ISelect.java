@@ -8,13 +8,13 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface ISelect extends IClickable, IText {
     /**
-     * Selects Element. Similar to click()
+     * @return Selects Element. Similar to click()
      */
     @JDIAction
     void select();
 
     /**
-     * Checks is Element selected
+     * @return Checks is Element selected
      */
     @JDIAction
     boolean isSelected();

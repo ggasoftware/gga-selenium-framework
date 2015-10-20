@@ -11,25 +11,31 @@ import java.util.List;
  */
 public interface ISearch extends ITextField, IComposite {
     /**
-     * Input text in search and then select value from suggestions
+     * @param text Specify Text to search
+     * @param selectValue Specify value to choose from suggested search result
+     * @return Input text in search and then select value from suggestions
      */
     @JDIAction
     void chooseSuggestion(String text, String selectValue);
 
     /**
-     * Input text in search and then select suggestions by index
+     * @param text Specify Text to search
+     * @param selectIndex Specify index to choose from suggested search result
+     * @return Input text in search and then select suggestions by index
      */
     @JDIAction
     void chooseSuggestion(String text, int selectIndex);
 
     /**
-     * Input text in search field and press search button
+     * @param text Specify Text to search
+     * @return Input text in search field and press search button
      */
     @JDIAction
     void find(String text);
 
     /**
-     * Select all suggestions for text
+     * @param text Specify Text to search
+     * @return Select all suggestions for text
      */
     @JDIAction
     List<String> getSuggesions(String text);

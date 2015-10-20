@@ -9,19 +9,21 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface IText extends IHasValue, IElement {
     /**
-     * Get Element’s text
+     * @return Get Element’s text
      */
     @JDIAction
     String getText();
 
     /**
-     * Wait while Element’s text contains expected text. Returns Element’s text
+     * @param text Specify expected text
+     * @return Wait while Element’s text contains expected text. Returns Element’s text
      */
     @JDIAction
     String waitText(String text);
 
     /**
-     * Wait while Element’s text matches regEx. Returns Element’s text
+     * @param regEx Specify expected regular expression Text
+     * @return Wait while Element’s text matches regEx. Returns Element’s text
      */
     @JDIAction
     String waitMatchText(String regEx);

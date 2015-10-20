@@ -12,61 +12,68 @@ import java.util.List;
  */
 public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     /**
-     * Select Element with name (use text) from list
+     * @param name Specify name using string
+     * @return elect Element with name (use text) from list
      */
     @JDIAction
     void select(String name);
 
     /**
-     * Select Element with name (use enum) from list
+     * @param name Specify name using enum
+     * @return Select Element with name (use enum) from list
      */
     @JDIAction
     void select(TEnum name);
 
     /**
-     * Select Element with name (use index) from list
+     * @param index Specify digit to select
+     * @return Select Element with name (use index) from list
      */
     @JDIAction
     void select(int index);
 
     /**
-     * Get name of the selected Element
+     * @return Get name of the selected Element
      */
     @JDIAction
     String getSelected();
 
     /**
-     * Get index of the selected Element
+     * @return Get index of the selected Element
      */
     @JDIAction
     int getSelectedIndex();
 
     /**
-     * Is option selected?
+     * @param name Specify name using string
+     * @return Is option selected?
      */
     @JDIAction
     boolean isSelected(String name);
 
     /**
-     * Is option selected?
+     * @param name Specify name using enum
+     * @return Is option selected?
      */
     @JDIAction
     boolean isSelected(TEnum name);
 
     /**
-     * Wait while option (from text) is selected. Return false if this not happens
+     * @param name Specify name using string
+     * @return Wait while option (from text) is selected. Return false if this not happens
      */
     @JDIAction
     boolean waitSelected(String name);
 
     /**
-     * Wait while option (from enum) is selected. Return false if this not happens
+     * @param name Specify name using enum
+     * @return Wait while option (from enum) is selected. Return false if this not happens
      */
     @JDIAction
     boolean waitSelected(TEnum name);
 
     /**
-     * Get labels of all options
+     * @return Get labels of all options
      */
     @JDIAction
     List<String> getOptions();
@@ -80,7 +87,7 @@ public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     }
 
     /**
-     * Get all options labels in one string separated with “; ”
+     * @return Get all options labels in one string separated with “; ”
      */
     @JDIAction
     default String getOptionsAsText() {
