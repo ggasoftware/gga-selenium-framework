@@ -83,14 +83,14 @@ public class PrintUtils {
     public static String printFields(Object obj, String separator) {
         String className = obj.getClass().getSimpleName();
         String params = print(select(getFields(obj, String.class),
-                field -> format("%s: '%s'", field.getName(), getFieldValue(field, obj))), separator, "%s");
+                field -> format("%s: '%s'", field.getName(), getValueField(field, obj))), separator, "%s");
         return format("%s(%s)", className, params);
     }
 
     private static String printObject(Object obj) {
         List<String> result = new ArrayList<>();
         for (Field field : getFields(obj, Object.class)) {
-            Object value = getFieldValue(field, obj);
+            Object value = getValueField(field, obj);
             String strValue = null;
             if (value == null)
                 strValue = "#NULL#";

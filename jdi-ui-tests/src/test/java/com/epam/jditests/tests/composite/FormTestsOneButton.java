@@ -1,92 +1,71 @@
 package com.epam.jditests.tests.composite;
 
 import com.epam.jditests.InitTests;
-import com.epam.jditests.enums.Preconditions;
-import com.epam.jditests.entities.Contact;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Form;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import org.openqa.selenium.WebElement;
+import com.epam.jditests.pageobjects.pages.ContactForm;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.epam.jditests.entities.Contact.DEFAULT_CONTACT;
-import static com.epam.jditests.enums.Buttons.SUMBIT;
+import static com.epam.jditests.enums.Buttons.SUBMIT;
 import static com.epam.jditests.enums.Preconditions.CONTACT_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
-import static com.epam.jditests.tests.complex.CommonActionsData.*;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getJSExecutor;
+import static com.epam.jditests.tests.complex.CommonActionsData.checkResult;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isEmpty;
 import static org.testng.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * Created by Dmitry_Lebedev1 on 10/15/2015.
  */
 public class FormTestsOneButton extends InitTests {
-    private Preconditions _onPage = CONTACT_PAGE;
-    JFuncTT<IElement, WebElement> gwe = (e) -> e.getWebElement();
-
-    public Form<Contact> get() {
+    public ContactForm form() {
         return contactFormPage.contactForm;
     }
 
     @BeforeMethod
     public void before(final Method method) {
-        isInState(_onPage, method);
+        isInState(CONTACT_PAGE, method);
     }
 
     @Test
     public void fillTest() {
-        get().fill(DEFAULT_CONTACT);
-        String src = "return [arguments[0].value, arguments[1].value, arguments[2].value];";
-        List<String> res = (ArrayList<String>) exec(src);
-        assertEquals(res, DEFAULT_CONTACT.toArrayList());
+        form().fill(DEFAULT_CONTACT);
+        assertEquals(form().getFormValue(), DEFAULT_CONTACT.toList());
     }
 
     @Test
     public void submitTest() {
-        get().submit(DEFAULT_CONTACT);
+        form().submit(DEFAULT_CONTACT);
         checkResult(DEFAULT_CONTACT.toString());
     }
 
     @Test
     public void submitSpecButtonStringTest() {
-        get().submit(DEFAULT_CONTACT, "submit");
+        form().submit(DEFAULT_CONTACT, "submit");
         checkResult(DEFAULT_CONTACT.toString());
     }
 
     @Test
     public void submitSpecButtonEnumTest() throws Exception {
-        get().submit(DEFAULT_CONTACT, SUMBIT);
+        form().submit(DEFAULT_CONTACT, SUBMIT);
         checkResult(DEFAULT_CONTACT.toString());
     }
 
     @Test
     public void submitStringTest() throws Exception {
-        get().submit(DEFAULT_CONTACT.name);
+        form().submit(DEFAULT_CONTACT.name);
         checkResult(String.format("Summary: 3\nName: %s", DEFAULT_CONTACT.name));
     }
-
     @Test
     public void verifyTest() {
-        String src = String.format(
-                "arguments[0].value = '%s'; arguments[1].value = '%s'; arguments[2].value = '%s';",
-                DEFAULT_CONTACT.name, DEFAULT_CONTACT.lastName, DEFAULT_CONTACT.description);
-        exec(src);
-        get().verify(DEFAULT_CONTACT);
+        form().fillForm(DEFAULT_CONTACT);
+        isEmpty(form().verify(DEFAULT_CONTACT));
     }
-
-    private Object exec(String src) {
-        return getJSExecutor().executeScript(
-                src,
-                gwe.invoke(contactFormPage.name),
-                gwe.invoke(contactFormPage.lastName),
-                gwe.invoke(contactFormPage.description)
-        );
+    @Test
+    public void checkTest() {
+        form().fillForm(DEFAULT_CONTACT);
+        form().check(DEFAULT_CONTACT);
     }
 }

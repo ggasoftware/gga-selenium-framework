@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getFieldValue;
+import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getValueField;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getFields;
 
 /**
@@ -33,19 +33,22 @@ public class GetElement {
     public Button getButton(String buttonName) {
         List<Field> fields = getFields(element, IButton.class);
         if (fields.size() == 1)
-            return (Button) getFieldValue(fields.get(0), element);
-        Collection<Button> buttons = LinqUtils.select(fields, f -> (Button) getFieldValue(f, element));
-        Button button = LinqUtils.first(buttons, b -> namesEqual(b.getName(), buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button"));
+            return (Button) getValueField(fields.get(0), element);
+        Collection<Button> buttons = LinqUtils.select(fields, f -> (Button) getValueField(f, element));
+        Button button = LinqUtils.first(buttons, b -> namesEqual(toButton(b.getName()), toButton(buttonName)));
         if (button == null)
             throw JDISettings.exception("Can't find button '%s' for Element '%s'", buttonName, toString());
         return button;
+    }
+    private String toButton(String buttonName) {
+        return buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button";
     }
 
     public Button getButton(Functions funcName) {
         List<Field> fields = getFields(element, IButton.class);
         if (fields.size() == 1)
-            return (Button) getFieldValue(fields.get(0), element);
-        Collection<Button> buttons = LinqUtils.select(fields, f -> (Button) getFieldValue(f, element));
+            return (Button) getValueField(fields.get(0), element);
+        Collection<Button> buttons = LinqUtils.select(fields, f -> (Button) getValueField(f, element));
         Button button = LinqUtils.first(buttons, b -> b.function.equals(funcName));
         if (button == null) {
             String name = funcName.name;
@@ -61,6 +64,6 @@ public class GetElement {
         Field textField = LinqUtils.first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
         if (textField == null)
             throw JDISettings.exception("Can't find Text Element '%s'", toString());
-        return (Text) getFieldValue(textField, element);
+        return (Text) getValueField(textField, element);
     }
 }

@@ -1,6 +1,5 @@
 package com.epam.jditests.entities;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class Contact {
         this("John", "Doe", "Description");
     }
 
-    public List<String> toArrayList(){
+    public List<String> toList(){
         return Arrays.asList(name, lastName, description);
     }
 
