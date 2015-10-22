@@ -27,7 +27,7 @@ public class EpamJDISite extends Site {
     @JPage(url = "/index.htm", title = "Index Page")
     public static HomePage homePage;
     @JPage(url = "/page1.htm", title = "Page 1")
-    public static ContactForm contactFormPage;
+    public static ContactPage contactFormPage;
     @JPage(url = "/page2.htm", title = "Page 2")
     public static MetalsColorsPage metalsColorsPage;
     @JPage(url = "/page3.htm", title = "Page 3")
