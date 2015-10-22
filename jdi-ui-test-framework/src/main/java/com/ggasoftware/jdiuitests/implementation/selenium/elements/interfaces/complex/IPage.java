@@ -14,43 +14,44 @@ public interface IPage extends IComposite {
     Page.StringCheckType title();
 
     /**
-     * Check that page opened
+     * @return Check that page opened
      */
     @JDIAction
     void checkOpened();
 
     /**
-     * Opens url specified for page
+     * @return Opens url specified for page
      */
     @JDIAction
     void open();
 
     /**
-     * Refresh current page
+     * @return Refresh current page
      */
     @JDIAction
     void refresh();
 
     /**
-     * Go back to previous page
+     * @return Go back to previous page
      */
     @JDIAction
     void back();
 
     /**
-     * Go forward to next page
+     * @return Go forward to next page
      */
     @JDIAction
     void forward();
 
     /**
-     * Add cookie in browser
+     * @param cookie Specify cookie
+     * @return Add cookie in browser
      */
     @JDIAction
     void addCookie(Cookie cookie);
 
     /**
-     * Clear browsers cache
+     * @return Clear browsers cache
      */
     @JDIAction
     void clearCache();

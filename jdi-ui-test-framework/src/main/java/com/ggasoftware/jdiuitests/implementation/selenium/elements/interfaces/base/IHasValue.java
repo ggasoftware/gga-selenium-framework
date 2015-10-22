@@ -5,7 +5,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.b
  */
 public interface IHasValue {
     /**
-     * Get value of Element
+     * @return Get value of Element
      */
     String getValue();
 }

@@ -7,25 +7,25 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface IVisible {
     /**
-     * Check is Element visible
+     * @return Check is Element visible
      */
     @JDIAction
     boolean isDisplayed();
 
     /**
-     * Check is Element hidden
+     * @return Check is Element hidden
      */
     @JDIAction
     boolean isHidden();
 
     /**
-     * Waits while Element becomes visible
+     * @return Waits while Element becomes visible
      */
     @JDIAction
     boolean waitDisplayed();
 
     /**
-     * Waits while Element becomes invisible
+     * @return Waits while Element becomes invisible
      */
     @JDIAction
     boolean waitVanished();

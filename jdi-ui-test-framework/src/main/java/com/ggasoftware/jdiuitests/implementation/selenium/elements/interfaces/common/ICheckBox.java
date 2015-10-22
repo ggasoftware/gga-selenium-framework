@@ -9,19 +9,19 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface ICheckBox extends IClickable, ISetValue {
     /**
-     * Set checkbox checked
+     * @return Set checkbox checked
      */
     @JDIAction
     void check();
 
     /**
-     * Set checkbox unchecked
+     * @return Set checkbox unchecked
      */
     @JDIAction
     void uncheck();
 
     /**
-     * Verify is checkbox checked
+     * @return Verify is checkbox checked
      */
     @JDIAction
     boolean isChecked();

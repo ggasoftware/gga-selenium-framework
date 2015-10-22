@@ -9,19 +9,19 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface IPopup extends IText, IComposite {
     /**
-     * Click on Button marked with annotation @OkButton or named "okButton"
+     * @return Click on Button marked with annotation @OkButton or named "okButton"
      */
     @JDIAction
     void ok();
 
     /**
-     * Click on Button marked with annotation @CancelButton or named "cancelButton"
+     * @return Click on Button marked with annotation @CancelButton or named "cancelButton"
      */
     @JDIAction
     void cancel();
 
     /**
-     * Click on Button marked with annotation @CloseButton or named "closeButton"
+     * @return Click on Button marked with annotation @CloseButton or named "closeButton"
      */
     @JDIAction
     void close();

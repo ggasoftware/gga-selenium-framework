@@ -9,31 +9,32 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface IPagination extends IBaseElement, IComposite {
     /**
-     * Choose Next page
+     * @return Choose Next page
      */
     @JDIAction
     void next();
 
     /**
-     * Choose Previous page
+     * @return Choose Previous page
      */
     @JDIAction
     void previous();
 
     /**
-     * Choose First page
+     * @return Choose First page
      */
     @JDIAction
     void first();
 
     /**
-     * Choose Last page
+     * @return Choose Last page
      */
     @JDIAction
     void last();
 
     /**
-     * Choose page by index
+     * @param index Specify page index
+     * @return Choose page by index
      */
     @JDIAction
     void selectPage(int index);

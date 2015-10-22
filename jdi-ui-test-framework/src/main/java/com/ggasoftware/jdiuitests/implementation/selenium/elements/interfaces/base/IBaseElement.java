@@ -8,17 +8,17 @@ import org.openqa.selenium.WebDriver;
  */
 public interface IBaseElement {
     /**
-     * Get WebDriver associated with Element
+     * @return Get WebDriver associated with Element
      */
     WebDriver getDriver();
 
     /**
-     * Get Element’s locator
+     * @return Get Element’s locator
      */
     By getLocator();
 
     /**
-     * Get Element’s name
+     * @return Get Element’s name
      */
     String getName();
 }

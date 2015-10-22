@@ -11,103 +11,116 @@ import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.print;
  */
 public interface IMultiSelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     /**
-     * Select options with name (use text) from list (change their state selected/deselected)
+     * @param names Specify names
+     * @return Select options with name (use text) from list (change their state selected/deselected)
      */
     @JDIAction
     void select(String... names);
 
     /**
-     * Select options with name (use enum) from list (change their state selected/deselected)
+     * @param names Specify names
+     * @return Select options with name (use enum) from list (change their state selected/deselected)
      */
     @JDIAction
     void select(TEnum... names);
 
     /**
-     * Select options with name (use index) from list (change their state selected/deselected)
+     * @param indexes Specify indexes
+     * @return Select options with name (use index) from list (change their state selected/deselected)
      */
     @JDIAction
     void select(int... indexes);
 
     /**
-     * BaseChecker only specified options (use text) from list (all other options unchecked)
+     * @param names Specify names
+     * @return BaseChecker only specified options (use text) from list (all other options unchecked)
      */
     @JDIAction
     void check(String... names);
 
     /**
-     * BaseChecker only specified options (use enum) from list (all other options unchecked)
+     * @param names Specify names
+     * @return BaseChecker only specified options (use enum) from list (all other options unchecked)
      */
     @JDIAction
     void check(TEnum... names);
 
     /**
-     * BaseChecker only specified options (use index) from list (all other options unchecked)
+     * @param indexes Specify indexes
+     * @return BaseChecker only specified options (use index) from list (all other options unchecked)
      */
     @JDIAction
     void check(int... indexes);
 
     /**
-     * Uncheck only specified options (use text) from list (all other options checked)
+     * @param names Specify names
+     * @return Uncheck only specified options (use text) from list (all other options checked)
      */
     @JDIAction
     void uncheck(String... names);
 
     /**
-     * Uncheck only specified options (use enum) from list (all other options checked)
+     * @param names Specify names
+     * @return Uncheck only specified options (use enum) from list (all other options checked)
      */
     @JDIAction
     void uncheck(TEnum... names);
 
     /**
-     * Uncheck only specified options (use index) from list (all other options checked)
+     * @param indexes Specify indexes
+     * @return Uncheck only specified options (use index) from list (all other options checked)
      */
     @JDIAction
     void uncheck(int... indexes);
 
     /**
-     * Get names of checked options
+     * @return Get names of checked options
      */
     @JDIAction
     List<String> areSelected();
 
     /**
-     * Wait while all options with names (use text) selected. Return false if this not happens
+     * @param names Specify names
+     * @return Wait while all options with names (use text) selected. Return false if this not happens
      */
     @JDIAction
     boolean waitSelected(String... names);
 
     /**
-     * Wait while all options with names (use enum) selected. Return false if this not happens
+     * @param names Specify names
+     * @return Wait while all options with names (use enum) selected. Return false if this not happens
      */
     @JDIAction
     boolean waitSelected(TEnum... names);
 
     /**
-     * Get names of unchecked options
+     * @return Get names of unchecked options
      */
     @JDIAction
     List<String> areDeselected();
 
     /**
-     * Wait while all options with names (use text) deselected. Return false if this not happens
+     * @param names Specify names
+     * @return Wait while all options with names (use text) deselected. Return false if this not happens
      */
     @JDIAction
     boolean waitDeselected(String... names);
 
     /**
-     * Wait while all options with names (use enum) deselected. Return false if this not happens
+     * @param names Specify names
+     * @return Wait while all options with names (use enum) deselected. Return false if this not happens
      */
     @JDIAction
     boolean waitDeselected(TEnum... names);
 
     /**
-     * Get labels of all options
+     * @return Get labels of all options
      */
     @JDIAction
     List<String> getOptions();
 
     /**
-     * Get labels of all options
+     * @return Get labels of all options
      */
     @JDIAction
     default List<String> getNames() {
@@ -115,7 +128,7 @@ public interface IMultiSelector<TEnum extends Enum> extends IBaseElement, ISetVa
     }
 
     /**
-     * Get labels of all options
+     * @return Get labels of all options
      */
     @JDIAction
     default List<String> getValues() {
@@ -123,7 +136,7 @@ public interface IMultiSelector<TEnum extends Enum> extends IBaseElement, ISetVa
     }
 
     /**
-     * Get all options labels in one string separated with “; ”
+     * @return Get all options labels in one string separated with “; ”
      */
     @JDIAction
     default String getOptionsAsText() {
@@ -131,13 +144,13 @@ public interface IMultiSelector<TEnum extends Enum> extends IBaseElement, ISetVa
     }
 
     /**
-     * Set all options checked
+     * @return Set all options checked
      */
     @JDIAction
     void checkAll();
 
     /**
-     * Set all options checked
+     * @return Set all options checked
      */
     @JDIAction
     default void selectAll() {
@@ -145,13 +158,13 @@ public interface IMultiSelector<TEnum extends Enum> extends IBaseElement, ISetVa
     }
 
     /**
-     * Set all options unchecked
+     * @return Set all options unchecked
      */
     @JDIAction
     void clear();
 
     /**
-     * Set all options unchecked
+     * @return Set all options unchecked
      */
     @JDIAction
     default void uncheckAll() {

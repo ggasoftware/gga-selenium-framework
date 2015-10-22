@@ -9,13 +9,15 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface ITextField extends ISetValue, IText, IElement {
     /**
-     * Input text in textfield
+     * @param text Specify text to input to TextField
+     * @return Input text in textfield
      */
     @JDIAction
     void input(String text);
 
     /**
-     * Input text in textfield
+     * @param text Specify text to send keys to TextField
+     * @return Input text in textfield
      */
     @JDIAction
     default void sendKeys(String text) {
@@ -23,19 +25,20 @@ public interface ITextField extends ISetValue, IText, IElement {
     }
 
     /**
-     * Clear and input text in textfield
+     * @param text Specify text to input to TextField
+     * @return Clear and input text in textfield
      */
     @JDIAction
     void newInput(String text);
 
     /**
-     * Clear textfield
+     * @return Clear textfield
      */
     @JDIAction
     void clear();
 
     /**
-     * Focus(click) on textfield
+     * @return Focus(click) on textfield
      */
     @JDIAction
     void focus();

@@ -7,19 +7,21 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface ITextArea extends ITextField {
     /**
-     * Clear textarea and Input several lines of text in textarea
+     * @param textLines Specify text lines (clear textArea before
+     * @return Clear textarea and Input several lines of text in textarea
      */
     @JDIAction
     void inputLines(String... textLines);
 
     /**
-     * Add text in textarea from new line
+     * @param textLine Specify text to add new line (without clearing previous)
+     * @return Add text in textarea from new line
      */
     @JDIAction
     void addNewLine(String textLine);
 
     /**
-     * Get lines of text in textarea
+     * @return Get lines of text in textarea
      */
     @JDIAction
     String[] getLines();
