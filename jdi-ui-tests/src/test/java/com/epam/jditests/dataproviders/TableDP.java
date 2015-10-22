@@ -37,6 +37,7 @@ public class TableDP {
                {3,asList("Type","Now","Plans"),"Drivers"},
                {10,asList("Type","Now","Plans","4"),"Drivers"}};
     }
+
     @DataProvider(name = "setColumnsCountNegative")
     public static Object[][] setColumnsCountNegarive(){
         return new Object [][]{
