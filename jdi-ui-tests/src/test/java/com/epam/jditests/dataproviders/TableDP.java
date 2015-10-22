@@ -1,8 +1,10 @@
 package com.epam.jditests.dataproviders;
 
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.*;
 import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static java.util.Arrays.asList;
 
@@ -96,4 +98,33 @@ public class TableDP {
                 {"Custom","Now",2,6}
         };
     }
+
+    @DataProvider(name = "tableCellsClickableContent")
+    public static Object[][] tableCellsClickableContent(){
+        return new Object[][] {
+                {3,2,Button.class,"([0-9]{2}:){2}[0-9]{2} Name: button was clicked"},
+                {3,2,Link.class,"([0-9]{2}:){2}[0-9]{2} Name: date selected selected"},
+                {3,2,Image.class,"([0-9]{2}:){2}[0-9]{2} Name: link ws clicked was clicked"},
+                {3,2,Label.class,"([0-9]{2}:){2}[0-9]{2} Name: label ws clicked was clicked"}
+        };
+    }
+
+    @DataProvider(name = "addColumn")
+    public static Object[][] addColumn(){
+        return new Object[][] {
+                {2, 4, asList("1","2","3","4"),"firstCellContent"},
+                {4, 4, asList("1","2","3","4"),"firstCellContent"},
+                {1, 4, asList("1","2","3","4"),"newFirstCellContent"},
+        };
+    }
+
+    @DataProvider(name = "deleteColumn")
+    public static Object[][] deleteColumn(){
+        return new Object[][] {
+                {2, 2, asList("1","3"),"firstCellContent"},
+                {4, 4, asList("1","2","3","4"),"firstCellContent"},
+                {1, 4, asList("1","2","3","4"),"newFirstCellContent"},
+        };
+    }
+
 }

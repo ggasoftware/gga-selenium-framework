@@ -100,12 +100,12 @@ class Cell extends SelectElement implements ISelect, ICell {
                 : new SelectElement(WebDriverByUtils.fillByMsgTemplate(cellLocatorTemplate, columnIndex, rowIndex));
     }
 
-    public <T extends BaseElement> T get(Class<?> clazz) {
+    public <T extends BaseElement> T get(Class<T> clazz) {
         T instance;
         try {
             instance = (clazz.isInterface())
                     ? (T) MapInterfaceToElement.getClassFromInterface(clazz).newInstance()
-                    : (T) clazz.newInstance();
+                    : clazz.newInstance();
         } catch (Exception ex) {
             throw JDISettings.exception("Can't get Cell from interface/class: " + LinqUtils.last((clazz + "").split("\\.")));
         }
@@ -119,8 +119,8 @@ class Cell extends SelectElement implements ISelect, ICell {
         if (!locator.toString().contains("{0}") || !locator.toString().contains("{1}"))
             throw JDISettings.exception("Can't create cell with locator template " + cell.getLocator() +
                     ". Template for Cell should contains '{0}' - for column and '{1}' - for row indexes.");
-        cell.getAvatar().byLocator = WebDriverByUtils.fillByMsgTemplate(cell.getLocator(), rowIndex, columnIndex);
-        cell.getAvatar().context.add(ContextType.Locator, getLocator());
+        cell.getAvatar().byLocator = WebDriverByUtils.fillByMsgTemplate(locator, rowIndex, columnIndex);
+        cell.getAvatar().context.add(ContextType.Locator, table.getLocator());
         return cell;
     }
 
