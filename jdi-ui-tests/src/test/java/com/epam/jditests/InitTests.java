@@ -1,9 +1,11 @@
 package com.epam.jditests;
 
 import com.epam.jditests.pageobjects.EpamJDISite;
+import com.epam.jditests.pageobjects.composite.DynamicTable;
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.MapInterfaceToElement;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdiuitests.implementation.testng.testRunner.TestNGBase;
 import org.testng.annotations.BeforeSuite;
 

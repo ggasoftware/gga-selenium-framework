@@ -18,7 +18,7 @@ import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fill
  * Created by 12345 on 26.10.2014.
  */
 public class Columns extends TableLine {
-    protected By columnsHeadersLocator = By.xpath(".//th");
+    protected By columnsHeadersLocator = By.xpath(".//thead//th");
     protected By defaultColumnTemplate = By.xpath(".//tr/td[%s]");
     protected By columnTemplate = null;
     public Columns() {

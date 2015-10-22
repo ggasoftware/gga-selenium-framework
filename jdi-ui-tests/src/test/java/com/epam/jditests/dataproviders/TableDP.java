@@ -109,22 +109,4 @@ public class TableDP {
         };
     }
 
-    @DataProvider(name = "addColumn")
-    public static Object[][] addColumn(){
-        return new Object[][] {
-                {2, 4, asList("1","2","3","4"),"firstCellContent"},
-                {4, 4, asList("1","2","3","4"),"firstCellContent"},
-                {1, 4, asList("1","2","3","4"),"newFirstCellContent"},
-        };
-    }
-
-    @DataProvider(name = "deleteColumn")
-    public static Object[][] deleteColumn(){
-        return new Object[][] {
-                {2, 2, asList("1","3"),"firstCellContent"},
-                {4, 4, asList("1","2","3","4"),"firstCellContent"},
-                {1, 4, asList("1","2","3","4"),"newFirstCellContent"},
-        };
-    }
-
 }
