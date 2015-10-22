@@ -13,18 +13,22 @@ import java.util.List;
 /**
  * Created by Dmitry_Lebedev1 on 10/16/2015.
  */
-public class ContactForm extends Form<Contact> {
+public class ContactFormTwoButtons extends Form<Contact> {
+
     @FindBy(id = "Name")
     public ITextField name;
 
     @FindBy(id = "LastName")
     public ITextField lastName;
 
+    @FindBy(id = "Description")
+    public ITextArea description;
+
     @FindBy(xpath = "//*[text()='Submit']")
     public IButton submit;
 
-    @FindBy(id = "Description")
-    public ITextArea description;
+    @FindBy(xpath = "//*[text()='Calculate']")
+    public IButton calculate;
 
     public List<String> getFormValue() {
         return Arrays.asList(new String[]{

@@ -75,7 +75,7 @@ public class Pagination extends BaseElement implements IPagination {
 
     private Clickable getClickable(String name) {
         List<Field> fields = ReflectionUtils.getFields(this, IClickable.class);
-        Collection<Clickable> clickables = select(fields, f -> (Clickable) ReflectionUtils.getFieldValue(f, this));
+        Collection<Clickable> clickables = select(fields, f -> (Clickable) ReflectionUtils.getValueField(f, this));
         return LinqUtils.first(clickables, cl -> cl.getName().contains(getElementName(name.toLowerCase())));
     }
 

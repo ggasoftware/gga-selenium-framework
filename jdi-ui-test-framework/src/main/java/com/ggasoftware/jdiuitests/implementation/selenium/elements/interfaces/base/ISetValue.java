@@ -5,7 +5,8 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.b
  */
 public interface ISetValue extends IHasValue {
     /**
-     * Set value to Element
+     * @param value Specify element value
+     * @return Set value to Element
      */
     void setValue(String value);
 }

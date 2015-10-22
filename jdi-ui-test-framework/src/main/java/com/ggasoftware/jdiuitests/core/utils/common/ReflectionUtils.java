@@ -66,10 +66,10 @@ public class ReflectionUtils {
     }
 
     public static <T> T getFirstField(Object obj, Class<T> type) {
-        return (T) getFieldValue(LinqUtils.first(obj.getClass().getDeclaredFields(), field -> isClass(field, type) || isInterface(field, type)), obj);
+        return (T) getValueField(LinqUtils.first(obj.getClass().getDeclaredFields(), field -> isClass(field, type) || isInterface(field, type)), obj);
     }
 
-    public static Object getFieldValue(Field field, Object obj) {
+    public static Object getValueField(Field field, Object obj) {
         field.setAccessible(true);
         try {
             return field.get(obj);

@@ -10,14 +10,16 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface IForm<T> extends IComposite, ISetValue, IElement {
     /**
-     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     * @param entity Specify entity
+     * @return Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
      */
     @JDIAction
     void fill(T entity);
 
     /**
-     * Fill first setable field with valueand click on Button “submit” <br>
-     * To use this option Form pageObject should have only one IButton Element
+     * @param text Specify text
+     * @return Fill first setable field with value and click on Button “submit” <br>
+     * @apiNote To use this option Form pageObject should only have one IButton Element
      */
     @JDIAction
     void submit(String text);
@@ -76,8 +78,9 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     }
 
     /**
-     * Fill all SetValue elements and click on Button “submit” <br>
-     * To use this option Form pageObject should have only one IButton Element
+     * @param entity Specify entity
+     * @return Fill all SetValue elements and click on Button “submit” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
      */
     @JDIAction
     void submit(T entity);
@@ -133,8 +136,10 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     }
 
     /**
-     * Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
-     * To use this option Form pageObject should have button names in specific format <br>
+     * @param buttonName Specify Button Name
+     * @param entity Specify entity
+     * @return Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
+     * @apiNote To use this option Form pageObject should have button names in specific format <br>
      * e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>
      * * Letters case in button name  no matters
      */
@@ -142,8 +147,10 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     void submit(T entity, String buttonName);
 
     /**
-     * Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
-     * To use this option Form pageObject should have button names in specific format <br>
+     * @param buttonName Specify Button Name
+     * @param entity Specify entity
+     * @return Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
+     * @apiNote To use this option Form pageObject should have button names in specific format <br>
      * e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>
      * * Letters case in button name  no matters
      */

@@ -1,10 +1,12 @@
 package com.epam.jditests.dataproviders;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.*;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Button;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Image;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Label;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Link;
 import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 import static java.util.Arrays.asList;
 
@@ -35,7 +37,7 @@ public class TableDP {
         return new Object [][]{
                {2,asList("Type","Now"),"Drivers"},
                {3,asList("Type","Now","Plans"),"Drivers"},
-               {10,asList("Type","Now","Plans","4"),"Drivers"}};
+               {10,asList("Type","Now","Plans"),"Drivers"}};
     }
 
     @DataProvider(name = "setColumnsCountNegative")
@@ -45,7 +47,7 @@ public class TableDP {
                {0,0,Arrays.asList(),""},
                {2,2,Arrays.asList("Type","Now"),"Drivers"},
                {3,3,Arrays.asList("Type","Now","Plans"),"Drivers"},
-               {10,10,Arrays.asList("Type","Now","Plans","4"),"Drivers"}};
+               {10,10,Arrays.asList("Type","Now","Plans"),"Drivers"}};
     }
 
     @DataProvider(name = "setRowsCount")
@@ -53,7 +55,7 @@ public class TableDP {
         return new Object [][]{
                {2,asList("1","2"),"Drivers"},
                {6,asList("1","2","3","4","5","6"),"Drivers"},
-               {10,asList("1","2","3","4","5","6","7","8","9","10"),"Drivers"}};
+               {10,asList("1","2","3","4","5","6"),"Drivers"}};
     }
     @DataProvider(name = "setRowsCountNegative")
     public static Object[][] setRowsCountNegative(){
@@ -62,7 +64,7 @@ public class TableDP {
                {0,0,Arrays.asList(),""},
                {2,2,Arrays.asList("1","2"),"Drivers"},
                {6,6,Arrays.asList("1","2","3","4","5","6"),"Drivers"},
-               {10,10,Arrays.asList("1","2","3","4","5","6","7","8","9","10"),"Drivers"}};
+               {10,10,Arrays.asList("1","2","3","4","5","6"),"Drivers"}};
     }
 
     @DataProvider(name = "setColumnHeaders")

@@ -8,13 +8,13 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
  */
 public interface IImage extends IClickable {
     /**
-     * Get image source
+     * @return Get image source
      */
     @JDIAction
     String getSource();
 
     /**
-     * Get image alt/hint text
+     * @return Get image alt/hint text
      */
     @JDIAction
     String getAlt();

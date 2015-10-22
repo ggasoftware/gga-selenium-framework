@@ -8,6 +8,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 import java.io.File;
 
 import static com.epam.jditests.pageobjects.EpamJDISite.actionsLog;
+import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
 import static com.epam.jditests.pageobjects.EpamJDISite.metalsColorsPage;
 import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.*;
 
@@ -87,4 +88,10 @@ public class CommonActionsData {
 	public static void checkCalculate(final String text) {
 		assertContains(metalsColorsPage.calculateText::getText, text);
 	}
+
+	@Step
+	public static void checkResult(final String text){
+		assertContains(contactFormPage.result::getText, text);
+	}
+
 }

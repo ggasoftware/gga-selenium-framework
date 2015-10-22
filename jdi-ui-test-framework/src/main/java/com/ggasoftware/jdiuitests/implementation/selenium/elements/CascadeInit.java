@@ -82,7 +82,7 @@ public abstract class CascadeInit implements IBaseElement {
             Class<?> type = field.getType();
             BaseElement instance;
             if (isClass(type, Page.class)) {
-                instance = (BaseElement) getFieldValue(field, null);
+                instance = (BaseElement) getValueField(field, null);
                 if (instance == null)
                     instance = (BaseElement) type.newInstance();
                 fillPage(instance, field, parentType);
@@ -113,7 +113,7 @@ public abstract class CascadeInit implements IBaseElement {
                 parentInstance = parent;
             BaseElement instance;
             if (isClass(type, Page.class)) {
-                instance = (BaseElement) getFieldValue(field, parentInstance);
+                instance = (BaseElement) getValueField(field, parentInstance);
                 if (instance == null)
                     instance = (BaseElement) type.newInstance();
                 fillPage(instance, field, parent != null ? parent.getClass() : null);
@@ -140,7 +140,7 @@ public abstract class CascadeInit implements IBaseElement {
     }
 
     private static BaseElement createChildFromFieldStatic(Class<?> parentClass, Field field, Class<?> type) {
-        BaseElement instance = (BaseElement) getFieldValue(field, null);
+        BaseElement instance = (BaseElement) getValueField(field, null);
         if (instance == null)
             try {
                 instance = getElementInstance(type, field.getName(), getNewLocator(field));
@@ -160,7 +160,7 @@ public abstract class CascadeInit implements IBaseElement {
     }
 
     private static BaseElement createChildFromField(Object parent, Object parentInstance, Field field, Class<?> type) {
-        BaseElement instance = (BaseElement) getFieldValue(field, parentInstance);
+        BaseElement instance = (BaseElement) getValueField(field, parentInstance);
         if (instance == null)
             try {
                 instance = getElementInstance(type, field.getName(), getNewLocator(field));

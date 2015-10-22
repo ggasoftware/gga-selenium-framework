@@ -13,7 +13,7 @@ import org.openqa.selenium.By;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getFieldValue;
+import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getValueField;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getFields;
 import static java.lang.String.format;
 
@@ -100,7 +100,7 @@ public class Search extends TextField implements ISearch {
             case 0:
                 throw JDISettings.exception("Can't find any buttons on form '%s.", toString());
             case 1:
-                return (ITextField) getFieldValue(fields.get(0), this);
+                return (ITextField) getValueField(fields.get(0), this);
             default:
                 throw JDISettings.exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
         }
@@ -112,7 +112,7 @@ public class Search extends TextField implements ISearch {
             case 0:
                 throw JDISettings.exception("Can't find any buttons on form '%s.", toString());
             case 1:
-                return (IButton) getFieldValue(fields.get(0), this);
+                return (IButton) getValueField(fields.get(0), this);
             default:
                 throw JDISettings.exception("Form '%s' have more than 1 button. Use submit(entity, buttonName) for this case instead", toString());
         }
