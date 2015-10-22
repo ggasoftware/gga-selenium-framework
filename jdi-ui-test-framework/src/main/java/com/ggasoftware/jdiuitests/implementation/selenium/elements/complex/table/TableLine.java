@@ -1,6 +1,5 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table;
 
-import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
@@ -11,9 +10,12 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.co
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
+import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
+import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.toStringArray;
 
 /**
  * Created by 12345 on 25.10.2014.
@@ -54,7 +56,7 @@ abstract class TableLine extends Element implements ITableLine {
     }
 
     protected String[] getHeadersTextAction() {
-        return LinqUtils.select(getHeadersAction(), WebElement::getText)
+        return select(getHeadersAction(), WebElement::getText)
                 .toArray(new String[1]);
     }
 
@@ -75,9 +77,11 @@ abstract class TableLine extends Element implements ITableLine {
         localHeaders = (hasHeader)
                 ? localHeaders
                 : getNumList(localHeaders.length);
-        setHeaders(localHeaders);
         if (localHeaders == null || localHeaders.length == 0)
             throw exception("Can't get headers for Table");
+        if (count > 0 && localHeaders.length > count)
+            localHeaders = toStringArray(Arrays.asList(localHeaders).subList(0, count));
+        setHeaders(localHeaders);
         setCount(localHeaders.length);
         return localHeaders;
     }

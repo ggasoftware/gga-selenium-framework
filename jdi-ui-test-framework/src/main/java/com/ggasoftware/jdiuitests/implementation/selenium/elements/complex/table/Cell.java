@@ -49,7 +49,7 @@ class Cell extends SelectElement implements ISelect, ICell {
 
     public Cell(int columnIndex, int rowIndex, int columnNum, int rowNum, String colName, String rowName,
                 By cellLocatorTemplate, Table table) {
-        this.columnIndex = columnIndex;
+        this.columnIndex = (table.rows().hasHeader && table.rows().rowTemplate == null) ? columnIndex + 1 : columnIndex;
         this.rowIndex = rowIndex;
         this.columnNum = columnNum;
         this.rowNum = rowNum;
