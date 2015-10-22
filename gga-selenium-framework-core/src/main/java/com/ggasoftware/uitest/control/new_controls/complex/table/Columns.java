@@ -21,7 +21,7 @@ public class Columns<T extends IClickableText, P> extends TableLine<T, P> {
     }
 
     protected String[] getHeadersAction() {
-        return select(table.getWebElement().findElements(By.xpath(".//th")), WebElement::getText)
+        return select(table.getWebElement().findElements(By.xpath(".//thead//th")), WebElement::getText)
                 .toArray(new String[1]);
     }
 

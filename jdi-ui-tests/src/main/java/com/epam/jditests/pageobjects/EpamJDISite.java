@@ -32,11 +32,13 @@ public class EpamJDISite extends Site {
     public static MetalsColorsPage metalsColorsPage;
     @JPage(url = "/page3.htm", title = "Page 3")
     public static SupportPage supportPage;
-    @JPage(url = "/page5.htm", title = "Page 5")
-    public static ClickableTablePage clickableTablePage;
-    @JPage (url = "/page6.htm", title = "Page 6")
+    @JPage(url = "/page3.htm", title = "Page 3")
+    public static SortingTablePage sortingTablePage;
+    @JPage (url = "/page7.htm", title = "Table sort")
     public static DynamicTablePage dynamicTablePage;
-    @JPage(url = "/page4.htm", title = "Page 4")
+    @JPage(url = "/page5.htm", title = "Table Scroll")
+    public static DynamicTablePage noHeadersTablePage;
+    @JPage(url = "/page6.htm", title = "Table Without Header")
     public static DatesPage dates;
     @FindBy(css = ".uui-profile-menu")
     public static Login login;

@@ -34,6 +34,7 @@ public class Table extends Text implements ITable {
     private List<ICell> allCells = new ArrayList<>();
     private Columns _columns = new Columns();
     private Rows _rows = new Rows();
+    private By footerLocator = By.xpath("//tfoot//th");
 
     // ------------------------------------------ //
 
@@ -56,6 +57,26 @@ public class Table extends Text implements ITable {
         _rows.rowTemplate = row;
     }
 
+    public Table(By columnHeader, By rowHeader, By row, By column, By footer) {
+        this();
+        _columns.columnTemplate = column;
+        _columns.columnsHeadersLocator = columnHeader;
+        _rows.rowTemplate = row;
+        _rows.rowsHeadersLocator = rowHeader;
+        footerLocator = footer;
+    }
+
+    public Table(By columnHeader, By rowHeader, By row, By column, By footer, TableSettings settings) {
+        this();
+        _columns.columnTemplate = column;
+        _columns.columnsHeadersLocator = columnHeader;
+        _rows.rowTemplate = row;
+        _rows.rowsHeadersLocator = rowHeader;
+        footerLocator = footer;
+
+        setTableSettings(settings);
+    }
+
     public Table(By tableLocator, By cellLocatorTemplate) {
         this(tableLocator);
         this.cellLocatorTemplate = cellLocatorTemplate;
@@ -63,12 +84,7 @@ public class Table extends Text implements ITable {
 
     public Table(TableSettings settings) {
         this();
-        rows().hasHeader = settings.rowHasHeaders;
-        rows().headers = settings.rowHeaders;
-        rows().count = settings.rowsCount;
-        columns().hasHeader = settings.columnHasHeaders;
-        columns().headers = settings.columnHeaders;
-        columns().count = settings.columnsCount;
+        setTableSettings(settings);
     }
 
     public List<ICell> getCells() {
@@ -170,7 +186,7 @@ public class Table extends Text implements ITable {
     }
 
     protected String[] getFooterAction() {
-        return LinqUtils.select(getWebElement().findElements(By.xpath("//tfoot/tr/td[1]")), WebElement::getText)
+        return LinqUtils.select(getWebElement().findElements(footerLocator), WebElement::getText)
                 .toArray(new String[1]);
     }
 
@@ -349,6 +365,15 @@ public class Table extends Text implements ITable {
     public MapArray<String, ICell> row(String value, Column column) {
         ICell rowCell = cell(value, column);
         return rowCell != null ? columns().getRow(rowCell.rowNum()) : null;
+    }
+
+    private void setTableSettings(TableSettings settings){
+        rows().hasHeader = settings.rowHasHeaders;
+        rows().headers = settings.rowHeaders;
+        rows().count = settings.rowsCount;
+        columns().hasHeader = settings.columnHasHeaders;
+        columns().headers = settings.columnHeaders;
+        columns().count = settings.columnsCount;
     }
 
     private int getColumnIndex(String name) {
