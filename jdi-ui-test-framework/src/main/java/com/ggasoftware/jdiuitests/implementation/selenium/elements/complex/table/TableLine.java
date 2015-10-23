@@ -26,7 +26,7 @@ abstract class TableLine extends Element implements ITableLine {
     public Table table;
     protected int count = 0;
     protected String[] headers;
-    private int startIndex = 1;
+    int startIndex = 1;
 
     public int getStartIndex() {
         return startIndex;

@@ -66,13 +66,29 @@ public class Table extends Text implements ITable {
         footerLocator = footer;
     }
 
-    public Table(By columnHeader, By rowHeader, By row, By column, By footer, TableSettings settings) {
+    public Table(By columnHeader, By rowHeader, By row, By column, By footer, TableSettings settings,
+                    int columnStartIndex, int rowStartIndex) {
         this();
         _columns.columnTemplate = column;
-        _columns.columnsHeadersLocator = columnHeader;
+        if (columnHeader != null)
+            _columns.columnsHeadersLocator = columnHeader;
         _rows.rowTemplate = row;
-        _rows.rowsHeadersLocator = rowHeader;
+        if (rowHeader != null)
+            _rows.rowsHeadersLocator = rowHeader;
         footerLocator = footer;
+
+        _columns.startIndex = columnStartIndex;
+        _rows.startIndex = rowStartIndex;
+
+        setTableSettings(settings);
+    }
+
+    public Table(By columnHeader, By rowHeader,TableSettings settings) {
+        this();
+        if (columnHeader != null)
+            _columns.columnsHeadersLocator = columnHeader;
+        if (rowHeader != null)
+            _rows.rowsHeadersLocator = rowHeader;
 
         setTableSettings(settings);
     }
@@ -367,7 +383,7 @@ public class Table extends Text implements ITable {
         return rowCell != null ? columns().getRow(rowCell.rowNum()) : null;
     }
 
-    private void setTableSettings(TableSettings settings){
+    public void setTableSettings(TableSettings settings){
         rows().hasHeader = settings.rowHasHeaders;
         rows().headers = settings.rowHeaders;
         rows().count = settings.rowsCount;

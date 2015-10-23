@@ -7,6 +7,7 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Link;
 import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static java.util.Arrays.asList;
 
