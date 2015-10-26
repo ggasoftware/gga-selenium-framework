@@ -17,7 +17,9 @@ public class DynamicTable extends Table implements ITable{
                 By.xpath(".//table//tr"),
                 By.xpath(".//table//tr/td"),
                 By.xpath(".//tfoot//th"),
-                new TableSettings(true, true),1,1);
+                new TableSettings(true, true),2,1);
+
+        this.cellLocatorTemplate = By.xpath(".//table//tr[{1}]/td[{0}]");
     }
 
 }

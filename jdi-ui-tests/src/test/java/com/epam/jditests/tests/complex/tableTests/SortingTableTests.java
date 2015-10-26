@@ -34,7 +34,7 @@ public class SortingTableTests extends InitTests{
         sorting().clean();
     }
 
-    @Test(enabled = false)
+    @Test
     public void verifyTableContentAfterSorting(){
         sorting().header("Now").click();
 
@@ -45,7 +45,7 @@ public class SortingTableTests extends InitTests{
                 String.format("Expected column content after soring is \n%s\nbut was \n%s", expectedColumnContent, actualColumnContent));
     }
 
-    @Test(enabled = false)
+    @Test
     public void verifyTableContentAfterSortingByDoubleClick(){
         sorting().header("Now").doubleClick();
 
@@ -56,7 +56,7 @@ public class SortingTableTests extends InitTests{
                 String.format("Expected column content after soring is \n%s\nbut was \n%s", expectedColumnContent, actualColumnContent));
     }
 
-    @Test(enabled = false)
+    @Test
     public void verifyRowsCount(){
 
         assertEquals(sorting().rows().count(),5, String.format("Expected row count in 1-st page is 5, but found %d", sorting().rows().count()));
@@ -71,7 +71,7 @@ public class SortingTableTests extends InitTests{
         assertEquals(sorting().rows().count(),5, String.format("Expected row count in 2-st page is 5, but found %d", sorting().rows().count()));
     }
 
-    @Test(enabled = false)
+    @Test
     public void verifyRowsAdded(){
         sortingTablePage.rowsNumberInPageDD.select("10");
         assertEquals(sorting().rows().count(),10, String.format("Expected row count is 10, but found %d", sorting().rows().count()));
@@ -80,7 +80,7 @@ public class SortingTableTests extends InitTests{
         assertEquals(sorting().rows().count(),11, String.format("Expected row count is 11, but found %d", sorting().rows().count()));
     }
 
-    @Test(enabled = false)
+    @Test
     public void verifyRowsRemoved(){
         sortingTablePage.rowsNumberInPageDD.select("20");
         sortingTablePage.rowsNumberInPageDD.select("10");

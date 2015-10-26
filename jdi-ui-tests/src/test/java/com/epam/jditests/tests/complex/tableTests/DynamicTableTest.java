@@ -44,7 +44,7 @@ public class DynamicTableTest extends InitTests{
         dynamic().clean();
     }
 
-    @Test(enabled = false)
+    @Test
     public void addNewColumn (){
         List<String> expectedColumnHeaders = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class DynamicTableTest extends InitTests{
                 String.format("Expected first cell content id %s, but was %s","Select\nSee More\n.NET Technologies", dynamic().cell(column(1),row(1)).getValue()));
     }
 
-    @Test(enabled = false)
+    @Test
     public void deleteColumn (){
 
         dynamicTablePage.tableColumnDD.selectByName(ColumnHeaders.col1.value);
@@ -78,11 +78,11 @@ public class DynamicTableTest extends InitTests{
                 String.format("Expected first cell content id %s, but was %s","Select\nSee More\nInternet Technologies", dynamic().cell(column(1),row(1)).getValue()));
     }
 
-    @Test(enabled = false)
+    @Test
     public void clickCellsLinkObject(){
 
         ICell cell = dynamic().cell(column(2), row(2));
-        Link cellObject = cell.get(new Link(By.xpath(".//tr[{1}]/td[{0}]//a")));
+        Link cellObject = cell.get(new Link(By.xpath(".//tr[{0}]/td[{1}]//a")));
         cellObject.click();
 
         areEquals(cellObject.getText(),"See More",
@@ -90,11 +90,11 @@ public class DynamicTableTest extends InitTests{
         matches(actionsLog.getText(0), "([0-9]{2}:){2}[0-9]{2} :See More link clicked");
     }
 
-    @Test(enabled = false)
+    @Test
     public void checkCellsCheckBoxObject(){
 
         ICell cell = dynamic().cell(column(2), row(2));
-        CheckBox cellObject = cell.get(new CheckBox(By.xpath(".//tr[{1}]/td[{0}]//label")));
+        CheckBox cellObject = cell.get(new CheckBox(By.xpath(".//tr[{0}]/td[{1}]//label")));
         cellObject.click();
 
         isTrue(cellObject.isChecked(), "CheckBox is not checked");
@@ -102,7 +102,7 @@ public class DynamicTableTest extends InitTests{
         areEquals(actionsLog.count(),1,"There are more rows in log, then expected");
     }
 
-    @Test(enabled = false)
+    @Test
     public void scrolledTableRowCount () {
 
         areEquals(dynamic().rows().count(), 8,
@@ -110,21 +110,21 @@ public class DynamicTableTest extends InitTests{
 
     }
 
-    @Test(enabled = false)
+    @Test
     public void navigateToCellAfterScroll() {
-        ICell cell = dynamic(). cell(column(2), row(8));
+        ICell cell = dynamic().cell(column(2), row(8));
 
         areEquals(cell.columnNum(),2, String.format("Expected column index id 2, but was %d", cell.columnNum()));
         areEquals(cell.rowNum(), 8, String.format("Expected column index id 8, but was %d", cell.rowNum()));
-        areEquals(cell.getText(),"Select\nSee More\nDrupal",
-                String.format("Expected call value is 'Select\nSee More\nDrupal', but was '%s'", cell.getText()));
+        areEquals(cell.getText(),"Select\nSee More\nAdobe Day CRX",
+                String.format("Expected call value is 'Select\nSee More\nAdobe Day CRX', but was '%s'", cell.getText()));
 
-        cell.get(new Link(By.xpath(".//tr[{1}]/td[{0}]//a"))).click();
+        cell.get(new Link(By.xpath(".//table//tr[{0}]/td[{1}]//a"))).click();
 
         matches(actionsLog.getText(0), "([0-9]{2}:){2}[0-9]{2} :See More link clicked");
     }
 
-    @Test(enabled = false)
+    @Test
     public void assertFooterContent() {
         List<String>
                 expectedFooterContent = Arrays.asList("1 column", "2 column", "3 column"),
@@ -134,7 +134,7 @@ public class DynamicTableTest extends InitTests{
                 String.format("Expected footer is %s, but was %s", expectedFooterContent, actualFooterContent));
     }
 
-    @Test(enabled = false)
+    @Test
     public void assertRowHeaderContent(){
         List<String>
                 expectedRowHeader = Arrays.asList(  "Microsoft Technologies", "Mobile", "UXD", "Version Control Systems",

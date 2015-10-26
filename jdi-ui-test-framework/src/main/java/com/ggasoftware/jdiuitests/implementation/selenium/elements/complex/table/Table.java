@@ -30,7 +30,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class Table extends Text implements ITable {
     public boolean cache = false;
     protected String[] _footer;
-    private By cellLocatorTemplate;
+    protected By cellLocatorTemplate;
     private List<ICell> allCells = new ArrayList<>();
     private Columns _columns = new Columns();
     private Rows _rows = new Rows();
