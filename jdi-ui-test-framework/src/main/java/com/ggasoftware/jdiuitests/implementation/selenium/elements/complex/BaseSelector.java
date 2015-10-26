@@ -170,7 +170,10 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             return new Clickable(fillByTemplate(getLocator(), name)).isDisplayed();
         if (allLabels() != null)
             return isDisplayedInList(allLabels().getWebElements(), name);
-        List<WebElement> els = getAvatar().searchAll().getElements();
+        List<WebElement> els;
+        try {
+            els = getAvatar().searchAll().getElements();
+        } catch (Exception|Error ex) { return false; }
         return isDisplayedInList(els.size() == 1 ? getSelector().getOptions() : els, name);
     }
 

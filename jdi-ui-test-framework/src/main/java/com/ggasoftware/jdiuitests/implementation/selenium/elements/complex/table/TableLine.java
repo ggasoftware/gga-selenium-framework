@@ -1,5 +1,6 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table;
 
+import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
@@ -7,15 +8,17 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITableLine;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IText;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
+import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.index;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.toStringArray;
+import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
 /**
  * Created by 12345 on 25.10.2014.
@@ -27,6 +30,9 @@ abstract class TableLine extends Element implements ITableLine {
     protected int count = 0;
     protected String[] headers;
     private int startIndex = 1;
+    protected By headersLocator;
+    protected By defaultTemplate;
+    protected By lineTemplate = null;
 
     public int getStartIndex() {
         return startIndex;
@@ -36,12 +42,28 @@ abstract class TableLine extends Element implements ITableLine {
         if (table.cache) count = value;
     }
 
+
+    protected List<WebElement> getLineAction(int colNum) {
+        return table.getWebElement().findElements(fillByTemplate((lineTemplate != null) ? lineTemplate : defaultTemplate, colNum));
+    }
+
+    protected List<WebElement> getLineAction(String colName) {
+        return (lineTemplate == null)
+                ? getLineAction(index(headers(), colName) + 1)
+                : table.getWebElement().findElements(fillByTemplate(lineTemplate, colName));
+    }
     public int count() {
         if (count > 0)
             return count;
         else {
-            String[] headers = headers();
-            return headers != null ? headers.length : 0;
+            if (hasHeader) {
+                String[] headers = headers();
+                if (headers != null && headers.length > 0)
+                    return headers.length;
+                return headers != null ? headers.length : 0;
+            }
+            List<WebElement> elements = getLineAction(1);
+            return elements != null ? elements.size() : 0;
         }
     }
 
@@ -56,8 +78,7 @@ abstract class TableLine extends Element implements ITableLine {
     }
 
     protected String[] getHeadersTextAction() {
-        return select(getHeadersAction(), WebElement::getText)
-                .toArray(new String[1]);
+        return LinqUtils.toStringArray(select(getHeadersAction(), WebElement::getText));
     }
 
     protected abstract List<WebElement> getHeadersAction();
@@ -73,12 +94,11 @@ abstract class TableLine extends Element implements ITableLine {
     public String[] headers() {
         if (headers != null)
             return headers.clone();
-        String[] localHeaders = Timer.getResultAction(this::getHeadersTextAction);
-        localHeaders = (hasHeader)
-                ? localHeaders
-                : getNumList(localHeaders.length);
+        String[] localHeaders = (hasHeader)
+                ? Timer.getResultAction(this::getHeadersTextAction)
+                : getNumList(count());
         if (localHeaders == null || localHeaders.length == 0)
-            throw exception("Can't get headers for Table");
+            return new String[] {};
         if (count > 0 && localHeaders.length > count)
             localHeaders = toStringArray(Arrays.asList(localHeaders).subList(0, count));
         setHeaders(localHeaders);

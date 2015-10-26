@@ -23,6 +23,9 @@ import java.util.Set;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.isClass;
 import static com.ggasoftware.jdiuitests.core.utils.common.Timer.sleep;
+import static com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes.*;
+import static com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes.CHROME;
+import static com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes.FIREFOX;
 import static com.ggasoftware.jdiuitests.implementation.selenium.driver.RunTypes.LOCAL;
 import static com.ggasoftware.jdiuitests.implementation.selenium.driver.RunTypes.SAUCE_LAB;
 import static java.lang.String.format;
@@ -98,14 +101,14 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
     public void registerDriver(String driverName) {
         switch (driverName.toLowerCase()) {
             case "chrome":
-                registerDriver(DriverTypes.CHROME);
+                registerDriver(CHROME);
                 return;
             case "firefox":
-                registerDriver(DriverTypes.FIREFOX);
+                registerDriver(FIREFOX);
                 return;
             case "ie":
             case "internetexplorer":
-                registerDriver(DriverTypes.IE);
+                registerDriver(IE);
                 return;
             default:
                 throw exception("Unknown driver: " + driverName);
@@ -131,16 +134,16 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         switch (driverType) {
             case CHROME:
                 setProperty("webdriver.chrome.driver", getDriversPath() + "chromedriver.exe");
-                registerDriver(getDriverName(DriverTypes.CHROME), ChromeDriver::new);
+                registerDriver(getDriverName(CHROME), ChromeDriver::new);
                 return;
             case FIREFOX:
-                registerDriver(getDriverName(DriverTypes.FIREFOX), FirefoxDriver::new);
+                registerDriver(getDriverName(FIREFOX), FirefoxDriver::new);
                 return;
             case IE:
                 DesiredCapabilities capabilities = internetExplorer();
                 capabilities.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
                 setProperty("webdriver.ie.driver", getDriversPath() + "IEDriverServer.exe");
-                registerDriver(getDriverName(DriverTypes.IE), () -> new InternetExplorerDriver(capabilities));
+                registerDriver(getDriverName(IE), () -> new InternetExplorerDriver(capabilities));
                 return;
         }
         throw exception("Unknown driver: " + driverType);
@@ -163,8 +166,8 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
     public WebDriver getDriver() {
         if (!currentDriverName.equals(""))
             return getDriver(currentDriverName);
-        registerDriver(DriverTypes.CHROME);
-        return getDriver(DriverTypes.CHROME.toString());
+        registerDriver(CHROME);
+        return getDriver(CHROME.toString());
     }
 
     public WebDriver getDriver(String driverName) {

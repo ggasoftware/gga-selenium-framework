@@ -3,7 +3,6 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex;
 import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogLevels;
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.PrintUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
@@ -15,6 +14,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.utils.common.EnumUtils.getEnumValue;
 import static java.lang.String.format;
 
@@ -86,7 +86,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
         try {
             return new MapArray<>(getWebElements(), WebElement::getText, value -> value);
         } catch (Exception ex) {
-            throw JDISettings.exception(ex.getMessage());
+            throw exception(ex.getMessage());
         }
     }
 
@@ -136,7 +136,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
         if (Timer.waitCondition(() -> LinqUtils.select(getWebElements(), WebElement::getText).contains(str)))
             return getLabels();
         else {
-            throw JDISettings.exception("Wait Text Failed");
+            throw exception("Wait Text Failed");
         }
     }
 

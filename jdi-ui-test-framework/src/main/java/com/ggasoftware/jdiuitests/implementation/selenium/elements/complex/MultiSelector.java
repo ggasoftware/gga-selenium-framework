@@ -1,6 +1,5 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.EnumUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.PrintUtils;
@@ -11,6 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 
 /**
  * Created by roman.i on 03.10.2014.
@@ -33,9 +34,9 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
 
     protected void clearAction() {
         if (!haveLocator() && allLabels() == null)
-            throw JDISettings.exception("Can't clear options. No optionsNamesLocator and allLabelsLocator found");
+            throw exception("Can't clear options. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
-            throw JDISettings.exception("Can't clear options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
+            throw exception("Can't clear options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
         if (allLabels() != null) {
             clearElements(allLabels().getWebElements());
             return;
@@ -54,7 +55,7 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     protected WebElement getElement(String name) {
         List<WebElement> els = null;
         if (!haveLocator() && allLabels() == null)
-            throw JDISettings.exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
+            throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
             els = new GetElementModule(WebDriverByUtils.fillByTemplate(getLocator(), name), getAvatar().context, this).getElements();
         if (allLabels() != null)
@@ -64,11 +65,11 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
         if (els.size() == 1)
             els = getSelector().getOptions();
         if (els == null)
-            throw JDISettings.exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
+            throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         else
             els = getElement(els, name);
         if (els == null || els.size() != 1)
-            throw JDISettings.exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
+            throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         return els.get(0);
     }
 
@@ -78,9 +79,9 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
 
     protected WebElement getElement(int index) {
         if (!haveLocator() && allLabels() == null)
-            throw JDISettings.exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
+            throw exception("Can't get option. No optionsNamesLocator and allLabelsLocator found");
         if (getLocator().toString().contains("%s"))
-            throw JDISettings.exception("Can't get options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
+            throw exception("Can't get options. Specify allLabelsLocator or fix optionsNamesLocator (should not contain '%s')");
         if (allLabels() != null)
             return getElement(allLabels().getWebElements(), index);
         List<WebElement> els = getAvatar().searchAll().getElements();
@@ -91,9 +92,9 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
 
     private WebElement getElement(List<WebElement> els, int index) {
         if (index <= 0)
-            throw JDISettings.exception("Can't get option with index '%s'. Index should be 1 or more", index);
+            throw exception("Can't get option with index '%s'. Index should be 1 or more", index);
         if (index > els.size())
-            throw JDISettings.exception("Can't get option with index '%s'. Found only %s options", index, els.size());
+            throw exception("Can't get option with index '%s'. Found only %s options", index, els.size());
         return els.get(index - 1);
     }
 

@@ -77,6 +77,11 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
         submit(text, "next");
     }
 
+    @JDIAction
+    default void search(String text) {
+        submit(text, "search");
+    }
+
     /**
      * @param entity Specify entity
      * @return Fill all SetValue elements and click on Button “submit” <br>
@@ -135,6 +140,10 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
         submit(entity, "next");
     }
 
+    @JDIAction
+    default void search(T entity) {
+        submit(entity, "search");
+    }
     /**
      * @param buttonName Specify Button Name
      * @param entity Specify entity

@@ -1,6 +1,5 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations;
 
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Button;
@@ -13,8 +12,9 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getValueField;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getFields;
+import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getValueField;
 
 /**
  * Created by Roman_Iovlev on 9/3/2015.
@@ -37,7 +37,7 @@ public class GetElement {
         Collection<Button> buttons = LinqUtils.select(fields, f -> (Button) getValueField(f, element));
         Button button = LinqUtils.first(buttons, b -> namesEqual(toButton(b.getName()), toButton(buttonName)));
         if (button == null)
-            throw JDISettings.exception("Can't find button '%s' for Element '%s'", buttonName, toString());
+            throw exception("Can't find button '%s' for Element '%s'", buttonName, toString());
         return button;
     }
     private String toButton(String buttonName) {
@@ -55,7 +55,7 @@ public class GetElement {
             String buttonName = name.toLowerCase().contains("button") ? name : name + "button";
             button = LinqUtils.first(buttons, b -> namesEqual(b.getName(), buttonName));
             if (button == null)
-                throw JDISettings.exception("Can't find button '%s' for Element '%s'", name, toString());
+                throw exception("Can't find button '%s' for Element '%s'", name, toString());
         }
         return button;
     }
@@ -63,7 +63,7 @@ public class GetElement {
     public Text getTextElement() {
         Field textField = LinqUtils.first(getClass().getDeclaredFields(), f -> (f.getType() == Text.class) || (f.getType() == IText.class));
         if (textField == null)
-            throw JDISettings.exception("Can't find Text Element '%s'", toString());
+            throw exception("Can't find Text Element '%s'", toString());
         return (Text) getValueField(textField, element);
     }
 }

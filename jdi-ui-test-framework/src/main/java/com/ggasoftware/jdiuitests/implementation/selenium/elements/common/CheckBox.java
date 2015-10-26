@@ -15,12 +15,13 @@
  */
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.common;
 
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ICheckBox;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 
 /**
  * Checkbox control implementation
@@ -77,14 +78,14 @@ public class CheckBox extends Clickable implements ICheckBox {
         if (!isCheckedAction())
             clickAction();
         if (!isCheckedAction())
-            throw JDISettings.asserter.exception("Can't check element. Verify locator for click or isCheckedAction");
+            throw exception("Can't check element. Verify locator for click or isCheckedAction");
     }
 
     protected void uncheckAction() {
         if (isCheckedAction())
             clickAction();
         if (isCheckedAction())
-            throw JDISettings.asserter.exception("Can't uncheck element. Verify locator for click or isCheckedAction");
+            throw exception("Can't uncheck element. Verify locator for click or isCheckedAction");
     }
 
     protected boolean isCheckedAction() {

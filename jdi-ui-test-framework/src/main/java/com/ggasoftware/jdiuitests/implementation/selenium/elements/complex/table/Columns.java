@@ -9,46 +9,34 @@ import org.openqa.selenium.WebElement;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.*;
-import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByTemplate;
+import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.listCopy;
+import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 
 /**
  * Created by 12345 on 26.10.2014.
  */
 public class Columns extends TableLine {
-    protected By columnsHeadersLocator = By.xpath(".//th");
-    protected By defaultColumnTemplate = By.xpath(".//tr/td[%s]");
-    protected By columnTemplate = null;
     public Columns() {
         hasHeader = true;
         elementIndex = ElementIndexType.Nums;
+        headersLocator = By.xpath(".//th");
+        defaultTemplate = By.xpath(".//tr/td[%s]");
     }
 
     protected List<WebElement> getHeadersAction() {
-        List<WebElement> headers = table.getWebElement().findElements(columnsHeadersLocator);
+        List<WebElement> headers = table.getWebElement().findElements(headersLocator);
         return (table.rows().hasHeader) ? listCopy(headers, 1, WebElement.class) : headers;
     }
 
-    protected List<WebElement> getColumnAction(int colNum) {
-        return table.getWebElement().findElements(fillByTemplate(defaultColumnTemplate, colNum));
-    }
-
-    protected List<WebElement> getColumnAction(String colName) {
-        return (columnTemplate == null)
-                ? getColumnAction(index(headers(), colName) + 1)
-                : table.getWebElement().findElements(fillByTemplate(columnTemplate, colName));
-    }
-
     private RuntimeException throwColsException(String colName, String ex) {
-        return asserter.exception("Can't Get Column '%s'. Exception: %s", colName, ex);
+        return exception("Can't Get Column '%s'. Exception: %s", colName, ex);
     }
 
     public final MapArray<String, ICell> getRow(String rowName) {
         try {
             String[] headers = headers();
-            List<WebElement> webRow = table.rows().getRowAction(rowName);
+            List<WebElement> webRow = table.rows().getLineAction(rowName);
             return new MapArray<>(count(),
                     key -> headers[key],
                     value -> table.cell(webRow.get(value), new Column(headers[value]), new Row(rowName)));
@@ -59,7 +47,7 @@ public class Columns extends TableLine {
 
     public List<String> getRowValue(String rowName) {
         try {
-            return select(table.rows().getRowAction(rowName), WebElement::getText);
+            return select(table.rows().getLineAction(rowName), WebElement::getText);
         } catch (Exception | Error ex) {
             throw throwColsException(rowName, ex.getMessage());
         }
@@ -79,7 +67,7 @@ public class Columns extends TableLine {
         if (count() < 0 || table.rows().count() < rowNum || rowNum <= 0)
             throw exception("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, count());
         try {
-            List<WebElement> webRow = table.rows().getRowAction(rowNum);
+            List<WebElement> webRow = table.rows().getLineAction(rowNum);
             return new MapArray<>(count(),
                     key -> headers()[key],
                     value -> table.cell(webRow.get(value), new Column(value + 1), new Row(rowNum)));
@@ -92,7 +80,7 @@ public class Columns extends TableLine {
         if (count() < 0 || count() < rowNum || rowNum <= 0)
             throw exception("Can't Get Column '%s'. [num] > ColumnsCount(%s).", rowNum, count());
         try {
-            return select(table.rows().getRowAction(rowNum), WebElement::getText);
+            return select(table.rows().getLineAction(rowNum), WebElement::getText);
         } catch (Exception | Error ex) {
             throw throwColsException(rowNum + "", ex.getMessage());
         }

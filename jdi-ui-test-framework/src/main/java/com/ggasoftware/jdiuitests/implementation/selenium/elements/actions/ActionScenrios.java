@@ -10,7 +10,7 @@ import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 
-import static com.ggasoftware.jdiuitests.core.utils.common.Timer.alwaysDoneAction;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.timeouts;
 import static java.lang.String.format;
 
 /**
@@ -27,7 +27,10 @@ public class ActionScenrios {
     public void actionScenario(String actionName, JAction jAction, LogSettings logSettings) {
         element.logAction(actionName, logSettings);
         Timer timer = new Timer();
-        alwaysDoneAction(jAction::invoke);
+        new Timer(timeouts.currentTimeoutSec).wait(() -> {
+            jAction.invoke();
+            return true;
+        });
         JDISettings.logger.info(actionName + " done");
         PerformanceStatistic.addStatistic(timer.timePassedInMSec());
     }
@@ -35,7 +38,8 @@ public class ActionScenrios {
     public <TResult> TResult resultScenario(String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {
         element.logAction(actionName);
         Timer timer = new Timer();
-        TResult result = Timer.getResultAction(jAction::invoke);
+        TResult result = new Timer(timeouts.currentTimeoutSec)
+                .getResultByCondition(jAction::invoke, res -> true);
         String stringResult = (logResult == null)
                 ? result.toString()
                 : JDISettings.asserter.silent(() -> logResult.invoke(result));

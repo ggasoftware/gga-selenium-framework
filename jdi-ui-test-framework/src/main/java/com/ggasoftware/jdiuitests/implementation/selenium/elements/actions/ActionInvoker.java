@@ -8,6 +8,7 @@ import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
 
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.isClass;
 
 /**
@@ -39,7 +40,7 @@ public class ActionInvoker {
             processDemoMode();
             return BaseElement.actionScenrios.setElement(element).resultScenario(actionName, action, logResult, logSettings);
         } catch (Exception | Error ex) {
-            throw JDISettings.exception("Failed to do '%s' action. Exception: %s", actionName, ex);
+            throw exception("Failed to do '%s' action. Exception: %s", actionName, ex);
         }
     }
 
@@ -52,7 +53,7 @@ public class ActionInvoker {
             processDemoMode();
             BaseElement.actionScenrios.setElement(element).actionScenario(actionName, action, logSettings);
         } catch (Exception | Error ex) {
-            throw JDISettings.exception("Failed to do '%s' action. Exception: %s", actionName, ex);
+            throw exception("Failed to do '%s' action. Exception: %s", actionName, ex);
         }
     }
 

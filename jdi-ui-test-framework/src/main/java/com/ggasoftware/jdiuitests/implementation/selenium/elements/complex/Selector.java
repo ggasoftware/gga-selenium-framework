@@ -1,6 +1,5 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.ISelector;
 import org.openqa.selenium.By;
@@ -8,6 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.utils.common.EnumUtils.getEnumValue;
 
 /**
@@ -63,7 +63,7 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         if (allLabels() != null)
             return getSelected(allLabels().getWebElements());
         if (getLocator().toString().contains("%s"))
-            throw JDISettings.exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
+            throw exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
         List<WebElement> els = getAvatar().searchAll().getElements();
         if (els.size() == 1)
             return getSelected(getSelector().getOptions());
@@ -74,7 +74,7 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
     private String getSelected(List<WebElement> els) {
         WebElement element = LinqUtils.first(els, this::isSelectedAction);
         if (element == null)
-            throw JDISettings.exception("No elements selected. Override getSelectedAction or place locator to <select> tag");
+            throw exception("No elements selected. Override getSelectedAction or place locator to <select> tag");
         return element.getText();
     }
 
@@ -83,7 +83,7 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
             return getSelectedIndex(allLabels().getWebElements());
         }
         if (getLocator().toString().contains("%s"))
-            throw JDISettings.exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
+            throw exception("Can't get Selected options. Override getSelectedAction or place locator to <select> tag");
         List<WebElement> els = getAvatar().searchAll().getElements();
         if (els.size() == 1)
             return getSelectedIndex(getSelector().getOptions());
@@ -94,7 +94,7 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
     private int getSelectedIndex(List<WebElement> els) {
         int index = LinqUtils.firstIndex(els, this::isSelectedAction) + 1;
         if (index == 0)
-            throw JDISettings.exception("No elements selected. Override getSelectedAction or place locator to <select> tag");
+            throw exception("No elements selected. Override getSelectedAction or place locator to <select> tag");
         return index;
     }
 }

@@ -28,7 +28,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * Created by Roman_Iovlev on 6/2/2015.
  */
 public class Table extends Text implements ITable {
-    public boolean cache = false;
+    public boolean cache = true;
     protected String[] _footer;
     private By cellLocatorTemplate;
     private List<ICell> allCells = new ArrayList<>();
@@ -51,9 +51,9 @@ public class Table extends Text implements ITable {
 
     public Table(By header, By row, By column) {
         this();
-        _columns.columnTemplate = column;
-        _columns.columnsHeadersLocator = header;
-        _rows.rowTemplate = row;
+        _columns.lineTemplate = column;
+        _columns.headersLocator = header;
+        _rows.lineTemplate = row;
     }
 
     public Table(By tableLocator, By cellLocatorTemplate) {
@@ -153,20 +153,24 @@ public class Table extends Text implements ITable {
         _rows.update(value);
     }
 
-    public void setColumnHeaders(String[] value) {
+    public ITable setColumnHeaders(String[] value) {
         columns().setHeaders(value);
+        return this;
     }
 
-    public void setRowHeaders(String[] value) {
+    public ITable setRowHeaders(String[] value) {
         rows().setHeaders(value);
+        return this;
     }
 
-    public void setColCount(int value) {
+    public ITable setColCount(int value) {
         columns().setCount(value);
+        return this;
     }
 
-    public void setRowCount(int value) {
+    public ITable setRowCount(int value) {
         rows().setCount(value);
+        return this;
     }
 
     protected String[] getFooterAction() {

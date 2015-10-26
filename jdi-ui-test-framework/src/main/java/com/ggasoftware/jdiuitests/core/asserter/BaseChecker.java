@@ -126,6 +126,8 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     protected void assertException(String failMessage, Object... args) {
         if (args.length > 0)
             failMessage = format(failMessage, args);
+        if (doScreenshot == SCREEN_ON_FAIL)
+            logger.info(doScreenshotGetMessage());
         logger.error(FRAMEWORK, failMessage);
         throwFail().invoke(failMessage);
     }

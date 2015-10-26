@@ -1,6 +1,5 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table;
 
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
@@ -11,6 +10,8 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.ISelect;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 
 /**
  * Created by 12345 on 25.10.2014.
@@ -49,7 +50,7 @@ class Cell extends SelectElement implements ISelect, ICell {
 
     public Cell(int columnIndex, int rowIndex, int columnNum, int rowNum, String colName, String rowName,
                 By cellLocatorTemplate, Table table) {
-        this.columnIndex = (table.rows().hasHeader && table.rows().rowTemplate == null) ? columnIndex + 1 : columnIndex;
+        this.columnIndex = (table.rows().hasHeader && table.rows().lineTemplate == null) ? columnIndex + 1 : columnIndex;
         this.rowIndex = rowIndex;
         this.columnNum = columnNum;
         this.rowNum = rowNum;
@@ -107,7 +108,7 @@ class Cell extends SelectElement implements ISelect, ICell {
                     ? (T) MapInterfaceToElement.getClassFromInterface(clazz).newInstance()
                     : clazz.newInstance();
         } catch (Exception ex) {
-            throw JDISettings.exception("Can't get Cell from interface/class: " + LinqUtils.last((clazz + "").split("\\.")));
+            throw exception("Can't get Cell from interface/class: " + LinqUtils.last((clazz + "").split("\\.")));
         }
         return get(instance);
     }
@@ -117,7 +118,7 @@ class Cell extends SelectElement implements ISelect, ICell {
         if (locator == null || locator.toString().equals(""))
             locator = cellLocatorTemplate;
         if (!locator.toString().contains("{0}") || !locator.toString().contains("{1}"))
-            throw JDISettings.exception("Can't create cell with locator template " + cell.getLocator() +
+            throw exception("Can't create cell with locator template " + cell.getLocator() +
                     ". Template for Cell should contains '{0}' - for column and '{1}' - for row indexes.");
         cell.getAvatar().byLocator = WebDriverByUtils.fillByMsgTemplate(locator, rowIndex, columnIndex);
         cell.getAvatar().context.add(ContextType.Locator, table.getLocator());

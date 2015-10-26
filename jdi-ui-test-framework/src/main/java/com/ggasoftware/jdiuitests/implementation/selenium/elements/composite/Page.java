@@ -8,6 +8,7 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.a
 import com.ggasoftware.jdiuitests.implementation.testng.asserter.Check;
 import org.openqa.selenium.Cookie;
 
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.CheckPageTypes.EQUAL;
 import static java.lang.String.format;
 
@@ -35,11 +36,11 @@ public class Page extends BaseElement implements IPage {
     }
 
     public static String getUrlFromUri(String uri) {
-        return JDISettings.domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
+        return domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
     }
 
     public static String getMatchFromDomain(String uri) {
-        return JDISettings.domain.replaceAll("/*$", "").replace(".", "\\.") + "/" + uri.replaceAll("^/*", "");
+        return domain.replaceAll("/*$", "").replace(".", "\\.") + "/" + uri.replaceAll("^/*", "");
     }
 
     public static void openUrl(String url) {
@@ -106,11 +107,11 @@ public class Page extends BaseElement implements IPage {
 
     public void isOpened() {
         try {
-            JDISettings.logger.test("Page %s is opened", getName());
+            logger.test("Page %s is opened", getName());
             if (getUrl().equals(url)) return;
             open();
         } catch (Exception ex) {
-            throw JDISettings.asserter.exception(format("Can't open page %s. Exception: %s", getName(), ex.getMessage()));
+            throw exception(format("Can't open page %s. Exception: %s", getName(), ex.getMessage()));
         }
 
     }

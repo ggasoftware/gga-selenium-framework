@@ -20,4 +20,8 @@ public class FileInput extends TextField implements IFileInput {
         super(webElement);
     }
 
+    @Override
+    protected void setValueAction(String value) {
+        input(value);
+    }
 }

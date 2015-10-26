@@ -14,7 +14,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.asserter;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.objToSetValue;
@@ -131,7 +130,7 @@ public class Form<T> extends Element implements IForm<T> {
     public void check(T entity) {
         List<String> result = verify(entity);
         if (result.size() > 0)
-            throw asserter.exception("Check form failed:" + LineBreak + print(result, LineBreak));
+            throw exception("Check form failed:" + LineBreak + print(result, LineBreak));
     }
     protected String getValueAction() {
         return PrintUtils.print(LinqUtils.select(getFields(this, IHasValue.class), field ->
