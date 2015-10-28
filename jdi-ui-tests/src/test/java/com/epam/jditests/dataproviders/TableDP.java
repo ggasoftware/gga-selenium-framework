@@ -46,8 +46,6 @@ public class TableDP {
         return new Object [][]{
                {-1,0,Arrays.asList(),""},
                {0,0,Arrays.asList(),""},
-               {2,2,Arrays.asList("Type","Now"),"Drivers"},
-               {3,3,Arrays.asList("Type","Now","Plans"),"Drivers"},
                {10,10,Arrays.asList("Type","Now","Plans"),"Drivers"}};
     }
 
@@ -110,6 +108,27 @@ public class TableDP {
                 {3,2,Link.class,"([0-9]{2}:){2}[0-9]{2} Name: date selected selected"},
                 {3,2,Image.class,"([0-9]{2}:){2}[0-9]{2} Name: link ws clicked was clicked"},
                 {3,2,Label.class,"([0-9]{2}:){2}[0-9]{2} Name: label ws clicked was clicked"}
+        };
+    }
+
+    @DataProvider(name="cellIndexes")
+    public static Object[][] cellIndexes(){
+        return new Object[][]{
+                {4,1},
+                {-1,1},
+                {0,1},
+                {1,10},
+                {1,-1},
+                {1,0}
+        };
+    }
+
+    @DataProvider(name="indexes")
+    public static Object[][] indexes(){
+        return new Object[][]{
+                {-10},
+                {0},
+                {10}
         };
     }
 
