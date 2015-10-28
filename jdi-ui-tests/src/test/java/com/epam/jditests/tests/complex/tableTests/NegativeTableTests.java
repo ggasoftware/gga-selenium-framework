@@ -49,7 +49,7 @@ public class NegativeTableTests extends InitTests {
         isInState(SIMPLE_PAGE);
 
         try {
-            tableNoHeaders().cell(column(columnIndex), row(rowIndex)).get().getWebElement();
+            tableNoHeaders().cell(column(columnIndex), row(rowIndex)).getWebElement();
         } catch (Error | Exception e) {
             areEquals(e.toString(), _assertionException,
                     format("Expected exception is \n'%s'\n but was \b'%s'", _assertionException, e.toString()));

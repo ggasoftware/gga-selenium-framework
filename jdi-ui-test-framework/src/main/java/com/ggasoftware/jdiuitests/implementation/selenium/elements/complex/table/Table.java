@@ -2,8 +2,10 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.tabl
 
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.StringUtils;
+import com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.core.utils.pairs.Pair;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.apiInteract.GetElementModule;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Text;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
@@ -20,6 +22,7 @@ import static com.ggasoftware.jdiuitests.core.settings.JDISettings.timeouts;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdiuitests.core.utils.common.Timer.waitCondition;
+import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByMsgTemplate;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -416,6 +419,8 @@ public class Table extends Text implements ITable {
         if (cell != null)
             return cell.updateData(colName, rowName);
         cell = new Cell(colIndex, rowIndex, colNum, rowNum, colName, rowName, cellLocatorTemplate, this);
+        cell.setAvatar(cell.get().getAvatar());
+
         if (cache)
             allCells.add(cell);
         return cell;
