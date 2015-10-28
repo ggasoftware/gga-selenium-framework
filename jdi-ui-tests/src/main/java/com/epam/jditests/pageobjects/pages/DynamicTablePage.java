@@ -1,28 +1,50 @@
 package com.epam.jditests.pageobjects.pages;
 
+import com.epam.jditests.enums.ColumnHeaders;
+import com.epam.jditests.pageobjects.composite.DynamicTable;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Button;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Text;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.TextField;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.CheckBox;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.DropList;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.Dropdown;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+
+import static com.epam.jditests.pageobjects.EpamJDISite.dynamicTablePage;
 
 /**
  * Created by Natalia_Grebenshchik on 10/14/2015.
  */
 public class DynamicTablePage extends Page{
-    @FindBy(className = "uui-dynamic-table")
-    public ITable dynamicTable;
+    @FindBy(xpath = "*//table[@class='uui-table stripe tbl-scroll' or @class='uui-table stripe tbl-scroll table-delete']")
+    public DynamicTable dynamicTable;
 
-    @FindBy(name = "select-columns-dd")
-    public DropList selectColumnsDD;
-    @FindBy(name = "apply-selected-columns-btn")
-    public Button selectColumnsBtn;
+    @FindBy(xpath = "*//button[contains(@class,'btn dropdown-toggle selectpicker btn-default')]")
+    public Button dropDownButton;
 
-    @FindBy(name = "select-rows-dd")
-    public DropList selectRowsDD;
-    @FindBy(name = "apply-selected-rows-btn")
-    public Button selectRowsBtn;
+    public ColumnDropList<ColumnHeaders> tableColumnDD = new ColumnDropList<ColumnHeaders>(
+            By.xpath("*//ul[contains(@class,'dropdown-menu inner selectpicker')]"),
+            By.xpath("*//ul[contains(@class,'dropdown-menu inner selectpicker')]/li")) {
+        @Override
+        public void selectByName(String name) {
+            dynamicTablePage.dropDownButton.click();
+            dynamicTablePage.tableColumnDD.select(name);
+            dynamicTablePage.dropDownButton.click();
+        }
+    };
+
+    @FindBy(xpath = "*//button[text()='Reestablish']")
+    public Button ReestablishBtn;
+    @FindBy(xpath = "*//button[text()='Apply']")
+    public Button applyBtn;
+
+    public abstract class ColumnDropList<ColumnHeaders extends Enum> extends DropList<ColumnHeaders>{
+        public ColumnDropList(By xpath, By xpath1) {
+            super(xpath, xpath1);
+        }
+
+        public abstract void selectByName(String name);
+    }
+
+
 }

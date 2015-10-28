@@ -14,7 +14,7 @@ import static com.ggasoftware.jdiuitests.implementation.selenium.elements.comple
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
 
 /**
- * Created by Natalia_Grebenshchik on 10/5/2015.
+ * Created by Natalia_Grebenshchikova on 10/5/2015.
  */
 public class CellTests extends InitTableTests {
 

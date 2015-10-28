@@ -28,8 +28,9 @@ public enum Preconditions {
     METALS_AND_COLORS_PAGE("page2.htm"),
     DATES_PAGE("page4.htm"),
     SUPPORT_PAGE("page3.htm"),
-    CLICKABLE_TABLE_PAGE("page5.htm"),
-    DYNAMIC_TABLE_PAGE("page6.htm"),
+    SORTING_TABLE_PAGE("page7.htm"),
+    DYNAMIC_TABLE_PAGE("page5.htm"),
+    SIMPLE_PAGE("page6.htm"),
     DATES_PAGE_FILLED(() -> false/*checkUrl("page4.html")*/, () -> {
     	openUri("page4.htm");
         WebElement datePicker = getDriver().findElement(dates.datepicker.getLocator());

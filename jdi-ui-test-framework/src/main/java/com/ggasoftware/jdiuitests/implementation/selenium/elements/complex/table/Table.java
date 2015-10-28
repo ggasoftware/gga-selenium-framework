@@ -30,10 +30,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class Table extends Text implements ITable {
     public boolean cache = true;
     protected String[] _footer;
-    private By cellLocatorTemplate;
+    protected By cellLocatorTemplate;
     private List<ICell> allCells = new ArrayList<>();
     private Columns _columns = new Columns();
     private Rows _rows = new Rows();
+    private By footerLocator = By.xpath(".//tfoot//th");
 
     // ------------------------------------------ //
 
@@ -61,14 +62,27 @@ public class Table extends Text implements ITable {
         this.cellLocatorTemplate = cellLocatorTemplate;
     }
 
+    public Table(By columnHeader, By rowHeader, By row, By column, By footer, TableSettings settings,
+                 int columnStartIndex, int rowStartIndex) {
+        this();
+        _columns.defaultTemplate = column;
+        if (columnHeader != null)
+            _columns.headersLocator = columnHeader;
+        _rows.defaultTemplate = row;
+        if (rowHeader != null)
+            _rows.headersLocator = rowHeader;
+        footerLocator = footer;
+
+        _columns.startIndex = columnStartIndex;
+        _rows.startIndex = rowStartIndex;
+
+        setTableSettings(settings);
+    }
+
     public Table(TableSettings settings) {
         this();
-        rows().hasHeader = settings.rowHasHeaders;
-        rows().headers = settings.rowHeaders;
-        rows().count = settings.rowsCount;
-        columns().hasHeader = settings.columnHasHeaders;
-        columns().headers = settings.columnHeaders;
-        columns().count = settings.columnsCount;
+
+        setTableSettings(settings);
     }
 
     public List<ICell> getCells() {
@@ -145,6 +159,15 @@ public class Table extends Text implements ITable {
         return columns().getRowValue(rowName);
     }
 
+    public void setTableSettings(TableSettings settings){
+        rows().hasHeader = settings.rowHasHeaders;
+        rows().headers = settings.rowHeaders;
+        rows().count = settings.rowsCount;
+        columns().hasHeader = settings.columnHasHeaders;
+        columns().headers = settings.columnHeaders;
+        columns().count = settings.columnsCount;
+    }
+
     private MapArray<String, ICell> row(Row row) {
         return row.get(this::row, this::row);
     }
@@ -174,7 +197,7 @@ public class Table extends Text implements ITable {
     }
 
     protected String[] getFooterAction() {
-        return LinqUtils.select(getWebElement().findElements(By.xpath("//tfoot/tr/td[1]")), WebElement::getText)
+        return LinqUtils.select(getWebElement().findElements(By.xpath(".//tfoot/tr/th")), WebElement::getText)
                 .toArray(new String[1]);
     }
 
