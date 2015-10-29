@@ -111,7 +111,7 @@ public class TableTests extends InitTableTests {
                 format("Expected rows headers are \n%s, \nbut were \n%s", expNewRowsHeaders, asList(table.rows().headers())));
 
     }
-    @Test(dataProvider = "setColumnsCount", dataProviderClass = TableDP.class)
+    @Test(dataProvider = "setRowsCount", dataProviderClass = TableDP.class)
     public void verifySetRowsCountByFirstCellContent(int newRowCount, List<String> expNewRowsHeaders, String firstColumnContent){
         Table table = initTable(new Table(new TableSettings(3, newRowCount)));
 

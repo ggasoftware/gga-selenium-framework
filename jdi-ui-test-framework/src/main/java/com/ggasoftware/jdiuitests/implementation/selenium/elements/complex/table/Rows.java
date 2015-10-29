@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
+import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
 /**
  * Created by 12345 on 26.10.2014.

@@ -24,7 +24,6 @@ public class InitTests extends TestNGBase {
     public static void setUp() throws Exception {
         JDISettings.driverFactory.driversPath = "C:\\Selenium";
         initJDIFromProperties();
-        MapInterfaceToElement.updateInterfacesMap(new Object[][] {});
         //Assert.noScreenOnFail();
         Init(EpamJDISite.class);
         homePage.open();

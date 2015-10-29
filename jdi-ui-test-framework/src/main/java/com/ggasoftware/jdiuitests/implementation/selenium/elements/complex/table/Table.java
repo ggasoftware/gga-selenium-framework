@@ -2,8 +2,10 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.tabl
 
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.StringUtils;
+import com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.core.utils.pairs.Pair;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.apiInteract.GetElementModule;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Text;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
@@ -21,6 +23,7 @@ import static com.ggasoftware.jdiuitests.core.utils.common.EnumUtils.getAllEnumN
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdiuitests.core.utils.common.Timer.waitCondition;
+import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByMsgTemplate;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -31,10 +34,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class Table extends Text implements ITable {
     public boolean cache = true;
     protected String[] _footer;
-    private By cellLocatorTemplate;
+    protected By cellLocatorTemplate;
     private List<ICell> allCells = new ArrayList<>();
     private Columns _columns = new Columns();
     private Rows _rows = new Rows();
+    private By footerLocator = By.xpath(".//tfoot//th");
 
     // ------------------------------------------ //
 
@@ -62,14 +66,27 @@ public class Table extends Text implements ITable {
         this.cellLocatorTemplate = cellLocatorTemplate;
     }
 
+    public Table(By columnHeader, By rowHeader, By row, By column, By footer, TableSettings settings,
+                 int columnStartIndex, int rowStartIndex) {
+        this();
+        _columns.defaultTemplate = column;
+        if (columnHeader != null)
+            _columns.headersLocator = columnHeader;
+        _rows.defaultTemplate = row;
+        if (rowHeader != null)
+            _rows.headersLocator = rowHeader;
+        footerLocator = footer;
+
+        _columns.startIndex = columnStartIndex;
+        _rows.startIndex = rowStartIndex;
+
+        setTableSettings(settings);
+    }
+
     public Table(TableSettings settings) {
         this();
-        rows().hasHeader = settings.rowHasHeaders;
-        rows().headers = settings.rowHeaders;
-        rows().count = settings.rowsCount;
-        columns().hasHeader = settings.columnHasHeaders;
-        columns().headers = settings.columnHeaders;
-        columns().count = settings.columnsCount;
+
+        setTableSettings(settings);
     }
 
     public List<ICell> getCells() {
@@ -146,6 +163,15 @@ public class Table extends Text implements ITable {
         return columns().getRowValue(rowName);
     }
 
+    public void setTableSettings(TableSettings settings){
+        rows().hasHeader = settings.rowHasHeaders;
+        rows().headers = settings.rowHeaders;
+        rows().count = settings.rowsCount;
+        columns().hasHeader = settings.columnHasHeaders;
+        columns().headers = settings.columnHeaders;
+        columns().count = settings.columnsCount;
+    }
+
     private MapArray<String, ICell> row(Row row) {
         return row.get(this::row, this::row);
     }
@@ -182,7 +208,7 @@ public class Table extends Text implements ITable {
     }
 
     protected String[] getFooterAction() {
-        return LinqUtils.select(getWebElement().findElements(By.xpath("//tfoot/tr/td[1]")), WebElement::getText)
+        return LinqUtils.select(getWebElement().findElements(By.xpath(".//tfoot/tr/th")), WebElement::getText)
                 .toArray(new String[1]);
     }
 
@@ -401,6 +427,8 @@ public class Table extends Text implements ITable {
         if (cell != null)
             return cell.updateData(colName, rowName);
         cell = new Cell(colIndex, rowIndex, colNum, rowNum, colName, rowName, cellLocatorTemplate, this);
+        cell.setAvatar(cell.get().getAvatar());
+
         if (cache)
             allCells.add(cell);
         return cell;
