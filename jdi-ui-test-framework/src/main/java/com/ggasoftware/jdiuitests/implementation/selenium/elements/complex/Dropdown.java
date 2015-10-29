@@ -56,6 +56,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     }
 
     protected void expandAction(String name) {
+        getAvatar().context.clear();
         if (element().isDisplayed()) {
             setWaitTimeout(0);
             if (!isDisplayedAction(name)) element().click();
@@ -64,7 +65,9 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum> implements IDr
     }
 
     protected void expandAction(int index) {
-        if (!isDisplayedAction(index)) element().click();
+        getAvatar().context.clear();
+        if (!isDisplayedAction(index))
+            element().click();
     }
 
     @Override

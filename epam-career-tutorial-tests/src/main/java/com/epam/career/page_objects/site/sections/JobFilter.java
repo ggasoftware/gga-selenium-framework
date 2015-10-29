@@ -2,6 +2,7 @@ package com.epam.career.page_objects.site.sections;
 
 import com.epam.career.page_objects.entities.JobSearchFilter;
 import com.epam.career.page_objects.enums.JobCategories;
+import com.epam.career.page_objects.enums.Locations;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.Dropdown;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Form;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IButton;
@@ -18,8 +19,8 @@ public class JobFilter extends Form<JobSearchFilter> {
     public ITextField keywords;
     @FindBy(id = "select-box-department-select-container")
     public IDropDown<JobCategories> category = new Dropdown<>(By.id("select-box-department-select-container"), By.cssSelector(".options .option"));
-    /*@FindBy(className = "career-location-box")
-    public IDropDown<Locations> city;*/
+    @FindBy(className = "career-location-box")
+    public IDropDown<Locations> city;
 
     @FindBy(className = "job-search-button")
     public IButton selectButton;

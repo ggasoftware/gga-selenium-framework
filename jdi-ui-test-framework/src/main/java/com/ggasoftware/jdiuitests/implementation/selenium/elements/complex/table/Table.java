@@ -17,6 +17,7 @@ import java.util.List;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.timeouts;
+import static com.ggasoftware.jdiuitests.core.utils.common.EnumUtils.getAllEnumNamesAsArray;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdiuitests.core.utils.common.Timer.waitCondition;
@@ -157,12 +158,19 @@ public class Table extends Text implements ITable {
         columns().setHeaders(value);
         return this;
     }
+    public <THeaders extends Enum> ITable setColumnHeaders(Class<THeaders> headers) {
+        setColumnHeaders(getAllEnumNamesAsArray(headers));
+        return this;
+    }
 
     public ITable setRowHeaders(String[] value) {
         rows().setHeaders(value);
         return this;
     }
-
+    public <THeaders extends Enum> ITable setRowHeaders(Class<THeaders> headers) {
+        setRowHeaders(getAllEnumNamesAsArray(headers));
+        return this;
+    }
     public ITable setColCount(int value) {
         columns().setCount(value);
         return this;
