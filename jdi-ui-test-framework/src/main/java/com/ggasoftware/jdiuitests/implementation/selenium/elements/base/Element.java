@@ -160,10 +160,10 @@ public class Element extends BaseElement implements IElement {
     }
 
     public void doubleClick() {
-        invoker.doJAction("Couble click on Element", () -> {
+        invoker.doJAction("Double click on Element", () -> {
             getWebElement().getSize(); //for scroll to object
             Actions builder = new Actions(getDriver());
-            builder.doubleClick();
+            builder.doubleClick(getWebElement()).perform();
         });
     }
 

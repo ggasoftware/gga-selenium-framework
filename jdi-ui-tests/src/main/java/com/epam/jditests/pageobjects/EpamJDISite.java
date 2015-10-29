@@ -5,6 +5,7 @@ import com.epam.jditests.pageobjects.pages.*;
 import com.epam.jditests.pageobjects.sections.Footer;
 import com.epam.jditests.pageobjects.sections.Header;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.TextList;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Site;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JPage;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JSite;
@@ -32,11 +33,13 @@ public class EpamJDISite extends Site {
     public static MetalsColorsPage metalsColorsPage;
     @JPage(url = "/page3.htm", title = "Page 3")
     public static SupportPage supportPage;
-    @JPage(url = "/page5.htm", title = "Page 5")
-    public static ClickableTablePage clickableTablePage;
-    @JPage (url = "/page6.htm", title = "Page 6")
+    @JPage(url = "/page3.htm", title = "Page 3")
+    public static SortingTablePage sortingTablePage;
+    @JPage (url = "/page7.htm", title = "Table sort")
     public static DynamicTablePage dynamicTablePage;
-    @JPage(url = "/page4.htm", title = "Page 4")
+    @JPage(url = "/page5.htm", title = "Table Scroll")
+    public static Page simplePage;
+    @JPage(url = "/page6.htm", title = "Simple Page")
     public static DatesPage dates;
     @FindBy(css = ".uui-profile-menu")
     public static Login login;

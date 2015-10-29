@@ -29,7 +29,7 @@ abstract class TableLine extends Element implements ITableLine {
     public Table table;
     protected int count = 0;
     protected String[] headers;
-    private int startIndex = 1;
+    protected int startIndex = 1;
     protected By headersLocator;
     protected By defaultTemplate;
     protected By lineTemplate = null;
@@ -56,14 +56,12 @@ abstract class TableLine extends Element implements ITableLine {
         if (count > 0)
             return count;
         else {
-            if (hasHeader) {
-                String[] headers = headers();
-                if (headers != null && headers.length > 0)
+           if (headers != null && headers.length > 0)
                     return headers.length;
-                return headers != null ? headers.length : 0;
-            }
-            List<WebElement> elements = getLineAction(1);
-            return elements != null ? elements.size() : 0;
+           /* List<WebElement> elements = getLineAction(1);
+            return elements != null ? elements.size() : 0;*/
+
+           return header().count();
         }
     }
 

@@ -7,6 +7,7 @@ import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Link;
 import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static java.util.Arrays.asList;
 
@@ -39,13 +40,12 @@ public class TableDP {
                {3,asList("Type","Now","Plans"),"Drivers"},
                {10,asList("Type","Now","Plans"),"Drivers"}};
     }
+
     @DataProvider(name = "setColumnsCountNegative")
     public static Object[][] setColumnsCountNegarive(){
         return new Object [][]{
                {-1,0,Arrays.asList(),""},
                {0,0,Arrays.asList(),""},
-               {2,2,Arrays.asList("Type","Now"),"Drivers"},
-               {3,3,Arrays.asList("Type","Now","Plans"),"Drivers"},
                {10,10,Arrays.asList("Type","Now","Plans"),"Drivers"}};
     }
 
@@ -54,7 +54,7 @@ public class TableDP {
         return new Object [][]{
                {2,asList("1","2"),"Drivers"},
                {6,asList("1","2","3","4","5","6"),"Drivers"},
-               {10,asList("1","2","3","4","5","6"),"Drivers"}};
+               {10,asList("1","2","3","4","5","6","7","8","9","10"),"Drivers"}};
     }
     @DataProvider(name = "setRowsCountNegative")
     public static Object[][] setRowsCountNegative(){
@@ -111,21 +111,24 @@ public class TableDP {
         };
     }
 
-    @DataProvider(name = "addColumn")
-    public static Object[][] addColumn(){
-        return new Object[][] {
-                {2, 4, asList("1","2","3","4"),"firstCellContent"},
-                {4, 4, asList("1","2","3","4"),"firstCellContent"},
-                {1, 4, asList("1","2","3","4"),"newFirstCellContent"},
+    @DataProvider(name="cellIndexes")
+    public static Object[][] cellIndexes(){
+        return new Object[][]{
+                {4,1},
+                {-1,1},
+                {0,1},
+                {1,10},
+                {1,-1},
+                {1,0}
         };
     }
 
-    @DataProvider(name = "deleteColumn")
-    public static Object[][] deleteColumn(){
-        return new Object[][] {
-                {2, 2, asList("1","3"),"firstCellContent"},
-                {4, 4, asList("1","2","3","4"),"firstCellContent"},
-                {1, 4, asList("1","2","3","4"),"newFirstCellContent"},
+    @DataProvider(name="indexes")
+    public static Object[][] indexes(){
+        return new Object[][]{
+                {-10},
+                {0},
+                {10}
         };
     }
 

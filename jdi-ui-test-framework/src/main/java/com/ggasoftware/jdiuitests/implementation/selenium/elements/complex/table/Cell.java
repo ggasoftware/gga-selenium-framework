@@ -95,6 +95,10 @@ class Cell extends SelectElement implements ISelect, ICell {
         get().click();
     }
 
+    @Override
+    protected boolean isSelectedAction() {
+        return get().isSelected();
+    }
     public SelectElement get() {
         return (webElement != null)
                 ? new SelectElement(webElement)
