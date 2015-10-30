@@ -2,10 +2,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.tabl
 
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Columns;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Rows;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.*;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IText;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 
@@ -240,4 +237,8 @@ public interface ITable extends IText {
     void clear();
 
     ITable useCache();
+
+    Table clone();
+
+    Table copy();
 }

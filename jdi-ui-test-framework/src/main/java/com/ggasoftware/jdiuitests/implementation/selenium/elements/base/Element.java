@@ -87,7 +87,7 @@ public class Element extends BaseElement implements IElement {
     }
 
     protected boolean isDisplayedAction() {
-        return actions.findImmediately(() -> getWebElement().isDisplayed());
+        return actions.findImmediately(() -> getWebElement().isDisplayed(), false);
     }
 
     protected boolean waitDisplayedAction() {

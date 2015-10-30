@@ -204,7 +204,7 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
     }
 
     protected boolean isDisplayedAction() {
-        List<WebElement> els = actions.findImmediately(this::getElements);
+        List<WebElement> els = actions.findImmediately(this::getElements, null);
         return els != null && els.size() > 0 && els.get(0).isDisplayed();
     }
 

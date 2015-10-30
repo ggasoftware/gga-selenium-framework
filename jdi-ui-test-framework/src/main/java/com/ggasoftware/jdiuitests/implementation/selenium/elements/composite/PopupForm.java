@@ -1,6 +1,5 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.composite;
 
-import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IPopup;
 
@@ -39,11 +38,11 @@ public class PopupForm<T> extends Form<T> implements IPopup {
 
     public final String waitText(String text) {
         return invoker.doJActionResult(format("Wait text contains '%s'", text),
-                () -> Timer.getByCondition(this::getTextAction, t -> t.contains(text)));
+                () -> timer().getResultByCondition(this::getTextAction, t -> t.contains(text)));
     }
 
     public final String waitMatchText(String regEx) {
         return invoker.doJActionResult(format("Wait text match regex '%s'", regEx),
-                () -> Timer.getByCondition(this::getTextAction, t -> t.matches(regEx)));
+                () -> timer().getResultByCondition(this::getTextAction, t -> t.matches(regEx)));
     }
 }

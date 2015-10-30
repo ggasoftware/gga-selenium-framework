@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
-import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
 /**
  * Created by 12345 on 26.10.2014.
@@ -32,6 +31,7 @@ public class Rows extends TableLine {
         return exception("Can't Get Rows for column '%s'. Exception: %s", rowName, ex);
     }
 
+    protected List<WebElement> getFirstLine() { return table.columns().getLineAction(1); }
     public final MapArray<String, ICell> getColumn(String colName) {
         try {
             String[] headers = headers();

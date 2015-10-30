@@ -187,11 +187,16 @@ public class ElementsActions {
         });
     }
 
-    public <T> T findImmediately(JFuncT<T> func) {
+    public <T> T findImmediately(JFuncT<T> func, T ifError) {
         element.setWaitTimeout(0);
         JFuncTT<WebElement, Boolean> temp = element.avatar.localElementSearchCriteria;
         element.avatar.localElementSearchCriteria = el -> true;
-        T result = func.invoke();
+        T result;
+        try {
+            result = func.invoke();
+        } catch (Exception|Error ex) {
+            result = ifError;
+        }
         element.avatar.localElementSearchCriteria = temp;
         element.restoreWaitTimeout();
         return result;

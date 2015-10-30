@@ -2,7 +2,6 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.tabl
 
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.StringUtils;
-import com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.core.utils.pairs.Pair;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.apiInteract.GetElementModule;
@@ -17,13 +16,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.timeouts;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdiuitests.core.utils.common.EnumUtils.getAllEnumNamesAsArray;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdiuitests.core.utils.common.Timer.waitCondition;
-import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByMsgTemplate;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -31,7 +28,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 /**
  * Created by Roman_Iovlev on 6/2/2015.
  */
-public class Table extends Text implements ITable {
+public class Table extends Text implements ITable, Cloneable {
     public boolean cache = true;
     protected String[] _footer;
     protected By cellLocatorTemplate;
@@ -85,8 +82,19 @@ public class Table extends Text implements ITable {
 
     public Table(TableSettings settings) {
         this();
-
         setTableSettings(settings);
+    }
+
+    public Table copy() {
+        return clone();
+    }
+    public Table clone() {
+        asserter.silent(() -> super.clone());
+        Table newTable = new Table();
+        newTable._rows = rows().clone(new Rows(), newTable);
+        newTable._columns = columns().clone(new Columns(), newTable);
+        newTable.avatar = new GetElementModule(getLocator(), getAvatar().context, newTable);
+        return newTable;
     }
 
     public List<ICell> getCells() {
@@ -184,6 +192,26 @@ public class Table extends Text implements ITable {
         columns().setHeaders(value);
         return this;
     }
+
+    public ITable hasHeaders() {
+        columns().hasHeader = true;
+        rows().hasHeader = true;
+        return this;
+    }
+    public ITable hasNoHeaders() {
+        columns().hasHeader = false;
+        rows().hasHeader = false;
+        return this;
+    }
+    public ITable hasColumnHeaders(boolean hasHeaders) {
+        columns().hasHeader = hasHeaders;
+        return this;
+    }
+    public ITable hasRowHeaders(boolean hasHeaders) {
+        rows().hasHeader = hasHeaders;
+        return this;
+    }
+
     public <THeaders extends Enum> ITable setColumnHeaders(Class<THeaders> headers) {
         setColumnHeaders(getAllEnumNamesAsArray(headers));
         return this;

@@ -5,7 +5,6 @@ import com.ggasoftware.jdiuitests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogLevels;
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.PrintUtils;
-import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.ITextList;
@@ -43,11 +42,11 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
                     for (WebElement el : getWebElements())
                         if (el.isDisplayed()) return false;
                     return true;
-                }));
+                }), false);
     }
 
     protected boolean isDisplayedAction() {
-        return actions.findImmediately(() -> LinqUtils.where(getWebElements(), WebElement::isDisplayed).size() > 0);
+        return actions.findImmediately(() -> LinqUtils.where(getWebElements(), WebElement::isDisplayed).size() > 0, false);
     }
 
     public boolean waitDisplayedAction() {
@@ -133,7 +132,7 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
     }
 
     public final List<String> waitText(String str) {
-        if (Timer.waitCondition(() -> LinqUtils.select(getWebElements(), WebElement::getText).contains(str)))
+        if (timer().wait(() -> LinqUtils.select(getWebElements(), WebElement::getText).contains(str)))
             return getLabels();
         else {
             throw exception("Wait Text Failed");

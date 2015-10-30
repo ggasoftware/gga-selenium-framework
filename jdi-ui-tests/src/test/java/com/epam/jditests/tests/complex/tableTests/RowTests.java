@@ -108,7 +108,7 @@ public class RowTests extends InitTableTests {
 
         MapArray<String, ICell> cellRows = support().row(3);
 
-        Assert.areEquals(cellRows.count(), 3, String.format("Number of cell expected to be 3, but was ", cellRows.count()));
+        Assert.areEquals(cellRows.count(), 3, String.format("Number of cell expected to be 3, but was %d", cellRows.count()));
 
         for (int i=0; i<3; i++)
             Assert.areEquals(cellRows.value(i).getValue(),
@@ -122,7 +122,7 @@ public class RowTests extends InitTableTests {
 
         MapArray<String, ICell> cellRows = support().row("3");
 
-        Assert.areEquals(cellRows.count(), 3, String.format("Name of cell expected to be 3, but was ", cellRows.count()));
+        Assert.areEquals(cellRows.count(), 3, String.format("Name of cell expected to be 3, but was %d", cellRows.count()));
 
         for (int i=0; i<3; i++)
             Assert.areEquals(cellRows.value(i).getValue(),

@@ -17,8 +17,7 @@ import org.openqa.selenium.support.FindBy;
 public class JobFilter extends Form<JobSearchFilter> {
     @FindBy(className = "job-search-input")
     public ITextField keywords;
-    @FindBy(id = "select-box-department-select-container")
-    public IDropDown<JobCategories> category = new Dropdown<>(By.id("select-box-department-select-container"), By.cssSelector(".options .option"));
+    public IDropDown<JobCategories> category = new Dropdown<>(By.id("select-box-department-select-container"), By.className("option"));
     @FindBy(className = "career-location-box")
     public IDropDown<Locations> city;
 

@@ -27,13 +27,13 @@ import static java.lang.String.format;
 public class EpamJDISite extends Site {
     @JPage(url = "/index.htm", title = "Index Page")
     public static HomePage homePage;
-    @JPage(url = "/page1.htm", title = "Page 1")
+    @JPage(url = "/page1.htm", title = "Contact Foem")
     public static ContactPage contactFormPage;
-    @JPage(url = "/page2.htm", title = "Page 2")
+    @JPage(url = "/page2.htm", title = "Metal and Colors")
     public static MetalsColorsPage metalsColorsPage;
-    @JPage(url = "/page3.htm", title = "Page 3")
+    @JPage(url = "/page3.htm", title = "Support")
     public static SupportPage supportPage;
-    @JPage(url = "/page3.htm", title = "Page 3")
+    @JPage(url = "/page3.htm", title = "Support")
     public static SortingTablePage sortingTablePage;
     @JPage (url = "/page7.htm", title = "Table sort")
     public static DynamicTablePage dynamicTablePage;

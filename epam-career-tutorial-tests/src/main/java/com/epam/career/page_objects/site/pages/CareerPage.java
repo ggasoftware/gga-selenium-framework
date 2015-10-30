@@ -8,6 +8,6 @@ import org.openqa.selenium.support.FindBy;
  * Created by Roman_Iovlev on 10/22/2015.
  */
 public class CareerPage extends Page {
-    @FindBy(className = "career-list-header")
+    @FindBy(className = "job-search")
     public JobFilter jobFilter;
 }

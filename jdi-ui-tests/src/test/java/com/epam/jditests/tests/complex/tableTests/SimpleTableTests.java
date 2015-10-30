@@ -1,15 +1,11 @@
 package com.epam.jditests.tests.complex.tableTests;
 
 import com.epam.jditests.InitTests;
-import com.epam.jditests.enums.Preconditions;
-import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
-import com.ggasoftware.jdiuitests.implementation.junit.asserter.Assert;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Table;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.TableSettings;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
-
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -19,15 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.jditests.enums.Preconditions.SIMPLE_PAGE;
-import static com.epam.jditests.pageobjects.EpamJDISite.actionsLog;
-import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
-import static com.epam.jditests.pageobjects.EpamJDISite.simplePage;
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.foreach;
+import static com.epam.jditests.pageobjects.EpamJDISite.*;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.matches;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.*;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
@@ -35,7 +26,6 @@ import static java.util.Arrays.asList;
  * Created by Natalia_Grebenshchik on 10/21/2015.
  */
 public class SimpleTableTests extends InitTests {
-
     @BeforeMethod
     protected void before(Method method) throws IOException {
         isInState(SIMPLE_PAGE);
@@ -151,13 +141,14 @@ public class SimpleTableTests extends InitTests {
                 expRowHeaders = Arrays.asList("1", "2", "3", "4", "5", "6");
         String firstColumnContent = "Drivers";
 
-        Table table = new Table(By.xpath("./tbody/tr[1]/td"),
+        ITable table = supportPage.supportTable.clone().hasNoHeaders();
+        /*new Table(By.xpath("./tbody/tr[1]/td"),
                 By.xpath("./tbody/tr[position() > 0]/td[1]"),
-                By.xpath("./tbody/tr"),
+                By.xpath("./tbody/tr/td"),
                 By.xpath("./tbody/tr/td"), null,
-                new TableSettings(false, false),1,1);
+                new TableSettings(false, false),1,1);*/
 
-        table.avatar.byLocator = By.xpath("*//table");
+        //table.avatar.byLocator = By.xpath("*//table");
 
         isTrue((table.columns().count() == 3 && table.rows().count() == 6),
                 format("Expected column/row count is %d/%d, but was %d/%d", 3, 6, table.columns().count(), table.rows().count()));

@@ -1,30 +1,26 @@
 package com.epam.jditests.tests.common;
 
-import static com.epam.jditests.enums.Preconditions.HOME_PAGE;
-import static com.epam.jditests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jditests.pageobjects.EpamJDISite.footer;
-import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
-import static com.epam.jditests.pageobjects.EpamJDISite.supportPage;
-import static com.epam.jditests.tests.complex.CommonActionsData.checkText;
-import static com.epam.jditests.tests.complex.CommonActionsData.runParallel;
-import static com.epam.jditests.tests.complex.CommonActionsData.waitTimeOut;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
-
-import java.lang.reflect.Method;
-
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IClickable;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Factory;
-import org.testng.annotations.Test;
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.tests.common.utils.AttributeTests;
 import com.epam.jditests.tests.common.utils.ContainsTextTests;
 import com.epam.jditests.tests.common.utils.MatchTextTests;
 import com.epam.jditests.tests.common.utils.SimpleTextTests;
+import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IClickable;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ILink;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
+
+import java.lang.reflect.Method;
+
+import static com.epam.jditests.enums.Preconditions.HOME_PAGE;
+import static com.epam.jditests.enums.Preconditions.SUPPORT_PAGE;
+import static com.epam.jditests.pageobjects.EpamJDISite.*;
+import static com.epam.jditests.tests.complex.CommonActionsData.*;
+import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isTrue;
 
 public class LinkTests extends InitTests {
     public final static String TEXT = "About";

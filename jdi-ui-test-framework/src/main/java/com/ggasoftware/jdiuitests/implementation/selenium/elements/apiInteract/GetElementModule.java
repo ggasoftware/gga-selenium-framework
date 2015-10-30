@@ -68,7 +68,7 @@ public class GetElementModule {
 
     public WebElement getElement() {
         JDISettings.logger.debug("Get Web Element: " + element);
-        WebElement element = Timer.getByCondition(this::getElementAction, el -> el != null);
+        WebElement element = timer().getResultByCondition(this::getElementAction, el -> el != null);
         JDISettings.logger.debug("One Element found");
         return element;
     }

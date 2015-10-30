@@ -2,7 +2,6 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.tabl
 
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils;
-import com.ggasoftware.jdiuitests.core.utils.common.Timer;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.SelectElement;
@@ -15,15 +14,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.index;
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.toStringArray;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.*;
 import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fillByTemplate;
 
 /**
  * Created by 12345 on 25.10.2014.
  */
-abstract class TableLine extends Element implements ITableLine {
+abstract class TableLine extends Element implements ITableLine, Cloneable {
     public boolean hasHeader;
     public ElementIndexType elementIndex;
     public Table table;
@@ -33,6 +31,20 @@ abstract class TableLine extends Element implements ITableLine {
     protected By headersLocator;
     protected By defaultTemplate;
     protected By lineTemplate = null;
+
+    protected <T extends TableLine> T clone(T newTableLine, Table newTable) {
+        asserter.silent(() -> super.clone());
+        newTableLine.hasHeader = hasHeader;
+        newTableLine.elementIndex = elementIndex;
+        newTableLine.table = newTable;
+        newTableLine.count = count;
+        newTableLine.headers = headers;
+        newTableLine.startIndex = startIndex;
+        newTableLine.headersLocator = headersLocator;
+        newTableLine.defaultTemplate = defaultTemplate;
+        newTableLine.lineTemplate = lineTemplate;
+        return newTableLine;
+    }
 
     public int getStartIndex() {
         return startIndex;
@@ -52,16 +64,15 @@ abstract class TableLine extends Element implements ITableLine {
                 ? getLineAction(index(headers(), colName) + 1)
                 : table.getWebElement().findElements(fillByTemplate(lineTemplate, colName));
     }
+    protected abstract List<WebElement> getFirstLine();
     public int count() {
         if (count > 0)
             return count;
         else {
            if (headers != null && headers.length > 0)
                     return headers.length;
-           /* List<WebElement> elements = getLineAction(1);
-            return elements != null ? elements.size() : 0;*/
-
-           return header().count();
+            List<WebElement> elements = getFirstLine();
+            return elements != null ? elements.size() : 0;
         }
     }
 
@@ -93,7 +104,7 @@ abstract class TableLine extends Element implements ITableLine {
         if (headers != null)
             return headers.clone();
         String[] localHeaders = (hasHeader)
-                ? Timer.getResultAction(this::getHeadersTextAction)
+                ? timer().getResult(this::getHeadersTextAction)
                 : getNumList(count());
         if (localHeaders == null || localHeaders.length == 0)
             return new String[] {};
