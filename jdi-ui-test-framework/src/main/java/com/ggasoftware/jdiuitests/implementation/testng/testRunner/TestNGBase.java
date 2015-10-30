@@ -3,7 +3,7 @@ package com.ggasoftware.jdiuitests.implementation.testng.testRunner;
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.StringUtils;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
-import com.ggasoftware.jdiuitests.core.utils.usefulUtils.WebDriverUtils;
+import com.ggasoftware.jdiuitests.core.utils.WebDriverUtils;
 import com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;

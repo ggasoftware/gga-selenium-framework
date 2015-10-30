@@ -16,7 +16,7 @@ import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.*;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.isInterface;
-import static com.ggasoftware.jdiuitests.core.utils.usefulUtils.ScreenshotMaker.doScreenshotGetMessage;
+import static com.ggasoftware.jdiuitests.core.utils.ScreenshotMaker.doScreenshotGetMessage;
 import static java.lang.String.format;
 import static java.lang.reflect.Array.get;
 import static java.lang.reflect.Array.getLength;

@@ -46,7 +46,7 @@ public enum Preconditions {
         this.moveToAction = moveToAction;
     }
     Preconditions(String uri) {
-        this(() -> checkUrl(uri), () -> openUri(uri));
+        this(() -> false/*checkUrl(uri)*/, () -> openUri(uri));
         _htmlPageName = uri;
     }
     private static boolean checkUrl(final String uri) {

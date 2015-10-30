@@ -34,6 +34,7 @@
 		<module>jdi-ui-test-framework</module>
         <module>jdi-ui-tests</module>
         <module>epam-career-tutorial-tests</module>
+        <module>jdi-commons</module>
     </modules>
 
     <!--<dependencies>

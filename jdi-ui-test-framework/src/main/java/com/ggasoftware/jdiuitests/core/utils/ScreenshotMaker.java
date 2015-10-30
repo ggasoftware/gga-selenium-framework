@@ -1,4 +1,4 @@
-package com.ggasoftware.jdiuitests.core.utils.usefulUtils;
+package com.ggasoftware.jdiuitests.core.utils;
 
 import com.ggasoftware.jdiuitests.core.settings.JDIData;
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;

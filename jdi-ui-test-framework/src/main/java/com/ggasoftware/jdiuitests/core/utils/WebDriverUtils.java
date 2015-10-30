@@ -1,4 +1,4 @@
-package com.ggasoftware.jdiuitests.core.utils.usefulUtils;
+package com.ggasoftware.jdiuitests.core.utils;
 
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.os.WindowsUtils;

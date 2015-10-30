@@ -82,7 +82,6 @@ public class CheckboxTests extends InitTests {
     	getCheckBox().check();
     	checkAction("Water: condition changed to true");
 	}
-    //failed
     @Test
 	public void clickTest() throws Exception {
 		getCheckBox().click();
