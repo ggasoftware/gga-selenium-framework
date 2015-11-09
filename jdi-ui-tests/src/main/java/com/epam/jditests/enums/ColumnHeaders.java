@@ -9,7 +9,8 @@ public enum ColumnHeaders {
     col3("Column 3");
 
     public String value;
-    ColumnHeaders(String value){
+
+    ColumnHeaders(String value) {
         this.value = value;
     }
 }

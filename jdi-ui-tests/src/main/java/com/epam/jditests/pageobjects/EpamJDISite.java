@@ -35,7 +35,7 @@ public class EpamJDISite extends Site {
     public static SupportPage supportPage;
     @JPage(url = "/page3.htm", title = "Support")
     public static SortingTablePage sortingTablePage;
-    @JPage (url = "/page7.htm", title = "Table sort")
+    @JPage(url = "/page7.htm", title = "Table sort")
     public static DynamicTablePage dynamicTablePage;
     @JPage(url = "/page5.htm", title = "Table Scroll")
     public static Page simplePage;
@@ -55,6 +55,7 @@ public class EpamJDISite extends Site {
         testName = method.getName();
         isInState(condition);
     }
+
     @Step
     public static void isInState(final Preconditions condition) {
         try {
@@ -63,6 +64,8 @@ public class EpamJDISite extends Site {
                 return;
             condition.moveToAction.invoke();
             logger.test(format("Condition '%s' achieved", condition));
-        } catch (final Exception ex) { throw asserter.exception(format("Can't reach state: %s. Exception: %s", condition, ex.getMessage())); }
+        } catch (final Exception ex) {
+            throw asserter.exception(format("Can't reach state: %s. Exception: %s", condition, ex.getMessage()));
+        }
     }
 }

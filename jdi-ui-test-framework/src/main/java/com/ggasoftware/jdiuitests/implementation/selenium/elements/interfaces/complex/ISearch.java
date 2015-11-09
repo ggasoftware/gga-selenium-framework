@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ISearch extends ITextField, IComposite {
     /**
-     * @param text Specify Text to search
+     * @param text        Specify Text to search
      * @param selectValue Specify value to choose from suggested search result
      * @return Input text in search and then select value from suggestions
      */
@@ -19,7 +19,7 @@ public interface ISearch extends ITextField, IComposite {
     void chooseSuggestion(String text, String selectValue);
 
     /**
-     * @param text Specify Text to search
+     * @param text        Specify Text to search
      * @param selectIndex Specify index to choose from suggested search result
      * @return Input text in search and then select suggestions by index
      */

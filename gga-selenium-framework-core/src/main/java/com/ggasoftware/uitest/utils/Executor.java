@@ -28,13 +28,12 @@ public final class Executor {
     }
 
     /**
-     *   Executes the specified string command with parameters in a separate process.
+     * Executes the specified string command with parameters in a separate process.
      *
-     *   @param path - path where file for execution is located
-     *   @param command - command file for execution (ex.: cmd.exe)
-     *   @param parameters - parameters for command
-     *
-     *   @return the exit value for the subprocess.
+     * @param path       - path where file for execution is located
+     * @param command    - command file for execution (ex.: cmd.exe)
+     * @param parameters - parameters for command
+     * @return the exit value for the subprocess.
      */
     public static int runExec(String path, String command, String[] parameters) {
         String parameter = arrayToString(parameters, " ");
@@ -53,12 +52,11 @@ public final class Executor {
     }
 
     /**
-     *   Executes the specified string command in a separate process.
+     * Executes the specified string command in a separate process.
      *
-     *   @param path - path where file for execution is located
-     *   @param command - command file for execution (ex.: cmd.exe)
-     *
-     *   @return the exit value for the subprocess.
+     * @param path    - path where file for execution is located
+     * @param command - command file for execution (ex.: cmd.exe)
+     * @return the exit value for the subprocess.
      */
     public static int runExec(String path, String command) {
         String[] parameters = {" "};

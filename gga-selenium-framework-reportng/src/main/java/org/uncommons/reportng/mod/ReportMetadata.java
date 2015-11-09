@@ -25,15 +25,14 @@ import java.util.Locale;
 
 /**
  * Provides access to static information useful when generating a report.
- * @author Daniel Dyer
  *
+ * @author Daniel Dyer
  * @author azhukov
- * Modifications:
- * - use modification path
- * - fix getUser() for use at CentOS
+ *         Modifications:
+ *         - use modification path
+ *         - fix getUser() for use at CentOS
  */
-public final class ReportMetadata
-{
+public final class ReportMetadata {
     static final String PROPERTY_KEY_PREFIX = "org.uncommons.reportng.mod.";
     static final String TITLE_KEY = PROPERTY_KEY_PREFIX + "title";
     static final String DEFAULT_TITLE = "Test Results Report";
@@ -47,7 +46,7 @@ public final class ReportMetadata
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE dd MMMM yyyy");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm z");
-    
+
 
     /**
      * The date/time at which this report is being generated.
@@ -59,8 +58,7 @@ public final class ReportMetadata
      * @return A String representation of the report date.
      * @see #getReportTime()
      */
-    public String getReportDate()
-    {
+    public String getReportDate() {
         return DATE_FORMAT.format(reportTime);
     }
 
@@ -69,14 +67,12 @@ public final class ReportMetadata
      * @return A String representation of the report time.
      * @see #getReportDate()
      */
-    public String getReportTime()
-    {
+    public String getReportTime() {
         return TIME_FORMAT.format(reportTime);
     }
 
 
-    public String getReportTitle()
-    {
+    public String getReportTitle() {
         return System.getProperty(TITLE_KEY, DEFAULT_TITLE);
     }
 
@@ -85,8 +81,7 @@ public final class ReportMetadata
      * @return The URL (absolute or relative) of an HTML coverage report associated
      * with the test run.  Null if there is no coverage report.
      */
-    public String getCoverageLink()
-    {
+    public String getCoverageLink() {
         return System.getProperty(COVERAGE_KEY);
     }
 
@@ -94,11 +89,11 @@ public final class ReportMetadata
     /**
      * If a custom CSS file has been specified, returns the path.  Otherwise
      * returns null.
+     *
      * @return A {@link File} pointing to the stylesheet, or null if no stylesheet
      * is specified.
      */
-    public File getStylesheetPath()
-    {
+    public File getStylesheetPath() {
         String path = System.getProperty(STYLESHEET_KEY);
         return path == null ? null : new File(path);
     }
@@ -107,11 +102,11 @@ public final class ReportMetadata
     /**
      * Returns false (the default) if stack traces should not be shown for
      * expected exceptions.
+     *
      * @return True if stack traces should be shown even for expected exceptions,
      * false otherwise.
      */
-    public boolean shouldShowExpectedExceptions()
-    {
+    public boolean shouldShowExpectedExceptions() {
         return System.getProperty(EXCEPTIONS_KEY, "false").equalsIgnoreCase("true");
     }
 
@@ -121,11 +116,11 @@ public final class ReportMetadata
      * report.  Turning off escaping allows you to do something link inserting
      * link tags into HTML reports, but it also means that other output could
      * accidentally corrupt the mark-up.
+     *
      * @return True if reporter log output should be escaped when displayed in a
      * report, false otherwise.
      */
-    public boolean shouldEscapeOutput()
-    {
+    public boolean shouldEscapeOutput() {
         return System.getProperty(OUTPUT_KEY, "true").equalsIgnoreCase("true");
     }
 
@@ -135,8 +130,7 @@ public final class ReportMetadata
      * as failed tests in the XML.  Otherwise we use TestNG's extended version of
      * the XML format that allows for "skipped" elements.
      */
-    public boolean allowSkippedTestsInXML()
-    {
+    public boolean allowSkippedTestsInXML() {
         return !System.getProperty(XML_DIALECT_KEY, "testng").equalsIgnoreCase("junit");
     }
 
@@ -144,8 +138,7 @@ public final class ReportMetadata
     /**
      * @return True if Velocity should generate a log file, false otherwise.
      */
-    public boolean shouldGenerateVelocityLog()
-    {
+    public boolean shouldGenerateVelocityLog() {
         return System.getProperty(VELOCITY_LOG_KEY, "false").equalsIgnoreCase("true");
     }
 
@@ -154,32 +147,29 @@ public final class ReportMetadata
      * @return The user account used to run the tests and the host name of the
      * test machine.
      */
-    public String getUser()
-    {
+    public String getUser() {
         String user = System.getProperty("user.name");
         String host = "Unknown";
         try {
             host = InetAddress.getLocalHost().getHostName();
-        }catch (UnknownHostException ignored){
+        } catch (UnknownHostException ignored) {
         }
         return user + '@' + host;
     }
 
 
-    public String getJavaInfo()
-    {
+    public String getJavaInfo() {
         return String.format("Java %s (%s)",
-                             System.getProperty("java.version"),
-                             System.getProperty("java.vendor"));
+                System.getProperty("java.version"),
+                System.getProperty("java.vendor"));
     }
 
 
-    public String getPlatform()
-    {
+    public String getPlatform() {
         return String.format("%s %s (%s)",
-                             System.getProperty("os.name"),
-                             System.getProperty("os.version"),
-                             System.getProperty("os.arch"));
+                System.getProperty("os.name"),
+                System.getProperty("os.version"),
+                System.getProperty("os.arch"));
     }
 
 
@@ -187,18 +177,19 @@ public final class ReportMetadata
      * @return The locale specified by the System properties, or the platform default locale
      * if none is specified.
      */
-    public Locale getLocale()
-    {
-        if (System.getProperties().containsKey(LOCALE_KEY))
-        {
+    public Locale getLocale() {
+        if (System.getProperties().containsKey(LOCALE_KEY)) {
             String locale = System.getProperty(LOCALE_KEY);
-                String[] components = locale.split("_", 3);
-            switch (components.length)
-            {
-                case 1: return new Locale(locale);
-                case 2: return new Locale(components[0], components[1]);
-                case 3: return new Locale(components[0], components[1], components[2]);
-                default: System.err.println("Invalid locale specified: " + locale);  
+            String[] components = locale.split("_", 3);
+            switch (components.length) {
+                case 1:
+                    return new Locale(locale);
+                case 2:
+                    return new Locale(components[0], components[1]);
+                case 3:
+                    return new Locale(components[0], components[1], components[2]);
+                default:
+                    System.err.println("Invalid locale specified: " + locale);
             }
         }
         return Locale.getDefault();

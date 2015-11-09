@@ -10,19 +10,19 @@ import java.util.List;
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.
  */
-public class HeadersTests extends InitTableTests{
+public class HeadersTests extends InitTableTests {
 
     @Test
-    public void verifyTableHeaders(){
-        String [] expectedColumnHeaders = new String[] {"Type", "Now", "Plans"};
-        String [] actualColumnHeaders = support().headers();
+    public void verifyTableHeaders() {
+        String[] expectedColumnHeaders = new String[]{"Type", "Now", "Plans"};
+        String[] actualColumnHeaders = support().headers();
 
         Assert.isTrue(Arrays.equals(expectedColumnHeaders, actualColumnHeaders),
                 String.format("Expected list of headers is %s, but was %s", Arrays.toString(expectedColumnHeaders), Arrays.toString(actualColumnHeaders)));
     }
 
     @Test
-    public void verifyColumnsHeader (){
+    public void verifyColumnsHeader() {
         List<String> expectedColumnHeaders, actualColumnHeaders;
 
         expectedColumnHeaders = Arrays.asList("Type", "Now", "Plans");
@@ -34,7 +34,7 @@ public class HeadersTests extends InitTableTests{
     }
 
     @Test
-    public void verifyHeaderAsSelectedElement(){
+    public void verifyHeaderAsSelectedElement() {
         String headerName = "Now";
 
         SelectElement selectElement = support().header(headerName);
@@ -45,18 +45,18 @@ public class HeadersTests extends InitTableTests{
     }
 
     @Test
-    public void verifyColumnsHeadersAsTest(){
-        String [] expectedColumnHeaders = new String[] {"Type", "Now", "Plans"};
-        String [] actualColumnHeaders = support().columns().headers();
+    public void verifyColumnsHeadersAsTest() {
+        String[] expectedColumnHeaders = new String[]{"Type", "Now", "Plans"};
+        String[] actualColumnHeaders = support().columns().headers();
 
         Assert.isTrue(Arrays.equals(expectedColumnHeaders, actualColumnHeaders),
                 String.format("Expected list of headers is %s, but was %s", Arrays.toString(expectedColumnHeaders), Arrays.toString(actualColumnHeaders)));
     }
 
     @Test
-    public void verifyRowsHeadersAsTest(){
-        String [] expectedColumnHeaders = new String[]{"1", "2", "3", "4", "5", "6"};
-        String [] actualColumnHeaders = support().rows().headers();
+    public void verifyRowsHeadersAsTest() {
+        String[] expectedColumnHeaders = new String[]{"1", "2", "3", "4", "5", "6"};
+        String[] actualColumnHeaders = support().rows().headers();
 
         Assert.isTrue(Arrays.equals(expectedColumnHeaders, actualColumnHeaders),
                 String.format("Expected list of headers is %s, but was %s", Arrays.toString(expectedColumnHeaders), Arrays.toString(actualColumnHeaders)));

@@ -36,6 +36,7 @@ public class ContactFormTwoButtons extends Form<Contact> {
                 lastName.getWebElement().getAttribute("value"),
                 description.getWebElement().getAttribute("value")});
     }
+
     public void fillForm(Contact contact) {
         name.getWebElement().clear();
         lastName.getWebElement().clear();

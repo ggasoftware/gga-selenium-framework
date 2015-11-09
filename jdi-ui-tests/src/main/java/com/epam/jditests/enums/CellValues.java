@@ -8,7 +8,8 @@ public enum CellValues {
     value2("2");
 
     public String value;
-    CellValues (String value){
+
+    CellValues(String value) {
         this.value = value;
     }
 }

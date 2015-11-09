@@ -57,9 +57,7 @@ public final class FileUtil {
      * file created by a Java application is guaranteed to be a normal file.
      *
      * @param pathAndFileName - name of file and FULL path for it
-     *
-     * @return
-     * - true if file exists and
+     * @return - true if file exists and
      * - false if file absence default directory(path) for downloaded files
      * - true if and only if the file denoted by this abstract pathname exists and is a normal file;
      * - false otherwise
@@ -73,8 +71,8 @@ public final class FileUtil {
     /**
      * Check file download from url.
      *
-     * @param downloadUrl     - url of file to download
-     * @param outputFilePath  - file path for output
+     * @param downloadUrl    - url of file to download
+     * @param outputFilePath - file path for output
      * @throws Exception - exception
      */
     public static void downloadFile(String downloadUrl, String outputFilePath) throws IOException {

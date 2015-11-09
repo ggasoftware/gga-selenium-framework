@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 
 import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.utils.EnumUtils.getEnumValue;
-import static java.lang.String.format;
 
 
 /**

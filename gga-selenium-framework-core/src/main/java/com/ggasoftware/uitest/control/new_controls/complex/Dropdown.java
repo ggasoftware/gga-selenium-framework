@@ -56,6 +56,7 @@ public class Dropdown<TEnum extends Enum, P> extends Selector<TEnum, P> implemen
         super(optionsNamesLocatorTemplate, allOptionsNamesLocator);
         this.selectLocator = selectLocator;
     }
+
     public Dropdown(String name, String locator, P parentPanel) {
         super(name, locator, parentPanel);
     }

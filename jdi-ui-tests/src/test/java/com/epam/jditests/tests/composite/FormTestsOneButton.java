@@ -58,11 +58,13 @@ public class FormTestsOneButton extends InitTests {
         form().submit(DEFAULT_CONTACT.name);
         checkResult(String.format("Summary: 3\nName: %s", DEFAULT_CONTACT.name));
     }
+
     @Test
     public void verifyTest() {
         form().fillForm(DEFAULT_CONTACT);
         isEmpty(form().verify(DEFAULT_CONTACT));
     }
+
     @Test
     public void checkTest() {
         form().fillForm(DEFAULT_CONTACT);

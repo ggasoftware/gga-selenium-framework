@@ -24,7 +24,7 @@ public class Contact {
         this("John", "Doe", "Description");
     }
 
-    public List<String> toList(){
+    public List<String> toList() {
         return Arrays.asList(name, lastName, description);
     }
 
@@ -32,9 +32,9 @@ public class Contact {
     public String toString() {
         return String.format(
                 "Summary: 3\n" +
-                "Name: %s\n" +
-                "Last Name: %s\n" +
-                "Description: %s",
+                        "Name: %s\n" +
+                        "Last Name: %s\n" +
+                        "Description: %s",
                 name, lastName, description);
     }
 }

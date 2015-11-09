@@ -17,7 +17,6 @@
 package com.ggasoftware.uitest.control;
 
 import com.ggasoftware.uitest.utils.*;
-import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -203,7 +202,7 @@ public class Elements<ParentPanel> {
      * Get Element from Elements by index using xpath tag for numerate
      *
      * @param elementIndex index of element
-     * @param tag - xpath tag for numerate
+     * @param tag          - xpath tag for numerate
      * @return Element
      */
     public Element getElement(int elementIndex, String tag) {
@@ -329,7 +328,7 @@ public class Elements<ParentPanel> {
     /**
      * Focus on the WebElement by index
      *
-     * @param elementIndex    - index of WebElement
+     * @param elementIndex - index of WebElement
      * @return Parent instance
      */
     public ParentPanel focus(int elementIndex) {
@@ -344,7 +343,7 @@ public class Elements<ParentPanel> {
     /**
      * Mouse Over on the the element by index.
      *
-     * @param elementIndex    - index of WebElement
+     * @param elementIndex - index of WebElement
      * @return Parent instance
      */
     public ParentPanel mouseOver(int elementIndex) {
@@ -362,7 +361,7 @@ public class Elements<ParentPanel> {
     /**
      * Click on the WebElement by JS
      *
-     * @param elementIndex    - index of WebElement
+     * @param elementIndex - index of WebElement
      * @return Parent instance
      */
     public ParentPanel clickByJS(int elementIndex) {
@@ -376,7 +375,7 @@ public class Elements<ParentPanel> {
      *
      * @param expectedElements - expected Elements
      * @param elementIndex     - index of WebElement
-     * @param tryCount        - number ot click attempts
+     * @param tryCount         - number ot click attempts
      * @return Parent instance
      */
     public ParentPanel clickByWhileObjectNotDisplayed(int elementIndex, Elements expectedElements, int tryCount) {
@@ -528,7 +527,6 @@ public class Elements<ParentPanel> {
      * Get text of WebElement by index
      *
      * @param elementIndex - index of the element in the List of WebElements
-     *
      * @return text of WebElement
      */
     public String getText(int elementIndex) {
@@ -605,7 +603,7 @@ public class Elements<ParentPanel> {
     /**
      * Wait until first element is visible.
      *
-     * @param timeoutSec seconds to wait until element become visible
+     * @param timeoutSec     seconds to wait until element become visible
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -641,6 +639,7 @@ public class Elements<ParentPanel> {
 
     /**
      * Wait until first element is visible
+     *
      * @param timeoutSec seconds to wait until all elements exist
      * @return Parent instance
      */
@@ -651,7 +650,7 @@ public class Elements<ParentPanel> {
     /**
      * Wait until all elements exist.
      *
-     * @param timeoutSec seconds to wait until all elements exist
+     * @param timeoutSec     seconds to wait until all elements exist
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -687,6 +686,7 @@ public class Elements<ParentPanel> {
 
     /**
      * Wait until all elements exist
+     *
      * @param timeoutSec seconds to wait until all elements become Not Visible
      * @return Parent instance
      */
@@ -697,7 +697,7 @@ public class Elements<ParentPanel> {
     /**
      * Wait until all elements is invisible
      *
-     * @param timeoutSec seconds to wait until all elements become Not Visible
+     * @param timeoutSec     seconds to wait until all elements become Not Visible
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -735,6 +735,7 @@ public class Elements<ParentPanel> {
 
     /**
      * Wait until all elements is invisible
+     *
      * @param timeoutSec seconds to wait until all elements become Visible
      * @return Parent instance
      */
@@ -745,7 +746,7 @@ public class Elements<ParentPanel> {
     /**
      * Wait until all elements is visible
      *
-     * @param timeoutSec seconds to wait until all elements become Visible
+     * @param timeoutSec     seconds to wait until all elements become Visible
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -781,6 +782,7 @@ public class Elements<ParentPanel> {
 
     /**
      * Wait until all elements is visible
+     *
      * @param timeoutSec seconds to wait until elements is changed list of text
      * @return Parent instance
      */
@@ -791,8 +793,8 @@ public class Elements<ParentPanel> {
     /**
      * Wait until elements is changed list of text
      *
-     * @param list expected list of text
-     * @param timeoutSec seconds to wait until elements is changed list of text
+     * @param list           expected list of text
+     * @param timeoutSec     seconds to wait until elements is changed list of text
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -834,7 +836,7 @@ public class Elements<ParentPanel> {
     /**
      * Wait until elements is changed list of text
      *
-     * @param list expected list of text
+     * @param list       expected list of text
      * @param timeoutSec seconds to wait until elements count is changed
      * @return Parent instance
      */
@@ -845,8 +847,8 @@ public class Elements<ParentPanel> {
     /**
      * Wait until number of elements is changed
      *
-     * @param count      - source number of element
-     * @param timeoutSec seconds to wait until elements count is changed
+     * @param count          - source number of element
+     * @param timeoutSec     seconds to wait until elements count is changed
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -879,7 +881,7 @@ public class Elements<ParentPanel> {
     /**
      * Wait until number of elements is changed
      *
-     * @param count      - source number of element
+     * @param count - source number of element
      * @return Parent instance
      */
     public ParentPanel waitForNumberOfElementsChanged(final int count) {

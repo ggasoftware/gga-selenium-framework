@@ -22,7 +22,11 @@ import static java.util.Arrays.asList;
  * Created by Roman_Iovlev on 9/15/2015.
  */
 public class RadioButtonsWithSelectedTests extends InitTests {
-    private Selector<Odds> odds() { return metalsColorsPage.summary.oddsRWithSelected; }
+    private static final List<String> oddOptions = asList("1", "3", "5", "7");
+
+    private Selector<Odds> odds() {
+        return metalsColorsPage.summary.oddsRWithSelected;
+    }
 
     @BeforeMethod
     public void before(Method method) throws IOException {
@@ -34,39 +38,45 @@ public class RadioButtonsWithSelectedTests extends InitTests {
         odds().select("7");
         checkAction("Summary (Odd): value changed to 7");
     }
+
     @Test
     public void selectIndexTest() {
         odds().select(4);
         checkAction("Summary (Odd): value changed to 7");
     }
+
     @Test
     public void selectEnumTest() {
         odds().select(SEVEN);
         checkAction("Summary (Odd): value changed to 7");
     }
 
-    private static final List<String> oddOptions = asList("1", "3", "5", "7");
     @Test
     public void getOptionsTest() {
         listEquals(odds().getOptions(), oddOptions);
     }
+
     @Test
     public void getNamesTest() {
         listEquals(odds().getNames(), oddOptions);
     }
+
     @Test
     public void getValuesTest() {
         listEquals(odds().getValues(), oddOptions);
     }
+
     @Test
     public void getOptionsAsTextTest() {
         areEquals(odds().getOptionsAsText(), "1, 3, 5, 7");
     }
+
     @Test
     public void setValueTest() {
         odds().setValue("7");
         checkAction("Summary (Odd): value changed to 7");
     }
+
     @Test
     public void getNameTest() {
         areEquals(odds().getName(), "Odds RWith Selected");
@@ -77,31 +87,37 @@ public class RadioButtonsWithSelectedTests extends InitTests {
         odds().select(SEVEN);
         areEquals(odds().getSelected(), "7");
     }
+
     @Test
     public void getSelectedIndexTest() {
         odds().select(SEVEN);
         areEquals(odds().getSelectedIndex(), 4);
     }
+
     @Test
     public void isSelectedTest() {
         odds().select(SEVEN);
         isTrue(odds().isSelected("7"));
     }
+
     @Test
     public void isSelectedEnumTest() {
         odds().select(SEVEN);
         isTrue(odds().isSelected(SEVEN));
     }
+
     @Test
     public void waitSelectedTest() {
         odds().select(SEVEN);
         isTrue(odds().waitSelected("7"));
     }
+
     @Test
     public void waitSelectedEnumTest() {
         odds().select(SEVEN);
         isTrue(odds().waitSelected(SEVEN));
     }
+
     @Test
     public void wait3SelectedTest() {
         runParallel(() -> odds().select(SEVEN));
@@ -109,6 +125,7 @@ public class RadioButtonsWithSelectedTests extends InitTests {
         isTrue(getTimePassed() > waitTimeOut);
         isTrue(odds().isSelected(SEVEN));
     }
+
     @Test
     public void wait3SelectedEnumTest() {
         runParallel(() -> odds().select(SEVEN));

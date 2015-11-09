@@ -99,6 +99,7 @@ class Cell extends SelectElement implements ISelect, ICell {
     protected boolean isSelectedAction() {
         return get().isSelected();
     }
+
     public SelectElement get() {
         return (webElement != null)
                 ? new SelectElement(webElement)

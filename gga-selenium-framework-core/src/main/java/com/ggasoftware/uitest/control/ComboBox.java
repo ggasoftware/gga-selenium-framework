@@ -57,6 +57,7 @@ public class ComboBox<ParentPanel> extends Dropdown<Enum, ParentPanel> implement
         super(selectorLocator, optionsNamesLocatorTemplate);
         input = createInputAction(valueLocator);
     }
+
     public ComboBox(By selectorLocator, By optionsNamesLocatorTemplate, By valueLocator, By allOptionsNamesLocator) {
         super(selectorLocator, optionsNamesLocatorTemplate, allOptionsNamesLocator);
         input = createInputAction(valueLocator);

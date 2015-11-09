@@ -10,6 +10,7 @@ public class PropertyReader {
     private static String propertiesPath = "test.properties";
     private static volatile Properties properties;
     private static InputStream inputStream;
+
     PropertyReader() {
     }
 

@@ -23,7 +23,6 @@ import static com.ggasoftware.uitest.utils.StringUtils.LineBreak;
 import static com.ggasoftware.uitest.utils.Timer.waitCondition;
 import static com.ggasoftware.uitest.utils.WebDriverByUtils.fillByTemplateSilent;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;

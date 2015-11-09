@@ -1,35 +1,31 @@
 package com.epam.jditests.tests.common;
 
-import static com.epam.jditests.entities.User.DEFAULT_USER;
-import static com.epam.jditests.enums.Preconditions.CONTACT_PAGE_FILLED;
-import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
-import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.*;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
+import com.epam.jditests.InitTests;
+import com.epam.jditests.enums.Preconditions;
+import com.epam.jditests.tests.common.utils.*;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
+import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextArea;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
-import com.epam.jditests.InitTests;
-import com.epam.jditests.enums.Preconditions;
-import com.epam.jditests.tests.common.utils.AttributeTests;
-import com.epam.jditests.tests.common.utils.ContainsTextTests;
-import com.epam.jditests.tests.common.utils.InputTests;
-import com.epam.jditests.tests.common.utils.MatchTextTests;
-import com.epam.jditests.tests.common.utils.SimpleTextTests;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextArea;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+import static com.epam.jditests.entities.User.DEFAULT_USER;
+import static com.epam.jditests.enums.Preconditions.CONTACT_PAGE_FILLED;
+import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
+import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
+import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getJSExecutor;
 
 public class TextAreaTests extends InitTests {
-    final String[] IN = {"line1", "line2", "line3"};
     public static final String TEXT = DEFAULT_USER.description;
-    private Preconditions _onPage = CONTACT_PAGE_FILLED;
+    final String[] IN = {"line1", "line2", "line3"};
     JFuncT<IElement> get = () -> contactFormPage.description;
+    private Preconditions _onPage = CONTACT_PAGE_FILLED;
 
     @BeforeMethod
     public void before(final Method method) throws IOException {

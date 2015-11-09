@@ -10,7 +10,6 @@ import java.util.List;
 
 import static com.ggasoftware.uitest.utils.LinqUtils.*;
 import static com.ggasoftware.uitest.utils.PrintUtils.print;
-import static java.lang.String.format;
 
 
 /**

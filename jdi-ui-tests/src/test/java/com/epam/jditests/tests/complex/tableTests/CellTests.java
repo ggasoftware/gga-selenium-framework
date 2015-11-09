@@ -18,15 +18,15 @@ import static com.ggasoftware.jdiuitests.implementation.selenium.elements.comple
  */
 public class CellTests extends InitTableTests {
 
-    @Test (dataProvider = "setCellValue", dataProviderClass = TableDP.class)
-    public  void getCellValueByRowAndColumn(int columnIndex, int rowIndex, String expectedCellValue){
+    @Test(dataProvider = "setCellValue", dataProviderClass = TableDP.class)
+    public void getCellValueByRowAndColumn(int columnIndex, int rowIndex, String expectedCellValue) {
         String cellValue = support().cell(new Column(columnIndex), new Row(rowIndex)).getValue();
         Assert.areEquals(cellValue, expectedCellValue,
-                String.format("In cell (%d, %d) expected %s, but was, %s",rowIndex, columnIndex, expectedCellValue, cellValue));
+                String.format("In cell (%d, %d) expected %s, but was, %s", rowIndex, columnIndex, expectedCellValue, cellValue));
     }
 
     @Test
-    public void getAllCellsWithValueEqualTo(){
+    public void getAllCellsWithValueEqualTo() {
         List<ICell> cells = support().cells("MSTest, NUnit, Epam");
 
         Assert.areEquals(cells.size(), 2, String.format("Number of found element expectde to 2, but was %d", cells.size()));
@@ -37,8 +37,9 @@ public class CellTests extends InitTableTests {
         Assert.areEquals(cells.get(1).rowNum(), 3, "Wrong position for element 2");
 
     }
+
     @Test
-    public void getAllCellsWithValueEqualToValueInUse(){
+    public void getAllCellsWithValueEqualToValueInUse() {
         List<ICell> cells = support().cells("Custom");
 
         Assert.areEquals(cells.size(), 1, String.format("Number of found element expectde to 1, but was %d", cells.size()));
@@ -46,13 +47,14 @@ public class CellTests extends InitTableTests {
         Assert.areEquals(cells.get(0).columnNum(), 2, "Wrong position for element");
         Assert.areEquals(cells.get(0).rowNum(), 6, "Wrong position for element");
     }
+
     @Test
-    public void getAllCellsWithValueMatchTo(){
+    public void getAllCellsWithValueMatchTo() {
         List<ICell> cells = support().cellsMatch("[a-zA-Z, 0-4]*Custom[a-zA-Z, 0-4]*");
 
         Assert.areEquals(cells.size(), 6, String.format("Number of found element expected to 6, but was %d", cells.size()));
 
-        for (int i=0; i<cells.size(); i++) {
+        for (int i = 0; i < cells.size(); i++) {
             Assert.areEquals(cells.get(i).columnNum(), 2, "Wrong position for element 1");
             Assert.areEquals(cells.get(i).rowNum(), i + 1, "Wrong position for element 1");
         }
@@ -60,14 +62,15 @@ public class CellTests extends InitTableTests {
 
 
     @Test(dataProvider = "setCellPosition", dataProviderClass = TableDP.class)
-    public void getFirstCellWithValueEqualTo(String searchCellValue, int columnIndex, int rowIndex){
+    public void getFirstCellWithValueEqualTo(String searchCellValue, int columnIndex, int rowIndex) {
         ICell cell = support().cell(searchCellValue);
 
         Assert.areEquals(cell.columnNum(), columnIndex, "Wrong position first element`s position");
         Assert.areEquals(cell.rowNum(), rowIndex, "Wrong position first element`s position");
     }
+
     @Test
-    public void getFirstCellWithValueMatchTo(){
+    public void getFirstCellWithValueMatchTo() {
         ICell cell = support().cellMatch("[a-zA-Z, 0-4]*Custom[a-zA-Z, 0-4]*");
 
         Assert.areEquals(cell.columnNum(), 2, "Wrong position first element`s position");
@@ -75,7 +78,7 @@ public class CellTests extends InitTableTests {
     }
 
     @Test(dataProvider = "setValueAndColumn", dataProviderClass = TableDP.class)
-    public <T> void getCellWithValueEqualToInColumnByName(String cellValue, T column, int columnIndex, int rowIndex){
+    public <T> void getCellWithValueEqualToInColumnByName(String cellValue, T column, int columnIndex, int rowIndex) {
         ICell cell;
 
         if (column.getClass().equals(String.class))
@@ -84,12 +87,12 @@ public class CellTests extends InitTableTests {
             cell = support().cell(cellValue, column((Integer) column));
 
         Assert.areEquals(cell.columnNum(), columnIndex,
-                String.format("Wrong column number for element with %s value, expected %d, but was %d",cellValue, columnIndex, cell.columnNum()));
+                String.format("Wrong column number for element with %s value, expected %d, but was %d", cellValue, columnIndex, cell.columnNum()));
         Assert.areEquals(cell.rowNum(), rowIndex, String.format("Wrong row number for element with 'Custom' value, expected 6, but was %d", cell.rowNum()));
     }
 
     @Test
-    public void getCellWithValueEqualToInRowByNumber(){
+    public void getCellWithValueEqualToInRowByNumber() {
         ICell cell = support().cell("MSTest, NUnit, Epam", row(2));
 
         Assert.areEquals(cell.columnNum(), 3, String.format("Wrong column number for element with 'Custom' value, expected 3, but was %d", cell.columnNum()));
@@ -97,30 +100,31 @@ public class CellTests extends InitTableTests {
     }
 
     @Test
-    public void getCellWithValueMatchToInColumnByName(){
+    public void getCellWithValueMatchToInColumnByName() {
 
         List<ICell> cells = support().cellsMatch("[a-zA-Z, 0-9]*Custom[a-zA-Z, 0-9]*", column("Now"));
         Assert.areEquals(cells.size(), 6, String.format("Number of found element expected to 6, but was %d", cells.size()));
 
-        for (int i=0; i<cells.size(); i++) {
+        for (int i = 0; i < cells.size(); i++) {
             Assert.areEquals(cells.get(i).columnNum(), 2, "Wrong position for element 1");
             Assert.areEquals(cells.get(i).rowNum(), i + 1, "Wrong position for element 1");
         }
     }
+
     @Test
-    public void getCellWithValueMatchInColumnByNumber(){
+    public void getCellWithValueMatchInColumnByNumber() {
         List<ICell> cells = support().cellsMatch("[a-zA-Z, 0-9]*Custom[a-zA-Z, 0-9]*", column(2));
 
         Assert.areEquals(cells.size(), 6, String.format("Number of found element expected to 6, but was %d", cells.size()));
 
-        for (int i=0; i<cells.size(); i++) {
+        for (int i = 0; i < cells.size(); i++) {
             Assert.areEquals(cells.get(i).columnNum(), 2, "Wrong position for element 1");
             Assert.areEquals(cells.get(i).rowNum(), i + 1, "Wrong position for element 1");
         }
     }
 
     @Test
-    public void getCellWithValueMatchInRowByNumber(){
+    public void getCellWithValueMatchInRowByNumber() {
         List<ICell> cells = support().cellsMatch("[a-zA-Z, 0-9\\/]*log[a-zA-Z, 0-9\\/]*", row(4));
 
         Assert.areEquals(cells.size(), 2, String.format("Number of found element expected to 2, but was %d", cells.size()));
@@ -132,7 +136,7 @@ public class CellTests extends InitTableTests {
     }
 
     @Test
-    public void verifyGetTest(){
+    public void verifyGetTest() {
         ICell cell = support().cell(column(3), row(4));
 
         Assert.areEquals(cell.getText(), "Epam, XML/Json logging, Hyper logging",

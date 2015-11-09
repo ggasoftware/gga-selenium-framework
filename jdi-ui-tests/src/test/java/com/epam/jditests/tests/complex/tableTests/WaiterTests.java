@@ -3,10 +3,8 @@ package com.epam.jditests.tests.complex.tableTests;
 import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
-import static com.epam.jditests.enums.Preconditions.DYNAMIC_TABLE_PAGE;
 import static com.epam.jditests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jditests.enums.Preconditions.SUPPORT_PAGE;
-import static com.epam.jditests.pageobjects.EpamJDISite.dynamicTablePage;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 import static com.epam.jditests.tests.complex.CommonActionsData.*;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
@@ -17,30 +15,32 @@ import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.i
 /**
  * Created by Natalia_Grebenshchik on 10/5/2015.
  */
-public class WaiterTests extends  InitTableTests{
+public class WaiterTests extends InitTableTests {
 
     @Test
-    public void waitExpectedRowsValue(){
+    public void waitExpectedRowsValue() {
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow", row(6));
 
         Assert.isTrue(rowValueExists, "waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Row 6 ");
     }
+
     @Test
-    public void waitUnexpectedRowsValue(){
+    public void waitUnexpectedRowsValue() {
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow Unexepected", row(6));
 
         Assert.isTrue(!rowValueExists, "waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Row 6 ");
     }
 
     @Test
-    public void waitExpectedColumnsValue(){
+    public void waitExpectedColumnsValue() {
 
         boolean columnValueExists = support().waitValue("Custom", column(2));
 
         Assert.isTrue(columnValueExists, "waitValue method did not find \"Cucumber, Jbehave, Thucydides, SpecFlow\" in Column 3 ");
     }
+
     @Test
-    public void waitUnexpectedColumnsValue(){
+    public void waitUnexpectedColumnsValue() {
         boolean rowValueExists = support().waitValue("Cucumber, Jbehave, Thucydides, SpecFlow Unexepected", column(3));
 
         Assert.isTrue(!rowValueExists, "waitValue method found unexpected \"Cucumber, Jbehave, Thucydides, SpecFlow Unexepected\" in Column 3 ");
@@ -58,7 +58,7 @@ public class WaiterTests extends  InitTableTests{
         support().clean();
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
-        checkText(() -> support().cell(column(2),row(2)).waitText("TestNG, JUnit Custom"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2), row(2)).waitText("TestNG, JUnit Custom"), "TestNG, JUnit Custom");
 
         isTrue(timer.timePassedInMSec() > waitTimeOut);
     }
@@ -69,8 +69,9 @@ public class WaiterTests extends  InitTableTests{
         isInState(HOME_PAGE);
         runParallel(SUPPORT_PAGE::open);
 
-        checkText(() -> support().cell(column(2),row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
+        checkText(() -> support().cell(column(2), row(2)).waitMatchText("[a-zA-Z, ]*JUnit[a-zA-Z ]*"), "TestNG, JUnit Custom");
     }
+
     @Test
     public void waitHaveRows() {
         support().clean();
@@ -79,6 +80,7 @@ public class WaiterTests extends  InitTableTests{
 
         isTrue(() -> support().waitHaveRows());
     }
+
     @Test
     public void waitRowsEqualNumberOfRows() {
         support().clean();
@@ -87,6 +89,7 @@ public class WaiterTests extends  InitTableTests{
 
         isTrue(support().waitRows(6));
     }
+
     @Test
     public void waitRowsMoreNumberOfRows() {
 

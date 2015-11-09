@@ -40,7 +40,7 @@ public class SimpleTableTests extends InitTests {
                 By.xpath("./tbody/tr[position() > 0]/td[1]"),
                 By.xpath("./tbody/tr"),
                 By.xpath("./tbоdy/tr/td"), null,
-                new TableSettings(false, false),1,1);
+                new TableSettings(false, false), 1, 1);
 
         ICell cell = table.cell(column(2), row(2));
 
@@ -61,7 +61,7 @@ public class SimpleTableTests extends InitTests {
                 By.xpath("./tbody/tr[position() > 1]/td[1]"),
                 By.xpath("./tbody/tr"),
                 By.xpath("./tbody/tr/td"), null,
-                new TableSettings(true, true),1,2);
+                new TableSettings(true, true), 1, 2);
 
         table.avatar.byLocator = By.xpath("*//table");
 
@@ -85,11 +85,11 @@ public class SimpleTableTests extends InitTests {
                 expRowHeaders = Arrays.asList("Drivers", "Test Runner", "Asserter", "Logger", "Reporter", "BDD/DSL");
         String firstColumnContent = "Selenium Custom";
 
-       Table table = new Table(By.xpath("./tbody/tr[1]/td"),
-               By.xpath("./tbody/tr[position() > 0]/td[1]"),
-               By.xpath("./tbody/tr"),
-               By.xpath("./tbody/tr/td"), null,
-               new TableSettings(false, true),1,1);
+        Table table = new Table(By.xpath("./tbody/tr[1]/td"),
+                By.xpath("./tbody/tr[position() > 0]/td[1]"),
+                By.xpath("./tbody/tr"),
+                By.xpath("./tbody/tr/td"), null,
+                new TableSettings(false, true), 1, 1);
 
         table.avatar.byLocator = By.xpath("*//table");
 
@@ -117,7 +117,7 @@ public class SimpleTableTests extends InitTests {
                 By.xpath("./tbody/tr[position() > 1]/td[1]"),
                 By.xpath("./tbody/tr"),
                 By.xpath("./tbody/tr/td"), null,
-                new TableSettings(true, false),1,2);
+                new TableSettings(true, false), 1, 2);
 
         table.avatar.byLocator = By.xpath("*//table");
 
@@ -137,7 +137,7 @@ public class SimpleTableTests extends InitTests {
     @Test
     public void verifyTableWithNoHeaders() {
 
-        List<String>    expColumnHeaders = Arrays.asList("1", "2", "3"),
+        List<String> expColumnHeaders = Arrays.asList("1", "2", "3"),
                 expRowHeaders = Arrays.asList("1", "2", "3", "4", "5", "6");
         String firstColumnContent = "Drivers";
 
@@ -162,7 +162,6 @@ public class SimpleTableTests extends InitTests {
                 format("Expected first cell content is '%s', but was '%s'", firstColumnContent, table.cell(column(1), row(1)).getText()));
 
     }
-
 
 
 }

@@ -16,7 +16,6 @@
 package com.ggasoftware.uitest.utils;
 
 import com.ggasoftware.uitest.autoit.UAutoItX;
-import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -52,6 +51,7 @@ public final class WebDriverWrapper {
     public static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
     public static int TIMEOUT = 30; //seconds
     public static boolean CHECKCONDITION = true;
+
     private WebDriverWrapper() {
     }
 
@@ -85,7 +85,7 @@ public final class WebDriverWrapper {
     /**
      * initialization RemoteWebDriver
      *
-     * @param remoteUrl - remote host
+     * @param remoteUrl    - remote host
      * @param capabilities - desired capabilities
      * @throws MalformedURLException - exception
      */
@@ -160,6 +160,7 @@ public final class WebDriverWrapper {
      * initialization FF with some profile
      * Use it if you want to use your profile for FF. It doesn't work remotely.
      * Before running create your profile. Use cmd : firefox.exe -ProfileManager -no-remote
+     *
      * @param path - profile path
      */
     public static void initFFProfile(String path) {
@@ -208,7 +209,6 @@ public final class WebDriverWrapper {
 
     /**
      * initialization ChromeDriver
-     *
      */
     public static void initChromeDriver() {
         ReporterNGExt.logTechnical("Initialization Chrome Driver");
@@ -306,7 +306,7 @@ public final class WebDriverWrapper {
 
 
     /**
-     *  Close the WebDriver (Close the browser window that the driver has focus of).
+     * Close the WebDriver (Close the browser window that the driver has focus of).
      */
     public static void close() {
         if (getDriver() != null) {
@@ -575,8 +575,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until windows has title.
      *
-     * @param timeoutSec to wait until windows has title.
-     * @param title - Expected window title.
+     * @param timeoutSec     to wait until windows has title.
+     * @param title          - Expected window title.
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForTitle(String title, int timeoutSec, boolean checkCondition) {
@@ -606,8 +606,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until windows title contains text.
      *
-     * @param timeoutSec to wait until windows title contains text.
-     * @param title - Expected window title contains text.
+     * @param timeoutSec     to wait until windows title contains text.
+     * @param title          - Expected window title contains text.
      * @param checkCondition - log assert for expected conditions.
      */
     public static void waitForTitleContains(String title, int timeoutSec, boolean checkCondition) {
@@ -637,8 +637,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until windows title not contains text.
      *
-     * @param timeoutSec to wait until windows title not contains text.
-     * @param title - Expected window title not contains text.
+     * @param timeoutSec     to wait until windows title not contains text.
+     * @param title          - Expected window title not contains text.
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForTitleNotContains(String title, int timeoutSec, boolean checkCondition) {
@@ -668,8 +668,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until element is changed text
      *
-     * @param title before change
-     * @param timeoutSec seconds to wait until element is changed text
+     * @param title          before change
+     * @param timeoutSec     seconds to wait until element is changed text
      * @param checkCondition - log assert for expected conditions.
      */
     public static void waitForTitleChanged(final String title, int timeoutSec, boolean checkCondition) {
@@ -701,8 +701,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until any element with text presents at web page.
      *
-     * @param text - element text to be presents.
-     * @param timeoutSec to wait until presents.
+     * @param text           - element text to be presents.
+     * @param timeoutSec     to wait until presents.
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForTextToBePresent(String text, int timeoutSec, boolean checkCondition) {
@@ -736,8 +736,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until any element with text not presents at web page.
      *
-     * @param text - element text to not be presents.
-     * @param timeoutSec to wait until not presents.
+     * @param text           - element text to not be presents.
+     * @param timeoutSec     to wait until not presents.
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForTextToNotBePresent(String text, int timeoutSec, boolean checkCondition) {
@@ -771,8 +771,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until link presents at web page.
      *
-     * @param linkText - linkText to be presents.
-     * @param timeoutSec to wait until presents.
+     * @param linkText       - linkText to be presents.
+     * @param timeoutSec     to wait until presents.
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForLinkToBePresent(String linkText, int timeoutSec, boolean checkCondition) {
@@ -807,8 +807,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until link not presents at web page.
      *
-     * @param linkText - linkText to not be presents.
-     * @param timeoutSec to wait until not presents.
+     * @param linkText       - linkText to not be presents.
+     * @param timeoutSec     to wait until not presents.
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForLinkToNotBePresent(String linkText, int timeoutSec, boolean checkCondition) {
@@ -842,8 +842,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until native window is not exists.
      *
-     * @param title of native window
-     * @param timeoutSec to wait until native window is not exists.
+     * @param title          of native window
+     * @param timeoutSec     to wait until native window is not exists.
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForNativeWindow(final String title, int timeoutSec, boolean checkCondition) {
@@ -882,7 +882,7 @@ public final class WebDriverWrapper {
     /**
      * Wait until Expected Condition.
      *
-     * @param condition - Expected Condition
+     * @param condition  - Expected Condition
      * @param timeoutSec - the maximum time to wait in seconds
      */
     public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition, final int timeoutSec) {
@@ -892,8 +892,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until Expected Condition.
      *
-     * @param condition - Expected Condition
-     * @param timeoutSec - the maximum time to wait in seconds
+     * @param condition      - Expected Condition
+     * @param timeoutSec     - the maximum time to wait in seconds
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForExpectedCondition(final ExpectedCondition<Boolean> condition, final int timeoutSec, final boolean checkCondition) {
@@ -938,8 +938,8 @@ public final class WebDriverWrapper {
     /**
      * Wait until JavaScript Condition.
      *
-     * @param javaScript - JavaScript Condition e.g. return (xmlhttp.readyState==4) or (xmlhttp.status==200)
-     * @param timeoutSec - the maximum time to wait in seconds
+     * @param javaScript     - JavaScript Condition e.g. return (xmlhttp.readyState==4) or (xmlhttp.status==200)
+     * @param timeoutSec     - the maximum time to wait in seconds
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForJavaScriptCondition(final String javaScript, final int timeoutSec, final boolean checkCondition) {
@@ -983,7 +983,7 @@ public final class WebDriverWrapper {
     /**
      * Wait until Ajax JQuery Process finished.
      *
-     * @param timeoutSec - the maximum time to wait in seconds
+     * @param timeoutSec     - the maximum time to wait in seconds
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForAjaxJQueryProcess(final int timeoutSec, final boolean checkCondition) {

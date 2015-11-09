@@ -21,16 +21,14 @@ import java.util.Comparator;
 
 /**
  * Comparator for sorting TestNG test results alphabetically by method name.
- * @author Daniel Dyer
  *
+ * @author Daniel Dyer
  * @author azhukov
- * Modifications:
- * - compare by start time
+ *         Modifications:
+ *         - compare by start time
  */
-class TestResultComparator implements Comparator<ITestResult>
-{
-    public int compare(ITestResult result1, ITestResult result2)
-    {
+class TestResultComparator implements Comparator<ITestResult> {
+    public int compare(ITestResult result1, ITestResult result2) {
         if (result1.getStartMillis() > result2.getStartMillis()) {
             return 1;
         } else if (result1.getStartMillis() < result2.getStartMillis()) {

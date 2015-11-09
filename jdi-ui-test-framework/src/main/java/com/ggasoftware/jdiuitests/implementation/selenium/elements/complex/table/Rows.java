@@ -31,7 +31,10 @@ public class Rows extends TableLine {
         return exception("Can't Get Rows for column '%s'. Exception: %s", rowName, ex);
     }
 
-    protected List<WebElement> getFirstLine() { return table.columns().getLineAction(1); }
+    protected List<WebElement> getFirstLine() {
+        return table.columns().getLineAction(1);
+    }
+
     public final MapArray<String, ICell> getColumn(String colName) {
         try {
             String[] headers = headers();

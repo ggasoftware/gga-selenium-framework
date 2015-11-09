@@ -6,7 +6,6 @@ import com.ggasoftware.uitest.control.base.logger.enums.LogLevels;
 import org.apache.log4j.Logger;
 
 import static com.ggasoftware.uitest.utils.Timer.nowTimeShort;
-import static java.lang.String.format;
 import static org.apache.log4j.LogManager.getLogger;
 
 /**

@@ -11,6 +11,7 @@ public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, 
      * @return Expanding DropDown
      */
     void expand();
+
     /**
      * @return Closing DropDown
      */

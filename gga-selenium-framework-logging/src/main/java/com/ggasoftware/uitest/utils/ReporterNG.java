@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.utils;
 
 import org.apache.log4j.Logger;
@@ -28,17 +30,13 @@ public class ReporterNG {
     public static final char BUSINESS_LEVEL = '2';
     public static final char COMPONENT_LEVEL = '1';
     public static final char TECHNICAL_LEVEL = '0';
-
+    public static final String PASSED = "Passed";
+    public static final String FAILED = "Failed";
     private static final char PASS = '0';
     private static final char WARNING = '1';
     private static final char FAIL = '2';
-
-    public static final String PASSED = "Passed";
-    public static final String FAILED = "Failed";
-
-
-    public static Logger LOG = Logger.getLogger(ReporterNG.class.getSimpleName());
     private static final String SDFP = new SimpleDateFormat("HH:mm:ss.SSS").toPattern();
+    public static Logger LOG = Logger.getLogger(ReporterNG.class.getSimpleName());
 
     /**
      * Adds message to business part of test LOG. Must only be used on Test level
@@ -217,19 +215,19 @@ public class ReporterNG {
                 log(String.format("%s%s%s~ %s: %s:", logLevel, String.valueOf(FAIL), DateUtil.now(SDFP), message, FAILED));
                 LOG.warn(String.format("%s: %s:", message, FAILED));
                 int iMax = Math.max(value.size(), expectedValue.size());
-                for(int i=0; i<iMax; i++){
+                for (int i = 0; i < iMax; i++) {
                     String actual = "";
                     String expected = "";
-                    if (value.size()>i){
+                    if (value.size() > i) {
                         actual = value.get(i);
                     }
-                    if (expectedValue.size()>i){
+                    if (expectedValue.size() > i) {
                         expected = expectedValue.get(i);
                     }
                     if (actual.equals(expected)) {
                         log(String.format("%s %s~ (%d) Expected: '%s'. Actual: '%s'.", ReporterNG.TECHNICAL_LEVEL, DateUtil.now(SDFP), i + 1, expected, actual));
                         LOG.info(String.format("Expected: %s. Actual: %s", expected, actual));
-                    }else{
+                    } else {
                         log(String.format("%s%s%s~ (%d) Expected: '%s'. Actual: '%s'.", ReporterNG.TECHNICAL_LEVEL, String.valueOf(FAIL), DateUtil.now(SDFP), i + 1, expected, actual));
                         LOG.warn(String.format("Expected: %s. Actual: %s", expected, actual));
                     }
@@ -499,22 +497,24 @@ public class ReporterNG {
     public static void log4j(Object object) {
         LOG.info(object);
     }
+
     public static void log4j(String message) {
         LOG.info(message);
     }
+
     public static void log4jError(String message) {
         LOG.error(message);
     }
 
     public static void setAttribute(String attribute, Object value) {
-        if (Reporter.getCurrentTestResult() == null){
+        if (Reporter.getCurrentTestResult() == null) {
             return;
         }
         Reporter.getCurrentTestResult().setAttribute(attribute, value);
     }
 
     public static Object getAttribute(String attribute) {
-        if (Reporter.getCurrentTestResult() == null){
+        if (Reporter.getCurrentTestResult() == null) {
             return null;
         }
         return Reporter.getCurrentTestResult().getAttribute(attribute);

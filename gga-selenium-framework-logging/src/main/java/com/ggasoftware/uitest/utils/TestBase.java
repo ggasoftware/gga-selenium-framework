@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.utils;
 
 import java.util.ArrayList;
@@ -28,31 +30,6 @@ public abstract class TestBase {
 
     public TestBase() {
         PropertyReader.getProperties(properties, this.getClass().getName());
-    }
-
-    public enum ATTRIBUTES {
-        ATTRIBUTE_BUG("bug"),
-        ATTRIBUTE_NAME("name"),
-        ATTRIBUTE_FAILED_MESSAGE("failedMessage"),
-        ATTRIBUTE_APPLICATION_VERSION("applicationVersion");
-        ATTRIBUTES(String sValue) {
-            this.value = sValue;
-        }
-
-        @Override
-        public String toString() {
-            return this.value;
-        }
-
-        public static String[] getValues() {
-            ATTRIBUTES[] values = values();
-            String[] result = new String[values.length];
-            for (int i = 0; i < values.length; i++) {
-                result[i] = values[i].toString();
-            }
-            return result;
-        }
-        private final String value;
     }
 
     /**
@@ -77,7 +54,7 @@ public abstract class TestBase {
      *
      * @param version Application version.
      */
-    public static void setApplicationVersion(String version){
+    public static void setApplicationVersion(String version) {
         ReporterNG.LOG.info("Set version: " + version);
         ReporterNG.setAttribute(ATTRIBUTES.ATTRIBUTE_APPLICATION_VERSION.toString(), version);
     }
@@ -92,15 +69,11 @@ public abstract class TestBase {
     /**
      * Check test passed or not.
      *
-     * @return  True if test passed.
+     * @return True if test passed.
      */
     public static boolean getPassed() {
         return passed;
     }
-
-    //
-    // Assertions
-    //
 
     /**
      * Compares two Objects as strings. In case of inequality marks test as FAILED. Execution continuous.
@@ -112,6 +85,10 @@ public abstract class TestBase {
     protected void assertEquals(Object value, Object expectedValue, String message) {
         ReporterNG.logAssertEquals(ReporterNG.BUSINESS_LEVEL, value, expectedValue, message);
     }
+
+    //
+    // Assertions
+    //
 
     protected void assertNotEquals(Object value, Object notExpectedValue, String message) {
         ReporterNG.logAssertNotEquals(ReporterNG.BUSINESS_LEVEL, value, notExpectedValue, message);
@@ -187,11 +164,38 @@ public abstract class TestBase {
         ReporterNG.logBusiness(message);
     }
 
-    protected String getTestProperty(String key){
+    protected String getTestProperty(String key) {
         return properties.getProperty(key);
     }
 
     protected String[] getArrayProperty(String key) {
         return this.getTestProperty(key).split("; ");
+    }
+
+    public enum ATTRIBUTES {
+        ATTRIBUTE_BUG("bug"),
+        ATTRIBUTE_NAME("name"),
+        ATTRIBUTE_FAILED_MESSAGE("failedMessage"),
+        ATTRIBUTE_APPLICATION_VERSION("applicationVersion");
+
+        private final String value;
+
+        ATTRIBUTES(String sValue) {
+            this.value = sValue;
+        }
+
+        public static String[] getValues() {
+            ATTRIBUTES[] values = values();
+            String[] result = new String[values.length];
+            for (int i = 0; i < values.length; i++) {
+                result[i] = values[i].toString();
+            }
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
     }
 }

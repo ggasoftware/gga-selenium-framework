@@ -144,9 +144,10 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     default void search(T entity) {
         submit(entity, "search");
     }
+
     /**
      * @param buttonName Specify Button Name
-     * @param entity Specify entity
+     * @param entity     Specify entity
      * @return Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
      * @apiNote To use this option Form pageObject should have button names in specific format <br>
      * e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>
@@ -157,7 +158,7 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
 
     /**
      * @param buttonName Specify Button Name
-     * @param entity Specify entity
+     * @param entity     Specify entity
      * @return Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
      * @apiNote To use this option Form pageObject should have button names in specific format <br>
      * e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>

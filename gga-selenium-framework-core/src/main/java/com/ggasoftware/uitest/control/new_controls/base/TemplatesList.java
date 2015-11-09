@@ -17,7 +17,6 @@ import static com.ggasoftware.uitest.utils.LinqUtils.select;
 import static com.ggasoftware.uitest.utils.LinqUtils.where;
 import static com.ggasoftware.uitest.utils.WebDriverByUtils.fillByTemplateSilent;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
-import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 7/3/2015.

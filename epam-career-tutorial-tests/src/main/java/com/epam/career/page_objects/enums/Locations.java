@@ -7,5 +7,8 @@ public enum Locations {
     SAINT_PETERSBURG("Saint-Petersburg");
 
     public String value;
-    Locations(String value) { this.value = value; }
+
+    Locations(String value) {
+        this.value = value;
+    }
 }

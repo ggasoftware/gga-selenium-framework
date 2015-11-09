@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 /**
  * Created by Natalia_Grebenshchik on 10/14/2015.
  */
-public class ClickableTablePage extends Page{
+public class ClickableTablePage extends Page {
 
     @FindBy(className = "uui-dynamic-table")
     public ITable clickableTable;

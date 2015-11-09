@@ -66,7 +66,7 @@ public abstract class AbstractLogger implements ILogger {
     }
 
     public void error(LogInfoTypes logInfoType, String message, Object... args) {
-            if (logSettings.logLevel.equalOrLessThan(ERROR)
+        if (logSettings.logLevel.equalOrLessThan(ERROR)
                 && isMatchLogInfoType(logInfoType) && !duplicated(message, getLineId()))
             inLog(format(message, wrap(args)), ERROR, logInfoType);
     }

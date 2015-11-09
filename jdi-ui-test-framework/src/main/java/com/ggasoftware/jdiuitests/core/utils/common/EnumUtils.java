@@ -37,12 +37,15 @@ public class EnumUtils {
     public static <T extends Enum> List<T> getAllEnumValues(Class<T> enumValue) {
         return asList(getAllEnumValuesAsArray(enumValue));
     }
+
     public static <T extends Enum> T[] getAllEnumValuesAsArray(Class<T> enumValue) {
         return enumValue.getEnumConstants();
     }
+
     public static <T extends Enum> List<String> getAllEnumNames(Class<T> enumValue) {
         return select(getAllEnumValuesAsArray(enumValue), EnumUtils::getEnumValue);
     }
+
     public static <T extends Enum> String[] getAllEnumNamesAsArray(Class<T> enumValue) {
         return toStringArray(getAllEnumNames(enumValue));
     }

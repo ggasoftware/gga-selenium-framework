@@ -19,7 +19,6 @@ import static com.ggasoftware.uitest.utils.LinqUtils.*;
 import static com.ggasoftware.uitest.utils.PrintUtils.print;
 import static com.ggasoftware.uitest.utils.Timer.waitCondition;
 import static com.ggasoftware.uitest.utils.WebDriverWrapper.TIMEOUT;
-import static java.lang.String.format;
 
 
 /**

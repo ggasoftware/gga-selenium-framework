@@ -2,23 +2,25 @@ package com.epam.jditests.tests.common;
 
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
-import com.epam.jditests.tests.common.utils.*;
+import com.epam.jditests.tests.common.utils.AttributeTests;
+import com.epam.jditests.tests.common.utils.ContainsTextTests;
+import com.epam.jditests.tests.common.utils.MatchTextTests;
+import com.epam.jditests.tests.common.utils.SimpleTextTests;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IText;
 import org.testng.annotations.Factory;
 
 import static com.epam.jditests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.homePage;
 
 public class TextTests extends InitTests {
-    private Preconditions _onPage = HOME_PAGE;
-    JFuncT<IElement> get = () -> homePage.text;
     public static final String TEXT = ("Lorem ipsum dolor sit amet, consectetur adipisicing elit,"
             + " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             + " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris"
             + " nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in"
             + " reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.").toUpperCase();
+    JFuncT<IElement> get = () -> homePage.text;
+    private Preconditions _onPage = HOME_PAGE;
 
     @Factory
     public Object[] factory() {

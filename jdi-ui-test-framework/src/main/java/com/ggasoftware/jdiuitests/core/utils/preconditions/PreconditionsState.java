@@ -22,7 +22,9 @@ public class PreconditionsState {
                 return;
             condition.moveToAction().invoke();
             new Check(condition + " condition achieved").isTrue(condition.checkAction()::invoke);
-        } catch (Exception ex) { throw asserter.exception(format("Can't reach state: %s. Exception: %s", condition, ex.getMessage())); }
+        } catch (Exception ex) {
+            throw asserter.exception(format("Can't reach state: %s. Exception: %s", condition, ex.getMessage()));
+        }
     }
 
 }

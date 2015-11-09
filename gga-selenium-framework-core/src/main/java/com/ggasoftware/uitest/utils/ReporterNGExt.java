@@ -46,6 +46,7 @@ public class ReporterNGExt extends ReporterNG {
 
     /**
      * Takes screenshot and adds link to business part of test LOG. Must only be used on Test level
+     *
      * @param name the name of screenshot. User alphanumeric and _
      */
     public static void logBusinessScreenshot(String name) {
@@ -54,6 +55,7 @@ public class ReporterNGExt extends ReporterNG {
 
     /**
      * Takes screenshot and adds link to component part of test LOG. Must only be used on Component level
+     *
      * @param name the name of screenshot. User alphanumeric and _
      */
     public static void logComponentScreenshot(String name) {
@@ -62,6 +64,7 @@ public class ReporterNGExt extends ReporterNG {
 
     /**
      * Get element level for log.
+     *
      * @param element - element to get level
      * @return log level (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
      */
@@ -78,9 +81,9 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Report.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param status - test status
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param status               - test status
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     private static void logReport(char logLevel, String status, String message, boolean takePassedScreenshot) {
@@ -99,10 +102,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Match Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param value - analyzed text
-     * @param regExp - regular expression
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param value                - analyzed text
+     * @param regExp               - regular expression
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertMatch(char logLevel, String value, String regExp, String message, boolean takePassedScreenshot) {
@@ -113,10 +116,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Not Intersect Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param firstArray - first text array 
-     * @param secondArray - second text array
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param firstArray           - first text array
+     * @param secondArray          - second text array
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertNotIntersect(char logLevel, String[] firstArray, String[] secondArray, String message, boolean takePassedScreenshot) {
@@ -127,10 +130,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Equals Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param value - actual object
-     * @param expectedValue - expected object
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param value                - actual object
+     * @param expectedValue        - expected object
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertEquals(char logLevel, Object value, Object expectedValue, String message, boolean takePassedScreenshot) {
@@ -141,10 +144,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Not Equals Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param value - actual object
-     * @param notExpectedValue - not expected object
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param value                - actual object
+     * @param notExpectedValue     - not expected object
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertNotEquals(char logLevel, Object value, Object notExpectedValue, String message, boolean takePassedScreenshot) {
@@ -155,10 +158,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Array List of String Equals Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param value - actual Array List of String
-     * @param expectedValue - expected Array List of String
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param value                - actual Array List of String
+     * @param expectedValue        - expected Array List of String
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertArrayListEquals(char logLevel, ArrayList<String> value, ArrayList<String> expectedValue, String message, boolean takePassedScreenshot) {
@@ -169,10 +172,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Array Equals Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param value - actual text array
-     * @param expectedValue - expected text array
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param value                - actual text array
+     * @param expectedValue        - expected text array
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertEquals(char logLevel, String[] value, String[] expectedValue, String message, boolean takePassedScreenshot) {
@@ -201,9 +204,9 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log True Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param what - expression
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param what                 - expression
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertTrue(char logLevel, boolean what, String message, boolean takePassedScreenshot) {
@@ -214,9 +217,9 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log False Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param what - expression
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param what                 - expression
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertFalse(char logLevel, boolean what, String message, boolean takePassedScreenshot) {
@@ -227,9 +230,9 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Empty Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param what - analyzed text
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param what                 - analyzed text
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertEmpty(char logLevel, String what, String message, boolean takePassedScreenshot) {
@@ -240,10 +243,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Text Contains Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param toSearchIn - text search in
-     * @param whatToSearch - text to search
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param toSearchIn           - text search in
+     * @param whatToSearch         - text to search
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertContains(char logLevel, String toSearchIn, String whatToSearch, String message, boolean takePassedScreenshot) {
@@ -254,10 +257,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Text Not Contains Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param toSearchIn - text search in
-     * @param whatToSearch - text to search
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param toSearchIn           - text search in
+     * @param whatToSearch         - text to search
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertNotContains(char logLevel, String toSearchIn, String whatToSearch, String message, boolean takePassedScreenshot) {
@@ -268,9 +271,9 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Null Object Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param what - analyzed object
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param what                 - analyzed object
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertNull(char logLevel, Object what, String message, boolean takePassedScreenshot) {
@@ -281,9 +284,9 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log Not Null Object Assertion.
      *
-     * @param logLevel (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param what - analyzed object
-     * @param message - log message text
+     * @param logLevel             (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
+     * @param what                 - analyzed object
+     * @param message              - log message text
      * @param takePassedScreenshot - Set True to take screenshot if assert passed
      */
     public static void logAssertNotNull(char logLevel, Object what, String message, boolean takePassedScreenshot) {
@@ -294,10 +297,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log getting parameter value from Element.
      *
-     * @param element - element to get value
+     * @param element         - element to get value
      * @param parentClassName - parent class name of element
-     * @param parameterName - name of parameter to get value
-     * @param value - object to get value
+     * @param parameterName   - name of parameter to get value
+     * @param value           - object to get value
      * @return object to get value
      */
     public static Object logGetter(Object element, String parentClassName, String parameterName, Object value) {
@@ -336,10 +339,10 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log setting parameter value to Element.
      *
-     * @param element - element to set value
+     * @param element         - element to set value
      * @param parentClassName - parent class name of element
-     * @param parameterName - name of parameter to set value
-     * @param value - object to set value
+     * @param parameterName   - name of parameter to set value
+     * @param value           - object to set value
      * @return object to set value
      */
     public static Object logSetter(Object element, String parentClassName, String parameterName, Object value) {
@@ -351,9 +354,9 @@ public class ReporterNGExt extends ReporterNG {
     /**
      * Log action.
      *
-     * @param element - element to perform action
+     * @param element         - element to perform action
      * @param parentClassName - parent class name of element
-     * @param actionName - name of action
+     * @param actionName      - name of action
      */
     public static void logAction(Object element, String parentClassName, String actionName) {
         String className = getClassName(element, parentClassName);
@@ -384,7 +387,7 @@ public class ReporterNGExt extends ReporterNG {
      * Log failed message and take screenshot.
      *
      * @param logLevel - log level (ReporterNG.BUSINESS_LEVEL, ReporterNG.COMPONENT_LEVEL or ReporterNG.TECHNICAL_LEVEL)
-     * @param message - log message text
+     * @param message  - log message text
      */
     public static void logFailedScreenshot(char logLevel, String message) {
         logFailed(logLevel, message);

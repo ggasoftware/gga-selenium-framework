@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 /**
  * Created by Natalia_Grebenshchik on 10/21/2015.
  */
-public class DynamicTable extends Table implements ITable{
+public class DynamicTable extends Table implements ITable {
 
     public DynamicTable() {
         super(
@@ -17,7 +17,7 @@ public class DynamicTable extends Table implements ITable{
                 By.xpath(".//table//tr"),
                 By.xpath(".//table//tr/td"),
                 By.xpath(".//tfoot//th"),
-                new TableSettings(true, true),1,1);
+                new TableSettings(true, true), 1, 1);
 
         this.cellLocatorTemplate = By.xpath(".//table//tr[{1}]/td[{0}]");
     }

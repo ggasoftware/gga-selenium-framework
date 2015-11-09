@@ -35,6 +35,7 @@ public class Search extends TextField implements ISearch {
     public Search(By byLocator, By selectLocator) {
         this(byLocator, selectLocator, null);
     }
+
     public Search(By byLocator, By selectLocator, By suggestionsListLocator) {
         super(byLocator);
         this.select = new Clickable(selectLocator);

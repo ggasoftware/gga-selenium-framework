@@ -132,6 +132,7 @@ public class Form<T> extends Element implements IForm<T> {
         if (result.size() > 0)
             throw exception("Check form failed:" + LineBreak + print(result, LineBreak));
     }
+
     protected String getValueAction() {
         return PrintUtils.print(LinqUtils.select(getFields(this, IHasValue.class), field ->
                 ((IHasValue) getValueField(field, this)).getValue()));

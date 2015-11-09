@@ -25,26 +25,23 @@ import java.util.ResourceBundle;
 
 /**
  * Convenient base class for the ReportNG reporters.  Provides common functionality.
- * @author Daniel Dyer
  *
+ * @author Daniel Dyer
  * @author azhukov
- * Modifications:
- * - add copyImage method for copy a single image file to the output directory.
- * - use modification path
+ *         Modifications:
+ *         - add copyImage method for copy a single image file to the output directory.
+ *         - use modification path
  */
-public abstract class AbstractReporter implements IReporter
-{
-    private static final String ENCODING = "UTF-8";
-
+public abstract class AbstractReporter implements IReporter {
     protected static final String TEMPLATE_EXTENSION = ".vm";
-
-    private static final String META_KEY ="meta";
     protected static final ReportMetadata META = new ReportMetadata();
-    private static final String UTILS_KEY ="utils";
+    private static final String ENCODING = "UTF-8";
+    private static final String META_KEY = "meta";
+    private static final String UTILS_KEY = "utils";
     private static final ReportNGUtils UTILS = new ReportNGUtils();
-    private static final String MESSAGES_KEY ="messages";
+    private static final String MESSAGES_KEY = "messages";
     private static final ResourceBundle MESSAGES = ResourceBundle.getBundle("org.uncommons.reportng.mod.messages.reportng",
-                                                                            META.getLocale());
+            META.getLocale());
 
     private final String classpathPrefix;
 
@@ -52,24 +49,19 @@ public abstract class AbstractReporter implements IReporter
     /**
      * @param classpathPrefix Where in the classpath to load templates from.
      */
-    protected AbstractReporter(String classpathPrefix)
-    {
+    protected AbstractReporter(String classpathPrefix) {
         this.classpathPrefix = classpathPrefix;
         Velocity.setProperty("resource.loader", "classpath");
         Velocity.setProperty("classpath.resource.loader.class",
-                             "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        if (!META.shouldGenerateVelocityLog())
-        {
+                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        if (!META.shouldGenerateVelocityLog()) {
             Velocity.setProperty("runtime.log.logsystem.class",
-                                 "org.apache.velocity.runtime.log.NullLogSystem");
+                    "org.apache.velocity.runtime.log.NullLogSystem");
         }
 
-        try
-        {
+        try {
             Velocity.init();
-        }
-        catch (Exception|AssertionError ex)
-        {
+        } catch (Exception | AssertionError ex) {
             throw new ReportNGException("Failed to initialise Velocity.", ex);
         }
     }
@@ -78,10 +70,10 @@ public abstract class AbstractReporter implements IReporter
     /**
      * Helper method that creates a Velocity context and initialises it
      * with a reference to the ReportNG utils, report metadata and localised messages.
+     *
      * @return An initialised Velocity context.
      */
-    protected VelocityContext createContext()
-    {
+    protected VelocityContext createContext() {
         VelocityContext context = new VelocityContext();
         context.put(META_KEY, META);
         context.put(UTILS_KEY, UTILS);
@@ -109,15 +101,15 @@ public abstract class AbstractReporter implements IReporter
 
     /**
      * Copy a single named resource from the classpath to the output directory.
+     *
      * @param outputDirectory The destination directory for the copied resource.
-     * @param resourceName The filename of the resource.
-     * @param targetFileName The name of the file created in {@literal outputDirectory}.
+     * @param resourceName    The filename of the resource.
+     * @param targetFileName  The name of the file created in {@literal outputDirectory}.
      * @throws IOException If the resource cannot be copied.
      */
     protected void copyClasspathResource(File outputDirectory,
                                          String resourceName,
-                                         String targetFileName) throws IOException
-    {
+                                         String targetFileName) throws IOException {
         String resourcePath = classpathPrefix + resourceName;
         InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
         copyStream(outputDirectory, resourceStream, targetFileName);
@@ -126,15 +118,15 @@ public abstract class AbstractReporter implements IReporter
 
     /**
      * Copy a single named file to the output directory.
+     *
      * @param outputDirectory The destination directory for the copied resource.
-     * @param sourceFile The path of the file to copy.
-     * @param targetFileName The name of the file created in {@literal outputDirectory}.
+     * @param sourceFile      The path of the file to copy.
+     * @param targetFileName  The name of the file created in {@literal outputDirectory}.
      * @throws IOException If the file cannot be copied.
      */
     protected void copyFile(File outputDirectory,
                             File sourceFile,
-                            String targetFileName) throws IOException
-    {
+                            String targetFileName) throws IOException {
         try (InputStream fileStream = new FileInputStream(sourceFile)) {
             copyStream(outputDirectory, fileStream, targetFileName);
         }
@@ -143,40 +135,34 @@ public abstract class AbstractReporter implements IReporter
 
     /**
      * Helper method to copy the contents of a stream to a file.
+     *
      * @param outputDirectory The directory in which the new file is created.
-     * @param stream The stream to copy.
-     * @param targetFileName The file to write the stream contents to.
+     * @param stream          The stream to copy.
+     * @param targetFileName  The file to write the stream contents to.
      * @throws IOException If the stream cannot be copied.
      */
     protected void copyStream(File outputDirectory,
                               InputStream stream,
-                              String targetFileName) throws IOException
-    {
+                              String targetFileName) throws IOException {
         File resourceFile = new File(outputDirectory, targetFileName);
         BufferedReader reader = null;
         Writer writer = null;
-        try
-        {
+        try {
             reader = new BufferedReader(new InputStreamReader(stream, ENCODING));
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(resourceFile), ENCODING));
 
             String line = reader.readLine();
-            while (line != null)
-            {
+            while (line != null) {
                 writer.write(line);
                 writer.write('\n');
                 line = reader.readLine();
             }
             writer.flush();
-        }
-        finally
-        {
-            if (reader != null)
-            {
+        } finally {
+            if (reader != null) {
                 reader.close();
             }
-            if (writer != null)
-            {
+            if (writer != null) {
                 writer.close();
             }
         }
@@ -184,19 +170,19 @@ public abstract class AbstractReporter implements IReporter
 
     /**
      * Copy a single image file to the output directory.
+     *
      * @param outputDirectory The directory in which the new file is created.
-     * @param resourceName The filename of the resource image.
-     * @param targetFileName The file to write the stream contents to.
+     * @param resourceName    The filename of the resource image.
+     * @param targetFileName  The file to write the stream contents to.
      * @throws IOException If the stream cannot be copied.
      */
     protected void copyImage(File outputDirectory,
-                   String resourceName,
-                   String targetFileName) throws IOException{
+                             String resourceName,
+                             String targetFileName) throws IOException {
         String resourcePath = classpathPrefix + resourceName;
         InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
         File dst = new File(outputDirectory, targetFileName);
-        try
-        {
+        try {
             OutputStream out = new FileOutputStream(dst);
 
             // Transfer bytes from in to out
@@ -207,7 +193,7 @@ public abstract class AbstractReporter implements IReporter
             }
             resourceStream.close();
             out.close();
-        } catch (Exception ex ){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -218,24 +204,20 @@ public abstract class AbstractReporter implements IReporter
      * of whether those reports are generated.  If you are using the
      * default TestNG reports as well as ReportNG, these directories will
      * not be empty and will be retained.  Otherwise they will be removed.
+     *
      * @param outputDirectory The directory to search for empty directories.
      */
-    protected void removeEmptyDirectories(File outputDirectory)
-    {
-        if (outputDirectory.exists())
-        {
-            for (File file : outputDirectory.listFiles(new EmptyDirectoryFilter()))
-            {
+    protected void removeEmptyDirectories(File outputDirectory) {
+        if (outputDirectory.exists()) {
+            for (File file : outputDirectory.listFiles(new EmptyDirectoryFilter())) {
                 file.delete();
             }
         }
     }
 
 
-    private static final class EmptyDirectoryFilter implements FileFilter
-    {
-        public boolean accept(File file)
-        {
+    private static final class EmptyDirectoryFilter implements FileFilter {
+        public boolean accept(File file) {
             return file.isDirectory() && file.listFiles().length == 0;
         }
     }

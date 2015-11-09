@@ -12,7 +12,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jditests.enums.Nature.*;
+import static com.epam.jditests.enums.Nature.FIRE;
+import static com.epam.jditests.enums.Nature.WATER;
 import static com.epam.jditests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.*;
 import static com.epam.jditests.tests.complex.CommonActionsData.checkAction;
@@ -26,31 +27,41 @@ import static java.util.Arrays.asList;
  * Created by Roman_Iovlev on 9/15/2015.
  */
 public class ChecklistTests extends InitTests {
-    private ICheckList<Nature> nature() { return metalsColorsPage.nature; }
+    private static final List<String> natureOptions = asList("Water", "Earth", "Wind", "Fire");
+    private static final String allValues = "Water, Earth, Wind, Fire";
+
+    private ICheckList<Nature> nature() {
+        return metalsColorsPage.nature;
+    }
 
     @BeforeMethod
     public void before(Method method) throws IOException {
         isInState(METALS_AND_COLORS_PAGE);
     }
+
     private void checkAllChecked() {
         assertTrue(first(getDriver().findElements(By.cssSelector("#elements-checklist input")),
                 el -> el.getAttribute("checked") != null) != null);
     }
+
     @Test
     public void selectStringTest() {
         nature().select("Fire");
         checkAction("Fire: condition changed to true");
     }
+
     @Test
     public void selectIndexTest() {
         nature().select(4);
         checkAction("Fire: condition changed to true");
     }
+
     @Test
     public void selectEnumTest() {
         nature().select(FIRE);
         checkAction("Fire: condition changed to true");
     }
+
     @Test
     public void select2StringTest() {
         nature().select("Water", "Fire");
@@ -58,12 +69,14 @@ public class ChecklistTests extends InitTests {
         assertContains(() -> (String) actionsLog.getTextList().get(1), "Water: condition changed to true");
 
     }
+
     @Test
     public void select2IndexTest() {
         nature().select(1, 4);
         checkAction("Fire: condition changed to true");
         assertContains(() -> (String) actionsLog.getTextList().get(1), "Water: condition changed to true");
     }
+
     @Test
     public void select2EnumTest() {
         nature().select(WATER, FIRE);
@@ -76,16 +89,19 @@ public class ChecklistTests extends InitTests {
         nature().check("Fire");
         checkAction("Fire: condition changed to true");
     }
+
     @Test
     public void checkIndexTest() {
         nature().check(4);
         checkAction("Fire: condition changed to true");
     }
+
     @Test
     public void checkEnumTest() {
         nature().check(FIRE);
         checkAction("Fire: condition changed to true");
     }
+
     @Test
     public void check2StringTest() {
         nature().check("Water", "Fire");
@@ -93,12 +109,14 @@ public class ChecklistTests extends InitTests {
         assertContains(() -> (String) actionsLog.getTextList().get(1), "Water: condition changed to true");
 
     }
+
     @Test
     public void check2IndexTest() {
         nature().check(1, 4);
         checkAction("Fire: condition changed to true");
         assertContains(() -> (String) actionsLog.getTextList().get(1), "Water: condition changed to true");
     }
+
     @Test
     public void check2EnumTest() {
         nature().check(WATER, FIRE);
@@ -116,6 +134,7 @@ public class ChecklistTests extends InitTests {
         assertContains(log.get(0), "Fire: condition changed to true");
         checkAllChecked();
     }
+
     @Test
     public void checkAllTest() {
         nature().checkAll();
@@ -126,6 +145,7 @@ public class ChecklistTests extends InitTests {
         assertContains(log.get(0), "Fire: condition changed to true");
         checkAllChecked();
     }
+
     @Test
     public void clearAllTest() {
         nature().checkAll();
@@ -133,6 +153,7 @@ public class ChecklistTests extends InitTests {
         nature().clear();
         checkAllChecked(); // isDisplayed not defined
     }
+
     @Test
     public void uncheckAllTest() {
         nature().checkAll();
@@ -141,40 +162,47 @@ public class ChecklistTests extends InitTests {
         checkAllChecked(); // isDisplayed not defined
     }
 
-    private static final List<String> natureOptions = asList("Water", "Earth", "Wind", "Fire");
     @Test
     public void getOptionsTest() {
         listEquals(nature().getOptions(), natureOptions);
     }
+
     @Test
     public void getNamesTest() {
         listEquals(nature().getNames(), natureOptions);
     }
+
     @Test
     public void getValuesTest() {
         listEquals(nature().getValues(), natureOptions);
     }
-    private static final String allValues = "Water, Earth, Wind, Fire";
+
     @Test
     public void getOptionsAsTextTest() {
         areEquals(nature().getOptionsAsText(), allValues);
     }
+
     @Test
     public void setValueTest() {
         nature().setValue("Fire");
         checkAction("Fire: condition changed to true");
     }
+
     @Test
     public void getNameTest() {
         areEquals(nature().getName(), "Nature");
     }
 
     @Test
-    public void areSelectedTest() { listEquals(nature().areSelected(), new ArrayList<>());// isDisplayed not defined
+    public void areSelectedTest() {
+        listEquals(nature().areSelected(), new ArrayList<>());// isDisplayed not defined
     }
+
     @Test
-    public void areDeselectedTest() { listEquals(nature().areDeselected(), natureOptions);// isDisplayed not defined
+    public void areDeselectedTest() {
+        listEquals(nature().areDeselected(), natureOptions);// isDisplayed not defined
     }
+
     @Test
     public void getValueTest() {
         areEquals(nature().getValue(), "");// isDisplayed not defined

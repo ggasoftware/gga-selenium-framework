@@ -29,6 +29,7 @@ public class GetElementModule {
     public By byLocator;
     public Pairs<ContextType, By> context = new Pairs<>();
     public JFuncTT<WebElement, Boolean> localElementSearchCriteria = null;
+    public WebElement rootElement;
     private String driverName = "";
     private IBaseElement element;
 
@@ -47,13 +48,13 @@ public class GetElementModule {
         this.byLocator = byLocator;
         this.context = context;
     }
+
     public GetElementModule(By byLocator, WebElement rootElement, IBaseElement element) {
         this(element);
         this.byLocator = byLocator;
         this.rootElement = rootElement;
     }
 
-    public WebElement rootElement;
     public boolean haveLocator() {
         return byLocator != null;
     }

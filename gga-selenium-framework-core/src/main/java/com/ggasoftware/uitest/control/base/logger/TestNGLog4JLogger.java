@@ -18,6 +18,7 @@ public class TestNGLog4JLogger extends AbstractLogger {
     public TestNGLog4JLogger() {
         this(INFO);
     }
+
     public TestNGLog4JLogger(LogLevels logLevel) {
         super(logLevel);
         log4J = new Log4JLogger(logLevel);

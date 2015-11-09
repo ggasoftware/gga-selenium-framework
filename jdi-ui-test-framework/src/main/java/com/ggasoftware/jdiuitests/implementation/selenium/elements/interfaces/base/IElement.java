@@ -16,6 +16,7 @@ public interface IElement extends IBaseElement, IVisible {
 
     /**
      * Get element attribute
+     *
      * @param name Specify name for attribute
      * @return Returns chosen attribute
      */
@@ -23,7 +24,7 @@ public interface IElement extends IBaseElement, IVisible {
     String getAttribute(String name);
 
     /**
-     * @param name Specify attribute name
+     * @param name  Specify attribute name
      * @param value Specify attribute value
      * @return Waits while attribute gets expected value. Return false if this not happens
      */
@@ -32,7 +33,7 @@ public interface IElement extends IBaseElement, IVisible {
 
     /**
      * @param attributeName Specify attribute name
-     * @param value Specify attribute value
+     * @param value         Specify attribute value
      * @return Sets attribute value for Element
      */
     @JDIAction
@@ -47,7 +48,7 @@ public interface IElement extends IBaseElement, IVisible {
 
     /**
      * @param resultFunc Specify expected function result
-     * @param condition Specify expected function condition
+     * @param condition  Specify expected function condition
      * @return Waits while condition with WebElement happens and returns result using resultFunc
      */
     @JDIAction
@@ -63,7 +64,7 @@ public interface IElement extends IBaseElement, IVisible {
 
     /**
      * @param timeoutSec Specify timeout
-     * @param condition Specify expected function condition
+     * @param condition  Specify expected function condition
      * @param resultFunc Specify expected function result
      * @return Waits while condition with WebElement happens during specified timeout and returns result using resultFunc
      */

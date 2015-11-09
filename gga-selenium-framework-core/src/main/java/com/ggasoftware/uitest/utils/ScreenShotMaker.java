@@ -37,6 +37,7 @@ public final class ScreenShotMaker {
     private static String path = "\\";
     private static String dir = "\\";
     private static boolean hasTake = true;
+
     private ScreenShotMaker() {
     }
 

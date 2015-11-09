@@ -40,6 +40,7 @@ public class GetElement {
             throw exception("Can't find button '%s' for Element '%s'", buttonName, toString());
         return button;
     }
+
     private String toButton(String buttonName) {
         return buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button";
     }

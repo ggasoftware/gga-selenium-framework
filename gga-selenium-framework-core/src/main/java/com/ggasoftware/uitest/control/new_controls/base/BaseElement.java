@@ -53,13 +53,17 @@ public abstract class BaseElement<P> implements IBaseElement {
         if (text == null || text.equals("")) return;
         action.invoke(text.equals("#CLEAR#") ? "" : text);
     };
+    public static IScenario invocationScenario = (element, actionName, jAction) -> {
+        sleep(100);
+        element.defaultLogAction(actionName);
+        alwaysDoneAction(jAction::invoke);
+    };
     private static MapArray<Class, Class> map;
     public Functions function = NONE;
     /**
      * Locator of the element if applicable
      */
     protected String locator;
-
     protected String name;
     protected GetElementModule avatar;
     /**
@@ -67,11 +71,6 @@ public abstract class BaseElement<P> implements IBaseElement {
      */
     protected P parent;
     protected String parentTypeName;
-    public static IScenario invocationScenario = (element, actionName, jAction) -> {
-        sleep(100);
-        element.defaultLogAction(actionName);
-        alwaysDoneAction(jAction::invoke);
-    };
     public static IScenarioWithResult invocationScenarioWithResult = new IScenarioWithResult() {
         @Override
         public <TResult> TResult invoke(BaseElement element, String actionName, JFuncT<TResult> jAction, JFuncTT<TResult, String> logResult, LogSettings logSettings) {

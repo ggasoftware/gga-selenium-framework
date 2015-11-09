@@ -45,8 +45,8 @@ public interface ITextList<TEnum extends Enum> extends IBaseElement, IHasValue, 
     String getText(TEnum enumName);
 
     /**
-    * @return Returns strings count
-    */
+     * @return Returns strings count
+     */
     @JDIAction
     int count();
 

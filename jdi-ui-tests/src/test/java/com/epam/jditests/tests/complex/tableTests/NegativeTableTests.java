@@ -2,13 +2,10 @@ package com.epam.jditests.tests.complex.tableTests;
 
 import com.epam.jditests.InitTests;
 import com.epam.jditests.dataproviders.TableDP;
-import com.epam.jditests.pageobjects.pages.SupportPage;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Table;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.TableSettings;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
-import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
 import org.openqa.selenium.By;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.epam.jditests.enums.Preconditions.SIMPLE_PAGE;
@@ -25,6 +22,9 @@ import static java.lang.String.format;
  */
 public class NegativeTableTests extends InitTests {
 
+    final String _assertionException = "java.lang.AssertionError: Failed to do 'Get web element' action. Exception: java.lang.RuntimeException: java.lang.AssertionError: Can't get Web Elements";
+    final String _nullPointerException = "java.lang.NullPointerException";
+
     private Table tableNoHeaders() {
         Table table = new Table(By.xpath("./tbody/tr[1]/td"),
                 By.xpath("./tbody/tr[position() > 0]/td[1]"),
@@ -40,9 +40,6 @@ public class NegativeTableTests extends InitTests {
     private ITable tableWithHeaders() {
         return supportPage.supportTable;
     }
-
-    final String _assertionException = "java.lang.AssertionError: Failed to do 'Get web element' action. Exception: java.lang.RuntimeException: java.lang.AssertionError: Can't get Web Elements";
-    final String _nullPointerException = "java.lang.NullPointerException";
 
     @Test(dataProvider = "cellIndexes", dataProviderClass = TableDP.class)
     public void verifyIllegalCellIndex(int columnIndex, int rowIndex) {

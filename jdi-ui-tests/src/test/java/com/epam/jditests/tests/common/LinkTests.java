@@ -25,8 +25,8 @@ import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.i
 public class LinkTests extends InitTests {
     public final static String TEXT = "About";
     public final static String HREF = "http://ecse00100176.epam.com/page3.htm";
-    private Preconditions _onPage = HOME_PAGE;
     JFuncT<IElement> get = () -> footer.about;
+    private Preconditions _onPage = HOME_PAGE;
 
     @BeforeMethod
     public void before(final Method method) {

@@ -13,7 +13,6 @@ import java.util.List;
 import static com.ggasoftware.uitest.control.base.asserter.testNG.Assert.exception;
 import static com.ggasoftware.uitest.utils.PrintUtils.print;
 import static com.ggasoftware.uitest.utils.Timer.waitCondition;
-import static java.lang.String.format;
 
 /**
  * Created by Roman_Iovlev on 7/9/2015.

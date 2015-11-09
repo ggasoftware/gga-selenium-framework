@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.String.format;
-import static jdk.nashorn.internal.objects.Global.print;
 
 /**
  * Created by roman.i on 30.09.2014.

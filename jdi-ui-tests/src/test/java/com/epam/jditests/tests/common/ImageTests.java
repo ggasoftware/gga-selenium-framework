@@ -22,49 +22,49 @@ import static com.ggasoftware.jdiuitests.core.settings.JDIData.testName;
  */
 public class ImageTests extends InitTests {
 
-	private static final String ALT = "ALT";
-	private static final String SRC = "http://ecse00100176.epam.com/images/Logo_Epam_Color.svg";
-	private Preconditions _onPage = null;
-	
-	public ImageTests() {
-		_onPage = HOME_PAGE;
-	}
+    private static final String ALT = "ALT";
+    private static final String SRC = "http://ecse00100176.epam.com/images/Logo_Epam_Color.svg";
+    private Preconditions _onPage = null;
 
-	public IImage getImageHome() {
-		return homePage.logoImage;
-	}
+    public ImageTests() {
+        _onPage = HOME_PAGE;
+    }
 
-	public IImage getImageContact() {
-		return contactFormPage.logoImage;
-	}
+    public IImage getImageHome() {
+        return homePage.logoImage;
+    }
 
-	@BeforeMethod
-	public void before(final Method method) throws IOException {
-		testName = method.getName();
-		isInState(_onPage, method);
-	}
+    public IImage getImageContact() {
+        return contactFormPage.logoImage;
+    }
 
-	@Test
-	public void clickTest() throws InterruptedException {
-		contactFormPage.open();
-		getImageContact().click();
-		homePage.checkOpened();
-	}
+    @BeforeMethod
+    public void before(final Method method) throws IOException {
+        testName = method.getName();
+        isInState(_onPage, method);
+    }
 
-	@Factory
-	public Object[] factory() {
-		return new Object[] { new AttributeTests("testAttribute", "testValue", _onPage, () -> {
-			return (IElement) getImageHome();
-		}) };
-	}
+    @Test
+    public void clickTest() throws InterruptedException {
+        contactFormPage.open();
+        getImageContact().click();
+        homePage.checkOpened();
+    }
 
-	@Test
-	public void getSourceTest() {
-		checkText(getImageHome()::getSource, SRC);
-	}
+    @Factory
+    public Object[] factory() {
+        return new Object[]{new AttributeTests("testAttribute", "testValue", _onPage, () -> {
+            return (IElement) getImageHome();
+        })};
+    }
 
-	@Test
-	public void getTipTest() {
-		checkText(getImageHome()::getAlt, ALT);
-	}
+    @Test
+    public void getSourceTest() {
+        checkText(getImageHome()::getSource, SRC);
+    }
+
+    @Test
+    public void getTipTest() {
+        checkText(getImageHome()::getAlt, ALT);
+    }
 }

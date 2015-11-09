@@ -5,7 +5,6 @@ import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.tests.common.utils.*;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextField;
 import org.testng.annotations.Factory;
 
 import static com.epam.jditests.entities.User.DEFAULT_USER;
@@ -15,8 +14,8 @@ import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
 public class TextFieldTests extends InitTests {
 
     public static final String TEXT = DEFAULT_USER.name;
-    private Preconditions _onPage = CONTACT_PAGE_FILLED;
     JFuncT<IElement> get = () -> contactFormPage.name;
+    private Preconditions _onPage = CONTACT_PAGE_FILLED;
 
     @Factory
     public Object[] factory() {

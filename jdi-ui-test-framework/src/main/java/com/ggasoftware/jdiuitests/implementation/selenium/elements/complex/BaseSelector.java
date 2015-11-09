@@ -173,7 +173,9 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         List<WebElement> els;
         try {
             els = getAvatar().searchAll().getElements();
-        } catch (Exception|Error ex) { return false; }
+        } catch (Exception | Error ex) {
+            return false;
+        }
         return isDisplayedInList(els.size() == 1 ? getSelector().getOptions() : els, name);
     }
 

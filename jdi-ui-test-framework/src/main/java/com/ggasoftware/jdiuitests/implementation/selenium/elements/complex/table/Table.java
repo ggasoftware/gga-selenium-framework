@@ -88,6 +88,7 @@ public class Table extends Text implements ITable, Cloneable {
     public Table copy() {
         return clone();
     }
+
     public Table clone() {
         asserter.silent(() -> super.clone());
         Table newTable = new Table();
@@ -171,7 +172,7 @@ public class Table extends Text implements ITable, Cloneable {
         return columns().getRowValue(rowName);
     }
 
-    public void setTableSettings(TableSettings settings){
+    public void setTableSettings(TableSettings settings) {
         rows().hasHeader = settings.rowHasHeaders;
         rows().headers = settings.rowHeaders;
         rows().count = settings.rowsCount;
@@ -198,15 +199,18 @@ public class Table extends Text implements ITable, Cloneable {
         rows().hasHeader = true;
         return this;
     }
+
     public ITable hasNoHeaders() {
         columns().hasHeader = false;
         rows().hasHeader = false;
         return this;
     }
+
     public ITable hasColumnHeaders(boolean hasHeaders) {
         columns().hasHeader = hasHeaders;
         return this;
     }
+
     public ITable hasRowHeaders(boolean hasHeaders) {
         rows().hasHeader = hasHeaders;
         return this;
@@ -221,10 +225,12 @@ public class Table extends Text implements ITable, Cloneable {
         rows().setHeaders(value);
         return this;
     }
+
     public <THeaders extends Enum> ITable setRowHeaders(Class<THeaders> headers) {
         setRowHeaders(getAllEnumNamesAsArray(headers));
         return this;
     }
+
     public ITable setColCount(int value) {
         columns().setCount(value);
         return this;

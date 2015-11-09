@@ -14,11 +14,13 @@ import static com.ggasoftware.jdiuitests.implementation.selenium.elements.compos
  */
 public interface IPreconditions {
     JFuncT<Boolean> checkAction();
+
     JAction moveToAction();
 
     default boolean checkUrl(String uri) {
         return getUrl().matches(".*/" + uri + "(\\?.*)?");
     }
+
     default void openUri(String uri) {
         Timer timer = new Timer(1000, 100);
         openUrl(getUrlByUri(uri));
@@ -26,5 +28,7 @@ public interface IPreconditions {
             getDriver().navigate().to(getUrlByUri(uri));
     }
 
-    default String getUrlByUri(String uri) { return domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", ""); }
+    default String getUrlByUri(String uri) {
+        return domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
+    }
 }

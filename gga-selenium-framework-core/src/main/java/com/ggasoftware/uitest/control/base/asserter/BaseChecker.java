@@ -32,6 +32,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
 
     public BaseChecker() {
     }
+
     public BaseChecker(String checkMessage) {
         this.checkMessage = getCheckMessage(checkMessage);
     }

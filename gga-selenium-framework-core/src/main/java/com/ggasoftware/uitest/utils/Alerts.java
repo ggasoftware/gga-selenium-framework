@@ -64,7 +64,6 @@ public class Alerts {
 
     /**
      * Accept alert.
-     *
      */
     public static void acceptAlert() {
         Alert alert = getAlert();
@@ -109,7 +108,7 @@ public class Alerts {
     /**
      * Check that alert appeared at web page.
      *
-     * @param timeoutSec to wait until alert is exists.
+     * @param timeoutSec     to wait until alert is exists.
      * @param checkCondition log assert for expected conditions.
      */
     public static void waitForAlert(int timeoutSec, boolean checkCondition) {

@@ -3,7 +3,6 @@ package com.epam.jditests.tests.common.utils;
 import com.epam.jditests.enums.Preconditions;
 import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextArea;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextField;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
@@ -50,7 +49,7 @@ public class InputTests {
     }
 
     private ITextField getInvoke() {
-        return (ITextField)_element.invoke();
+        return (ITextField) _element.invoke();
     }
 
     @Test

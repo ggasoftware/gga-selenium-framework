@@ -5,7 +5,6 @@ import com.ggasoftware.uitest.control.base.logger.enums.LogInfoTypes;
 import com.ggasoftware.uitest.control.base.logger.enums.LogLevels;
 
 import static com.ggasoftware.uitest.utils.Timer.nowTime;
-import static java.lang.String.format;
 import static java.lang.System.out;
 
 /**

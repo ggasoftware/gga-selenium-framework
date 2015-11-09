@@ -15,8 +15,6 @@
 //=============================================================================
 package org.uncommons.reportng.mod;
 
-import org.testng.*;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -25,19 +23,39 @@ import java.util.*;
  * from a Velocity template.
  *
  * @author Daniel Dyer
- *
  * @author azhukov
- * Modifications:
- * - add array object to renderArgument() method
- * - add expected failures count to report
- * - add working with test attibutes
- * - add log status to report
- * - add screenshort info to report
- * - add timestamp to report
- *
+ *         Modifications:
+ *         - add array object to renderArgument() method
+ *         - add expected failures count to report
+ *         - add working with test attibutes
+ *         - add log status to report
+ *         - add screenshort info to report
+ *         - add timestamp to report
  */
-public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
+public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils {
     private static final SuitComparator SUIT_COMPARATOR = new SuitComparator();
+
+    /**
+     * Remove sorted suit result map.
+     *
+     * @param unsortMap Suit result map.
+     * @return Sorted map.
+     */
+    public static Map<String, ISuiteResult> sortByComparator(Map<String, ISuiteResult> unsortMap) {
+
+        LinkedList list = new LinkedList<>(unsortMap.entrySet());
+
+        //sort list based on comparator
+        Collections.sort(list, SUIT_COMPARATOR);
+
+        //put sorted list into map again
+        unsortMap = new LinkedHashMap<>();
+        for (Object aList : list) {
+            Map.Entry entry = (Map.Entry) aList;
+            unsortMap.put((String) entry.getKey(), (ISuiteResult) entry.getValue());
+        }
+        return unsortMap;
+    }
 
     @Override
     public String formatDuration(long millis) {
@@ -50,23 +68,18 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
     /**
      * Decorate the string representation of an argument to give some
      * hint as to its type (e.g. render Strings in double quotes).
+     *
      * @param argument The argument to render.
      * @return The string representation of the argument.
      */
     private String renderArgument(Object argument) {
-        if (argument == null)
-        {
+        if (argument == null) {
             return "null";
-        }
-        else if (argument instanceof String)
-        {
+        } else if (argument instanceof String) {
             return "\"" + argument + "\"";
-        }
-        else if (argument instanceof Character)
-        {
+        } else if (argument instanceof Character) {
             return "\'" + argument + "\'";
-        }
-        else if (argument instanceof String[]) {
+        } else if (argument instanceof String[]) {
             StringBuilder stringBuffer = new StringBuilder();
             stringBuffer.append("{");
             int length = ((String[]) argument).length;
@@ -78,14 +91,14 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
             }
             stringBuffer.append("}");
             return stringBuffer.toString();
-        }
-        else {
+        } else {
             return argument.toString();
         }
     }
 
     /**
      * Returns the Numbers of Expected Failures Count.
+     *
      * @param context ITestContext.
      * @return Numbers of Expected Failures Count.
      */
@@ -105,8 +118,9 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
 
     /**
      * Returns the Attribute text.
+     *
      * @param result ITestResult.
-     * @param key Attribute key.
+     * @param key    Attribute key.
      * @return Attribute text.
      */
     public String getAttribute(ITestResult result, String key) {
@@ -120,8 +134,9 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
 
     /**
      * Returns the Attribute text array.
+     *
      * @param result Test Result.
-     * @param key Attribute key.
+     * @param key    Attribute key.
      * @return Attribute text array.
      */
     public String[] getAttributeArray(ITestResult result, String key) {
@@ -134,6 +149,7 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
 
     /**
      * Returns the length of array.
+     *
      * @param array Array of string.
      * @return Length of array.
      */
@@ -144,13 +160,13 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
         return 0;
     }
 
-
     public boolean isNotNull(String value) {
         return !(value == null || value.length() == 0 || value.equals(""));
     }
 
     /**
      * Returns the number of total test methods.
+     *
      * @param context ITestContext.
      * @return Number of total test methods.
      */
@@ -166,6 +182,7 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
 
     /**
      * Returns the converted date by simple format.
+     *
      * @param date - Date object.
      * @return Converted date.
      */
@@ -174,7 +191,7 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
             return "00:00:00.000";
         } else if (date instanceof String) {
             Calendar calendar = new GregorianCalendar();
-            calendar.setTimeInMillis(Long.valueOf((String)date));
+            calendar.setTimeInMillis(Long.valueOf((String) date));
             date = calendar.getTime();
         }
         return new SimpleDateFormat("HH:mm:ss.SSS").format(date);
@@ -209,12 +226,12 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
         for (int i = tmp.size() - 1; i >= 0; i--) {
             String logString = tmp.get(i);
             if (logString.substring(0, 1).equals("<")) {
-                logString=logString.replace("<div \"featureFile\">", "2 ");
-                logString=logString.replace("<div \"feature\">", "2 ");
-                logString=logString.replace("<div \"scenarioOutline\">", "2 ");
-                logString=logString.replace("<div \"scenario\">", "2 ");
-                logString=logString.replace("<div \"result\">", "2 ");
-                logString=logString.replace("</div>", "");
+                logString = logString.replace("<div \"featureFile\">", "2 ");
+                logString = logString.replace("<div \"feature\">", "2 ");
+                logString = logString.replace("<div \"scenarioOutline\">", "2 ");
+                logString = logString.replace("<div \"scenario\">", "2 ");
+                logString = logString.replace("<div \"result\">", "2 ");
+                logString = logString.replace("</div>", "");
             }
             int currentLevel = Integer.parseInt(logString.substring(0, 1));
             logString = logString.substring(1);
@@ -332,28 +349,6 @@ public class ReportNGUtils extends org.uncommons.reportng.ReportNGUtils{
      */
     public String removeDoubleQuotes(String s) {
         return s.replaceAll("\"", "'");
-    }
-
-    /**
-     * Remove sorted suit result map.
-     *
-     * @param unsortMap Suit result map.
-     * @return Sorted map.
-     */
-    public static Map<String, ISuiteResult> sortByComparator(Map<String, ISuiteResult> unsortMap) {
-
-        LinkedList list = new LinkedList<>(unsortMap.entrySet());
-
-        //sort list based on comparator
-        Collections.sort(list, SUIT_COMPARATOR);
-
-        //put sorted list into map again
-        unsortMap = new LinkedHashMap<>();
-        for (Object aList : list) {
-            Map.Entry entry = (Map.Entry) aList;
-            unsortMap.put((String) entry.getKey(), (ISuiteResult) entry.getValue());
-        }
-        return unsortMap;
     }
 
 }

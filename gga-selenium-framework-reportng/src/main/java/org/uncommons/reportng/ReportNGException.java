@@ -18,18 +18,16 @@ package org.uncommons.reportng;
 /**
  * Unchecked exception thrown when an unrecoverable error occurs during report
  * generation.
+ *
  * @author Daniel Dyer
  */
-public class ReportNGException extends RuntimeException
-{
-    public ReportNGException(String string)
-    {
+public class ReportNGException extends RuntimeException {
+    public ReportNGException(String string) {
         super(string);
     }
 
-    
-    public ReportNGException(String string, Throwable throwable)
-    {
+
+    public ReportNGException(String string, Throwable throwable) {
         super(string, throwable);
     }
 }

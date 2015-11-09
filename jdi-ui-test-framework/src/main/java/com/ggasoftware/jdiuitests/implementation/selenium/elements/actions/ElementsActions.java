@@ -194,7 +194,7 @@ public class ElementsActions {
         T result;
         try {
             result = func.invoke();
-        } catch (Exception|Error ex) {
+        } catch (Exception | Error ex) {
             result = ifError;
         }
         element.avatar.localElementSearchCriteria = temp;

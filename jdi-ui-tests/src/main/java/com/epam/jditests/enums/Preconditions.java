@@ -32,12 +32,12 @@ public enum Preconditions {
     DYNAMIC_TABLE_PAGE("page5.htm"),
     SIMPLE_PAGE("page6.htm"),
     DATES_PAGE_FILLED(() -> false/*checkUrl("page4.html")*/, () -> {
-    	openUri("page4.htm");
+        openUri("page4.htm");
         WebElement datePicker = getDriver().findElement(dates.datepicker.getLocator());
         datePicker.clear();
         datePicker.sendKeys(TEST_DATE);
     });
-	public String _htmlPageName;
+    public String _htmlPageName;
     public JFuncT<Boolean> checkAction;
     public JAction moveToAction;
 
@@ -45,16 +45,20 @@ public enum Preconditions {
         this.checkAction = checkAction;
         this.moveToAction = moveToAction;
     }
+
     Preconditions(String uri) {
         this(() -> false/*checkUrl(uri)*/, () -> openUri(uri));
         _htmlPageName = uri;
     }
+
     private static boolean checkUrl(final String uri) {
         return getUrl().matches(".*/" + uri + "(\\?.*)?");
     }
+
     public static void openUri(final String uri) {
         openUrl(domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", ""));
     }
+
     public void open() {
         moveToAction.invoke();
     }

@@ -12,7 +12,9 @@ public class User {
     public String lastName = "Last Name";
     public String description = "Description";
 
-    public User() { }
+    public User() {
+    }
+
     public User(String login, String password) {
         this.login = login;
         this.password = password;

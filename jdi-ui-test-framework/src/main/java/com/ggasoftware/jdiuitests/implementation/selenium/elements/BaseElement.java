@@ -112,6 +112,10 @@ public abstract class BaseElement implements IBaseElement {
         return name != null ? name : getTypeName();
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setName(Field field) {
         this.name = AnnotationsUtil.getElementName(field);
         this.varName = field.getName();
@@ -119,10 +123,6 @@ public abstract class BaseElement implements IBaseElement {
 
     public String getVarName() {
         return varName != null ? varName : getName();
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     protected Timer timer() {
@@ -159,10 +159,11 @@ public abstract class BaseElement implements IBaseElement {
         this.avatar.localElementSearchCriteria = avatar.localElementSearchCriteria;
         return this;
     }
+
     public void setWaitTimeout(long mSeconds) {
         logger.debug("Set wait timeout to " + mSeconds);
         getDriver().manage().timeouts().implicitlyWait(mSeconds, MILLISECONDS);
-        timeouts.currentTimeoutSec = (int)(mSeconds / 1000);
+        timeouts.currentTimeoutSec = (int) (mSeconds / 1000);
     }
 
     public void restoreWaitTimeout() {

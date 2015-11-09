@@ -26,7 +26,6 @@ import com.ggasoftware.uitest.control.new_controls.common.Text;
 import com.ggasoftware.uitest.utils.PropertyReader;
 import com.ggasoftware.uitest.utils.ReporterNGExt;
 import com.ggasoftware.uitest.utils.Timer;
-import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -390,7 +389,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * Click on the Element(WebElement) until expectedElement is NOT DISPLAYED
      *
      * @param expectedElement - expected Element
-     * @param tryCount - number of count for click
+     * @param tryCount        - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotDisplayed(Element expectedElement, int tryCount) {
@@ -414,7 +413,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * Click on the Element(WebElement) until expectedElement exists
      *
      * @param expectedElement - expected Element
-     * @param tryCount - number of count for click
+     * @param tryCount        - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectNotExist(Element expectedElement, int tryCount) {
@@ -435,7 +434,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * Click on the Element(WebElement) until expectedElement is displayed
      *
      * @param expectedElement - expected Element
-     * @param tryCount - number of count for click
+     * @param tryCount        - number of count for click
      * @return Parent instance
      */
     public ParentPanel clickWhileObjectIsDisplayed(Element expectedElement, int tryCount) {
@@ -636,9 +635,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * Set the value of a the given attribute of the element by JS.
      *
      * @param attribute The name of the attribute.
-     * @param value value The value of the attribute.
+     * @param value     value The value of the attribute.
      * @return Parent instance
-     *
      */
     public ParentPanel setAttributeJS(String attribute, String value) {
         ((JavascriptExecutor) getDriver()).executeScript(format("arguments[0].setAttribute('%s',arguments[1]);", attribute),
@@ -793,7 +791,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element exists.
      *
-     * @param timeoutSec seconds to wait until element exists.
+     * @param timeoutSec     seconds to wait until element exists.
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -851,7 +849,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element is displayed.
      *
-     * @param timeoutSec seconds to wait until element is displayed.
+     * @param timeoutSec     seconds to wait until element is displayed.
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -917,8 +915,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
 
     /**
      * Wait until element is vanished.
-     * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
      *
+     * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
      * @return Parent instance
      */
     public ParentPanel waitForElementToVanish(int timeoutSec) {
@@ -927,8 +925,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
 
     /**
      * Wait until element is vanished.
-     * @param checkCondition log assert for expected conditions.
      *
+     * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
     public ParentPanel waitForElementToVanish(boolean checkCondition) {
@@ -938,7 +936,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element is vanished.
      *
-     * @param timeoutSec -  the maximum time to wait in seconds (until element become invisible or disappeared)
+     * @param timeoutSec     -  the maximum time to wait in seconds (until element become invisible or disappeared)
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -976,7 +974,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element has a text.
      *
-     * @param text Text of Element
+     * @param text       Text of Element
      * @param timeoutSec seconds to wait until element has a text
      * @return Parent instance
      */
@@ -987,8 +985,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element has a text.
      *
-     * @param text Text of Element
-     * @param timeoutSec seconds to wait until element has a text
+     * @param text           Text of Element
+     * @param timeoutSec     seconds to wait until element has a text
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -1033,7 +1031,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element contains a text.
      *
-     * @param text Text of Element
+     * @param text       Text of Element
      * @param timeoutSec seconds to wait until element contains a text
      * @return Parent instance
      */
@@ -1044,8 +1042,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element contains a text.
      *
-     * @param text Text of Element
-     * @param timeoutSec seconds to wait until element contains a text
+     * @param text           Text of Element
+     * @param timeoutSec     seconds to wait until element contains a text
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -1081,7 +1079,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element is changed text.
      *
-     * @param text before change
+     * @param text       before change
      * @param timeoutSec seconds to wait until element is changed text
      * @return Parent instance
      */
@@ -1092,8 +1090,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element is changed text.
      *
-     * @param text before change
-     * @param timeoutSec seconds to wait until element is changed text
+     * @param text           before change
+     * @param timeoutSec     seconds to wait until element is changed text
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -1129,7 +1127,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element has a 'value' attribute.
      *
-     * @param value 'Value' Attribute of Element
+     * @param value      'Value' Attribute of Element
      * @param timeoutSec seconds to wait until element has a 'value' attribute
      * @return Parent instance
      */
@@ -1140,8 +1138,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until element has a 'value' attribute.
      *
-     * @param value 'Value' Attribute of Element
-     * @param timeoutSec seconds to wait until element has a 'value' attribute
+     * @param value          'Value' Attribute of Element
+     * @param timeoutSec     seconds to wait until element has a 'value' attribute
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -1181,9 +1179,9 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
      * !!! Use waitAttribute(String name, String value)
      * Wait until element is changed the attribute.
      *
-     * @param attribute  for watching
-     * @param value      of attribute before change
-     * @param timeoutSec seconds to wait until element is changed attribute
+     * @param attribute      for watching
+     * @param value          of attribute before change
+     * @param timeoutSec     seconds to wait until element is changed attribute
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */
@@ -1288,7 +1286,7 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until Expected Condition.
      *
-     * @param condition - Expected Condition
+     * @param condition  - Expected Condition
      * @param timeoutSec - the maximum time to wait in seconds
      * @return Parent instance
      */
@@ -1299,8 +1297,8 @@ public class Element<ParentPanel> extends BaseElement<ParentPanel> implements IE
     /**
      * Wait until Expected Condition.
      *
-     * @param condition - Expected Condition
-     * @param timeoutSec - the maximum time to wait in seconds
+     * @param condition      - Expected Condition
+     * @param timeoutSec     - the maximum time to wait in seconds
      * @param checkCondition log assert for expected conditions.
      * @return Parent instance
      */

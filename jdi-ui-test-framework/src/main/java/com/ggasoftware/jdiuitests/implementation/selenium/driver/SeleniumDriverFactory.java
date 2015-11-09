@@ -24,8 +24,6 @@ import static com.ggasoftware.jdiuitests.core.settings.JDISettings.*;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.isClass;
 import static com.ggasoftware.jdiuitests.core.utils.common.Timer.sleep;
 import static com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes.*;
-import static com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes.CHROME;
-import static com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes.FIREFOX;
 import static com.ggasoftware.jdiuitests.implementation.selenium.driver.RunTypes.LOCAL;
 import static com.ggasoftware.jdiuitests.implementation.selenium.driver.RunTypes.SAUCE_LAB;
 import static java.lang.String.format;
@@ -54,6 +52,7 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
     public SeleniumDriverFactory(boolean isDemoMode) {
         this(isDemoMode, new HighlightSettings(), WebElement::isDisplayed);
     }
+
     public SeleniumDriverFactory(HighlightSettings highlightSettings) {
         this(false, highlightSettings, WebElement::isDisplayed);
     }

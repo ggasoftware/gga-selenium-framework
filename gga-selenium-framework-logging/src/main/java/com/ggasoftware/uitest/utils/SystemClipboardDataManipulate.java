@@ -1,16 +1,18 @@
-/****************************************************************************
+/**
+ * *************************************************************************
  * Copyright (C) 2014 GGA Software Services LLC
- *
+ * <p>
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation.
- *
+ * <p>
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses>.
- ***************************************************************************/
+ * *************************************************************************
+ */
 package com.ggasoftware.uitest.utils;
 
 import java.awt.*;
@@ -20,7 +22,8 @@ import java.awt.datatransfer.Transferable;
 
 public final class SystemClipboardDataManipulate {
 
-    private SystemClipboardDataManipulate(){}
+    private SystemClipboardDataManipulate() {
+    }
 
     /**
      * When you do a cut or copy of text in the operating system, the text is
@@ -32,8 +35,8 @@ public final class SystemClipboardDataManipulate {
     public static String getClipboardData() {
         String clipboardText;
         try {
-        Transferable trans = Toolkit.getDefaultToolkit().getSystemClipboard()
-                .getContents(null);
+            Transferable trans = Toolkit.getDefaultToolkit().getSystemClipboard()
+                    .getContents(null);
             if (trans != null
                     && trans.isDataFlavorSupported(DataFlavor.stringFlavor)) {
                 clipboardText = (String) trans

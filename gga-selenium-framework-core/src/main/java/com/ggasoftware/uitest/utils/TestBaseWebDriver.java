@@ -199,9 +199,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertEquals by ReporterNGExt
      *
-     * @param value - actual object
+     * @param value         - actual object
      * @param expectedValue - expected object
-     * @param message - log message text
+     * @param message       - log message text
      */
     @Override
     public void assertEquals(Object value, Object expectedValue, String message) {
@@ -211,9 +211,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertEquals by ReporterNGExt
      *
-     * @param value - actual object
-     * @param expectedValue - expected object
-     * @param message - log message text
+     * @param value          - actual object
+     * @param expectedValue  - expected object
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertEquals(Object value, Object expectedValue, String message, boolean takeScreenshot) {
@@ -226,9 +226,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNotEquals by ReporterNGExt
      *
-     * @param value - actual object
+     * @param value            - actual object
      * @param notExpectedValue - not expected object
-     * @param message - log message text
+     * @param message          - log message text
      */
     @Override
     public void assertNotEquals(Object value, Object notExpectedValue, String message) {
@@ -241,10 +241,10 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNotEquals by ReporterNGExt
      *
-     * @param value - actual object
+     * @param value            - actual object
      * @param notExpectedValue - not expected object
-     * @param message - log message text
-     * @param takeScreenshot - Set True to take screenshot if assert passed
+     * @param message          - log message text
+     * @param takeScreenshot   - Set True to take screenshot if assert passed
      */
     public void assertNotEquals(Object value, Object notExpectedValue, String message, boolean takeScreenshot) {
         ReporterNGExt.logAssertNotEquals(ReporterNGExt.BUSINESS_LEVEL, value, notExpectedValue, message, takeScreenshot);
@@ -256,9 +256,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertArrayListEquals by ReporterNGExt
      *
-     * @param value - actual Array List of String
+     * @param value         - actual Array List of String
      * @param expectedValue - expected Array List of String
-     * @param message - log message text
+     * @param message       - log message text
      */
     public void assertArrayListEquals(ArrayList<String> value, ArrayList<String> expectedValue, String message) {
         assertArrayListEquals(value, expectedValue, message, takePassedScreenshot);
@@ -267,9 +267,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertArrayListEquals by ReporterNGExt
      *
-     * @param value - actual Array List of String
-     * @param expectedValue - expected Array List of String
-     * @param message - log message text
+     * @param value          - actual Array List of String
+     * @param expectedValue  - expected Array List of String
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertArrayListEquals(ArrayList<String> value, ArrayList<String> expectedValue, String message, boolean takeScreenshot) {
@@ -282,9 +282,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertEquals by ReporterNGExt
      *
-     * @param value - actual text array
+     * @param value         - actual text array
      * @param expectedValue - expected text array
-     * @param message - log message text
+     * @param message       - log message text
      */
     @Override
     public void assertEquals(String[] value, String[] expectedValue, String message) {
@@ -294,9 +294,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertEquals by ReporterNGExt
      *
-     * @param value - actual text array
-     * @param expectedValue - expected text array
-     * @param message - log message text
+     * @param value          - actual text array
+     * @param expectedValue  - expected text array
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertEquals(String[] value, String[] expectedValue, String message, boolean takeScreenshot) {
@@ -309,7 +309,7 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertTrue by ReporterNGExt
      *
-     * @param what - expression
+     * @param what    - expression
      * @param message - log message text
      */
     @Override
@@ -323,8 +323,8 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertTrue by ReporterNGExt
      *
-     * @param what - expression
-     * @param message - log message text
+     * @param what           - expression
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertTrue(boolean what, String message, boolean takeScreenshot) {
@@ -337,7 +337,7 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertFalse by ReporterNGExt
      *
-     * @param what - expression
+     * @param what    - expression
      * @param message - log message text
      */
     @Override
@@ -348,8 +348,8 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertFalse by ReporterNGExt
      *
-     * @param what - expression
-     * @param message - log message text
+     * @param what           - expression
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertFalse(boolean what, String message, boolean takeScreenshot) {
@@ -362,9 +362,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * logAssertContains by ReporterNGExt
      *
-     * @param toSearchIn - text search in
+     * @param toSearchIn   - text search in
      * @param whatToSearch - text to search
-     * @param message - log message text
+     * @param message      - log message text
      */
     @Override
     public void assertContains(String toSearchIn, String whatToSearch, String message) {
@@ -374,9 +374,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * logAssertContains by ReporterNGExt
      *
-     * @param toSearchIn - text search in
-     * @param whatToSearch - text to search
-     * @param message - log message text
+     * @param toSearchIn     - text search in
+     * @param whatToSearch   - text to search
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertContains(String toSearchIn, String whatToSearch, String message, boolean takeScreenshot) {
@@ -391,9 +391,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNotContains by ReporterNGExt
      *
-     * @param toSearchIn - text search in
+     * @param toSearchIn   - text search in
      * @param whatToSearch - text to search
-     * @param message - log message text
+     * @param message      - log message text
      */
     public void assertNotContains(String toSearchIn, String whatToSearch, String message) {
         assertNotContains(toSearchIn, whatToSearch, message, takePassedScreenshot);
@@ -402,9 +402,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNotContains by ReporterNGExt
      *
-     * @param toSearchIn - text search in
-     * @param whatToSearch - text to search
-     * @param message - log message text
+     * @param toSearchIn     - text search in
+     * @param whatToSearch   - text to search
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertNotContains(String toSearchIn, String whatToSearch, String message, boolean takeScreenshot) {
@@ -419,7 +419,7 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNull by ReporterNGExt
      *
-     * @param what - analyzed object
+     * @param what    - analyzed object
      * @param message - log message text
      */
     @Override
@@ -430,8 +430,8 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNull by ReporterNGExt
      *
-     * @param what - analyzed object
-     * @param message - log message text
+     * @param what           - analyzed object
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertNull(Object what, String message, boolean takeScreenshot) {
@@ -444,7 +444,7 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNotNull by ReporterNGExt
      *
-     * @param what - analyzed object
+     * @param what    - analyzed object
      * @param message - log message text
      */
     @Override
@@ -455,8 +455,8 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNotNull by ReporterNGExt
      *
-     * @param what - analyzed object
-     * @param message - log message text
+     * @param what           - analyzed object
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertNotNull(Object what, String message, boolean takeScreenshot) {
@@ -469,7 +469,7 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertEmpty by ReporterNGExt
      *
-     * @param what - analyzed text
+     * @param what    - analyzed text
      * @param message - log message text
      */
     @Override
@@ -480,8 +480,8 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertEmpty by ReporterNGExt
      *
-     * @param what - analyzed text
-     * @param message - log message text
+     * @param what           - analyzed text
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertEmpty(String what, String message, boolean takeScreenshot) {
@@ -494,9 +494,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNotIntersect by ReporterNGExt
      *
-     * @param firstArray - first text array 
+     * @param firstArray  - first text array
      * @param secondArray - second text array
-     * @param message - log message text
+     * @param message     - log message text
      */
     @Override
     public void assertNotIntersect(String[] firstArray, String[] secondArray, String message) {
@@ -506,9 +506,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertNotIntersect by ReporterNGExt
      *
-     * @param firstArray - first text array 
-     * @param secondArray - second text array
-     * @param message - log message text
+     * @param firstArray     - first text array
+     * @param secondArray    - second text array
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertNotIntersect(String[] firstArray, String[] secondArray, String message, boolean takeScreenshot) {
@@ -528,8 +528,8 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertMatch by ReporterNGExt
      *
-     * @param value - analyzed text
-     * @param regExp - regular expression
+     * @param value   - analyzed text
+     * @param regExp  - regular expression
      * @param message - log message text
      */
     @Override
@@ -540,9 +540,9 @@ public class TestBaseWebDriver extends TestBase {
     /**
      * assertMatch by ReporterNGExt
      *
-     * @param value - analyzed text
-     * @param regExp - regular expression
-     * @param message - log message text
+     * @param value          - analyzed text
+     * @param regExp         - regular expression
+     * @param message        - log message text
      * @param takeScreenshot - Set True to take screenshot if assert passed
      */
     public void assertMatch(String value, String regExp, String message, boolean takeScreenshot) {

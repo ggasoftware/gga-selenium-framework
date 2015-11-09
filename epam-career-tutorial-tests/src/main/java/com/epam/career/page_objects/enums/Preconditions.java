@@ -11,17 +11,24 @@ public enum Preconditions implements IPreconditions {
     HOME_PAGE("");
 
     private JFuncT<Boolean> checkAction;
-    public JFuncT<Boolean> checkAction() { return checkAction; }
     private JAction moveToAction;
-    public JAction moveToAction() { return moveToAction; }
 
     Preconditions(JFuncT<Boolean> checkAction, JAction moveToAction) {
         this.checkAction = checkAction;
         this.moveToAction = moveToAction;
     }
+
     Preconditions(String uri) {
         this.checkAction = () -> checkUrl(uri);
         this.moveToAction = () -> openUri(uri);
+    }
+
+    public JFuncT<Boolean> checkAction() {
+        return checkAction;
+    }
+
+    public JAction moveToAction() {
+        return moveToAction;
     }
 
 }

@@ -37,6 +37,7 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
         this.clazz = clazz;
         return get(name);
     }
+
     public TType get(String name) {
         TType instance;
         try {

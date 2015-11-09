@@ -11,8 +11,8 @@ public class AttendeeProvider {
 
     @DataProvider(name = "attendees")
     public static Object[][] attendees() {
-        return new Object[][] {
-                { new Attendee() }
+        return new Object[][]{
+                {new Attendee()}
         };
     }
 }
