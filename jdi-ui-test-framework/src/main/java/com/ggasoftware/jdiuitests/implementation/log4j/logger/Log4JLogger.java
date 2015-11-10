@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class Log4JLogger extends AbstractLogger {
 
-    private Logger log4j = LogManager.getLogger("log4j " + JDIData.frameworkName + " logger");
+    private Logger log4j = LogManager.getLogger("log4j " + JDIData.FRAMEWORK_NAME + " logger");
 
     public Log4JLogger() {
         super();

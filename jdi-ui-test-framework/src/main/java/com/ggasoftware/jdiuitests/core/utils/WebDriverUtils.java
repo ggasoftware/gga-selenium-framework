@@ -19,6 +19,7 @@ public class WebDriverUtils {
                 pid = getPid();
             }
         } catch (Exception ignore) {
+            // Ignore in case of not windows Operation System or any other errors
         }
     }
 

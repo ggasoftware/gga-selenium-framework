@@ -14,7 +14,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 
-import static com.ggasoftware.jdiuitests.core.settings.JDIData.applicationVersion;
+import static com.ggasoftware.jdiuitests.core.settings.JDIData.APP_VERSTION;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.*;
@@ -212,7 +212,7 @@ public abstract class CascadeInit implements IBaseElement {
     private static By getNewLocator(Field field) {
         try {
             By byLocator = null;
-            String locatorGroup = applicationVersion;
+            String locatorGroup = APP_VERSTION;
             if (locatorGroup != null) {
                 JFindBy jFindBy = field.getAnnotation(JFindBy.class);
                 if (jFindBy != null && locatorGroup.equals(jFindBy.group()))

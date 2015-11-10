@@ -13,6 +13,8 @@ import static java.util.Arrays.asList;
  * Created by Roman_Iovlev on 7/8/2015.
  */
 public class EnumUtils {
+
+    private EnumUtils() { }
     public static String getEnumValue(Enum enumWithValue) {
         Class<?> type = enumWithValue.getClass();
         Field[] fields = type.getDeclaredFields();
@@ -26,7 +28,7 @@ public class EnumUtils {
             default:
                 try {
                     field = type.getField("value");
-                } catch (Exception ex) {
+                } catch (NoSuchFieldException ex) {
                     return enumWithValue.toString();
                 }
                 break;

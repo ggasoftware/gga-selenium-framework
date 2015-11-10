@@ -17,6 +17,7 @@ import static java.lang.String.format;
  */
 public class WebDriverByUtils {
 
+    private WebDriverByUtils() {}
     public static JFuncTT<String, By> getByFunc(By by) {
         return LinqUtils.first(getMapByTypes(), key -> by.toString().contains(key));
     }

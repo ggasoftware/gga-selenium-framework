@@ -14,6 +14,7 @@ import static java.util.Arrays.asList;
  * Created by roman.i on 30.09.2014.
  */
 public class LinqUtils {
+    private LinqUtils() { }
     public static <T> List<T> copyList(Iterable<T> list) {
         List<T> result = new ArrayList<>();
         for (T el : list)

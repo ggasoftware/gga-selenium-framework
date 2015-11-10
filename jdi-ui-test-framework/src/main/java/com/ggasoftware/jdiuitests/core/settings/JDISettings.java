@@ -3,7 +3,7 @@ package com.ggasoftware.jdiuitests.core.settings;
 import com.ggasoftware.jdiuitests.core.asserter.IAsserter;
 import com.ggasoftware.jdiuitests.core.logger.ListLogger;
 import com.ggasoftware.jdiuitests.core.logger.base.ILogger;
-import com.ggasoftware.jdiuitests.core.testRunner.ITestRunner;
+import com.ggasoftware.jdiuitests.core.testrunner.ITestRunner;
 import com.ggasoftware.jdiuitests.implementation.log4j.logger.Log4JLogger;
 import com.ggasoftware.jdiuitests.implementation.selenium.driver.DriverTypes;
 import com.ggasoftware.jdiuitests.implementation.selenium.driver.SeleniumDriverFactory;

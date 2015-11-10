@@ -5,7 +5,7 @@ package com.ggasoftware.jdiuitests.core.settings;
  */
 public class JDIData {
     private JDIData() { }
-    public static final String frameworkName = "Jedi";
-    public static final String applicationVersion = "2.0.0";
+    public static final String FRAMEWORK_NAME = "Jedi";
+    public static final String APP_VERSTION = "2.0.0";
     public static String testName;
 }
