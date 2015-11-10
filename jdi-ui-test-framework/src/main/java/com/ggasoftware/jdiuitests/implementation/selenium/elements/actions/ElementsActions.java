@@ -20,7 +20,7 @@ import static java.lang.String.join;
  * Created by Roman_Iovlev on 9/3/2015.
  */
 public class ElementsActions {
-    public BaseElement element;
+    private BaseElement element;
 
     public ElementsActions(BaseElement element) {
         this.element = element;
@@ -155,7 +155,7 @@ public class ElementsActions {
     public void select(JActionT<int[]> selectListAction, int[] indexes) {
         List<String> listIndexes = new ArrayList<>();
         for (int i : indexes)
-            listIndexes.add(i + "");
+            listIndexes.add(Integer.toString(i));
         invoker().doJAction(String.format("Select '%s'", PrintUtils.print(listIndexes)), () -> selectListAction.invoke(indexes));
     }
 

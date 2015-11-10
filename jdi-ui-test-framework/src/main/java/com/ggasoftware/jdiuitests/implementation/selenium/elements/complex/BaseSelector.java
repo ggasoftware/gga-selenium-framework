@@ -21,7 +21,7 @@ import static com.ggasoftware.jdiuitests.core.utils.common.WebDriverByUtils.fill
  * Created by Roman_Iovlev on 7/9/2015.
  */
 abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements IVisible {
-    protected boolean isSelector = false;
+    protected boolean isSelector;
     private GetElementType allLabels = new GetElementType();
 
     public BaseSelector() {
@@ -52,11 +52,11 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
             selectFromList(allLabels().getWebElements(), name);
             return;
         }
-        List<WebElement> els = getAvatar().searchAll().getElements();
-        if (els.size() == 1)
+        List<WebElement> elements = getAvatar().searchAll().getElements();
+        if (elements.size() == 1)
             getSelector().selectByVisibleText(name);
         else
-            selectFromList(els, name);
+            selectFromList(elements, name);
     }
 
     private void selectFromList(List<WebElement> els, String name) {
@@ -144,10 +144,8 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
     }
 
     protected Select getSelector() {
-        {
-            isSelector = true;
-            return new Select(new Element(getLocator()).getWebElement());
-        }
+        isSelector = true;
+        return new Select(new Element(getLocator()).getWebElement());
     }
 
     protected List<WebElement> getElements() {
@@ -207,13 +205,13 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
 
     protected boolean isDisplayedAction() {
         List<WebElement> els = actions.findImmediately(this::getElements, null);
-        return els != null && els.size() > 0 && els.get(0).isDisplayed();
+        return els != null && !els.isEmpty() && els.get(0).isDisplayed();
     }
 
     protected boolean waitDisplayedAction() {
         return timer().wait(() -> {
             List<WebElement> els = getElements();
-            return els != null && els.size() > 0 && els.get(0).isDisplayed();
+            return els != null && !els.isEmpty() && els.get(0).isDisplayed();
         });
     }
 

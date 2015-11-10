@@ -26,13 +26,13 @@ import static java.util.Arrays.asList;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public abstract class BaseChecker implements IAsserter, IChecker {
-    private static long defaultWaitTimeout = 0;
+    private static long defaultWaitTimeout;
     private static DoScreen defaultDoScreenType = NO_SCREEN;
     private static String FOUND = "FOUND";
     private DoScreen doScreenshot = defaultDoScreenType;
     private String checkMessage = "";
-    private boolean ignoreCase = false;
-    private boolean isListCheck = false;
+    private boolean ignoreCase;
+    private boolean isListCheck;
     private long timeout = defaultWaitTimeout;
 
     public BaseChecker() {
@@ -67,14 +67,15 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     public BaseChecker setWait(int timeoutSec) {
-        this.timeout = timeoutSec * 1000;
+        this.timeout = timeoutSec * 1000L;
         return this;
     }
 
     private String getCheckMessage(String checkMessage) {
-        if (checkMessage == null || checkMessage.equals("")) return "";
+        if (checkMessage == null || checkMessage.equals(""))
+            return "";
         String firstWord = checkMessage.split(" ")[0];
-        return (!firstWord.toLowerCase().equals("check") || firstWord.toLowerCase().equals("verify"))
+        return (!firstWord.equalsIgnoreCase("check") || firstWord.equalsIgnoreCase("verify"))
                 ? "Check " + checkMessage
                 : checkMessage;
     }
@@ -92,8 +93,9 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             logger.info(getBeforeMessage(defaultMessage));
         if (!isListCheck && doScreenshot == DO_SCREEN_ALWAYS)
             logger.info(doScreenshotGetMessage());
-        if (isListCheck && failMessage == null)
-            failMessage = defaultMessage + " failed";
+        String failMsg = (isListCheck && failMessage == null)
+                ? defaultMessage + " failed"
+                : failMessage;
         String resultMessage = (wait)
                 ? new Timer(timeout).getResultByCondition(result::invoke, r -> r != null && r.equals(FOUND))
                 : result.invoke();
@@ -104,12 +106,11 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 logger.info(doScreenshotGetMessage());
-            assertException((failMessage != null
-                    ? failMessage
-                    : resultMessage));
+            assertException(failMsg != null
+                    ? failMsg
+                    : resultMessage);
         }
     }
-
 
     private String getBeforeMessage(String defaultMessage) {
         return (checkMessage != null && !checkMessage.equals(""))
@@ -124,12 +125,11 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     protected void assertException(String failMessage, Object... args) {
-        if (args.length > 0)
-            failMessage = format(failMessage, args);
+        String failMsg = args.length > 0 ? format(failMessage, args) : failMessage;
         if (doScreenshot == SCREEN_ON_FAIL)
             logger.info(doScreenshotGetMessage());
-        logger.error(FRAMEWORK, failMessage);
-        throwFail().invoke(failMessage);
+        logger.error(FRAMEWORK, failMsg);
+        throwFail().invoke(failMsg);
     }
 
     public <TResult> TResult silent(JFuncTEx<TResult> func) {
@@ -146,7 +146,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         if (expected.getClass() == String.class) {
             String actualString = actual.toString();
             result = (ignoreCase)
-                    ? actualString.toLowerCase().equals(((String) expected).toLowerCase())
+                    ? actualString.equalsIgnoreCase(((String) expected))
                     : actualString.equals(expected);
         } else result = actual.equals(expected);
         assertAction(format("Check that '%s' equals to '%s'", actual, expected), result, failMessage);
@@ -195,14 +195,13 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     private boolean isObjEmpty(Object obj) {
-        if (obj == null) return true;
+        if (obj == null)
+            return true;
         if (obj instanceof String)
             return obj.toString().equals("");
         if (isInterface(obj.getClass(), Collection.class))
-            return ((Collection) obj).size() == 0;
-        if (obj.getClass().isArray())
-            return getLength(obj) == 0;
-        return false;
+            return ((Collection) obj).isEmpty();
+        return obj.getClass().isArray() && getLength(obj) == 0;
     }
 
     public void isEmpty(Object obj, String failMessage) {
@@ -350,7 +349,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     public <T> void areEquals(JFuncT<T> actual, T expected, String failMessage) {
         JFuncT<Boolean> resultAction = (ignoreCase && expected.getClass() == String.class)
                 ? () -> actual.invoke().equals(expected)
-                : () -> ((String) actual.invoke()).toLowerCase().equals(((String) expected).toLowerCase());
+                : () -> ((String) actual.invoke()).equalsIgnoreCase((String) expected);
         waitAction(format("Check that '%s' equals to '%s'", "result", expected), resultAction, failMessage);
     }
 /*
@@ -575,7 +574,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
 
         private void beforeListCheck(String defaultMessage, String expected, String failMessage) {
             assertAction(format(defaultMessage, print(LinqUtils.select(list, Object::toString)), expected),
-                    () -> list != null && list.size() > 0
+                    () -> list != null && !list.isEmpty()
                             ? FOUND
                             : "list check failed because list is null or empty",
                     failMessage, false);

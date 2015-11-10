@@ -1,4 +1,4 @@
-package com.ggasoftware.jdiuitests.core.apiAccessors;
+package com.ggasoftware.jdiuitests.core.apiaccessors;
 
 import java.util.List;
 
