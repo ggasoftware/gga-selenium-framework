@@ -18,7 +18,7 @@ public class TimeoutSettings {
 
     public void setCurrentTimeoutSec(int timeoutSec) {
         currentTimeoutSec = timeoutSec;
-        setDefaultTimeout(timeoutSec * 1000);
+        setDefaultTimeout(timeoutSec * 1000L);
     }
 
     public void dropTimeouts() {

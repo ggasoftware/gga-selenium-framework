@@ -25,7 +25,7 @@ import static java.lang.Integer.parseInt;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class JDISettings {
-    private JDISettings() {}
+    private JDISettings() { }
 
     public static ILogger logger = new ListLogger(new TestNGLogger(), new Log4JLogger());
     public static IAsserter asserter = new Check().doScreenshot(SCREEN_ON_FAIL);

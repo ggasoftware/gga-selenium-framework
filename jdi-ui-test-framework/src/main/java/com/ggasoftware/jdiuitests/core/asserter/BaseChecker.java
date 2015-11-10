@@ -140,8 +140,8 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         boolean result;
         if (expected.getClass() == String.class) {
             String actualString = actual.toString();
-            result = (ignoreCase)
-                    ? actualString.equalsIgnoreCase(((String) expected))
+            result = ignoreCase
+                    ? actualString.equalsIgnoreCase((String) expected)
                     : actualString.equals(expected);
         } else result = actual.equals(expected);
         assertAction(format("Check that '%s' equals to '%s'", actual, expected), result, failMessage);
@@ -152,7 +152,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     public void matches(String actual, String regEx, String failMessage) {
-        boolean result = (ignoreCase && actual.getClass() == String.class)
+        boolean result = ignoreCase && actual.getClass() == String.class
                 ? actual.toLowerCase().matches(regEx.toLowerCase())
                 : actual.matches(regEx);
         assertAction(format("Check that '%s' matches to regEx '%s", actual, regEx), result, failMessage);
@@ -163,7 +163,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
     }
 
     public void contains(String actual, String expected, String failMessage) {
-        boolean result = (ignoreCase && actual.getClass() == String.class)
+        boolean result = ignoreCase && actual.getClass() == String.class
                 ? actual.toLowerCase().contains(expected.toLowerCase())
                 : actual.contains(expected);
         assertAction(format("Check that '%s' contains '%s'", actual, expected), result, failMessage);

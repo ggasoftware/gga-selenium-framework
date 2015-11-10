@@ -7,7 +7,7 @@ public enum LogLevels {
     OFF(-1),        // No logging
     FATAL(0),       // Unexpected errors
     ERROR(3),       // Critical errors
-    WARNING(4),     // Erorrs due to wrong params
+    WARNING(4),     // Errors due to wrong params
     INFO(6),        // Actions Info
     DEBUG(7),       // Debug info (not for prod)
     ALL(100);       // All log messages

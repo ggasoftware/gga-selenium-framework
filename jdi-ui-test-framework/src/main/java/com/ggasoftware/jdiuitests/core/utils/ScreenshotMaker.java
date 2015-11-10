@@ -45,10 +45,11 @@ public class ScreenshotMaker {
     }
 
     public static String doScreenshotGetMessage() {
-        String screenshotPath = "";
+        String screenshotPath;
         try {
             screenshotPath = takeScreen();
-        } catch (IOException ignore) {
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
         return (screenshotPath.equals(""))
                 ? "Failed to do Screenshot"
@@ -58,7 +59,8 @@ public class ScreenshotMaker {
     public String takeScreenshot() throws IOException {
         String path = new File(".").getCanonicalPath() + getValidUrl(pathSuffix);
         String screensFilePath = getFileName(path + (JDIData.testName != null ? JDIData.testName : "screen") + Timer.nowDate().replace(":", "-"));
-        new File(screensFilePath).getParentFile().mkdirs();
+        if (!new File(screensFilePath).getParentFile().mkdirs())
+            throw new RuntimeException("Can't create directory: " + screensFilePath);
         File screensFile = ((TakesScreenshot) JDISettings.driverFactory.getDriver()).getScreenshotAs(FILE);
         copyFile(screensFile, new File(screensFilePath));
         return screensFilePath;

@@ -11,7 +11,8 @@ import static com.ggasoftware.jdiuitests.core.utils.common.CalculationUtils.aver
  * Created by Roman_Iovlev on 7/26/2015.
  */
 public class PerformanceStatistic {
-    private PerformanceStatistic() {}
+    private PerformanceStatistic() {
+    }
     private static MapArray<ActionsType, List<Long>> statistic = new MapArray<>();
 
     public static void addStatistic(long time) {
