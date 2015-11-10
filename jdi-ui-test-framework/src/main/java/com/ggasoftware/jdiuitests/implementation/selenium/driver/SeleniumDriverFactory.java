@@ -215,9 +215,9 @@ public class SeleniumDriverFactory /*implements JDriver<WebElementAvatar>, WebDr
         if (highlightSettings == null)
             highlightSettings = new HighlightSettings();
         String orig = element.getWebElement().getAttribute("style");
-        element.setAttribute("style", format("border: 3px solid %s; background-color: %s;", highlightSettings.FrameColor,
-                highlightSettings.BgColor));
-        sleep(highlightSettings.TimeoutInSec * 1000);
+        element.setAttribute("style", format("border: 3px solid %s; background-color: %s;", highlightSettings.getFrameColor(),
+                highlightSettings.getBgColor()));
+        sleep(highlightSettings.getTimeoutInSec() * 1000);
         element.setAttribute("style", orig);
     }
 

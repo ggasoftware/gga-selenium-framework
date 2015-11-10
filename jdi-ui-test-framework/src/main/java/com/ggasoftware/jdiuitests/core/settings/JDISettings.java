@@ -13,6 +13,8 @@ import com.ggasoftware.jdiuitests.implementation.testng.testRunner.TestNGRunner;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import java.io.IOException;
+
 import static com.ggasoftware.jdiuitests.core.asserter.BaseChecker.setDefaultDoScreenType;
 import static com.ggasoftware.jdiuitests.core.asserter.DoScreen.SCREEN_ON_FAIL;
 import static com.ggasoftware.jdiuitests.core.utils.common.PropertyReader.fillAction;
@@ -23,17 +25,19 @@ import static java.lang.Integer.parseInt;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class JDISettings {
+    private JDISettings() {}
+
     public static ILogger logger = new ListLogger(new TestNGLogger(), new Log4JLogger());
     public static IAsserter asserter = new Check().doScreenshot(SCREEN_ON_FAIL);
     public static ITestRunner testRunner = new TestNGRunner();
     public static SeleniumDriverFactory driverFactory = new SeleniumDriverFactory();
     public static TimeoutSettings timeouts = new TimeoutSettings();
-    public static boolean isDemoMode = false;
+    public static boolean isDemoMode;
     public static HighlightSettings highlightSettings = new HighlightSettings();
     public static boolean shortLogMessagesFormat = true;
     public static String jdiSettingsPath = "test.properties";
     public static String domain;
-    public static boolean exceptionThrown = false;
+    public static boolean exceptionThrown;
 
     public static void useDriver(WebDriver driver) {
         driverFactory.registerDriver(() -> driver);
@@ -47,7 +51,7 @@ public class JDISettings {
         driverFactory.registerDriver(driverName);
     }
 
-    public static void initJDIFromProperties() throws Exception {
+    public static void initJDIFromProperties() throws IOException {
         getProperties(jdiSettingsPath);
         fillAction(driverFactory::registerDriver, "driver");
         fillAction(driverFactory::setRunType, "run.type");
@@ -57,7 +61,7 @@ public class JDISettings {
         setDefaultDoScreenType(SCREEN_ON_FAIL);
     }
 
-    public static void initJDIFromProperties(String propertyPath) throws Exception {
+    public static void initJDIFromProperties(String propertyPath) throws IOException {
         jdiSettingsPath = propertyPath;
         initJDIFromProperties();
     }

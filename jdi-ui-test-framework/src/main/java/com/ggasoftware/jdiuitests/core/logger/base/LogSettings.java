@@ -11,8 +11,10 @@ import java.util.List;
  */
 public class LogSettings {
     public LogLevels logLevels;
-    public int logInfoTypes;
-    public LogInfoTypes logInfoType;
+    private int logInfoTypes;
+    public int getLogInfoTypes() { return logInfoTypes; }
+    private LogInfoTypes logInfoType;
+    public LogInfoTypes getLogInfoType() { return logInfoType; }
 
     public LogSettings() {
         this(LogLevels.INFO);
@@ -27,13 +29,14 @@ public class LogSettings {
             case 1:
                 this.logInfoType = logInfoTypes[0];
                 return;
+            default:
+                List<LogInfoTypes> usedTypes = new ArrayList<>();
+                this.logInfoTypes = 0;
+                for (LogInfoTypes type : logInfoTypes)
+                    if (!usedTypes.contains(type)) {
+                        usedTypes.add(type);
+                        this.logInfoTypes += type.type;
+                    }
         }
-        List<LogInfoTypes> usedTypes = new ArrayList<>();
-        this.logInfoTypes = 0;
-        for (LogInfoTypes logInfoType : logInfoTypes)
-            if (!usedTypes.contains(logInfoType)) {
-                usedTypes.add(logInfoType);
-                this.logInfoTypes += logInfoType.type;
-            }
     }
 }

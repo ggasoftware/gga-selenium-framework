@@ -122,10 +122,10 @@ public abstract class AbstractLogger implements ILogger {
                 fatal(message, args);
                 break;
             case ERROR:
-                error(settings.logInfoType, message, args);
+                error(settings.getLogInfoType(), message, args);
                 break;
             case WARNING:
-                warning(settings.logInfoType, message, args);
+                warning(settings.getLogInfoType(), message, args);
                 break;
             case INFO:
                 info(message, args);
@@ -148,11 +148,11 @@ public abstract class AbstractLogger implements ILogger {
     private boolean isMatchLogInfoType(LogInfoTypes logInfoType) {
         switch (logInfoType) {
             case BUSINESS:
-                return asList(new Integer[]{1, 3, 5, 7}).contains(logSettings.logInfoTypes);
+                return asList(new Integer[]{1, 3, 5, 7}).contains(logSettings.getLogInfoTypes());
             case FRAMEWORK:
-                return asList(new Integer[]{2, 3, 6, 7}).contains(logSettings.logInfoTypes);
+                return asList(new Integer[]{2, 3, 6, 7}).contains(logSettings.getLogInfoTypes());
             case TECHNICAL:
-                return asList(new Integer[]{4, 5, 6, 7}).contains(logSettings.logInfoTypes);
+                return asList(new Integer[]{4, 5, 6, 7}).contains(logSettings.getLogInfoTypes());
             default:
                 return false;
         }

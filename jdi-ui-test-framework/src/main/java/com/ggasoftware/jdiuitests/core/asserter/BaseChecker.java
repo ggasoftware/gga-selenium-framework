@@ -103,7 +103,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 logger.info(doScreenshotGetMessage());
-            assertException(failMessage == null ? (isListCheck ? defaultMessage + " failed" : resultMessage) : failMessage);
+            assertException(failMessage == null ? isListCheck ? defaultMessage + " failed" : resultMessage : failMessage);
         }
     }
 

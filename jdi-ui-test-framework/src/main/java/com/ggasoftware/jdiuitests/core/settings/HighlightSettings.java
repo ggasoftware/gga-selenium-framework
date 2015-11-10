@@ -4,32 +4,43 @@ package com.ggasoftware.jdiuitests.core.settings;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public class HighlightSettings {
-    public String BgColor = "yellow";
-    public String FrameColor = "red";
-    public int TimeoutInSec = 2;
+    private String bgColor = "yellow";
+    private String frameColor = "red";
+    private int timeoutInSec = 2;
 
     public HighlightSettings() {
     }
 
     public HighlightSettings(String bgColor, String frameColor, int timeoutInSec) {
-        BgColor = bgColor;
-        FrameColor = frameColor;
-        TimeoutInSec = timeoutInSec;
+        this.bgColor = bgColor;
+        this.frameColor = frameColor;
+        this.timeoutInSec = timeoutInSec;
     }
 
     public HighlightSettings setBgColor(String bgColor) {
-        BgColor = bgColor;
+        this.bgColor = bgColor;
         return this;
     }
 
     public HighlightSettings setFrameColor(String frameColor) {
-        FrameColor = frameColor;
+        this.frameColor = frameColor;
         return this;
     }
 
     public HighlightSettings setTimeoutInSec(int timeoutInSec) {
-        TimeoutInSec = timeoutInSec;
+        this.timeoutInSec = timeoutInSec;
         return this;
+    }
+    public String getBgColor() {
+        return bgColor;
+    }
+
+    public String getFrameColor() {
+        return frameColor;
+    }
+
+    public int getTimeoutInSec() {
+        return timeoutInSec;
     }
 }
 
