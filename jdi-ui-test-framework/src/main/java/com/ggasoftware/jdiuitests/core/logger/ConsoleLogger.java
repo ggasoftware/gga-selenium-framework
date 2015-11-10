@@ -21,12 +21,10 @@ public class ConsoleLogger extends AbstractLogger {
         super(logLevel);
     }
 
-    @Override
     public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
         out.println(format("%s [%s-%s]: %s ", Timer.nowTime(), logInfoType, logLevel, message));
     }
 
-    @Override
     public void inLog(String message, BusinessInfoTypes infoType) {
         out.println(format("%s [%s]: %s ", Timer.nowTime(), infoType, message));
     }

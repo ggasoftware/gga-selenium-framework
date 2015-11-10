@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Roman_Iovlev on 7/13/2015.
  */
 public class LogSettings {
-    public LogLevels logLevel;
+    public LogLevels logLevels;
     public int logInfoTypes;
     public LogInfoTypes logInfoType;
 
@@ -19,7 +19,7 @@ public class LogSettings {
     }
 
     public LogSettings(LogLevels logLevel, LogInfoTypes... logInfoTypes) {
-        this.logLevel = logLevel;
+        this.logLevels = logLevel;
         switch (logInfoTypes.length) {
             case 0:
                 this.logInfoTypes = LogInfoTypes.BUSINESS.type + LogInfoTypes.FRAMEWORK.type + LogInfoTypes.TECHNICAL.type;

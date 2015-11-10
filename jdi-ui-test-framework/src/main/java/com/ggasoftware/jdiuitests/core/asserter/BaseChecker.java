@@ -93,9 +93,6 @@ public abstract class BaseChecker implements IAsserter, IChecker {
             logger.info(getBeforeMessage(defaultMessage));
         if (!isListCheck && doScreenshot == DO_SCREEN_ALWAYS)
             logger.info(doScreenshotGetMessage());
-        String failMsg = (isListCheck && failMessage == null)
-                ? defaultMessage + " failed"
-                : failMessage;
         String resultMessage = (wait)
                 ? new Timer(timeout).getResultByCondition(result::invoke, r -> r != null && r.equals(FOUND))
                 : result.invoke();
@@ -106,9 +103,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         if (!resultMessage.equals(FOUND)) {
             if (doScreenshot == SCREEN_ON_FAIL)
                 logger.info(doScreenshotGetMessage());
-            assertException(failMsg != null
-                    ? failMsg
-                    : resultMessage);
+            assertException(failMessage == null ? (isListCheck ? defaultMessage + " failed" : resultMessage) : failMessage);
         }
     }
 
@@ -617,7 +612,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                 BaseChecker.this.areSame(el, expected, failMessage);
         }
 
-        public void areSame(Object actual, Object expected) {
+        public void areSame(Object expected) {
             areSame(expected, null);
         }
 
@@ -627,7 +622,7 @@ public abstract class BaseChecker implements IAsserter, IChecker {
                 BaseChecker.this.areDifferent(el, expected, failMessage);
         }
 
-        public void areDifferent(Object actual, Object expected) {
+        public void areDifferent(Object expected) {
             areDifferent(expected, null);
         }
 

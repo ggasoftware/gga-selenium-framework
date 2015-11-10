@@ -2,6 +2,7 @@ package com.ggasoftware.jdiuitests.core.logger;
 
 import com.ggasoftware.jdiuitests.core.logger.base.ILogger;
 import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
+import com.ggasoftware.jdiuitests.core.logger.enums.BusinessInfoTypes;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogLevels;
 
@@ -15,8 +16,14 @@ public class ListLogger implements ILogger {
         this(LogLevels.INFO, loggers);
     }
 
-    public ListLogger(LogLevels logLevel, ILogger... loggers) {
+    public ListLogger(LogLevels logLevels, ILogger... loggers) {
         this.loggers = loggers;
+        setLogLevels(logLevels);
+    }
+
+    public void setLogLevels(LogLevels logLevels) {
+        for (ILogger logger : loggers)
+            logger.setLogLevels(logLevels);
     }
 
     public void init(String message, Object... args) {
@@ -76,5 +83,14 @@ public class ListLogger implements ILogger {
                 logLevel = logger.getLogLevel();
         }
         return logLevel;
+    }
+    public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
+        for (ILogger logger : loggers)
+            logger.inLog(message, logLevel, logInfoType);
+    }
+
+    public void inLog(String message, BusinessInfoTypes infoType) {
+        for (ILogger logger : loggers)
+            logger.inLog(message, infoType);
     }
 }

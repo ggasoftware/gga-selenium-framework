@@ -1,5 +1,6 @@
 package com.ggasoftware.jdiuitests.core.logger.base;
 
+import com.ggasoftware.jdiuitests.core.logger.enums.BusinessInfoTypes;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogLevels;
 
@@ -29,4 +30,8 @@ public interface ILogger {
     void toLog(String message, LogSettings settings, Object... args);
 
     LogLevels getLogLevel();
+
+    void setLogLevels(LogLevels logLevels);
+    void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType);
+    void inLog(String message, BusinessInfoTypes infoType);
 }

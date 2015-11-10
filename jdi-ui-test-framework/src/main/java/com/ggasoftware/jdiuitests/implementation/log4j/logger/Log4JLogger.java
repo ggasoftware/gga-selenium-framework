@@ -24,7 +24,6 @@ public class Log4JLogger extends AbstractLogger {
         super(logLevel);
     }
 
-    @Override
     public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
         switch (logLevel) {
             case FATAL:
@@ -45,7 +44,6 @@ public class Log4JLogger extends AbstractLogger {
         }
     }
 
-    @Override
     public void inLog(String message, BusinessInfoTypes infoType) {
         log4j.info(String.format("[%s] %s: %s", infoType, Timer.nowTimeShort(), message));
     }

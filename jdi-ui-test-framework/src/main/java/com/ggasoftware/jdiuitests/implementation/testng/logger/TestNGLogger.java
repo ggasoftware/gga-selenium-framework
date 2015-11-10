@@ -29,12 +29,10 @@ public class TestNGLogger extends AbstractLogger {
         super(logLevel);
     }
 
-    @Override
     public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
         log(format("%s %s~ %s", typesMap.get(logInfoType), Timer.nowTime(), message));
     }
 
-    @Override
     public void inLog(String message, BusinessInfoTypes infoType) {
         log(format("%s %s~ %s", typesMap.get(BUSINESS), Timer.nowTime(), format("[%s] %s", infoType, message)));
     }

@@ -1,10 +1,10 @@
 package com.ggasoftware.jdiuitests.core.logger.base;
 
-import com.ggasoftware.jdiuitests.core.logger.enums.BusinessInfoTypes;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdiuitests.core.logger.enums.LogLevels;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 
+import static com.ggasoftware.jdiuitests.core.logger.enums.BusinessInfoTypes.*;
 import static com.ggasoftware.jdiuitests.core.logger.enums.LogInfoTypes.*;
 import static com.ggasoftware.jdiuitests.core.logger.enums.LogLevels.*;
 import static java.lang.String.format;
@@ -22,6 +22,9 @@ public abstract class AbstractLogger implements ILogger {
     public AbstractLogger() {
         this(INFO);
     }
+    public void setLogLevels(LogLevels logLevels) {
+        logSettings.logLevels = logLevels;
+    }
 
     public AbstractLogger(LogLevels logLevel) {
         this(new LogSettings(logLevel));
@@ -32,59 +35,59 @@ public abstract class AbstractLogger implements ILogger {
     }
 
     public void init(String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(FATAL)
+        if (logSettings.logLevels.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId()))
-            inLog(format(message, wrap(args)), BusinessInfoTypes.INIT);
+            inLog(format(message, wrap(args)), INIT);
     }
 
     public void suit(String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(FATAL)
+        if (logSettings.logLevels.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId())) {
-            inLog(format(message, wrap(args)), BusinessInfoTypes.SUIT);
+            inLog(format(message, wrap(args)), SUIT);
         }
     }
 
     public void test(String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(FATAL)
+        if (logSettings.logLevels.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId())) {
-            inLog(format(message, wrap(args)), BusinessInfoTypes.TEST);
+            inLog(format(message, wrap(args)), TEST);
         }
     }
 
     public void step(String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(FATAL)
+        if (logSettings.logLevels.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId())) {
-            inLog(format(message, wrap(args)), BusinessInfoTypes.STEP);
+            inLog(format(message, wrap(args)), STEP);
         }
     }
 
     public void fatal(String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(FATAL)
+        if (logSettings.logLevels.equalOrLessThan(FATAL)
                 && isMatchLogInfoType(BUSINESS) && !duplicated(message, getLineId())) {
             inLog(format(message, wrap(args)), FATAL, TECHNICAL);
         }
     }
 
     public void error(LogInfoTypes logInfoType, String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(ERROR)
+        if (logSettings.logLevels.equalOrLessThan(ERROR)
                 && isMatchLogInfoType(logInfoType) && !duplicated(message, getLineId()))
             inLog(format(message, wrap(args)), ERROR, logInfoType);
     }
 
     public void warning(LogInfoTypes logInfoType, String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(WARNING)
+        if (logSettings.logLevels.equalOrLessThan(WARNING)
                 && isMatchLogInfoType(logInfoType) && !duplicated(message, getLineId()))
             inLog(format(message, wrap(args)), WARNING, logInfoType);
     }
 
     public void info(String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(INFO)
+        if (logSettings.logLevels.equalOrLessThan(INFO)
                 && isMatchLogInfoType(FRAMEWORK) && !duplicated(message, getLineId()))
             inLog(format(message, wrap(args)), INFO, FRAMEWORK);
     }
 
     public void debug(String message, Object... args) {
-        if (logSettings.logLevel.equalOrLessThan(DEBUG)
+        if (logSettings.logLevels.equalOrLessThan(DEBUG)
                 && isMatchLogInfoType(TECHNICAL) && !duplicated(message, getLineId()))
             inLog(format(message, wrap(args)), DEBUG, TECHNICAL);
     }
@@ -100,7 +103,8 @@ public abstract class AbstractLogger implements ILogger {
     }
 
     private boolean duplicated(String message, String lineId) {
-        if (!preventDuplicates) return false;
+        if (!preventDuplicates)
+            return false;
         if (messagesMap.keys().contains(lineId) && messagesMap.get(lineId).equals(message))
             return true;
         messagesMap.addOrReplace(lineId, message);
@@ -113,7 +117,7 @@ public abstract class AbstractLogger implements ILogger {
     }
 
     public final void toLog(String message, LogSettings settings, Object... args) {
-        switch (settings.logLevel) {
+        switch (settings.logLevels) {
             case FATAL:
                 fatal(message, args);
                 break;
@@ -129,6 +133,7 @@ public abstract class AbstractLogger implements ILogger {
             case DEBUG:
                 debug(message, args);
                 break;
+            default: error(TECHNICAL, "Unknown logging type: " + settings.logLevels.toString());
         }
     }
 
@@ -136,15 +141,8 @@ public abstract class AbstractLogger implements ILogger {
         return args.length == 0 ? null : args;
     }
 
-    protected void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
-    }
-
-    protected void inLog(String message, BusinessInfoTypes infoType) {
-        inLog(message, FATAL, BUSINESS);
-    }
-
     public LogLevels getLogLevel() {
-        return logSettings.logLevel;
+        return logSettings.logLevels;
     }
 
     private boolean isMatchLogInfoType(LogInfoTypes logInfoType) {
