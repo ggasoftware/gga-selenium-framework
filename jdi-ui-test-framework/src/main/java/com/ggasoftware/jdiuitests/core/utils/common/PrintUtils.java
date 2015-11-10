@@ -20,6 +20,7 @@ import static java.util.Arrays.asList;
  * Created by roman.i on 30.09.2014.
  */
 public class PrintUtils {
+    private PrintUtils() { }
     public static String print(Iterable<String> list) {
         return print(list, ", ", "%s");
     }
@@ -58,7 +59,8 @@ public class PrintUtils {
 
     public static String print(int[] list, String separator, String format) {
         List<String> result = new ArrayList<>();
-        for (int i : list) result.add(i + "");
+        for (int i : list)
+            result.add(Integer.toString(i));
         return print(result, separator, format);
     }
 
@@ -72,7 +74,8 @@ public class PrintUtils {
 
     public static String print(boolean[] list, String separator, String format) {
         List<String> result = new ArrayList<>();
-        for (boolean i : list) result.add(i + "");
+        for (boolean i : list)
+            result.add(Boolean.toString(i));
         return print(result, separator, format);
     }
 
@@ -120,20 +123,22 @@ public class PrintUtils {
         return input;
     }
 
-    public static MapArray<String, String> parseObjectAsString(String obj) {
-        if (obj == null) return null;
+    public static MapArray<String, String> parseObjectAsString(String string) {
+        if (string == null)
+            return null;
         MapArray<String, String> result = new MapArray<>();
         List<String> values = new ArrayList<>();
         int i = 1;
-        while (obj.indexOf("#(#") > 0) {
-            values.add(obj.substring(obj.indexOf("#(#") + 3, obj.indexOf("#)#")));
-            obj = obj.replaceAll("#\\(#.*#\\)#", "#VAL" + i++);
+        String str = string;
+        while (string.indexOf("#(#") > 0) {
+            values.add(string.substring(string.indexOf("#(#") + 3, string.indexOf("#)#")));
+            str = string.replaceAll("#\\(#.*#\\)#", "#VAL" + i++);
         }
-        String[] fields = obj.split("#;#");
+        String[] fields = str.split("#;#");
         for (String field : fields) {
-            String[] splitedField = field.split("#:#");
-            if (splitedField.length == 2)
-                result.add(splitedField[0], processValue(splitedField[1], values));
+            String[] splitField = field.split("#:#");
+            if (splitField.length == 2)
+                result.add(splitField[0], processValue(splitField[1], values));
         }
         return result;
     }

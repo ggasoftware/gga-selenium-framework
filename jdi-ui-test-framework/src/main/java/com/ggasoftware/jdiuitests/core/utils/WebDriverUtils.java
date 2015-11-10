@@ -5,7 +5,7 @@ import org.openqa.selenium.os.WindowsUtils;
 
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.first;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.where;
-import static com.ggasoftware.jdiuitests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
+import static com.ggasoftware.jdiuitests.core.utils.usefulutils.TryCatchUtil.tryGetResult;
 
 /**
  * Created by 12345 on 26.01.2015.

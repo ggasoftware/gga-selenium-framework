@@ -1,4 +1,4 @@
-package com.ggasoftware.jdiuitests.core.utils.linqInterfaces;
+package com.ggasoftware.jdiuitests.core.utils.linqinterfaces;
 
 /**
  * Created by roman.i on 01.10.2014.

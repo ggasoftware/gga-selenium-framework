@@ -3,7 +3,7 @@ package com.epam.jditests.tests.common;
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.tests.common.utils.*;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextArea;
 import org.testng.Assert;

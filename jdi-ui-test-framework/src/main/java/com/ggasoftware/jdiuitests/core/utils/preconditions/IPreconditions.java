@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitests.core.utils.preconditions;
 
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.domain;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getDriver;

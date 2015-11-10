@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.core.utils.common;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import org.openqa.selenium.By;
 
 import java.text.MessageFormat;

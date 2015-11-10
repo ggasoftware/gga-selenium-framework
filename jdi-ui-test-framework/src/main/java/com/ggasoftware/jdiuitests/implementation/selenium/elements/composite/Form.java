@@ -20,7 +20,7 @@ import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.objToSetVa
 import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getFields;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.getValueField;
-import static com.ggasoftware.jdiuitests.core.utils.common.StringUtils.LineBreak;
+import static com.ggasoftware.jdiuitests.core.utils.common.StringUtils.LINE_BREAK;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.AnnotationsUtil.getElementName;
 import static com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.GetElement.namesEqual;
 import static java.lang.String.format;
@@ -130,7 +130,7 @@ public class Form<T> extends Element implements IForm<T> {
     public void check(T entity) {
         List<String> result = verify(entity);
         if (result.size() > 0)
-            throw exception("Check form failed:" + LineBreak + print(result, LineBreak));
+            throw exception("Check form failed:" + LINE_BREAK + print(result, LINE_BREAK));
     }
 
     protected String getValueAction() {

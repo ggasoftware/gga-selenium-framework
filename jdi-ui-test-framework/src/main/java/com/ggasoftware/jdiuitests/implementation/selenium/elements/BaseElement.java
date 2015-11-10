@@ -2,8 +2,8 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements;
 
 import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JActionT;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JActionTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JActionT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JActionTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.actions.ActionInvoker;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.actions.ActionScenrios;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.actions.ElementsActions;

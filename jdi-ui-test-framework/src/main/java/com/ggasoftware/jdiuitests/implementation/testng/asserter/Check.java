@@ -1,7 +1,7 @@
 package com.ggasoftware.jdiuitests.implementation.testng.asserter;
 
 import com.ggasoftware.jdiuitests.core.asserter.BaseChecker;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JActionT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JActionT;
 import org.testng.Assert;
 
 /**

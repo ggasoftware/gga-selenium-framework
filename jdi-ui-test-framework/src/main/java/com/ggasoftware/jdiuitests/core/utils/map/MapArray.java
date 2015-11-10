@@ -2,16 +2,16 @@ package com.ggasoftware.jdiuitests.core.utils.map;
 
 
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JActionTT;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JActionTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTTT;
 import com.ggasoftware.jdiuitests.core.utils.pairs.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ggasoftware.jdiuitests.core.utils.common.PrintUtils.print;
-import static com.ggasoftware.jdiuitests.core.utils.usefulUtils.TryCatchUtil.throwRuntimeException;
+import static com.ggasoftware.jdiuitests.core.utils.usefulutils.TryCatchUtil.throwRuntimeException;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -100,7 +100,8 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
     }
 
     public boolean add(K key, V value) {
-        if (haveKey(key)) return false;
+        if (haveKey(key))
+            return false;
         pairs.add(new Pair<>(key, value));
         return true;
     }
@@ -128,7 +129,8 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
     }
 
     public boolean addFirst(K key, V value) {
-        if (haveKey(key)) return false;
+        if (haveKey(key))
+            return false;
         List<Pair<K, V>> result = new ArrayList<>();
         result.add(new Pair<>(key, value));
         result.addAll(pairs);
@@ -147,7 +149,8 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
 
     public Pair<K, V> get(int index) {
         if (index < 0) index = pairs.size() + index;
-        if (index < 0) return null;
+        if (index < 0)
+            return null;
         return (pairs.size() > index)
                 ? pairs.get(index)
                 : null;
@@ -205,6 +208,7 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
         List<Pair<K, V>> result = new ArrayList<>();
         for (int i = size() - 1; i >= 0; i--)
             result.add(get(i));
+        pairs = result;
         return this;
     }
 
@@ -230,7 +234,7 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
 
     public boolean remove(Object o) {
         boolean isRemoved = false;
-        for (Pair<K, V> kv : pairs)
+        for (Object kv : pairs)
             if (kv.equals(o)) {
                 pairs.remove(kv);
                 isRemoved = true;

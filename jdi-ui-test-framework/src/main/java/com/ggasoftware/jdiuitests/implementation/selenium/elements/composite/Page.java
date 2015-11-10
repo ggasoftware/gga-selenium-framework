@@ -1,7 +1,7 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.composite;
 
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IPage;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;

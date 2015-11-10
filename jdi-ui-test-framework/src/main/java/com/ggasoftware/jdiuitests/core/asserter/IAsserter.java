@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.core.asserter;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTEx;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTEx;
 
 /**
  * Created by Roman_Iovlev on 6/9/2015.

@@ -34,7 +34,7 @@ public class TestNGBase {
 
     @AfterSuite(alwaysRun = true)
     public static void jdiTearDown() {
-        JDISettings.logger.info("Test run finished. " + StringUtils.LineBreak + "Total test run time: " +
+        JDISettings.logger.info("Test run finished. " + StringUtils.LINE_BREAK + "Total test run time: " +
                 new SimpleDateFormat("HH:mm:ss.S").format(new Date(21 * 3600000 + getTestRunTime())));
         WebDriverUtils.killAllRunWebDrivers();
     }

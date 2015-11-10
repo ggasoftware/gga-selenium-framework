@@ -21,7 +21,7 @@ import com.ggasoftware.jdiuitests.core.logger.enums.LogLevels;
 import com.ggasoftware.jdiuitests.core.settings.HighlightSettings;
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
 import org.openqa.selenium.By;

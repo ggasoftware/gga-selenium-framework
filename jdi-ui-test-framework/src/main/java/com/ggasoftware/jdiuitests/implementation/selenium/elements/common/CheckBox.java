@@ -15,7 +15,7 @@
  */
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.common;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Clickable;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ICheckBox;
 import org.openqa.selenium.By;

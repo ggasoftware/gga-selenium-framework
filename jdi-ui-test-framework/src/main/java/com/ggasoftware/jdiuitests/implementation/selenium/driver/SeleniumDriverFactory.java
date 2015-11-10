@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.driver;
 
 import com.ggasoftware.jdiuitests.core.settings.HighlightSettings;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;

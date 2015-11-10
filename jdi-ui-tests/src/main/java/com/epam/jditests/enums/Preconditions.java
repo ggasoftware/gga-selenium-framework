@@ -1,7 +1,7 @@
 package com.epam.jditests.enums;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
 import org.openqa.selenium.WebElement;
 
 import static com.epam.jditests.CommonData.TEST_DATE;

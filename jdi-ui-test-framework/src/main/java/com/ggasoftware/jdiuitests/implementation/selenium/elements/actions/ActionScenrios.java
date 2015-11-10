@@ -5,9 +5,9 @@ import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
 import com.ggasoftware.jdiuitests.core.reporting.PerformanceStatistic;
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.timeouts;

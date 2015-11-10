@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 
 /**
  * Created by Roman_Iovlev on 7/17/2015.

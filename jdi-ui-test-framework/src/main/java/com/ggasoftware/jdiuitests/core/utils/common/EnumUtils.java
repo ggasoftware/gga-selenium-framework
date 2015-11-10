@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.core.utils.common;
 
-import com.ggasoftware.jdiuitests.core.utils.usefulUtils.TryCatchUtil;
+import com.ggasoftware.jdiuitests.core.utils.usefulutils.TryCatchUtil;
 
 import java.lang.reflect.Field;
 import java.util.List;

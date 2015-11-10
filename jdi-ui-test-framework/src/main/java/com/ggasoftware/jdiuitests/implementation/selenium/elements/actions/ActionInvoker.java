@@ -2,9 +2,9 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements.actions;
 
 import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
 

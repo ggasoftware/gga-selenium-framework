@@ -1,6 +1,6 @@
-package com.ggasoftware.jdiuitests.core.utils.usefulUtils;
+package com.ggasoftware.jdiuitests.core.utils.usefulutils;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTEx;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTEx;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exceptionThrown;
 

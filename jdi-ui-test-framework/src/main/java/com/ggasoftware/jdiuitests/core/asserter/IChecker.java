@@ -1,7 +1,7 @@
 package com.ggasoftware.jdiuitests.core.asserter;
 
 import com.ggasoftware.jdiuitests.core.utils.common.LinqUtils;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 
 import java.util.Collection;

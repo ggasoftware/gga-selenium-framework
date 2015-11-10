@@ -3,7 +3,7 @@ package com.ggasoftware.jdiuitests.implementation.selenium.elements;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
-import static com.ggasoftware.jdiuitests.core.utils.common.StringUtils.LineBreak;
+import static com.ggasoftware.jdiuitests.core.utils.common.StringUtils.LINE_BREAK;
 
 /**
  * Created by Roman_Iovlev on 8/17/2015.
@@ -15,7 +15,7 @@ public class MapInterfaceToElement {
         try {
             map.addOrReplace(pairs);
         } catch (Exception ex) {
-            throw exception("Error in getInterfaceTypeMap" + LineBreak + ex.getMessage());
+            throw exception("Error in getInterfaceTypeMap" + LINE_BREAK + ex.getMessage());
         }
     }
 

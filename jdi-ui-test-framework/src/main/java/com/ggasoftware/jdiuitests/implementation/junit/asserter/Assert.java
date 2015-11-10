@@ -2,7 +2,7 @@ package com.ggasoftware.jdiuitests.implementation.junit.asserter;
 
 import com.ggasoftware.jdiuitests.core.asserter.BaseChecker;
 import com.ggasoftware.jdiuitests.core.asserter.DoScreen;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 
 import java.util.Collection;

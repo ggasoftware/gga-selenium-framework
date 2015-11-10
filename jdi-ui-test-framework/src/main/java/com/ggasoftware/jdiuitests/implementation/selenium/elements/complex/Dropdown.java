@@ -15,7 +15,7 @@
  */
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.complex;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.GetElementType;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Label;

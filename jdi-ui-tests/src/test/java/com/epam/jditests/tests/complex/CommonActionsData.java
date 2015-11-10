@@ -1,8 +1,8 @@
 package com.epam.jditests.tests.complex;
 
 import com.ggasoftware.jdiuitests.core.utils.common.Timer;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import java.io.File;

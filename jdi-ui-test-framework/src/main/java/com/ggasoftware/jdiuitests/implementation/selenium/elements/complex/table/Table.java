@@ -448,12 +448,12 @@ public class Table extends Text implements ITable, Cloneable {
     @Override
     protected String getValueAction() {
         return
-                "||X|" + print(columns().headers(), "|") + "||" + StringUtils.LineBreak +
+                "||X|" + print(columns().headers(), "|") + "||" + StringUtils.LINE_BREAK +
                         print(new ArrayList<>(select(rows().headers(),
                                 rowName -> "||" + rowName + "||" +
                                         print(new ArrayList<>(select(LinqUtils.where(getCells(),
                                                         cell -> cell.rowName().equals(rowName)),
-                                                ICell::getValue)), "|") + "||")), StringUtils.LineBreak);
+                                                ICell::getValue)), "|") + "||")), StringUtils.LINE_BREAK);
     }
 
     private Cell addCell(int colIndex, int rowIndex, int colNum, int rowNum, String colName, String rowName) {

@@ -53,7 +53,7 @@ public class ScreenshotMaker {
         }
         return (screenshotPath.equals(""))
                 ? "Failed to do Screenshot"
-                : StringUtils.LineBreak + "Add screenshot to: " + screenshotPath;
+                : StringUtils.LINE_BREAK + "Add screenshot to: " + screenshotPath;
     }
 
     public String takeScreenshot() throws IOException {

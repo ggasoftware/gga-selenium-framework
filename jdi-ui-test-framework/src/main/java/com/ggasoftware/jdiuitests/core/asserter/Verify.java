@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.core.asserter;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JActionT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JActionT;
 
 import java.util.LinkedList;
 import java.util.List;

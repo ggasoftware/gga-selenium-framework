@@ -1,14 +1,14 @@
 package com.ggasoftware.jdiuitests.core.utils.common;
 
 import com.ggasoftware.jdiuitests.core.settings.JDISettings;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTEx;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTEx;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.ggasoftware.jdiuitests.core.utils.usefulUtils.TryCatchUtil.throwRuntimeException;
+import static com.ggasoftware.jdiuitests.core.utils.usefulutils.TryCatchUtil.throwRuntimeException;
 import static java.lang.System.currentTimeMillis;
 
 /**
@@ -16,21 +16,21 @@ import static java.lang.System.currentTimeMillis;
  */
 public class Timer {
     private final Long start = currentTimeMillis();
-    private long _timeoutInMSec = JDISettings.timeouts.waitElementSec * 1000;
-    private long _retryTimeoutInMSec = JDISettings.timeouts.retryMSec;
+    private long timeoutInMSec = JDISettings.timeouts.waitElementSec * 1000L;
+    private long retryTimeoutInMSec = JDISettings.timeouts.retryMSec;
 
     public Timer() {
     }
 
     public Timer(long timeoutInMSec, long retryTimeoutInMSec) {
         this();
-        _timeoutInMSec = timeoutInMSec;
-        _retryTimeoutInMSec = retryTimeoutInMSec;
+        this.timeoutInMSec = timeoutInMSec;
+        this.retryTimeoutInMSec = retryTimeoutInMSec;
     }
 
     public Timer(long timeoutInMSec) {
         this();
-        _timeoutInMSec = timeoutInMSec;
+        this.timeoutInMSec = timeoutInMSec;
     }
 
     public static String nowTime() {
@@ -50,7 +50,7 @@ public class Timer {
     }
 
     public static String nowMSecs() {
-        return currentTimeMillis() + "";
+        return Long.toString(currentTimeMillis());
     }
 
     public static void sleep(long mSec) {
@@ -80,12 +80,12 @@ public class Timer {
     }
 
     public Timer setTimeout(long timeoutInMSec) {
-        _timeoutInMSec = timeoutInMSec;
+        this.timeoutInMSec = timeoutInMSec;
         return this;
     }
 
     public Timer setRetryTimeout(long retryTimeoutInMSec) {
-        _retryTimeoutInMSec = retryTimeoutInMSec;
+        this.retryTimeoutInMSec = retryTimeoutInMSec;
         return this;
     }
 
@@ -95,7 +95,7 @@ public class Timer {
     }
 
     public boolean timeoutPassed() {
-        return timePassedInMSec() > _timeoutInMSec;
+        return timePassedInMSec() > timeoutInMSec;
     }
 
     public boolean wait(JFuncTEx<Boolean> waitCase) {
@@ -103,7 +103,7 @@ public class Timer {
             try {
                 if (waitCase.invoke())
                     return true;
-                sleep(_retryTimeoutInMSec);
+                sleep(retryTimeoutInMSec);
             } catch (Exception | Error ignore) {
                 throwRuntimeException(ignore);
             }
@@ -123,7 +123,7 @@ public class Timer {
             } catch (Exception | Error ignore) {
                 throwRuntimeException(ignore);
             }
-            sleep(_retryTimeoutInMSec);
+            sleep(retryTimeoutInMSec);
         }
         return null;
     }

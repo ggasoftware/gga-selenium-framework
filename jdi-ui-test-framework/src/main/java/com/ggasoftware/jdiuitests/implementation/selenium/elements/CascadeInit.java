@@ -18,8 +18,8 @@ import static com.ggasoftware.jdiuitests.core.settings.JDIData.APP_VERSTION;
 import static com.ggasoftware.jdiuitests.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.foreach;
 import static com.ggasoftware.jdiuitests.core.utils.common.ReflectionUtils.*;
-import static com.ggasoftware.jdiuitests.core.utils.common.StringUtils.LineBreak;
-import static com.ggasoftware.jdiuitests.core.utils.usefulUtils.TryCatchUtil.tryGetResult;
+import static com.ggasoftware.jdiuitests.core.utils.common.StringUtils.LINE_BREAK;
+import static com.ggasoftware.jdiuitests.core.utils.usefulutils.TryCatchUtil.tryGetResult;
 import static java.lang.String.format;
 
 /**
@@ -98,7 +98,7 @@ public abstract class CascadeInit implements IBaseElement {
             if (isInterface(field, IComposite.class))
                 InitElements(instance);
         } catch (Exception ex) {
-            throw exception("Error in setElement for field '%s' with parent '%s'", field.getName(), parentType.getClass().getSimpleName() + LineBreak + ex.getMessage());
+            throw exception("Error in setElement for field '%s' with parent '%s'", field.getName(), parentType.getClass().getSimpleName() + LINE_BREAK + ex.getMessage());
         }
     }
 
@@ -130,7 +130,7 @@ public abstract class CascadeInit implements IBaseElement {
                 InitElements(instance);
         } catch (Exception ex) {
             throw exception("Error in setElement for field '%s' with parent '%s'", field.getName(),
-                    getClassName(parent) + LineBreak + ex.getMessage());
+                    getClassName(parent) + LINE_BREAK + ex.getMessage());
         }
     }
 
@@ -205,7 +205,7 @@ public abstract class CascadeInit implements IBaseElement {
                     ". Add relation interface -> class in VIElement.InterfaceTypeMap");
         } catch (Exception ex) {
             throw exception("Error in getElementInstance for field '%s' with type '%s'", fieldName, type.getSimpleName() +
-                    LineBreak + ex.getMessage());
+                    LINE_BREAK + ex.getMessage());
         }
     }
 
@@ -223,7 +223,7 @@ public abstract class CascadeInit implements IBaseElement {
                     : AnnotationsUtil.getFindByLocator(field.getAnnotation(FindBy.class));
         } catch (Exception ex) {
             throw exception("Error in get locator for type '%s'", field.getType().getName() +
-                    LineBreak + ex.getMessage());
+                    LINE_BREAK + ex.getMessage());
         }
     }
 

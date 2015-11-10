@@ -6,7 +6,7 @@ import com.epam.jditests.tests.common.utils.AttributeTests;
 import com.epam.jditests.tests.common.utils.ContainsTextTests;
 import com.epam.jditests.tests.common.utils.MatchTextTests;
 import com.epam.jditests.tests.common.utils.SimpleTextTests;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IClickable;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ILink;

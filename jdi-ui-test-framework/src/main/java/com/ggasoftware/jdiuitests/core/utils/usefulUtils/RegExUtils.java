@@ -1,4 +1,4 @@
-package com.ggasoftware.jdiuitests.core.utils.usefulUtils;
+package com.ggasoftware.jdiuitests.core.utils.usefulutils;
 
 import java.util.ArrayList;
 import java.util.List;

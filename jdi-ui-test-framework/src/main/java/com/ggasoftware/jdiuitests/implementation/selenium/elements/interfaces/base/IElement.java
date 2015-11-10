@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JDIAction;
 import org.openqa.selenium.WebElement;
 

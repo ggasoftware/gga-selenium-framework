@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.core.utils.common;
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JActionT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JActionT;
 
 import java.io.IOException;
 import java.io.InputStream;

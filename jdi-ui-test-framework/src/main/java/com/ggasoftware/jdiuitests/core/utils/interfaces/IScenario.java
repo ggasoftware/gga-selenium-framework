@@ -1,7 +1,7 @@
 package com.ggasoftware.jdiuitests.core.utils.interfaces;
 
 import com.ggasoftware.jdiuitests.core.logger.base.LogSettings;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JAction;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
 import com.ggasoftware.jdiuitests.implementation.selenium.elements.BaseElement;
 
 /**

@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitests.core.utils.common;
 
 
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JActionT;
-import com.ggasoftware.jdiuitests.core.utils.linqInterfaces.JFuncTT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JActionT;
+import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitests.core.utils.pairs.Pair;
 
