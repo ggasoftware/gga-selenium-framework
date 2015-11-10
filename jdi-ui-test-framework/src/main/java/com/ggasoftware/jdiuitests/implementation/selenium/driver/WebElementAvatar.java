@@ -1,6 +1,6 @@
 package com.ggasoftware.jdiuitests.implementation.selenium.driver;
 
-import com.ggasoftware.jdiuitests.core.apiaccessors.JElement;
+import com.ggasoftware.jdiuitests.core.apiaccessor.JElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;

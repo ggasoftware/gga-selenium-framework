@@ -1,4 +1,4 @@
-package com.ggasoftware.jdiuitests.core.apiaccessors;
+package com.ggasoftware.jdiuitests.core.apiaccessor;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.
