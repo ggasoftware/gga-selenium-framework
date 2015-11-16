@@ -2,9 +2,10 @@ package com.epam.jditests.tests.complex.tableTests;
 
 import com.epam.jditests.InitTests;
 import com.epam.jditests.dataproviders.TableDP;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Table;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.TableSettings;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Table;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.TableSettings;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ITable;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
@@ -12,9 +13,9 @@ import static com.epam.jditests.enums.Preconditions.SIMPLE_PAGE;
 import static com.epam.jditests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 import static com.epam.jditests.pageobjects.EpamJDISite.supportPage;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Column.column;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.areEquals;
 import static java.lang.String.format;
 
 /**
@@ -46,7 +47,7 @@ public class NegativeTableTests extends InitTests {
         isInState(SIMPLE_PAGE);
 
         try {
-            tableNoHeaders().cell(column(columnIndex), row(rowIndex)).getWebElement();
+            ((Element)tableNoHeaders().cell(column(columnIndex), row(rowIndex))).getWebElement();
         } catch (Error | Exception e) {
             areEquals(e.toString(), _assertionException,
                     format("Expected exception is \n'%s'\n but was \b'%s'", _assertionException, e.toString()));

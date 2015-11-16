@@ -1,7 +1,7 @@
 package com.epam.jditests.pageobjects.sections;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Section;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ILink;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Link;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Section;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -10,6 +10,6 @@ import org.openqa.selenium.support.FindBy;
 public class Footer extends Section {
 
     @FindBy(partialLinkText = "About")
-    public ILink about;
+    public Link about;
 
 }

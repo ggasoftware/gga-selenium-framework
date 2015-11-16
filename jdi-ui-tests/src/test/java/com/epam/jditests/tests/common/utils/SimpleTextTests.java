@@ -1,9 +1,9 @@
 package com.epam.jditests.tests.common.utils;
 
 import com.epam.jditests.enums.Preconditions;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IText;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,9 +16,9 @@ public class SimpleTextTests {
 
     private String _expected;
     private Preconditions _onPage;
-    private JFuncT<IElement> _element;
+    private JFuncT<Element> _element;
 
-    public SimpleTextTests(String expected, Preconditions onPage, JFuncT<IElement> element) {
+    public SimpleTextTests(String expected, Preconditions onPage, JFuncT<Element> element) {
         _expected = expected;
         _onPage = onPage;
         _element = element;

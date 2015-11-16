@@ -1,7 +1,7 @@
 package com.epam.jditests.tests.complex.tableTests;
 
 import com.epam.jditests.InitTests;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ITable;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -11,8 +11,8 @@ import java.lang.reflect.Method;
 import static com.epam.jditests.enums.Preconditions.SORTING_TABLE_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 import static com.epam.jditests.pageobjects.EpamJDISite.sortingTablePage;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.assertEquals;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.assertEquals;
 
 /**
  * Created by Natalia_Grebenshchik on 10/15/2015.

@@ -13,7 +13,7 @@ import static com.epam.jditests.enums.Preconditions.CONTACT_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 import static com.epam.jditests.tests.complex.CommonActionsData.checkResult;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.isEmpty;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.isEmpty;
 import static org.testng.Assert.assertEquals;
 
 /**

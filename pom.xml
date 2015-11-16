@@ -32,9 +32,10 @@
 
     <modules>
         <module>jdi-ui-test-framework</module>
-    <!-- <module>jdi-ui-tests</module>
-     <module>epam-career-tutorial-tests</module> -->
- </modules>
+        <module>jdi-ui-tests</module>
+        <module>epam-career-tutorial-tests</module>
+        <module>jdi-ui-test-web</module>
+    </modules>
 
  <!--<dependencies>
      <dependency>

@@ -4,19 +4,18 @@ import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.pageobjects.pages.*;
 import com.epam.jditests.pageobjects.sections.Footer;
 import com.epam.jditests.pageobjects.sections.Header;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.TextList;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Site;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JPage;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.pageobjects.annotations.JSite;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.TextList;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Site;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
+import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.JPage;
+import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.JSite;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import java.lang.reflect.Method;
 
-import static com.ggasoftware.jdiuitests.core.settings.JDIData.testName;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.asserter;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.logger;
+import static com.ggasoftware.jdiuitest.core.settings.JDIData.testName;
+import static com.ggasoftware.jdiuitest.core.settings.JDISettings.*;
 import static java.lang.String.format;
 
 /**
@@ -38,7 +37,7 @@ public class EpamJDISite extends Site {
     @JPage(url = "/page7.htm", title = "Table sort")
     public static DynamicTablePage dynamicTablePage;
     @JPage(url = "/page5.htm", title = "Table Scroll")
-    public static Page simplePage;
+    public static WebPage simplePage;
     @JPage(url = "/page6.htm", title = "Simple Page")
     public static DatesPage dates;
     @FindBy(css = ".uui-profile-menu")

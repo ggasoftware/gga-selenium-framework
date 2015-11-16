@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.ggasoftware.uitest</groupId>
-            <artifactId>jdi-ui-test-framework</artifactId>
+            <artifactId>jdi-ui-test-web</artifactId>
             <version>${fw.version}</version>
         </dependency>
         <dependency>

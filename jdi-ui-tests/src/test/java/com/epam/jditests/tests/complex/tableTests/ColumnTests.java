@@ -1,17 +1,17 @@
 package com.epam.jditests.tests.complex.tableTests;
 
-import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Columns;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
+import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Columns;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ICell;
+import com.ggasoftware.jdiuitest.web.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Column.column;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.areEquals;
 
 /**
  * Created by Natalia_Grebenshchikova on 10/5/2015.

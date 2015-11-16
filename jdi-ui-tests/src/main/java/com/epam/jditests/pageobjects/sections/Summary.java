@@ -1,10 +1,10 @@
 package com.epam.jditests.pageobjects.sections;
 
 import com.epam.jditests.enums.Odds;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.RadioButtons;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.Selector;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Section;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IButton;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.RadioButtons;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.Selector;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Section;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

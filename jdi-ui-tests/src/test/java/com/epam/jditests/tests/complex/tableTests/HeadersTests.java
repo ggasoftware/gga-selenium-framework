@@ -1,7 +1,7 @@
 package com.epam.jditests.tests.complex.tableTests;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
+import com.ggasoftware.jdiuitest.web.testng.asserter.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;

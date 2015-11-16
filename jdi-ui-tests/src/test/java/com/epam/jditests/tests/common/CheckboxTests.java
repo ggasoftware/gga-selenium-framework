@@ -2,7 +2,7 @@ package com.epam.jditests.tests.common;
 
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ICheckBox;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.CheckBox;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 import static com.epam.jditests.pageobjects.EpamJDISite.metalsColorsPage;
 import static com.epam.jditests.tests.complex.CommonActionsData.checkAction;
-import static com.ggasoftware.jdiuitests.core.settings.JDIData.testName;
+import static com.ggasoftware.jdiuitest.core.settings.JDIData.testName;
 
 /**
  * Created by Roman_Iovlev on 9/15/2015.
@@ -26,7 +26,7 @@ public class CheckboxTests extends InitTests {
         _onPage = Preconditions.METALS_AND_COLORS_PAGE;
     }
 
-    public ICheckBox getCheckBox() {
+    public CheckBox getCheckBox() {
         return metalsColorsPage.cbWater;
     }
 

@@ -1,14 +1,14 @@
 package com.epam.jditests.tests.complex;
 
-import com.ggasoftware.jdiuitests.core.utils.common.Timer;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.core.utils.common.Timer;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JAction;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import java.io.File;
 
 import static com.epam.jditests.pageobjects.EpamJDISite.*;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.*;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.*;
 
 /**
  * Created by Roman_Iovlev on 9/18/2015.

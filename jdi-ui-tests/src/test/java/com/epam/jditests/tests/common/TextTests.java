@@ -6,8 +6,8 @@ import com.epam.jditests.tests.common.utils.AttributeTests;
 import com.epam.jditests.tests.common.utils.ContainsTextTests;
 import com.epam.jditests.tests.common.utils.MatchTextTests;
 import com.epam.jditests.tests.common.utils.SimpleTextTests;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import org.testng.annotations.Factory;
 
 import static com.epam.jditests.enums.Preconditions.HOME_PAGE;
@@ -19,7 +19,7 @@ public class TextTests extends InitTests {
             + " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris"
             + " nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in"
             + " reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.").toUpperCase();
-    JFuncT<IElement> get = () -> homePage.text;
+    JFuncT<Element> get = () -> homePage.text;
     private Preconditions _onPage = HOME_PAGE;
 
     @Factory

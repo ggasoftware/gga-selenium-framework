@@ -1,9 +1,9 @@
 package com.epam.jditests.tests.common.utils;
 
 import com.epam.jditests.enums.Preconditions;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextField;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.TextField;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -13,16 +13,16 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getDriver;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getJSExecutor;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings.getDriver;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings.getJSExecutor;
 
 public class InputTests {
 
     private Preconditions _onPage;
-    private JFuncT<IElement> _element;
+    private JFuncT<Element> _element;
     private String _inputText;
 
-    public InputTests(String inputText, Preconditions onPage, JFuncT<IElement> element) {
+    public InputTests(String inputText, Preconditions onPage, JFuncT<Element> element) {
         _inputText = inputText;
         _onPage = onPage;
         _element = element;
@@ -48,8 +48,8 @@ public class InputTests {
         Assert.assertEquals(resText, _inputText);
     }
 
-    private ITextField getInvoke() {
-        return (ITextField) _element.invoke();
+    private TextField getInvoke() {
+        return (TextField) _element.invoke();
     }
 
     @Test

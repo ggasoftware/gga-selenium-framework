@@ -1,10 +1,10 @@
 package com.epam.jditests.pageobjects.pages;
 
 import com.epam.jditests.entities.Contact;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Form;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IButton;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextArea;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextField;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.TextArea;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.TextField;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Form;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.Arrays;
@@ -16,13 +16,13 @@ import java.util.List;
 public class ContactFormTwoButtons extends Form<Contact> {
 
     @FindBy(id = "Name")
-    public ITextField name;
+    public TextField name;
 
     @FindBy(id = "LastName")
-    public ITextField lastName;
+    public TextField lastName;
 
     @FindBy(id = "Description")
-    public ITextArea description;
+    public TextArea description;
 
     @FindBy(xpath = "//*[text()='Submit']")
     public IButton submit;
@@ -31,10 +31,10 @@ public class ContactFormTwoButtons extends Form<Contact> {
     public IButton calculate;
 
     public List<String> getFormValue() {
-        return Arrays.asList(new String[]{
+        return Arrays.asList(
                 name.getWebElement().getAttribute("value"),
                 lastName.getWebElement().getAttribute("value"),
-                description.getWebElement().getAttribute("value")});
+                description.getWebElement().getAttribute("value"));
     }
 
     public void fillForm(Contact contact) {

@@ -2,7 +2,7 @@ package com.epam.jditests.tests.complex;
 
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Colors;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.IDropDown;
+import com.ggasoftware.jdiuitest.core.interfaces.complex.IDropDown;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,8 +15,8 @@ import static com.epam.jditests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 import static com.epam.jditests.pageobjects.EpamJDISite.metalsColorsPage;
 import static com.epam.jditests.tests.complex.CommonActionsData.*;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.areEquals;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.listEquals;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.areEquals;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.listEquals;
 import static java.util.Arrays.asList;
 
 /**

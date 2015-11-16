@@ -1,26 +1,25 @@
 package com.epam.jditests.enums;
 
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JAction;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JAction;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.preconditions.IPreconditions;
 import org.openqa.selenium.WebElement;
 
 import static com.epam.jditests.CommonData.TEST_DATE;
 import static com.epam.jditests.entities.User.DEFAULT_USER;
 import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
 import static com.epam.jditests.pageobjects.EpamJDISite.dates;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.domain;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getDriver;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page.getUrl;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page.openUrl;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings.getDriver;
+import static com.ggasoftware.jdiuitest.web.selenium.preconditions.PreconditionsState.alwaysMoveToCondition;
 
 /**
  * Created by 12345 on 03.06.2015.
  */
-public enum Preconditions {
+public enum Preconditions implements IPreconditions {
     HOME_PAGE("index.htm"),
     CONTACT_PAGE("page1.htm"),
     CONTACT_PAGE_FILLED(() -> false/*checkUrl("page1.htm")*/, () -> {
-        openUri("page1.htm");
+        IPreconditions.openUri("page1.htm");
         contactFormPage.name.newInput(DEFAULT_USER.name);
         contactFormPage.lastName.newInput(DEFAULT_USER.lastName);
         contactFormPage.description.newInput(DEFAULT_USER.description);
@@ -32,34 +31,27 @@ public enum Preconditions {
     DYNAMIC_TABLE_PAGE("page5.htm"),
     SIMPLE_PAGE("page6.htm"),
     DATES_PAGE_FILLED(() -> false/*checkUrl("page4.html")*/, () -> {
-        openUri("page4.htm");
+        IPreconditions.openUri("page4.htm");
         WebElement datePicker = getDriver().findElement(dates.datepicker.getLocator());
         datePicker.clear();
         datePicker.sendKeys(TEST_DATE);
     });
+
     public String _htmlPageName;
+
     public JFuncT<Boolean> checkAction;
     public JAction moveToAction;
+    public JFuncT<Boolean> checkAction() { return checkAction; }
+    public JAction moveToAction() { return moveToAction; }
 
     Preconditions(JFuncT<Boolean> checkAction, JAction moveToAction) {
         this.checkAction = checkAction;
         this.moveToAction = moveToAction;
+        alwaysMoveToCondition = true;
     }
 
     Preconditions(String uri) {
-        this(() -> false/*checkUrl(uri)*/, () -> openUri(uri));
+        this(() -> false/*checkUrl(uri)*/, () -> IPreconditions.openUri(uri));
         _htmlPageName = uri;
-    }
-
-    private static boolean checkUrl(final String uri) {
-        return getUrl().matches(".*/" + uri + "(\\?.*)?");
-    }
-
-    public static void openUri(final String uri) {
-        openUrl(domain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", ""));
-    }
-
-    public void open() {
-        moveToAction.invoke();
     }
 }

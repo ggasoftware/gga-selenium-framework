@@ -1,16 +1,14 @@
 package com.epam.jditests;
 
 import com.epam.jditests.pageobjects.EpamJDISite;
-import com.ggasoftware.jdiuitests.core.settings.JDISettings;
-import com.ggasoftware.jdiuitests.implementation.testng.testRunner.TestNGBase;
+import com.ggasoftware.jdiuitest.web.testng.testRunner.TestNGBase;
 import org.testng.annotations.BeforeSuite;
 
 import static com.epam.jditests.entities.User.DEFAULT_USER;
 import static com.epam.jditests.pageobjects.EpamJDISite.homePage;
 import static com.epam.jditests.pageobjects.EpamJDISite.login;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.initJDIFromProperties;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.logger;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Site.Init;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings.*;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.composite.Site.Init;
 
 
 /**
@@ -20,7 +18,7 @@ public class InitTests extends TestNGBase {
 
     @BeforeSuite(alwaysRun = true)
     public static void setUp() throws Exception {
-        JDISettings.driverFactory.driversPath = "C:\\Selenium";
+        getDriverFactory().setDriverPath("C:\\Selenium");
         initJDIFromProperties();
         //Assert.noScreenOnFail();
         Init(EpamJDISite.class);

@@ -3,8 +3,8 @@ package com.epam.jditests.tests.common;
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.pageobjects.EpamJDISite;
-import com.ggasoftware.jdiuitests.implementation.robot.elements.common.RFileInput;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IFileInput;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IFileInput;
+import com.ggasoftware.jdiuitest.web.robot.RFileInput;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

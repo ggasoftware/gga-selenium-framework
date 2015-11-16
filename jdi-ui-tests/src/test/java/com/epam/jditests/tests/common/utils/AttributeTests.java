@@ -1,8 +1,8 @@
 package com.epam.jditests.tests.common.utils;
 
 import com.epam.jditests.enums.Preconditions;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,9 +15,9 @@ public class AttributeTests {
     private String _value;
     private Preconditions _onPage;
     private String _attributeName;
-    private JFuncT<IElement> _element;
+    private JFuncT<Element> _element;
 
-    public AttributeTests(String attributeName, String value, Preconditions onPage, JFuncT<IElement> element) {
+    public AttributeTests(String attributeName, String value, Preconditions onPage, JFuncT<Element> element) {
         _value = value;
         _attributeName = attributeName;
         _onPage = onPage;

@@ -3,9 +3,9 @@ package com.epam.jditests.tests.common;
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.tests.common.utils.*;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextArea;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.TextArea;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -19,12 +19,12 @@ import static com.epam.jditests.entities.User.DEFAULT_USER;
 import static com.epam.jditests.enums.Preconditions.CONTACT_PAGE_FILLED;
 import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getJSExecutor;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings.getJSExecutor;
 
 public class TextAreaTests extends InitTests {
     public static final String TEXT = DEFAULT_USER.description;
     final String[] IN = {"line1", "line2", "line3"};
-    JFuncT<IElement> get = () -> contactFormPage.description;
+    JFuncT<Element> get = () -> contactFormPage.description;
     private Preconditions _onPage = CONTACT_PAGE_FILLED;
 
     @BeforeMethod
@@ -46,8 +46,8 @@ public class TextAreaTests extends InitTests {
         Assert.assertEquals(IN, out);
     }
 
-    private ITextArea input() {
-        return (ITextArea) get.invoke();
+    private TextArea input() {
+        return (TextArea) get.invoke();
     }
 
     @Test
@@ -74,7 +74,8 @@ public class TextAreaTests extends InitTests {
 
     @Factory
     public Object[] factory() {
-        return new Object[]{new SimpleTextTests(TEXT, _onPage, get),
+        return new Object[]{
+                new SimpleTextTests(TEXT, _onPage, get),
                 new MatchTextTests(TEXT, "Descr.*", _onPage, get),
                 new ContainsTextTests(TEXT, "escr", _onPage, get),
                 new AttributeTests("testAttribute", "testValue", _onPage, get),

@@ -1,8 +1,8 @@
 package com.epam.jditests.pageobjects.composite;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Table;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.TableSettings;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Table;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.TableSettings;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ITable;
 import org.openqa.selenium.By;
 
 /**

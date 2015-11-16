@@ -3,7 +3,7 @@ package com.epam.career.tests;
 import com.epam.career.TestsBase;
 import com.epam.career.page_objects.dataProviders.AttendeeProvider;
 import com.epam.career.page_objects.entities.Attendee;
-import com.ggasoftware.jdiuitests.implementation.testng.asserter.Check;
+import com.ggasoftware.jdiuitest.web.testng.asserter.Check;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 import static com.epam.career.page_objects.enums.HeaderMenu.CAREERS;
 import static com.epam.career.page_objects.enums.Preconditions.HOME_PAGE;
 import static com.epam.career.page_objects.site.EpamSite.*;
-import static com.ggasoftware.jdiuitests.core.utils.preconditions.PreconditionsState.isInState;
+import static com.ggasoftware.jdiuitest.web.selenium.preconditions.PreconditionsState.isInState;
 
 
 public class CareerTests extends TestsBase {

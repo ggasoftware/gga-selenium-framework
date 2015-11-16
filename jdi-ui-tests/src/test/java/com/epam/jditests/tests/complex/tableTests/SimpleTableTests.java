@@ -1,10 +1,10 @@
 package com.epam.jditests.tests.complex.tableTests;
 
 import com.epam.jditests.InitTests;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Table;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.TableSettings;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Table;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.TableSettings;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ICell;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ITable;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -16,9 +16,9 @@ import java.util.List;
 
 import static com.epam.jditests.enums.Preconditions.SIMPLE_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.*;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.*;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Column.column;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.*;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 

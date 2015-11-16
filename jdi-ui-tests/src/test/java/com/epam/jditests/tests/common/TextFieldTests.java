@@ -3,8 +3,8 @@ package com.epam.jditests.tests.common;
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.tests.common.utils.*;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import org.testng.annotations.Factory;
 
 import static com.epam.jditests.entities.User.DEFAULT_USER;
@@ -14,7 +14,7 @@ import static com.epam.jditests.pageobjects.EpamJDISite.contactFormPage;
 public class TextFieldTests extends InitTests {
 
     public static final String TEXT = DEFAULT_USER.name;
-    JFuncT<IElement> get = () -> contactFormPage.name;
+    JFuncT<Element> get = () -> contactFormPage.name;
     private Preconditions _onPage = CONTACT_PAGE_FILLED;
 
     @Factory

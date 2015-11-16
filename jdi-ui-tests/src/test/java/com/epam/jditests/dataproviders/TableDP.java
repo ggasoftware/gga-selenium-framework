@@ -1,9 +1,9 @@
 package com.epam.jditests.dataproviders;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Button;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Image;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Label;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Link;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Button;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Image;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Label;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Link;
 import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;

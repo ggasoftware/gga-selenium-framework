@@ -1,7 +1,7 @@
 package com.epam.jditests.pageobjects.sections;
 
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Section;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IImage;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Section;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IImage;
 import org.openqa.selenium.support.FindBy;
 
 /**

@@ -3,8 +3,8 @@ package com.epam.jditests.tests.common;
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.tests.common.utils.AttributeTests;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.IImage;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IImage;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 import static com.epam.jditests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.*;
 import static com.epam.jditests.tests.complex.CommonActionsData.checkText;
-import static com.ggasoftware.jdiuitests.core.settings.JDIData.testName;
+import static com.ggasoftware.jdiuitest.core.settings.JDIData.testName;
 
 /**
  * Created by Roman_Iovlev on 9/15/2015.
@@ -53,9 +53,8 @@ public class ImageTests extends InitTests {
 
     @Factory
     public Object[] factory() {
-        return new Object[]{new AttributeTests("testAttribute", "testValue", _onPage, () -> {
-            return (IElement) getImageHome();
-        })};
+        return new Object[]{
+                new AttributeTests("testAttribute", "testValue", _onPage, () -> (Element) getImageHome())};
     }
 
     @Test

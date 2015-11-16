@@ -2,22 +2,22 @@ package com.epam.career.page_objects.site.pages;
 
 import com.epam.career.page_objects.enums.JobListHeaders;
 import com.epam.career.page_objects.site.sections.JobFilter;
-import com.ggasoftware.jdiuitests.core.utils.map.MapArray;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Table;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ITable;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.composite.Page;
+import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Table;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ICell;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ITable;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import static com.epam.career.page_objects.enums.JobListHeaders.APPLY;
 import static com.epam.career.page_objects.enums.JobListHeaders.JOB_NAME;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Column.column;
 
 /**
  * Created by Roman_Iovlev on 10/22/2015.
  */
-public class JobListingPage extends Page {
+public class JobListingPage extends WebPage {
     @FindBy(className = "career-list-header")
     public JobFilter jobFilter;
 

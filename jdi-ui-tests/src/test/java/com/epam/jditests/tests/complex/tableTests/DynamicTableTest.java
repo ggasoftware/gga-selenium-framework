@@ -3,10 +3,10 @@ package com.epam.jditests.tests.complex.tableTests;
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.ColumnHeaders;
 import com.epam.jditests.pageobjects.composite.DynamicTable;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.base.Element;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.CheckBox;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.common.Link;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.interfaces.ICell;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.CheckBox;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Link;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ICell;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,10 +19,10 @@ import java.util.List;
 
 import static com.epam.jditests.enums.Preconditions.DYNAMIC_TABLE_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.*;
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.foreach;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Column.column;
-import static com.ggasoftware.jdiuitests.implementation.selenium.elements.complex.table.Row.row;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.*;
+import static com.ggasoftware.jdiuitest.core.utils.common.LinqUtils.foreach;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Column.column;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.Row.row;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.*;
 
 /**
  * Created by Natalia_Grebenshchik on 10/16/2015.

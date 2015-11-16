@@ -2,7 +2,7 @@ package com.epam.jditests.tests.complex;
 
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Nature;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.complex.ICheckList;
+import com.ggasoftware.jdiuitest.core.interfaces.complex.ICheckList;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,10 +17,10 @@ import static com.epam.jditests.enums.Nature.WATER;
 import static com.epam.jditests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jditests.pageobjects.EpamJDISite.*;
 import static com.epam.jditests.tests.complex.CommonActionsData.checkAction;
-import static com.ggasoftware.jdiuitests.core.settings.JDISettings.getDriver;
-import static com.ggasoftware.jdiuitests.core.utils.common.LinqUtils.first;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.Assert.*;
-import static com.ggasoftware.jdiuitests.implementation.testng.asserter.ScreenAssert.listEquals;
+import static com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings.getDriver;
+import static com.ggasoftware.jdiuitest.core.utils.common.LinqUtils.first;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.Assert.*;
+import static com.ggasoftware.jdiuitest.web.testng.asserter.ScreenAssert.listEquals;
 import static java.util.Arrays.asList;
 
 /**

@@ -3,10 +3,10 @@ package com.epam.jditests.tests.common;
 import com.epam.jditests.InitTests;
 import com.epam.jditests.enums.Preconditions;
 import com.epam.jditests.tests.common.utils.*;
-import com.ggasoftware.jdiuitests.core.utils.common.Timer;
-import com.ggasoftware.jdiuitests.core.utils.linqinterfaces.JFuncT;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.base.IElement;
-import com.ggasoftware.jdiuitests.implementation.selenium.elements.interfaces.common.ITextArea;
+import com.ggasoftware.jdiuitest.core.interfaces.common.ITextArea;
+import com.ggasoftware.jdiuitest.core.utils.common.Timer;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
@@ -20,7 +20,7 @@ import static com.epam.jditests.pageobjects.EpamJDISite.dates;
 import static com.epam.jditests.pageobjects.EpamJDISite.isInState;
 
 public class DatePickerTests extends InitTests {
-    JFuncT<IElement> get = () -> dates.datepicker;
+    JFuncT<Element> get = () -> dates.datepicker;
     private Preconditions _onPage = DATES_PAGE_FILLED;
 
     public ITextArea input() {
