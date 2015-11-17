@@ -32,25 +32,23 @@ public interface ITextList<TEnum extends Enum> extends IBaseElement, IHasValue, 
     @JDIAction
     String getText(TEnum enumName);
 
-    /**
-     * @return Returns strings count
-     */
+    /** @return Returns strings count */
     @JDIAction
     int count();
 
-    /**
-     * @return Wait while TextList’s text contains expected text. Returns Element’s text
-     */
+    /** @return Wait while TextList’s text contains expected text. Returns Element’s text */
     @JDIAction
     List<String> waitText(String str);
 
-
+    /** @return Return list of strings of TextList */
     @JDIAction
     List<String> getTextList();
 
+    /** @return Return first String in list */
     @JDIAction
     String getFirstText();
 
+    /** @return Return last String in list */
     @JDIAction
     String getLastText();
 }

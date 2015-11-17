@@ -7,15 +7,11 @@ import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
  * Created by Roman_Iovlev on 7/9/2015.
  */
 public interface ISelect extends IClickable, IText {
-    /**
-     * @return Selects Element. Similar to click()
-     */
+    /** Selects Element. Similar to click() */
     @JDIAction
     void select();
 
-    /**
-     * @return Checks is Element selected
-     */
+    /** @return Checks is Element selected */
     @JDIAction
     boolean isSelected();
 }

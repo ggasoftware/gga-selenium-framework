@@ -27,7 +27,7 @@ public interface IElement extends IBaseElement, IVisible {
     /**
      * @param attributeName Specify attribute name
      * @param value         Specify attribute value
-     * @return Sets attribute value for Element
+     * Sets attribute value for Element
      */
     @JDIAction
     void setAttribute(String attributeName, String value);

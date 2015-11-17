@@ -13,7 +13,7 @@ public interface ISearch extends ITextField, IComposite {
     /**
      * @param text        Specify Text to search
      * @param selectValue Specify value to choose from suggested search result
-     * @return Input text in search and then select value from suggestions
+     * Input text in search and then select value from suggestions
      */
     @JDIAction
     void chooseSuggestion(String text, String selectValue);
@@ -21,14 +21,14 @@ public interface ISearch extends ITextField, IComposite {
     /**
      * @param text        Specify Text to search
      * @param selectIndex Specify index to choose from suggested search result
-     * @return Input text in search and then select suggestions by index
+     * Input text in search and then select suggestions by index
      */
     @JDIAction
     void chooseSuggestion(String text, int selectIndex);
 
     /**
      * @param text Specify Text to search
-     * @return Input text in search field and press search button
+     * Input text in search field and press search button
      */
     @JDIAction
     void find(String text);

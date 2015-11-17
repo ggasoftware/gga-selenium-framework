@@ -8,33 +8,25 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.IComposite;
  * Created by Roman_Iovlev on 7/29/2015.
  */
 public interface IPagination extends IBaseElement, IComposite {
-    /**
-     * @return Choose Next page
-     */
+    /** Choose Next page */
     @JDIAction
     void next();
 
-    /**
-     * @return Choose Previous page
-     */
+    /** Choose Previous page */
     @JDIAction
     void previous();
 
-    /**
-     * @return Choose First page
-     */
+    /** hoose First page */
     @JDIAction
     void first();
 
-    /**
-     * @return Choose Last page
-     */
+    /** Choose Last page */
     @JDIAction
     void last();
 
     /**
      * @param index Specify page index
-     * @return Choose page by index
+     * Choose page by index
      */
     @JDIAction
     void selectPage(int index);

@@ -5,8 +5,6 @@ package com.ggasoftware.jdiuitest.core.interfaces.base;
  */
 public interface IBaseElement {
 
-    /**
-     * @return Get Element’s name
-     */
+    /** @return Get Element’s name */
     String getName();
 }

@@ -8,9 +8,7 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.IHasValue;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface IText extends IHasValue, IElement {
-    /**
-     * @return Get Element’s text
-     */
+    /** @return Get Element’s text */
     @JDIAction
     String getText();
 

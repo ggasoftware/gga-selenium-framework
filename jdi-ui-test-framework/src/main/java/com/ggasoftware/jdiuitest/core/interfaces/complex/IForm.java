@@ -11,72 +11,146 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.ISetValue;
 public interface IForm<T> extends IComposite, ISetValue, IElement {
     /**
      * @param entity Specify entity
-     * @return Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
      */
     @JDIAction
     void fill(T entity);
 
     /**
      * @param text Specify text
-     * @return Fill first setable field with value and click on Button “submit” <br>
-     * @apiNote To use this option Form pageObject should only have one IButton Element
+     * Fill first setable field with value and click on Button “submit” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element and only one IButton Element
      */
     @JDIAction
     void submit(String text);
 
+    /**
+     * @param text Specify text
+     * @param buttonName button name for form submiting
+     * Fill first setable field with value and click on Button “buttonName” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     void submit(String text, String buttonName);
 
+
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “login” or ”loginButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void login(String text) {
         submit(text, "login");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “add” or ”addButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void add(String text) {
         submit(text, "add");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “publish” or ”publishButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void publish(String text) {
         submit(text, "publish");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “save” or ”saveButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void save(String text) {
         submit(text, "save");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “update” or ”updateButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void update(String text) {
         submit(text, "update");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “cancel” or ”cancelButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void cancel(String text) {
         submit(text, "cancel");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “close” or ”closeButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void close(String text) {
         submit(text, "close");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “back” or ”backButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void back(String text) {
         submit(text, "back");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “select” or ”selectButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void select(String text) {
         submit(text, "select");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “next” or ”nextButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void next(String text) {
         submit(text, "next");
     }
 
+    /**
+     * @param text Specify text
+     * Fill first setable field with value and click on Button “search” or ”searchButton” <br>
+     * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
+     * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
+     */
     @JDIAction
     default void search(String text) {
         submit(text, "search");
@@ -84,62 +158,117 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
 
     /**
      * @param entity Specify entity
-     * @return Fill all SetValue elements and click on Button “submit” <br>
+     * Fill all SetValue elements and click on Button “submit” <br>
      * @apiNote To use this option Form pageObject should have only one IButton Element
      */
     @JDIAction
     void submit(T entity);
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “login” or ”loginButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void login(T entity) {
         submit(entity, "login");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “add” or ”addButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void add(T entity) {
         submit(entity, "add");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “publish” or ”publishButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void publish(T entity) {
         submit(entity, "publish");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “save” or ”saveButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void save(T entity) {
         submit(entity, "save");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “update” or ”updateButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void update(T entity) {
         submit(entity, "update");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “cancel” or ”cancelButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void cancel(T entity) {
         submit(entity, "cancel");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “close” or ”closeButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void close(T entity) {
         submit(entity, "close");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “back” or ”backButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void back(T entity) {
         submit(entity, "back");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “select” or ”selectButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void select(T entity) {
         submit(entity, "select");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “next” or ”nextButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void next(T entity) {
         submit(entity, "next");
     }
 
+    /**
+     * @param entity Specify entity
+     * Fill all SetValue elements and click on Button “search” or ”searchButton” <br>
+     * @apiNote To use this option Form pageObject should have only one IButton Element
+     */
     @JDIAction
     default void search(T entity) {
         submit(entity, "search");
@@ -148,7 +277,7 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     /**
      * @param buttonName Specify Button Name
      * @param entity     Specify entity
-     * @return Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
+     * Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
      * @apiNote To use this option Form pageObject should have button names in specific format <br>
      * e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>
      * * Letters case in button name  no matters
@@ -159,7 +288,7 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     /**
      * @param buttonName Specify Button Name
      * @param entity     Specify entity
-     * @return Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
+     * Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
      * @apiNote To use this option Form pageObject should have button names in specific format <br>
      * e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>
      * * Letters case in button name  no matters
