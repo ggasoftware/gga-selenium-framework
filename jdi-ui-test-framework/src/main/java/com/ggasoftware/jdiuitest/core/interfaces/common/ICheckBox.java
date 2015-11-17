@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitest.core.interfaces.common;
 
+import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IClickable;
 import com.ggasoftware.jdiuitest.core.interfaces.base.ISetValue;
-import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 
 /**
  * Created by Roman_Iovlev on 7/6/2015.

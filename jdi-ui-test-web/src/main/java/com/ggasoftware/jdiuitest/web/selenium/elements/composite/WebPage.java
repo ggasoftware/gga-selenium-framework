@@ -1,11 +1,11 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.composite;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings;
-import com.ggasoftware.jdiuitest.web.testng.asserter.Check;
+import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
+import com.ggasoftware.jdiuitest.core.interfaces.complex.IPage;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
-import com.ggasoftware.jdiuitest.core.interfaces.complex.IPage;
-import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
+import com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings;
+import com.ggasoftware.jdiuitest.web.testng.asserter.Check;
 import org.openqa.selenium.Cookie;
 
 import static com.ggasoftware.jdiuitest.core.settings.JDISettings.*;

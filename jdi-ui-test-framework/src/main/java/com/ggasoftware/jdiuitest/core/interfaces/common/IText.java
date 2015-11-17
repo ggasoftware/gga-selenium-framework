@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitest.core.interfaces.common;
 
+import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IElement;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IHasValue;
-import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 
 /**
  * Created by Roman_Iovlev on 6/10/2015.

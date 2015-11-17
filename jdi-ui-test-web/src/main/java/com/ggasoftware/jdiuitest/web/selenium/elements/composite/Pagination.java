@@ -1,12 +1,12 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.composite;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.Clickable;
 import com.ggasoftware.jdiuitest.core.annotations.AnnotationsUtil;
+import com.ggasoftware.jdiuitest.core.interfaces.base.IClickable;
+import com.ggasoftware.jdiuitest.core.interfaces.complex.IPagination;
 import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitest.core.utils.common.ReflectionUtils;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
-import com.ggasoftware.jdiuitest.core.interfaces.base.IClickable;
-import com.ggasoftware.jdiuitest.core.interfaces.complex.IPagination;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Clickable;
 import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;
@@ -17,7 +17,6 @@ import java.util.List;
 import static com.ggasoftware.jdiuitest.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitest.core.utils.common.LinqUtils.select;
 import static com.ggasoftware.jdiuitest.web.selenium.driver.WebDriverByUtils.fillByTemplate;
-import static com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.getElementName;
 import static java.lang.String.format;
 
 /**

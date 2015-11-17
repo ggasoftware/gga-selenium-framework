@@ -1,12 +1,12 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations;
 
+import com.ggasoftware.jdiuitest.core.annotations.functions.Functions;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
 import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitest.web.selenium.elements.common.Button;
 import com.ggasoftware.jdiuitest.web.selenium.elements.common.Text;
-import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
-import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
-import com.ggasoftware.jdiuitest.core.annotations.functions.Functions;
 
 import java.lang.reflect.Field;
 import java.util.Collection;

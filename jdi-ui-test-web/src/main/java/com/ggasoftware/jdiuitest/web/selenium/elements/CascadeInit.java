@@ -1,14 +1,14 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
-import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil;
-import com.ggasoftware.jdiuitest.core.utils.pairs.Pairs;
-import com.ggasoftware.jdiuitest.web.selenium.elements.apiInteract.ContextType;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IBaseElement;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IComposite;
+import com.ggasoftware.jdiuitest.core.utils.pairs.Pairs;
+import com.ggasoftware.jdiuitest.web.selenium.elements.apiInteract.ContextType;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
 import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.Frame;
 import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.JFindBy;
 import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.JPage;
+import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 

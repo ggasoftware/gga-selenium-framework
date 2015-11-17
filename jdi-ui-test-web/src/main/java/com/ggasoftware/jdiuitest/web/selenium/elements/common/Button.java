@@ -15,8 +15,8 @@
  */
 package com.ggasoftware.jdiuitest.web.selenium.elements.common;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.ClickableText;
 import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.ClickableText;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

@@ -1,9 +1,9 @@
 package com.ggasoftware.jdiuitest.core.interfaces.complex;
 
-import com.ggasoftware.jdiuitest.core.utils.common.PrintUtils;
+import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IBaseElement;
 import com.ggasoftware.jdiuitest.core.interfaces.base.ISetValue;
-import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
+import com.ggasoftware.jdiuitest.core.utils.common.PrintUtils;
 
 import java.util.List;
 

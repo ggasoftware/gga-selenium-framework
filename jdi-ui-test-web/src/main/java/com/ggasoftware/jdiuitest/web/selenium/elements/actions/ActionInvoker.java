@@ -1,12 +1,12 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.actions;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import com.ggasoftware.jdiuitest.core.logger.base.LogSettings;
 import com.ggasoftware.jdiuitest.core.settings.JDISettings;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JAction;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 
 import static com.ggasoftware.jdiuitest.core.settings.JDISettings.exception;
 import static com.ggasoftware.jdiuitest.core.utils.common.ReflectionUtils.isClass;

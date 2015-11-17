@@ -5,10 +5,10 @@ import com.epam.career.page_objects.site.pages.CareerPage;
 import com.epam.career.page_objects.site.pages.HomePage;
 import com.epam.career.page_objects.site.pages.JobDescriptionPage;
 import com.epam.career.page_objects.site.pages.JobListingPage;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.Menu;
 import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Site;
 import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.JPage;
 import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.JSite;
-import com.ggasoftware.jdiuitest.web.selenium.elements.complex.Menu;
 import org.openqa.selenium.support.FindBy;
 
 import static com.ggasoftware.jdiuitest.web.selenium.elements.composite.CheckPageTypes.CONTAIN;

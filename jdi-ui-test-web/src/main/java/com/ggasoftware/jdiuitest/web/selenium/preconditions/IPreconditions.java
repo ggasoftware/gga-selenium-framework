@@ -1,10 +1,10 @@
 package com.ggasoftware.jdiuitest.web.selenium.preconditions;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings;
-import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
 import com.ggasoftware.jdiuitest.core.utils.common.Timer;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JAction;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
 
 import static com.ggasoftware.jdiuitest.core.settings.JDISettings.domain;
 

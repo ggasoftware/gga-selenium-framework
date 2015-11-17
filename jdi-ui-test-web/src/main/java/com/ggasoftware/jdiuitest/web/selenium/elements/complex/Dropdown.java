@@ -15,11 +15,11 @@
  */
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex;
 
+import com.ggasoftware.jdiuitest.core.interfaces.complex.IDropDown;
+import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitest.web.selenium.elements.GetElementType;
 import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
-import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitest.web.selenium.elements.common.Label;
-import com.ggasoftware.jdiuitest.core.interfaces.complex.IDropDown;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;

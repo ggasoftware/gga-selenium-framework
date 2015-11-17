@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitest.core.interfaces.base.ISelect;
+import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
 
 /**
  * Created by Roman_Iovlev on 7/28/2015.

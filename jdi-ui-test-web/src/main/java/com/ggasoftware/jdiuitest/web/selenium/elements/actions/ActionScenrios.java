@@ -1,7 +1,6 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.actions;
 
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitest.core.logger.base.LogSettings;
 import com.ggasoftware.jdiuitest.core.reporting.PerformanceStatistic;
 import com.ggasoftware.jdiuitest.core.settings.JDISettings;
@@ -9,6 +8,7 @@ import com.ggasoftware.jdiuitest.core.utils.common.Timer;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JAction;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncTT;
+import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
 
 import static com.ggasoftware.jdiuitest.core.settings.JDISettings.timeouts;
 import static java.lang.String.format;

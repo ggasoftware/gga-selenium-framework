@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitest.core.interfaces.complex;
 
+import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IComposite;
 import com.ggasoftware.jdiuitest.core.interfaces.common.ITextField;
-import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 
 import java.util.List;
 

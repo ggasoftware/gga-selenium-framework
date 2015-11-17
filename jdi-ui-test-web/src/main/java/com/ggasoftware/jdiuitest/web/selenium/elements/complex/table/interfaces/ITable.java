@@ -1,9 +1,9 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
-import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
 import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
+import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
+import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.*;
 
 import java.util.List;

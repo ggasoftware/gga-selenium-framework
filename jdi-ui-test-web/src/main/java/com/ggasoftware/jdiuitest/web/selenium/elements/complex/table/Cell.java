@@ -1,13 +1,13 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex.table;
 
+import com.ggasoftware.jdiuitest.core.interfaces.base.ISelect;
+import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
+import com.ggasoftware.jdiuitest.web.selenium.driver.WebDriverByUtils;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitest.web.selenium.elements.MapInterfaceToElement;
 import com.ggasoftware.jdiuitest.web.selenium.elements.apiInteract.ContextType;
 import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
 import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
-import com.ggasoftware.jdiuitest.web.selenium.driver.WebDriverByUtils;
-import com.ggasoftware.jdiuitest.core.interfaces.base.ISelect;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

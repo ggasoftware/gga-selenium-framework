@@ -15,9 +15,9 @@
  */
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex;
 
+import com.ggasoftware.jdiuitest.core.interfaces.complex.IComboBox;
 import com.ggasoftware.jdiuitest.web.selenium.elements.GetElementType;
 import com.ggasoftware.jdiuitest.web.selenium.elements.common.TextField;
-import com.ggasoftware.jdiuitest.core.interfaces.complex.IComboBox;
 import org.openqa.selenium.By;
 
 /**

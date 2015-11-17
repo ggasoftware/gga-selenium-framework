@@ -16,6 +16,7 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.base;
 
 import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
+import com.ggasoftware.jdiuitest.core.interfaces.base.IElement;
 import com.ggasoftware.jdiuitest.core.logger.base.LogSettings;
 import com.ggasoftware.jdiuitest.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdiuitest.core.logger.enums.LogLevels;
@@ -24,7 +25,6 @@ import com.ggasoftware.jdiuitest.core.settings.JDISettings;
 import com.ggasoftware.jdiuitest.core.utils.common.Timer;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
-import com.ggasoftware.jdiuitest.core.interfaces.base.IElement;
 import com.ggasoftware.jdiuitest.web.selenium.elements.WebSettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;

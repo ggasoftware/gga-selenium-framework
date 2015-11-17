@@ -1,11 +1,11 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.composite;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.Clickable;
-import com.ggasoftware.jdiuitest.web.selenium.elements.complex.TextList;
-import com.ggasoftware.jdiuitest.web.selenium.elements.common.TextField;
 import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
 import com.ggasoftware.jdiuitest.core.interfaces.common.ITextField;
 import com.ggasoftware.jdiuitest.core.interfaces.complex.ISearch;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Clickable;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.TextField;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.TextList;
 import org.openqa.selenium.By;
 
 import java.lang.reflect.Field;

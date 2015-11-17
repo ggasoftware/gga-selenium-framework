@@ -1,16 +1,16 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.composite;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
-import com.ggasoftware.jdiuitest.web.selenium.elements.common.Button;
-import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.GetElement;
 import com.ggasoftware.jdiuitest.core.annotations.AnnotationsUtil;
-import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
-import com.ggasoftware.jdiuitest.core.utils.common.PrintUtils;
-import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IHasValue;
 import com.ggasoftware.jdiuitest.core.interfaces.base.ISetValue;
 import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
 import com.ggasoftware.jdiuitest.core.interfaces.complex.IForm;
+import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
+import com.ggasoftware.jdiuitest.core.utils.common.PrintUtils;
+import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Button;
+import com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.GetElement;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,7 +23,6 @@ import static com.ggasoftware.jdiuitest.core.utils.common.PrintUtils.print;
 import static com.ggasoftware.jdiuitest.core.utils.common.ReflectionUtils.getFields;
 import static com.ggasoftware.jdiuitest.core.utils.common.ReflectionUtils.getValueField;
 import static com.ggasoftware.jdiuitest.core.utils.common.StringUtils.LINE_BREAK;
-import static com.ggasoftware.jdiuitest.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.getElementName;
 import static java.lang.String.format;
 
 /**

@@ -1,14 +1,14 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex.table;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdiuitest.web.selenium.elements.common.Text;
-import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ITable;
 import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitest.core.utils.common.StringUtils;
 import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitest.core.utils.pairs.Pair;
 import com.ggasoftware.jdiuitest.web.selenium.elements.apiInteract.GetElementModule;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Text;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ICell;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ITable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

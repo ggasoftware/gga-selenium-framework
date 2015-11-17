@@ -4,10 +4,10 @@ import com.epam.career.page_objects.entities.JobSearchFilter;
 import com.epam.career.page_objects.enums.JobCategories;
 import com.epam.career.page_objects.enums.Locations;
 import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
-import com.ggasoftware.jdiuitest.web.selenium.elements.complex.Dropdown;
-import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Form;
 import com.ggasoftware.jdiuitest.core.interfaces.common.ITextField;
 import com.ggasoftware.jdiuitest.core.interfaces.complex.IDropDown;
+import com.ggasoftware.jdiuitest.web.selenium.elements.complex.Dropdown;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Form;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 

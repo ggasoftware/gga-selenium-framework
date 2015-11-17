@@ -1,7 +1,7 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex;
 
-import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitest.core.interfaces.complex.ISelector;
+import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

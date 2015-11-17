@@ -1,9 +1,9 @@
 package com.epam.career.page_objects.site.pages;
 
 import com.epam.career.page_objects.site.sections.AddCVForm;
-import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IElement;
 import com.ggasoftware.jdiuitest.core.interfaces.common.IButton;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
 import org.openqa.selenium.support.FindBy;
 
 /**

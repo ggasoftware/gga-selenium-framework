@@ -1,7 +1,7 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.composite;
 
-import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitest.core.interfaces.complex.IPopup;
+import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 
 import static com.ggasoftware.jdiuitest.core.annotations.functions.Functions.*;
 import static java.lang.String.format;

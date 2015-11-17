@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces;
 
+import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitest.web.selenium.elements.base.SelectElement;
-import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 
 /**
  * Created by Roman_Iovlev on 7/28/2015.

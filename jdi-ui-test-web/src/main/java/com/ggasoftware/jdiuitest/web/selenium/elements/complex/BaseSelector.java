@@ -1,11 +1,11 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex;
 
+import com.ggasoftware.jdiuitest.core.interfaces.base.IVisible;
 import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
 import com.ggasoftware.jdiuitest.web.selenium.elements.GetElementType;
 import com.ggasoftware.jdiuitest.web.selenium.elements.base.Clickable;
 import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
-import com.ggasoftware.jdiuitest.core.interfaces.base.IVisible;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;

@@ -15,7 +15,8 @@ import ru.yandex.qatools.allure.annotations.Step;
 import java.lang.reflect.Method;
 
 import static com.ggasoftware.jdiuitest.core.settings.JDIData.testName;
-import static com.ggasoftware.jdiuitest.core.settings.JDISettings.*;
+import static com.ggasoftware.jdiuitest.core.settings.JDISettings.asserter;
+import static com.ggasoftware.jdiuitest.core.settings.JDISettings.logger;
 import static java.lang.String.format;
 
 /**

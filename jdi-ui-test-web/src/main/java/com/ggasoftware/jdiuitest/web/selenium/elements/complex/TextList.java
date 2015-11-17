@@ -1,5 +1,6 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex;
 
+import com.ggasoftware.jdiuitest.core.interfaces.complex.ITextList;
 import com.ggasoftware.jdiuitest.core.logger.base.LogSettings;
 import com.ggasoftware.jdiuitest.core.logger.enums.LogInfoTypes;
 import com.ggasoftware.jdiuitest.core.logger.enums.LogLevels;
@@ -7,7 +8,6 @@ import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitest.core.utils.common.PrintUtils;
 import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
-import com.ggasoftware.jdiuitest.core.interfaces.complex.ITextList;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.composite;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.common.Text;
-import com.ggasoftware.jdiuitest.core.interfaces.complex.IPopup;
 import com.ggasoftware.jdiuitest.core.annotations.functions.Functions;
+import com.ggasoftware.jdiuitest.core.interfaces.complex.IPopup;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.Text;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.

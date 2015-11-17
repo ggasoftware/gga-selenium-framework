@@ -1,8 +1,8 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex.table;
 
+import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
 import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ICell;
-import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

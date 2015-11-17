@@ -1,11 +1,11 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex;
 
+import com.ggasoftware.jdiuitest.core.interfaces.base.IMultiSelector;
 import com.ggasoftware.jdiuitest.core.utils.common.EnumUtils;
 import com.ggasoftware.jdiuitest.core.utils.common.LinqUtils;
 import com.ggasoftware.jdiuitest.core.utils.common.PrintUtils;
 import com.ggasoftware.jdiuitest.web.selenium.driver.WebDriverByUtils;
 import com.ggasoftware.jdiuitest.web.selenium.elements.apiInteract.GetElementModule;
-import com.ggasoftware.jdiuitest.core.interfaces.base.IMultiSelector;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

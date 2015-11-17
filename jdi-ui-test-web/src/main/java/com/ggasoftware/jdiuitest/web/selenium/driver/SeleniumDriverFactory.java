@@ -1,13 +1,13 @@
 package com.ggasoftware.jdiuitest.web.selenium.driver;
 
+import com.ggasoftware.jdiuitest.core.interfaces.base.IElement;
 import com.ggasoftware.jdiuitest.core.interfaces.settings.IDriver;
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import com.ggasoftware.jdiuitest.core.settings.HighlightSettings;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncTT;
 import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
-import com.ggasoftware.jdiuitest.core.interfaces.base.IElement;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

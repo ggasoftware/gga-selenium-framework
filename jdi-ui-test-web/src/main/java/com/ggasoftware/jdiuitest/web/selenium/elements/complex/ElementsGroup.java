@@ -1,10 +1,10 @@
 package com.ggasoftware.jdiuitest.web.selenium.elements.complex;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.CascadeInit;
-import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
+import com.ggasoftware.jdiuitest.core.interfaces.complex.IGroup;
 import com.ggasoftware.jdiuitest.web.selenium.driver.WebDriverByUtils;
 import com.ggasoftware.jdiuitest.web.selenium.elements.BaseElement;
-import com.ggasoftware.jdiuitest.core.interfaces.complex.IGroup;
+import com.ggasoftware.jdiuitest.web.selenium.elements.CascadeInit;
+import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
 import org.openqa.selenium.By;
 
 import static com.ggasoftware.jdiuitest.core.settings.JDISettings.exception;

@@ -1,10 +1,10 @@
 package com.epam.jditests.pageobjects.pages;
 
+import com.ggasoftware.jdiuitest.core.interfaces.complex.ISelector;
 import com.ggasoftware.jdiuitest.web.selenium.elements.common.TextField;
 import com.ggasoftware.jdiuitest.web.selenium.elements.complex.table.interfaces.ITable;
-import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
 import com.ggasoftware.jdiuitest.web.selenium.elements.composite.Pagination;
-import com.ggasoftware.jdiuitest.core.interfaces.complex.ISelector;
+import com.ggasoftware.jdiuitest.web.selenium.elements.composite.WebPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 

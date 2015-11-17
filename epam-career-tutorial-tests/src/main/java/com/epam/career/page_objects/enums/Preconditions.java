@@ -4,7 +4,8 @@ import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JAction;
 import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncT;
 import com.ggasoftware.jdiuitest.web.selenium.preconditions.IPreconditions;
 
-import static com.ggasoftware.jdiuitest.web.selenium.preconditions.IPreconditions.*;
+import static com.ggasoftware.jdiuitest.web.selenium.preconditions.IPreconditions.checkUrl;
+import static com.ggasoftware.jdiuitest.web.selenium.preconditions.IPreconditions.openUri;
 import static com.ggasoftware.jdiuitest.web.selenium.preconditions.PreconditionsState.alwaysMoveToCondition;
 
 /**

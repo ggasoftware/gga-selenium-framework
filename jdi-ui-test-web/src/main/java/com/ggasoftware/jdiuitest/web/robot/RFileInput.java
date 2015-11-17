@@ -15,8 +15,8 @@
  */
 package com.ggasoftware.jdiuitest.web.robot;
 
-import com.ggasoftware.jdiuitest.web.selenium.elements.common.FileInput;
 import com.ggasoftware.jdiuitest.core.interfaces.common.ITextField;
+import com.ggasoftware.jdiuitest.web.selenium.elements.common.FileInput;
 import org.openqa.selenium.By;
 
 import static com.ggasoftware.jdiuitest.web.robot.RobotF.robot;
