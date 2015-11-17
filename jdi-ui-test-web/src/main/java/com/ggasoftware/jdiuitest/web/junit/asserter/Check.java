@@ -41,4 +41,3 @@ public class Check extends BaseChecker {
         return Assert::fail;
     }
 }
-

@@ -174,4 +174,3 @@ public class DropList<TEnum extends Enum> extends MultiSelector<TEnum> implement
         return button().waitAttribute(name, value);
     }
 }
-

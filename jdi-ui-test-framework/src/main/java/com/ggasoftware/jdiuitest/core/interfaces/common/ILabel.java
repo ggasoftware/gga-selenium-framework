@@ -24,4 +24,3 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.IClickable;
  */
 public interface ILabel extends IClickable, IText {
 }
-

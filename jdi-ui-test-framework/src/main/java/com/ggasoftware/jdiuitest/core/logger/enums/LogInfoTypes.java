@@ -31,4 +31,3 @@ public enum LogInfoTypes {
         this.type = flag;
     }
 }
-

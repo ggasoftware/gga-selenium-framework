@@ -26,4 +26,3 @@ public class PairString extends Pair<String, String> {
         super(value1, value2);
     }
 }
-

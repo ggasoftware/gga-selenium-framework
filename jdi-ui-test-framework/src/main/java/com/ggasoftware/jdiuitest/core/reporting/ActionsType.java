@@ -23,4 +23,3 @@ package com.ggasoftware.jdiuitest.core.reporting;
 public enum ActionsType {
     JDI_ACTION
 }
-

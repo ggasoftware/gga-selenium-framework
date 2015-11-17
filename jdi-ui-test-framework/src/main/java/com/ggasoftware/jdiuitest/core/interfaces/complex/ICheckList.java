@@ -25,4 +25,3 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.IMultiSelector;
 public interface ICheckList<TEnum extends Enum> extends IMultiSelector<TEnum> {
 
 }
-

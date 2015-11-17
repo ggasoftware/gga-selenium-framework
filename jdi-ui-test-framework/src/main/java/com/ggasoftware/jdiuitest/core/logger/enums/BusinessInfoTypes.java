@@ -26,4 +26,3 @@ public enum BusinessInfoTypes {
     TEST,
     STEP
 }
-

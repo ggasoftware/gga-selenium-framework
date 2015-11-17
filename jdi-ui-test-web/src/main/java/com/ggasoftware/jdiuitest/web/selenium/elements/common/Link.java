@@ -84,4 +84,3 @@ public class Link extends ClickableText implements ILink {
         return invoker.doJActionResult("Get link tooltip", this::getTooltipAction, href -> "Get link tooltip '" + href + "'");
     }
 }
-

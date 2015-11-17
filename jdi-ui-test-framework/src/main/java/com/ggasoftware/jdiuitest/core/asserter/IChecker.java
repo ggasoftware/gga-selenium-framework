@@ -162,4 +162,3 @@ public interface IChecker {
 
     <T> BaseChecker.ListChecker eachElementOf(T[] array);
 }
-

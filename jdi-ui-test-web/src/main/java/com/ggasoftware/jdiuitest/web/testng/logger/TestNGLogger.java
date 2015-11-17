@@ -55,4 +55,3 @@ public class TestNGLogger extends AbstractLogger {
         log(format("%s %s~ %s", typesMap.get(BUSINESS), Timer.nowTime(), format("[%s] %s", infoType, message)));
     }
 }
-

@@ -101,6 +101,7 @@ public class ListLogger implements ILogger {
         }
         return logLevel;
     }
+
     public void inLog(String message, LogLevels logLevel, LogInfoTypes logInfoType) {
         for (ILogger logger : loggers)
             logger.inLog(message, logLevel, logInfoType);
@@ -111,4 +112,3 @@ public class ListLogger implements ILogger {
             logger.inLog(message, infoType);
     }
 }
-

@@ -87,7 +87,7 @@ public class Element extends BaseElement implements IElement {
     }
 
     /**
-     * @returns Specified Selenium Element for this Element
+     * Specified Selenium Element for this Element
      */
     @JDIAction
     public WebElement getWebElement() {
@@ -255,4 +255,3 @@ public class Element extends BaseElement implements IElement {
     }
 
 }
-

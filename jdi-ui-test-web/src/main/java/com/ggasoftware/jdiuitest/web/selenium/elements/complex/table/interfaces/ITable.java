@@ -260,4 +260,3 @@ public interface ITable extends IText {
 
     Table copy();
 }
-

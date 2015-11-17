@@ -25,4 +25,3 @@ import com.ggasoftware.jdiuitest.core.interfaces.common.ITextField;
 public interface IComboBox<TEnum extends Enum> extends IDropDown<TEnum>, ITextField {
 
 }
-

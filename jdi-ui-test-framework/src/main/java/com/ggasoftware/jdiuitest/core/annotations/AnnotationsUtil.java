@@ -28,7 +28,9 @@ import java.lang.reflect.Field;
  * Created by roman.i on 25.09.2014.
  */
 public class AnnotationsUtil {
-    protected AnnotationsUtil() {}
+    protected AnnotationsUtil() {
+    }
+
     public static <T> String getElementName(T clazz) {
         Class<T> cl = (Class<T>) clazz.getClass();
         if (cl.isAnnotationPresent(Name.class)) {
@@ -68,4 +70,3 @@ public class AnnotationsUtil {
     }
 
 }
-

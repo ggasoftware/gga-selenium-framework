@@ -37,4 +37,3 @@ public class DatePicker extends TextField implements IDatePicker {
         super(webElement);
     }
 }
-

@@ -164,4 +164,3 @@ abstract class TableLine extends Element implements ITableLine, Cloneable {
         return get().toMapArray(line -> line.toMapArray(IText::getText));
     }
 }
-

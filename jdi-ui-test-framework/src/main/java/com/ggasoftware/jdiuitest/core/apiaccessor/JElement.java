@@ -33,4 +33,3 @@ public interface JElement {
 
     boolean isDisplayed();                  // Available to interact
 }
-

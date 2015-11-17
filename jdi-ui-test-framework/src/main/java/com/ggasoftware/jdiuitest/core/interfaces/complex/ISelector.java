@@ -30,21 +30,21 @@ import java.util.List;
 public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     /**
      * @param name Specify name using string
-     * Select Element with name (use text) from list
+     *             Select Element with name (use text) from list
      */
     @JDIAction
     void select(String name);
 
     /**
      * @param name Specify name using enum
-     * Select Element with name (use enum) from list
+     *             Select Element with name (use enum) from list
      */
     @JDIAction
     void select(TEnum name);
 
     /**
      * @param index Specify digit to select
-     * Select Element with name (use index) from list
+     *              Select Element with name (use index) from list
      */
     @JDIAction
     void select(int index);
@@ -89,7 +89,9 @@ public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
     @JDIAction
     boolean waitSelected(TEnum name);
 
-    /** @return Get labels of all options */
+    /**
+     * @return Get labels of all options
+     */
     @JDIAction
     List<String> getOptions();
 
@@ -101,10 +103,11 @@ public interface ISelector<TEnum extends Enum> extends IBaseElement, ISetValue {
         return getOptions();
     }
 
-    /** @return Get all options labels in one string separated with “; ” */
+    /**
+     * @return Get all options labels in one string separated with “; ”
+     */
     @JDIAction
     default String getOptionsAsText() {
         return PrintUtils.print(getOptions());
     }
 }
-

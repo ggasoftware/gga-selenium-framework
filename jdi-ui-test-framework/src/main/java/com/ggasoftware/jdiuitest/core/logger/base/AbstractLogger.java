@@ -39,9 +39,6 @@ public abstract class AbstractLogger implements ILogger {
     public AbstractLogger() {
         this(INFO);
     }
-    public void setLogLevels(LogLevels logLevels) {
-        logSettings.logLevels = logLevels;
-    }
 
     public AbstractLogger(LogLevels logLevel) {
         this(new LogSettings(logLevel));
@@ -49,6 +46,10 @@ public abstract class AbstractLogger implements ILogger {
 
     public AbstractLogger(LogSettings logSettings) {
         this.logSettings = logSettings;
+    }
+
+    public void setLogLevels(LogLevels logLevels) {
+        logSettings.logLevels = logLevels;
     }
 
     public void init(String message, Object... args) {
@@ -150,7 +151,8 @@ public abstract class AbstractLogger implements ILogger {
             case DEBUG:
                 debug(message, args);
                 break;
-            default: error(TECHNICAL, "Unknown logging type: " + settings.logLevels.toString());
+            default:
+                error(TECHNICAL, "Unknown logging type: " + settings.logLevels.toString());
         }
     }
 
@@ -175,4 +177,3 @@ public abstract class AbstractLogger implements ILogger {
         }
     }
 }
-

@@ -227,4 +227,3 @@ public abstract class BaseElement implements IBaseElement {
                 getName(), getTypeName(), getParentName(), getVarName(), avatar);
     }
 }
-

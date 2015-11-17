@@ -86,4 +86,3 @@ public class GetElement {
         return (Text) getValueField(textField, element);
     }
 }
-

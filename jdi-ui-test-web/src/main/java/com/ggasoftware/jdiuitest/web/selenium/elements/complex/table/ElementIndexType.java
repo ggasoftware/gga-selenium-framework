@@ -25,4 +25,3 @@ enum ElementIndexType {
     Nums,
     Names
 }
-

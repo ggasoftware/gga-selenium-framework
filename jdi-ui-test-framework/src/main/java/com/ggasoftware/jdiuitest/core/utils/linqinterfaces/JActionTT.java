@@ -23,4 +23,3 @@ package com.ggasoftware.jdiuitest.core.utils.linqinterfaces;
 public interface JActionTT<T1, T2> {
     void invoke(T1 val1, T2 val2) throws RuntimeException;
 }
-

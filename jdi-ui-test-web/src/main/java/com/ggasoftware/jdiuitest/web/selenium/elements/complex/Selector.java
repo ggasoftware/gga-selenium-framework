@@ -116,4 +116,3 @@ public class Selector<TEnum extends Enum> extends BaseSelector<TEnum> implements
         return index;
     }
 }
-

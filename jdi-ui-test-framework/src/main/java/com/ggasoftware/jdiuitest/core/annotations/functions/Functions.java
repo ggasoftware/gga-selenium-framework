@@ -32,4 +32,3 @@ public enum Functions {
         this.name = name;
     }
 }
-

@@ -100,4 +100,3 @@ public class TextField extends Text implements ITextField {
     }
 
 }
-

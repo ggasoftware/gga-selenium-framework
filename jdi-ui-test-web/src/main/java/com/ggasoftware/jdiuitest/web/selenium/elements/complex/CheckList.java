@@ -55,4 +55,3 @@ public class CheckList<TEnum extends Enum> extends MultiSelector<TEnum> implemen
         super(optionsNamesLocator, allOptionsNamesLocator);
     }
 }
-

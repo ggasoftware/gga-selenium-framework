@@ -62,4 +62,3 @@ public class Text extends Element implements IText {
         return actions.waitMatchText(regEx, this::getTextAction);
     }
 }
-

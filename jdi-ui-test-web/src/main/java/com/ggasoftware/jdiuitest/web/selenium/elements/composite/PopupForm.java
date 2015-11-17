@@ -64,4 +64,3 @@ public class PopupForm<T> extends Form<T> implements IPopup {
                 () -> timer().getResultByCondition(this::getTextAction, t -> t.matches(regEx)));
     }
 }
-

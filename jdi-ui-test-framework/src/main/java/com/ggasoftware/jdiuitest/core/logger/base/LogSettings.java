@@ -31,13 +31,7 @@ import static com.ggasoftware.jdiuitest.core.logger.enums.LogInfoTypes.*;
 public class LogSettings {
     public LogLevels logLevels;
     private int logInfoTypes;
-    public int getLogInfoTypes() {
-        return logInfoTypes;
-    }
     private LogInfoTypes logInfoType;
-    public LogInfoTypes getLogInfoType() {
-        return logInfoType;
-    }
 
     public LogSettings() {
         this(LogLevels.INFO);
@@ -57,6 +51,14 @@ public class LogSettings {
         }
     }
 
+    public int getLogInfoTypes() {
+        return logInfoTypes;
+    }
+
+    public LogInfoTypes getLogInfoType() {
+        return logInfoType;
+    }
+
     private void setLogSettings(LogInfoTypes[] logInfoTypes) {
         List<LogInfoTypes> usedTypes = new ArrayList<>();
         this.logInfoTypes = 0;
@@ -67,4 +69,3 @@ public class LogSettings {
             }
     }
 }
-

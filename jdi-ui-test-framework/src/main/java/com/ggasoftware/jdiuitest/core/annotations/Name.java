@@ -30,4 +30,3 @@ import java.lang.annotation.Target;
 public @interface Name {
     String value() default "";
 }
-

@@ -45,4 +45,3 @@ public @interface Frame {
 
     String xpath() default "";
 }
-

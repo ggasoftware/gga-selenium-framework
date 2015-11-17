@@ -105,4 +105,3 @@ public class WebElementAvatar implements JElement, WebElement {
         return null;
     }
 }
-

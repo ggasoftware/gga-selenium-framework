@@ -355,4 +355,3 @@ public class ScreenAssert {
         getAssert().arrayEquals(actual, expected);
     }
 }
-

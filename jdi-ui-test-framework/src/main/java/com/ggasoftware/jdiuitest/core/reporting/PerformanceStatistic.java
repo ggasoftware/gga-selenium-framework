@@ -28,9 +28,10 @@ import static com.ggasoftware.jdiuitest.core.utils.common.CalculationUtils.avera
  * Created by Roman_Iovlev on 7/26/2015.
  */
 public class PerformanceStatistic {
+    private static MapArray<ActionsType, List<Long>> statistic = new MapArray<>();
+
     private PerformanceStatistic() {
     }
-    private static MapArray<ActionsType, List<Long>> statistic = new MapArray<>();
 
     public static void addStatistic(long time) {
         addStatistic(JDI_ACTION, time);
@@ -46,4 +47,3 @@ public class PerformanceStatistic {
     }
 
 }
-

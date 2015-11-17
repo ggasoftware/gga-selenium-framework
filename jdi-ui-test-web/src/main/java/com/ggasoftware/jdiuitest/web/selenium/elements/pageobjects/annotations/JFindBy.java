@@ -47,4 +47,3 @@ public @interface JFindBy {
 
     String group();
 }
-

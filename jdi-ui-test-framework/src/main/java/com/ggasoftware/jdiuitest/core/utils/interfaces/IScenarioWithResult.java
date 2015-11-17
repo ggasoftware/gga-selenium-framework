@@ -29,4 +29,3 @@ public interface IScenarioWithResult {
     <TResult> TResult invoke(
             IBaseElement element, String actionName, JFuncT<TResult> viAction, JFuncTT<TResult, String> logResult, LogSettings logSettings);
 }
-

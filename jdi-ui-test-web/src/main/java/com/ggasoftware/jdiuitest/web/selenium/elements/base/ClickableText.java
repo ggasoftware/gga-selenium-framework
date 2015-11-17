@@ -76,4 +76,3 @@ public class ClickableText extends Clickable implements IHasValue, IClickable, I
         return actions.waitMatchText(regEx, this::getTextAction);
     }
 }
-

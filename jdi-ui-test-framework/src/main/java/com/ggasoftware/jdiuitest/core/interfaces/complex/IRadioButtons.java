@@ -22,4 +22,3 @@ package com.ggasoftware.jdiuitest.core.interfaces.complex;
  */
 public interface IRadioButtons<TEnum extends Enum> extends ISelector<TEnum> {
 }
-

@@ -116,4 +116,3 @@ public class Columns extends TableLine {
         return new MapArray<>(headers(), key -> key, value -> table.rows().getColumn(value));
     }
 }
-

@@ -176,4 +176,3 @@ public class TextList<TEnum extends Enum> extends BaseElement implements ITextLi
                 : null;
     }
 }
-

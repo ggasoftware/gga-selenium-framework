@@ -25,4 +25,3 @@ public enum RunTypes {
     LOCAL,
     SAUCE_LAB
 }
-

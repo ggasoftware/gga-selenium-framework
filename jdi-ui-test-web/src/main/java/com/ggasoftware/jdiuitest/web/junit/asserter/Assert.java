@@ -367,4 +367,3 @@ public class Assert {
         getAssert().arrayEquals(actual, expected);
     }
 }
-

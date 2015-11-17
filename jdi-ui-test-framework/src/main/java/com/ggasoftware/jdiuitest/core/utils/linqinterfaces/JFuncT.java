@@ -23,4 +23,3 @@ package com.ggasoftware.jdiuitest.core.utils.linqinterfaces;
 public interface JFuncT<TResult> {
     TResult invoke() throws RuntimeException;
 }
-

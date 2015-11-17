@@ -24,5 +24,3 @@ package com.ggasoftware.jdiuitest.web.selenium.elements.apiInteract;
 public enum ContextType {
     Locator, Frame
 }
-
-

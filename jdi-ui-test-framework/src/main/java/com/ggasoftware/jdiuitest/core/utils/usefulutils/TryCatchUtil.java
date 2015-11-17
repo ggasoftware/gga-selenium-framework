@@ -38,4 +38,3 @@ public class TryCatchUtil {
             throw (ignore instanceof RuntimeException) ? (RuntimeException) ignore : new RuntimeException(ignore);
     }
 }
-

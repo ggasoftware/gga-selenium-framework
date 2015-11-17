@@ -24,7 +24,9 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.IClickable;
  * Created by Roman_Iovlev on 6/10/2015.
  */
 public interface ILink extends IClickable, IText {
-    /** @return Get link destination */
+    /**
+     * @return Get link destination
+     */
     @JDIAction
     String getReference();
 
@@ -42,7 +44,9 @@ public interface ILink extends IClickable, IText {
     @JDIAction
     String waitMatchReference(String regEx);
 
-    /** @return Get links tooltip */
+    /**
+     * @return Get links tooltip
+     */
     @JDIAction
     String getTooltip();
 }

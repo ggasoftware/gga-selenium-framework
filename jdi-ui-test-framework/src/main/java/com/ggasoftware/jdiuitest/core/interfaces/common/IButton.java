@@ -25,4 +25,3 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.IClickable;
  */
 public interface IButton extends IClickable, IText {
 }
-

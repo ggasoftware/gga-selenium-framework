@@ -68,4 +68,3 @@ public class TextArea extends TextField implements ITextArea {
         return actions.getLines(this::getTextAction);
     }
 }
-

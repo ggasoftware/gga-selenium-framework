@@ -58,4 +58,3 @@ public class Clickable extends Element implements IClickable {
                         .moveToElement(getWebElement(), x, y).click().build().perform());
     }
 }
-

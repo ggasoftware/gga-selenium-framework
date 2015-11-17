@@ -25,4 +25,3 @@ public enum DoScreen {
     SCREEN_ON_FAIL,
     DO_SCREEN_ALWAYS
 }
-

@@ -37,7 +37,9 @@ import static java.util.Arrays.asList;
  * Created by roman.i on 30.09.2014.
  */
 public class PrintUtils {
-    private PrintUtils() { }
+    private PrintUtils() {
+    }
+
     public static String print(Iterable<String> list) {
         return print(list, ", ", "%s");
     }
@@ -167,4 +169,3 @@ public class PrintUtils {
         return print(elements);
     }
 }
-

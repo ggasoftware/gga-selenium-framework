@@ -42,4 +42,3 @@ public class GetElementType {
                 : (T) element.setAvatar(locator, avatar);
     }
 }
-

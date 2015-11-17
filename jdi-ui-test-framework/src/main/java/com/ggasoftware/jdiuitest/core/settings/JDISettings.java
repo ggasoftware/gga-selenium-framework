@@ -34,8 +34,6 @@ import static java.lang.Integer.parseInt;
  * Created by Roman_Iovlev on 6/9/2015.
  */
 public abstract class JDISettings {
-    protected JDISettings() { }
-
     public static ILogger logger;
     public static IAsserter asserter;
     public static ITestRunner testRunner;
@@ -47,6 +45,8 @@ public abstract class JDISettings {
     public static String domain;
     public static boolean exceptionThrown;
     public static IDriver driverFactory;
+    protected JDISettings() {
+    }
 
     public static void useDriver(String driverName) {
         driverFactory.registerDriver(driverName);
@@ -80,4 +80,3 @@ public abstract class JDISettings {
         return asserter.exception(msg, args);
     }
 }
-

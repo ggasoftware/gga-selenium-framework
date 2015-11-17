@@ -137,4 +137,3 @@ public class Search extends TextField implements ISearch {
         }
     }
 }
-

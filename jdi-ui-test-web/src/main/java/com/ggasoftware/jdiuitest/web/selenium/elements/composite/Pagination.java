@@ -171,4 +171,3 @@ public class Pagination extends BaseElement implements IPagination {
         throw exception(cantChooseElementMsg(Integer.toString(index), shortName, "pageAction"));
     }
 }
-

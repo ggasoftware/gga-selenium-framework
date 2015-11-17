@@ -65,4 +65,3 @@ public class SauceLabRunner implements SauceOnDemandSessionIdProvider {
         return sessionId;
     }
 }
-

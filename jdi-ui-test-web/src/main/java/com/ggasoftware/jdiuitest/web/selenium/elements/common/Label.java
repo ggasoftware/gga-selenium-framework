@@ -56,4 +56,3 @@ public class Label extends ClickableText implements ILabel {
     }
 
 }
-

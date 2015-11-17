@@ -62,4 +62,3 @@ public class RFileInput extends FileInput implements ITextField {
     }
 
 }
-

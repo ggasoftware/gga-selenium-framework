@@ -44,4 +44,3 @@ public @interface JPage {
     CheckPageTypes titleCheckType() default CheckPageTypes.NONE;
 
 }
-

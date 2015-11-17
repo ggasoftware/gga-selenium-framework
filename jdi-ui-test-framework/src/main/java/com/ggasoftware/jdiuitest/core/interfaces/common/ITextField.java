@@ -28,14 +28,14 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.ISetValue;
 public interface ITextField extends ISetValue, IText, IElement {
     /**
      * @param text Specify text to input to TextField
-     * Input text in textfield
+     *             Input text in textfield
      */
     @JDIAction
     void input(String text);
 
     /**
      * @param text Specify text to send keys to TextField
-     * Input text in textfield
+     *             Input text in textfield
      */
     @JDIAction
     default void sendKeys(String text) {
@@ -44,16 +44,20 @@ public interface ITextField extends ISetValue, IText, IElement {
 
     /**
      * @param text Specify text to input to TextField
-     * Clear and input text in textfield
+     *             Clear and input text in textfield
      */
     @JDIAction
     void newInput(String text);
 
-    /** Clear textfield */
+    /**
+     * Clear textfield
+     */
     @JDIAction
     void clear();
 
-    /** Focus(click) on textfield */
+    /**
+     * Focus(click) on textfield
+     */
     @JDIAction
     void focus();
 }

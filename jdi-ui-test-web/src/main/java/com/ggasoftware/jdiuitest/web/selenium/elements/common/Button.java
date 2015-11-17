@@ -61,4 +61,3 @@ public class Button extends ClickableText implements IButton {
     }
 
 }
-

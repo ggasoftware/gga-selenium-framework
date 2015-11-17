@@ -23,8 +23,7 @@ package com.ggasoftware.jdiuitest.core.interfaces.base;
 public interface ISetValue extends IHasValue {
     /**
      * @param value Specify element value
-     * Set value to Element
+     *              Set value to Element
      */
     void setValue(String value);
 }
-

@@ -24,4 +24,3 @@ package com.ggasoftware.jdiuitest.web.selenium.elements.composite;
 public enum CheckPageTypes {
     NONE, EQUAL, MATCH, CONTAIN
 }
-

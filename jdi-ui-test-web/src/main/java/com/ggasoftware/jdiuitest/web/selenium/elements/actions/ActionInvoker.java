@@ -81,4 +81,3 @@ public class ActionInvoker {
                 ((Element) element).highlight(JDISettings.highlightSettings);
     }
 }
-

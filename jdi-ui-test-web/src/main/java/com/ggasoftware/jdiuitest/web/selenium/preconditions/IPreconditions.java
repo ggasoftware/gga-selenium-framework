@@ -51,4 +51,3 @@ public interface IPreconditions {
         moveToAction().invoke();
     }
 }
-

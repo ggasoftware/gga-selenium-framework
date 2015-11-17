@@ -25,4 +25,3 @@ import com.ggasoftware.jdiuitest.core.interfaces.settings.ITestRunner;
  */
 public class TestNGRunner implements ITestRunner {
 }
-

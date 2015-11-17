@@ -39,4 +39,3 @@ public @interface Table {
 
     String column() default "";
 }
-

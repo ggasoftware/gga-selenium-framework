@@ -43,4 +43,3 @@ public class FileInput extends TextField implements IFileInput {
         input(value);
     }
 }
-

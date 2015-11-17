@@ -34,9 +34,17 @@ public class HighlightSettings {
         this.timeoutInSec = timeoutInSec;
     }
 
+    public String getBgColor() {
+        return bgColor;
+    }
+
     public HighlightSettings setBgColor(String bgColor) {
         this.bgColor = bgColor;
         return this;
+    }
+
+    public String getFrameColor() {
+        return frameColor;
     }
 
     public HighlightSettings setFrameColor(String frameColor) {
@@ -44,21 +52,12 @@ public class HighlightSettings {
         return this;
     }
 
+    public int getTimeoutInSec() {
+        return timeoutInSec;
+    }
+
     public HighlightSettings setTimeoutInSec(int timeoutInSec) {
         this.timeoutInSec = timeoutInSec;
         return this;
     }
-    public String getBgColor() {
-        return bgColor;
-    }
-
-    public String getFrameColor() {
-        return frameColor;
-    }
-
-    public int getTimeoutInSec() {
-        return timeoutInSec;
-    }
 }
-
-

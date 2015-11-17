@@ -27,4 +27,3 @@ import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JAction;
 public interface IScenario {
     void invoke(IBaseElement element, String actionName, JAction viAction, LogSettings logSettings);
 }
-

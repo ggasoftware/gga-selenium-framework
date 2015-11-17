@@ -31,7 +31,9 @@ import static java.util.Arrays.asList;
  */
 public class EnumUtils {
 
-    private EnumUtils() { }
+    private EnumUtils() {
+    }
+
     public static String getEnumValue(Enum enumWithValue) {
         Class<?> type = enumWithValue.getClass();
         Field[] fields = type.getDeclaredFields();
@@ -69,4 +71,3 @@ public class EnumUtils {
         return toStringArray(getAllEnumNames(enumValue));
     }
 }
-

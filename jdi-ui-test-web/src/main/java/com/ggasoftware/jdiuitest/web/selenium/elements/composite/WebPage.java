@@ -134,7 +134,7 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     /**
-     * @return Refresh current page
+     * Refresh current page
      */
     @JDIAction
     public void refresh() {
@@ -143,7 +143,7 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     /**
-     * @return Go back to previous page
+     * Go back to previous page
      */
     @JDIAction
     public void back() {
@@ -153,7 +153,7 @@ public class WebPage extends BaseElement implements IPage {
 
 
     /**
-     * @return Go forward to next page
+     * Go forward to next page
      */
     @JDIAction
     public void forward() {
@@ -163,7 +163,7 @@ public class WebPage extends BaseElement implements IPage {
 
     /**
      * @param cookie Specify cookie
-     * @return Add cookie in browser
+     * Add cookie in browser
      */
     @JDIAction
     public void addCookie(Cookie cookie) {
@@ -172,7 +172,7 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     /**
-     * @return Clear browsers cache
+     *  Clear browsers cache
      */
     @JDIAction
     public void clearCache() {
@@ -218,4 +218,3 @@ public class WebPage extends BaseElement implements IPage {
         }
     }
 }
-

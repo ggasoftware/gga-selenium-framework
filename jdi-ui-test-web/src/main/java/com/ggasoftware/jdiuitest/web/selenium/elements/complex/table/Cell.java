@@ -156,4 +156,3 @@ class Cell extends SelectElement implements ISelect, ICell {
         return this;
     }
 }
-

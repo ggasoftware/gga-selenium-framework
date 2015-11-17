@@ -221,4 +221,3 @@ public abstract class MultiSelector<TEnum extends Enum> extends BaseSelector<TEn
     }
 
 }
-

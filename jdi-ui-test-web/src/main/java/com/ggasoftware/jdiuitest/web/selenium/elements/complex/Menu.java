@@ -55,4 +55,3 @@ public class Menu<TEnum extends Enum> extends Selector<TEnum> implements IMenu<T
     }
 
 }
-

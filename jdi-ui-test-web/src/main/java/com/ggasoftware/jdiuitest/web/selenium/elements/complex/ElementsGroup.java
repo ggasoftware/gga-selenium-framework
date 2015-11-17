@@ -68,4 +68,3 @@ public class ElementsGroup<TEnum extends Enum, TType extends Element> extends Ba
         return instance;
     }
 }
-

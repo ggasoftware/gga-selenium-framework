@@ -67,4 +67,3 @@ public class Log4JLogger extends AbstractLogger {
     }
 
 }
-

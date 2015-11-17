@@ -91,4 +91,4 @@ public class Pairs<TValue1, TValue2> extends ArrayList<Pair<TValue1, TValue2>> {
     public Pairs<TValue1, TValue2> copy() {
         return clone();
     }
-}
+}

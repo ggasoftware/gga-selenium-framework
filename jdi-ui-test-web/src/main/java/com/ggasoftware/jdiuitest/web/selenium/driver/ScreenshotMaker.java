@@ -91,4 +91,3 @@ public class ScreenshotMaker {
         return newName + ".jpg";
     }
 }
-

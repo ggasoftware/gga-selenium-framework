@@ -55,4 +55,3 @@ public class Tabs<TEnum extends Enum> extends Selector<TEnum> implements ITabs<T
     }
 
 }
-

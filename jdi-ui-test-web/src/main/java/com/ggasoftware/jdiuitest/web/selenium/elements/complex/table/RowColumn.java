@@ -55,4 +55,3 @@ abstract class RowColumn {
         return haveName() ? nameAction.invoke(name) : numAction.invoke(num);
     }
 }
-

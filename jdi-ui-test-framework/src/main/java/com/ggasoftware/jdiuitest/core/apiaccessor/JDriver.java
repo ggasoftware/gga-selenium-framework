@@ -31,4 +31,3 @@ public interface JDriver<T extends JElement> {
 
     void closeApplication();
 }
-

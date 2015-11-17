@@ -49,4 +49,3 @@ public class SelectElement extends ClickableText implements ISelect {
         return actions.isSelected(this::isSelectedAction);
     }
 }
-

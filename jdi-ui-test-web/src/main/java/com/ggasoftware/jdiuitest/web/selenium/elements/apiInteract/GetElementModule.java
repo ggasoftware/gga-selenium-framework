@@ -206,4 +206,3 @@ public class GetElementModule {
         return String.format("%s='%s'", getByName(by), getByLocator(by));
     }
 }
-

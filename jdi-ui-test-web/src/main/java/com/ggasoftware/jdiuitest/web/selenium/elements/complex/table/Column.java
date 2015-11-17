@@ -38,4 +38,3 @@ public class Column extends RowColumn {
         return new Column(name);
     }
 }
-

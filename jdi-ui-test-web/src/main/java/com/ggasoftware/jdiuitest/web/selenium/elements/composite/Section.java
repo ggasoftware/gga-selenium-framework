@@ -26,4 +26,3 @@ import com.ggasoftware.jdiuitest.web.selenium.elements.base.Element;
  */
 public class Section extends Element implements IComposite {
 }
-

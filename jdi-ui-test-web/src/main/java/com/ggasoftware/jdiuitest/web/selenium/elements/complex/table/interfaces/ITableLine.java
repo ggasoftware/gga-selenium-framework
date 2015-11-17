@@ -60,4 +60,3 @@ public interface ITableLine {
     @JDIAction
     SelectElement header(String name);
 }
-

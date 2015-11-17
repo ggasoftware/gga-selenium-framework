@@ -25,4 +25,3 @@ import com.ggasoftware.jdiuitest.core.interfaces.common.IText;
  */
 public interface IDropList<TEnum extends Enum> extends IMultiSelector<TEnum>, IText {
 }
-

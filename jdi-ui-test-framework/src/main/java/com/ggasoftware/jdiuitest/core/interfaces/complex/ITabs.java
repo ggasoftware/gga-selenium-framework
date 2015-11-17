@@ -22,4 +22,3 @@ package com.ggasoftware.jdiuitest.core.interfaces.complex;
  */
 public interface ITabs<TEnum extends Enum> extends ISelector<TEnum> {
 }
-

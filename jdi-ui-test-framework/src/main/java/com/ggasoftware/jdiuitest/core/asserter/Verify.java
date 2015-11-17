@@ -30,9 +30,8 @@ import static java.util.stream.Collectors.toCollection;
 public class Verify extends BaseChecker {
     private static List<String> fails = new LinkedList<>();
 
-    protected String doScreenshotGetMessage() { return ""; }
-
-    public Verify() { }
+    public Verify() {
+    }
 
     public Verify(String checkMessage) {
         super(checkMessage);
@@ -44,9 +43,12 @@ public class Verify extends BaseChecker {
         return result;
     }
 
+    protected String doScreenshotGetMessage() {
+        return "";
+    }
+
     @Override
     protected JActionT<String> throwFail() {
         return fails::add;
     }
 }
-

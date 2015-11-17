@@ -253,4 +253,3 @@ abstract class BaseSelector<TEnum extends Enum> extends BaseElement implements I
         return actions.waitVanished(() -> timer().wait(() -> !isDisplayedAction()));
     }
 }
-

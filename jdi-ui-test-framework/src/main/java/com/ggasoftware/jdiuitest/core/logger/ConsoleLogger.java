@@ -46,4 +46,3 @@ public class ConsoleLogger extends AbstractLogger {
         out.println(format("%s [%s]: %s ", Timer.nowTime(), infoType, message));
     }
 }
-

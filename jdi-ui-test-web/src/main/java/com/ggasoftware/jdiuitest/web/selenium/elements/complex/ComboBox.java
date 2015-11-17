@@ -118,4 +118,3 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
     }
 
 }
-

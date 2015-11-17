@@ -22,4 +22,3 @@ package com.ggasoftware.jdiuitest.core.interfaces.common;
  */
 public interface IDatePicker extends ITextField {
 }
-

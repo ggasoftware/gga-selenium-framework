@@ -130,4 +130,3 @@ public class CheckBox extends Clickable implements ICheckBox {
         actions.setValue(value, this::setValueAction);
     }
 }
-

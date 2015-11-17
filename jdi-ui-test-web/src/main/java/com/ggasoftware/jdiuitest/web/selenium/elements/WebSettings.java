@@ -59,4 +59,3 @@ public class WebSettings extends JDISettings {
         testRunner = new TestNGRunner();
     }
 }
-

@@ -497,4 +497,4 @@ public class Table extends Text implements ITable, Cloneable {
             allCells.add(cell);
         return cell;
     }
-}
+}

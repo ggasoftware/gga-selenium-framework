@@ -647,4 +647,3 @@ public abstract class BaseChecker implements IAsserter, IChecker {
 
     }
 }
-

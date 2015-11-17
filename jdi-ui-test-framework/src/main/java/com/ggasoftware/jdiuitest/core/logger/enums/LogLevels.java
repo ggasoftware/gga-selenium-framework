@@ -43,4 +43,3 @@ public enum LogLevels {
         return getPriority() >= level.getPriority();
     }
 }
-

@@ -42,4 +42,3 @@ public class TimeoutSettings {
         setCurrentTimeoutSec(waitElementSec);
     }
 }
-

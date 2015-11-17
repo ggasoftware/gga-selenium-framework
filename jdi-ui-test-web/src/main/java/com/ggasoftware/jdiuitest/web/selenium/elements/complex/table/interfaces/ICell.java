@@ -40,4 +40,3 @@ public interface ICell extends ISelect {
 
     String rowName();
 }
-

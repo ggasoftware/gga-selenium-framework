@@ -245,4 +245,4 @@ public abstract class CascadeInit implements IBaseElement {
         }
     }
 
-}
+}

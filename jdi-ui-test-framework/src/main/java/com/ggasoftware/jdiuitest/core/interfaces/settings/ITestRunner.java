@@ -22,4 +22,3 @@ package com.ggasoftware.jdiuitest.core.interfaces.settings;
  */
 public interface ITestRunner {
 }
-

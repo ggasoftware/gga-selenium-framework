@@ -47,4 +47,3 @@ public class TableSettings {
         this.rowsCount = rowsCount;
     }
 }
-

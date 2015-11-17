@@ -31,4 +31,3 @@ import java.lang.annotation.Target;
 public @interface JSite {
     String domain();
 }
-

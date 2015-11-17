@@ -29,4 +29,3 @@ public interface IGroup<TEnum extends Enum, TType extends IElement> extends IBas
 
     TType get(String name) throws IllegalAccessException, InstantiationException;
 }
-
