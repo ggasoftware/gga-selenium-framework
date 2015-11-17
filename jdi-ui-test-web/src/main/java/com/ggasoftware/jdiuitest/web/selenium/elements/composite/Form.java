@@ -62,9 +62,9 @@ public class Form<T> extends Element implements IForm<T> {
         return element.getValue();
     }
 
-    public void fill(MapArray<String, String> objStrings) {
+    public void fill(MapArray<String, String> map) {
         foreach(getFields(this, ISetValue.class), element -> {
-            String fieldValue = objStrings.first((name, value) ->
+            String fieldValue = map.first((name, value) ->
                     GetElement.namesEqual(name, AnnotationsUtil.getElementName(element)));
             if (fieldValue != null) {
                 ISetValue setValueElement = (ISetValue) getValueField(element, this);

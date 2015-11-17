@@ -26,6 +26,7 @@ import com.ggasoftware.jdiuitest.core.utils.linqinterfaces.JFuncTEx;
 import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 
 import java.util.Collection;
+import java.util.Map;
 
 import static com.ggasoftware.jdiuitest.core.asserter.DoScreen.*;
 import static com.ggasoftware.jdiuitest.core.logger.enums.LogInfoTypes.FRAMEWORK;
@@ -269,7 +270,11 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         listEquals(actual, expected, null);
     }
 
-    private <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage, boolean shouldEqual) {
+    private <T> void entityIncludeMap(Map<String, String> actual, T entity, String failMessage, boolean shouldEqual) {
+        entityIncludeMapArray(MapArray.toMapArray(actual), entity, failMessage, shouldEqual);
+    }
+
+    private <T> void entityIncludeMapArray(MapArray<String, String> actual, T entity, String failMessage, boolean shouldEqual) {
         MapArray<String, String> expected = objToSetValue(entity).where((k, value) -> value != null);
         assertAction("Check that Collections are equal",
                 () -> actual != null && expected != null && (!shouldEqual || actual.size() == expected.size())
@@ -285,20 +290,20 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         }, failMessage, false);
     }
 
-    public <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage) {
+    public <T> void entityIncludeMapArray(MapArray<String, String> actual, T entity, String failMessage) {
+        entityIncludeMapArray(actual, entity, failMessage, false);
+    }
+
+    public <T> void entityEqualsToMapArray(MapArray<String, String> actual, T entity, String failMessage) {
+        entityIncludeMapArray(actual, entity, failMessage, true);
+    }
+
+    public <T> void entityIncludeMap(Map<String, String> actual, T entity, String failMessage) {
         entityIncludeMap(actual, entity, failMessage, false);
     }
 
-    public <T> void entityIncludeMap(MapArray<String, String> actual, T entity) {
-        entityIncludeMap(actual, entity, null, false);
-    }
-
-    public <T> void entityEqualsToMap(MapArray<String, String> actual, T entity, String failMessage) {
+    public <T> void entityEqualsToMap(Map<String, String> actual, T entity, String failMessage) {
         entityIncludeMap(actual, entity, failMessage, true);
-    }
-
-    public <T> void entityEqualsToMap(MapArray<String, String> actual, T entity) {
-        entityIncludeMap(actual, entity, null, true);
     }
 
     public <T> void arrayEquals(T actual, T expected, String failMessage) {
@@ -523,7 +528,10 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         listEquals(actual, expected, null);
     }
 
-    public <T> void entityIncludeMap(JFuncT<MapArray<String, String>> actual, T entity, String failMessage, boolean shouldEqual) {
+    private <T> void entityIncludeMap(JFuncT<Map<String, String>> actual, T entity, String failMessage, boolean shouldEqual) {
+        entityIncludeMapArray(() -> MapArray.toMapArray(actual.invoke()), entity, failMessage, shouldEqual);
+    }
+    private <T> void entityIncludeMapArray(JFuncT<MapArray<String, String>> actual, T entity, String failMessage, boolean shouldEqual) {
         MapArray<String, String> expected = objToSetValue(entity).where((k, value) -> value != null);
         assertAction("Check that Collections are equal",
                 () -> {
@@ -543,20 +551,20 @@ public abstract class BaseChecker implements IAsserter, IChecker {
         }, failMessage, false);
     }
 
-    public <T> void entityIncludeMap(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+    public <T> void entityIncludeMapArray(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+        entityIncludeMapArray(actual, entity, failMessage, false);
+    }
+
+    public <T> void entityEqualsToMapArray(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+        entityIncludeMapArray(actual, entity, failMessage, true);
+    }
+
+    public <T> void entityIncludeMap(JFuncT<Map<String, String>> actual, T entity, String failMessage) {
         entityIncludeMap(actual, entity, failMessage, false);
     }
 
-    public <T> void entityIncludeMap(JFuncT<MapArray<String, String>> actual, T entity) {
-        entityIncludeMap(actual, entity, null, false);
-    }
-
-    public <T> void entityEqualsToMap(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+    public <T> void entityEqualsToMap(JFuncT<Map<String, String>> actual, T entity, String failMessage) {
         entityIncludeMap(actual, entity, failMessage, true);
-    }
-
-    public <T> void entityEqualsToMap(JFuncT<MapArray<String, String>> actual, T entity) {
-        entityIncludeMap(actual, entity, null, true);
     }
 
     public <T> void arrayEquals(JFuncT<T> actual, T expected, String failMessage) {

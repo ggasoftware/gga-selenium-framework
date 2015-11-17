@@ -23,6 +23,7 @@ import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Roman_Iovlev on 8/28/2015.
@@ -74,15 +75,27 @@ public interface IChecker {
         arrayEquals(actual, expected, null);
     }
 
-    <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage);
+    <T> void entityIncludeMapArray(MapArray<String, String> actual, T entity, String failMessage);
 
-    default <T> void entityIncludeMap(MapArray<String, String> actual, T entity) {
-        entityEqualsToMap(actual, entity, null);
+    default <T> void entityIncludeMapArray(MapArray<String, String> actual, T entity) {
+        entityIncludeMapArray(actual, entity, null);
     }
 
-    <T> void entityEqualsToMap(MapArray<String, String> actual, T entity, String failMessage);
+    <T> void entityEqualsToMapArray(MapArray<String, String> actual, T entity, String failMessage);
 
-    default <T> void entityEqualsToMap(MapArray<String, String> actual, T entity) {
+    default <T> void entityEqualsToMapArray(MapArray<String, String> actual, T entity) {
+        entityEqualsToMapArray(actual, entity, null);
+    }
+
+    <T> void entityIncludeMap(Map<String, String> actual, T entity, String failMessage);
+
+    default <T> void entityIncludeMap(Map<String, String> actual, T entity) {
+        entityIncludeMap(actual, entity, null);
+    }
+
+    <T> void entityEqualsToMap(Map<String, String> actual, T entity, String failMessage);
+
+    default <T> void entityEqualsToMap(Map<String, String> actual, T entity) {
         entityEqualsToMap(actual, entity, null);
     }
 
@@ -157,6 +170,30 @@ public interface IChecker {
     <T> void arrayEquals(JFuncT<T> actual, T expected, String failMessage);
 
     <T> void arrayEquals(JFuncT<T> actual, T expected);
+
+    <T> void entityIncludeMapArray(JFuncT<MapArray<String, String>> actual, T entity, String failMessage);
+
+    default <T> void entityIncludeMapArray(JFuncT<MapArray<String, String>> actual, T entity) {
+        entityIncludeMapArray(actual, entity, null);
+    }
+
+    <T> void entityEqualsToMapArray(JFuncT<MapArray<String, String>> actual, T entity, String failMessage);
+
+    default <T> void entityEqualsToMapArray(JFuncT<MapArray<String, String>> actual, T entity) {
+        entityEqualsToMapArray(actual, entity, null);
+    }
+
+    <T> void entityIncludeMap(JFuncT<Map<String, String>> actual, T entity, String failMessage);
+
+    default <T> void entityIncludeMap(JFuncT<Map<String, String>> actual, T entity) {
+        entityIncludeMap(actual, entity, null);
+    }
+
+    <T> void entityEqualsToMap(JFuncT<Map<String, String>> actual, T entity, String failMessage);
+
+    default <T> void entityEqualsToMap(JFuncT<Map<String, String>> actual, T entity) {
+        entityEqualsToMap(actual, entity, null);
+    }
 
     <T> BaseChecker.ListChecker eachElementOf(Collection<T> list);
 

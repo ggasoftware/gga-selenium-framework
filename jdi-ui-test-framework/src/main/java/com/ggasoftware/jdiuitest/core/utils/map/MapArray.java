@@ -100,7 +100,14 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
         return toMapArray(mySet);
     }
 
-    public <KResult, VResult> MapArray<KResult, VResult> toMapArray(
+    public static <Key, Value> MapArray<Key, Value> toMapArray (Map<Key, Value> map) {
+        MapArray<Key, Value> mapArray = new MapArray<>();
+        for (Map.Entry<Key, Value> e : map.entrySet())
+            mapArray.add(e.getKey(), e.getValue());
+        return mapArray;
+    }
+
+    public <KResult, VResult> MapArray<KResult, VResult> toMapArray (
             JFuncTTT<K, V, KResult> key, JFuncTTT<K, V, VResult> value) {
         MapArray<KResult, VResult> result = new MapArray<>();
         for (Pair<K, V> pair : pairs)
@@ -108,8 +115,7 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
         return result;
     }
 
-    public <VResult> MapArray<K, VResult> toMapArray(
-            JFuncTT<V, VResult> value) {
+    public <VResult> MapArray<K, VResult> toMapArray(JFuncTT<V, VResult> value) {
         MapArray<K, VResult> result = new MapArray<>();
         for (Pair<K, V> pair : pairs)
             result.add(pair.key, value.invoke(pair.value));
@@ -154,7 +160,14 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
         pairs = result;
         return true;
     }
-
+/*
+    public V get(Object oKey) {
+        K key = null;
+        try {
+            key = (K)oKey;
+        } catch (Exception ex) { throwRuntimeException(new Exception("Can't do get in MapArray. Key have wrong type")); }
+        return get(key);
+    }*/
     public V get(K key) {
         Pair<K, V> first = null;
         try {
@@ -248,6 +261,17 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
     public boolean add(Pair<K, V> kv) {
         return pairs.add(kv);
     }
+/*
+    public V remove(Object key) {
+        boolean isRemoved = false;
+        for (Object kv : pairs)
+            if (kv.equals(key)) {
+                V value = ((Pair<K,V>)kv).value;
+                pairs.remove(kv);
+                return value;
+            }
+        return null;
+    }*/
 
     public boolean remove(Object o) {
         boolean isRemoved = false;

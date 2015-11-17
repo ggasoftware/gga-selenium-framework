@@ -21,6 +21,9 @@ import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IComposite;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IElement;
 import com.ggasoftware.jdiuitest.core.interfaces.base.ISetValue;
+import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
+
+import java.util.Map;
 
 /**
  * Created by Roman_Iovlev on 7/8/2015.
@@ -28,14 +31,29 @@ import com.ggasoftware.jdiuitest.core.interfaces.base.ISetValue;
 public interface IForm<T> extends IComposite, ISetValue, IElement {
     /**
      * @param entity Specify entity
-     *               Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
      */
     @JDIAction
     void fill(T entity);
+    /**
+     * @param map Specify entity as map
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     */
+    @JDIAction
+    void fill(MapArray<String, String> map);
+
+    /**
+     * @param map Specify entity as map
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     */
+    @JDIAction
+    default void fill(Map<String, String> map) {
+        fill(MapArray.toMapArray(map));
+    }
 
     /**
      * @param text Specify text
-     *             Fill first setable field with value and click on Button “submit” <br>
+     * Fill first setable field with value and click on Button “submit” <br>
      * @apiNote To use this option Form pageObject should have at least one ISetValue element and only one IButton Element
      */
     @JDIAction
@@ -44,7 +62,7 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     /**
      * @param text       Specify text
      * @param buttonName button name for form submiting
-     *                   Fill first setable field with value and click on Button “buttonName” <br>
+     * Fill first setable field with value and click on Button “buttonName” <br>
      * @apiNote To use this option Form pageObject should have at least one ISetValue element <br>
      * Allowed different buttons to send one form e.g. save/ publish / cancel / search update ...
      */

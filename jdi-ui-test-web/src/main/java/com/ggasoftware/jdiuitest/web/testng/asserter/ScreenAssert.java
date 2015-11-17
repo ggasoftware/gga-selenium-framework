@@ -24,6 +24,7 @@ import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import static com.ggasoftware.jdiuitest.core.asserter.DoScreen.DO_SCREEN_ALWAYS;
 
@@ -179,19 +180,34 @@ public class ScreenAssert {
         getAssert().arrayEquals(actual, expected);
     }
 
-    public static <T> void entityIncludeMap(MapArray<String, String> actual, T entity, String failMessage) {
+    public static <T> void entityIncludeMapArray(MapArray<String, String> actual, T entity, String failMessage) {
+        getAssert().entityIncludeMapArray(actual, entity, failMessage);
+    }
+
+    public static <T> void entityIncludeMapArray(MapArray<String, String> actual, T entity) {
+        getAssert().entityIncludeMapArray(actual, entity);
+    }
+
+    public static <T> void entityEqualsToMapArray(MapArray<String, String> actual, T entity, String failMessage) {
+        getAssert().entityEqualsToMapArray(actual, entity, failMessage);
+    }
+
+    public static <T> void entityEqualsToMapArray(MapArray<String, String> actual, T entity) {
+        getAssert().entityEqualsToMapArray(actual, entity);
+    }
+    public static <T> void entityIncludeMap(Map<String, String> actual, T entity, String failMessage) {
         getAssert().entityIncludeMap(actual, entity, failMessage);
     }
 
-    public static <T> void entityIncludeMap(MapArray<String, String> actual, T entity) {
+    public static <T> void entityIncludeMap(Map<String, String> actual, T entity) {
         getAssert().entityIncludeMap(actual, entity);
     }
 
-    public static <T> void entityEqualsToMap(MapArray<String, String> actual, T entity, String failMessage) {
+    public static <T> void entityEqualsToMap(Map<String, String> actual, T entity, String failMessage) {
         getAssert().entityEqualsToMap(actual, entity, failMessage);
     }
 
-    public static <T> void entityEqualsToMap(MapArray<String, String> actual, T entity) {
+    public static <T> void entityEqualsToMap(Map<String, String> actual, T entity) {
         getAssert().entityEqualsToMap(actual, entity);
     }
 
@@ -353,5 +369,37 @@ public class ScreenAssert {
 
     public static <T> void arrayEquals(JFuncT<T> actual, T expected) {
         getAssert().arrayEquals(actual, expected);
+    }
+
+
+    public static <T> void entityIncludeMapArray(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+        getAssert().entityIncludeMapArray(actual, entity, failMessage);
+    }
+
+    public static <T> void entityIncludeMapArray(JFuncT<MapArray<String, String>> actual, T entity) {
+        getAssert().entityIncludeMapArray(actual, entity);
+    }
+
+    public static <T> void entityEqualsToMapArray(JFuncT<MapArray<String, String>> actual, T entity, String failMessage) {
+        getAssert().entityEqualsToMapArray(actual, entity, failMessage);
+    }
+
+    public static <T> void entityEqualsToMapArray(JFuncT<MapArray<String, String>> actual, T entity) {
+        getAssert().entityEqualsToMapArray(actual, entity);
+    }
+    public static <T> void entityIncludeMap(JFuncT<Map<String, String>> actual, T entity, String failMessage) {
+        getAssert().entityIncludeMap(actual, entity, failMessage);
+    }
+
+    public static <T> void entityIncludeMap(JFuncT<Map<String, String>> actual, T entity) {
+        getAssert().entityIncludeMap(actual, entity);
+    }
+
+    public static <T> void entityEqualsToMap(JFuncT<Map<String, String>> actual, T entity, String failMessage) {
+        getAssert().entityEqualsToMap(actual, entity, failMessage);
+    }
+
+    public static <T> void entityEqualsToMap(JFuncT<Map<String, String>> actual, T entity) {
+        getAssert().entityEqualsToMap(actual, entity);
     }
 }
