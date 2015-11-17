@@ -16,6 +16,21 @@
     <name>jdi-ui-tests</name>
     <packaging>jar</packaging>
 
+    <scm>
+        <connection>scm:https://github.com/ggasoftware/gga-selenium-framework</connection>
+        <developerConnection>scm:https://github.com/ggasoftware/gga-selenium-framework</developerConnection>
+        <url>https://github.com/ggasoftware/gga-selenium-framework</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>engineer</id>
+            <name>Roman Iovlev</name>
+            <email>roman_iovlev@epam.com</email>
+            <timezone>UTC+3</timezone>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fw.version>2.0.1-SNAPSHOT</fw.version>
