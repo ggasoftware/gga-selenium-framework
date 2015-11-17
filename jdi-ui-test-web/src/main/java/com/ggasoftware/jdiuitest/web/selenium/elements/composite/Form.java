@@ -73,10 +73,6 @@ public class Form<T> extends Element implements IForm<T> {
         });
     }
 
-    public void fill(T entity) {
-        fill(objToSetValue(entity));
-    }
-
     private Button getSubmitButton() {
         List<Field> fields = getFields(this, IButton.class);
         switch (fields.size()) {
@@ -103,10 +99,6 @@ public class Form<T> extends Element implements IForm<T> {
     public void submit(String text) {
         setText(text);
         getElement.getButton("submit").click();
-    }
-
-    public void submit(T entity) {
-        submit(objToSetValue(entity));
     }
 
     public void submit(T entity, String buttonName) {
@@ -141,12 +133,8 @@ public class Form<T> extends Element implements IForm<T> {
         return compareFalse;
     }
 
-    public List<String> verify(T entity) {
-        return verify(objToSetValue(entity));
-    }
-
-    public void check(T entity) {
-        List<String> result = verify(entity);
+    public void check(MapArray<String, String> objStrings) {
+        List<String> result = verify(objStrings);
         if (result.size() > 0)
             throw exception("Check form failed:" + LINE_BREAK + print(result, LINE_BREAK));
     }

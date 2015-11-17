@@ -21,8 +21,10 @@ import com.ggasoftware.jdiuitest.core.annotations.JDIAction;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IComposite;
 import com.ggasoftware.jdiuitest.core.interfaces.base.IElement;
 import com.ggasoftware.jdiuitest.core.interfaces.base.ISetValue;
+import com.ggasoftware.jdiuitest.core.utils.common.PrintUtils;
 import com.ggasoftware.jdiuitest.core.utils.map.MapArray;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,17 +32,17 @@ import java.util.Map;
  */
 public interface IForm<T> extends IComposite, ISetValue, IElement {
     /**
-     * @param entity Specify entity
-     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
-     */
-    @JDIAction
-    void fill(T entity);
-    /**
      * @param map Specify entity as map
      * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
      */
     @JDIAction
     void fill(MapArray<String, String> map);
+    /**
+     * @param entity Specify entity
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     */
+    @JDIAction
+    default void fill(T entity) { fill(PrintUtils.objToSetValue(entity));}
 
     /**
      * @param map Specify entity as map
@@ -49,6 +51,50 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
     @JDIAction
     default void fill(Map<String, String> map) {
         fill(MapArray.toMapArray(map));
+    }
+
+    /**
+     * @param map Specify entity as map
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     */
+    @JDIAction
+    List<String> verify(MapArray<String, String> map);
+    /**
+     * @param entity Specify entity
+     * Verify that form filled correctly. If not returns list of keys where verification fails
+     */
+    @JDIAction
+    default List<String> verify(T entity) { return verify(PrintUtils.objToSetValue(entity)); }
+
+    /**
+     * @param map Specify entity as map
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     */
+    @JDIAction
+    default List<String> verify(Map<String, String> map) {
+        return verify(MapArray.toMapArray(map));
+    }
+
+    /**
+     * @param map Specify entity as map
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     */
+    @JDIAction
+    void check(MapArray<String, String> map);
+    /**
+     * @param entity Specify entity
+     * Verify that form filled correctly. If not returns list of keys where verification fails
+     */
+    @JDIAction
+    default void check(T entity) { check(PrintUtils.objToSetValue(entity)); }
+
+    /**
+     * @param map Specify entity as map
+     * Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
+     */
+    @JDIAction
+    default void check(Map<String, String> map) {
+        check(MapArray.toMapArray(map));
     }
 
     /**
@@ -197,7 +243,7 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
      * @apiNote To use this option Form pageObject should have only one IButton Element
      */
     @JDIAction
-    void submit(T entity);
+    default void submit(T entity) { submit(PrintUtils.objToSetValue(entity)); }
 
     /**
      * @param entity Specify entity
@@ -330,4 +376,13 @@ public interface IForm<T> extends IComposite, ISetValue, IElement {
      */
     @JDIAction
     void submit(T entity, Enum buttonName);
+
+    /**
+     * @param objStrings Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
+     * @apiNote To use this option Form pageObject should have button names in specific format <br>
+     * e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>
+     * * Letters case in button name  no matters
+     */
+    @JDIAction
+    void submit(MapArray<String, String> objStrings);
 }
