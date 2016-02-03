@@ -51,14 +51,14 @@
         <module>jdi-matchers</module>
         <module>jdi-uitest-core</module>
         <module>jdi-uitest-web</module>
-        <module>jdi-uitest-tutorialtests</module>
-        <module>jdi-uitest-webtests</module>
         <module>jdi-uitest-mobile</module>
-        <module>jdi-uitest-mobiletests</module>
         <module>jdi-uitest-cucumber</module>
-        <module>jdi-uitest-cucumbertests</module>
         <module>jdi-uitest-gui</module>
-        <module>jdi-uitest-guitests</module>
+        <!--<module>jdi-uitest-tutorialtests</module>
+        <module>jdi-uitest-webtests</module>
+        <module>jdi-uitest-mobiletests</module>
+        <module>jdi-uitest-cucumbertests</module>
+        <module>jdi-uitest-guitests</module> -->
     </modules>
 
  <!--<dependencies>
