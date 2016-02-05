@@ -18,6 +18,12 @@
         <version>7</version>
     </parent>
 
+    <scm>
+        <connection>scm:https://github.com/epam/JDI</connection>
+        <developerConnection>scm:https://github.com/epam/JDI</developerConnection>
+        <url>https://github.com/epam/JDI</url>
+    </scm>
+	
     <licenses>
         <license>
             <name>GNU General Public License v3</name>

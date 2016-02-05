@@ -13,7 +13,7 @@
 
     <artifactId>jdi-uitest-cucumber</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>EPAM JDI UI Testing Unit tests</name>
+    <name>EPAM JDI UI Testing with Cucumber</name>
     <packaging>jar</packaging>
 
     <developers>
