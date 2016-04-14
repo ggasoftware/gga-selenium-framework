@@ -1,4 +1,11 @@
 #PROJECT MOVED TO NEW REPOSITORY 
+#https://github.com/epam/JDI/
+
+.
+
+.
+
+.
 
 #JDI UI Test Automation Framework
 
