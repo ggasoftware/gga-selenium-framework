@@ -1,18 +1,39 @@
-#JDI Automation UI Test Framework#
+PROJECT MOVED TO NEW REPOSITORY 
 
-Copyright (c) 2015, EPAM Systems
+#JDI UI Test Automation Framework
 
-##Introduction##
+Copyright (c) 2016, EPAM Systems
 
-JDI (Just Do It) – is the test Framework for automation of UI applications testing. It extends Page Objects design pattern and introduces lot of additional elements with implementation of its common usages.
-Framework used concept “Easy things should be easy, and hard things should be possible” Larry Wall (c). 
-So all elements and abilities has default realization that mostly used, but in case your application used some actions in different way, you can override this behavior on any level (just for this element, for all elements with same type or even all elements actions scenarios usage). 
-Similar you can use any kind of external tools and frameworks for related functionality (different loggers, reporting tools, drivers test runners and asserters)
-We try to do test process easier and full of joy! :)
+License: GPL v3. [GPL License](http://www.gnu.org/licenses)
 
-For more details please visit
-http://lifescience.opensource.epam.com/selenium.html
+##Introduction
 
-##License##
+JDI – is the test Framework for UI test automation. It extends the Page Objects design pattern and introduces many additional elements along with implementation of its common usages.
 
-The source code is licensed under GPL v3. [GPL License](http://www.gnu.org/licenses).
+The framework bases on the following concept: “Easy things should be easy, and hard things should be possible” Larry Wall (c).
+
+Thus, all elements of the framework and all capabilities it provides have default realizations that would be used in most cases. 
+
+However, if your application performs some actions in a different way, you can override this behavior on any level - just for this element, for all elements with the same type, or even customize the scenario of actions for all elements.
+
+Similarly, you can use any external tools and frameworks for the relevant functionality - different loggers, reporting tools, drivers test runners, and asserters.
+
+We strive to make the test process easier and full of joy.
+
+Enjoy to us! :)
+
+
+##Methods Documentation
+[Java](https://github.com/epam/JDI/blob/master/JDI_UI_TEST_Framework.docx )
+
+##Links
+
+VK: https://vk.com/jdi_framework
+
+You can ask your questions on StackOverflow with [![htmlelements](https://img.shields.io/badge/stackoverflow-jdiframework-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/jdiframework) tag.
+##Contacts:
+
+Mail: roman_iovlev@epam.com
+
+Skype: roman.iovlev
+
